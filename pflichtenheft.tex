@@ -4,6 +4,7 @@
 \usepackage{enumerate}
 \usepackage{ngerman}
 \usepackage{graphicx}
+\usepackage{ifpdf}
 \usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[titles]{tocloft}
 \usepackage[colorlinks=false]{hyperref}
@@ -13,14 +14,20 @@
 
 \author{Usman Ghani Ahmed, Philip Caroli, Maximilian Madlung, Jeremias Mechler, Fabian Neundorf}
 
+\ifpdf
+\DeclareGraphicsExtensions{.pdf}
+\else
+\DeclareGraphicsExtensions{.eps}
+\fi
+
 \begin{document}
 
 \maketitle
 \begin{center}
 \huge{Praxis der Softwareentwicklung \\
 Gruppe 3 \\[0.5cm]
-Entwicklung eines ``Monopoly''-ähnlichen Spiels \\
-KIT - Karlsruher Institut für Technologie \\[0.5cm]
+Entwicklung eines ``Monopoly''-ähnlichen Spiels \\[0.5cm]
+\includegraphics[height=1cm]{kitlogo_de_rgb}  \\[0.5cm]
 WS 2010 / 2011}
 \end{center}
 
