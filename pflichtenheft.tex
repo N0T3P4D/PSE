@@ -54,7 +54,86 @@ Test
 \subsection{Orgware}
 \subsection{Schnittstellen}
 \section{Funktionale Anforderungen}
+\begin{enumerate}[/F01/]
+\item Anzeigen des Hauptmenüs
+Bei Aufruf der ausführbaren Datei (Das Programm) soll das Spiel gestartet werden und das Hauptmenü angezeigt werden.
+
+\item Ändern der Spieleinstellungen
+Im Hauptmenü (\rightarrow /F01/) muss es möglich sein, zu einem gesonderten Menü zu gelangen, in dem Spieleinstellungen (wie z.~B. der verwendete Netzwerkadapter, der Benutzername u.ä.) eingestellt werden können.
+
+\item Laden der Einstellungen
+Die in den Einstellungen (\rightarrow /F02/) vorhandenen Daten werden vor dem Anzeigen aus der Datei (\rightarrow /DB01/) geladen.
+
+\item Speichern der Einstellungen
+Die im Einstellungsfenster (\rightarrow /F02/) eingestellten Einstellungen werden in der Datei(\rightarrow /DB01/) gespeichert.
+
+\item Erstellen eines Servers (Konfiguration)
+Von dem Hauptmenü (\rightarrow /F01/) muss es möglich sein, einen Server zu starten. Dafür wird ein Menü mit Konfigurationseinstellungen (Startgeld usw.) angezeigt.
+
+\item Laden der Einstellungen
+Die im Konfigurationsfenster des Servers (\rightarrow /F05/) angezeigten Einstellungen werden vor dem Anzeigen aus der Datei (\rightarrow /DB02/) geladen.
+
+\item Speichern der Einstellungen
+Die in den Einstellungsfenster (\rightarrow /F05/) eingestellten Einstellungen werden in (\rightarrow /DB02/) gespeichert.
+
+\item Erstellen eines Servers
+Nachdem die Einstellungen durchgeführt wurden (\rightarrow /F05/) kann ein Server gestartet werden, dadurch wird (\rightarrow /F09/) aufgerufen
+
+\item Starten eines Servers
+Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitschaftsmodus und stellt den Spielern ein ``Warteraum´´ zur Verfügung.
+
+\item Beitreten eines Servers
+Im Hauptmenü (\rightarrow /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl kommen dann ``direkte Verbindung´´(\rightarrow /F11/) oder das ``beitreten über eine Serverliste´´ (\rightarrow /F12/) dran.
+
+%11
+\item Beitreten eiens Servers durch Eingabe einer IP (direkte Verbindung)
+Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sofern dies der Fall ist wird mit den allgemeinen Tests fortgefahren (\rightarrow /F14/).
+
+\item Anzeigen der Serverliste
+Standardmäßig wird ein Broadcast, also ein Nachricht an alle Geräte im lokalen Netzwerk, versendet, um zu überprüfen, ob mit der IP ein Server erreichbar ist. Sofern diese Antworten werden die in einer Liste aller lokalen Server angezeigt und können ausgewählt werden.
+
+Als zusätzliches Feature ist es möglich ``Metaserver´´ einzubinden, die abgefragt werden können, und eine Liste mit der Verfügbaren Server anzeigt. Zum Beispiel werden Broadcasts nicht ins Internet geroutet, und Server die nicht im lokalen Netzwerk sind, können nicht angezeigt werden.
+
+Jede IP wird kontaktiert in der Funktionalität zum Anzeigen der Serverinformationen (\rightarrow /F13/).
+
+In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei sind und es wird mit den allgemeinen Tests fortgefahren (\rightarrow /F14/). Ansonsten ist eine Verbindung nicht möglich.
+\item Abfragen der Serverinformationen für die Serverliste
+Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.~B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
+\item Starten der Verbindung
+Beim Verbinden auf den Server wird die Verbindung aufgenommen und ein eventuell vorhandenes Passwort abgefragt.
+\end{enumerate}
 \section{Produktdaten}
+Es gibt jeweils für den Server und für die Clients verschiedene Sachen, die gespeichert werden müssen.
+\subsection{Unabhängig}
+Folgende Daten müssen die Server und die Clients abspeichern:
+\subsubsection{Spielfeld}
+Beide müssen das Spielfeld speichern können. So kann der Server das Spiel fortsetzen und der Client
+selber kann das Spiel speichern, sodass es auch fortgesetzt werden kann, wenn die Netzwerkverbindung
+verloren gegangen ist.
+
+In den Spielfeld stehen zum einen die Straßennamen, damit man einerseits der Kreativität freien Lauf
+lassen kann und andererseits die Namen nicht aus den ursprünglichen Monopoly übernehmen muss.
+
+Nachdem nun gespielt wurde, muss auch gespeichert werden, wer die Straße besitzt und ob sie bereits
+bebaut wurde oder ob das Grundstück mit einer Hypothek belastet ist.
+\subsection{Clients}
+Jeder Client muss die Konfiguration speichern, wie zum Beispiel den Benutzername. Außerdem speichert
+jeder Client den zuletzt verbundenen Server um zum Beispiel schneller sich mit den Server zu verbinden.
+
+Sollten noch Metaserver dazu kommen, speichert jeder Client auch eine Liste mit den Metaservern, die
+abgefragt werden müssen.
+\subsection{Server}
+Der Server muss auch die Einstellungen speichern sodass man nicht jedes mal die gleichen Optionen setzen muss.
+Das wären der Servername, ein Serverpasswort und die IP, über die der Server sich mit den Netzwerk verbindet.
+
+Wenn Metaserver implementiert werden, muss der Server auch speichern, an welchen Metaservern er sich anmelden
+muss.
+\subsection{Metaserver}
+Der Metaserver wird eingebaut, wenn noch entsprechend genügend freie Zeit ist, aber das Spiel wird auch ohne
+Metaserver laufen können.
+
+Diese Metaserver speichern selber die IPs mit den Servern, die sich angemeldet haben, sodass sobald sie sich
+neustarten schon ein Grundstock an Servern haben und alle einmal testen.
 \section{Produktleistungen}
 \section{Weitere nichtfunktionale Anforderungen}
 \section{Qualitätsanforderungen}
