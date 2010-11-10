@@ -5,6 +5,7 @@
 \usepackage{ngerman}
 \usepackage{graphicx}
 \usepackage{ifpdf}
+\usepackage[usenames]{color}
 \usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[titles]{tocloft}
 \usepackage[colorlinks=false]{hyperref}
@@ -28,7 +29,8 @@
 Gruppe 3 \\[0.5cm]
 Entwicklung eines ``Monopoly''-ähnlichen Spiels \\[0.5cm]
 \includegraphics[height=1cm]{kitlogo_de_rgb}  \\[0.5cm]
-WS 2010 / 2011}
+WS 2010 / 2011} \\[2cm]
+\textcolor{red}{! DRAFT !}
 \end{center}
 
 \newpage
@@ -38,19 +40,60 @@ WS 2010 / 2011}
 \newpage
 
 \section{Produktübersicht}
-Test
+Monopoly:
+\begin{itemize}
+\item Gesellschaftsspiel für jung und alt.
+\item Umsetzung in ein Javaprogramm
+\item Einzelspielerspiel gegen KI
+\item Mehrspielerspiel gegen Menschen im Internet, lokalen Netzwerk oder am gleichen PC
+\end{itemize}
+Spiel, Spaß und Spannung - auf jeden Fall für jeden was dabei!
 \section{Zielbestimmung}
 \subsection{Musskriterien}
+\begin{itemize}
+\item Plattformunabhängigkeit (Java, Swing)
+\item Grundregeln von Monopoly:
+\item Würfeln, Kaufen von Gebieten, Handeln zwischen Spielern, Gefängnis, Ausbauen von Gebieten
+\item Client Server
+\item KI Client
+\item GUI
+\end{itemize}
 \subsection{Sollkriterien}
+\begin{itemize}
+\item Die Grundregeln sollen funktionieren
+\item Client Server sollen funktionieren
+\item KI soll einigermaßen gut sein (Anfänger)
+\item GUI sollte Übersichtlich und Gutaussehend sein
+\end{itemize}
 \subsection{Kannkriterien}
+\begin{itemize}
+\item Internetverbindungen (Internetserver finden)
+\end{itemize}
 \subsection{Abgrenzungskriterien}
+\begin{itemize}
+\item Ki Stufen
+\item Chat
+\end{itemize}
 \section{Produkteinsatz}
 \subsection{Anwendungsbereiche}
+\begin{itemize}
+\item Desktop-PC
+\item ältere PCs
+\end{itemize}
 \subsection{Zielgruppen}
+
+
 \subsection{Betriebsbedingungen}
+\begin{itemize}
+\item Sollte auf langsameren PCs laufen
+\item Sollte auf vielen Plattformen laufen
+\item Sollte stabil sein
+\end{itemize}
 \section{Produktumgebung}
 \subsection{Software}
+JVM
 \subsection{Hardware}
+PC
 \subsection{Orgware}
 \subsection{Schnittstellen}
 \section{Funktionale Anforderungen}
@@ -125,14 +168,89 @@ Der Metaserver wird eingebaut, wenn noch entsprechend genügend freie Zeit ist, 
 
 Diese Metaserver speichern selber die IPs mit den Servern, die sich angemeldet haben, sodass sobald sie sich neustarten schon ein Grundstock an Servern haben und alle einmal testen.
 \section{Produktleistungen}
+Zeit:
+\begin{itemize}
+\item Starten eines Servers: $<$ 15 Sekunden
+\item Beitreten eines Servers: $<$ 15 Sekunden
+\item Öffnen des Hauptmenüs: $<$ 15 Sekunden
+\item Ausführen einer Aktion: $<$ 2 Sekunden
+\item Erkennen eines ``Linkdead'': $<$ 30 Sekunden
+\item Beenden eines Spiels: $<$ 10 Sekunden
+\end{itemize}
+Genauigkeit:
+\begin{itemize}
+\item Alle Aktionen sollen genau/fehlerfrei zwischen Server und Client übertragen werden
+\end{itemize}
 \section{Weitere nichtfunktionale Anforderungen}
+Urheber- und Markenrechte:
+\begin{itemize}
+\item ``Monopoly'' ist ein eingetragenes Warenzeichen, d.h. das Produkt darf nicht "Monopoly" oder einen ähnlich klingenden / verwechselbaren Namen tragen
+\item Der Spielplan, das Regelwerk (als Textstück), die Figuren und alle Graphiken sind unter Schutzrecht, d.h. die sichtbaren Elemente des Produkts müssen von diesen Abweichen
+\item Spielregeln sind generell nicht schutzfähig (Patentgesetz und Gebrauchsmustergesetz 1.2), wobei der genause Regelaufbau vielleicht trotzdem noch verändert werden sollte.
+\end{itemize}
+Sicherheitsanforderungen:
+\begin{itemize}
+\item Es darf nicht möglich sein, durch Server oder Client des Produktes andere Programme o.ä. zu beeinflussen
+\item Alle Spielaktionen sollten vom Server verifiziert werden, um "Cheaten" zu verhindern
+\end{itemize}
+Plattformabhängigkeiten:
+\begin{itemize}
+\item Das Produkt muss auf der Java Virtual Machine auf jeder (bedeutenden) Plattform (Mac, Windows, Linux) laufen
+\item Das Produkt sollte/kann auf JVMs auf Smartphones (zumindest Android) laufen
+\end{itemize}
 \section{Qualitätsanforderungen}
+\begin{itemize}
+\item Das Produkt muss zuverlässig Laufen und darf nicht ohne ausführliche Fehlermeldung crashen
+\item Es müssen durchschnittlich mindestens 5 Spiele in Folge gespielt werden können, ohne dass ein Fehler auftritt
+\item Probleme mit Netzwerkverbindungen usw müssen Spielintern aufgefangen werden und dürfen nicht zu einer Beendigung des Spieles führen
+\item Es muss möglich sein, nach einem Fehler einem angefangen Spiel wieder beizutreten (Client) bzw. ein Spiel wieder so zu Starten wie es vor dem Fehler lief (Server)
+\end{itemize}
 \section{Globale Testfälle und Testszenarien}
+Folgende Funktionssequenzen sind zu überprüfen:
+\begin{itemize}
+\item Ändern der Spieleinstellungen, Speichern der Spieleinstellungen, Laden der Spieleinstellungen
+\item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration
+\item Erstellen eines Servers, Starten eines Servers, Anzeige der Serverliste, Abfragen der Serverinformationen, Beitreten, Starten
+\end{itemize}
+Folgende Datenkonsistenzen müssen eingehalten werden:
+\begin{itemize}
+\item Zu jedem Zeitpunkt muss ein Spielername definiert sein
+\item Einstellungen können nur geladen werden, wenn die zu ladende Datei vollständig ist
+\item Einstellungen können nur gespeichert werden, wenn alle Felder korrekt ausgefüllt sind
+\item Server und Spiele können nur gestartet werden, wenn alle notwendigen Informationen (z.B. Servername, Netzwerk-Interface, IP, Port, Spielname) gespeichert sind
+\end{itemize}
+Folgende unzulässigen Aktionen müssen überprüft werden:
+\begin{itemize}
+\item Unzulässiges Übersenden von Kommandos an Client und Server (DoS)
+\item Überschreitung der maximalen Teilnehmeranzahl
+\item Belegung von Ressourcen durch häufiges Beitreten und Verlassen von Clients
+\item Unerwarteter Verbindungsabbruch (Timeout, Connection Reset)
+\item Druck auf passive Buttons
+\item Reaktion auf Verbindungsverlust zum Server
+\item Unsauberer Restart des Clients
+\item Übersenden von unzulässigen Befehlen
+\end{itemize}
+Interoperabilität, Usability:
+\begin{itemize}
+\item Richtige Funktion mit Client und Server der anderen Gruppe
+\item Korrekte Darstellung auf verschiedenen Betriebssystemen (Windows, Linux, OS X)
+\item Verschiedene Bildschirmauflösungen
+\item nicht-standardmäßige Systemschriftgröße
+\end{itemize}
+Testszenarien:
+\begin{itemize}
+\item Max will mit seinen Freunden Philip und Fabian eine Runde Monopoly im lokalen Netzwerk spielen. Dafür startet Max das Spiel und wählt im Hauptmenü ``Spiel erstellen''. Er kommt nun zu einem Menü wo verschieden Spieloptionen eingestellt werden können. Dann klickt er auf ``Server starten'', wodurch im Hintergrund der Server gestartet wird und Max in eine leere Spiel-Lobby gelangt. Fabian und Philip starten nun ebenfalls das Programm und klicken auf ``Spiel beitreten''. Philip klickt nun auf "Lokales Spiel" und bekommt eine Übersicht der lokal verfügbaren Server angezeigt. Er wählt Max' Server aus und wird in die Lobby des Servers gesetzt.
+Fabian wählt ``Direktverbindung'' und gibt die IP von Max' Computer ein. Er wird ebenfalls in die Lobby gesetzt. Nachdem alle drei auf ``Bereit'' geklickt haben, startet das Spiel.
+\end{itemize}
 \section{Systemmodelle}
 \section{Benutzungsoberfläche}
 \section{Spezielle Anforderungen an die Entwicklungsumgebung}
+\begin{itemize}
+\item Unterstützung für Versionskontrolle (Git)
+\item Unterstützung von UTF8
+\end{itemize}
 \section{Zeit- und Ressourcenplanung}
+Zeit: Kalenderwochen auf der PDF von Dr. Beckert
 \section{Ergänzungen}
 \section{Glossar}
-
 \end{document}
