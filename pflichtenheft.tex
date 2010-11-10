@@ -10,6 +10,12 @@
 \usepackage[titles]{tocloft}
 \usepackage[colorlinks=false]{hyperref}
 
+\makeatletter
+\newcommand\addleadingzero{
+	\expandafter\ifnum
+\csname theenum\romannumeral\the\...enumdepth\endcsname<10 0\fi}
+\makeatother
+
 \title{Pflichtenheft}
 \date{}
 
@@ -97,53 +103,97 @@ PC
 \subsection{Orgware}
 \subsection{Schnittstellen}
 \section{Funktionale Anforderungen}
-\begin{enumerate}[/F001/]
-\item Anzeigen des Hauptmenüs \\
+\subsection{Client}
+\subsubsection{Außerhalb des Spielfeldes}
+%\begin{enumerate}[/Faddleadingzero1/]
+\begin{description}
+\item[/F01/] Anzeigen des Hauptmenüs \\
 Bei Aufruf der ausführbaren Datei (Das Programm) soll das Spiel gestartet werden und das Hauptmenü angezeigt werden.
 
-\item Ändern der Spieleinstellungen \\
+\item[/F02/] Ändern der Spieleinstellungen \\
 Im Hauptmenü ($\rightarrow$ /F01/) muss es möglich sein, zu einem gesonderten Menü zu gelangen, in dem Spieleinstellungen (wie z.~B. der verwendete Netzwerkadapter, der Benutzername u.ä.) eingestellt werden können.
 
-\item Laden der Einstellungen \\
+\item[/F03/] Laden der Einstellungen \\
 Die in den Einstellungen ($\rightarrow$ /F02/) vorhandenen Daten werden vor dem Anzeigen aus der Datei ($\rightarrow$ /DB01/) geladen.
 
-\item Speichern der Einstellungen \\
+\item[/F04/] Speichern der Einstellungen \\
 Die im Einstellungsfenster ($\rightarrow$ /F02/) eingestellten Einstellungen werden in der Datei($\rightarrow$ /DB01/) gespeichert.
 
-\item Erstellen eines Servers (Konfiguration) \\
+\item[/F05/] Erstellen eines Servers (Konfiguration) \\
 Von dem Hauptmenü ($\rightarrow$ /F01/) muss es möglich sein, einen Server zu starten. Dafür wird ein Menü mit Konfigurationseinstellungen (Startgeld usw.) angezeigt.
 
-\item Laden der Einstellungen \\
+\item[/F06/] Laden der Einstellungen \\
 Die im Konfigurationsfenster des Servers ($\rightarrow$ /F05/) angezeigten Einstellungen werden vor dem Anzeigen aus der Datei ($\rightarrow$ /DB02/) geladen.
 
-\item Speichern der Einstellungen \\
+\item[/F07/] Speichern der Einstellungen \\
 Die in den Einstellungsfenster ($\rightarrow$ /F05/) eingestellten Einstellungen werden in ($\rightarrow$ /DB02/) gespeichert.
 
-\item Erstellen eines Servers \\
+\item[/F08/] Erstellen eines Servers \\
 Nachdem die Einstellungen durchgeführt wurden ($\rightarrow$ /F05/) kann ein Server gestartet werden, dadurch wird ($\rightarrow$ /F09/) aufgerufen
 
-\item Starten eines Servers \\
+\item[/F09/] Starten eines Servers \\
 Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitschaftsmodus und stellt den Spielern ein ``Warteraum'' zur Verfügung.
 
-\item Beitreten eines Servers \\
+\item[/F10/] Beitreten eines Servers \\
 Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl kommen dann ``direkte Verbindung''($\rightarrow$ /F11/) oder das ``beitreten über eine Serverliste'' ($\rightarrow$ /F12/) dran.
 
-%11
-\item Beitreten eiens Servers durch Eingabe einer IP (direkte Verbindung) \\
+\item[/F11/] Beitreten eiens Servers durch Eingabe einer IP (direkte Verbindung) \\
 Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sofern dies der Fall ist wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/).
 
-\item Anzeigen der Serverliste \\
-Standardmäßig wird ein Broadcast, also ein Nachricht an alle Geräte im lokalen Netzwerk, versendet, um zu überprüfen, ob mit der IP ein Server erreichbar ist. Sofern diese Antworten werden die in einer Liste aller lokalen Server angezeigt und können ausgewählt werden. \\
+\item[/F12/] Anzeigen der Serverliste \\
+Standardmäßig wird ein Broadcast, also ein Nachricht an alle Geräte im lokalen Netzwerk, versendet, um zu überprüfen, ob mit der IP ein Server erreichbar ist. Sofern diese Antworten werden die in einer Liste aller lokalen Server angezeigt und können ausgewählt werden.
 
-Als zusätzliches Feature ist es möglich ``Metaserver'' einzubinden, die abgefragt werden können, und eine Liste mit der Verfügbaren Server anzeigt. Zum Beispiel werden Broadcasts nicht ins Internet geroutet, und Server die nicht im lokalen Netzwerk sind, können nicht angezeigt werden. \\
+Als zusätzliches Feature ist es möglich ``Metaserver'' einzubinden, die abgefragt werden können, und eine Liste mit der Verfügbaren Server anzeigt. Zum Beispiel werden Broadcasts nicht ins Internet geroutet, und Server die nicht im lokalen Netzwerk sind, können nicht angezeigt werden.
 
-Jede IP wird kontaktiert in der Funktionalität zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/). \\
+Jede IP wird kontaktiert in der Funktionalität zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
 
 In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei sind und es wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/). Ansonsten ist eine Verbindung nicht möglich.
-\item Abfragen der Serverinformationen für die Serverliste \\
+\item[/F13/] Abfragen der Serverinformationen für die Serverliste \\
 Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.~B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
-\item Starten der Verbindung \\
+\item[/F14/] Starten der Verbindung \\
 Beim Verbinden auf den Server wird die Verbindung aufgenommen und ein eventuell vorhandenes Passwort abgefragt.
+\item[/F15/] Beenden des Spiels \\
+Über die entsprechende Schaltfläche im Programm, kann das Spiel beendet werden.
+\end{description}
+
+\subsubsection{Während eines Spiels}
+\begin{description}
+\item[/F16/] Initieren eines Spiels \\
+Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F17/). Der Spielleiter hat die Möglichkeit, das Spiel sofort zu starten ($\rightarrow$ /F18/).
+\item[/F17/] Chatten \\
+Es ist während des gesamten Spiels möglich mit anderen Spielern zu chatten.
+\item[/F18/] Starten des Spiels \\
+Nachdem der Spielleiter das Spiel gestartet hat, erscheint bei allen das Spielfeld auf denen folgende Punkte angezeigt werden:
+\begin{itemize}
+\item Spieler mit deren Namen und Kontostände
+\item Die Straßen mit deren Zugehörigkeit und Bebauung
+\item Die Spielfiguren
+\item Das Geld in der Mitte % besserer Name?
+\item Das Chatfenster
+\end{itemize}
+Daraufhin kann er der erste Spieler die Runde starten ($\rightarrow$ /F19/). Außerdem kann jeder während des gesamten Spiels Nachrichten versenden ($\rightarrow$ /F17/).
+\item[/F19/] Durchführung einer Runde \\
+Der erste Spieler kann Würfeln, wozu der Server allen Spielern die Zufallszahl meldet. Damit kann verhindert werden, dass sich jemand mit einen Client einloggt, der sich eine passenderen Wurf ercheatet. Daraufhin zieht er mit seiner Figur die entsprechenden Felder weiter.
+
+Je nach Einstellung wird dann die Miete erhoben, oder der entsprechende Besitzer des Grundstücks muss manuell die Miete verlangen. Ist der Spieler auf einen Sonderfeld, wird entsprechend vorgegangen.
+\begin{itemize}
+\item Foobar \\
+Halt was da passiert, einer eine Idee?
+\end{itemize}
+
+Nachdem der Spieler fertig ist, kann er die aktuelle Runde an den nächsten Spieler abgeben. Außerdem kann ein Spieler aufgeben ($\rightarrow$ /F20/).
+\item[/F20/] Aufgeben \\
+Jeder Spieler kann, sobald er dran ist aufgeben. Er kann dann sagen, was mit seinem verbleibenden Besitz passiert:
+\begin{itemize}
+\item Die Bank bekommt das Geld, die Ereigniskarten und die Straßen zurück. Je nach Einstellungen bleiben die Gebäude stehen oder werden abgerissen.
+\item Zuerst werden alle Straßen an andere Spieler versteigert und dann bekommt die Bank die übrig gebliebenen Straßen, das Geld und die Ereigniskarten. Wieder können je nach Einstellungen die Gebäude stehen bleiben.
+\item Es ist möglich das Eigentum an andere Spieler zu verschenken. Alles übrig gebliebene kommt an die Bank. Eventuelle Straßen mit Gebäuden behalten die Gebäude abhängig von den Einstellungen.
+\end{itemize}
+\end{description}
+
+\begin{enumerate}[/F1/]
+\setcounter{enumi}{5}
+\item foo
 \end{enumerate}
 \section{Produktdaten}
 Es gibt jeweils für den Server und für die Clients verschiedene Sachen, die gespeichert werden müssen.
@@ -253,4 +303,8 @@ Fabian wählt ``Direktverbindung'' und gibt die IP von Max' Computer ein. Er wir
 Zeit: Kalenderwochen auf der PDF von Dr. Beckert
 \section{Ergänzungen}
 \section{Glossar}
+\begin{itemize}
+\item Metaserver (syn. Masterserver) \\
+Eine mögliche Ergänzung. Speichert die IPs von mehreren Servern, sodass sie in der Serverliste angezeigt werden können.
+\end{itemize}
 \end{document}
