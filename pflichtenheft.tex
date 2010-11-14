@@ -103,6 +103,17 @@ PC
 \subsection{Orgware}
 \subsection{Schnittstellen}
 \section{Funktionale Anforderungen}
+Jede funktionale Anforderung hat eine kennzeichnende fünfstellige Nummer. Die erste Stelle gibt die Anwendung an:
+\begin{enumerate}
+\item Client
+\item Server
+\end{enumerate}
+Die zweite Stelle gibt den Bereich innerhalb des Spielverlaufs an. Bei den Server:
+\begin{enumerate}
+\item Vorbereitungen
+\item Spielzug
+\end{enumerate}
+Die drei letzen Stellen werden dann durchnummeriert.
 \subsection{Client}
 \subsubsection{Außerhalb des Spielfeldes}
 %\begin{enumerate}[/Faddleadingzero1/]
@@ -137,17 +148,15 @@ Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitscha
 \item[/F10/] Beitreten eines Servers \\
 Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl kommen dann ``direkte Verbindung''($\rightarrow$ /F11/) oder das ``beitreten über eine Serverliste'' ($\rightarrow$ /F12/) dran.
 
-\item[/F11/] Beitreten eiens Servers durch Eingabe einer IP (direkte Verbindung) \\
+\item[/F11/] Beitreten eines Servers durch Eingabe einer IP (direkte Verbindung) \\
 Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sofern dies der Fall ist wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/).
 
 \item[/F12/] Anzeigen der Serverliste \\
-Standardmäßig wird ein Broadcast, also ein Nachricht an alle Geräte im lokalen Netzwerk, versendet, um zu überprüfen, ob mit der IP ein Server erreichbar ist. Sofern diese Antworten werden die in einer Liste aller lokalen Server angezeigt und können ausgewählt werden.
-
-Als zusätzliches Feature ist es möglich "`Metaserver"' einzubinden, die abgefragt werden können, und eine Liste mit der Verfügbaren Server anzeigt. Zum Beispiel werden Broadcasts nicht ins Internet geroutet, und Server die nicht im lokalen Netzwerk sind, können nicht angezeigt werden.
-
-Jede IP wird kontaktiert in der Funktionalität zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
+In dieser Liste können einige Server angezeigt werden ohne dessen IP zu kennen (-> /F1X0Y0/).
 
 In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei sind und es wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/). Ansonsten ist eine Verbindung nicht möglich.
+\item[/F1X0Y0/] Ermitteln der Server im lokalen Netzwerk \\
+Um die Server im lokalen Netzwerk anzuzeigen wird ein Broadcast versendet und jeder Server der darauf antwortet auf die Liste aufgenommen und kontaktiert zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
 \item[/F13/] Abfragen der Serverinformationen für die Serverliste \\
 Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.~B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
 \item[/F14/] Starten der Verbindung \\
@@ -194,23 +203,37 @@ Jeder Spieler kann, sobald er dran ist aufgeben. Er kann dann sagen, was mit sei
 \subsection{Server}
 \subsubsection{Vorbereitungen}
 \begin{description}
-\item[/F2010/] Starten des Servers \\
-Der Server wird mit den entsprechenden Regeln gestartet. Diese Spielregeln können in einer Datei festgehalten werden, oder als Übergabeparameter angegeben werden. Danach befindet sich der Server im Wartemodus (-> /F2020/) und wartet auf neue Spieler. Alternativ kann auch ein gespeichertes Spiel geladen werden.
-\item[/F2020/] Wartemodus \\
-Im Wartemodus stellt der Server ein Chatraum zur Verfügung. Jeder Spieler landet zuerst hier und kann sich auf "`bereit"' setzen. Nachdem mindestens zwei Spieler verbunden sind und alle bereit sind, startet das Spiel (-> /F2030/).
-\item[/F2030/] Spielstart \\
-Das Spiel wird gestartet, indem zufällig die Reihenfolge der Spieler festgelegt wird. Der erste Spieler in der Liste startet dann das Spiel. Sollte das Spiel geladen worden sein, wird dieser Schritt übersprungen.
-
-Nachdem alle Spieler die Reihenfolge bestätigt haben, wird der erste Spielzug gestartet indem der entsprechende Spieler informiert wird, dass er dran ist (-> /F2040/).
+\item[/F21010/] Starten des Servers \\
+Bei den Starten des Servers wird ermittelt, ob ein Spielstand geladen (-> /F21020/) oder ein neues Spiel gestartet werden soll (-> /F21030/).
+\item[/F21020/] Spielstand laden \\
+Zuerst wird überprüft, ob die Datei valide ist. Sofern sie valid ist, wird die Datei eingelesen und entsprechend verarbeitet. Danach ist der Server im Wartemodus (-> /F21040/).
+\item[/F21030/] Neues Spiel starten \\
+Es wird ein neues Spiel gestartet indem die entsprechenden Anfangseinstellungen aus den Übergabeparametern oder einer Datei geladen werden. Danach befindet sich der Server im Wartemodus (-> /F21040/).
+\item[/F21040/] Wartemodus \\
+Im Wartemodus stellt der Server ein Chatraum zur Verfügung. Jeder Spieler landet zuerst hier und kann sich auf "`bereit"' setzen. Nachdem mindestens zwei Spieler verbunden sind und alle bereit sind, startet das Spiel (-> /F21050/), sofern es sich um ein geladenes Spiel handelt. Ansonsten, wenn es sich um ein neues Spiel handelt, werden die Vorbereitungen abgeschlossen (-> /F21060).
+\item[/F21050/] Spielstart \\
+Nachdem allen Spieler die Reihenfolge übermittelt wurde, wird der erste Spielzug gestartet indem der entsprechende Spieler informiert wird, dass er dran ist (-> /F22040/).
+\item[/F21060/] Vorbereitungen eines neuen Spiels abschließen \\
+Wenn es sich um ein neues Spiel handelt, wird die Reihenfolge der Spieler festgelegt, und der erste Spieler in der neuen Reihenfolge ist dann der erste Spieler der einen Zug ausführen darf. Danach fängt das startet das Spiel (-> /F21050).
 \end{description}
 \subsubsection{Spielzug}
 \begin{description}
-\item[/F2040/] Spielzug melden \\
-Nachdem die nächste Person bekannt ist, die zieht, wird diesen Spieler bescheid gegeben und allen anderen übermittelt, dass dieser Spieler dran ist. Danach wartet er darauf, dass gewürfelt werden soll.
-\item[/F2050/] Würfeln \\
-Um den Betrug des Spielers vorzubeugen bekommt der Server von den Client den Befehl zu würfeln. Dieser erzeugt dann eine zufällige Zahl zwischn 2 und 12. Alle Spieler erhalten dann diese Zahl und alle Spieler, ziehen diese Spielfigur weiter. Danach kann der aktive Spieler weitere Befehle geben.
-\item[/F2060/] Weitere Befehle \\
-
+\item[/F22010/] Spielzug informieren \\
+Nachdem die Person bekannt ist, die nun zieht, wird allen Spielern übermittelt, dass dieser Spieler dran ist. Danach wartet der Server darauf, dass gewürfelt werden soll (-> /F22020/).
+\item[/F22020/] Würfeln \\
+Um den Betrug des Spielers vorzubeugen bekommt der Server von den Client den Befehl zu würfeln. Dieser erzeugt dann eine zufällige Zahl zwischen 2 und 12. Alle Spieler erhalten dann diese Zahl und alle Spieler, ziehen die Spielfigur des aktiven Spielers weiter. Danach kann der aktive Spieler weitere Befehle geben (-> /F22030/).
+\item[/F22030/] Weitere Befehle \\
+Der Server bekommt jetzt die weiteren Befehle vom entsprechenden Client:
+\begin{itemize}
+\item Der nächste Spieler kann dran kommen (-> /F22010/).
+\item Der Spieler möchte die Straße kaufen (-> /F22031/).
+\item Der Spieler möchte ein Gebäude bauen (-> /F22032/).
+\item Der Spieler kann eine Hypothek aufnehmen (-> /F22033).
+\item Der Spieler kann ein Gebäude abreißen (-> /F22034).
+\item Der Spieler kann eine Straße verkaufen (-> /F22035).
+\item Der Spieler kann eine Straße versteigern (-> /F22036).
+\end{itemize}
+\item[/F22031/]
 \end{description}
 
 %\begin{enumerate}[/F1/]
