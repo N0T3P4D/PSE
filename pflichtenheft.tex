@@ -143,7 +143,7 @@ Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar
 \item[/F12/] Anzeigen der Serverliste \\
 Standardmäßig wird ein Broadcast, also ein Nachricht an alle Geräte im lokalen Netzwerk, versendet, um zu überprüfen, ob mit der IP ein Server erreichbar ist. Sofern diese Antworten werden die in einer Liste aller lokalen Server angezeigt und können ausgewählt werden.
 
-Als zusätzliches Feature ist es möglich ``Metaserver'' einzubinden, die abgefragt werden können, und eine Liste mit der Verfügbaren Server anzeigt. Zum Beispiel werden Broadcasts nicht ins Internet geroutet, und Server die nicht im lokalen Netzwerk sind, können nicht angezeigt werden.
+Als zusätzliches Feature ist es möglich "`Metaserver"' einzubinden, die abgefragt werden können, und eine Liste mit der Verfügbaren Server anzeigt. Zum Beispiel werden Broadcasts nicht ins Internet geroutet, und Server die nicht im lokalen Netzwerk sind, können nicht angezeigt werden.
 
 Jede IP wird kontaktiert in der Funktionalität zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
 
@@ -159,11 +159,11 @@ Beim Verbinden auf den Server wird die Verbindung aufgenommen und ein eventuell 
 \subsubsection{Während eines Spiels}
 \begin{description}
 \item[/F16/] Initieren eines Spiels \\
-Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F17/). Der Spielleiter hat die Möglichkeit, das Spiel sofort zu starten ($\rightarrow$ /F18/).
+Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F17/). Nachdem mindestens zwei Spieler verbunden isnd und alle Spieler bereit sind startet das Spiel ($\rightarrow$ /F18/).
 \item[/F17/] Chatten \\
 Es ist während des gesamten Spiels möglich mit anderen Spielern zu chatten.
 \item[/F18/] Starten des Spiels \\
-Nachdem der Spielleiter das Spiel gestartet hat, erscheint bei allen das Spielfeld auf denen folgende Punkte angezeigt werden:
+Nachdem das Spiel gestartet ist, erscheint bei allen das Spielfeld auf denen folgende Punkte angezeigt werden:
 \begin{itemize}
 \item Spieler mit deren Namen und Kontostände
 \item Die Straßen mit deren Zugehörigkeit und Bebauung
@@ -191,10 +191,32 @@ Jeder Spieler kann, sobald er dran ist aufgeben. Er kann dann sagen, was mit sei
 \end{itemize}
 \end{description}
 
-\begin{enumerate}[/F1/]
-\setcounter{enumi}{5}
-\item foo
-\end{enumerate}
+\subsection{Server}
+\subsubsection{Vorbereitungen}
+\begin{description}
+\item[/F2010/] Starten des Servers \\
+Der Server wird mit den entsprechenden Regeln gestartet. Diese Spielregeln können in einer Datei festgehalten werden, oder als Übergabeparameter angegeben werden. Danach befindet sich der Server im Wartemodus (-> /F2020/) und wartet auf neue Spieler. Alternativ kann auch ein gespeichertes Spiel geladen werden.
+\item[/F2020/] Wartemodus \\
+Im Wartemodus stellt der Server ein Chatraum zur Verfügung. Jeder Spieler landet zuerst hier und kann sich auf "`bereit"' setzen. Nachdem mindestens zwei Spieler verbunden sind und alle bereit sind, startet das Spiel (-> /F2030/).
+\item[/F2030/] Spielstart \\
+Das Spiel wird gestartet, indem zufällig die Reihenfolge der Spieler festgelegt wird. Der erste Spieler in der Liste startet dann das Spiel. Sollte das Spiel geladen worden sein, wird dieser Schritt übersprungen.
+
+Nachdem alle Spieler die Reihenfolge bestätigt haben, wird der erste Spielzug gestartet indem der entsprechende Spieler informiert wird, dass er dran ist (-> /F2040/).
+\end{description}
+\subsubsection{Spielzug}
+\begin{description}
+\item[/F2040/] Spielzug melden \\
+Nachdem die nächste Person bekannt ist, die zieht, wird diesen Spieler bescheid gegeben und allen anderen übermittelt, dass dieser Spieler dran ist. Danach wartet er darauf, dass gewürfelt werden soll.
+\item[/F2050/] Würfeln \\
+Um den Betrug des Spielers vorzubeugen bekommt der Server von den Client den Befehl zu würfeln. Dieser erzeugt dann eine zufällige Zahl zwischn 2 und 12. Alle Spieler erhalten dann diese Zahl und alle Spieler, ziehen diese Spielfigur weiter. Danach kann der aktive Spieler weitere Befehle geben.
+\item[/F2060/] Weitere Befehle \\
+
+\end{description}
+
+%\begin{enumerate}[/F1/]
+%\setcounter{enumi}{5}
+%\item foo
+%\end{enumerate}
 \section{Produktdaten}
 Es gibt jeweils für den Server und für die Clients verschiedene Sachen, die gespeichert werden müssen.
 \subsection{Unabhängig}
