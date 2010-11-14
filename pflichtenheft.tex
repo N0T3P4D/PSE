@@ -10,12 +10,6 @@
 \usepackage[titles]{tocloft}
 \usepackage[colorlinks=false]{hyperref}
 
-\makeatletter
-\newcommand\addleadingzero{
-	\expandafter\ifnum
-\csname theenum\romannumeral\the\...enumdepth\endcsname<10 0\fi}
-\makeatother
-
 \title{Pflichtenheft}
 \date{}
 
@@ -26,6 +20,11 @@
 \else
 \DeclareGraphicsExtensions{.eps}
 \fi
+
+% Einrückung bei Absätzen
+\setlength{\parindent}{0mm}
+% Zeilenabstand bei Absätzen
+\setlength{\parskip}{2mm}
 
 \begin{document}
 
@@ -135,18 +134,17 @@ Die zweite Stelle gibt den Bereich innerhalb des Spielverlaufs an. Bei den Serve
 Die drei letzen Stellen werden dann durchnummeriert.
 \subsection{Client}
 \subsubsection{Außerhalb des Spielfeldes}
-%\begin{enumerate}[/Faddleadingzero1/]
 \begin{description}
-\item[/F01/] Anzeigen des Hauptmenüs \\
+\item[/F11010/] Anzeigen des Hauptmenüs \\
 Bei Aufruf der ausführbaren Datei (Das Programm) soll das Spiel gestartet werden und das Hauptmenü angezeigt werden.
 
-\item[/F02/] Ändern der Spieleinstellungen \\
+\item[/F11020/] Ändern der Spieleinstellungen \\
 Im Hauptmenü ($\rightarrow$ /F01/) muss es möglich sein, zu einem gesonderten Menü zu gelangen, in dem Spieleinstellungen (wie z.~B. der verwendete Netzwerkadapter, der Benutzername u.ä.) eingestellt werden können.
 
-\item[/F03/] Laden der Einstellungen \\
+\item[/F11030/] Laden der Einstellungen \\
 Die in den Einstellungen ($\rightarrow$ /F02/) vorhandenen Daten werden vor dem Anzeigen aus der Datei ($\rightarrow$ /DB01/) geladen.
 
-\item[/F04/] Speichern der Einstellungen \\
+\item[/F11040/] Speichern der Einstellungen \\
 Die im Einstellungsfenster ($\rightarrow$ /F02/) eingestellten Einstellungen werden in der Datei($\rightarrow$ /DB01/) gespeichert.
 
 \item[/F05/] Erstellen eines Servers (Konfiguration) \\
@@ -252,7 +250,20 @@ Der Server bekommt jetzt die weiteren Befehle vom entsprechenden Client:
 \item Der Spieler kann eine Straße verkaufen (-> /F22035).
 \item Der Spieler kann eine Straße versteigern (-> /F22036).
 \end{itemize}
-\item[/F22031/]
+\item[/F22031/] Kauf einer Straße \\
+Beim Kauf einer Straße wird zuerst überprüft, ob die Straße keinem gehört, der Spieler genügend Geld hat, und die Spielfigur auf diesem Feld steht. Ist dies der Fall, meldet der Server allen Clients, dass der aktuelle Spieler die Straße gekauft hat.
+%alternativ
+Beim Kauf der Straße auf den die Spielfigur steht wird zuerst überprüft, ob die Straße keinem gehört und der Spieler genügend Geld hat. Ist dies der Fall lässt sich der Server bestätigen, dass es sich um die richtige Straße handelt.
+\item[/F22032/] Bau eines Gebäudes \\
+Zuerst wird überprüft, ob ein Gebäude der Stufe bebaut werden darf. Dazu werden die aktuellen Spielregeln und der Kontostand überprüft und bei erfüllen dieser wird der Bau des Gebäudes allen Spielern gemeldet.
+\item[/F22033/] Aufnehmen einer Hypothek \\
+Zuerst wird überprüft, ob nach den Spielregeln eine Hypothek auf die Straße aufgenommen werden darf. Sofern die Spielregeln es erlauben, wird die Aufnahme der Hypothek allen Spielern gemeldet.
+\item[/F22034/] Gebäudeabriss \\
+Vor den Abreißen wird überprüft, ob dies nach den Spielregeln erlaubt ist. Erlauben diese einen Abriss, wird allen Spielern gemeldet, dass das Gebäude abgerissen wird.
+\item[/F22035/] Verkauf einer Straße \\
+Bevor die Straße verkauft wird, wird getestet ob die Straße dem Spieler gehört und nach den Spielregeln verkauft werden darf. Erst nachdem diese Bedingungen erfüllt sind, wird allen Spielern der Verkauf gemeldet. Wenn die Straße an jemand anderen als die Bank verkauft wird, wird vorher überprüft, ob der Spieler diese Straße kaufen darf und kann.
+\item[/F22036/] Versteigern einer Straße \\
+Zuerst wird getestet, ob die Spielregeln es erlauben, die Straße zu verkaufen. Sofern die Regeln es erlauben, wird die Straße den Personen zum Verkauf angeboten. Alle Spieler können dann darauf bieten und entsprechend den Preis erhöhen. Nach der Versteigerung, werden alle Spieler über den neuen Besitzer der Straße informiert.
 \end{description}
 
 %\begin{enumerate}[/F1/]
