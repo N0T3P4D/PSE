@@ -37,6 +37,8 @@ Entwicklung eines ``Monopoly''-ähnlichen Spiels \\[0.5cm]
 WS 2010 / 2011} \\[2cm]
 \textcolor{red}{! DRAFT !}
 \end{center}
+%damit machen
+\includegraphics[height=15cm]{spielfeld}
 
 \newpage
 
@@ -169,7 +171,7 @@ Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nac
 Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sofern dies der Fall ist wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/).
 
 \item[/F12/] Anzeigen der Serverliste \\
-In dieser Liste können einige Server angezeigt werden ohne dessen IP zu kennen (-> /F1X0Y0/).
+In dieser Liste können einige Server angezeigt werden ohne dessen IP zu kennen ($\rightarrow$ /F1X0Y0/).
 
 In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei sind und es wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/). Ansonsten ist eine Verbindung nicht möglich.
 \item[/F1X0Y0/] Ermitteln der Server im lokalen Netzwerk \\
@@ -199,13 +201,38 @@ Nachdem das Spiel gestartet ist, erscheint bei allen das Spielfeld auf denen fol
 \end{itemize}
 Daraufhin kann er der erste Spieler die Runde starten ($\rightarrow$ /F19/). Außerdem kann jeder während des gesamten Spiels Nachrichten versenden ($\rightarrow$ /F17/).
 \item[/F19/] Durchführung einer Runde \\
-Der erste Spieler kann Würfeln, wozu der Server allen Spielern die Zufallszahl meldet. Damit kann verhindert werden, dass sich jemand mit einen Client einloggt, der sich eine passenderen Wurf ercheatet. Daraufhin zieht er mit seiner Figur die entsprechenden Felder weiter.
+Als allererstes würfelt der Spieler ($\rightarrow$ /F120XX).
+\item[/F120X0/] Würfeln \\
+Zum Würfeln fragt der aktive Spieler eine Zufallszahl beim Server ab ($\rightarrow$ /F22020/). Anhand dieser Zufallszahl ziehen die Spieler die Spielfigur des aktiven Spielers weiter.
 
-Je nach Einstellung wird dann die Miete erhoben, oder der entsprechende Besitzer des Grundstücks muss manuell die Miete verlangen. Ist der Spieler auf einen Sonderfeld, wird entsprechend vorgegangen.
+Landet der Spieler auf einen Sonderfeld wird entsprechend dem Sonderfeld vorgegangen. Danach kann der aktive Spieler weitere Aktionen durchführen ($\rightarrow$ /F120Y0).
+\item[/F120Y0/] Weitere Aktionen \\
+Nachdem der Spieler gewürfelt hat kann er folgende Aktionen ausführen:
 \begin{itemize}
-\item Foobar \\
-Halt was da passiert, einer eine Idee?
+\item Den Spielzug beenden ($\rightarrow$ /F22010/ /F19/).
+\item Eine Straße kaufen ($\rightarrow$ /F22031/ /F120Y1/).
+\item Ein Gebäude bauen ($\rightarrow$ /F22032/ /F120Y2/).
+\item Eine Hypothek aufnehmen ($\rightarrow$ /F22033/ /F120Y3/).
+\item Ein Gebäude abreißen ($\rightarrow$ /F22034/ /F120Y4/).
+\item Eine Straße verkaufen ($\rightarrow$ /F22035/ /F120Y5/).
+\item Eine Straße versteigern ($\rightarrow$ /F22036/ /F120Y6/).
 \end{itemize}
+Außerdem kann währenddessen die Miete eingefordert werden ($\rightarrow$ /F120Z0).
+\item[/F120Y1/] Straße kaufen \\
+Da der Spieler nur die Straße kaufen kann, auf den der Spieler steht, wird vorher nur geprüft ob die Straße zu verkaufen ist und der Spieler genügend Geld hat ($\rightarrow$ /F22031/). Danach kann der Spieler weitere Befehle ausführen ($\rightarrow$ /F120Y0/).
+\item[/F120Y2/] Gebäude bauen \\
+%alternativ: Der Spieler fragt einfach den Server
+Zuerst wird geprüft, ob der Spieler genügend Geld hat und nach den entsprechenden Regeln dort ein Gebäude gebaut werden darf. ($\rightarrow$ /F22032/)
+\item[/F120Y3/] Hypothek aufnehmen \\
+Wenn der Spieler nach den Regeln eine Hypothek aufnehmen darf, meldet der aktive Spieler dies dem Server ($\rightarrow$ /F22033/).
+\item[/F120Y4/] Gebäude abreißen \\
+Erst wird überprüft, ob der Spieler das Gebäude nach den Spielregeln abreißen darf ($\rightarrow$ /F22034/).
+\item[/F120Y5/] Straße verkaufen \\
+Sofern nach den Regeln der aktive Spieler die Straße verkaufen darf, wird das dem Server gemeldet ($\rightarrow$ /F22035/).
+\item[/F120Y6/] Straße versteigern \\
+Um eine Straße zu versteigern, müssen dies die Regeln erlauben. Danach kann jeder Spieler darauf bieten ($\rightarrow$ /F22036/).
+\item[/F120Z0/] Miete erheben \\
+Sobald ein Spieler auf ein Feld zieht, dass ihm nicht gehört, kann der Besitzer die Miete erheben. Dies kann er solange bis der nächste Spieler gewürfelt hat.
 
 Nachdem der Spieler fertig ist, kann er die aktuelle Runde an den nächsten Spieler abgeben. Außerdem kann ein Spieler aufgeben ($\rightarrow$ /F20/).
 \item[/F20/] Aufgeben \\
@@ -221,34 +248,34 @@ Jeder Spieler kann, sobald er dran ist aufgeben. Er kann dann sagen, was mit sei
 \subsubsection{Vorbereitungen}
 \begin{description}
 \item[/F21010/] Starten des Servers \\
-Bei den Starten des Servers wird ermittelt, ob ein Spielstand geladen (-> /F21020/) oder ein neues Spiel gestartet werden soll (-> /F21030/).
+Bei den Starten des Servers wird ermittelt, ob ein Spielstand geladen ($\rightarrow$ /F21020/) oder ein neues Spiel gestartet werden soll ($\rightarrow$ /F21030/).
 \item[/F21020/] Spielstand laden \\
-Zuerst wird überprüft, ob die Datei valide ist. Sofern sie valid ist, wird die Datei eingelesen und entsprechend verarbeitet. Danach ist der Server im Wartemodus (-> /F21040/).
+Zuerst wird überprüft, ob die Datei valide ist. Sofern sie valid ist, wird die Datei eingelesen und entsprechend verarbeitet. Danach ist der Server im Wartemodus ($\rightarrow$ /F21040/).
 \item[/F21030/] Neues Spiel starten \\
-Es wird ein neues Spiel gestartet indem die entsprechenden Anfangseinstellungen aus den Übergabeparametern oder einer Datei geladen werden. Danach befindet sich der Server im Wartemodus (-> /F21040/).
+Es wird ein neues Spiel gestartet indem die entsprechenden Anfangseinstellungen aus den Übergabeparametern oder einer Datei geladen werden. Danach befindet sich der Server im Wartemodus ($\rightarrow$ /F21040/).
 \item[/F21040/] Wartemodus \\
-Im Wartemodus stellt der Server ein Chatraum zur Verfügung. Jeder Spieler landet zuerst hier und kann sich auf "`bereit"' setzen. Nachdem mindestens zwei Spieler verbunden sind und alle bereit sind, startet das Spiel (-> /F21050/), sofern es sich um ein geladenes Spiel handelt. Ansonsten, wenn es sich um ein neues Spiel handelt, werden die Vorbereitungen abgeschlossen (-> /F21060).
+Im Wartemodus stellt der Server ein Chatraum zur Verfügung. Jeder Spieler landet zuerst hier und kann sich auf "`bereit"' setzen. Nachdem mindestens zwei Spieler verbunden sind und alle bereit sind, startet das Spiel ($\rightarrow$ /F21050/), sofern es sich um ein geladenes Spiel handelt. Ansonsten, wenn es sich um ein neues Spiel handelt, werden die Vorbereitungen abgeschlossen ($\rightarrow$ /F21060).
 \item[/F21050/] Spielstart \\
-Nachdem allen Spieler die Reihenfolge übermittelt wurde, wird der erste Spielzug gestartet indem der entsprechende Spieler informiert wird, dass er dran ist (-> /F22040/).
+Nachdem allen Spieler die Reihenfolge übermittelt wurde, wird der erste Spielzug gestartet indem der entsprechende Spieler informiert wird, dass er dran ist ($\rightarrow$ /F22040/).
 \item[/F21060/] Vorbereitungen eines neuen Spiels abschließen \\
-Wenn es sich um ein neues Spiel handelt, wird die Reihenfolge der Spieler festgelegt, und der erste Spieler in der neuen Reihenfolge ist dann der erste Spieler der einen Zug ausführen darf. Danach fängt das startet das Spiel (-> /F21050).
+Wenn es sich um ein neues Spiel handelt, wird die Reihenfolge der Spieler festgelegt, und der erste Spieler in der neuen Reihenfolge ist dann der erste Spieler der einen Zug ausführen darf. Danach fängt das startet das Spiel ($\rightarrow$ /F21050).
 \end{description}
 \subsubsection{Spielzug}
 \begin{description}
 \item[/F22010/] Spielzug informieren \\
-Nachdem die Person bekannt ist, die nun zieht, wird allen Spielern übermittelt, dass dieser Spieler dran ist. Danach wartet der Server darauf, dass gewürfelt werden soll (-> /F22020/).
+Nachdem die Person bekannt ist, die nun zieht, wird allen Spielern übermittelt, dass dieser Spieler dran ist. Danach wartet der Server darauf, dass gewürfelt werden soll ($\rightarrow$ /F22020/).
 \item[/F22020/] Würfeln \\
-Um den Betrug des Spielers vorzubeugen bekommt der Server von den Client den Befehl zu würfeln. Dieser erzeugt dann eine zufällige Zahl zwischen 2 und 12. Alle Spieler erhalten dann diese Zahl und alle Spieler, ziehen die Spielfigur des aktiven Spielers weiter. Danach kann der aktive Spieler weitere Befehle geben (-> /F22030/).
+Um den Betrug des Spielers vorzubeugen bekommt der Server von den Client den Befehl zu würfeln. Dieser erzeugt dann eine zufällige Zahl zwischen 2 und 12. Alle Spieler erhalten dann diese Zahl und alle Spieler, ziehen die Spielfigur des aktiven Spielers weiter. Danach kann der aktive Spieler weitere Befehle geben ($\rightarrow$ /F22030/).
 \item[/F22030/] Weitere Befehle \\
 Der Server bekommt jetzt die weiteren Befehle vom entsprechenden Client:
 \begin{itemize}
-\item Der nächste Spieler kann dran kommen (-> /F22010/).
-\item Der Spieler möchte die Straße kaufen (-> /F22031/).
-\item Der Spieler möchte ein Gebäude bauen (-> /F22032/).
-\item Der Spieler kann eine Hypothek aufnehmen (-> /F22033).
-\item Der Spieler kann ein Gebäude abreißen (-> /F22034).
-\item Der Spieler kann eine Straße verkaufen (-> /F22035).
-\item Der Spieler kann eine Straße versteigern (-> /F22036).
+\item Der nächste Spieler kann dran kommen ($\rightarrow$ /F22010/).
+\item Der Spieler möchte die Straße kaufen ($\rightarrow$ /F22031/).
+\item Der Spieler möchte ein Gebäude bauen ($\rightarrow$ /F22032/).
+\item Der Spieler kann eine Hypothek aufnehmen ($\rightarrow$ /F22033).
+\item Der Spieler kann ein Gebäude abreißen ($\rightarrow$ /F22034).
+\item Der Spieler kann eine Straße verkaufen ($\rightarrow$ /F22035).
+\item Der Spieler kann eine Straße versteigern ($\rightarrow$ /F22036).
 \end{itemize}
 \item[/F22031/] Kauf einer Straße \\
 Beim Kauf einer Straße wird zuerst überprüft, ob die Straße keinem gehört, der Spieler genügend Geld hat, und die Spielfigur auf diesem Feld steht. Ist dies der Fall, meldet der Server allen Clients, dass der aktuelle Spieler die Straße gekauft hat.
