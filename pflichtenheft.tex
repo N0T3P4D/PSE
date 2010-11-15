@@ -331,11 +331,12 @@ Plattformabhängigkeiten:
 \item Es muss möglich sein, nach einem Fehler einem angefangen Spiel wieder beizutreten (Client) bzw. ein Spiel wieder so zu Starten wie es vor dem Fehler lief (Server)
 \end{itemize}
 \section{Globale Testfälle und Testszenarien}
-Folgende Funktionssequenzen sind zu überprüfen:
+Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche zu überprüfen:
 \begin{itemize}
-\item Ändern der Spieleinstellungen, Speichern der Spieleinstellungen, Laden der Spieleinstellungen
+\item Aufrufen des Hauptmenüs, Ändern der Spieleinstellungen, Speichern der Spieleinstellungen, Laden der Spieleinstellungen
 \item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration
-\item Erstellen eines Servers, Starten eines Servers, Anzeige der Serverliste, Abfragen der Serverinformationen, Beitreten, Starten
+\item Starten eines Servers, Beitreten (Varianten: über Serverliste (inkl. /F12/, /F1X0Y0/, /F13/), über IP-Eingabe), Spiel starten, Spiel beenden
+\item Chatten, Initiieren eines Spiels, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen).
 \end{itemize}
 Folgende Datenkonsistenzen müssen eingehalten werden:
 \begin{itemize}
@@ -353,7 +354,7 @@ Folgende unzulässigen Aktionen müssen überprüft werden:
 \item Druck auf passive Buttons
 \item Reaktion auf Verbindungsverlust zum Server
 \item Unsauberer Restart des Clients
-\item Übersenden von unzulässigen Befehlen
+\item Übersenden von undefinierten und unzulässigen Befehlen
 \end{itemize}
 Interoperabilität, Usability:
 \begin{itemize}
