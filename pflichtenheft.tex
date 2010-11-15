@@ -165,7 +165,7 @@ Nachdem die Einstellungen durchgeführt wurden ($\rightarrow$ /F05/) kann ein Se
 Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitschaftsmodus und stellt den Spielern ein ``Warteraum'' zur Verfügung.
 
 \item[/F10/] Beitreten eines Servers \\
-Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl kommen dann ``direkte Verbindung''($\rightarrow$ /F11/) oder das ``beitreten über eine Serverliste'' ($\rightarrow$ /F12/) dran.
+Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl kommen dann ``direkte Verbindung''($\rightarrow$ /F11/) oder das ``beitreten über eine Serverliste'' ($\rightarrow$ /F12/) dran. Danach wird ein eventuell vorhandenes Passwort abgefragt und die Verbindung aufgebaut.
 
 \item[/F11/] Beitreten eines Servers durch Eingabe einer IP (direkte Verbindung) \\
 Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sofern dies der Fall ist wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/).
@@ -178,16 +178,14 @@ In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei s
 Um die Server im lokalen Netzwerk anzuzeigen wird ein Broadcast versendet und jeder Server der darauf antwortet auf die Liste aufgenommen und kontaktiert zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
 \item[/F13/] Abfragen der Serverinformationen für die Serverliste \\
 Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.~B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
-\item[/F14/] Starten der Verbindung \\
-Beim Verbinden auf den Server wird die Verbindung aufgenommen und ein eventuell vorhandenes Passwort abgefragt.
-\item[/F15/] Beenden des Spiels \\
-Über die entsprechende Schaltfläche im Programm, kann das Spiel beendet werden.
+\item[/F15/] Verlassen des Spiels \\
+Über die entsprechende Schaltfläche im Programm, kann das Spiel verlassen werden.
 \end{description}
 
 \subsubsection{Während eines Spiels}
 \begin{description}
 \item[/F16/] Initieren eines Spiels \\
-Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F17/). Nachdem mindestens zwei Spieler verbunden isnd und alle Spieler bereit sind startet das Spiel ($\rightarrow$ /F18/).
+Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F17/). Nachdem mindestens zwei Spieler verbunden sind und alle Spieler bereit sind startet das Spiel ($\rightarrow$ /F18/).
 \item[/F17/] Chatten \\
 Es ist während des gesamten Spiels möglich mit anderen Spielern zu chatten.
 \item[/F18/] Starten des Spiels \\
@@ -196,7 +194,13 @@ Nachdem das Spiel gestartet ist, erscheint bei allen das Spielfeld auf denen fol
 \item Spieler mit deren Namen und Kontostände
 \item Die Straßen mit deren Zugehörigkeit und Bebauung
 \item Die Spielfiguren
-\item Das Geld in der Mitte % besserer Name?
+\item Interaktionspopup
+\begin{itemize}
+\item Das Geld in der Mitte
+\item Handel
+\item Versteigerungen
+\item Ereigniskarten
+\end{itemize}
 \item Das Chatfenster
 \end{itemize}
 Daraufhin kann er der erste Spieler die Runde starten ($\rightarrow$ /F19/). Außerdem kann jeder während des gesamten Spiels Nachrichten versenden ($\rightarrow$ /F17/).
@@ -263,40 +267,43 @@ Wenn es sich um ein neues Spiel handelt, wird die Reihenfolge der Spieler festge
 \subsubsection{Spielzug}
 \begin{description}
 \item[/F22010/] Spielzug informieren \\
-Nachdem die Person bekannt ist, die nun zieht, wird allen Spielern übermittelt, dass dieser Spieler dran ist. Danach wartet der Server darauf, dass gewürfelt werden soll ($\rightarrow$ /F22020/).
+Nachdem die Person bekannt ist, die nun zieht, wird allen Spielern übermittelt, dass dieser Spieler dran ist. Danach wartet der Server darauf, dass gewürfelt werden soll ($\rightarrow$ /F22020/). Währenddessen stellt der Server einen Chatraum zur Verfügung.
 \item[/F22020/] Würfeln \\
 Um den Betrug des Spielers vorzubeugen bekommt der Server von den Client den Befehl zu würfeln. Dieser erzeugt dann eine zufällige Zahl zwischen 2 und 12. Alle Spieler erhalten dann diese Zahl und alle Spieler, ziehen die Spielfigur des aktiven Spielers weiter. Danach kann der aktive Spieler weitere Befehle geben ($\rightarrow$ /F22030/).
 \item[/F22030/] Weitere Befehle \\
-Der Server bekommt jetzt die weiteren Befehle vom entsprechenden Client:
+Der Server bekommt jetzt die weiteren Befehle vom entsprechenden Client. Bei allen der folgenden Befehle wird anfangs getestet ob der Zug erlaubt ist:
 \begin{itemize}
 \item Der nächste Spieler kann dran kommen ($\rightarrow$ /F22010/).
 \item Der Spieler möchte die Straße kaufen ($\rightarrow$ /F22031/).
 \item Der Spieler möchte ein Gebäude bauen ($\rightarrow$ /F22032/).
-\item Der Spieler kann eine Hypothek aufnehmen ($\rightarrow$ /F22033).
-\item Der Spieler kann ein Gebäude abreißen ($\rightarrow$ /F22034).
-\item Der Spieler kann eine Straße verkaufen ($\rightarrow$ /F22035).
-\item Der Spieler kann eine Straße versteigern ($\rightarrow$ /F22036).
+\item Der Spieler kann eine Hypothek aufnehmen ($\rightarrow$ /F22033/).
+\item Der Spieler kann ein Gebäude abreißen ($\rightarrow$ /F22034/).
+\item Der Spieler kann eine Straße versteigern ($\rightarrow$ /F22035/).
+\item Der Spieler kann aussteigen ($\rightarrow$ /F22037/).
+\item Der Spieler kann handeln ($\rightarrow$ /F22040/).
 \end{itemize}
+Alle Spieler außer beim Handel ($\rightarrow$ /F22040/) werden darüber nach erfolgreicher Ausführung informiert.
 \item[/F22031/] Kauf einer Straße \\
-Beim Kauf einer Straße wird zuerst überprüft, ob die Straße keinem gehört, der Spieler genügend Geld hat, und die Spielfigur auf diesem Feld steht. Ist dies der Fall, meldet der Server allen Clients, dass der aktuelle Spieler die Straße gekauft hat.
-%alternativ
-Beim Kauf der Straße auf den die Spielfigur steht wird zuerst überprüft, ob die Straße keinem gehört und der Spieler genügend Geld hat. Ist dies der Fall lässt sich der Server bestätigen, dass es sich um die richtige Straße handelt.
+Der Kontostand des Spielers wird entsprechend des Kaufpreises belastet und als Besitzer der Straße der aktuelle Spieler eingetragen.
 \item[/F22032/] Bau eines Gebäudes \\
-Zuerst wird überprüft, ob ein Gebäude der Stufe bebaut werden darf. Dazu werden die aktuellen Spielregeln und der Kontostand überprüft und bei erfüllen dieser wird der Bau des Gebäudes allen Spielern gemeldet.
+Der Kontostand wird mit den Gebäudepreis belastet und der Straße ein Gebäude hinzugefügt.
 \item[/F22033/] Aufnehmen einer Hypothek \\
-Zuerst wird überprüft, ob nach den Spielregeln eine Hypothek auf die Straße aufgenommen werden darf. Sofern die Spielregeln es erlauben, wird die Aufnahme der Hypothek allen Spielern gemeldet.
+Bei der Aufnahme der Hypothek wird der Kontostand des Spielers erhöht.
 \item[/F22034/] Gebäudeabriss \\
-Vor den Abreißen wird überprüft, ob dies nach den Spielregeln erlaubt ist. Erlauben diese einen Abriss, wird allen Spielern gemeldet, dass das Gebäude abgerissen wird.
-\item[/F22035/] Verkauf einer Straße \\
-Bevor die Straße verkauft wird, wird getestet ob die Straße dem Spieler gehört und nach den Spielregeln verkauft werden darf. Erst nachdem diese Bedingungen erfüllt sind, wird allen Spielern der Verkauf gemeldet. Wenn die Straße an jemand anderen als die Bank verkauft wird, wird vorher überprüft, ob der Spieler diese Straße kaufen darf und kann.
-\item[/F22036/] Versteigern einer Straße \\
+Dem Kontostand wird der entsprechende Abrisswert hinzugefügt und das Gebäude von der Straße entfernt.
+\item[/F22035/] Versteigern einer Straße \\
 Zuerst wird getestet, ob die Spielregeln es erlauben, die Straße zu verkaufen. Sofern die Regeln es erlauben, wird die Straße den Personen zum Verkauf angeboten. Alle Spieler können dann darauf bieten und entsprechend den Preis erhöhen. Nach der Versteigerung, werden alle Spieler über den neuen Besitzer der Straße informiert.
+\item[/F22036/] Ausstieg eines Spielers \\
+Ein Spieler kann aussteigen und seinen Besitz entweder an die Bank zurückgeben, verkaufen oder versteigern.
+\item[/F22040/] Handel \\
+Beim Handel wird der Handelspartner über den Beginn eines Handels informiert. Dann können beide Spieler ihre Angebote hinzufügen (-> /F22041/). Sofern ein Spieler fertig ist, kann dieser das als Angebot fixieren und keine Änderungen an dem eigenen Angebot vornehmen. Sobald beide das als Angebot fixiert haben, können diese es annehmen und der Handel erfolgt.
+\item[/F22041/] Angebot hinzufügen \\
+Jeder Angebotspartner kann sein Angebot ändern und weitere Waren hinzufügen.
 \end{description}
-
-%\begin{enumerate}[/F1/]
-%\setcounter{enumi}{5}
-%\item foo
-%\end{enumerate}
+\subsection{KI Client}
+\begin{description}
+\item fooo
+\end{description}
 \section{Produktdaten}
 Es gibt jeweils für den Server und für die Clients verschiedene Sachen, die gespeichert werden müssen.
 \subsection{Unabhängig}
