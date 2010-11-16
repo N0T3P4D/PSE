@@ -47,60 +47,65 @@ WS 2010 / 2011} \\[2cm]
 \newpage
 
 \section{Produktübersicht}
-Monopoly:
+Das Produkt ist eine Umsetzung des berühmten Brettspielklassikers ``Monopoly'' für den Computer.
+Ziel des Spiels ist es, durch Geschicklichkeit, strageischen Denken und der nötigen Portion Glück das ganze Geld der Gegner einzunehmen. Gewonnen hat der Spieler, der zuletzt das meiste Geld besitzt. 
+
+Usman Text. 
+
+Das Spiel beinhaltet mehrere Spiel-Modi:
 \begin{itemize}
-\item Gesellschaftsspiel für jung und alt.
-\item Umsetzung in ein Javaprogramm
-\item Einzelspielerspiel gegen KI
-\item Mehrspielerspiel gegen Menschen im Internet, lokalen Netzwerk oder am gleichen PC
+\item Einzelspieler gegen Computer-KI
+\item Mehrspieler an einem oder mehereren Computern sowie mit als auch ohne KI
 \end{itemize}
-Spiel, Spaß und Spannung - auf jeden Fall für jeden was dabei!
+Das Programm zeichnet sich durch seine Benutzerfreundlichkeit aus, die sich in der intuitiven Bedienbarkeit der graphischen Benutzeroberfläche äußert. Abgebildet werden das Monopoly (R) - Spielfeld sowie einige wenige zusätzliche Elemente, um die Übersichtlichkeit zu wahren. 
 \section{Zielbestimmung}
 \subsection{Musskriterien}
 \begin{itemize}
 \item Plattformunabhängigkeit (Java, Swing)
-\item Grundregeln von Monopoly:
-\item Würfeln, Kaufen von Gebieten, Handeln zwischen Spielern, Gefängnis, Ausbauen von Gebieten
-\item Client Server
-\item KI Client
-\item GUI
+\item Umsetzung der Monopoly-Regeln (siehe Anhang)
+\item Client-Server-Architektur
+\item Spielen gegen KI-Client mit Fähigkeitslevel eines Monopoly-Anfängers möglich
+\item Anzeigen und Interaktion mit dem Spielfeld in Form einer grafischen Benutzeroberfläche
+\item Spielen mit variabler Anzahl echter Spieler und KI-Spieler auf einem Server gegeneinander möglich
 \end{itemize}
 \subsection{Sollkriterien}
 \begin{itemize}
-\item Die Grundregeln sollen funktionieren
-\item Client Server sollen funktionieren
-\item KI soll einigermaßen gut sein (Anfänger)
-\item GUI sollte Übersichtlich und Gutaussehend sein
+\item Spielplan, Text und Grafik sind variabel
+\item Benutzeroberfläche sieht dem Monopoly-Brett ähnlich
+\item Netzwerkfähigkeit
 \end{itemize}
 \subsection{Kannkriterien}
 \begin{itemize}
-\item Internetverbindungen (Internetserver finden)
+\item Spielregeln können variabel sein
+\item Lokalisierbarkeit
+\item Text-Chat
+\item Zuschauermodus
+\item Server-Admin kann Spiel verwalten
+\item Unterbrechen und Speichern eines Spiels
 \end{itemize}
 \subsection{Abgrenzungskriterien}
 \begin{itemize}
-\item Ki Stufen
-\item Chat
+\item Umsetzung für mobile Systeme 
+\item Finden von Internetservern (Metaserver)
+\item Voice-Chat
+\item verschiedene KI-Stufen
 \end{itemize}
 \section{Produkteinsatz}
 \subsection{Anwendungsbereiche}
 \begin{itemize}
-\item Desktop-PC
-\item ältere PCs
+\item Privater PC, Freizeit
 \end{itemize}
 \subsection{Zielgruppen}
-
-
+Menschen mit Spaß an Gesellschaftsspielen aus dem deutschsprachigen Raum
 \subsection{Betriebsbedingungen}
 \begin{itemize}
-\item Sollte auf langsameren PCs laufen
-\item Sollte auf vielen Plattformen laufen
-\item Sollte stabil sein
+\item Dauer eines Spiels: Circa ein bis drei Stunden
 \end{itemize}
 \section{Produktumgebung}
 \subsection{Software}
 \begin{itemize}
-\item Java Runtime Environment 1.6 oder neuer
-\item Betriebssystem: Windows, Linux, OS X
+\item Java Runtime Environment SE 1.6 oder neuer
+\item Betriebssystem zum Beispiel Windows, Linux, OS X
 \end{itemize}
 \subsection{Hardware}
 Mindestanforderungen (PC): 
@@ -121,7 +126,12 @@ Empfohlen:
 \item Netzwerk- oder Internetverbindung (TCP/IP, IPv4)
 \end{itemize}
 \subsection{Orgware}
+entfällt
 \subsection{Schnittstellen}
+\begin{itemize}
+\item Vorgegebene Client-Server-Schnittstelle (Java-Interface)
+\item Netzwerk-Client-Server-Schnittstelle
+\end{itemize}
 \section{Funktionale Anforderungen}
 Jede funktionale Anforderung hat eine kennzeichnende fünfstellige Nummer. Die erste Stelle gibt die Anwendung an:
 \begin{enumerate}
@@ -141,7 +151,7 @@ Die drei letzen Stellen werden dann durchnummeriert.
 Bei Aufruf der ausführbaren Datei (Das Programm) soll das Spiel gestartet werden und das Hauptmenü angezeigt werden.
 
 \item[/F11020/] Ändern der Spieleinstellungen \\
-Im Hauptmenü ($\rightarrow$ /F01/) muss es möglich sein, zu einem gesonderten Menü zu gelangen, in dem Spieleinstellungen (wie z.~B. der verwendete Netzwerkadapter, der Benutzername u.ä.) eingestellt werden können.
+Im Hauptmenü ($\rightarrow$ /F01/) muss es möglich sein, zu einem gesonderten Menü zu gelangen, in dem Spieleinstellungen eingestellt werden können.
 
 \item[/F11030/] Laden der Einstellungen \\
 Die in den Einstellungen ($\rightarrow$ /F02/) vorhandenen Daten werden vor dem Anzeigen aus der Datei ($\rightarrow$ /DB01/) geladen.
@@ -175,7 +185,7 @@ In dieser Liste können einige Server angezeigt werden ohne dessen IP zu kennen 
 
 In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei sind und es wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/). Ansonsten ist eine Verbindung nicht möglich.
 \item[/F1X0Y0/] Ermitteln der Server im lokalen Netzwerk \\
-Um die Server im lokalen Netzwerk anzuzeigen wird ein Broadcast versendet und jeder Server der darauf antwortet auf die Liste aufgenommen und kontaktiert zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
+Die im Netzwerk verfügbaren Server werden auf die Liste aufgenommen und kontaktiert zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
 \item[/F13/] Abfragen der Serverinformationen für die Serverliste \\
 Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.~B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
 \item[/F14/] Starten der Verbindung \\
