@@ -38,7 +38,7 @@ WS 2010 / 2011} \\[2cm]
 \textcolor{red}{! DRAFT !}
 \end{center}
 %damit machen
-\includegraphics[height=15cm]{spielfeld}
+% \includegraphics[height=15cm]{spielfeld}
 
 \newpage
 
@@ -47,60 +47,65 @@ WS 2010 / 2011} \\[2cm]
 \newpage
 
 \section{Produktübersicht}
-Monopoly:
+Das Produkt ist eine Umsetzung des berühmten Brettspielklassikers ``Monopoly'' für den Computer.
+Ziel des Spiels ist es, durch Geschicklichkeit, strageischen Denken und der nötigen Portion Glück das ganze Geld der Gegner einzunehmen. Gewonnen hat der Spieler, der zuletzt das meiste Geld besitzt. 
+
+Usman Text. 
+
+Das Spiel beinhaltet mehrere Spiel-Modi:
 \begin{itemize}
-\item Gesellschaftsspiel für jung und alt.
-\item Umsetzung in ein Javaprogramm
-\item Einzelspielerspiel gegen KI
-\item Mehrspielerspiel gegen Menschen im Internet, lokalen Netzwerk oder am gleichen PC
+\item Einzelspieler gegen Computer-KI
+\item Mehrspieler an einem oder mehereren Computern sowie mit als auch ohne KI
 \end{itemize}
-Spiel, Spaß und Spannung - auf jeden Fall für jeden was dabei!
+Das Programm zeichnet sich durch seine Benutzerfreundlichkeit aus, die sich in der intuitiven Bedienbarkeit der graphischen Benutzeroberfläche äußert. Abgebildet werden das Monopoly (R) - Spielfeld sowie einige wenige zusätzliche Elemente, um die Übersichtlichkeit zu wahren. 
 \section{Zielbestimmung}
 \subsection{Musskriterien}
 \begin{itemize}
 \item Plattformunabhängigkeit (Java, Swing)
-\item Grundregeln von Monopoly:
-\item Würfeln, Kaufen von Gebieten, Handeln zwischen Spielern, Gefängnis, Ausbauen von Gebieten
-\item Client Server
-\item KI Client
-\item GUI
+\item Umsetzung der Monopoly-Regeln (siehe Anhang)
+\item Client-Server-Architektur
+\item Spielen gegen KI-Client mit Fähigkeitslevel eines Monopoly-Anfängers möglich
+\item Anzeigen und Interaktion mit dem Spielfeld in Form einer grafischen Benutzeroberfläche
+\item Spielen mit variabler Anzahl echter Spieler und KI-Spieler auf einem Server gegeneinander möglich
 \end{itemize}
 \subsection{Sollkriterien}
 \begin{itemize}
-\item Die Grundregeln sollen funktionieren
-\item Client Server sollen funktionieren
-\item KI soll einigermaßen gut sein (Anfänger)
-\item GUI sollte Übersichtlich und Gutaussehend sein
+\item Spielplan, Text und Grafik sind variabel
+\item Benutzeroberfläche sieht dem Monopoly-Brett ähnlich
+\item Netzwerkfähigkeit
 \end{itemize}
 \subsection{Kannkriterien}
 \begin{itemize}
-\item Internetverbindungen (Internetserver finden)
+\item Spielregeln können variabel sein
+\item Lokalisierbarkeit
+\item Text-Chat
+\item Zuschauermodus
+\item Server-Admin kann Spiel verwalten
+\item Unterbrechen und Speichern eines Spiels
 \end{itemize}
 \subsection{Abgrenzungskriterien}
 \begin{itemize}
-\item Ki Stufen
-\item Chat
+\item Umsetzung für mobile Systeme 
+\item Finden von Internetservern (Metaserver)
+\item Voice-Chat
+\item verschiedene KI-Stufen
 \end{itemize}
 \section{Produkteinsatz}
 \subsection{Anwendungsbereiche}
 \begin{itemize}
-\item Desktop-PC
-\item ältere PCs
+\item Privater PC, Freizeit
 \end{itemize}
 \subsection{Zielgruppen}
-
-
+Menschen mit Spaß an Gesellschaftsspielen aus dem deutschsprachigen Raum
 \subsection{Betriebsbedingungen}
 \begin{itemize}
-\item Sollte auf langsameren PCs laufen
-\item Sollte auf vielen Plattformen laufen
-\item Sollte stabil sein
+\item Dauer eines Spiels: Circa ein bis drei Stunden
 \end{itemize}
 \section{Produktumgebung}
 \subsection{Software}
 \begin{itemize}
-\item Java Runtime Environment 1.6 oder neuer
-\item Betriebssystem: Windows, Linux, OS X
+\item Java Runtime Environment SE 1.6 oder neuer
+\item Betriebssystem zum Beispiel Windows, Linux, OS X
 \end{itemize}
 \subsection{Hardware}
 Mindestanforderungen (PC): 
@@ -121,12 +126,18 @@ Empfohlen:
 \item Netzwerk- oder Internetverbindung (TCP/IP, IPv4)
 \end{itemize}
 \subsection{Orgware}
+entfällt
 \subsection{Schnittstellen}
+\begin{itemize}
+\item Vorgegebene Client-Server-Schnittstelle (Java-Interface)
+\item Netzwerk-Client-Server-Schnittstelle
+\end{itemize}
 \section{Funktionale Anforderungen}
 Jede funktionale Anforderung hat eine kennzeichnende fünfstellige Nummer. Die erste Stelle gibt die Anwendung an:
 \begin{enumerate}
 \item Client
 \item Server
+\item KI-Klient
 \end{enumerate}
 Die zweite Stelle gibt den Bereich innerhalb des Spielverlaufs an. Bei den Server:
 \begin{enumerate}
@@ -141,7 +152,7 @@ Die drei letzen Stellen werden dann durchnummeriert.
 Bei Aufruf der ausführbaren Datei (Das Programm) soll das Spiel gestartet werden und das Hauptmenü angezeigt werden.
 
 \item[/F11020/] Ändern der Spieleinstellungen \\
-Im Hauptmenü ($\rightarrow$ /F01/) muss es möglich sein, zu einem gesonderten Menü zu gelangen, in dem Spieleinstellungen (wie z.~B. der verwendete Netzwerkadapter, der Benutzername u.ä.) eingestellt werden können.
+Im Hauptmenü ($\rightarrow$ /F01/) muss es möglich sein, zu einem gesonderten Menü zu gelangen, in dem Spieleinstellungen eingestellt werden können.
 
 \item[/F11030/] Laden der Einstellungen \\
 Die in den Einstellungen ($\rightarrow$ /F02/) vorhandenen Daten werden vor dem Anzeigen aus der Datei ($\rightarrow$ /DB01/) geladen.
@@ -175,7 +186,7 @@ In dieser Liste können einige Server angezeigt werden ohne dessen IP zu kennen 
 
 In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei sind und es wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/). Ansonsten ist eine Verbindung nicht möglich.
 \item[/F1X0Y0/] Ermitteln der Server im lokalen Netzwerk \\
-Um die Server im lokalen Netzwerk anzuzeigen wird ein Broadcast versendet und jeder Server der darauf antwortet auf die Liste aufgenommen und kontaktiert zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
+Die im Netzwerk verfügbaren Server werden auf die Liste aufgenommen und kontaktiert zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
 \item[/F13/] Abfragen der Serverinformationen für die Serverliste \\
 Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.\,B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
 \item[/F15/] Verlassen des Spiels \\
@@ -298,32 +309,110 @@ Zuerst wird getestet, ob die Spielregeln es erlauben, die Straße zu verkaufen. 
 \item[/F22037/] Ausstieg eines Spielers \\
 Ein Spieler kann aussteigen und seinen Besitz entweder an die Bank zurückgeben, verkaufen oder versteigern.
 \end{description}
+
 \subsection{KI Client}
+\subsubsection{Vorbereitungen}
 \begin{description}
-\item fooo
+\item[/F31001/]Starten des KI-Klienten\\
+Der KI-Klient verbindet sich beim Start automatisch mit einem Server, dessen Beschreibung er per Befehlsparameter erhalten muss
+\item[/F31002/]Betreten eines Servers\\
+Wenn der KI-Klient einem Server beitritt, setzt er sich automatisch auf "`Bereit"' und wartet auf den Beginn des Spiels
+\item[/F31003/] Laden der KI-Parameter \\
+Der Klient lädt die Parameter für seine KI-Logik aus einer angegebenen Datei
 \end{description}
+\subsubsection{Spielzug}
+\begin{description}
+\item[/F32001/] Durchführen eines Zuges\\
+Der KI-Klient würfelt automatisch und kann danach alle Spielaktionen ausführen, die auch der Spielerklient ausführen kann.
+\item[/F32002/] Ausführen einer Spielaktion \\
+Die interne KI-Spiellogik entscheidet, ob und welche Aktion ausgeführt werden soll
+\item[F32003] Verlangen der Miete \\
+Sobald ein anderer Spieler auf einem Spielfeld, dass dem KI-Klienten gehört, landet, verlangt dieser die anfallende Miete
+\item[/F32004/]Speichern der KI-Parameter \\
+Sobald sich die KI-Parameter verändern, werden die neuen Parameter in der Datei gespeichert, aus der sie in /F31003/ geladen wurden
+\end{description}
+
 \section{Produktdaten}
-Es gibt jeweils für den Server und für die Clients verschiedene Sachen, die gespeichert werden müssen.
-\subsection{Unabhängig}
-Folgende Daten müssen die Server und die Clients abspeichern:
-\subsubsection{Spielfeld}
-Beide müssen das Spielfeld speichern können. So kann der Server das Spiel fortsetzen und der Client selber kann das Spiel speichern, sodass es auch fortgesetzt werden kann, wenn die Netzwerkverbindung verloren gegangen ist.
+\subsection{Allgemein}
+Folgende Daten müssen sowohl Server als auch Klient vorliegen.
+\begin{description}
+\item[/PD01/] Spielfeld
+\begin{itemize}
+\item Straßennamen
+\item Währungszeichen, Währungsnamen
+\item Beschriftung der Sonderfelder (Gemeinschaftsfeld, frei Parken usw)
+\item Text der Gemeinschafts- und Ereigniskarten
+\item Name / Beschreibung der baubaren Objekte
+\item optional: Grafiken für die Spielfelder
+\end{itemize}
+\item[/PD02/] Spielregeln (optional)
+\begin{itemize}
+\item automatisch Würfeln?
+\item automatisch Miete einziehen?
+\item Bei "`frei Parken"' Geld aufnehmen?
+\item Begrenzung des Spielzugs in Sekunden
+\item Mindestdauer des Spielzugs in Sekunden
+\end{itemize}
+\end{description}
 
-In den Spielfeld stehen zum einen die Straßennamen, damit man einerseits der Kreativität freien Lauf lassen kann und andererseits die Namen nicht aus den ursprünglichen Monopoly übernehmen muss.
-
-Nachdem nun gespielt wurde, muss auch gespeichert werden, wer die Straße besitzt und ob sie bereits bebaut wurde oder ob das Grundstück mit einer Hypothek belastet ist.
-\subsection{Clients}
-Jeder Client muss die Konfiguration speichern, wie zum Beispiel den Benutzername. Außerdem speichert jeder Client den zuletzt verbundenen Server um zum Beispiel schneller sich mit den Server zu verbinden.
-
-Sollten noch Metaserver dazu kommen, speichert jeder Client auch eine Liste mit den Metaservern, die abgefragt werden müssen.
 \subsection{Server}
-Der Server muss auch die Einstellungen speichern sodass man nicht jedes mal die gleichen Optionen setzen muss. Das wären der Servername, ein Serverpasswort und die IP, über die der Server sich mit den Netzwerk verbindet.
+\begin{description}
+\item[/PD03/] Servereinstellungen
+\begin{itemize}
+\item Servername
+\item Passwort (optional)
+\item Mindestspielerzahl
+\item Höchstspieleranzahl
+\end{itemize}
+\item[/PD04/] Spielstand
+\begin{itemize}
+\item Liste aller teilnehmenden Spieler
+\item Kontostand jedes Spielers
+\item Besitz an Spielfeldern und Gebäuden jedes Spielers
+\item Hypotheken auf Spielfeldern
+\end{itemize}
+\end{description}
 
-Wenn Metaserver implementiert werden, muss der Server auch speichern, an welchen Metaservern er sich anmelden muss.
-\subsection{Metaserver}
-Der Metaserver wird eingebaut, wenn noch entsprechend genügend freie Zeit ist, aber das Spiel wird auch ohne Metaserver laufen können.
+\subsection{Klient}
+\begin{description}
+\item[/PD05/] Klienten-Einstellungen
+\begin{itemize}
+\item Spielername
+\item IP des zuletzt beigetretenen Servers
+\item präferenzierte Größe des Fensters
+\end{itemize}
+\end{description}
 
-Diese Metaserver speichern selber die IPs mit den Servern, die sich angemeldet haben, sodass sobald sie sich neustarten schon ein Grundstock an Servern haben und alle einmal testen.
+\subsection{KI-Klient}
+\begin{description}
+\item[/PD06/] KI-Einstellungen
+\begin{itemize}
+\item Name (optional)
+\item Parameter der KI-Logik
+\end{itemize}
+\end{description}
+
+%Es gibt jeweils für den Server und für die Clients verschiedene Sachen, die gespeichert werden müssen.
+%\subsection{Unabhängig}
+%Folgende Daten müssen die Server und die Clients abspeichern:
+%\subsubsection{Spielfeld}
+%Beide müssen das Spielfeld speichern können. So kann der Server das Spiel fortsetzen und der Client selber kann das Spiel speichern, sodass es auch fortgesetzt werden kann, wenn die Netzwerkverbindung verloren gegangen ist.
+%
+%In den Spielfeld stehen zum einen die Straßennamen, damit man einerseits der Kreativität freien Lauf lassen kann und andererseits die Namen nicht aus den ursprünglichen Monopoly übernehmen muss.
+%
+%Nachdem nun gespielt wurde, muss auch gespeichert werden, wer die Straße besitzt und ob sie bereits bebaut wurde oder ob das Grundstück mit einer Hypothek belastet ist.
+%\subsection{Clients}
+%Jeder Client muss die Konfiguration speichern, wie zum Beispiel den Benutzername. Außerdem speichert jeder Client den zuletzt verbundenen Server um zum Beispiel schneller sich mit den Server zu verbinden.
+%
+%Sollten noch Metaserver dazu kommen, speichert jeder Client auch eine Liste mit den Metaservern, die abgefragt werden müssen.
+%\subsection{Server}
+%Der Server muss auch die Einstellungen speichern sodass man nicht jedes mal die gleichen Optionen setzen muss. Das wären der Servername, ein Serverpasswort und die IP, über die der Server sich mit den Netzwerk verbindet.
+%
+%Wenn Metaserver implementiert werden, muss der Server auch speichern, an welchen Metaservern er sich anmelden muss.
+%\subsection{Metaserver}
+%Der Metaserver wird eingebaut, wenn noch entsprechend genügend freie Zeit ist, aber das Spiel wird auch ohne Metaserver laufen können.
+%
+%Diese Metaserver speichern selber die IPs mit den Servern, die sich angemeldet haben, sodass sobald sie sich neustarten schon ein Grundstock an Servern haben und alle einmal testen.
 \section{Produktleistungen}
 Zeit:
 \begin{itemize}
@@ -363,19 +452,19 @@ Plattformabhängigkeiten:
 \item Es muss möglich sein, nach einem Fehler einem angefangen Spiel wieder beizutreten (Client) bzw. ein Spiel wieder so zu Starten wie es vor dem Fehler lief (Server)
 \end{itemize}
 \section{Globale Testfälle und Testszenarien}
-Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche zu überprüfen:
+Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche durchzuführen. Der Server wird entsprechend mitgeprüft:
 \begin{itemize}
 \item Aufrufen des Hauptmenüs, Ändern der Spieleinstellungen, Speichern der Spieleinstellungen, Laden der Spieleinstellungen
-\item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration
-\item Starten eines Servers, Beitreten (Varianten: über Serverliste (inkl. /F12/, /F1X0Y0/, /F13/), über IP-Eingabe), Spiel starten, Spiel beenden
-\item Chatten, Initiieren eines Spiels, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen).
+\item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration, Erstellen eines Servers
+\item Starten eines Servers, Beitreten (Varianten: über Serverliste (inkl. /F12/, /F1X0Y0/), über IP-Eingabe), Spiel starten, Spiel beenden
+\item Initiieren eines Spiels, Chatten, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen).
 \end{itemize}
 Folgende Datenkonsistenzen müssen eingehalten werden:
 \begin{itemize}
 \item Zu jedem Zeitpunkt muss ein Spielername definiert sein
 \item Einstellungen können nur geladen werden, wenn die zu ladende Datei vollständig ist
 \item Einstellungen können nur gespeichert werden, wenn alle Felder korrekt ausgefüllt sind
-\item Server und Spiele können nur gestartet werden, wenn alle notwendigen Informationen (z.B. Servername, Netzwerk-Interface, IP, Port, Spielname) gespeichert sind
+\item Der Zustand des Spielfeldes muss zwischen Client und Server identisch sein
 \end{itemize}
 Folgende unzulässigen Aktionen müssen überprüft werden:
 \begin{itemize}
@@ -386,7 +475,7 @@ Folgende unzulässigen Aktionen müssen überprüft werden:
 \item Druck auf passive Buttons
 \item Reaktion auf Verbindungsverlust zum Server
 \item Unsauberer Restart des Clients
-\item Übersenden von undefinierten und unzulässigen Befehlen
+\item Übersenden von undefinierten und unzulässigen Befehlen an Client und Server
 \end{itemize}
 Interoperabilität, Usability:
 \begin{itemize}
@@ -397,18 +486,52 @@ Interoperabilität, Usability:
 \end{itemize}
 Testszenarien:
 \begin{itemize}
-\item Max will mit seinen Freunden Philip und Fabian eine Runde Monopoly im lokalen Netzwerk spielen. Dafür startet Max das Spiel und wählt im Hauptmenü ``Spiel erstellen''. Er kommt nun zu einem Menü wo verschieden Spieloptionen eingestellt werden können. Dann klickt er auf ``Server starten'', wodurch im Hintergrund der Server gestartet wird und Max in eine leere Spiel-Lobby gelangt. Fabian und Philip starten nun ebenfalls das Programm und klicken auf ``Spiel beitreten''. Philip klickt nun auf "Lokales Spiel" und bekommt eine Übersicht der lokal verfügbaren Server angezeigt. Er wählt Max' Server aus und wird in die Lobby des Servers gesetzt.
-Fabian wählt ``Direktverbindung'' und gibt die IP von Max' Computer ein. Er wird ebenfalls in die Lobby gesetzt. Nachdem alle drei auf ``Bereit'' geklickt haben, startet das Spiel.
+\item ``Erste Inbetriebnahme mit Starten eines Servers'' \\
+Starten des Programms $\rightarrow$ im Hauptmenü ``Spieleinstellungen ändern'' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ ``Spieleinstellungen speichern'' anklicken $\rightarrow$ ``Erstellen eines Servers'' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
+\item ``Einem Spiel beitreten (durch Serverliste), spielen und aufgeben'' \\
+Starten des Programms $\rightarrow$ ``Beitreten eines Servers'' anklicken $\rightarrow$ ``Anzeigen der Serverliste'' auswählen $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
+\item ``Voller Server'' \\
+Spieler versucht auf vollen Server zu verbinden $\rightarrow$ erhält Meldung, dass die maximale Teilnehmeranzahl erreicht ist $\rightarrow$ Möglichkeit, als Zuschauer beizutreten
+\item ``Serverabsturz'' \\
+Mehrere Spieler spielen $\rightarrow$ Server stürzt ab $\rightarrow$ Server wird neu gestartet $\rightarrow$ Spiel wird über Sicherungs-Datei auf dem Server wiederhergestellt
+\item ``Abwesenheit eines Spielers''
+Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\rightarrow$ er wird zwangsweise aus dem Spiel entfernt $\rightarrow$ das Vermögen fällt der Bank zu (?)
 \end{itemize}
+
 \section{Systemmodelle}
+\subsection{Übersicht}
+\includegraphics[height = 14cm]{systemmodell}
+
 \section{Benutzungsoberfläche}
+\subsection{Hauptmenü} 
+\includegraphics[height=14cm]{hauptmenue}  
+\subsection{Warteraum}
+\includegraphics[height = 14cm]{warteraum}
+\subsection{Spielfeld}
+\includegraphics[height = 14cm]{spielfeld}
+
 \section{Spezielle Anforderungen an die Entwicklungsumgebung}
 \begin{itemize}
 \item Unterstützung für Versionskontrolle (Git)
 \item Unterstützung von UTF8
 \end{itemize}
 \section{Zeit- und Ressourcenplanung}
-Zeit: Kalenderwochen auf der PDF von Dr. Beckert
+\begin{tabular}[h]{l | r | l}
+  \hline
+  Zu planende und implementierende Module & Zeit & Personen\\
+  \hline
+  \hline
+  KI-Spiellogik & 75h & NA\\
+  Klient-Grundgerüst & 40h & NA\\
+  GUI - Design+Funktionalität & 30h & NA\\
+  Menüführung+Funktionalität Klient & 20h & NA\\
+  serverseitige Spiellogik & 100h & NA\\
+  Sicherung des Spielzustands & 20h & NA\\
+  Verifizieren der Klient-Eingabe & 10h & NA\\
+  Netzwerkanbindung Klient & 10h & NA\\
+  Netzwerkanbindung Server & 10h & NA\\
+  \hline
+\end{tabular}
 \section{Ergänzungen}
 \section{Glossar}
 \begin{itemize}
