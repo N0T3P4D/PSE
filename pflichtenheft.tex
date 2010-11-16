@@ -38,7 +38,7 @@ WS 2010 / 2011} \\[2cm]
 \textcolor{red}{! DRAFT !}
 \end{center}
 %damit machen
-\includegraphics[height=15cm]{spielfeld}
+% \includegraphics[height=15cm]{spielfeld}
 
 \newpage
 
@@ -454,19 +454,19 @@ Plattformabhängigkeiten:
 \item Es muss möglich sein, nach einem Fehler einem angefangen Spiel wieder beizutreten (Client) bzw. ein Spiel wieder so zu Starten wie es vor dem Fehler lief (Server)
 \end{itemize}
 \section{Globale Testfälle und Testszenarien}
-Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche zu überprüfen:
+Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche durchzuführen. Der Server wird entsprechend mitgeprüft:
 \begin{itemize}
 \item Aufrufen des Hauptmenüs, Ändern der Spieleinstellungen, Speichern der Spieleinstellungen, Laden der Spieleinstellungen
-\item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration
-\item Starten eines Servers, Beitreten (Varianten: über Serverliste (inkl. /F12/, /F1X0Y0/, /F13/), über IP-Eingabe), Spiel starten, Spiel beenden
-\item Chatten, Initiieren eines Spiels, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen).
+\item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration, Erstellen eines Servers
+\item Starten eines Servers, Beitreten (Varianten: über Serverliste (inkl. /F12/, /F1X0Y0/), über IP-Eingabe), Spiel starten, Spiel beenden
+\item Initiieren eines Spiels, Chatten, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen).
 \end{itemize}
 Folgende Datenkonsistenzen müssen eingehalten werden:
 \begin{itemize}
 \item Zu jedem Zeitpunkt muss ein Spielername definiert sein
 \item Einstellungen können nur geladen werden, wenn die zu ladende Datei vollständig ist
 \item Einstellungen können nur gespeichert werden, wenn alle Felder korrekt ausgefüllt sind
-\item Server und Spiele können nur gestartet werden, wenn alle notwendigen Informationen (z.B. Servername, Netzwerk-Interface, IP, Port, Spielname) gespeichert sind
+\item Der Zustand des Spielfeldes muss zwischen Client und Server identisch sein
 \end{itemize}
 Folgende unzulässigen Aktionen müssen überprüft werden:
 \begin{itemize}
@@ -477,7 +477,7 @@ Folgende unzulässigen Aktionen müssen überprüft werden:
 \item Druck auf passive Buttons
 \item Reaktion auf Verbindungsverlust zum Server
 \item Unsauberer Restart des Clients
-\item Übersenden von undefinierten und unzulässigen Befehlen
+\item Übersenden von undefinierten und unzulässigen Befehlen an Client und Server
 \end{itemize}
 Interoperabilität, Usability:
 \begin{itemize}
@@ -488,8 +488,16 @@ Interoperabilität, Usability:
 \end{itemize}
 Testszenarien:
 \begin{itemize}
-\item Max will mit seinen Freunden Philip und Fabian eine Runde Monopoly im lokalen Netzwerk spielen. Dafür startet Max das Spiel und wählt im Hauptmenü ``Spiel erstellen''. Er kommt nun zu einem Menü wo verschieden Spieloptionen eingestellt werden können. Dann klickt er auf ``Server starten'', wodurch im Hintergrund der Server gestartet wird und Max in eine leere Spiel-Lobby gelangt. Fabian und Philip starten nun ebenfalls das Programm und klicken auf ``Spiel beitreten''. Philip klickt nun auf "Lokales Spiel" und bekommt eine Übersicht der lokal verfügbaren Server angezeigt. Er wählt Max' Server aus und wird in die Lobby des Servers gesetzt.
-Fabian wählt ``Direktverbindung'' und gibt die IP von Max' Computer ein. Er wird ebenfalls in die Lobby gesetzt. Nachdem alle drei auf ``Bereit'' geklickt haben, startet das Spiel.
+\item ``Erste Inbetriebnahme mit Starten eines Servers'' \\
+Starten des Programms $\rightarrow$ im Hauptmenü ``Spieleinstellungen ändern'' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ ``Spieleinstellungen speichern'' anklicken $\rightarrow$ ``Erstellen eines Servers'' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
+\item ``Einem Spiel beitreten (durch Serverliste), spielen und aufgeben'' \\
+Starten des Programms $\rightarrow$ ``Beitreten eines Servers'' anklicken $\rightarrow$ ``Anzeigen der Serverliste'' auswählen $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
+\item ``Voller Server'' \\
+Spieler versucht auf vollen Server zu verbinden $\rightarrow$ erhält Meldung, dass die maximale Teilnehmeranzahl erreicht ist $\rightarrow$ Möglichkeit, als Zuschauer beizutreten
+\item ``Serverabsturz'' \\
+Mehrere Spieler spielen $\rightarrow$ Server stürzt ab $\rightarrow$ Server wird neu gestartet $\rightarrow$ Spiel wird über Sicherungs-Datei auf dem Server wiederhergestellt
+\item ``Abwesenheit eines Spielers''
+Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\rightarrow$ er wird zwangsweise aus dem Spiel entfernt $\rightarrow$ das Vermögen fällt der Bank zu (?)
 \end{itemize}
 \section{Systemmodelle}
 \section{Benutzungsoberfläche}
