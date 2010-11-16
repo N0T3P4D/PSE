@@ -13,7 +13,7 @@
    height="461"
    id="svg2"
    version="1.1"
-   inkscape:version="0.47 r22583"
+   inkscape:version="0.48.0 r9654"
    sodipodi:docname="warteraum.svg">
   <defs
      id="defs4">
@@ -247,14 +247,14 @@
      inkscape:pageshadow="2"
      inkscape:zoom="1.5705996"
      inkscape:cx="259.63832"
-     inkscape:cy="278.82267"
+     inkscape:cy="253.35469"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="838"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1920"
+     inkscape:window-height="1003"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="false"
      showguides="true"
@@ -491,19 +491,6 @@
          x="356.00647"
          y="134.6591"
          style="font-size:20.00001907px;fill:#ffffff">Max</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:38.42790985px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
-       x="438.08554"
-       y="170.97203"
-       id="text2969"
-       sodipodi:linespacing="125%"
-       transform="scale(1.0409108,0.96069712)"><tspan
-         sodipodi:role="line"
-         id="tspan2971"
-         x="438.08554"
-         y="170.97203"
-         style="font-size:20.00001907px;fill:#ffffff">10000 €</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:38.42790985px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
@@ -941,43 +928,16 @@
          y="441.2623"
          style="font-size:24px">Bereit?</tspan></text>
     <text
-       transform="scale(1.0409108,0.96069712)"
-       sodipodi:linespacing="125%"
-       id="text2957"
-       y="62.717266"
-       x="438.08554"
-       style="font-size:38.42790985px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
-       xml:space="preserve"><tspan
-         style="font-size:20.00001907px;fill:#ffffff"
-         y="62.717266"
-         x="438.08554"
-         id="tspan2959"
-         sodipodi:role="line">10000 €</tspan></text>
-    <text
        xml:space="preserve"
-       style="font-size:38.42790985px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
-       x="438.08554"
-       y="96.026428"
-       id="text2961"
-       sodipodi:linespacing="125%"
-       transform="scale(1.0409108,0.96069712)"><tspan
+       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+       x="47.843655"
+       y="21.142351"
+       id="text3773"
+       sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
-         id="tspan2963"
-         x="438.08554"
-         y="96.026428"
-         style="font-size:20.00001907px;fill:#ffffff">10000 €</tspan></text>
-    <text
-       transform="scale(1.0409108,0.96069712)"
-       sodipodi:linespacing="125%"
-       id="text2965"
-       y="133.49922"
-       x="438.08554"
-       style="font-size:38.42790985px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
-       xml:space="preserve"><tspan
-         style="font-size:20.00001907px;fill:#ffffff"
-         y="133.49922"
-         x="438.08554"
-         id="tspan2967"
-         sodipodi:role="line">10000 €</tspan></text>
+         id="tspan3775"
+         x="47.843655"
+         y="21.142351"
+         style="font-size:14px">?</tspan></text>
   </g>
 </svg>

@@ -14,7 +14,7 @@
    id="svg2"
    version="1.1"
    inkscape:version="0.48.0 r9654"
-   sodipodi:docname="hauptmenü.svg">
+   sodipodi:docname="hauptmenue.svg">
   <defs
      id="defs4">
     <marker
@@ -604,10 +604,10 @@
          inkscape:box3dsidetype="3" />
     </g>
     <rect
-       style="fill:#f9f9f9;stroke:#000000"
+       style="fill:#f9f9f9;stroke:#000000;stroke-width:0.84165502"
        id="rect3740"
        width="137.36453"
-       height="108.01847"
+       height="76.518471"
        x="4.9950738"
        y="25.052956" />
     <rect
@@ -640,7 +640,7 @@
          id="tspan3761"
          x="8"
          y="41"
-         style="font-size:14px">Einzelspieler</tspan></text>
+         style="font-size:14px">Spiel erstellen</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -651,7 +651,7 @@
          sodipodi:role="line"
          id="tspan3765"
          x="8"
-         y="58">Mehrspieler</tspan></text>
+         y="58">Spiel beitreten</tspan></text>
     <path
        style="fill:#000000;stroke:#000000;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
        d="m 132.15271,50.37931 6.1798,4.278325 -5.94212,3.565271 z"
@@ -660,27 +660,15 @@
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="8.318965"
-       y="127.52833"
-       id="text3769"
-       sodipodi:linespacing="125%"><tspan
-         sodipodi:role="line"
-         id="tspan3771"
-         x="8.318965"
-         y="127.52833"
-         style="font-size:14px">Beenden</tspan></text>
-    <text
-       xml:space="preserve"
-       style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
-       x="8.3189659"
-       y="110.65271"
+       x="55.318966"
+       y="21.65271"
        id="text3773"
        sodipodi:linespacing="125%"><tspan
          sodipodi:role="line"
          id="tspan3775"
-         x="8.3189659"
-         y="110.65271"
-         style="font-size:14px">Über</tspan></text>
+         x="55.318966"
+         y="21.65271"
+         style="font-size:14px">?</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -692,7 +680,7 @@
          id="tspan3779"
          x="8.0812807"
          y="92.965515"
-         style="font-size:14px">Hilfe</tspan></text>
+         style="font-size:14px">Beenden</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -704,7 +692,7 @@
          id="tspan3783"
          x="7.368227"
          y="74.286942"
-         style="font-size:14px">Optionen</tspan></text>
+         style="font-size:14px">Einstellungen</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -717,9 +705,9 @@
          x="223"
          y="264">LOGO</tspan></text>
     <rect
-       style="fill:#f9f9f9;stroke:#000000;stroke-width:0.53852731"
+       style="fill:#f9f9f9;stroke:#000000;stroke-width:0.61091679"
        id="rect3740-9"
-       width="111.99352"
+       width="144.12575"
        height="38.423347"
        x="143.1153"
        y="46.788326" />
@@ -733,7 +721,7 @@
          sodipodi:role="line"
          id="tspan3765-3"
          x="148.16748"
-         y="61.862305">Netzwerk</tspan></text>
+         y="61.862305">Direkte Verbindung</tspan></text>
     <text
        xml:space="preserve"
        style="font-size:14px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
@@ -744,6 +732,6 @@
          sodipodi:role="line"
          id="tspan3765-5"
          x="147.16748"
-         y="77.862305">Ein-Computer</tspan></text>
+         y="77.862305">Serverliste</tspan></text>
   </g>
 </svg>
