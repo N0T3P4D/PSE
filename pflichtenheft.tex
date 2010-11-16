@@ -8,12 +8,16 @@
 \usepackage[usenames]{color}
 \usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[titles]{tocloft}
-\usepackage[colorlinks=false]{hyperref}
+\usepackage[colorlinks=true,linkcolor=black]{hyperref}
 
 \title{Pflichtenheft}
 \date{}
 
-\author{Usman Ghani Ahmed, Philip Caroli, Maximilian Madlung, Jeremias Mechler, Fabian Neundorf}
+\author{Usman Ghani Ahmed \\
+Philip Caroli\\
+Maximilian Madlung\\ 
+Jeremias Mechler\\ 
+Fabian Neundorf}
 
 \ifpdf
 \DeclareGraphicsExtensions{.pdf}
@@ -33,9 +37,9 @@
 \huge{Praxis der Softwareentwicklung \\
 Gruppe 3 \\[0.5cm]
 Entwicklung eines ``Monopoly''-ähnlichen Spiels \\[0.5cm]
-\includegraphics[height=1cm]{kitlogo_de_rgb}  \\[0.5cm]
+\includegraphics[height=2cm]{kitlogo_de_rgb}  \\[0.5cm]
 WS 2010 / 2011} \\[2cm]
-\textcolor{red}{! DRAFT !}
+%\textcolor{red}{! DRAFT !}
 \end{center}
 %damit machen
 % \includegraphics[height=15cm]{spielfeld}
@@ -48,21 +52,27 @@ WS 2010 / 2011} \\[2cm]
 
 \section{Produktübersicht}
 Das Produkt ist eine Umsetzung des berühmten Brettspielklassikers ``Monopoly'' für den Computer.
-Ziel des Spiels ist es, durch Geschicklichkeit, strageischen Denken und der nötigen Portion Glück das ganze Geld der Gegner einzunehmen. Gewonnen hat der Spieler, der zuletzt das meiste Geld besitzt. 
-
-Usman Text. 
+Ziel des Spiels ist es, durch Geschicklichkeit, strategisches Denken und der nötigen Portion Glück das ganze Geld der Gegner einzunehmen. Gewonnen hat der Spieler, der zuletzt das meiste Geld besitzt. 
 
 Das Spiel beinhaltet mehrere Spiel-Modi:
 \begin{itemize}
 \item Einzelspieler gegen Computer-KI
-\item Mehrspieler an einem oder mehereren Computern sowie mit als auch ohne KI
+\item Mehrspieler an einem oder mehreren Computern sowie mit als auch ohne KI
 \end{itemize}
-Das Programm zeichnet sich durch seine Benutzerfreundlichkeit aus, die sich in der intuitiven Bedienbarkeit der graphischen Benutzeroberfläche äußert. Abgebildet werden das Monopoly (R) - Spielfeld sowie einige wenige zusätzliche Elemente, um die Übersichtlichkeit zu wahren. 
+Das Programm zeichnet sich durch seine Benutzerfreundlichkeit aus, die sich in der intuitiven Bedienbarkeit der graphischen Benutzeroberfläche äußert. Abgebildet werden das Monopoly (R)-Spielfeld sowie einige wenige zusätzliche Elemente, um die Übersichtlichkeit zu wahren ($\rightarrow$ Anhang). 
+\subsection{Spielregeln}
+Es können standardmäßig mindestens 2 und maximal 8 Spieler an einem Spiel teilnehmen. Zu Beginn des Spieles bekommt jeder Spieler einen festgelegtes Startkapital, mit dem er Straßen, Einkaufsläden, Häuser und Hotels kaufen kann oder Strafen sowie Steuerzahlungen die durch Ereignisse entstehen an die Bank bzw. in die Mitte des Spielbretts bezahlen muss. Auf einer Straße kann man zusätzlich noch Hotels, Häuser und Einkaufsläden bauen, dadurch erhöht sich die Miete der Straße. Das Geld das sich auf dem Spielbrett sammelt bekommt derjenige Spieler der auf dem Feld "Frei parken" zum stehen kommt.  Es treten verschiedene Spieler gegeneinander an , dabei können die Spieler menschlich sein oder werden vom Computer (KI) gesteuert. Jeder Spieler kommt abwechselnd, zyklisch im Uhrzeigersinn an die Reihe, dabei wird einmal mit 2 Würfeln gewürfelt , die Summe die sich aus den Augenzahlen der 2 Würfel ergibt, gibt dem Spieler Auskunft darüber wiviele Schritte der Spieler mit seiner symbolischen Figur voranschreiten darf. Die Spielfiguren bewegen sich zyklisch im Uhrzeigersinn auf dem Spielfeld. Dabei überquert der Spieler im Laufe des Spiels verschiedene Straßen die von Spielern für einen festgelegten Preis gekauft werden können. Bleibt der Spieler auf einer Straße stehen die einem anderen Spieler gehört so muss er einen gewissen Betrag an Geld an diesen Spieler zahlen (Miete).Die Höhe des Einnahmegeldes(Miete) hängt davon ab ob der Spieler nur diese Straße besitzt oder ob er auf dieser Straße noch weitere Gebäude gebaut bzw. gekauft hat(Häuser / Hotels/ Einkaufsläden). Wenn der Spieler zusätzlich noch Häuser und Hotels auf dieser Straße gebaut hat, dann erhöht sich das Einnahmegeld für die jeweilige Straße. Dabei steigt die Miete in aufsteigender Reihenfolge, d.h die Miete für ein Hotel ist höher als die für ein Haus oder Einkaufsladen :
+\begin {itemize}
+\item Haus
+\item Einkaufsladen
+\item Hotel
+\end {itemize}
+Landet der Spieler auf einem \glqq Steuern bezahlen Feld \grqq ,dann muss er Steuern bezahlen, die sich in der Mitte des Spielbretts sammeln. Bleibt der Spieler auf dem  Feld ``Gefängnis'' stehen, so setzt er eine Würfelrunde aus, kann jedoch immer noch Miete von den anderen Spielern einnehmen, sowie Handel mit anderen Spielern betreiben.  Überquert ein Spieler  das Feld ``Los'', auf welchem zu Beginn gestartet wurde so kassiert er eine Prämie. Beim Stillstand auf einem Ereignisfeld, zieht der Spieler eine Ereigniskarte mit verschiedenen Aufgaben, die der Spieler erledigen muss und dabei auch Geldprämien kassieren kann oder auch Abgaben bezahlen muss.  Jeder Spieler hat während dem Spiel die Möglichkeit, seine Gebäude und Straßen an die anderen Spieler zu verkaufen , sowie diese für eine Ersteigerung (Auktion) frei zu geben. Kann ein Spieler finanziell seinen Anforderungen nicht mehr nachkommen, so scheidet er automatisch aus. Spieler die vorzeitig ein laufendes Spiel beenden , können ihr Gut entweder an die Bank abgeben oder an ihre Mitspieler. Gewonnen hat der Spieler der zuletzt das meiste Geld besitzt. Ziel dieses Spieles ist durch Geschicklichkeit und ein bisschen Glück seine Gegner finanziell in die Knie zu zwingen.
 \section{Zielbestimmung}
 \subsection{Musskriterien}
 \begin{itemize}
 \item Plattformunabhängigkeit (Java, Swing)
-\item Umsetzung der Monopoly-Regeln (siehe Anhang)
+\item Umsetzung der Monopoly-Regeln
 \item Client-Server-Architektur
 \item Spielen gegen KI-Client mit Fähigkeitslevel eines Monopoly-Anfängers möglich
 \item Anzeigen und Interaktion mit dem Spielfeld in Form einer grafischen Benutzeroberfläche
@@ -76,12 +86,12 @@ Das Programm zeichnet sich durch seine Benutzerfreundlichkeit aus, die sich in d
 \end{itemize}
 \subsection{Kannkriterien}
 \begin{itemize}
-\item Spielregeln können variabel sein
+\item Spielregeln lassen sich variieren
 \item Lokalisierbarkeit
 \item Text-Chat
 \item Zuschauermodus
 \item Server-Admin kann Spiel verwalten
-\item Unterbrechen und Speichern eines Spiels
+\item Unterbrechen, Speichern und Fortsetzen eines Spiels
 \end{itemize}
 \subsection{Abgrenzungskriterien}
 \begin{itemize}
@@ -90,13 +100,16 @@ Das Programm zeichnet sich durch seine Benutzerfreundlichkeit aus, die sich in d
 \item Voice-Chat
 \item verschiedene KI-Stufen
 \end{itemize}
+\newpage
 \section{Produkteinsatz}
 \subsection{Anwendungsbereiche}
 \begin{itemize}
 \item Privater PC, Freizeit
 \end{itemize}
 \subsection{Zielgruppen}
-Menschen mit Spaß an Gesellschaftsspielen aus dem deutschsprachigen Raum
+\begin{itemize}
+\item Menschen mit Spaß an Gesellschaftsspielen aus dem deutschsprachigen Raum
+\end{itemize}
 \subsection{Betriebsbedingungen}
 \begin{itemize}
 \item Dauer eines Spiels: Circa ein bis drei Stunden
@@ -133,7 +146,7 @@ entfällt
 \item Netzwerk-Client-Server-Schnittstelle
 \end{itemize}
 \section{Funktionale Anforderungen}
-Jede funktionale Anforderung hat eine kennzeichnende fünfstellige Nummer. Die erste Stelle gibt die Anwendung an:
+Jede funktionale Anforderung wird durch eine fünfstellige Nummer gekennzeichnet. Die erste Stelle gibt die Anwendung an:
 \begin{enumerate}
 \item Client
 \item Server
@@ -181,10 +194,10 @@ Nachdem die Einstellungen durchgeführt wurden ($\rightarrow$ /F11050/) kann ein
 \item[/F11090/] Starten eines Servers \\
 Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitschaftsmodus und stellt den Spielern ein "`Warteraum"' zur Verfügung.
 
-\item[/F11100/] Beitreten eines Servers \\
-Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl können dann "`Direkte Verbindung"'($\rightarrow$ /F11110/) oder das "`Serverliste"' ($\rightarrow$ /F11120/) ausgewählt werden. Danach wird ein eventuell vorhandenes Passwort abgefragt, die Namen und Anzahl der Spieler angegeben die sich verbinden wollen und dann die Verbindung aufgebaut.
+\item[/F11100/] Spiel beitreten \\
+Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl können dann "`Direkte Verbindung"'($\rightarrow$ /F11110/) oder das "`Serverliste"' ($\rightarrow$ /F11120/) ausgewählt werden. Danach wird ein eventuell vorhandenes Passwort abgefragt, die Namen und Anzahl der Spieler angegeben die sich verbinden wollen und dann die Verbindung aufgebaut ($\rightarrow /F12010/$). 
 
-\item[/F11110/] Beitreten eines Servers durch Eingabe einer IP (direkte Verbindung) \\
+\item[/F11110/] Spiel beitreten durch Eingabe einer IP (direkte Verbindung) \\
 Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sind keine Plätze frei, wird damit abgebrochen.
 
 \item[/F11120/] Anzeigen der Serverliste \\
@@ -199,14 +212,14 @@ Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in 
 Über die entsprechende Schaltfläche im Programm, kann das Spiel verlassen werden.
 \end{description}
 
-\subsubsection{Während eines Spiels}
+\subsubsection{Bei hergestellter Verbindung}
 \begin{description}
-\item[/F12010/] Initieren eines Spiels \\
-Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F17/). Nachdem mindestens zwei Spieler verbunden sind und alle Spieler bereit sind startet das Spiel ($\rightarrow$ /F18/).
+\item[/F12010/] Initiieren eines Spiels \\
+Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F17/). Nachdem mindestens zwei Spieler verbunden sind und alle Spieler bereit sind startet das Spiel ($\rightarrow$ /F18/). 
 \item[/F12020/] Chatten \\
 Es ist während des gesamten Spiels möglich mit anderen Spielern zu chatten.
 \item[/F12030/] Starten des Spiels \\
-Nachdem das Spiel gestartet ist, erscheint bei allen das Spielfeld auf denen folgende Punkte angezeigt werden:
+Nachdem das Spiel gestartet ist, erscheint bei allen das Spielfeld, auf dem folgende Punkte angezeigt werden:
 \begin{itemize}
 \item Spieler mit deren Namen und Kontostände
 \item Die Straßen mit deren Zugehörigkeit und Bebauung
@@ -573,13 +586,4 @@ Eine mögliche Ergänzung. Speichert die IPs von mehreren Servern, sodass sie in
 \item IDE Integrated Development Environment \\
 Entwicklungstool, welches Editor, Compiler, Linker und Debugger enthält
 \end{itemize}
-
-\section{Anhang: Regeln}
-Es können standardmäßig mindestens 2 und maximal 8 Spieler an einem Spiel teilnehmen. Zu Beginn des Spieles bekommt jeder Spieler einen festgelegtes Startkapital, mit dem er Straßen, Einkaufsläden, Häuser und Hotels kaufen kann oder Strafen sowie Steuerzahlungen die durch Ereignisse entstehen an die Bank bzw. in die Mitte des Spielbretts bezahlen muss. Auf einer Straße kann man zusätzlich noch Hotels, Häuser und Einkaufsläden bauen, dadurch erhöht sich die Miete der Straße. Das Geld das sich auf dem Spielbrett sammelt bekommt derjenige Spieler der auf dem Feld "Frei parken" zum stehen kommt.  Es treten verschiedene Spieler gegeneinander an , dabei können die Spieler menschlich sein oder werden vom Computer (KI) gesteuert. Jeder Spieler kommt abwechselnd, zyklisch im Uhrzeigersinn an die Reihe, dabei wird einmal mit 2 Würfeln gewürfelt , die Summe die sich aus den Augenzahlen der 2 Würfel ergibt, gibt dem Spieler Auskunft darüber wiviele Schritte der Spieler mit seiner symbolischen Figur voranschreiten darf. Die Spielfiguren bewegen sich zyklisch im Uhrzeigersinn auf dem Spielfeld. Dabei überquert der Spieler im Laufe des Spiels verschiedene Straßen die von Spielern für einen festgelegten Preis gekauft werden können. Bleibt der Spieler auf einer Straße stehen die einem anderen Spieler gehört so muss er einen gewissen Betrag an Geld an diesen Spieler zahlen (Miete).Die Höhe des Einnahmegeldes(Miete) hängt davon ab ob der Spieler nur diese Straße besitzt oder ob er auf dieser Straße noch weitere Gebäude gebaut bzw. gekauft hat(Häuser / Hotels/ Einkaufsläden). Wenn der Spieler zusätzlich noch Häuser und Hotels auf dieser Straße gebaut hat, dann erhöht sich das Einnahmegeld für die jeweilige Straße. Dabei steigt die Miete in aufsteigender Reihenfolge, d.h die Miete für ein Hotel ist höher als die für ein Haus oder Einkaufsladen :
-\begin {itemize}
-\item Haus
-\item Einkaufsladen
-\item Hotel
-\end {itemize}
-Landet der Spieler auf einem \glqq Steuern bezahlen Feld \grqq ,dann muss er Steuern bezahlen, die sich in der Mitte des Spielbretts sammeln. Bleibt der Spieler auf dem  Feld ``Gefängnis'' stehen, so setzt er eine Würfelrunde aus, kann jedoch immer noch Miete von den anderen Spielern einnehmen, sowie Handel mit anderen Spielern betreiben.  Überquert ein Spieler  das Feld ``Los'', auf welchem zu Beginn gestartet wurde so kassiert er eine Prämie. Beim Stillstand auf einem Ereignisfeld, zieht der Spieler eine Ereigniskarte mit verschiedenen Aufgaben, die der Spieler erledigen muss und dabei auch Geldprämien kassieren kann oder auch Abgaben bezahlen muss.  Jeder Spieler hat während dem Spiel die Möglichkeit, seine Gebäude und Straßen an die anderen Spieler zu verkaufen , sowie diese für eine Ersteigerung (Auktion) frei zu geben. Kann ein Spieler finanziell seinen Anforderungen nicht mehr nachkommen, so scheidet er automatisch aus. Spieler die vorzeitig ein laufendes Spiel beenden , können ihr Gut entweder an die Bank abgeben oder an ihre Mitspieler. Gewonnen hat der Spieler der zuletzt das meiste Geld besitzt. Ziel dieses Spieles ist durch Geschicklichkeit und ein bisschen Glück seine Gegner finanziell in die Knie zu zwingen.
 \end{document}
