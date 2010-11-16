@@ -127,6 +127,7 @@ Jede funktionale Anforderung hat eine kennzeichnende fünfstellige Nummer. Die e
 \begin{enumerate}
 \item Client
 \item Server
+\item KI-Klient
 \end{enumerate}
 Die zweite Stelle gibt den Bereich innerhalb des Spielverlaufs an. Bei den Server:
 \begin{enumerate}
@@ -300,32 +301,110 @@ Beim Handel wird der Handelspartner über den Beginn eines Handels informiert. D
 \item[/F22041/] Angebot hinzufügen \\
 Jeder Angebotspartner kann sein Angebot ändern und weitere Waren hinzufügen.
 \end{description}
+
 \subsection{KI Client}
+\subsubsection{Vorbereitungen}
 \begin{description}
-\item fooo
+\item[/F31001/]Starten des KI-Klienten\\
+Der KI-Klient verbindet sich beim Start automatisch mit einem Server, dessen Beschreibung er per Befehlsparameter erhalten muss
+\item[/F31002/]Betreten eines Servers\\
+Wenn der KI-Klient einem Server beitritt, setzt er sich automatisch auf "`Bereit"' und wartet auf den Beginn des Spiels
+\item[/F31003/] Laden der KI-Parameter \\
+Der Klient lädt die Parameter für seine KI-Logik aus einer angegebenen Datei
 \end{description}
+\subsubsection{Spielzug}
+\begin{description}
+\item[/F32001/] Durchführen eines Zuges\\
+Der KI-Klient würfelt automatisch und kann danach alle Spielaktionen ausführen, die auch der Spielerklient ausführen kann.
+\item[/F32002/] Ausführen einer Spielaktion \\
+Die interne KI-Spiellogik entscheidet, ob und welche Aktion ausgeführt werden soll
+\item[F32003] Verlangen der Miete \\
+Sobald ein anderer Spieler auf einem Spielfeld, dass dem KI-Klienten gehört, landet, verlangt dieser die anfallende Miete
+\item[/F32004/]Speichern der KI-Parameter \\
+Sobald sich die KI-Parameter verändern, werden die neuen Parameter in der Datei gespeichert, aus der sie in /F31003/ geladen wurden
+\end{description}
+
 \section{Produktdaten}
-Es gibt jeweils für den Server und für die Clients verschiedene Sachen, die gespeichert werden müssen.
-\subsection{Unabhängig}
-Folgende Daten müssen die Server und die Clients abspeichern:
-\subsubsection{Spielfeld}
-Beide müssen das Spielfeld speichern können. So kann der Server das Spiel fortsetzen und der Client selber kann das Spiel speichern, sodass es auch fortgesetzt werden kann, wenn die Netzwerkverbindung verloren gegangen ist.
+\subsection{Allgemein}
+Folgende Daten müssen sowohl Server als auch Klient vorliegen.
+\begin{description}
+\item[/PD01/] Spielfeld
+\begin{itemize}
+\item Straßennamen
+\item Währungszeichen, Währungsnamen
+\item Beschriftung der Sonderfelder (Gemeinschaftsfeld, frei Parken usw)
+\item Text der Gemeinschafts- und Ereigniskarten
+\item Name / Beschreibung der baubaren Objekte
+\item optional: Grafiken für die Spielfelder
+\end{itemize}
+\item[/PD02/] Spielregeln (optional)
+\begin{itemize}
+\item automatisch Würfeln?
+\item automatisch Miete einziehen?
+\item Bei "`frei Parken"' Geld aufnehmen?
+\item Begrenzung des Spielzugs in Sekunden
+\item Mindestdauer des Spielzugs in Sekunden
+\end{itemize}
+\end{description}
 
-In den Spielfeld stehen zum einen die Straßennamen, damit man einerseits der Kreativität freien Lauf lassen kann und andererseits die Namen nicht aus den ursprünglichen Monopoly übernehmen muss.
-
-Nachdem nun gespielt wurde, muss auch gespeichert werden, wer die Straße besitzt und ob sie bereits bebaut wurde oder ob das Grundstück mit einer Hypothek belastet ist.
-\subsection{Clients}
-Jeder Client muss die Konfiguration speichern, wie zum Beispiel den Benutzername. Außerdem speichert jeder Client den zuletzt verbundenen Server um zum Beispiel schneller sich mit den Server zu verbinden.
-
-Sollten noch Metaserver dazu kommen, speichert jeder Client auch eine Liste mit den Metaservern, die abgefragt werden müssen.
 \subsection{Server}
-Der Server muss auch die Einstellungen speichern sodass man nicht jedes mal die gleichen Optionen setzen muss. Das wären der Servername, ein Serverpasswort und die IP, über die der Server sich mit den Netzwerk verbindet.
+\begin{description}
+\item[/PD03/] Servereinstellungen
+\begin{itemize}
+\item Servername
+\item Passwort (optional)
+\item Mindestspielerzahl
+\item Höchstspieleranzahl
+\end{itemize}
+\item[/PD04/] Spielstand
+\begin{itemize}
+\item Liste aller teilnehmenden Spieler
+\item Kontostand jedes Spielers
+\item Besitz an Spielfeldern und Gebäuden jedes Spielers
+\item Hypotheken auf Spielfeldern
+\end{itemize}
+\end{description}
 
-Wenn Metaserver implementiert werden, muss der Server auch speichern, an welchen Metaservern er sich anmelden muss.
-\subsection{Metaserver}
-Der Metaserver wird eingebaut, wenn noch entsprechend genügend freie Zeit ist, aber das Spiel wird auch ohne Metaserver laufen können.
+\subsection{Klient}
+\begin{description}
+\item[/PD05/] Klienten-Einstellungen
+\begin{itemize}
+\item Spielername
+\item IP des zuletzt beigetretenen Servers
+\item präferenzierte Größe des Fensters
+\end{itemize}
+\end{description}
 
-Diese Metaserver speichern selber die IPs mit den Servern, die sich angemeldet haben, sodass sobald sie sich neustarten schon ein Grundstock an Servern haben und alle einmal testen.
+\subsection{KI-Klient}
+\begin{description}
+\item[/PD06/] KI-Einstellungen
+\begin{itemize}
+\item Name (optional)
+\item Parameter der KI-Logik
+\end{itemize}
+\end{description}
+
+%Es gibt jeweils für den Server und für die Clients verschiedene Sachen, die gespeichert werden müssen.
+%\subsection{Unabhängig}
+%Folgende Daten müssen die Server und die Clients abspeichern:
+%\subsubsection{Spielfeld}
+%Beide müssen das Spielfeld speichern können. So kann der Server das Spiel fortsetzen und der Client selber kann das Spiel speichern, sodass es auch fortgesetzt werden kann, wenn die Netzwerkverbindung verloren gegangen ist.
+%
+%In den Spielfeld stehen zum einen die Straßennamen, damit man einerseits der Kreativität freien Lauf lassen kann und andererseits die Namen nicht aus den ursprünglichen Monopoly übernehmen muss.
+%
+%Nachdem nun gespielt wurde, muss auch gespeichert werden, wer die Straße besitzt und ob sie bereits bebaut wurde oder ob das Grundstück mit einer Hypothek belastet ist.
+%\subsection{Clients}
+%Jeder Client muss die Konfiguration speichern, wie zum Beispiel den Benutzername. Außerdem speichert jeder Client den zuletzt verbundenen Server um zum Beispiel schneller sich mit den Server zu verbinden.
+%
+%Sollten noch Metaserver dazu kommen, speichert jeder Client auch eine Liste mit den Metaservern, die abgefragt werden müssen.
+%\subsection{Server}
+%Der Server muss auch die Einstellungen speichern sodass man nicht jedes mal die gleichen Optionen setzen muss. Das wären der Servername, ein Serverpasswort und die IP, über die der Server sich mit den Netzwerk verbindet.
+%
+%Wenn Metaserver implementiert werden, muss der Server auch speichern, an welchen Metaservern er sich anmelden muss.
+%\subsection{Metaserver}
+%Der Metaserver wird eingebaut, wenn noch entsprechend genügend freie Zeit ist, aber das Spiel wird auch ohne Metaserver laufen können.
+%
+%Diese Metaserver speichern selber die IPs mit den Servern, die sich angemeldet haben, sodass sobald sie sich neustarten schon ein Grundstock an Servern haben und alle einmal testen.
 \section{Produktleistungen}
 Zeit:
 \begin{itemize}
