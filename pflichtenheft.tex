@@ -365,37 +365,32 @@ Folgende Daten müssen sowohl Server als auch Klient vorliegen.
 \item Name / Beschreibung der baubaren Objekte
 \item optional: Grafiken für die Spielfelder
 \end{itemize}
-\item[/PD02/] Spielregeln (optional)
-\begin{itemize}
-\item automatisch Würfeln?
-\item automatisch Miete einziehen?
-\item Bei "`frei Parken"' Geld aufnehmen?
-\item Begrenzung des Spielzugs in Sekunden
-\item Mindestdauer des Spielzugs in Sekunden
-\end{itemize}
 \end{description}
 
 \subsection{Server}
 \begin{description}
-\item[/PD03/] Servereinstellungen
+\item[/PD02/] Servereinstellungen
 \begin{itemize}
 \item Servername
 \item Passwort (optional)
 \item Mindestspielerzahl
 \item Höchstspieleranzahl
 \end{itemize}
-\item[/PD04/] Spielstand
+\item[/PD03/] Spielstand
 \begin{itemize}
 \item Liste aller teilnehmenden Spieler
 \item Kontostand jedes Spielers
 \item Besitz an Spielfeldern und Gebäuden jedes Spielers
 \item Hypotheken auf Spielfeldern
+\item Aktueller Spieler
+\item Verteilung der Ereigniskarten
+\item Anzahl und Name der KI-Clients
 \end{itemize}
 \end{description}
 
 \subsection{Klient}
 \begin{description}
-\item[/PD05/] Klienten-Einstellungen
+\item[/PD04/] Klienten-Einstellungen
 \begin{itemize}
 \item Spielername
 \item IP des zuletzt beigetretenen Servers
@@ -405,7 +400,7 @@ Folgende Daten müssen sowohl Server als auch Klient vorliegen.
 
 \subsection{KI-Klient}
 \begin{description}
-\item[/PD06/] KI-Einstellungen
+\item[/PD05/] KI-Einstellungen
 \begin{itemize}
 \item Name (optional)
 \item Parameter der KI-Logik
@@ -440,35 +435,34 @@ Zeit:
 \item Beitreten eines Servers: $<$ 15 Sekunden
 \item Öffnen des Hauptmenüs: $<$ 15 Sekunden
 \item Ausführen einer Aktion: $<$ 2 Sekunden
-\item Erkennen eines ``Linkdead'': $<$ 30 Sekunden
+\item Erkennen eines Verbindungsabbruchs: $<$ 30 Sekunden
 \item Beenden eines Spiels: $<$ 10 Sekunden
 \end{itemize}
 Genauigkeit:
 \begin{itemize}
-\item Alle Aktionen sollen genau/fehlerfrei zwischen Server und Client übertragen werden
+\item Alle Aktionen sollen genau / fehlerfrei zwischen Server und Client übertragen werden
 \end{itemize}
 \section{Weitere nichtfunktionale Anforderungen}
 Urheber- und Markenrechte:
 \begin{itemize}
-\item ``Monopoly'' ist ein eingetragenes Warenzeichen, d.h. das Produkt darf nicht "Monopoly" oder einen ähnlich klingenden / verwechselbaren Namen tragen
+\item ``Monopoly'' ist ein eingetragenes Warenzeichen, d.h. das Produkt darf nicht ``Monopoly'' oder einen ähnlich klingenden / verwechselbaren Namen tragen
 \item Der Spielplan, das Regelwerk (als Textstück), die Figuren und alle Graphiken sind unter Schutzrecht, d.h. die sichtbaren Elemente des Produkts müssen von diesen Abweichen
-\item Spielregeln sind generell nicht schutzfähig (Patentgesetz und Gebrauchsmustergesetz 1.2), wobei der genause Regelaufbau vielleicht trotzdem noch verändert werden sollte.
+\item Spielregeln sind generell nicht schutzfähig (Patentgesetz und Gebrauchsmustergesetz 1.2), wobei der genaue Regelaufbau vielleicht trotzdem noch verändert werden sollte.
 \end{itemize}
 Sicherheitsanforderungen:
 \begin{itemize}
 \item Es darf nicht möglich sein, durch Server oder Client des Produktes andere Programme o.ä. zu beeinflussen
-\item Alle Spielaktionen sollten vom Server verifiziert werden, um "Cheaten" zu verhindern
+\item Alle Spielaktionen sollten vom Server verifiziert werden, um ``Cheaten'' zu verhindern
 \end{itemize}
 Plattformabhängigkeiten:
 \begin{itemize}
-\item Das Produkt muss auf der Java Virtual Machine auf jeder (bedeutenden) Plattform (Mac, Windows, Linux) laufen
-\item Das Produkt sollte/kann auf JVMs auf Smartphones (zumindest Android) laufen
+\item Das Produkt muss auf der offiziellen Java-VM laufen
 \end{itemize}
 \section{Qualitätsanforderungen}
 \begin{itemize}
-\item Das Produkt muss zuverlässig Laufen und darf nicht ohne ausführliche Fehlermeldung crashen
-\item Es müssen durchschnittlich mindestens 5 Spiele in Folge gespielt werden können, ohne dass ein Fehler auftritt
-\item Probleme mit Netzwerkverbindungen usw müssen Spielintern aufgefangen werden und dürfen nicht zu einer Beendigung des Spieles führen
+\item Das Produkt muss zuverlässig laufen und darf nicht ohne ausführliche Fehlermeldung crashen
+\item Es müssen durchschnittlich mindestens fünf Spiele in Folge gespielt werden können, ohne dass ein Fehler auftritt
+\item Das Programm verhält sich Verbindungsabbrüche betreffend robust und versucht bei Auftreten eines solchen das Spiel wiederherzustellen 
 \item Es muss möglich sein, nach einem Fehler einem angefangen Spiel wieder beizutreten (Client) bzw. ein Spiel wieder so zu Starten wie es vor dem Fehler lief (Server)
 \end{itemize}
 \section{Globale Testfälle und Testszenarien}
@@ -477,7 +471,7 @@ Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche durchzuf�
 \item Aufrufen des Hauptmenüs, Ändern der Spieleinstellungen, Speichern der Spieleinstellungen, Laden der Spieleinstellungen
 \item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration, Erstellen eines Servers
 \item Starten eines Servers, Beitreten (Varianten: über Serverliste (inkl. /F12/, /F1X0Y0/), über IP-Eingabe), Spiel starten, Spiel beenden
-\item Initiieren eines Spiels, Chatten, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen).
+\item Initiieren eines Spiels, Chatten, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen)
 \end{itemize}
 Folgende Datenkonsistenzen müssen eingehalten werden:
 \begin{itemize}
@@ -510,11 +504,13 @@ Testszenarien:
 Starten des Programms $\rightarrow$ im Hauptmenü ``Spieleinstellungen ändern'' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ ``Spieleinstellungen speichern'' anklicken $\rightarrow$ ``Erstellen eines Servers'' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
 \item ``Einem Spiel beitreten (durch Serverliste), spielen und aufgeben'' \\
 Starten des Programms $\rightarrow$ ``Beitreten eines Servers'' anklicken $\rightarrow$ ``Anzeigen der Serverliste'' auswählen $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
+\item ``Einzelspieler'' \\
+``Erstellen eines Servers'' anklicken $\rightarrow$ Mindest-Anzahl der Spieler $>1$ setzen, andere Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
 \item ``Voller Server'' \\
-Spieler versucht auf vollen Server zu verbinden $\rightarrow$ erhält Meldung, dass die maximale Teilnehmeranzahl erreicht ist $\rightarrow$ Möglichkeit, als Zuschauer beizutreten
+Spieler versucht auf vollen Server zu verbinden $\rightarrow$ erhält Meldung, dass die maximale Teilnehmeranzahl erreicht ist
 \item ``Serverabsturz'' \\
 Mehrere Spieler spielen $\rightarrow$ Server stürzt ab $\rightarrow$ Server wird neu gestartet $\rightarrow$ Spiel wird über Sicherungs-Datei auf dem Server wiederhergestellt
-\item ``Abwesenheit eines Spielers''
+\item ``Abwesenheit eines Spielers'' \\
 Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\rightarrow$ er wird zwangsweise aus dem Spiel entfernt $\rightarrow$ das Vermögen fällt der Bank zu (?)
 \end{itemize}
 
@@ -552,7 +548,7 @@ Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\ri
 \item Teamkommunikation
 \begin{itemize}
 \item Forum
-\item Email(Verteiler)
+\item E-Mail (Verteiler)
 \end{itemize}
 \end{itemize}
 
@@ -563,28 +559,31 @@ Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\ri
   Zu planende und implementierende Module & Zeit & Personen\\
   \hline
   \hline
-  KI-Spiellogik & 75h & NA\\
-  Klient-Grundgerüst & 40h & NA\\
-  GUI - Design+Funktionalität & 30h & NA\\
-  Menüführung+Funktionalität Klient & 20h & NA\\
-  serverseitige Spiellogik & 100h & NA\\
-  Sicherung des Spielzustands & 20h & NA\\
-  Verifizieren der Klient-Eingabe & 10h & NA\\
-  Netzwerkanbindung Klient & 10h & NA\\
-  Netzwerkanbindung Server & 10h & NA\\
+  KI-Spiellogik & 75h & Jeremias, Fabian \\
+  Client-Grundgerüst & 40h & Fabian\\
+  GUI - Design + Funktionalität & 30h & Philip, Max\\
+  Menüführung + Funktionalität Klient & 20h & Usman\\
+  serverseitige Spiellogik & 100h & Philip, Max\\
+  Sicherung des Spielzustands & 20h & Usman\\
+  Verifizieren der Klient-Eingabe & 10h & Jeremias\\
+  Netzwerkanbindung & 20h & Usman\\
   \hline
 \end{tabular}
+Präsentation des Pflichtenhefts: Philip Caroli
 \subsection{Ressourcen}
 \begin{itemize}
 \item Rechner mit Leistungswerten in der Nähe der Mindestanforderungen
 \item Zwei oder mehr über Netzwerk verbundene Rechner
 \end{itemize}
-\section{Ergänzungen}
 \section{Glossar}
 \begin{itemize}
 \item Metaserver (syn. Masterserver) \\
 Eine mögliche Ergänzung. Speichert die IPs von mehreren Servern, sodass sie in der Serverliste angezeigt werden können.
 \item IDE Integrated Development Environment \\
 Entwicklungstool, welches Editor, Compiler, Linker und Debugger enthält
+\item Client \\
+Ein Client ist ein Programm, welches zu einem Server Kontakt aufbaut und mit diesem Daten austauscht.
+\item Server \\
+Ein Server stellt Dienste für den Client bereit und tauscht Daten mit ihm aus.
 \end{itemize}
 \end{document}
