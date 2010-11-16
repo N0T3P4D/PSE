@@ -31,9 +31,11 @@ Fabian Neundorf}
 \setlength{\parskip}{2mm}
 
 \begin{document}
-
+ 
+\vspace{5cm}
 \maketitle
 \begin{center}
+\vspace{3cm}
 \huge{Praxis der Softwareentwicklung \\
 Gruppe 3 \\[0.5cm]
 Entwicklung eines ``Monopoly''-ähnlichen Spiels \\[0.5cm]
@@ -68,6 +70,7 @@ Auf einer Straße kann man zusätzlich noch Hotels, Häuser und Einkaufsläden b
 Jeder Spieler kommt abwechselnd und zyklisch an die Reihe und würfelt mit zwei Würfel. Die Summe, die sich aus den Augenzahlen der zwei Würfel ergibt, gibt dem Spieler Auskunft darüber, wie viele Schritte der Spieler mit seiner symbolischen Figur voranschreiten darf. Die Spielfiguren bewegen sich im Uhrzeigersinn auf dem Spielfeld. Dabei überquert der Spieler im Laufe des Spiels verschiedene Straßen, die von Spielern für einen festgelegten Preis gekauft werden können. Bleibt der Spieler auf einer Straße, die einem anderen Spieler gehört, stehen, so muss er einen gewissen Betrag an Geld an diesen Spieler zahlen (Miete). Die Höhe des Einnahmegeldes (Miete) hängt davon ab, ob der Spieler nur diese Straße besitzt oder ob er auf dieser Straße noch weitere Gebäude (Häuser, Hotels) gebaut bzw. gekauft hat. Wenn der Spieler zusätzlich noch Häuser und Hotels auf dieser Straße gebaut hat, dann erhöht sich das Einnahmegeld für die jeweilige Straße. Dabei steigt die Miete in aufsteigender Reihenfolge, d.h die Miete für ein Hotel ist höher als die für ein Haus.
 	
 Landet der Spieler auf einem ``Steuern bezahlen''-Feld,dann muss er Steuern bezahlen, die sich in der Mitte des Spielbretts sammeln. Bleibt der Spieler auf dem  Feld ``Gefängnis'' stehen, so setzt er eine Würfelrunde aus, kann jedoch immer noch Miete von den anderen Spielern einnehmen, sowie Handel mit anderen Spielern betreiben. Überquert ein Spieler  das Feld ``Los'', auf welchem zu Beginn gestartet wurde, so kassiert er eine Prämie. Beim Stillstand auf einem Ereignisfeld zieht der Spieler eine Ereigniskarte mit verschiedenen Aufgaben, die der Spieler erledigen muss und dabei auch Geldprämien kassieren kann oder auch Abgaben bezahlen muss.  Jeder Spieler hat während dem Spiel die Möglichkeit, seine Gebäude und Straßen an die anderen Spieler zu verkaufen , sowie diese für eine Ersteigerung (Auktion) frei zu geben. Kann ein Spieler finanziell seinen Anforderungen nicht mehr nachkommen, so scheidet er automatisch aus. Spieler die vorzeitig ein laufendes Spiel beenden , können ihr Gut entweder an die Bank abgeben oder an ihre Mitspieler. Gewonnen hat der Spieler der zuletzt das meiste Geld besitzt. Ziel dieses Spieles ist durch Geschicklichkeit und ein bisschen Glück seine Gegner finanziell in die Knie zu zwingen.
+\newpage
 \section{Zielbestimmung}
 \subsection{Musskriterien}
 \begin{itemize}
@@ -302,6 +305,7 @@ Nachdem allen Spieler die Reihenfolge übermittelt wurde, wird der erste Spielzu
 \item[/F21060/] Vorbereitungen eines neuen Spiels abschließen \\
 Wenn es sich um ein neues Spiel handelt, wird die Reihenfolge der Spieler festgelegt, und der erste Spieler in der neuen Reihenfolge ist dann der erste Spieler der einen Zug ausführen darf. Danach fängt das startet das Spiel ($\rightarrow$ /F21050).
 \end{description}
+\newpage
 \subsubsection{Spielzug}
 \begin{description}
 \item[/F22010/] Spielzug informieren \\
@@ -451,6 +455,7 @@ Genauigkeit:
 \begin{itemize}
 \item Alle Aktionen sollen genau / fehlerfrei zwischen Server und Client übertragen werden
 \end{itemize}
+\newpage
 \section{Weitere nichtfunktionale Anforderungen}
 Urheber- und Markenrechte:
 \begin{itemize}
@@ -474,14 +479,16 @@ Plattformabhängigkeiten:
 \item Das Programm verhält sich Verbindungsabbrüche betreffend robust und versucht bei Auftreten eines solchen das Spiel wiederherzustellen 
 \item Es muss möglich sein, nach einem Fehler einem angefangen Spiel wieder beizutreten (Client) bzw. ein Spiel wieder so zu Starten wie es vor dem Fehler lief (Server)
 \end{itemize}
+\newpage
 \section{Globale Testfälle und Testszenarien}
-Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche durchzuführen. Der Server wird entsprechend mitgeprüft:
-\begin{itemize}
-\item Aufrufen des Hauptmenüs, Ändern der Spieleinstellungen, Speichern der Spieleinstellungen, Laden der Spieleinstellungen
-\item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration, Erstellen eines Servers
-\item Starten eines Servers, Beitreten (Varianten: über Serverliste (inkl. /F12/, /F1X0Y0/), über IP-Eingabe), Spiel starten, Spiel beenden
-\item Initiieren eines Spiels, Chatten, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen)
-\end{itemize}
+Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche durchzuführen. Der Server wird entsprechend mitgeprüft: \\
+%\begin{itemize}
+%\item Aufrufen des Hauptmenüs, Ändern der Spieleinstellungen, Speichern der Spieleinstellungen, Laden der Spieleinstellungen
+%\item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration, Erstellen eines Servers
+%\item Starten eines Servers, Beitreten (Varianten: über Serverliste (inkl. /F12/, /F1X0Y0/), über IP-Eingabe), Spiel starten, Spiel beenden
+%\item Initiieren eines Spiels, Chatten, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen)
+%\end{itemize}
+\includegraphics[width=17cm]{Diagram1} \\
 Folgende Datenkonsistenzen müssen eingehalten werden:
 \begin{itemize}
 \item Zu jedem Zeitpunkt muss ein Spielername definiert sein
@@ -500,6 +507,7 @@ Folgende unzulässigen Aktionen müssen überprüft werden:
 \item Unsauberer Restart des Clients
 \item Übersenden von undefinierten und unzulässigen Befehlen an Client und Server
 \end{itemize}
+\newpage
 Interoperabilität, Usability:
 \begin{itemize}
 \item Richtige Funktion mit Client und Server der anderen Gruppe
@@ -510,17 +518,17 @@ Interoperabilität, Usability:
 Testszenarien:
 \begin{itemize}
 \item ``Erste Inbetriebnahme mit Starten eines Servers'' \\
-Starten des Programms $\rightarrow$ im Hauptmenü ``Spieleinstellungen ändern'' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ ``Spieleinstellungen speichern'' anklicken $\rightarrow$ ``Erstellen eines Servers'' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
+Starten des Programms $\rightarrow$ im Hauptmenü ``Einstellungen'' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ ``Spieleinstellungen speichern'' anklicken $\rightarrow$ im Hauptmenü ``Spiel erstellen'' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
 \item ``Einem Spiel beitreten (durch Serverliste), spielen und aufgeben'' \\
-Starten des Programms $\rightarrow$ ``Beitreten eines Servers'' anklicken $\rightarrow$ ``Anzeigen der Serverliste'' auswählen $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
+Starten des Programms $\rightarrow$ ``Spiel beitreten'' auswählen$\rightarrow$ ``Serverliste'' anklicken $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
 \item ``Einzelspieler'' \\
-``Erstellen eines Servers'' anklicken $\rightarrow$ Mindest-Anzahl der Spieler $>1$ setzen, andere Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
+``Spiel erstellen'' anklicken $\rightarrow$ Mindest-Anzahl der Spieler $>1$ setzen, andere Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
 \item ``Voller Server'' \\
 Spieler versucht auf vollen Server zu verbinden $\rightarrow$ erhält Meldung, dass die maximale Teilnehmeranzahl erreicht ist
 \item ``Serverabsturz'' \\
 Mehrere Spieler spielen $\rightarrow$ Server stürzt ab $\rightarrow$ Server wird neu gestartet $\rightarrow$ Spiel wird über Sicherungs-Datei auf dem Server wiederhergestellt
 \item ``Abwesenheit eines Spielers'' \\
-Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\rightarrow$ er wird zwangsweise aus dem Spiel entfernt $\rightarrow$ das Vermögen fällt der Bank zu (?)
+Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\rightarrow$ er wird zwangsweise aus dem Spiel entfernt $\rightarrow$ das Vermögen fällt der Bank zu
 \end{itemize}
 
 \section{Systemmodelle}
