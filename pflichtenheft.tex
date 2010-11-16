@@ -169,10 +169,10 @@ Die im Einstellungsfenster ($\rightarrow$ /F02/) eingestellten Einstellungen wer
 \item[/F11050/] Erstellen eines Servers (Konfiguration) \\
 Es ist möglich einen Server zu starten. Dazu kann man eine Konfiguration laden ($\rightarrow$ /F11060/), die Einstellungen ändern und die Einstellungen speichern (-> /F11070/). Danach kann der Server dann gestartet werden.
 
-\item[/F11060/] Laden der Einstellungen \\
+\item[/F11060/] Laden der Servereinstellungen \\
 Die im Konfigurationsfenster des Servers ($\rightarrow$ /F05/) angezeigten Einstellungen werden vor dem Anzeigen aus der Datei ($\rightarrow$ /DB02/) geladen.
 
-\item[/F11070/] Speichern der Einstellungen \\
+\item[/F11070/] Speichern der Servereinstellungen \\
 Die in den Einstellungsfenster ($\rightarrow$ /F05/) eingestellten Einstellungen werden in ($\rightarrow$ /DB02/) gespeichert.
 
 \item[/F11080/] Erstellen eines Servers \\
@@ -197,6 +197,7 @@ Die im Netzwerk verfügbaren Server werden auf die Liste aufgenommen und die Ser
 Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.\,B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
 \item[/F11150/] Verlassen des Spiels \\
 Über die entsprechende Schaltfläche im Programm, kann das Spiel verlassen werden.
+%\item[/F11160/] Spielstand laden \\
 \end{description}
 
 \subsubsection{Während eines Spiels}
@@ -208,17 +209,18 @@ Es ist während des gesamten Spiels möglich mit anderen Spielern zu chatten.
 \item[/F12030/] Starten des Spiels \\
 Nachdem das Spiel gestartet ist, erscheint bei allen das Spielfeld auf denen folgende Punkte angezeigt werden:
 \begin{itemize}
-\item Spieler mit deren Namen und Kontostände
-\item Die Straßen mit deren Zugehörigkeit und Bebauung
-\item Die Spielfiguren
+\item Spielernamen und -konten
+\item Straßen mit ihren Zugehörigkeiten und Bebauungen
+\item Spielfiguren
 \item Interaktionspopup
 \begin{itemize}
-\item Das Geld in der Mitte
+\item Geld in der Mitte
 \item Handel
 \item Versteigerungen
 \item Ereigniskarten
+\item Gemeinschaftskarten
 \end{itemize}
-\item Das Chatfenster
+\item Chatfenster
 \end{itemize}
 Daraufhin kann er der erste Spieler die Runde starten ($\rightarrow$ /F12040/). Außerdem kann jeder während des gesamten Spiels Nachrichten versenden ($\rightarrow$ /F12020/).
 \item[/F12040/] Durchführung einer Runde \\
@@ -275,7 +277,7 @@ Sofern der Spielstand valid ist, wird diese Datei eingelesen und der Server ist 
 \item[/F21030/] Neues Spiel starten \\
 Es wird ein neues Spiel gestartet indem die entsprechenden Anfangseinstellungen aus den Übergabeparametern oder einer Datei geladen werden. Danach befindet sich der Server im Wartemodus ($\rightarrow$ /F21040/).
 \item[/F21040/] Wartemodus \\
-Im Wartemodus stellt der Server ein Chatraum zur Verfügung. Jeder Spieler landet zuerst hier und kann sich auf "`bereit"' setzen. Nachdem mindestens zwei Spieler verbunden sind und alle bereit sind, startet das Spiel ($\rightarrow$ /F21050/), sofern es sich um ein geladenes Spiel handelt. Ansonsten, wenn es sich um ein neues Spiel handelt, werden die Vorbereitungen abgeschlossen ($\rightarrow$ /F21060).
+Im Wartemodus stellt der Server ein Chatraum zur Verfügung. Jeder Spieler landet zuerst hier und kann sich auf "`bereit"' setzen. Nachdem mindestens zwei Spieler verbunden sind und alle bereit sind, startet das Spiel ($\rightarrow$ /F21050/), sofern es sich um ein geladenes Spiel handelt. Ansonsten, wenn es sich um ein neues Spiel handelt, werden die Vorbereitungen abgeschlossen ($\rightarrow$ /F21060). Je nach Einstellungen werden die freien Plätze vorher noch mit KI Spielern aufgefüllt.
 \item[/F21050/] Spielstart \\
 Nachdem allen Spieler die Reihenfolge übermittelt wurde, wird der erste Spielzug gestartet indem der entsprechende Spieler informiert wird, dass er dran ist ($\rightarrow$ /F22040/).
 \item[/F21060/] Vorbereitungen eines neuen Spiels abschließen \\
