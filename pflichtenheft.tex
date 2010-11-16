@@ -176,7 +176,7 @@ Nachdem die Einstellungen durchgeführt wurden ($\rightarrow$ /F05/) kann ein Se
 Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitschaftsmodus und stellt den Spielern ein ``Warteraum'' zur Verfügung.
 
 \item[/F10/] Beitreten eines Servers \\
-Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl kommen dann ``direkte Verbindung''($\rightarrow$ /F11/) oder das ``beitreten über eine Serverliste'' ($\rightarrow$ /F12/) dran. Danach wird ein eventuell vorhandenes Passwort abgefragt und die Verbindung aufgebaut.
+Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl kommen dann ``direkte Verbindung''($\rightarrow$ /F11/) oder das ``beitreten über eine Serverliste'' ($\rightarrow$ /F12/) dran. Danach wird ein eventuell vorhandenes Passwort abgefragt, die Namen und Anzahl der Spieler angegeben die sich verbinden wollen und dann die Verbindung aufgebaut.
 
 \item[/F11/] Beitreten eines Servers durch Eingabe einer IP (direkte Verbindung) \\
 Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sofern dies der Fall ist wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/).
@@ -188,7 +188,7 @@ In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei s
 \item[/F1X0Y0/] Ermitteln der Server im lokalen Netzwerk \\
 Die im Netzwerk verfügbaren Server werden auf die Liste aufgenommen und kontaktiert zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
 \item[/F13/] Abfragen der Serverinformationen für die Serverliste \\
-Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.~B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
+Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.\,B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
 \item[/F15/] Verlassen des Spiels \\
 Über die entsprechende Schaltfläche im Programm, kann das Spiel verlassen werden.
 \end{description}
@@ -229,10 +229,10 @@ Nachdem der Spieler gewürfelt hat kann er folgende Aktionen ausführen:
 \item Ein Gebäude bauen ($\rightarrow$ /F22032/ /F120Y2/).
 \item Eine Hypothek aufnehmen ($\rightarrow$ /F22033/ /F120Y3/).
 \item Ein Gebäude abreißen ($\rightarrow$ /F22034/ /F120Y4/).
-\item Eine Straße verkaufen ($\rightarrow$ /F22035/ /F120Y5/).
+\item Einen Handel initiieren ($\rightarrow$ /F22035/ /F120Y5/).
 \item Eine Straße versteigern ($\rightarrow$ /F22036/ /F120Y6/).
 \end{itemize}
-Außerdem kann währenddessen die Miete eingefordert werden ($\rightarrow$ /F120Z0).
+Außerdem kann währenddessen die Miete vom Besitzer der Straße eingefordert werden ($\rightarrow$ /F120Z0).
 \item[/F120Y1/] Straße kaufen \\
 Da der Spieler nur die Straße kaufen kann, auf den der Spieler steht, wird vorher nur geprüft ob die Straße zu verkaufen ist und der Spieler genügend Geld hat ($\rightarrow$ /F22031/). Danach kann der Spieler weitere Befehle ausführen ($\rightarrow$ /F120Y0/).
 \item[/F120Y2/] Gebäude bauen \\
@@ -242,8 +242,8 @@ Zuerst wird geprüft, ob der Spieler genügend Geld hat und nach den entsprechen
 Wenn der Spieler nach den Regeln eine Hypothek aufnehmen darf, meldet der aktive Spieler dies dem Server ($\rightarrow$ /F22033/).
 \item[/F120Y4/] Gebäude abreißen \\
 Erst wird überprüft, ob der Spieler das Gebäude nach den Spielregeln abreißen darf ($\rightarrow$ /F22034/).
-\item[/F120Y5/] Straße verkaufen \\
-Sofern nach den Regeln der aktive Spieler die Straße verkaufen darf, wird das dem Server gemeldet ($\rightarrow$ /F22035/).
+\item[/F120Y5/] Handel initiieren \\
+Der aktive Spieler kann ein Handel mit einem anderen Spieler oder der Bank initiieren ($\rightarrow$ /F22035/). Darauf hin können beide Spieler ihr Angebot einstellen und dieses fixieren. Danach müssen beide dann das Angebot bestätigen und der Handel erfolgt.
 \item[/F120Y6/] Straße versteigern \\
 Um eine Straße zu versteigern, müssen dies die Regeln erlauben. Danach kann jeder Spieler darauf bieten ($\rightarrow$ /F22036/).
 \item[/F120Z0/] Miete erheben \\
@@ -265,7 +265,7 @@ Jeder Spieler kann, sobald er dran ist aufgeben. Er kann dann sagen, was mit sei
 \item[/F21010/] Starten des Servers \\
 Bei den Starten des Servers wird ermittelt, ob ein Spielstand geladen ($\rightarrow$ /F21020/) oder ein neues Spiel gestartet werden soll ($\rightarrow$ /F21030/).
 \item[/F21020/] Spielstand laden \\
-Zuerst wird überprüft, ob die Datei valide ist. Sofern sie valid ist, wird die Datei eingelesen und entsprechend verarbeitet. Danach ist der Server im Wartemodus ($\rightarrow$ /F21040/).
+Sofern der Spielstand valid ist, wird diese Datei eingelesen und der Server ist im Wartemodus ($\rightarrow$ /F21040/).
 \item[/F21030/] Neues Spiel starten \\
 Es wird ein neues Spiel gestartet indem die entsprechenden Anfangseinstellungen aus den Übergabeparametern oder einer Datei geladen werden. Danach befindet sich der Server im Wartemodus ($\rightarrow$ /F21040/).
 \item[/F21040/] Wartemodus \\
@@ -289,11 +289,11 @@ Der Server bekommt jetzt die weiteren Befehle vom entsprechenden Client. Bei all
 \item Der Spieler möchte ein Gebäude bauen ($\rightarrow$ /F22032/).
 \item Der Spieler kann eine Hypothek aufnehmen ($\rightarrow$ /F22033/).
 \item Der Spieler kann ein Gebäude abreißen ($\rightarrow$ /F22034/).
-\item Der Spieler kann eine Straße versteigern ($\rightarrow$ /F22035/).
+\item Der Spieler kann handeln ($\rightarrow$ /F22035/).
+\item Der Spieler kann eine Straße versteigern ($\rightarrow$ /F22036/).
 \item Der Spieler kann aussteigen ($\rightarrow$ /F22037/).
-\item Der Spieler kann handeln ($\rightarrow$ /F22040/).
 \end{itemize}
-Alle Spieler außer beim Handel ($\rightarrow$ /F22040/) werden darüber nach erfolgreicher Ausführung informiert.
+Alle Spieler werden darüber nach erfolgreicher Ausführung informiert.
 \item[/F22031/] Kauf einer Straße \\
 Der Kontostand des Spielers wird entsprechend des Kaufpreises belastet und als Besitzer der Straße der aktuelle Spieler eingetragen.
 \item[/F22032/] Bau eines Gebäudes \\
@@ -302,14 +302,12 @@ Der Kontostand wird mit den Gebäudepreis belastet und der Straße ein Gebäude 
 Bei der Aufnahme der Hypothek wird der Kontostand des Spielers erhöht.
 \item[/F22034/] Gebäudeabriss \\
 Dem Kontostand wird der entsprechende Abrisswert hinzugefügt und das Gebäude von der Straße entfernt.
-\item[/F22035/] Versteigern einer Straße \\
+\item[/F22035/] Handel \\
+Beim Handel wird der Handelspartner über den Beginn eines Handels informiert. Dann können beide Spieler ihre Angebote hinzufügen ($\rightarrow$ /F22041/). Sofern ein Spieler fertig ist, kann dieser das als Angebot fixieren und keine Änderungen an dem eigenen Angebot vornehmen. Sobald beide das als Angebot fixiert haben, können diese es annehmen und der Handel erfolgt.
+\item[/F22036/] Versteigern einer Straße \\
 Zuerst wird getestet, ob die Spielregeln es erlauben, die Straße zu verkaufen. Sofern die Regeln es erlauben, wird die Straße den Personen zum Verkauf angeboten. Alle Spieler können dann darauf bieten und entsprechend den Preis erhöhen. Nach der Versteigerung, werden alle Spieler über den neuen Besitzer der Straße informiert.
-\item[/F22036/] Ausstieg eines Spielers \\
+\item[/F22037/] Ausstieg eines Spielers \\
 Ein Spieler kann aussteigen und seinen Besitz entweder an die Bank zurückgeben, verkaufen oder versteigern.
-\item[/F22040/] Handel \\
-Beim Handel wird der Handelspartner über den Beginn eines Handels informiert. Dann können beide Spieler ihre Angebote hinzufügen (-> /F22041/). Sofern ein Spieler fertig ist, kann dieser das als Angebot fixieren und keine Änderungen an dem eigenen Angebot vornehmen. Sobald beide das als Angebot fixiert haben, können diese es annehmen und der Handel erfolgt.
-\item[/F22041/] Angebot hinzufügen \\
-Jeder Angebotspartner kann sein Angebot ändern und weitere Waren hinzufügen.
 \end{description}
 
 \subsection{KI Client}
