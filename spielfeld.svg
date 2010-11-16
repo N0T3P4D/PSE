@@ -13,8 +13,8 @@
    height="461"
    id="svg2"
    version="1.1"
-   inkscape:version="0.47 r22583"
-   sodipodi:docname="Spielfeld.svg">
+   inkscape:version="0.48.0 r9654"
+   sodipodi:docname="spielfeld.svg">
   <defs
      id="defs4">
     <marker
@@ -135,16 +135,16 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="1"
-     inkscape:cx="317.31503"
-     inkscape:cy="174.73914"
+     inkscape:zoom="1.6015779"
+     inkscape:cx="281"
+     inkscape:cy="244.5"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
      showgrid="false"
-     inkscape:window-width="1440"
-     inkscape:window-height="838"
-     inkscape:window-x="-8"
-     inkscape:window-y="-8"
+     inkscape:window-width="1920"
+     inkscape:window-height="1003"
+     inkscape:window-x="0"
+     inkscape:window-y="24"
      inkscape:window-maximized="1"
      inkscape:snap-bbox="false"
      showguides="true"
@@ -157,7 +157,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -166,92 +166,106 @@
      inkscape:groupmode="layer"
      id="layer1">
     <g
-       id="g3605"
-       transform="matrix(1.0000006,0,0,1.000002,-45.386074,-40.223723)">
+       id="g3695">
       <rect
-         y="41.603294"
-         x="45.98457"
-         height="459.0209"
-         width="549.15863"
+         y="-22.591141"
+         x="0.59852314"
+         height="482.99261"
+         width="549.15894"
          id="rect2989"
-         style="fill:#808080;fill-rule:evenodd;stroke:#000000;stroke-width:1.19704425px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         style="fill:#808080;fill-rule:evenodd;stroke:#000000;stroke-width:1.22790384px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <rect
-         y="69.720169"
-         x="49.443882"
-         height="425.90991"
-         width="541.28937"
+         y="6.9940982"
+         x="4.0578375"
+         height="448.15247"
+         width="541.28967"
          id="rect3763"
-         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:0.90967995px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
-      <rect
-         y="41.238792"
-         x="51.148537"
-         height="22.62339"
-         width="91.47718"
-         id="rect3774"
-         style="fill:#ff6600;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999905px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         style="fill:#ffffff;fill-rule:evenodd;stroke:#000000;stroke-width:0.93313134px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <text
+         transform="scale(0.97925497,1.0211845)"
          sodipodi:linespacing="125%"
          id="text3776"
-         y="56.933033"
-         x="57.050285"
-         style="font-size:16px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         y="-2.9191418"
+         x="10.564283"
+         style="font-size:15.89039326px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"><tspan
-           style="font-size:18px"
-           y="56.933033"
-           x="57.050285"
+           style="font-size:17.87669182px;fill:#ffffff"
+           y="-2.9191418"
+           x="10.564283"
            id="tspan3778"
-           sodipodi:role="line">Datei</tspan></text>
+           sodipodi:role="line">Unser Projektname</tspan></text>
       <rect
-         y="41.189671"
-         x="538.96368"
-         height="19.672512"
-         width="32.459644"
+         y="-23.026365"
+         x="493.57794"
+         height="20.699881"
+         width="32.459663"
          id="rect3780"
-         style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999905px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         style="fill:#ff0000;fill-rule:evenodd;stroke:#000000;stroke-width:1.02577889px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <text
+         transform="scale(0.97486866,1.0257792)"
          sodipodi:linespacing="125%"
          id="text3782"
-         y="55.362183"
-         x="548.69531"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         y="-7.9098053"
+         x="516.28448"
+         style="font-size:41.03119278px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"><tspan
-           style="font-size:16px;font-weight:bold;-inkscape-font-specification:Sans Bold"
-           y="55.362183"
-           x="548.69531"
+           style="font-size:16.41247749px;font-weight:bold;-inkscape-font-specification:Sans Bold"
+           y="-7.9098053"
+           x="516.28448"
            id="tspan3784"
            sodipodi:role="line">X</tspan></text>
       <rect
-         y="41.189671"
-         x="509.42218"
-         height="19.672512"
-         width="28.525145"
+         y="-23.026365"
+         x="464.03641"
+         height="20.699881"
+         width="28.525162"
          id="rect3786"
-         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999905px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:1.02577889px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <rect
-         y="41.189671"
-         x="481.53687"
-         height="19.672512"
-         width="28.525145"
+         y="-23.026365"
+         x="436.15109"
+         height="20.699881"
+         width="28.525162"
          id="rect3786-0"
-         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999905px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:1.02577889px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
       <text
+         transform="scale(0.97486866,1.0257792)"
          sodipodi:linespacing="125%"
          id="text3810"
-         y="67.751816"
-         x="487.71625"
-         style="font-size:40px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         y="4.7992301"
+         x="453.7334"
+         style="font-size:41.03119278px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
          xml:space="preserve"><tspan
-           y="67.751816"
-           x="487.71625"
+           y="4.7992301"
+           x="453.7334"
            id="tspan3812"
            sodipodi:role="line">-</tspan></text>
       <rect
-         y="46.518692"
-         x="514.81372"
-         height="10.515452"
-         width="17.593161"
+         y="-17.419043"
+         x="469.42795"
+         height="11.064608"
+         width="17.593172"
          id="rect3814"
-         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:0.99999905px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+         style="fill:#b3b3b3;fill-rule:evenodd;stroke:#000000;stroke-width:1.02577889px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <rect
+         y="7.1756496"
+         x="4.2076354"
+         height="18.661453"
+         width="541.07916"
+         id="rect3646"
+         style="fill:#e6e6e6;fill-rule:evenodd;stroke:#000000;stroke-width:0.85671370999999985px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1" />
+      <text
+         transform="scale(1.0019856,0.99801835)"
+         sodipodi:linespacing="125%"
+         id="text3675"
+         y="20.801256"
+         x="5.9005232"
+         style="font-size:13.4874773px;font-style:normal;font-weight:normal;line-height:125%;letter-spacing:0px;word-spacing:0px;fill:#000000;fill-opacity:1;stroke:none;font-family:Sans"
+         xml:space="preserve"><tspan
+           y="20.801256"
+           x="5.9005232"
+           id="tspan3677"
+           sodipodi:role="line">Datei</tspan></text>
     </g>
     <text
        xml:space="preserve"
