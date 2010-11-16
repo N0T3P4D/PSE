@@ -139,7 +139,7 @@ Jede funktionale Anforderung hat eine kennzeichnende fünfstellige Nummer. Die e
 \item Server
 \item KI-Klient
 \end{enumerate}
-Die zweite Stelle gibt den Bereich innerhalb des Spielverlaufs an. Bei den Server:
+Die zweite Stelle gibt den Bereich innerhalb des Spielverlaufs an.
 \begin{enumerate}
 \item Vorbereitungen
 \item Spielzug
@@ -151,8 +151,14 @@ Die drei letzen Stellen werden dann durchnummeriert.
 \item[/F11010/] Anzeigen des Hauptmenüs \\
 Bei Aufruf der ausführbaren Datei (Das Programm) soll das Spiel gestartet werden und das Hauptmenü angezeigt werden.
 
+Im Hauptmenü können folgende Punkt angewählt:
+\begin{itemize}
+\item Ändern der Spieleinstellungen ($\rightarrow$ /F11020/)
+\item Erstellen eines Servers ($\rightarrow$ /F11050/)
+\end{itemize}
+
 \item[/F11020/] Ändern der Spieleinstellungen \\
-Im Hauptmenü ($\rightarrow$ /F01/) muss es möglich sein, zu einem gesonderten Menü zu gelangen, in dem Spieleinstellungen eingestellt werden können.
+Zuerst werden die Einstellungen geladen und in das Fenster übertragen ($\rightarrow$ /F11030/). Danach kann man diese ändern und können dann gespeichert werden ($\rightarrow$ /F11040/).
 
 \item[/F11030/] Laden der Einstellungen \\
 Die in den Einstellungen ($\rightarrow$ /F02/) vorhandenen Daten werden vor dem Anzeigen aus der Datei ($\rightarrow$ /DB01/) geladen.
@@ -160,46 +166,46 @@ Die in den Einstellungen ($\rightarrow$ /F02/) vorhandenen Daten werden vor dem 
 \item[/F11040/] Speichern der Einstellungen \\
 Die im Einstellungsfenster ($\rightarrow$ /F02/) eingestellten Einstellungen werden in der Datei($\rightarrow$ /DB01/) gespeichert.
 
-\item[/F05/] Erstellen eines Servers (Konfiguration) \\
-Von dem Hauptmenü ($\rightarrow$ /F01/) muss es möglich sein, einen Server zu starten. Dafür wird ein Menü mit Konfigurationseinstellungen (Startgeld usw.) angezeigt.
+\item[/F11050/] Erstellen eines Servers (Konfiguration) \\
+Es ist möglich einen Server zu starten. Dazu kann man eine Konfiguration laden ($\rightarrow$ /F11060/), die Einstellungen ändern und die Einstellungen speichern (-> /F11070/). Danach kann der Server dann gestartet werden.
 
-\item[/F06/] Laden der Einstellungen \\
+\item[/F11060/] Laden der Einstellungen \\
 Die im Konfigurationsfenster des Servers ($\rightarrow$ /F05/) angezeigten Einstellungen werden vor dem Anzeigen aus der Datei ($\rightarrow$ /DB02/) geladen.
 
-\item[/F07/] Speichern der Einstellungen \\
+\item[/F11070/] Speichern der Einstellungen \\
 Die in den Einstellungsfenster ($\rightarrow$ /F05/) eingestellten Einstellungen werden in ($\rightarrow$ /DB02/) gespeichert.
 
-\item[/F08/] Erstellen eines Servers \\
-Nachdem die Einstellungen durchgeführt wurden ($\rightarrow$ /F05/) kann ein Server gestartet werden, dadurch wird ($\rightarrow$ /F09/) aufgerufen
+\item[/F11080/] Erstellen eines Servers \\
+Nachdem die Einstellungen durchgeführt wurden ($\rightarrow$ /F11050/) kann ein Server gestartet werden, dadurch wird ($\rightarrow$ /F09/) aufgerufen
 
-\item[/F09/] Starten eines Servers \\
-Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitschaftsmodus und stellt den Spielern ein ``Warteraum'' zur Verfügung.
+\item[/F11090/] Starten eines Servers \\
+Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitschaftsmodus und stellt den Spielern ein "`Warteraum"' zur Verfügung.
 
-\item[/F10/] Beitreten eines Servers \\
-Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl kommen dann ``direkte Verbindung''($\rightarrow$ /F11/) oder das ``beitreten über eine Serverliste'' ($\rightarrow$ /F12/) dran. Danach wird ein eventuell vorhandenes Passwort abgefragt, die Namen und Anzahl der Spieler angegeben die sich verbinden wollen und dann die Verbindung aufgebaut.
+\item[/F11100/] Beitreten eines Servers \\
+Im Hauptmenü ($\rightarrow$ /F01/) kann einem Server beigetreten werden, je nach Benutzerwahl können dann "`Direkte Verbindung"'($\rightarrow$ /F11110/) oder das "`Serverliste"' ($\rightarrow$ /F11120/) ausgewählt werden. Danach wird ein eventuell vorhandenes Passwort abgefragt, die Namen und Anzahl der Spieler angegeben die sich verbinden wollen und dann die Verbindung aufgebaut.
 
-\item[/F11/] Beitreten eines Servers durch Eingabe einer IP (direkte Verbindung) \\
-Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sofern dies der Fall ist wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/).
+\item[/F11110/] Beitreten eines Servers durch Eingabe einer IP (direkte Verbindung) \\
+Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sind keine Plätze frei, wird damit abgebrochen.
 
-\item[/F12/] Anzeigen der Serverliste \\
-In dieser Liste können einige Server angezeigt werden ohne dessen IP zu kennen ($\rightarrow$ /F1X0Y0/).
+\item[/F11120/] Anzeigen der Serverliste \\
+In dieser Liste können einige Server angezeigt werden ohne dessen IP zu kennen ($\rightarrow$ /F11130/).
 
-In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei sind und es wird mit den allgemeinen Tests fortgefahren ($\rightarrow$ /F14/). Ansonsten ist eine Verbindung nicht möglich.
-\item[/F1X0Y0/] Ermitteln der Server im lokalen Netzwerk \\
-Die im Netzwerk verfügbaren Server werden auf die Liste aufgenommen und kontaktiert zum Anzeigen der Serverinformationen ($\rightarrow$ /F13/).
-\item[/F13/] Abfragen der Serverinformationen für die Serverliste \\
+In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei sind. Ansonsten ist eine Verbindung nicht möglich.
+\item[/F11130/] Ermitteln der Server im lokalen Netzwerk \\
+Die im Netzwerk verfügbaren Server werden auf die Liste aufgenommen und die Serverinformationen werden abgefragt.
+\item[/F11140/] Abfragen der Serverinformationen für die Serverliste \\
 Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.\,B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
-\item[/F15/] Verlassen des Spiels \\
+\item[/F11150/] Verlassen des Spiels \\
 Über die entsprechende Schaltfläche im Programm, kann das Spiel verlassen werden.
 \end{description}
 
 \subsubsection{Während eines Spiels}
 \begin{description}
-\item[/F16/] Initieren eines Spiels \\
+\item[/F12010/] Initieren eines Spiels \\
 Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F17/). Nachdem mindestens zwei Spieler verbunden sind und alle Spieler bereit sind startet das Spiel ($\rightarrow$ /F18/).
-\item[/F17/] Chatten \\
+\item[/F12020/] Chatten \\
 Es ist während des gesamten Spiels möglich mit anderen Spielern zu chatten.
-\item[/F18/] Starten des Spiels \\
+\item[/F12030/] Starten des Spiels \\
 Nachdem das Spiel gestartet ist, erscheint bei allen das Spielfeld auf denen folgende Punkte angezeigt werden:
 \begin{itemize}
 \item Spieler mit deren Namen und Kontostände
@@ -214,39 +220,39 @@ Nachdem das Spiel gestartet ist, erscheint bei allen das Spielfeld auf denen fol
 \end{itemize}
 \item Das Chatfenster
 \end{itemize}
-Daraufhin kann er der erste Spieler die Runde starten ($\rightarrow$ /F19/). Außerdem kann jeder während des gesamten Spiels Nachrichten versenden ($\rightarrow$ /F17/).
-\item[/F19/] Durchführung einer Runde \\
-Als allererstes würfelt der Spieler ($\rightarrow$ /F120XX).
-\item[/F120X0/] Würfeln \\
+Daraufhin kann er der erste Spieler die Runde starten ($\rightarrow$ /F12040/). Außerdem kann jeder während des gesamten Spiels Nachrichten versenden ($\rightarrow$ /F12020/).
+\item[/F12040/] Durchführung einer Runde \\
+Sobald der nächste Spieler aktiv ist, darf dieser selber würfeln und somit den Zug beginnen ($\rightarrow$ /F12050).
+\item[/F12050/] Würfeln \\
 Zum Würfeln fragt der aktive Spieler eine Zufallszahl beim Server ab ($\rightarrow$ /F22020/). Anhand dieser Zufallszahl ziehen die Spieler die Spielfigur des aktiven Spielers weiter.
 
 Landet der Spieler auf einen Sonderfeld wird entsprechend dem Sonderfeld vorgegangen. Danach kann der aktive Spieler weitere Aktionen durchführen ($\rightarrow$ /F120Y0).
-\item[/F120Y0/] Weitere Aktionen \\
+\item[/F12060/] Weitere Aktionen \\
 Nachdem der Spieler gewürfelt hat kann er folgende Aktionen ausführen:
 \begin{itemize}
-\item Den Spielzug beenden ($\rightarrow$ /F22010/ /F19/).
-\item Eine Straße kaufen ($\rightarrow$ /F22031/ /F120Y1/).
-\item Ein Gebäude bauen ($\rightarrow$ /F22032/ /F120Y2/).
-\item Eine Hypothek aufnehmen ($\rightarrow$ /F22033/ /F120Y3/).
-\item Ein Gebäude abreißen ($\rightarrow$ /F22034/ /F120Y4/).
-\item Einen Handel initiieren ($\rightarrow$ /F22035/ /F120Y5/).
-\item Eine Straße versteigern ($\rightarrow$ /F22036/ /F120Y6/).
+\item Den Spielzug beenden ($\rightarrow$ /F22010/ /F12040/).
+\item Eine Straße kaufen ($\rightarrow$ /F22031/ /F12061/).
+\item Ein Gebäude bauen ($\rightarrow$ /F22032/ /F12062/).
+\item Eine Hypothek aufnehmen ($\rightarrow$ /F22033/ /F12063/).
+\item Ein Gebäude abreißen ($\rightarrow$ /F22034/ /F12064/).
+\item Einen Handel initiieren ($\rightarrow$ /F22035/ /F12065/).
+\item Eine Straße versteigern ($\rightarrow$ /F22036/ /F12066/).
 \end{itemize}
 Außerdem kann währenddessen die Miete vom Besitzer der Straße eingefordert werden ($\rightarrow$ /F120Z0).
-\item[/F120Y1/] Straße kaufen \\
+\item[/F12061/] Straße kaufen \\
 Da der Spieler nur die Straße kaufen kann, auf den der Spieler steht, wird vorher nur geprüft ob die Straße zu verkaufen ist und der Spieler genügend Geld hat ($\rightarrow$ /F22031/). Danach kann der Spieler weitere Befehle ausführen ($\rightarrow$ /F120Y0/).
-\item[/F120Y2/] Gebäude bauen \\
+\item[/F12062/] Gebäude bauen \\
 %alternativ: Der Spieler fragt einfach den Server
 Zuerst wird geprüft, ob der Spieler genügend Geld hat und nach den entsprechenden Regeln dort ein Gebäude gebaut werden darf. ($\rightarrow$ /F22032/)
-\item[/F120Y3/] Hypothek aufnehmen \\
+\item[/F12063/] Hypothek aufnehmen \\
 Wenn der Spieler nach den Regeln eine Hypothek aufnehmen darf, meldet der aktive Spieler dies dem Server ($\rightarrow$ /F22033/).
-\item[/F120Y4/] Gebäude abreißen \\
+\item[/F12064/] Gebäude abreißen \\
 Erst wird überprüft, ob der Spieler das Gebäude nach den Spielregeln abreißen darf ($\rightarrow$ /F22034/).
-\item[/F120Y5/] Handel initiieren \\
+\item[/F12065/] Handel initiieren \\
 Der aktive Spieler kann ein Handel mit einem anderen Spieler oder der Bank initiieren ($\rightarrow$ /F22035/). Darauf hin können beide Spieler ihr Angebot einstellen und dieses fixieren. Danach müssen beide dann das Angebot bestätigen und der Handel erfolgt.
-\item[/F120Y6/] Straße versteigern \\
+\item[/F12066/] Straße versteigern \\
 Um eine Straße zu versteigern, müssen dies die Regeln erlauben. Danach kann jeder Spieler darauf bieten ($\rightarrow$ /F22036/).
-\item[/F120Z0/] Miete erheben \\
+\item[/F12070/] Miete erheben \\
 Sobald ein Spieler auf ein Feld zieht, dass ihm nicht gehört, kann der Besitzer die Miete erheben. Dies kann er solange bis der nächste Spieler gewürfelt hat.
 
 Nachdem der Spieler fertig ist, kann er die aktuelle Runde an den nächsten Spieler abgeben. Außerdem kann ein Spieler aufgeben ($\rightarrow$ /F20/).
