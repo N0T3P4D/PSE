@@ -38,7 +38,7 @@ Fabian Neundorf}
 \vspace{3cm}
 \huge{Praxis der Softwareentwicklung \\
 Gruppe 3 \\[0.5cm]
-Entwicklung eines ``Monopoly''-ähnlichen Spiels \\[0.5cm]
+Entwicklung eines "`Monopoly"'-ähnlichen Spiels \\[0.5cm]
 \includegraphics[height=2cm]{kitlogo_de_rgb}  \\[0.5cm]
 WS 2010 / 2011} \\[2cm]
 %\textcolor{red}{! DRAFT !}
@@ -53,7 +53,7 @@ WS 2010 / 2011} \\[2cm]
 \newpage
 
 \section{Produktübersicht}
-Das Produkt ist eine Umsetzung des berühmten Brettspielklassikers ``Monopoly'' für den Computer.
+Das Produkt ist eine Umsetzung des berühmten Brettspielklassikers "`Monopoly"' für den Computer.
 Ziel des Spiels ist es, durch Geschicklichkeit, strategisches Denken und der nötigen Portion Glück das ganze Geld der Gegner einzunehmen. Gewonnen hat der Spieler, der zuletzt das meiste Geld besitzt. 
 
 Das Spiel beinhaltet mehrere Spiel-Modi:
@@ -61,15 +61,15 @@ Das Spiel beinhaltet mehrere Spiel-Modi:
 \item Einzelspieler gegen Computer-KI
 \item Mehrspieler an einem oder mehreren Computern sowie mit als auch ohne KI
 \end{itemize}
-Das Programm zeichnet sich durch seine Benutzerfreundlichkeit aus, die sich in der intuitiven Bedienbarkeit der graphischen Benutzeroberfläche äußert. Abgebildet werden das Monopoly (R)-Spielfeld sowie einige wenige zusätzliche Elemente, um die Übersichtlichkeit zu wahren. 
+Das Programm zeichnet sich durch seine Benutzerfreundlichkeit aus, die sich in der intuitiven Bedienbarkeit der graphischen Benutzeroberfläche äußert. Abgebildet werden das Monopoly\textregistered-Spielfeld sowie einige wenige zusätzliche Elemente, um die Übersichtlichkeit zu wahren. 
 \subsection{Spielregeln}
-Es können standardmäßig mindestens zwei und maximal acht Spieler an einem Spiel teilnehmen. Zu Beginn des Spieles bekommt jeder Spieler ein festgelegtes Startkapital, mit dem er Straßen, Einkaufsläden, Häuser und Hotels kaufen kann oder Strafen sowie Steuerzahlungen die durch Ereignisse entstehen an die Bank bzw. in die Mitte des Spielbretts bezahlen muss. 
+Es können standardmäßig mindestens zwei und maximal acht Spieler an einem Spiel teilnehmen. Zu Beginn des Spieles bekommt jeder Spieler ein festgelegtes Startkapital, mit dem er Straßen, Häuser und Hotels kaufen kann oder Strafen sowie Steuerzahlungen die durch Ereignisse entstehen an die Bank bzw. in die Mitte des Spielbretts bezahlen muss. 
 
-Auf einer Straße kann man zusätzlich noch Hotels, Häuser und Einkaufsläden bauen, dadurch erhöht sich die Miete der Straße. Das Geld das sich auf dem Spielbrett sammelt bekommt derjenige Spieler der auf dem Feld ``Frei parken'' zum stehen kommt.  Es treten verschiedene Spieler gegeneinander an, dabei können die Spieler menschlich sein oder werden vom Computer (KI) gesteuert.
+Auf einer Straße kann man zusätzlich noch Hotels und Häuser bauen, dadurch erhöht sich die Miete der Straße. Das Geld, das sich auf dem Spielbrett sammelt, bekommt derjenige Spieler, der auf dem Feld ``Frei parken'' zum Stehen kommt.  Es treten verschiedene Spieler gegeneinander an, dabei können die Spieler menschlich sein oder werden vom Computer (KI) gesteuert.
 
-Jeder Spieler kommt abwechselnd und zyklisch an die Reihe und würfelt mit zwei Würfel. Die Summe, die sich aus den Augenzahlen der zwei Würfel ergibt, gibt dem Spieler Auskunft darüber, wie viele Schritte der Spieler mit seiner symbolischen Figur voranschreiten darf. Die Spielfiguren bewegen sich im Uhrzeigersinn auf dem Spielfeld. Dabei überquert der Spieler im Laufe des Spiels verschiedene Straßen, die von Spielern für einen festgelegten Preis gekauft werden können. Bleibt der Spieler auf einer Straße, die einem anderen Spieler gehört, stehen, so muss er einen gewissen Betrag an Geld an diesen Spieler zahlen (Miete). Die Höhe des Einnahmegeldes (Miete) hängt davon ab, ob der Spieler nur diese Straße besitzt oder ob er auf dieser Straße noch weitere Gebäude (Häuser, Hotels) gebaut bzw. gekauft hat. Wenn der Spieler zusätzlich noch Häuser und Hotels auf dieser Straße gebaut hat, dann erhöht sich das Einnahmegeld für die jeweilige Straße. Dabei steigt die Miete in aufsteigender Reihenfolge, d.h die Miete für ein Hotel ist höher als die für ein Haus.
+Jeder Spieler kommt abwechselnd und zyklisch an die Reihe und würfelt mit zwei Würfel. Die Summe, die sich aus den Augenzahlen der zwei Würfel ergibt, gibt dem Spieler Auskunft darüber, wie viele Schritte er mit seiner symbolischen Figur voranschreiten darf. Die Spielfiguren bewegen sich im Uhrzeigersinn auf dem Spielfeld. Dabei überquert der Spieler im Laufe des Spiels verschiedene Straßen, die von Spielern für einen festgelegten Preis gekauft werden können. Bleibt der Spieler auf einer Straße, die einem anderen Spieler gehört, stehen, so muss er einen gewissen Betrag an Geld an diesen Spieler zahlen (Miete). Die Höhe des Einnahmegeldes (Miete) hängt davon ab, ob der Spieler nur diese Straße besitzt oder ob er auf dieser Straße noch weitere Gebäude (Häuser, Hotels) gebaut bzw. gekauft hat. Wenn der Spieler zusätzlich noch Häuser und Hotels auf dieser Straße gebaut hat, dann erhöht sich das Einnahmegeld für die jeweilige Straße. Dabei steigt die Miete in aufsteigender Reihenfolge, d.h die Miete für ein Hotel ist höher als die für ein Haus.
 	
-Landet der Spieler auf einem ``Steuern bezahlen''-Feld,dann muss er Steuern bezahlen, die sich in der Mitte des Spielbretts sammeln. Bleibt der Spieler auf dem  Feld ``Gefängnis'' stehen, so setzt er eine Würfelrunde aus, kann jedoch immer noch Miete von den anderen Spielern einnehmen, sowie Handel mit anderen Spielern betreiben. Überquert ein Spieler  das Feld ``Los'', auf welchem zu Beginn gestartet wurde, so kassiert er eine Prämie. Beim Stillstand auf einem Ereignisfeld zieht der Spieler eine Ereigniskarte mit verschiedenen Aufgaben, die der Spieler erledigen muss und dabei auch Geldprämien kassieren kann oder auch Abgaben bezahlen muss.  Jeder Spieler hat während dem Spiel die Möglichkeit, seine Gebäude und Straßen an die anderen Spieler zu verkaufen , sowie diese für eine Ersteigerung (Auktion) frei zu geben. Kann ein Spieler finanziell seinen Anforderungen nicht mehr nachkommen, so scheidet er automatisch aus. Spieler die vorzeitig ein laufendes Spiel beenden , können ihr Gut entweder an die Bank abgeben oder an ihre Mitspieler. Gewonnen hat der Spieler der zuletzt das meiste Geld besitzt. Ziel dieses Spieles ist durch Geschicklichkeit und ein bisschen Glück seine Gegner finanziell in die Knie zu zwingen.
+Landet der Spieler auf einem ``Steuern bezahlen''-Feld,dann muss er Steuern bezahlen, die sich in der Mitte des Spielbretts sammeln. Bleibt der Spieler auf dem  Feld "`Gefängnis"' stehen, so setzt er eine Würfelrunde aus, kann jedoch immer noch Miete von den anderen Spielern einnehmen, sowie Handel mit anderen Spielern betreiben. Überquert ein Spieler  das Feld "`Los"', auf welchem zu Beginn gestartet wurde, so kassiert er eine Prämie. Beim Stillstand auf einem Ereignisfeld zieht der Spieler eine Ereigniskarte mit verschiedenen Aufgaben, die der Spieler erledigen muss und dabei auch Geldprämien kassieren kann oder Abgaben bezahlen muss.  Jeder Spieler hat während des Spiels die Möglichkeit, seine Gebäude und Straßen an die anderen Spieler zu verkaufen, sowie diese für eine Ersteigerung (Auktion) freizugeben. Kann ein Spieler finanziell seinen Forderungen nicht mehr nachkommen, so scheidet er automatisch aus. Spieler, die vorzeitig ein laufendes Spiel beenden, können ihre Habe entweder an die Bank abgeben oder an ihre Mitspieler. Gewonnen hat der Spieler, der zuletzt das meiste Geld besitzt. Ziel dieses Spieles ist, durch Geschicklichkeit und ein bisschen Glück seine Gegner finanziell in die Knie zu zwingen.
 \newpage
 \section{Zielbestimmung}
 \subsection{Musskriterien}
@@ -166,25 +166,25 @@ Die drei letzen Stellen werden dann durchnummeriert.
 \subsubsection{Außerhalb des Spielfeldes}
 \begin{description}
 \item[/F11010/] Anzeigen des Hauptmenüs \\
-Bei Aufruf der ausführbaren Datei (Das Programm) soll das Spiel gestartet werden und das Hauptmenü angezeigt werden.
+Beim Starten des Programms soll das das Hauptmenü angezeigt werden.
 
 Im Hauptmenü können folgende Punkt angewählt:
 \begin{itemize}
-\item Ändern der Spieleinstellungen ($\rightarrow$ /F11020/)
-\item Erstellen eines Servers ($\rightarrow$ /F11050/)
+\item Einstellungen ($\rightarrow$ /F11020/)
+\item Spiel erstellen ($\rightarrow$ /F11050/)
 \item Spiel beitreten ($\rightarrow$ /F11100/)
-\item Spiel speichern ($\rightarrow$ /F11700/)
-\item Programm beenden
+\item Spiel speichern ($\rightarrow$ /F11700/) (nur bei aktivem Spiel)
+\item Beenden
 \end{itemize}
 
 \item[/F11020/] Ändern der Spieleinstellungen \\
 Zuerst werden die Einstellungen geladen und in das Fenster übertragen ($\rightarrow$ /F11030/). Danach kann man diese ändern und können dann gespeichert werden ($\rightarrow$ /F11040/).
 
 \item[/F11030/] Laden der Einstellungen \\
-Die in den Einstellungen ($\rightarrow$ /F02/) vorhandenen Daten werden vor dem Anzeigen aus der Datei geladen.
+Die in den Einstellungen ($\rightarrow$ /F11020/) vorhandenen Daten werden vor dem Anzeigen aus der Datei geladen.
 
 \item[/F11040/] Speichern der Einstellungen \\
-Die im Einstellungsfenster ($\rightarrow$ /F02/) eingestellten Einstellungen werden gespeichert.
+Die im Einstellungsfenster ($\rightarrow$ /F11020/) eingestellten Einstellungen werden gespeichert.
 
 \item[/F11050/] Erstellen eines Servers (Konfiguration) \\
 Es ist möglich einen Server zu starten. Dazu kann man eine Konfiguration laden ($\rightarrow$ /F11060/), ändern und speichern ($\rightarrow$ /F11070/). Alternativ kann auch ein Spielstand geladen werden ($\rightarrow$ /F11160/). Danach kann der Server dann gestartet werden.
@@ -199,26 +199,30 @@ Die in den Einstellungsfenster ($\rightarrow$ /F11050/) eingestellten Einstellun
 Nachdem die Einstellungen durchgeführt wurden ($\rightarrow$ /F11050/) kann ein Server gestartet werden, dadurch wird ($\rightarrow$ /F11090/) aufgerufen.
 
 \item[/F11090/] Starten eines Servers \\
-Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitschaftsmodus und stellt den Spielern ein "`Warteraum"' zur Verfügung.
+Ein Server wird initialisiert und gestartet, er befindet sich dann im Bereitschaftsmodus und stellt den Spielern einen "`Warteraum"' zur Verfügung.
 
 \item[/F11100/] Spiel beitreten \\
-Im Hauptmenü ($\rightarrow$ /F11010/) kann einem Server beigetreten werden, je nach Benutzerwahl können dann "`Direkte Verbindung"'($\rightarrow$ /F11110/) oder das "`Serverliste"' ($\rightarrow$ /F11120/) ausgewählt werden. Danach wird ein eventuell vorhandenes Passwort und die Namen sowie die Anzahl der Spieler abgefragt und dann die Verbindung aufgebaut ($\rightarrow$ /F12010/). Sofern das Spiel bereits läuft wird der Vorgang abgebrochen.
+Im Hauptmenü ($\rightarrow$ /F11010/) kann einem Spiel beigetreten werden, je nach Benutzerwahl können dann "`Direkte Verbindung"'($\rightarrow$ /F11110/) oder die "`Serverliste"' ($\rightarrow$ /F11120/) ausgewählt werden. Danach wird ein eventuell vorhandenes Passwort und die Namen sowie die Anzahl der Spieler abgefragt und dann die Verbindung aufgebaut ($\rightarrow$ /F12010/). Sofern das Spiel bereits läuft wird, der Vorgang abgebrochen.
 
 \item[/F11110/] Spiel beitreten durch Eingabe einer IP (direkte Verbindung) \\
 Die IP wird angenommen und es wird getestet, ob mit der IP ein Server erreichbar ist und Plätze frei hat. Sind keine Plätze frei, wird damit abgebrochen.
 
 \item[/F11120/] Anzeigen der Serverliste \\
-In dieser Liste können einige Server angezeigt werden ohne dessen IP zu kennen ($\rightarrow$ /F11130/).
+In dieser Liste können einige Server angezeigt werden, ohne dessen IP zu kennen ($\rightarrow$ /F11130/).
 
-In dieser Liste kann ein Server angewählt werden und sofern noch Plätze frei sind. Ansonsten ist eine Verbindung nicht möglich.
+In dieser Liste kann ein Server angewählt werden, sofern noch Plätze frei sind. Ansonsten ist eine Verbindung nicht möglich.
 \item[/F11130/] Ermitteln der Server im lokalen Netzwerk \\
 Die im Netzwerk verfügbaren Server werden auf die Liste aufgenommen und die Serverinformationen werden abgefragt.
+
 \item[/F11140/] Abfragen der Serverinformationen für die Serverliste \\
-Jeder Server in der Liste gibt wichtige Informationen über sich um sie dann in der Liste anzuzeigen (z.\,B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
+Jeder Server in der Liste übersendet wichtige Informationen über sich, um sie dann in der Liste anzuzeigen (z.\,B. ob ein Passwort vorhanden ist, wie viele Spieler sich verbunden haben, wie viele Spieler sich verbinden dürfen).
+
 \item[/F11150/] Verlassen des Spiels \\
-Über die entsprechende Schaltfläche im Programm, kann das Spiel verlassen werden.
+Über die entsprechende Schaltfläche im Programm kann das Spiel verlassen werden.
+
 \item[/F11160/] Spielstand laden \\
 Sofern man ein Spielstand lädt wird die Konfiguration automatisch daraus geladen.
+
 \item[/F11170/] Spielstand speichern \\
 Man kann im Hauptmenü den Spielstand jederzeit speichern.
 \end{description}
@@ -226,9 +230,10 @@ Man kann im Hauptmenü den Spielstand jederzeit speichern.
 \subsubsection{Bei hergestellter Verbindung}
 \begin{description}
 \item[/F12010/] Initiieren eines Spiels \\
-Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F12020/). Nachdem mindestens zwei Spieler verbunden sind und alle Spieler bereit sind startet das Spiel ($\rightarrow$ /F12030/). 
+Der Warteraum wird angezeigt. Währenddessen kann man sich mit den anderen Spielern unterhalten ($\rightarrow$ /F12020/). Nachdem mindestens zwei Spieler verbunden sind und alle Spieler bereit sind, startet das Spiel ($\rightarrow$ /F12030/). 
 \item[/F12020/] Chatten \\
-Es ist während des gesamten Spiels möglich mit anderen Spielern zu chatten.
+Es ist während des gesamten Spiels möglich, mit anderen Spielern zu chatten.
+
 \item[/F12030/] Starten des Spiels \\
 Nachdem das Spiel gestartet ist, erscheint bei allen das Spielfeld, auf dem folgende Punkte angezeigt werden:
 \begin{itemize}
@@ -250,21 +255,21 @@ Sobald der nächste Spieler aktiv ist, darf dieser selber würfeln und somit den
 \item[/F12050/] Würfeln \\
 Zum Würfeln fragt der aktive Spieler eine Zufallszahl beim Server ab ($\rightarrow$ /F22020/). Anhand dieser Zufallszahl ziehen die Spieler die Spielfigur des aktiven Spielers weiter.
 
-Landet der Spieler auf einen Sonderfeld wird entsprechend dem Sonderfeld vorgegangen. Danach kann der aktive Spieler weitere Aktionen durchführen ($\rightarrow$ /F12060/).
+Landet der Spieler auf einen Sonderfeld, wird entsprechend dem Sonderfeld vorgegangen. Danach kann der aktive Spieler weitere Aktionen durchführen ($\rightarrow$ /F12060/).
 \item[/F12060/] Weitere Aktionen \\
-Nachdem der Spieler gewürfelt hat kann er folgende Aktionen ausführen:
+Nachdem der Spieler gewürfelt hat, kann er folgende Aktionen ausführen:
 \begin{itemize}
-\item Den Spielzug beenden ($\rightarrow$ /F22010/ /F12040/).
-\item Eine Straße kaufen ($\rightarrow$ /F22031/ /F12061/).
-\item Ein Gebäude bauen ($\rightarrow$ /F22032/ /F12062/).
-\item Eine Hypothek aufnehmen ($\rightarrow$ /F22033/ /F12063/).
-\item Ein Gebäude abreißen ($\rightarrow$ /F22034/ /F12064/).
-\item Einen Handel initiieren ($\rightarrow$ /F22035/ /F12065/).
-\item Eine Straße versteigern ($\rightarrow$ /F22036/ /F12066/).
+\item den Spielzug beenden ($\rightarrow$ /F22010/ /F12040/).
+\item eine Straße kaufen ($\rightarrow$ /F22031/ /F12061/).
+\item ein Gebäude bauen ($\rightarrow$ /F22032/ /F12062/).
+\item eine Hypothek aufnehmen ($\rightarrow$ /F22033/ /F12063/).
+\item ein Gebäude abreißen ($\rightarrow$ /F22034/ /F12064/).
+\item einen Handel initiieren ($\rightarrow$ /F22035/ /F12065/).
+\item eine Straße versteigern ($\rightarrow$ /F22036/ /F12066/).
 \end{itemize}
 Außerdem kann währenddessen die Miete vom Besitzer der Straße eingefordert werden ($\rightarrow$ /F12070/).
 \item[/F12061/] Straße kaufen \\
-Da der Spieler nur die Straße kaufen kann, auf den der Spieler steht, wird vorher nur geprüft ob die Straße zu verkaufen ist und der Spieler genügend Geld hat ($\rightarrow$ /F22031/). Danach kann der Spieler weitere Befehle ausführen ($\rightarrow$ /F120Y0/).
+Da der Spieler nur die Straße kaufen kann, auf den der Spieler steht, wird vorher nur geprüft, ob die Straße zu verkaufen ist und der Spieler genügend Geld hat ($\rightarrow$ /F22031/). Danach kann der Spieler weitere Befehle ausführen ($\rightarrow$ /F120Y0/).
 \item[/F12062/] Gebäude bauen \\
 %alternativ: Der Spieler fragt einfach den Server
 Zuerst wird geprüft, ob der Spieler genügend Geld hat und nach den entsprechenden Regeln dort ein Gebäude gebaut werden darf. ($\rightarrow$ /F22032/)
@@ -277,15 +282,15 @@ Der aktive Spieler kann ein Handel mit einem anderen Spieler oder der Bank initi
 \item[/F12066/] Straße versteigern \\
 Um eine Straße zu versteigern, müssen dies die Regeln erlauben. Danach kann jeder Spieler darauf bieten ($\rightarrow$ /F22036/).
 \item[/F12070/] Miete erheben \\
-Sobald ein Spieler auf ein Feld zieht, dass ihm nicht gehört, kann der Besitzer die Miete erheben. Dies kann er solange bis der nächste Spieler gewürfelt hat.
+Sobald ein Spieler auf ein Feld zieht, das ihm nicht gehört, kann der Besitzer die Miete erheben. Dies kann er solange, bis der nächste Spieler gewürfelt hat.
 
 Nachdem der Spieler fertig ist, kann er die aktuelle Runde an den nächsten Spieler abgeben. Außerdem kann ein Spieler aufgeben ($\rightarrow$ /F20/).
 \item[/F12080/] Aufgeben \\
-Jeder Spieler kann, sobald er dran ist aufgeben. Er kann dann sagen, was mit seinem verbleibenden Besitz passiert:
+Jeder Spieler kann, sobald er an der Reihe ist, aufgeben. Er kann dann sagen, was mit seinem verbleibenden Besitz passiert:
 \begin{itemize}
 \item Die Bank bekommt das Geld, die Ereigniskarten und die Straßen zurück. Je nach Einstellungen bleiben die Gebäude stehen oder werden abgerissen.
-\item Zuerst werden alle Straßen an andere Spieler versteigert und dann bekommt die Bank die übrig gebliebenen Straßen, das Geld und die Ereigniskarten. Wieder können je nach Einstellungen die Gebäude stehen bleiben.
-\item Es ist möglich das Eigentum an andere Spieler zu verschenken. Alles übrig gebliebene kommt an die Bank. Eventuelle Straßen mit Gebäuden behalten die Gebäude abhängig von den Einstellungen.
+\item Zuerst werden alle Straßen an andere Spieler versteigert, dann bekommt die Bank die übrig gebliebenen Straßen, das Geld und die Ereigniskarten. Wieder können je nach Einstellungen die Gebäude stehen bleiben.
+\item Es ist möglich, das Eigentum an andere Spieler zu verschenken. Alles Übriggebliebene geht an die Bank. Eventuell vorhandene Straßen mit Gebäuden behalten die Gebäude abhängig von den Einstellungen.
 \end{itemize}
 \end{description}
 
@@ -297,13 +302,13 @@ Bei den Starten des Servers wird ermittelt, ob ein Spielstand geladen ($\rightar
 \item[/F21020/] Spielstand laden \\
 Sofern der Spielstand valide ist, wird diese Datei eingelesen und der Server ist im Wartemodus ($\rightarrow$ /F21040/).
 \item[/F21030/] Neues Spiel starten \\
-Es wird ein neues Spiel gestartet indem die entsprechenden Anfangseinstellungen aus den Übergabeparametern oder einer Datei geladen werden. Danach befindet sich der Server im Wartemodus ($\rightarrow$ /F21040/).
+Es wird ein neues Spiel gestartet, indem die entsprechenden Anfangseinstellungen aus den Übergabeparametern oder einer Datei geladen werden. Danach befindet sich der Server im Wartemodus ($\rightarrow$ /F21040/).
 \item[/F21040/] Wartemodus \\
-Im Wartemodus stellt der Server ein Chatraum zur Verfügung. Jeder Spieler landet zuerst hier und kann sich auf "`bereit"' setzen. Nachdem mindestens zwei Spieler verbunden sind und alle bereit sind, startet das Spiel ($\rightarrow$ /F21050/), sofern es sich um ein geladenes Spiel handelt. Ansonsten, wenn es sich um ein neues Spiel handelt, werden die Vorbereitungen abgeschlossen ($\rightarrow$ /F21060).
+Im Wartemodus stellt der Server einen Chatraum zur Verfügung. Jeder Spieler landet zuerst hier und kann sich auf `bereit"' setzen. Nachdem mindestens zwei Spieler verbunden und alle bereit sind, startet das Spiel ($\rightarrow$ /F21050/), sofern es sich um ein geladenes Spiel handelt. Ansonsten, wenn es sich um ein neues Spiel handelt, werden die Vorbereitungen abgeschlossen ($\rightarrow$ /F21060).
 \item[/F21050/] Spielstart \\
-Nachdem allen Spieler die Reihenfolge übermittelt wurde, wird der erste Spielzug gestartet indem der entsprechende Spieler informiert wird, dass er dran ist ($\rightarrow$ /F22040/).
+Nachdem allen Spieler die Reihenfolge übermittelt wurde, wird der erste Spielzug gestartet, indem der entsprechende Spieler informiert wird, dass er dran ist ($\rightarrow$ /F22040/).
 \item[/F21060/] Vorbereitungen eines neuen Spiels abschließen \\
-Wenn es sich um ein neues Spiel handelt, wird die Reihenfolge der Spieler festgelegt, und der erste Spieler in der neuen Reihenfolge ist dann der erste Spieler der einen Zug ausführen darf. Danach fängt das startet das Spiel ($\rightarrow$ /F21050).
+Wenn es sich um ein neues Spiel handelt, wird die Reihenfolge der Spieler festgelegt, und der erste Spieler in der neuen Reihenfolge ist dann der erste Spieler der einen Zug ausführen darf. Danach startet das Spiel ($\rightarrow$ /F21050).
 \end{description}
 \newpage
 \subsubsection{Spielzug}
@@ -311,11 +316,11 @@ Wenn es sich um ein neues Spiel handelt, wird die Reihenfolge der Spieler festge
 \item[/F22010/] Spielzug informieren \\
 Nachdem die Person bekannt ist, die nun zieht, wird allen Spielern übermittelt, dass dieser Spieler dran ist. Danach wartet der Server darauf, dass gewürfelt werden soll ($\rightarrow$ /F22020/). Währenddessen stellt der Server einen Chatraum zur Verfügung. Überschreitet der aktive Spieler eine Bedenkdauer, wird der Spieler herausgeworfen und alles geht an die Bank.
 \item[/F22020/] Würfeln \\
-Um den Betrug des Spielers vorzubeugen bekommt der Server von den Client den Befehl zu würfeln. Dieser erzeugt dann eine zufällige Zahl zwischen 2 und 12. Alle Spieler erhalten dann diese Zahl und alle Spieler, ziehen die Spielfigur des aktiven Spielers weiter. Danach kann der aktive Spieler weitere Befehle geben ($\rightarrow$ /F22030/).
+Um den Betrug des Spielers vorzubeugen, bekommt der Server von den Client den Befehl zu würfeln. Dieser erzeugt dann eine zufällige Zahl zwischen 2 und 12. Alle Spieler erhalten dann diese Zahl und alle Spieler ziehen die Spielfigur des aktiven Spielers weiter. Danach kann der aktive Spieler weitere Befehle geben ($\rightarrow$ /F22030/).
 \item[/F22030/] Weitere Befehle \\
 Der Server bekommt jetzt die weiteren Befehle vom entsprechenden Client. Bei allen der folgenden Befehle wird anfangs getestet ob der Zug erlaubt ist:
 \begin{itemize}
-\item Der nächste Spieler kann dran kommen ($\rightarrow$ /F22010/).
+\item Der nächste Spieler kann an der Reihe sein ($\rightarrow$ /F22010/).
 \item Der Spieler möchte die Straße kaufen ($\rightarrow$ /F22031/).
 \item Der Spieler möchte ein Gebäude bauen ($\rightarrow$ /F22032/).
 \item Der Spieler kann eine Hypothek aufnehmen ($\rightarrow$ /F22033/).
@@ -334,9 +339,9 @@ Bei der Aufnahme der Hypothek wird der Kontostand des Spielers erhöht.
 \item[/F22034/] Gebäudeabriss \\
 Dem Kontostand wird der entsprechende Abrisswert hinzugefügt und das Gebäude von der Straße entfernt.
 \item[/F22035/] Handel \\
-Beim Handel wird der Handelspartner über den Beginn eines Handels informiert. Dann können beide Spieler ihre Angebote hinzufügen ($\rightarrow$ /F22041/). Sofern ein Spieler fertig ist, kann dieser das als Angebot fixieren und keine Änderungen an dem eigenen Angebot vornehmen. Sobald beide das als Angebot fixiert haben, können diese es annehmen und der Handel erfolgt.
+Beim Handel wird der Handelspartner über den Beginn eines Handels informiert. Dann können beide Spieler ihre Angebote hinzufügen ($\rightarrow$ /F22041/). Sofern ein Spieler fertig ist, kann dieser das Angebot fixieren und keine Änderungen an dem eigenen Angebot vornehmen. Sobald beide das als Angebot fixiert haben, können diese es annehmen und der Handel erfolgt.
 \item[/F22036/] Versteigern einer Straße \\
-Zuerst wird getestet, ob die Spielregeln es erlauben, die Straße zu verkaufen. Sofern die Regeln es erlauben, wird die Straße den Personen zum Verkauf angeboten. Alle Spieler können dann darauf bieten und entsprechend den Preis erhöhen. Nach der Versteigerung, werden alle Spieler über den neuen Besitzer der Straße informiert.
+Zuerst wird getestet, ob die Spielregeln es erlauben, die Straße zu verkaufen. Sofern die Regeln es erlauben, wird die Straße den Personen zum Verkauf angeboten. Alle Spieler können dann darauf bieten und entsprechend den Preis erhöhen. Nach der Versteigerung werden alle Spieler über den neuen Besitzer der Straße informiert.
 \item[/F22037/] Ausstieg eines Spielers \\
 Ein Spieler kann aussteigen und seinen Besitz entweder an die Bank zurückgeben, verkaufen oder versteigern.
 \item[/F22040/] Spielstand speichern \\
@@ -347,11 +352,11 @@ Es gibt einen Befehl um den Spielstand zu speichern.
 \subsubsection{Vorbereitungen}
 \begin{description}
 \item[/F31001/]Starten des KI-Client\\
-Der KI-Klient verbindet sich beim Start automatisch mit einem Server, dessen Beschreibung er per Befehlsparameter erhalten muss
+Der KI-Client verbindet sich beim Start automatisch mit einem Server, dessen Beschreibung er per Befehlsparameter erhalten muss
 \item[/F31002/]Betreten eines Servers\\
-Wenn der KI-Klient einem Server beitritt, setzt er sich automatisch auf "`Bereit"' und wartet auf den Beginn des Spiels
+Wenn der KI-Client einem Server beitritt, setzt er sich automatisch auf "`bereit"' und wartet auf den Beginn des Spiels
 \item[/F31003/] Laden der KI-Parameter \\
-Der Klient lädt die Parameter für seine KI-Logik aus einer angegebenen Datei
+Der Client lädt die Parameter für seine KI-Logik aus einer angegebenen Datei
 \end{description}
 \subsubsection{Spielzug}
 \begin{description}
@@ -360,20 +365,20 @@ Der KI-Client würfelt automatisch und kann danach alle Spielaktionen ausführen
 \item[/F32002/] Ausführen einer Spielaktion \\
 Die interne KI-Spiellogik entscheidet, ob und welche Aktion ausgeführt werden soll
 \item[/F32030/] Verlangen der Miete \\
-Sobald ein anderer Spieler auf einem Spielfeld, dass dem KI-Klienten gehört, landet, verlangt dieser die anfallende Miete
+Sobald ein anderer Spieler auf einem Spielfeld, das dem KI-Klienten gehört landet, verlangt dieser die anfallende Miete
 \item[/F32004/]Speichern der KI-Parameter \\
 Sobald sich die KI-Parameter verändern, werden die neuen Parameter in der Datei gespeichert, aus der sie in /F31003/ geladen wurden
 \end{description}
 
 \section{Produktdaten}
 \subsection{Allgemein}
-Folgende Daten müssen sowohl Server als auch Klient vorliegen.
+Folgende Daten müssen sowohl Server als auch Client vorliegen:
 \begin{description}
 \item[/PD01/] Spielfeld
 \begin{itemize}
 \item Straßennamen
 \item Währungszeichen, Währungsnamen
-\item Beschriftung der Sonderfelder (Frei Parken usw)
+\item Beschriftung der Sonderfelder (``Frei parken'' usw)
 \item Text der Ereigniskarten
 \item Name / Beschreibung der baubaren Objekte
 \item optional: Grafiken für die Spielfelder
@@ -395,15 +400,15 @@ Folgende Daten müssen sowohl Server als auch Klient vorliegen.
 \item Kontostand jedes Spielers
 \item Besitz an Spielfeldern und Gebäuden jedes Spielers
 \item Hypotheken auf Spielfeldern
-\item Aktueller Spieler
+\item aktueller Spieler
 \item Verteilung der Ereigniskarten
 \item Anzahl und Name der KI-Clients
 \end{itemize}
 \end{description}
 
-\subsection{Klient}
+\subsection{Client}
 \begin{description}
-\item[/PD04/] Klienten-Einstellungen
+\item[/PD04/] Client-Einstellungen
 \begin{itemize}
 \item Spielername
 \item IP des zuletzt beigetretenen Servers
@@ -411,7 +416,7 @@ Folgende Daten müssen sowohl Server als auch Klient vorliegen.
 \end{itemize}
 \end{description}
 
-\subsection{KI-Klient}
+\subsection{KI-Client}
 \begin{description}
 \item[/PD05/] KI-Einstellungen
 \begin{itemize}
@@ -420,27 +425,6 @@ Folgende Daten müssen sowohl Server als auch Klient vorliegen.
 \end{itemize}
 \end{description}
 
-%Es gibt jeweils für den Server und für die Clients verschiedene Sachen, die gespeichert werden müssen.
-%\subsection{Unabhängig}
-%Folgende Daten müssen die Server und die Clients abspeichern:
-%\subsubsection{Spielfeld}
-%Beide müssen das Spielfeld speichern können. So kann der Server das Spiel fortsetzen und der Client selber kann das Spiel speichern, sodass es auch fortgesetzt werden kann, wenn die Netzwerkverbindung verloren gegangen ist.
-%
-%In den Spielfeld stehen zum einen die Straßennamen, damit man einerseits der Kreativität freien Lauf lassen kann und andererseits die Namen nicht aus den ursprünglichen Monopoly übernehmen muss.
-%
-%Nachdem nun gespielt wurde, muss auch gespeichert werden, wer die Straße besitzt und ob sie bereits bebaut wurde oder ob das Grundstück mit einer Hypothek belastet ist.
-%\subsection{Clients}
-%Jeder Client muss die Konfiguration speichern, wie zum Beispiel den Benutzername. Außerdem speichert jeder Client den zuletzt verbundenen Server um zum Beispiel schneller sich mit den Server zu verbinden.
-%
-%Sollten noch Metaserver dazu kommen, speichert jeder Client auch eine Liste mit den Metaservern, die abgefragt werden müssen.
-%\subsection{Server}
-%Der Server muss auch die Einstellungen speichern sodass man nicht jedes mal die gleichen Optionen setzen muss. Das wären der Servername, ein Serverpasswort und die IP, über die der Server sich mit den Netzwerk verbindet.
-%
-%Wenn Metaserver implementiert werden, muss der Server auch speichern, an welchen Metaservern er sich anmelden muss.
-%\subsection{Metaserver}
-%Der Metaserver wird eingebaut, wenn noch entsprechend genügend freie Zeit ist, aber das Spiel wird auch ohne Metaserver laufen können.
-%
-%Diese Metaserver speichern selber die IPs mit den Servern, die sich angemeldet haben, sodass sobald sie sich neustarten schon ein Grundstock an Servern haben und alle einmal testen.
 \section{Produktleistungen}
 Zeit:
 \begin{itemize}
@@ -459,18 +443,18 @@ Genauigkeit:
 \section{Weitere nichtfunktionale Anforderungen}
 Urheber- und Markenrechte:
 \begin{itemize}
-\item ``Monopoly'' ist ein eingetragenes Warenzeichen, d.h. das Produkt darf nicht ``Monopoly'' oder einen ähnlich klingenden / verwechselbaren Namen tragen
+\item "`Monopoly"' ist ein eingetragenes Warenzeichen, d.h. das Produkt darf nicht "`Monopoly"' oder einen ähnlich klingenden / verwechselbaren Namen tragen
 \item Der Spielplan, das Regelwerk (als Textstück), die Figuren und alle Graphiken sind unter Schutzrecht, d.h. die sichtbaren Elemente des Produkts müssen von diesen Abweichen
 \item Spielregeln sind generell nicht schutzfähig (Patentgesetz und Gebrauchsmustergesetz 1.2), wobei der genaue Regelaufbau vielleicht trotzdem noch verändert werden sollte.
 \end{itemize}
 Sicherheitsanforderungen:
 \begin{itemize}
 \item Es darf nicht möglich sein, durch Server oder Client des Produktes andere Programme o.ä. zu beeinflussen
-\item Alle Spielaktionen sollten vom Server verifiziert werden, um ``Cheaten'' zu verhindern
+\item Alle Spielaktionen sollten vom Server verifiziert werden, um "`Cheaten"' zu verhindern
 \end{itemize}
 Plattformabhängigkeiten:
 \begin{itemize}
-\item Das Produkt muss auf der offiziellen Java-VM laufen
+\item Das Produkt muss auf der offiziellen Java-VM von Oracle laufen
 \end{itemize}
 \section{Qualitätsanforderungen}
 \begin{itemize}
@@ -482,12 +466,6 @@ Plattformabhängigkeiten:
 \newpage
 \section{Globale Testfälle und Testszenarien}
 Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche durchzuführen. Der Server wird entsprechend mitgeprüft: \\
-%\begin{itemize}
-%\item Aufrufen des Hauptmenüs, Ändern der Spieleinstellungen, Speichern der Spieleinstellungen, Laden der Spieleinstellungen
-%\item Erstellen einer Serverkonfiguration, Speichern der Serverkonfiguration, Laden der Serverkonfiguration, Erstellen eines Servers
-%\item Starten eines Servers, Beitreten (Varianten: über Serverliste (inkl. /F12/, /F1X0Y0/), über IP-Eingabe), Spiel starten, Spiel beenden
-%\item Initiieren eines Spiels, Chatten, Starten des Spiels, Spielen unter Verwendung aller Spielzüge, Aufgeben (Variante: zu Ende spielen)
-%\end{itemize}
 \includegraphics[width=17cm]{Diagram1} \\
 Folgende Datenkonsistenzen müssen eingehalten werden:
 \begin{itemize}
@@ -496,13 +474,12 @@ Folgende Datenkonsistenzen müssen eingehalten werden:
 \item Einstellungen können nur gespeichert werden, wenn alle Felder korrekt ausgefüllt sind
 \item Der Zustand des Spielfeldes muss zwischen Client und Server identisch sein
 \end{itemize}
-Folgende unzulässigen Aktionen müssen überprüft werden:
+Folgende unzulässigen Aktionen müssen korrent behandelt werden:
 \begin{itemize}
 \item Unzulässiges Übersenden von Kommandos an Client und Server (DoS)
 \item Überschreitung der maximalen Teilnehmeranzahl
 \item Belegung von Ressourcen durch häufiges Beitreten und Verlassen von Clients
 \item Unerwarteter Verbindungsabbruch (Timeout, Connection Reset)
-\item Druck auf passive Buttons
 \item Reaktion auf Verbindungsverlust zum Server
 \item Unsauberer Restart des Clients
 \item Übersenden von undefinierten und unzulässigen Befehlen an Client und Server
@@ -518,14 +495,14 @@ Interoperabilität, Usability:
 Testszenarien:
 \begin{itemize}
 \item ``Erste Inbetriebnahme mit Starten eines Servers'' \\
-Starten des Programms $\rightarrow$ im Hauptmenü ``Einstellungen'' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ ``Spieleinstellungen speichern'' anklicken $\rightarrow$ im Hauptmenü ``Spiel erstellen'' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
+Starten des Programms $\rightarrow$ im Hauptmenü "`Einstellungen"' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ ``Spieleinstellungen speichern'' anklicken $\rightarrow$ im Hauptmenü ``Spiel erstellen'' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
 \item ``Einem Spiel beitreten (durch Serverliste), spielen und aufgeben'' \\
-Starten des Programms $\rightarrow$ ``Spiel beitreten'' auswählen$\rightarrow$ ``Serverliste'' anklicken $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
-\item ``Einzelspieler'' \\
+Starten des Programms $\rightarrow$ ``Spiel beitreten'' auswählen$\rightarrow$ "`Serverliste"' anklicken $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
+\item "`Einzelspieler"' \\
 ``Spiel erstellen'' anklicken $\rightarrow$ Mindest-Anzahl der Spieler $>1$ setzen, andere Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
 \item ``Voller Server'' \\
 Spieler versucht auf vollen Server zu verbinden $\rightarrow$ erhält Meldung, dass die maximale Teilnehmeranzahl erreicht ist
-\item ``Serverabsturz'' \\
+\item "`Serverabsturz"' \\
 Mehrere Spieler spielen $\rightarrow$ Server stürzt ab $\rightarrow$ Server wird neu gestartet $\rightarrow$ Spiel wird über Sicherungs-Datei auf dem Server wiederhergestellt
 \item ``Abwesenheit eines Spielers'' \\
 Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\rightarrow$ er wird zwangsweise aus dem Spiel entfernt $\rightarrow$ das Vermögen fällt der Bank zu
@@ -585,7 +562,8 @@ Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\ri
   Verifizieren der Klient-Eingabe & 10h & Jeremias\\
   Netzwerkanbindung & 20h & Usman\\
   \hline
-\end{tabular}
+\end{tabular} 
+
 Präsentation des Pflichtenhefts: Philip Caroli
 \subsection{Ressourcen}
 \begin{itemize}
