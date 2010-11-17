@@ -65,11 +65,11 @@ Das Programm zeichnet sich durch seine Benutzerfreundlichkeit aus, die sich in d
 \subsection{Spielregeln}
 Es können standardmäßig mindestens zwei und maximal acht Spieler an einem Spiel teilnehmen. Zu Beginn des Spieles bekommt jeder Spieler ein festgelegtes Startkapital, mit dem er Straßen, Häuser und Hotels kaufen kann oder Strafen sowie Steuerzahlungen die durch Ereignisse entstehen an die Bank bzw. in die Mitte des Spielbretts bezahlen muss. 
 
-Auf einer Straße kann man zusätzlich noch Hotels und Häuser bauen, dadurch erhöht sich die Miete der Straße. Das Geld, das sich auf dem Spielbrett sammelt, bekommt derjenige Spieler, der auf dem Feld ``Frei parken'' zum Stehen kommt.  Es treten verschiedene Spieler gegeneinander an, dabei können die Spieler menschlich sein oder werden vom Computer (KI) gesteuert.
+Auf einer Straße kann man zusätzlich noch Hotels und Häuser bauen, dadurch erhöht sich die Miete der Straße. Das Geld, das sich auf dem Spielbrett sammelt, bekommt derjenige Spieler, der auf dem Feld "`Frei parken"' zum Stehen kommt.  Es treten verschiedene Spieler gegeneinander an, dabei können die Spieler menschlich sein oder werden vom Computer (KI) gesteuert.
 
 Jeder Spieler kommt abwechselnd und zyklisch an die Reihe und würfelt mit zwei Würfel. Die Summe, die sich aus den Augenzahlen der zwei Würfel ergibt, gibt dem Spieler Auskunft darüber, wie viele Schritte er mit seiner symbolischen Figur voranschreiten darf. Die Spielfiguren bewegen sich im Uhrzeigersinn auf dem Spielfeld. Dabei überquert der Spieler im Laufe des Spiels verschiedene Straßen, die von Spielern für einen festgelegten Preis gekauft werden können. Bleibt der Spieler auf einer Straße, die einem anderen Spieler gehört, stehen, so muss er einen gewissen Betrag an Geld an diesen Spieler zahlen (Miete). Die Höhe des Einnahmegeldes (Miete) hängt davon ab, ob der Spieler nur diese Straße besitzt oder ob er auf dieser Straße noch weitere Gebäude (Häuser, Hotels) gebaut bzw. gekauft hat. Wenn der Spieler zusätzlich noch Häuser und Hotels auf dieser Straße gebaut hat, dann erhöht sich das Einnahmegeld für die jeweilige Straße. Dabei steigt die Miete in aufsteigender Reihenfolge, d.h die Miete für ein Hotel ist höher als die für ein Haus.
 	
-Landet der Spieler auf einem ``Steuern bezahlen''-Feld,dann muss er Steuern bezahlen, die sich in der Mitte des Spielbretts sammeln. Bleibt der Spieler auf dem  Feld "`Gefängnis"' stehen, so setzt er eine Würfelrunde aus, kann jedoch immer noch Miete von den anderen Spielern einnehmen, sowie Handel mit anderen Spielern betreiben. Überquert ein Spieler  das Feld "`Los"', auf welchem zu Beginn gestartet wurde, so kassiert er eine Prämie. Beim Stillstand auf einem Ereignisfeld zieht der Spieler eine Ereigniskarte mit verschiedenen Aufgaben, die der Spieler erledigen muss und dabei auch Geldprämien kassieren kann oder Abgaben bezahlen muss.  Jeder Spieler hat während des Spiels die Möglichkeit, seine Gebäude und Straßen an die anderen Spieler zu verkaufen, sowie diese für eine Ersteigerung (Auktion) freizugeben. Kann ein Spieler finanziell seinen Forderungen nicht mehr nachkommen, so scheidet er automatisch aus. Spieler, die vorzeitig ein laufendes Spiel beenden, können ihre Habe entweder an die Bank abgeben oder an ihre Mitspieler. Gewonnen hat der Spieler, der zuletzt das meiste Geld besitzt. Ziel dieses Spieles ist, durch Geschicklichkeit und ein bisschen Glück seine Gegner finanziell in die Knie zu zwingen.
+Landet der Spieler auf einem "`Steuern bezahlen"'-Feld,dann muss er Steuern bezahlen, die sich in der Mitte des Spielbretts sammeln. Bleibt der Spieler auf dem  Feld "`Gefängnis"' stehen, so setzt er eine Würfelrunde aus, kann jedoch immer noch Miete von den anderen Spielern einnehmen, sowie Handel mit anderen Spielern betreiben. Überquert ein Spieler  das Feld "`Los"', auf welchem zu Beginn gestartet wurde, so kassiert er eine Prämie. Beim Stillstand auf einem Ereignisfeld zieht der Spieler eine Ereigniskarte mit verschiedenen Aufgaben, die der Spieler erledigen muss und dabei auch Geldprämien kassieren kann oder Abgaben bezahlen muss.  Jeder Spieler hat während des Spiels die Möglichkeit, seine Gebäude und Straßen an die anderen Spieler zu verkaufen, sowie diese für eine Ersteigerung (Auktion) freizugeben. Kann ein Spieler finanziell seinen Forderungen nicht mehr nachkommen, so scheidet er automatisch aus. Spieler, die vorzeitig ein laufendes Spiel beenden, können ihre Habe entweder an die Bank abgeben oder an ihre Mitspieler. Gewonnen hat der Spieler, der zuletzt das meiste Geld besitzt. Ziel dieses Spieles ist, durch Geschicklichkeit und ein bisschen Glück seine Gegner finanziell in die Knie zu zwingen.
 \newpage
 \section{Zielbestimmung}
 \subsection{Musskriterien}
@@ -378,7 +378,7 @@ Folgende Daten müssen sowohl Server als auch Client vorliegen:
 \begin{itemize}
 \item Straßennamen
 \item Währungszeichen, Währungsnamen
-\item Beschriftung der Sonderfelder (``Frei parken'' usw)
+\item Beschriftung der Sonderfelder ("`Frei parken"' usw)
 \item Text der Ereigniskarten
 \item Name / Beschreibung der baubaren Objekte
 \item optional: Grafiken für die Spielfelder
@@ -494,17 +494,17 @@ Interoperabilität, Usability:
 \end{itemize}
 Testszenarien:
 \begin{itemize}
-\item ``Erste Inbetriebnahme mit Starten eines Servers'' \\
-Starten des Programms $\rightarrow$ im Hauptmenü "`Einstellungen"' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ ``Spieleinstellungen speichern'' anklicken $\rightarrow$ im Hauptmenü ``Spiel erstellen'' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
-\item ``Einem Spiel beitreten (durch Serverliste), spielen und aufgeben'' \\
-Starten des Programms $\rightarrow$ ``Spiel beitreten'' auswählen$\rightarrow$ "`Serverliste"' anklicken $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
+\item "`Erste Inbetriebnahme mit Starten eines Servers"' \\
+Starten des Programms $\rightarrow$ im Hauptmenü "`Einstellungen"' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ "`Spieleinstellungen speichern"' anklicken $\rightarrow$ im Hauptmenü "`Spiel erstellen"' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ "`Einstellungen speichern"' anklicken $\rightarrow$ "`Erstellen des Servers"' anklicken $\rightarrow$ "`Starten des Servers"' anklicken.
+\item "`Einem Spiel beitreten (durch Serverliste), spielen und aufgeben"' \\
+Starten des Programms $\rightarrow$ "`Spiel beitreten"' auswählen$\rightarrow$ "`Serverliste"' anklicken $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
 \item "`Einzelspieler"' \\
-``Spiel erstellen'' anklicken $\rightarrow$ Mindest-Anzahl der Spieler $>1$ setzen, andere Einstellungen vornehmen $\rightarrow$ ``Einstellungen speichern'' anklicken $\rightarrow$ ``Erstellen des Servers'' anklicken $\rightarrow$ ``Starten des Servers'' anklicken.
-\item ``Voller Server'' \\
+"`Spiel erstellen"' anklicken $\rightarrow$ Mindest-Anzahl der Spieler $>1$ setzen, andere Einstellungen vornehmen $\rightarrow$ "`Einstellungen speichern"' anklicken $\rightarrow$ "`Erstellen des Servers"' anklicken $\rightarrow$ "`Starten des Servers"' anklicken.
+\item "`Voller Server"' \\
 Spieler versucht auf vollen Server zu verbinden $\rightarrow$ erhält Meldung, dass die maximale Teilnehmeranzahl erreicht ist
 \item "`Serverabsturz"' \\
 Mehrere Spieler spielen $\rightarrow$ Server stürzt ab $\rightarrow$ Server wird neu gestartet $\rightarrow$ Spiel wird über Sicherungs-Datei auf dem Server wiederhergestellt
-\item ``Abwesenheit eines Spielers'' \\
+\item "`Abwesenheit eines Spielers"' \\
 Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\rightarrow$ er wird zwangsweise aus dem Spiel entfernt $\rightarrow$ das Vermögen fällt der Bank zu
 \end{itemize}
 
