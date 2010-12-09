@@ -56,6 +56,7 @@ WS 2010 / 2011} \\[2cm]
 \subsection{Eingabe-Validierung durch Server}
 \subsubsection{Motivation}
 Bei Multiplayer-Spielen besteht die Gefahr, dass Spieler mit illegitimen Mitteln versuchen, sich Vorteile zu verschaffen ("`cheaten"'). Um dies zu verhindern ist angedacht, auf Serverseite alle von den Clients empfangenen Eingaben auf Richtigkeit zu prüfen, sodass an den Server keine falschen Befehle gesendet werden können. Weiteres Ziel ist das Verhindern von Denial-of-Service-Attacken durch Übersenden von unzulässigen oder sinnlosen Befehlen, die dazu geeignet sind, den reibungslosen Spielablauf zu unterbrechen. 
+
 \subsubsection{Klassen}
 \begin{itemize}
 \item Checker
@@ -71,6 +72,72 @@ Optional könnte noch eine rudimentäre Client-Server-Authentifizierung über ei
 
 %CLIENT-GRUNDGERUEST
 \subsection{Client Grundgerüst}
+Das Client Grundgerüst dient als Grundgerüst für den KI- und GUI-Client.
+\subsubsection{Schnittstellen}
+\begin{itemize}
+\item IClient\\
+Diese Klasse stellt ein paar minimalen Methoden zur Verfügung um ständiges nachfragen ("`pollen"') zu umgehen.
+\begin{itemize}
+\item void informTurn(int player) \\
+Informiert den Client, dass ein bestimmter Spieler an der Reihe ist.
+\item informDiceValues(int[] diceValues) \\
+Informiert die Clients über das Würfelergebnis des aktiven Spielers.
+\item void informStreetBuy(int playerId) \\
+Meldet den Client, dass ein Spieler die Straße gekauft hat, auf der der Spieler stand.
+\item void informConstruct(int street) \\
+Informiert den Spieler, dass ein Gebäude auf der Straße gebaut wurde.
+\item void informDestruct(int street) \\
+Informiert über den Abriss eines Gebäudes.
+\item void informMortageToogle(int street) \\
+Informiert den Client darüber, dass die Straße umgedreht wurde.
+\end{itemize}
+\end{itemize} % Schnittstellen
+\subsubsection{Klassen}
+\begin{itemize}
+\item ClientBase\\
+Ist diejenige Klasse, die von den Clients vererbt wird.
+
+Verwendet:
+\begin{itemize}
+\item IClient
+\end{itemize}
+Attribute:
+\begin{itemize}
+\item private IServer server \\
+Die entsprechende Serverinstanz wird hier abgelegt. Dabei handelt es sich u.A. um das Netzwerk.
+\item private RuleSet rules \\
+Die Spielregeln werden in dieser Variable gespeichert.
+\item protected (?) GameStatus status \\
+Speichert den aktuellen Spielzustand, also die Besitzer der Straßen und ähnlichen.
+\end{itemize}
+Methoden:
+Folgende Methoden werden für den IServer gewrappt. Dies geschieht um vorher zu testen, ob das Regelwerk den Zug erlaubt.
+\begin{itemize}
+\item protected void accept()
+\item protected void deciline()
+\item protected void rollDice()
+\item protected void endTurn()
+\item protected void declareBankruptcy()
+\item protected void construct(int street)
+\item protected void destruct(int street)
+\item protected void toggleMortgage(int street)
+\item protected .... (hier die Methoden von IServer) \\
+\end{itemize}
+Folgende Methoden sind Netzwerkspezifisch und liefern eine "`NotNetworkException"', wenn kein Netzwerk existiert.
+\begin{itemize}
+\item protected void connect(string host) \\
+Verbindet sich mit einem Server.
+\item protected void sendMessage(string text) \\
+Sendet eine Textnachricht an alle Spieler.
+\item protected void sendPrivateMessage(string reciever, string text) \\
+Sendet eine private Textnachricht an einen spezifischen Spieler.
+\end{itemize}
+\end{itemize} % Klassen
+\subsubsection{Fehlerklassen}
+\begin{itemize}
+\item NotNetworkException \\
+Wird geworfen, wenn der Client gar keine Netzwerk-Methoden verwenden kann.
+\end{itemize} % Fehlerklassen
 
 %KI-CLIENT
 \subsection{KI-Client}
@@ -82,7 +149,7 @@ Das Interface "`RatingFunction"' dient zur Beschreibung der Bewertungsfunktionen
 \subsubsection{Klassen}
 \begin{itemize}
 \item KiClient
-Diese Klasse erbt vom ClientGrundgerüst und überschreibt bzw. implemnentiert Methoden, die KI-spezifisch sind.
+Diese Klasse erbt vom Client Grundgerüst und überschreibt bzw. implementiert Methoden, die KI-spezifisch sind.
 \end{itemize}
 
 
