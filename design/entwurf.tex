@@ -51,6 +51,8 @@ WS 2010 / 2011} \\[2cm]
 \newpage
 
 \section{Architektur}
+
+%EINGABE-VALIDIERUNG
 \subsection{Eingabe-Validierung durch Server}
 \subsubsection{Motivation}
 Bei Multiplayer-Spielen besteht die Gefahr, dass Spieler mit illegitimen Mitteln versuchen, sich Vorteile zu verschaffen ("`cheaten"'). Um dies zu verhindern ist angedacht, auf Serverseite alle von den Clients empfangenen Eingaben auf Richtigkeit zu prüfen, sodass an den Server keine falschen Befehle gesendet werden können. Weiteres Ziel ist das Verhindern von Denial-of-Service-Attacken durch Übersenden von unzulässigen oder sinnlosen Befehlen, die dazu geeignet sind, den reibungslosen Spielablauf zu unterbrechen. 
@@ -65,8 +67,14 @@ Je nach unzulässiger Eingabe sind verschiedene Aktionen möglich. Da in unserer
 \end{itemize}
 \subsubsection{Optionales}
 Optional könnte noch eine rudimentäre Client-Server-Authentifizierung über einen geheimen Zahlenwert implementiert werden.
+
+
+%CLIENT-GRUNDGERUEST
+\subsection{Client Grundgerüst}
+
+%KI-CLIENT
 \subsection{KI-Client}
-\subsection{Interfaces}
+\subsubsection{Interfaces}
 \begin{itemize}
 \item RatingFunction
 Das Interface "`RatingFunction"' dient zur Beschreibung der Bewertungsfunktionen. Der Konstruktur enthält eine Referenz zum Spielzustand, weiterhin gibt es eine öffentlich aufrufbare Bewertungsfunktion, die ein Argument vom Typ X entgegen nimmt und eine Zahl als zurückgibt
@@ -76,7 +84,299 @@ Das Interface "`RatingFunction"' dient zur Beschreibung der Bewertungsfunktionen
 \item KiClient
 Diese Klasse erbt vom ClientGrundgerüst und überschreibt bzw. implemnentiert Methoden, die KI-spezifisch sind.
 \end{itemize}
-\subsection{Client Grundgerüst}
+
+
+%GUI-CLIENT
+\subsection{GUI-Client}
+
+%Beschreibung
+Der GUI-Client baut auf dem Clientgrundger"ust auf bietet eine Graphische Oberfl"ache, um dessen Zustand anzuzeigen und darüber den Server aufzurufen.
+
+\subsubsection{Klassen}
+
+\begin{itemize}
+%InteraktionsPopup
+\item InteractionPopup
+\begin{itemize}
+\item Ein graphisches Fenster zum Anzeigen diverser Interaktionsmöglichkeiten
+\item Attribute
+\begin{itemize}
+\item string message
+\item boolean acceptEnabled
+\item boolean declineEnabled
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item void clearMessage() 
+\\löscht die Nachricht und zeigt nichts an
+\item void showMessage(string Message, boolean yes, boolean no)
+\\Zeigt eine neue Nachricht an, je nachdem sind ""accept"" und ""decline"" aktiviert
+\end{itemize}
+\end{itemize}
+
+%Street
+\item VisibleField
+\begin{itemize}
+\item Ist eine optische Komponente, die eine Straße anzeigt
+\item Attribute
+\begin{itemize}
+\item string name
+\item int price
+\item int rent
+\item boolean isMortaged
+\item Color color
+\item int streetID
+\item int opticFieldType
+\\1 normalgroßes Feld
+\\2 normalgroßes Feld, um 90 Grad gedreht
+\\3 normalgroßes Feld, um 180 Grad gedreht
+\\4 normalgroßes Feld, um 270 Grad gedreht
+\\5 großes viereckiges Feld
+\item int logicStreetType
+\\1 Startfeld
+\\2 Gefängnis
+\\3 Frei Parken
+\\4 gehe in das Gefängnis
+\\5 Ereignisfeld
+\\6 Gemeinschaftsfeld
+\\7 Bahnhof
+\\8 Infrastrukturgebäude
+\\9 Sondersteuerfelder
+\item int[] players
+\\welche Spieler befinden sich auf dem Feld?
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item boolean addPlayer(int playerID)
+\item boolean removePlayer(int playerID)
+\end{itemize}
+\end{itemize}
+
+%Chatfenster
+\item ChatWindow erweitert \textcolor{red}{JPanel}
+\begin{itemize}
+\item Eine graphische Komponente, die ein Chatfenster, bestehend aus einem (scrollbaren) Anzeigefenster und einem Texteingabefenster besteht
+\item Bei Empfang einer Nachricht wird diese im Anzeigefenster ausgegeben
+\item Es können mehrere Nachrichten gleichzeitig angezeigt werden
+\item Neue Nachrichten werden unter alten Nachrichten geschrieben
+\item Bei Eingabe einer Nachricht in das Texteingabefenster wird die Nachricht an den Server geschickt
+\item Attribute
+\begin{itemize}
+\item string[] messages
+\\Eine Liste der n neusten Nachrichten
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item boolean clear()
+\\ l"oscht alle Nachrichten
+\item boolean write(ChatMessage message)
+\\F"ugt der Liste eine neue Nachricht hinzu
+\end{itemize}
+\end{itemize}
+
+%ChatMessage
+\item ChatMessage
+\begin{itemize}
+\item Beinhaltet alle Elemente einer Chat-Nachricht
+\item Attribute
+\begin{itemize}
+\item Player sender
+\\Der Spieler, von dem diese Nachricht gesendet wurde
+\item string message
+\\Der Text der Nachricht
+\item DateTime date
+\\Wann die Nachricht empfangen wurde
+\end{itemize}
+\end{itemize}
+
+%PlayerInfoField
+\item PlayerInfoField
+\begin{itemize}
+\item Eine graphische Komponente, die wesentliche Informationen über einen Spieler anzeigt
+\item muss bei Ver"anderungen des Spielerstatus die neuen Daten anzeigen
+\item Attribute
+\begin{itemize}
+\item boolean isOnTurn
+\\Ist der derzeitige Spieler an der Reihe?
+\item Player player
+\\Der Spieler, dessen Informationen angezeigt werden sollen.
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item void actualize()
+\\zeigt nun den neuen Spielerzustand an
+\end{itemize}
+\end{itemize}
+
+
+\end{itemize}
+
+%SPIELSTATUS
+\subsection{Spielstatus}
+
+
+%Beschreibung
+Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"ande, teilnehmende Spieler) werden im Spielstatus gespeichert. Sowohl der Server als auch der Client besitzen einen Spielstatus.
+
+\subsubsection{Klassen}
+
+\begin{itemize}
+
+%Spielzustand
+\item GameState
+\begin{itemize}
+\item Beinhaltet alle Informationen eines Monopoly-Spiels
+\item Attribute
+\begin{itemize}
+\item int housesOfBank
+\item int hotelsOfBank
+\item Player[] players
+\item Street[] streets
+\item Card[] eventCards, communityCards
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item boolean loadGameState(int path)
+\item boolean SaveGameState(int path)
+\item boolean isValid()
+\\ist der derzeit geladene Spielstand fehlerfrei?
+\end{itemize}
+\end{itemize}
+
+%Player
+\item Player
+\begin{itemize}
+\item Beschreibt einen Spieler aus Sicht des Spielstands
+\item Attribute
+\begin{itemize}
+\item int playerID
+\item Color playerColor
+\item string playerName
+\item int possition
+\item int cash
+\item Street[] streets
+\item int getOutOfJailCardsCount
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item boolean isValid()
+\\sind alle Attribute des Spielers g"ultig?
+\end{itemize}
+\end{itemize}
+
+%Straße
+\item Street
+\begin{itemize}
+\item beschreibt ein besitzbares Feld in Monopoly
+\item Attribute
+\begin{itemize}
+\item int ownerPlayerID
+\item Player[] playersOnIt
+\item StreetGroup group
+\\Die Stra"sengruppen, der die Stra"se angeh"ort
+\item int level
+\\wie viele H"auser stehen auf der Stra"se?
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item boolean isValid()
+\end{itemize}
+\end{itemize}
+
+%StreetGroup
+\item StreetGroup
+\begin{itemize}
+\item Beinhaltet mehrere Straßen, die regeltechnisch eine Einheit bilden
+\item Attribute
+\begin{itemize}
+\item Color color
+\\Die Farbe der Stra"sengruppe (optisch)
+\item Street[] streets
+\\Liste aller Stra"sen, die der Stra"sengruppe angeh"oren
+\end{itemize}
+\end{itemize}
+
+%Karte
+\item GameCard
+\begin{itemize}
+\item Eine Spielkarte (Gemeinschafts- oder Ereigniskarte), die in Monopoly ausgeführt werden kann.
+\item Attribute
+\begin{itemize}
+\item string text
+\\Der Text, der beim Ausspielen der Karte angezeigt wird
+\item GameCardAction action
+\\Was wird beim Ausspielen der Karte gemacht?
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item boolean canBeCanceled()
+\\Kann die Karte abgelehnt werden?
+\item boolean execute(GameState state)
+\\Führt die Kartenaktion aus, welche den Spielstatus verändern kann.
+\end{itemize}
+\end{itemize}
+
+%KartenAktion
+\item GameCardAction
+\begin{itemize}
+\item Kapselung einer Aktion, die beim Ausspielen einer Ereignis- oder Gemeinschaftskarte ausgef"uhrt werden kann
+\item Methoden
+\begin{itemize}
+\item boolean execute(GameState state)
+\\f"uhrt eine Aktion aus, welche den Spielstatus verändern kann
+\end{itemize}
+\end{itemize}
+\end{itemize} 
+
+%SERVER
+\subsection{Server}
+
+%Beschreibung
+Der Server verbindet mehrere Clienten in einem Spiel. Er ist die zentrale Stelle und daf"ur zust"andig Spielzustands"anderungen durch Aufrufe des Clienten an den Server zu registrieren und darauf zu reagieren. Der Server implementiert die Schnittstellen IServer, IServerAuction und IServerTrade. Clienten können entweder direkt vom Server aus gestartet werden, oder "uber das Netzwerk Kontakt aufnehmen. In beiden F"allen passieren die meisten Interaktionen "uber IServer.
+
+
+\subsubsection{Interfaces}
+\begin{itemize}
+%IServer
+\item IServer
+%IServerTrade
+\item IServerTrade
+%IServerAuction
+\item IServerAuction
+%ServerToNetwork?
+%\item ServerToNetwork
+\end{itemize}
+
+\subsubsection{Klassen}
+\begin{itemize}
+\item MyServer 
+\begin{itemize}
+\item Implementiert IServer, IServerTrade, IServerAuction
+\item Behandelt alle Spielstatusänderungen
+\item Clienten können sowohl direkt als auch über das Netzwerk angeschlossen werden
+\item Kann über die Konsole angesprochen werden
+\item Attribute
+\begin{itemize}
+\item Ruleset ruleset
+\item GameState gamestate
+\item Network network
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item boolean startGame(int playerCount) 
+\item boolean loadGame(string path)
+\item storeGame(int path)
+\item loadSettings(int path)
+\\l"adt die serverseitigen Einstellungen, zB welches Ruleset verwendet werden soll
+\item boolean stopGame()
+\\beendet das Spiel, speichert den Spielstand und trennt die Clienten
+\item boolean startAIGames(int clientCount, int loops, string path)
+\\Startet mehrere aufeinanderfolgende Spiele mit mehreren KI-Clienten. Das Ergebnis wird als Datei gespeichert
+\end{itemize}
+\end{itemize}
+\end{itemize}
+
+
 \section{Beschreibung der zentralen Abläufe}
 \section{Weitere Entwurfdetails}
 \section{Abweichungen vom Pflichtenheft}
