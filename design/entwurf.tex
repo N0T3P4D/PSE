@@ -77,6 +77,8 @@ Das Client Grundgerüst dient als Grundgerüst für den KI- und GUI-Client.
 \begin{itemize}
 \item IClient\\
 Diese Klasse stellt ein paar minimalen Methoden zur Verfügung um ständiges nachfragen ("`pollen"') zu umgehen.
+
+Methoden:
 \begin{itemize}
 \item void informTurn(int player) \\
 Informiert den Client, dass ein bestimmter Spieler an der Reihe ist.
@@ -91,6 +93,21 @@ Informiert über den Abriss eines Gebäudes.
 \item void informMortageToogle(int street) \\
 Informiert den Client darüber, dass die Straße umgedreht wurde.
 \end{itemize}
+\item INetworkClient \\
+Diese Klasse verwendet den IClient und bietet noch einige spezifische Methoden an, die das Netzwerk betreffen.
+
+Verwendet:
+\begin{itemize}
+\item IClient
+\end{itemize}
+
+Methoden:
+\begin{itemize}
+\item void messageRecieved(string sender, string text, boolean private) \\
+Meldet, dass eine Nachricht an diesen Spieler gesendet wurde.
+\item void kicked(int player, int reason, string description) \\
+Meldet, dass ein Spieler gekickt wurde.
+\end{itemize}
 \end{itemize} % Schnittstellen
 \subsubsection{Klassen}
 \begin{itemize}
@@ -99,7 +116,7 @@ Ist diejenige Klasse, die von den Clients vererbt wird.
 
 Verwendet:
 \begin{itemize}
-\item IClient
+\item INetworkClient
 \end{itemize}
 Attribute:
 \begin{itemize}
@@ -111,10 +128,11 @@ Die Spielregeln werden in dieser Variable gespeichert.
 Speichert den aktuellen Spielzustand, also die Besitzer der Straßen und ähnlichen.
 \end{itemize}
 Methoden:
-Folgende Methoden werden für den IServer gewrappt. Dies geschieht um vorher zu testen, ob das Regelwerk den Zug erlaubt.
+\begin{itemize}
+\item Folgende Methoden werden für den IServer gewrappt. Dies geschieht um vorher zu testen, ob das Regelwerk den Zug erlaubt.
 \begin{itemize}
 \item protected void accept()
-\item protected void deciline()
+\item protected void decline()
 \item protected void rollDice()
 \item protected void endTurn()
 \item protected void declareBankruptcy()
@@ -123,7 +141,7 @@ Folgende Methoden werden für den IServer gewrappt. Dies geschieht um vorher zu 
 \item protected void toggleMortgage(int street)
 \item protected .... (hier die Methoden von IServer) \\
 \end{itemize}
-Folgende Methoden sind Netzwerkspezifisch und liefern eine "`NotNetworkException"', wenn kein Netzwerk existiert.
+\item Folgende Methoden sind Netzwerkspezifisch und liefern eine "`NotNetworkException"', wenn kein Netzwerk existiert.
 \begin{itemize}
 \item protected void connect(string host) \\
 Verbindet sich mit einem Server.
@@ -131,7 +149,9 @@ Verbindet sich mit einem Server.
 Sendet eine Textnachricht an alle Spieler.
 \item protected void sendPrivateMessage(string reciever, string text) \\
 Sendet eine private Textnachricht an einen spezifischen Spieler.
-\end{itemize}
+\end{itemize} % Netzwerk
+\item Generelle Methoden
+\end{itemize} % Methoden
 \end{itemize} % Klassen
 \subsubsection{Fehlerklassen}
 \begin{itemize}
@@ -328,6 +348,8 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 \begin{itemize}
 \item boolean isValid()
 \\sind alle Attribute des Spielers g"ultig?
+\item void move()
+\\ \textcolor{red}{Hinzufügt von Fabian}
 \end{itemize}
 \end{itemize}
 
@@ -347,6 +369,8 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 \item Methoden
 \begin{itemize}
 \item boolean isValid()
+\item void action()
+\\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion der Straße aus.
 \end{itemize}
 \end{itemize}
 
