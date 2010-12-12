@@ -38,3 +38,11 @@ Server
 ======================================================================
 p int addPlayer()
     Möglichkeit, einen Player einzutragen, Rückgabe ist die playerID
+
+ClientBase
+======================================================================
+p boolean refreshGameState()
+    Aktualisiert den Spielzustand.
+    Dies kann entweder über getGameState() des Servers oder über getPlayerpos()/getwhatever()
+    abgeregelt werden (wobei 2teres mindestens implementiert sein muss, falls der Server
+    nur IServer unterstützt)
