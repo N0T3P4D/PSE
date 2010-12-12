@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Untitled Gantt Project" company="" webLink="http://" view-date="2010-12-16" view-index="0" gantt-divider-location="316" resource-divider-location="301" version="2.0">
+<project name="Untitled Gantt Project" company="" webLink="http://" view-date="2010-12-19" view-index="0" gantt-divider-location="316" resource-divider-location="301" version="2.0">
     <description/>
     <view zooming-state="default:2" id="gantt-chart"/>
     <view id="resource-table">
@@ -36,17 +36,31 @@
             <depend id="2" type="2" difference="0" hardness="Strong"/>
             <depend id="3" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="2" name="GUIClient" color="#8cb6ce" meeting="false" start="2010-12-29" duration="13" complete="0" priority="1" expand="true"/>
-        <task id="3" name="AIClient" color="#8cb6ce" meeting="false" start="2010-12-29" duration="13" complete="0" priority="1" expand="true"/>
-        <task id="4" name="Network" color="#8cb6ce" meeting="false" start="2010-12-28" duration="6" complete="0" priority="1" expand="true"/>
-        <task id="5" name="GameState" color="#8cb6ce" meeting="false" start="2010-12-17" duration="2" complete="0" priority="1" expand="true">
-            <depend id="6" type="2" difference="0" hardness="Strong"/>
-        </task>
-        <task id="6" name="GameRules" color="#8cb6ce" meeting="false" start="2010-12-21" duration="5" complete="0" priority="1" expand="true"/>
+        <task id="2" name="GUIClient" color="#8cb6ce" meeting="false" start="2010-12-29" duration="6" complete="0" priority="1" expand="true"/>
+        <task id="3" name="AIClient" color="#8cb6ce" meeting="false" start="2010-12-29" duration="6" complete="0" priority="1" expand="true"/>
+        <task id="4" name="Network" color="#8cb6ce" meeting="false" start="2010-12-17" duration="15" complete="0" priority="1" expand="true"/>
+        <task id="9" name="myServer w/ Network" color="#8cb6ce" meeting="false" start="2011-01-07" duration="6" complete="0" priority="1" expand="true"/>
+        <task id="10" name="ClientBase w/ Network" color="#8cb6ce" meeting="false" start="2011-01-07" duration="6" complete="0" priority="1" expand="true"/>
+        <task id="5" name="LogikRegelnZustand" color="#8cb6ce" meeting="false" start="2010-12-17" duration="15" complete="0" priority="1" expand="true"/>
         <task id="7" name="Alles" color="#8cb6ce" meeting="false" start="2010-12-17" duration="27" complete="0" priority="1" expand="true"/>
+        <task id="8" name="Ferien" color="#8cb6ce" meeting="false" start="2010-12-23" duration="10" complete="0" priority="1" expand="true"/>
     </tasks>
-    <resources/>
-    <allocations/>
+    <resources>
+        <resource id="0" name="Maximilian" function="Default:0" contacts="" phone=""/>
+        <resource id="2" name="Usman" function="Default:0" contacts="" phone=""/>
+        <resource id="3" name="Philip" function="Default:0" contacts="" phone=""/>
+        <resource id="4" name="Jeremias" function="Default:0" contacts="" phone=""/>
+        <resource id="5" name="Fabian" function="Default:0" contacts="" phone=""/>
+    </resources>
+    <allocations>
+        <allocation task-id="0" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="1" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="2" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="3" resource-id="4" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="4" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="5" resource-id="5" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="5" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
+    </allocations>
     <vacations/>
     <taskdisplaycolumns>
         <displaycolumn property-id="tpd3" order="0" width="75"/>

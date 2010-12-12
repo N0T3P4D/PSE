@@ -1,73 +1,71 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <diagram>
-<source><![CDATA[#!>>
-#!Ein Client verbindet sich auf einen bestehenden Server
-#!
+<source><![CDATA[#![Taking a Event Card]
+#!>>
+#!Beispielhaftes Ausführen der Ereigniskarte
+#!"Du gewinnst 2.000 €"
+#!Das Diagramm startet, nachdem ein Spieler auf das Ereigniskarten-Feld gekommen ist
 #!<<
-#![Join Server    ]
 user:Actor
+playerInfoField:PlayerInfoField
+playerInfoWindow:PlayerInfoWindow
+iPopup:InteractionPopup
 guiClient:GUIClient
+cplayer:Player
 base:ClientBase
-connection:ClientConnection
-/network:Network
-/state:GameState
-details:ServerDetails
+network:Network
 server:MyServer[p]
+logic:Logic
+estate:FieldRule
+event:FieldRule
+card:Card
+action:CardAction
+player:Player
 
-user:guiClient."Connect to Server"
-guiClient:guiClient.showIPfield()
-user:guiClient."Enter IP"
-guiClient:stop
-guiClient:base.connect(string host, int port)
-base:connection.connect(string host, int port)
-connection:network.new(string host, int port)
-network:server.addPlayer()
-network:wait(int timeOut)
-server:network.return
+server:logic.movePlayer(int playerID, int position)
+logic:estate.passThrough(int palyerID)
+logic:event.execute(int playerID)
+event:server.informCardPul
+event:card.getMessage()
+event:player.setActiveCard(Card card, int playerID)
+event:server.informCardPull(string message, int playerID) 
+server:event.
+event:stop
+server:network.informCardPull(string message, false)
+network:base.informCardPull(message, false)
+base:guiClient.informCardPull(message, false)
+guiClient:iPopup.showMessage(string message)
+network:server.return
 network:stop
-base:IServer=connection.getServer()
-guiClient:guiClient.showWaitingRoom()
-[c:loop while Game not Started]
-guiClient:base.getGameStatusMessage(int playerID)
-base:network.getGameStatusMessage(int playerID)
-network:server.getGameStatusMessage(int playerID)
-network:wait(int timeout)
-server:network.return
+user:iPopup.accept()
+iPopup:guiClient.accept()
+guiClient:base.accept()
+base:network.accept()
+network:server.accept(int playerID)
+server:network.
 network:stop
-guiClient:wait(int time)
-[/c]
-[c getting the gameState]
-guiClient:base.refreshGameState()
-[c:loop 1 <= x <= 8]
-base:network.getPlayerPiecePosition(x)
-network:server.getPlayerPiecePosition(x)
-network:wait(int timeout)
-server:network.return
 network:stop
-[/c]
-[c:loop 1 <= x <= 40]
-base:network.getEstateColorGroup(x)
-network:server.getEstateColorGroup(x)
-network:wait(int timeout)
-server:network.return
+server:player.getCurrentCard()
+player:server.
+player:stop
+server:card.execute()
+card:action.execute()
+action:player.getCash()
+action:player.setCash(int amount)
+player:server.informCashChanged(int playerID, int cashChange)
+server:network.informCashChanged(int playerID, int cashChange)
+network:base.informCashChanged(int playerID, int cashChange)
+base:cplayer.getCash()
+base:cplayer.setCash(int newAmount)
+base:guiClient.informCashChanged(int playerID, int cashChange)
+guiClient:playerInfoWindow.changeCash(int playerID, int newCashValue)
+playerInfoWindow:playerInfoField.changeCash(int newAmount)
+network:server.
 network:stop
-base:network.getEstateHouses(x)
-network:server.getEstateHouses(x)
-network:wait(int timeout)
-server:network.return
-network:stop
-base:network.getEstatePrice(x)
-network:server.getEstatePrice(x)
-network:wait(int timeout)
-server:network.return
-network:stop
-base:network.getEstateName(x)
-network:server.getEstateName(x)
-network:wait(int timeout)
-server:network.return
-network:stop
-[/c]
-[/c]]]></source>
+server:player.
+player:stop
+card:server.
+card:stop]]></source>
 <configuration>
 <property name="actorWidth" value="25"/>
 <property name="allowMessageProperties" value="false"/>
