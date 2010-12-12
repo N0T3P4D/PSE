@@ -25,13 +25,26 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Fabian Neundorf
  */
 public interface IClient {
-	
+
+	/**
+	 * Gibt den Namen des Spielers zurück.
+	 * 
+	 * @return Der Name des Spielers.
+	 */
 	String getName();
-	
-	
+
+	/**
+	 * Gibt die Sprache des Clients zurück.
+	 * 
+	 * @return Die Clientsprache.
+	 */
+	String getLanguage();
+
 	/**
 	 * Initialisiert den Spieler mit den gegeben Server.
-	 * @param server der Server auf den der Spieler gerade spielt.
+	 * 
+	 * @param server
+	 *            der Server auf den der Spieler gerade spielt.
 	 */
 	void initializePlayer(IServer server);
 
@@ -52,6 +65,16 @@ public interface IClient {
 	void informDiceValues(int[] diceValues, int playerId);
 
 	/**
+	 * Informiert den Spieler dass sich das Geld eines Spielers geändert hat.
+	 * 
+	 * @param playerId
+	 *            Der Spieler mit dem geänderten Bargeld.
+	 * @param cashChange
+	 *            Die Bargeldänderung.
+	 */
+	void informCashChange(int playerId, int cashChange);
+
+	/**
 	 * Informiert den Spieler, dass die Straße gekauft wurde, auf den der
 	 * Spieler mit der angegeben ID steht.
 	 * 
@@ -59,32 +82,61 @@ public interface IClient {
 	 *            der neue Besitzer der Straße.
 	 */
 	void informStreetBuy(int playerId);
-	
+
 	/**
 	 * Informiert den Spieler, dass ein Spieler <i>ein</i> Gebäude gebaut hat.
-	 * @param street Die Straße auf der das Gebäude gebaut wurde.
-	 * @param playerId Der Spieler der das Gebäude gebaut hat.
+	 * 
+	 * @param street
+	 *            Die Straße auf der das Gebäude gebaut wurde.
+	 * @param playerId
+	 *            Der Spieler der das Gebäude gebaut hat.
 	 */
 	void informConstruct(int street);
-	
+
 	/**
-	 * Informiert den Spieler, dass ein Spieler <i>ein</i> Gebäude aufgelöst hat.
-	 * @param street Die Straße auf der das Gebäude gestanden hat.
-	 * @param playerId Der Spieler der das Gebäude aufgelöst hat.
+	 * Informiert den Spieler, dass ein Spieler <i>ein</i> Gebäude aufgelöst
+	 * hat.
+	 * 
+	 * @param street
+	 *            Die Straße auf der das Gebäude gestanden hat.
+	 * @param playerId
+	 *            Der Spieler der das Gebäude aufgelöst hat.
 	 */
 	void informDestruct(int street);
-	
+
 	/**
-	 * Informiert den Spieler, dass ein Spieler eine Hypothek auf die Straße aufgenommen/zurückgezahlt hat.
-	 * @param street Die Straße auf der die Hypothek aufgenommen wurde bzw. dessen Hypothek zurückgezahlt wurde.
-	 * @param playerId Der handelnde Spieler.
+	 * Informiert den Spieler, dass ein Spieler eine Hypothek auf die Straße
+	 * aufgenommen/zurückgezahlt hat.
+	 * 
+	 * @param street
+	 *            Die Straße auf der die Hypothek aufgenommen wurde bzw. dessen
+	 *            Hypothek zurückgezahlt wurde.
+	 * @param playerId
+	 *            Der handelnde Spieler.
 	 */
 	void informMortgageToogle(int street);
-	
+
 	/**
 	 * Informiert den Spieler, dass der aktive Spieler eine Karte gezogen hat.
-	 * @param text Inhalt der Karte.
-	 * @param communityCard Wenn der Wert wahr ist, handelt es sich um eine Gemeinschaftskarte, sonst um eine Ereigniskarte.
+	 * 
+	 * @param text
+	 *            Inhalt der Karte.
+	 * @param communityCard
+	 *            Wenn der Wert wahr ist, handelt es sich um eine
+	 *            Gemeinschaftskarte, sonst um eine Ereigniskarte.
 	 */
 	void informCardPull(String text, boolean communityCard);
+	
+	/**
+	 * Informiert den Spieler darüber, dass der aktive Spieler bankrott ist.
+	 */
+	void informBankruptcy();
+	
+	/**
+	 * Informiert den Spieler, dass eine Chat Nachricht eingegangen ist.
+	 * @param text Der Text der Chat Nachricht.
+	 * @param sender Der Empfänger der Nachricht.
+	 * @param privateMessage Ist wahr, wenn es sich um eine private Nachricht handelt.
+	 */
+	void informMessage(String text, int sender, boolean privateMessage);
 }
