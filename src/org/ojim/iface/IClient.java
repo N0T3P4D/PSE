@@ -24,7 +24,10 @@ import edu.kit.iti.pse.iface.IServer;
  * @see {@link IServer}
  * @author Fabian Neundorf
  */
-public interface IPlayer {
+public interface IClient {
+	
+	String getName();
+	
 	
 	/**
 	 * Initialisiert den Spieler mit den gegeben Server.
@@ -62,23 +65,26 @@ public interface IPlayer {
 	 * @param street Die Straße auf der das Gebäude gebaut wurde.
 	 * @param playerId Der Spieler der das Gebäude gebaut hat.
 	 */
-	//FIXME: playerID ist obsolet, da: Straße.Besitzer == playerId? (evtl. auch beim IServer ändern?)
-	void informConstruct(int street, int playerId);
+	void informConstruct(int street);
 	
 	/**
 	 * Informiert den Spieler, dass ein Spieler <i>ein</i> Gebäude aufgelöst hat.
 	 * @param street Die Straße auf der das Gebäude gestanden hat.
 	 * @param playerId Der Spieler der das Gebäude aufgelöst hat.
 	 */
-	//FIXME: playerID ist obsolet, da: Straße.Besitzer == playerId? (evtl. auch beim IServer ändern?)
-	void informDestruct(int street, int playerId);
+	void informDestruct(int street);
 	
 	/**
 	 * Informiert den Spieler, dass ein Spieler eine Hypothek auf die Straße aufgenommen/zurückgezahlt hat.
 	 * @param street Die Straße auf der die Hypothek aufgenommen wurde bzw. dessen Hypothek zurückgezahlt wurde.
 	 * @param playerId Der handelnde Spieler.
 	 */
-	//FIXME: playerID ist obsolet, da: Straße.Besitzer == playerId? (evtl. auch beim IServer ändern?)
-	void informMortageToogle(int street, int playerId);
+	void informMortgageToogle(int street);
 	
+	/**
+	 * Informiert den Spieler, dass der aktive Spieler eine Karte gezogen hat.
+	 * @param text Inhalt der Karte.
+	 * @param communityCard Wenn der Wert wahr ist, handelt es sich um eine Gemeinschaftskarte, sonst um eine Ereigniskarte.
+	 */
+	void informCardPull(String text, boolean communityCard);
 }

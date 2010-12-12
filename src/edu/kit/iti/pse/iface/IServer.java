@@ -17,6 +17,8 @@
 
 package edu.kit.iti.pse.iface;
 
+import org.ojim.iface.IClient;
+
 /**
  * <p>Schnittstellendefinition für einen minimalen Mxnxpxly-Server.
  * Diese setzt voraus, dass sich Server und Clients über den Spielaufbau
@@ -32,7 +34,6 @@ package edu.kit.iti.pse.iface;
  * <p> Alle statusändernden Methoden haben den Rückgabetyp <code>boolean</code>, 
  * der angibt, ob die Operation erfolgreich war.</p>
  * @author bruns
- *
  */
 public interface IServer {
     
@@ -46,6 +47,19 @@ public interface IServer {
      */
     public int getPlayerPiecePosition (int playerID);
     
+    /**
+     * Fügt einen Client hinzu.
+     * @param client Der entsprechende Client.
+     * @return Ob der Spieler hinzugefügt werden konnte.
+     */
+    public boolean addPlayer(IClient client);
+    
+    /**
+     * Gibt den Namen des Grundstücks zurück.
+     * @param position Die Position des Grundstücks.
+     * @return Den namen des Grundstücks.
+     */
+    String getEstateName(int position);
     
     /**
      * Gibt an, zu welcher Farbgruppe das Grundstück gehört.
