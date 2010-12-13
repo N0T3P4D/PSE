@@ -41,12 +41,11 @@ public interface IClient {
 	String getLanguage();
 
 	/**
-	 * Initialisiert den Spieler mit den gegeben Server.
-	 * 
-	 * @param server
-	 *            der Server auf den der Spieler gerade spielt.
+	 * Informiert den Spieler, dass das Spiel beginnt.
+	 * @param numberOfPlayers
+	 *            Die Anzahl der Spieler.
 	 */
-	void initializePlayer(IServer server);
+	void informStartGame(int numberOfPlayers);
 
 	/**
 	 * Informiert den Spieler, dass er an der Reihe ist und nun Würfeln darf.
@@ -139,4 +138,14 @@ public interface IClient {
 	 * @param privateMessage Ist wahr, wenn es sich um eine private Nachricht handelt.
 	 */
 	void informMessage(String text, int sender, boolean privateMessage);
+
+	/**
+	 * Informiert den Spieler, dass ein Handelsangebot vorliegt, bzw. dass eine Antwort vorliegt.
+	 */
+	void informTrade();
+
+	/**
+	 * Informiert den Spieler, dass eine Auktion begonnen hat.
+	 */
+	void informAuction();
 }
