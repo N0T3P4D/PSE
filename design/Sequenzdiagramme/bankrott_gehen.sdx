@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram>
+<source><![CDATA[#![rent and getting bankrupt]
+#!>>
+#!Hier wird die Verschachtelung GUIClient <> ClientBase <> Network <> Server ausgelassen
+#!Ein Spieler kommt durch Würfeln auf ein Feld und muss Miete zahlen
+#!Das Diagramm beginnt zum Zeitpunkt des Bewegens des Spielers
+#!<<
+user1:Actor
+card:StreetCard
+iPopup:InteractionPopup
+guiClient1:GUIClient
+base1:ClientBase
+server:MyServer[]
+logic:Logic
+payer:Player
+payee:Player
+payerStreets:Street
+street:GameField
+otherFields:GameField
+base2:ClientBase
+guiClient2:GUIClient
+user2:Actor
+
+server:logic.movePlayer(int playerID, int field)
+[c:while player moves]
+logic:otherFields.passThrough(int playerID, int field)
+[/c]
+logic:street.execute(int playerID, int field)
+street:payer.getCash()
+street:payer.setCash()
+street:logic.playerHasNegCash(int playerID)
+[c extra turn for user1 to get money]
+logic:server.setGameStatusMessage(int playerID, string message)
+logic:server.informTurn(int playerID)
+server:base1.informTurn(int playerID)
+base1:guiClient1.informTurn(int playerID)
+guiClient1:server.getGameStatusMessage(int playerID)
+guiClient1:iPopup.showMessage(string message)
+server:
+user1:iPopup.accept()
+iPopup:guiClient1.accept(int playerID)
+guiClient1:base1.accept(int playerID)
+base1:server.accept(int playerID)
+\iPopup:user1.
+iPopup:stop
+user1:card.deconstruct()
+card:guiClient1.deconstruct(int playerID, int position)
+guiClient1:base1.deconstruct(int playerID, int position)
+base1:server.deconstruct(int playerID, int position)
+server:logic.upgradeStreet(int playerID, int position, int level)
+logic:payer.getCash()
+logic:payer.setCash(int newAmount)
+payer:stop
+user1:guiClient1.endTurn()
+guiClient1:base1.endTurn(int playerID)
+base1:server.endTurn(int PlayerID)
+server:stop
+[/c]
+[c give the payee the cash he can get]
+street:payer.getCash()
+street:payee.getCash()
+street:payee.setCash(newAmount)
+payee:server.informCashChanged(int playerID, int cashChanged)
+server:base2.informCashChanged(int playerID, int cashChanged)
+[/c]
+[c cleaning up the payer]
+logic:logic.playerBankrupt(int playerID)
+[c:foreach street in player possession]
+logic:payerStreets.upgrade(0)
+logic:payerStreets.buy(0)
+logic:server.informBuy(int position)
+server:base2.informBuy(int position)
+base2:guiClient2.informBuy(int position)
+
+[/c]
+[/c]
+logic:server.informTurn(int playerID)
+server:base2.informTurn(int playerID)
+base2:guiClient2.informCashChanged(int playerID, int cashChanged)
+
+server:base2.informTurn(int playerID)
+base2:guiClient2.informTurn(int playerID)]]></source>
+<configuration>
+<property name="actorWidth" value="25"/>
+<property name="allowMessageProperties" value="false"/>
+<property name="arrowSize" value="6"/>
+<property name="colorizeThreads" value="true"/>
+<property name="destructorWidth" value="30"/>
+<property family="Dialog" name="font" size="12" style="0"/>
+<property name="fragmentMargin" value="8"/>
+<property name="fragmentPadding" value="10"/>
+<property name="fragmentTextPadding" value="3"/>
+<property name="glue" value="10"/>
+<property name="headHeight" value="35"/>
+<property name="headLabelPadding" value="5"/>
+<property name="headWidth" value="100"/>
+<property name="initialSpace" value="10"/>
+<property name="leftMargin" value="5"/>
+<property name="lineWrap" value="false"/>
+<property name="lowerMargin" value="5"/>
+<property name="mainLifelineWidth" value="8"/>
+<property name="messageLabelSpace" value="3"/>
+<property name="messagePadding" value="6"/>
+<property name="noteMargin" value="6"/>
+<property name="notePadding" value="6"/>
+<property name="opaqueMessageText" value="false"/>
+<property name="returnArrowVisible" value="true"/>
+<property name="rightMargin" value="5"/>
+<property name="selfMessageHorizontalSpace" value="15"/>
+<property name="separatorBottomMargin" value="8"/>
+<property name="separatorTopMargin" value="15"/>
+<property name="shouldShadowParticipants" value="true"/>
+<property name="spaceBeforeActivation" value="2"/>
+<property name="spaceBeforeAnswerToSelf" value="10"/>
+<property name="spaceBeforeConstruction" value="6"/>
+<property name="spaceBeforeSelfMessage" value="7"/>
+<property name="subLifelineWidth" value="6"/>
+<property name="tc0" value="-1118482"/>
+<property name="tc1" value="-256"/>
+<property name="tc2" value="-65536"/>
+<property name="tc3" value="-16776961"/>
+<property name="tc4" value="-16711936"/>
+<property name="tc5" value="-4144960"/>
+<property name="tc6" value="-65281"/>
+<property name="tc7" value="-14336"/>
+<property name="tc8" value="-20561"/>
+<property name="tc9" value="-12566464"/>
+<property name="threadNumbersVisible" value="false"/>
+<property name="threaded" value="true"/>
+<property name="upperMargin" value="5"/>
+<property name="verticallySplit" value="false"/>
+</configuration>
+</diagram>
