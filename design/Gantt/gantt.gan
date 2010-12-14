@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Untitled Gantt Project" company="" webLink="http://" view-date="2010-12-17" view-index="0" gantt-divider-location="316" resource-divider-location="301" version="2.0">
+<project name="Untitled Gantt Project" company="" webLink="http://" view-date="2010-12-15" view-index="0" gantt-divider-location="316" resource-divider-location="301" version="2.0">
     <description/>
-    <view zooming-state="default:2" id="gantt-chart"/>
+    <view zooming-state="default:1" id="gantt-chart"/>
     <view id="resource-table">
-        <field id="0" name="Ressource" width="55" order="0"/>
-        <field id="1" name="Rolle" width="44" order="1"/>
+        <field id="0" name="Ressource" width="54" order="0"/>
+        <field id="1" name="Rolle" width="45" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -41,13 +41,13 @@
             <depend id="3" type="2" difference="0" hardness="Strong"/>
             <depend id="10" type="2" difference="0" hardness="Strong"/>
         </task>
-        <task id="2" name="GUIClient" color="#8cb6ce" meeting="false" start="2010-12-30" duration="13" complete="0" priority="1" expand="true"/>
+        <task id="2" name="GUIClient" color="#8cb6ce" meeting="false" start="2010-12-30" duration="14" complete="0" priority="1" expand="true"/>
         <task id="3" name="AIClient" color="#8cb6ce" meeting="false" start="2010-12-30" duration="14" complete="0" priority="1" expand="true"/>
         <task id="4" name="Network" color="#8cb6ce" meeting="false" start="2010-12-17" duration="8" complete="0" priority="1" expand="true">
             <depend id="9" type="2" difference="0" hardness="Strong"/>
         </task>
         <task id="9" name="myServer w/ Network/GameState/Logic" color="#8cb6ce" meeting="false" start="2011-01-03" duration="15" complete="0" priority="1" expand="true"/>
-        <task id="10" name="ClientBase w/ Network/GameState/Logic" color="#8cb6ce" meeting="false" start="2011-01-10" duration="10" complete="0" priority="1" expand="true"/>
+        <task id="10" name="ClientBase w/ Network/GameState/Logic" color="#8cb6ce" meeting="false" start="2010-12-30" duration="10" complete="0" priority="1" expand="true"/>
         <task id="5" name="Logic" color="#8cb6ce" meeting="false" start="2010-12-17" duration="15" complete="0" priority="1" expand="true"/>
         <task id="11" name="GameState" color="#8cb6ce" meeting="false" start="2010-12-17" duration="7" complete="0" priority="1" expand="true"/>
         <task id="7" name="Alles" color="#8cb6ce" meeting="false" start="2010-12-17" duration="27" complete="0" priority="1" expand="true"/>
