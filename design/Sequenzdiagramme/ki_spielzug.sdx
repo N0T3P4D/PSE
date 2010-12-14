@@ -2,8 +2,8 @@
 <diagram>
 <source><![CDATA[#!>>
 #!Sequenzdiagram eines beispielhaften Monopoly-Zuges:
-#!ein Client beendet seinen Zug, der nächste Client würfelt,
-#!kauft die Straße auf der er steht, baut dadrauf ein Haus
+#!ein Client beendet seinen Zug, der KI-Client würfelt,
+#!bewertet die Möglichkeiten (hier vereinfacht dargestellt mit nur einer Möglichkeit (Hauskauf) und einer Bewertungsfunktion (ValuateProperty))
 #!und beendet seinen Zug.
 #!
 #!<<
@@ -16,9 +16,9 @@ rules:Ruleset
 server:Server[r]
 aiClient:ClientBase[p]
 oldClient:ClientBase[p]
-valuator:Valuator[r]
-gameLogic:GameLogic[r]
-gameRules:GameRules[r]
+valuator:Valuator
+gameLogic:GameLogic
+gameRules:GameRules
 fieldRule:FieldRule
 propertyValuator:PropertyValuator
 
@@ -61,7 +61,8 @@ valuator:gameRules.getFieldRule(int id)&
 valuator:valuator.valuate()
 valuator:propertyValuator.returnValuation(GameField fieldRule)&
 valuator[2]:&
-aiClient[0]:
+valuator:aiClient.return
+valuator:stop
 [/c]
 [c buy Street]
 aiClient:server.accept/cancel()
@@ -83,40 +84,11 @@ field:server.informBuy()
 server:aiClient.informBuy()
 aiClient:server.return
 server:stop
-server[,6]:oldClient.informBuy()
+server[,6]:aiClient.informBuy()
 oldClient:server.return
 server[,6]:stop
 server[,0]:aiClient.return
 server[,10]:stop
-[/c]
-[c Construct a house on the new street]
-aiClient:server.construct(int playerID, int position)
-server:isValid=rules.upgradeValid(playerID, position)
-server:field=state.getField(position)
-server:field.construct()
-field:player1.decreaseCash(int amount)
-server:oldClient.informConstruct(int position)
-oldClient:server.return
-server[,12]:stop
-server[,0]:aiClient.informConstruct(int position)
-aiClient:server.return
-server[,13]:stop
-server[,0]:aiClient.return
-server[,11]:stop
-[/c]
-[c end Turn, same as on top]
-aiClient:server.endTurn()
-server:rules.nextTurn()
-rules:state.setPlayerOnTurn(int playerID)
-server:aiClient.informTurn(int playerID)
-aiClient:server.return
-server[,15]:stop
-server[,0]:oldClient.informTurn(int playerID)
-oldClient:server.return
-server:stop
-server[,0]:aiClient.return
-server:stop
-server:stop
 [/c]]]></source>
 <configuration>
 <property name="actorWidth" value="25"/>
