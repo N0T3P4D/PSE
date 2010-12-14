@@ -9,3 +9,6 @@ Spielplan
 =======================================================
 Ist wegen Kompatibilitätsgruenden vollstaendig im Server
 
+Implementierung
+=======================================================
+Gruppen haben sich verändert.

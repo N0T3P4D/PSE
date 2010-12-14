@@ -17,6 +17,7 @@
 package edu.kit.iti.pse.iface;
 
 import org.ojim.iface.IClient;
+import org.ojim.iface.Rules;
 
 /**
  * <p>
@@ -67,7 +68,14 @@ public interface IServer {
 	 *            Der entsprechende Client.
 	 * @return Ob der Spieler hinzugefügt werden konnte.
 	 */
-	public boolean addPlayer(IClient client);
+	public int addPlayer(IClient client);
+
+	/**
+	 * Setzt einen Spiler auf bereit.
+	 * @param player
+	 *            Der Spieler der sich auf bereit setzt.
+	 */
+	public void setPlayerReady(int player);
 
 	/**
 	 * Gibt den Namen eines Spielers zurück.
@@ -86,6 +94,13 @@ public interface IServer {
 	 * @return Die Farbe des Spielers.
 	 */
 	public int getPlayerColor(int player);
+
+	/**
+	 * Gibt den Regelsatz zurück.
+	 * 
+	 * @return Den aktuellen Regelsatz.
+	 */
+	public Rules getRules();
 
 	/**
 	 * Gibt den Namen des Grundstücks zurück.

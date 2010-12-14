@@ -52,83 +52,94 @@ WS 2010 / 2011} \\[2cm]
 
 \section{Architektur}
 
-%EINGABE-VALIDIERUNG
-\subsection{Eingabe-Validierung durch Server}
+%GEMEINSAME-SCHNITTSTELLE
+\subsection{Gemeinsame Schnittstelle}
 \subsubsection{Motivation}
-Bei Multiplayer-Spielen besteht die Gefahr, dass Spieler mit illegitimen Mitteln versuchen, sich Vorteile zu verschaffen ("`cheaten"'). Um dies zu verhindern ist angedacht, auf Serverseite alle von den Clients empfangenen Eingaben auf Richtigkeit zu prüfen, sodass an den Server keine falschen Befehle gesendet werden können. Weiteres Ziel ist das Verhindern von Denial-of-Service-Attacken durch Übersenden von unzulässigen oder sinnlosen Befehlen, die dazu geeignet sind, den reibungslosen Spielablauf zu unterbrechen. 
+Wir haben gemeinsam die Schnittstellen entsprechend unseren Bedürfnissen angepasst. Diese besteht einerseits aus den Interfaces "`IServer"', "`IServerTrade"', "`IServerAuction"' und "`IClient"', sowie aus der Klasse "`Rules"'.
+\subsubsection{Schnittstellen}
+\begin{itemize}
+\item IServer
+\begin{itemize}
+\item PLATZHALTER
+\end{itemize}
+\item IServerTrade
+\begin{itemize}
+\item PLATZHALTER
+\end{itemize}
+\item IServerAuction
+\begin{itemize}
+\item PLATZHALTER
+\end{itemize}
+\item IClient
+\begin{itemize}
+\item PLATZHALTER
+\end{itemize}
+\end{itemize} % SCHNITTSTELLEN
 
 \subsubsection{Klassen}
 \begin{itemize}
-\item Checker
+\item Rules \\
+Diese Klasse beschreibt einige Grundregeln. Die Eigenschaften sind dabei als öffentliche geschützte Attribute verfügbar.
 
-Diese Klasse implementiert die Interfaces IServer, bla, blub und enthält eine Instanz der Spielregeln und eine Referenz zum eigentlichen Server und zum Spielzustand. Wird eine der in den Interfaces deklarierten Methoden aufgerufen, so wird mithilfe der Spielregeln und des Spielzustandes überprüft, ob diese Eingabe zum jetzigen Zeitpunkt zulässig ist. Ist dies der Fall, wird sie an den Server weitergeleitet (Fassade), anderenfalls an die Fehlerbehandlungsklasse ErrorHandler übergeben, der über weitere Aktionen entscheidet. Bis auf den Konstruktur, der Referenzen zum Server und zum Spielzustand übernimmt, sind keine öffentlichen Methoden deklariert. 
-\item ErrorHandler
-
-Je nach unzulässiger Eingabe sind verschiedene Aktionen möglich. Da in unserer Implementierung die Clients ihre Eingaben mit den Spielregeln auf Zulässigkeit überprüfen, kann davon ausgegangen werden, dass Falscheingaben absichtlich herbeigeführt wurden. Entsprechend könnte eine Reaktion daher das sofortige Entfernen eines Spielers aus dem Spiel sein. Um abgestufte Reaktionen zu ermöglichen, könnte man für jeden Spieler ein Punktekonto mit Verstößen führen, wobei ab einem bestimmten Wert Aktionen gegen den Spieler unternommen werden. Öffentliche Methoden sind keine vorhanden, gespeichert wird lediglich eine Referenz auf den Server sowie ggf. eine Liste mit Punkten für jeden Spieler.
+Attribute:
+\begin{itemize}
+\item public final int startMoney \\
+Dieser Wert gibt das verfügbare Startgeld an.
+\item public final int goMoney; \\
+In diesem Wert steht, wie viel Geld man bekommen, sobald man über Los kommt.
+\item public final boolean doubleMoneyOnGo \\
+Dieser Wahrheitswert ist wahr, wenn man doppelt so viel Geld bekommen soll, wenn man auf den Los-Feld zum stehen kommt.
+\item public final boolean tradesWithMoney \\
+Man kann über diesen Wert bestimmen, ob beim Handeln die "`Ware"' Geld mit benutzt werden darf.
+\item public final boolean auctionActive \\
+Hiermit kann man Auktionen aktivieren oder deaktivieren.
+\item public final boolean moneyOnFreeParking;
+Sofern dieser Wert auf wahr steht, bekommt man das Geld aus den Steuertopf sobald man auf das Feld "`Frei Parken"' kommt.
 \end{itemize}
-\subsubsection{Optionales}
-Optional könnte noch eine rudimentäre Client-Server-Authentifizierung über einen geheimen Zahlenwert implementiert werden.
 
+Methoden:
+\begin{itemize}
+\item public Rules(int startMoney, int goMoney, boolean doubleMoneyOnGo, boolean tradesWithMoney, boolean auctionActive, boolean moneyOnFreeParking) \\
+Dieser Konstruktor kann einmal die Spielregeln setzen.
+\item public Rules() \\
+Dieser setzt die Spielregeln auf die Standardregeln von Monopoly:
+\begin{enumerate}
+\item 30.000 Startgeld
+\item 4.000 Geld bei Los
+\item kein doppeltes Geld, wenn man auf Los zieht
+\item Geld ist beim Handeln erlaubt
+\item Auktionen sind erlaubt
+\item Man erhält kein Geld aus den Steuertopf, wenn man auf das "`Frei Parken"'-Feld kommt.
+\end{enumerate}
+\end{itemize}
+\end{itemize} % KLASSEN
 
 %CLIENT-GRUNDGERUEST
 \subsection{Client Grundgerüst}
 Das Client Grundgerüst dient als Grundgerüst für den KI- und GUI-Client.
-\subsubsection{Schnittstellen}
+\subsubsection{Klassen}
 \begin{itemize}
-\item IClient\\
-Diese Klasse stellt ein paar minimalen Methoden zur Verfügung um ständiges nachfragen ("`pollen"') zu umgehen.
-
-Methoden:
-\begin{itemize}
-\item void informTurn(int player) \\
-Informiert den Client, dass ein bestimmter Spieler an der Reihe ist.
-\item informDiceValues(int[] diceValues) \\
-Informiert die Clients über das Würfelergebnis des aktiven Spielers.
-\item void informStreetBuy(int playerId) \\
-Meldet den Client, dass ein Spieler die Straße gekauft hat, auf der der Spieler stand.
-\item void informConstruct(int street) \\
-Informiert den Spieler, dass ein Gebäude auf der Straße gebaut wurde.
-\item void informDestruct(int street) \\
-Informiert über den Abriss eines Gebäudes.
-\item void informMortageToogle(int street) \\
-Informiert den Client darüber, dass die Straße umgedreht wurde.
-\end{itemize}
-\item INetworkClient \\
-Diese Klasse verwendet den IClient und bietet noch einige spezifische Methoden an, die das Netzwerk betreffen.
+\item ClientBase\\
+Ist diejenige Klasse, die von den Clients vererbt wird. Diese Klasse ist abstrakt, da die Methoden aus "`IClient"' nicht in dieser Klasse implementiert werden.
 
 Verwendet:
 \begin{itemize}
 \item IClient
 \end{itemize}
-
-Methoden:
-\begin{itemize}
-\item void messageRecieved(string sender, string text, boolean private) \\
-Meldet, dass eine Nachricht an diesen Spieler gesendet wurde.
-\item void kicked(int player, int reason, string description) \\
-Meldet, dass ein Spieler gekickt wurde.
-\end{itemize}
-\end{itemize} % Schnittstellen
-\subsubsection{Klassen}
-\begin{itemize}
-\item ClientBase\\
-Ist diejenige Klasse, die von den Clients vererbt wird. Diese Klasse ist abstrakt, da sie die Methoden aus "`INetworkClient"' nicht in dieser Klasse implementiert werden.
-
-Verwendet:
-\begin{itemize}
-\item INetworkClient
-\end{itemize}
 Attribute:
 \begin{itemize}
 \item private IServer server \\
-Die entsprechende Serverinstanz wird hier abgelegt. Dabei handelt es sich u.A. um das Netzwerk.
-\item private RuleSet rules \\
-Die Spielregeln werden in dieser Variable gespeichert.
-\item protected (?) GameStatus status \\
-Speichert den aktuellen Spielzustand, also die Besitzer der Straßen und ähnlichen.
+Die entsprechende Serverinstanz wird hier abgelegt. Dabei handelt es sich u.U. um das Netzwerk.
+\item protected GameLogic gameLogic \\
+Ist eine Referenz auf das aktuelle Spielfeld und den Spielregeln.
 \end{itemize}
 Methoden:
+
 \begin{itemize}
+\item protected void connect(string host, int port) \\
+Verbindet sich mit einem Server mithilfe eines Hosts und den entsprechenden Port.
+\item protected void connect(IServer server) \\
+Setzt einen vorhanden IServer als entsprechendes Server-Objekt.
 \item Folgende Methoden werden für den IServer gewrappt. Dies geschieht um vorher zu testen, ob das Regelwerk den Zug erlaubt.
 \begin{itemize}
 \item protected void accept()
@@ -139,42 +150,51 @@ Methoden:
 \item protected void construct(int street)
 \item protected void destruct(int street)
 \item protected void toggleMortgage(int street)
-\item protected .... (hier die Methoden von IServer) \\
+\item protected void sendMessage(string text)
+\item protected void sendPrivateMessage(string reciever, string text)
 \end{itemize}
-\item Folgende Methoden sind Netzwerkspezifisch und liefern eine "`NotNetworkException"', wenn kein Netzwerk existiert.
-\begin{itemize}
-\item protected void connect(string host) \\
-Verbindet sich mit einem Server.
-\item protected void sendMessage(string text) \\
-Sendet eine Textnachricht an alle Spieler.
-\item protected void sendPrivateMessage(string reciever, string text) \\
-Sendet eine private Textnachricht an einen spezifischen Spieler.
-\end{itemize} % Netzwerk
-\item Generelle Methoden
 \end{itemize} % Methoden
 \end{itemize} % Klassen
-\subsubsection{Fehlerklassen}
-\begin{itemize}
-\item NotNetworkException \\
-Wird geworfen, wenn der Client gar keine Netzwerk-Methoden verwenden kann.
-\end{itemize} % Fehlerklassen
 
 %KI-CLIENT
 \subsection{KI-Client}
 \subsubsection{Interfaces}
 \begin{itemize}
-\item RatingFunction
+\item ValuationFunction
 
-Das Interface "`RatingFunction"' dient zur Beschreibung der Bewertungsfunktionen. Diese sind als Singletons realisiert und enthalten eine Referenz zum Spielzustand; weiterhin gibt es eine öffentlich aufrufbare Bewertungsfunktion, die ein Argument vom Typ X (entsprechen dem, was zu bewerten gilt) entgegen nimmt und eine Zahl als zurückgibt.
+Das Interface "`ValuationFunction"' dient zur Beschreibung der Bewertungsfunktionen, die aus dem Paper von Frayn übernommen wurden. Das Interface stellt allen Funktionen jeweils eine Instanz der Spielregeln und des Spielzustands zur Verfügung. Durch diese können die Bewertungsfunktionen auf alle Informationen zugreifen.
+Die statische und öffentliche Methode "`returnValuation"', die von den implementierenden Klassen bereitgestellt wird, gibt die Bewertung des möglichen Spielzugs als Gleitkommaahl zurück.
 \end{itemize}
 \subsubsection{Klassen}
 \begin{itemize}
-\item KiClient
+\item AiClient
 
-Diese Klasse erbt vom Client-Grundgerüst und überschreibt bzw. implementiert Methoden, die KI-spezifisch sind.
-\item Rater
+Diese Klasse erbt vom Client-Grundgerüst und implementiert die dort vorgegebenen abstrakten Methoden. Die möglichen Spielzüge werden von der Klasse "`Valuator"' bewertet und der beste von AiClient ausgeführt.
+\item Valuator
 
-Der Rater fragt für alle Handlungsmöglichkeiten bei den einzelnen Rating-Funktionen das Ergebnis ab, gewichtet die Teilergebnisse und wählt die Handlungsmöglichkeit mit dem höchsten Ergebnis aus. Er ist als Singleton implementiert und hat eine Methode returnRating, die eine Zahl zurückgibt, die den auszuführenden Spielzug repräsentiert.
+Diese Klasse bewertet die möglichen Spielzüge. Der Spielzug mit der besten Bewertung wird an AiClient zurückgegeben und ausgeführt.
+In der Klassenvariable "`weights"' sind die einzelnen, noch zu bestimmenden Gewichte der einzelnen Bewertungsfunktionen gespeichert, die zusammen die Gesamtbewertung ergeben.
+\item ValuationParameters
+
+In der Klasse "`ValuationParameters"' werden die von den Bewertungsfunktionen benötigten und noch zu bestimmenden Gewichte gespeichert. Diese sind zur Laufzeit nicht veränderbar.
+\item PropertyValuator
+
+Dient zur Bewertung eines kaufbaren Objekts, z.B. einer Straße
+\item PropertyGroupValuator
+
+Dient zum Bewerten von Objektgruppen, insbesondere also aller Straßen gleicher Farbe
+\item BuildingOnPropertyValuator
+
+Bewertet das Bauen von Häusern, Hotels, etc.
+\item PrisonValuator
+
+Befindet sich der KI-Client im Gefängnis, entscheidet diese Klasse, ob Freikaufen rentabel ist. Es kann auch das Kaufen einer "`Gehe aus dem Gefängnis"'-Karte geprüft werden.
+\item MortgageValuator
+
+Dient zum Bewerten von Hypotheken
+\item CapitalValuator
+
+Es ist laut Paper empfehlenswert, immer eine Mindestmenge Geld zu besitzen.
 \end{itemize}
 
 
@@ -358,26 +378,47 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 \end{itemize}
 \end{itemize}
 
+%Feld
+\item Field
+Dies Klasse beschreibt ein Spielfeld in Monopoly.
+
+Attribute:
+\begin{itemize}
+\item PLATZHALTER
+\end{itemize}
+
+Methoden:
+\begin{itemize}
+\item boolean isValid()
+\item void action()
+\\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion des Feldes aus.
+
+\end{itemize}
+
 %Straße
 \item Street
+Die Klasse Street beschreibt ein besitzbares Feld in Monopoly.
+
+Verwendet:
 \begin{itemize}
-\item beschreibt ein besitzbares Feld in Monopoly
-\item Attribute
+\item Field
+\end{itemize}
+
+Attribute:
 \begin{itemize}
 \item int ownerPlayerID
-\item Player[] playersOnIt
 \item StreetGroup group
 \\Die Stra"sengruppen, der die Stra"se angeh"ort
 \item int level
 \\wie viele H"auser stehen auf der Stra"se?
 \end{itemize}
-\item Methoden
+
+Methoden:
 \begin{itemize}
-\item boolean isValid()
-\item void action()
-\\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion der Straße aus.
+\item void construct()
+\\ \textcolor{red}{Hinzufügt von Fabian}
 \end{itemize}
-\end{itemize}
+%Street end
 
 %StreetGroup
 \item StreetGroup

@@ -36,22 +36,23 @@ public interface IClient {
 	/**
 	 * Gibt die Sprache des Clients zurück.
 	 * 
-	 * @return Die Clientsprache.
+	 * @return Die Clientsprache nach ISO 639-5.
 	 */
 	String getLanguage();
 
 	/**
-	 * Initialisiert den Spieler mit den gegeben Server.
-	 * 
-	 * @param server
-	 *            der Server auf den der Spieler gerade spielt.
+	 * Informiert den Spieler, dass das Spiel beginnt.
+	 * @param numberOfPlayers
+	 *            Die Anzahl der Spieler.
 	 */
-	void initializePlayer(IServer server);
+	void informStartGame(int numberOfPlayers);
 
 	/**
-	 * Informiert den Spieler, dass er an der Reihe ist und nun Würfeln darf.
+	 * Informiert den Spieler, dass der Spieler mit der id "player" an der Reihe ist und nun Würfeln darf.
+	 * @param player
+	 *            Der Spieler der an die Reihe gekommen ist.
 	 */
-	void informTurn();
+	void informTurn(int player);
 
 	/**
 	 * Informiert den Spieler, dass der Spieler mit der ID das folgende
@@ -59,10 +60,8 @@ public interface IClient {
 	 * 
 	 * @param diceValues
 	 *            Augenwerte der einzelnen Würfel.
-	 * @param playerId
-	 *            ID des Spielers der gewürfelt hat.
 	 */
-	void informDiceValues(int[] diceValues, int playerId);
+	void informDiceValues(int[] diceValues);
 
 	/**
 	 * Informiert den Spieler dass sich das Geld eines Spielers geändert hat.
@@ -72,7 +71,7 @@ public interface IClient {
 	 * @param cashChange
 	 *            Die Bargeldänderung.
 	 */
-	void informCashChange(int playerId, int cashChange);
+	void informCashChange(int player, int cashChange);
 
 	/**
 	 * Informiert den Spieler, dass die Straße gekauft wurde, auf den der
@@ -81,7 +80,7 @@ public interface IClient {
 	 * @param playerId
 	 *            der neue Besitzer der Straße.
 	 */
-	void informStreetBuy(int playerId);
+	void informStreetBuy(int player);
 
 	/**
 	 * Informiert den Spieler, dass ein Spieler <i>ein</i> Gebäude gebaut hat.
@@ -139,4 +138,14 @@ public interface IClient {
 	 * @param privateMessage Ist wahr, wenn es sich um eine private Nachricht handelt.
 	 */
 	void informMessage(String text, int sender, boolean privateMessage);
+
+	/**
+	 * Informiert den Spieler, dass ein Handelsangebot vorliegt, bzw. dass eine Antwort vorliegt.
+	 */
+	void informTrade(int actingPlayer, int partnerPlayer);
+
+	/**
+	 * Informiert den Spieler, dass eine Auktion begonnen hat.
+	 */
+	void informAuction();
 }
