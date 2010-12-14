@@ -75,11 +75,13 @@ base2:guiClient2.informBuy(int position)
 
 [/c]
 [/c]
+
 logic:server.informTurn(int playerID)
-server:base2.informTurn(int playerID)
+server:server.storeGame(string path)
+server[1]:base2.informTurn(int playerID)
 base2:guiClient2.informCashChanged(int playerID, int cashChanged)
 
-server:base2.informTurn(int playerID)
+server[0]:base2.informTurn(int playerID)
 base2:guiClient2.informTurn(int playerID)]]></source>
 <configuration>
 <property name="actorWidth" value="25"/>

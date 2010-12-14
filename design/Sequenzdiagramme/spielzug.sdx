@@ -88,7 +88,8 @@ server[,11]:stop
 [/c]
 [c end Turn, same as on top]
 client:server.endTurn()
-server:rules.nextTurn()
+server:server.storeGame(string path)
+server[1]:rules.nextTurn()
 rules:state.setPlayerOnTurn(int playerID)
 server:client.informTurn(int playerID)
 client:server.return
