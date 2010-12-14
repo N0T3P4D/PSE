@@ -38,6 +38,8 @@ Server
 ======================================================================
 p int addPlayer()
     Möglichkeit, einen Player einzutragen, Rückgabe ist die playerID
+p foo setGameStatusMessage()
+	kA ich mach den Server nicht
 
 ClientBase
 ======================================================================
