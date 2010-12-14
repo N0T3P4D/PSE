@@ -1,0 +1,48 @@
+Hier habe ich (philip) einfach mal alles reingeschrieben was uns meiner Meinung
+nach noch fehlt. Wenn euch auch was einfällt dann schreibt es am Besten ebenfalls hier rein.
+
+
+
+
+
+Allgemein:
+======================================================================
+p Es sollte möglich sein, einen ganzen Spielstand zu übertragen
+p Verschiedene Spielpläne sind bisher nicht möglich
+
+
+Regeln:
+======================================================================
+p removePlayer(Player player)
+    Zum löschen eines Spielers aus dem Spiel
+
+GUIClient
+======================================================================
+p showIPField()
+p Class IPField   Zum anzeigen eines Fensters, wo die IP eingegeben werden kann
+p showWaitingRoom()
+    Anzeigen des Warteraums (mit Spielern und ChatFenster)
+
+Network
+======================================================================
+p Network(string host, int port)
+    Möglichkeit, vom Client aus eine Verbindung zu erstellen (da hat man zB keine Serverdetails)
+p ServerDetails getServerDetails()
+    Möglichkeit, ServerDetails eines Servers auf Clientseite auszulesen
+p ClientConnection muss IServer implementieren
+p IServer getServer()
+  damit ClientBase überhaupt auf den Server zugreifen kann.
+p Network muss IServer implementieren (oder etwas anderes muss IServer implementieren)
+
+Server
+======================================================================
+p int addPlayer()
+    Möglichkeit, einen Player einzutragen, Rückgabe ist die playerID
+
+ClientBase
+======================================================================
+p boolean refreshGameState()
+    Aktualisiert den Spielzustand.
+    Dies kann entweder über getGameState() des Servers oder über getPlayerpos()/getwhatever()
+    abgeregelt werden (wobei 2teres mindestens implementiert sein muss, falls der Server
+    nur IServer unterstützt)

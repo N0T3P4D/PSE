@@ -1,0 +1,55 @@
+Beispielhafter Spielzug
+===============================================================
+-Beenden des alten Spielzugs
+-Starten eines neuen Spielzugs
+-Würfeln
+-Straße kaufen
+-Haus drauf bauen
+-Zug beenden
+
+
+Erste Inbetriebnahme mit Starten eines Servers
+===============================================================
+-User: Starten des Programms
+-User: Spiel erstellen
+-User: Servereinstellungen verändern
+-User: Server starten
+-Server initialisieren
+-Client dem Server beitreten
+-Bereitschaft setzen
+
+Einem Spiel beitreten (durch Serverliste), spielen und aufgeben
+===============================================================
+-User: "Spiel beitreten"
+-User: IP eingeben
+-Client auf Server verbinden
+-Bereitschaft setzen
+
+
+Voller Server
+===============================================================
+-Client verbindet sich auf Server
+-Client holt ServerInfo
+-Client merkt dass Server voll
+-Client gibt Meldung aus
+
+
+Serverabsturz
+===============================================================
+-Client ist auf Server verbunden
+-Server stirbt
+-nach einem Timeout erkundigt sich der Client nach dem Server
+-Client gibt Meldung aus
+
+
+Abwesenheit eines Spielers
+===============================================================
+-Client ist auf Server verbunden
+-Timer startet
+-bei jeder Aktion des Clienten wird ein timer zurückgesetzt
+-ist der Timer durchgelaufen, dann wird der Client entfernt
+
+
+Entfernen eines Spielers aus dem Spiel
+===============================================================
+-Regeln

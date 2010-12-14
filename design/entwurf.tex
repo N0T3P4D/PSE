@@ -61,7 +61,7 @@ Bei Multiplayer-Spielen besteht die Gefahr, dass Spieler mit illegitimen Mitteln
 \begin{itemize}
 \item Checker
 
-Diese Klasse implementiert die Interfaces IServer, bla, blub und enthält eine Instanz der Spielregeln und eine Referenz zum eigentlichen Server und zum Spielzustand. Wird eine der in den Interfaces deklarierten Methoden aufgerufen, so wird mithilfe der Spielregeln und des Spielzustandes überprüft, ob diese Eingabe zum jetzigen Zeitpunkt zulässig ist. Ist dies der Fall, wird sie an den Server weitergeleitet, anderenfalls an die Fehlerbehandlungsklasse ErrorHandler übergeben, der über weitere Aktionen entscheidet. Bis auf den Konstruktur, der Referenzen zum Server und zum Spielzustand übernimmt, sind keine öffentlichen Methoden deklariert. Als Attribut wird nur die Spielregeln-Instanz benötigt.
+Diese Klasse implementiert die Interfaces IServer, bla, blub und enthält eine Instanz der Spielregeln und eine Referenz zum eigentlichen Server und zum Spielzustand. Wird eine der in den Interfaces deklarierten Methoden aufgerufen, so wird mithilfe der Spielregeln und des Spielzustandes überprüft, ob diese Eingabe zum jetzigen Zeitpunkt zulässig ist. Ist dies der Fall, wird sie an den Server weitergeleitet (Fassade), anderenfalls an die Fehlerbehandlungsklasse ErrorHandler übergeben, der über weitere Aktionen entscheidet. Bis auf den Konstruktur, der Referenzen zum Server und zum Spielzustand übernimmt, sind keine öffentlichen Methoden deklariert. 
 \item ErrorHandler
 
 Je nach unzulässiger Eingabe sind verschiedene Aktionen möglich. Da in unserer Implementierung die Clients ihre Eingaben mit den Spielregeln auf Zulässigkeit überprüfen, kann davon ausgegangen werden, dass Falscheingaben absichtlich herbeigeführt wurden. Entsprechend könnte eine Reaktion daher das sofortige Entfernen eines Spielers aus dem Spiel sein. Um abgestufte Reaktionen zu ermöglichen, könnte man für jeden Spieler ein Punktekonto mit Verstößen führen, wobei ab einem bestimmten Wert Aktionen gegen den Spieler unternommen werden. Öffentliche Methoden sind keine vorhanden, gespeichert wird lediglich eine Referenz auf den Server sowie ggf. eine Liste mit Punkten für jeden Spieler.
@@ -112,7 +112,7 @@ Meldet, dass ein Spieler gekickt wurde.
 \subsubsection{Klassen}
 \begin{itemize}
 \item ClientBase\\
-Ist diejenige Klasse, die von den Clients vererbt wird.
+Ist diejenige Klasse, die von den Clients vererbt wird. Diese Klasse ist abstrakt, da sie die Methoden aus "`INetworkClient"' nicht in dieser Klasse implementiert werden.
 
 Verwendet:
 \begin{itemize}
@@ -164,12 +164,17 @@ Wird geworfen, wenn der Client gar keine Netzwerk-Methoden verwenden kann.
 \subsubsection{Interfaces}
 \begin{itemize}
 \item RatingFunction
-Das Interface "`RatingFunction"' dient zur Beschreibung der Bewertungsfunktionen. Der Konstruktur enthält eine Referenz zum Spielzustand, weiterhin gibt es eine öffentlich aufrufbare Bewertungsfunktion, die ein Argument vom Typ X entgegen nimmt und eine Zahl als zurückgibt
+
+Das Interface "`RatingFunction"' dient zur Beschreibung der Bewertungsfunktionen. Diese sind als Singletons realisiert und enthalten eine Referenz zum Spielzustand; weiterhin gibt es eine öffentlich aufrufbare Bewertungsfunktion, die ein Argument vom Typ X (entsprechen dem, was zu bewerten gilt) entgegen nimmt und eine Zahl als zurückgibt.
 \end{itemize}
 \subsubsection{Klassen}
 \begin{itemize}
 \item KiClient
-Diese Klasse erbt vom Client Grundgerüst und überschreibt bzw. implementiert Methoden, die KI-spezifisch sind.
+
+Diese Klasse erbt vom Client-Grundgerüst und überschreibt bzw. implementiert Methoden, die KI-spezifisch sind.
+\item Rater
+
+Der Rater fragt für alle Handlungsmöglichkeiten bei den einzelnen Rating-Funktionen das Ergebnis ab, gewichtet die Teilergebnisse und wählt die Handlungsmöglichkeit mit dem höchsten Ergebnis aus. Er ist als Singleton implementiert und hat eine Methode returnRating, die eine Zahl zurückgibt, die den auszuführenden Spielzug repräsentiert.
 \end{itemize}
 
 
