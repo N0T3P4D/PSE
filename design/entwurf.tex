@@ -135,51 +135,28 @@ Optional könnte noch eine rudimentäre Client-Server-Authentifizierung über ei
 %CLIENT-GRUNDGERUEST
 \subsection{Client Grundgerüst}
 Das Client Grundgerüst dient als Grundgerüst für den KI- und GUI-Client.
-\subsubsection{Schnittstellen}
-\begin{itemize}
-\item IClient\\
-Diese Klasse stellt ein paar minimalen Methoden zur Verfügung um ständiges nachfragen ("`pollen"') zu umgehen.
-
-Methoden:
-\begin{itemize}
-\item void informStartGame(int numberOfPlayers) \\
-Informiert den Spieler, dass das Spiel beginnt. Die Anzahl der Spieler steht in numberOfPlayers.
-\item void informTurn(int player) \\
-Informiert den Client, dass ein bestimmter Spieler an der Reihe ist.
-\item void informCashChange(int playerId, int cashChange) \\
-Informiert den Spieler dass sich das Geld eines Spielers geändert hat.
-\item informDiceValues(int[] diceValues) \\
-Informiert die Clients über das Würfelergebnis des aktiven Spielers.
-\item void informStreetBuy(int playerId) \\
-Meldet den Client, dass ein Spieler die Straße gekauft hat, auf der der Spieler stand.
-\item void informConstruct(int street) \\
-Informiert den Spieler, dass ein Gebäude auf der Straße gebaut wurde.
-\item void informDestruct(int street) \\
-Informiert über den Abriss eines Gebäudes.
-\item void informMortageToogle(int street) \\
-Informiert den Client darüber, dass die Straße umgedreht wurde.
-\end{itemize}
-\end{itemize} % Schnittstellen
 \subsubsection{Klassen}
 \begin{itemize}
 \item ClientBase\\
-Ist diejenige Klasse, die von den Clients vererbt wird. Diese Klasse ist abstrakt, da sie die Methoden aus "`INetworkClient"' nicht in dieser Klasse implementiert werden.
+Ist diejenige Klasse, die von den Clients vererbt wird. Diese Klasse ist abstrakt, da die Methoden aus "`IClient"' nicht in dieser Klasse implementiert werden.
 
 Verwendet:
 \begin{itemize}
-\item INetworkClient
+\item IClient
 \end{itemize}
 Attribute:
 \begin{itemize}
 \item private IServer server \\
-Die entsprechende Serverinstanz wird hier abgelegt. Dabei handelt es sich u.A. um das Netzwerk.
-\item private RuleSet rules \\
-Die Spielregeln werden in dieser Variable gespeichert.
-\item protected (?) GameStatus status \\
-Speichert den aktuellen Spielzustand, also die Besitzer der Straßen und ähnlichen.
+Die entsprechende Serverinstanz wird hier abgelegt. Dabei handelt es sich u.U. um das Netzwerk.
+\item protected GameLogic gameLogic \\
+Ist eine Referenz auf das aktuelle Spielfeld und den Spielregeln.
 \end{itemize}
 Methoden:
 \begin{itemize}
+\item protected void connect(string host, int port) \\
+Verbindet sich mit einem Server mithilfe eines Hosts und den entsprechenden Port.
+\item protected void connect(IServer server) \\
+Setzt einen vorhanden IServer als entsprechendes Server-Objekt.
 \item Folgende Methoden werden für den IServer gewrappt. Dies geschieht um vorher zu testen, ob das Regelwerk den Zug erlaubt.
 \begin{itemize}
 \item protected void accept()
@@ -190,25 +167,11 @@ Methoden:
 \item protected void construct(int street)
 \item protected void destruct(int street)
 \item protected void toggleMortgage(int street)
-\item protected .... (hier die Methoden von IServer) \\
+\item protected void sendMessage(string text)
+\item protected void sendPrivateMessage(string reciever, string text)
 \end{itemize}
-\item Folgende Methoden sind Netzwerkspezifisch und liefern eine "`NotNetworkException"', wenn kein Netzwerk existiert.
-\begin{itemize}
-\item protected void connect(string host) \\
-Verbindet sich mit einem Server.
-\item protected void sendMessage(string text) \\
-Sendet eine Textnachricht an alle Spieler.
-\item protected void sendPrivateMessage(string reciever, string text) \\
-Sendet eine private Textnachricht an einen spezifischen Spieler.
-\end{itemize} % Netzwerk
-\item Generelle Methoden
 \end{itemize} % Methoden
 \end{itemize} % Klassen
-\subsubsection{Fehlerklassen}
-\begin{itemize}
-\item NotNetworkException \\
-Wird geworfen, wenn der Client gar keine Netzwerk-Methoden verwenden kann.
-\end{itemize} % Fehlerklassen
 
 %KI-CLIENT
 \subsection{KI-Client}
