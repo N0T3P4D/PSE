@@ -1,0 +1,143 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<diagram>
+<source><![CDATA[#!>>
+#!Sequenzdiagram eines beispielhaften Monopoly-Zuges:
+#!ein Client beendet seinen Zug, der KI-Client würfelt,
+#!bewertet die Möglichkeiten (hier vereinfacht dargestellt mit nur einer Möglichkeit (Hauskauf) und einer Bewertungsfunktion (ValuateProperty))
+#!und beendet seinen Zug.
+#!
+#!<<
+#![GameTurn]
+ext:External[pe]
+player1:Player
+field:Field
+state:GameState
+rules:Ruleset
+server:Server[r]
+aiClient:ClientBase[p]
+oldClient:ClientBase[p]
+valuator:Valuator
+gameLogic:GameLogic
+gameRules:GameRules
+fieldRule:FieldRule
+propertyValuator:PropertyValuator
+
+[c end old Turn / start new Turn]
+oldClient:server.endTurn()
+server:rules.nextTurn()
+rules:state.setPlayerOnTurn(int playerID)
+server:oldClient.return
+server:aiClient.informTurn(int playerID)
+aiClient:server.return
+server:stop
+server:oldClient.informTurn(int playerID)
+oldClient:server.return
+server:stop
+[/c]
+[c roll Dice]
+aiClient:server.rollDice(int playerID)
+server:rules.rollDice()
+rules:state.newDiceRoll(Dice dice)
+state:state.setDice(Dice dice)&
+state:state.movePlayer(Player player, int pos)
+rules:server.addGameStatusMessage(string message)&
+server:aiClient.return
+server:stop
+server:aiClient.informDiceValues(int[] values)
+aiClient:server.return
+server:stop
+server:oldClient.informDiceValues(int[] values)
+oldClient:server.return
+server:stop
+[/c]
+[c valuate possible moves]
+aiClient:valuator.valuate(int arg)
+valuator:gameLogic.getGameState()&
+#gameLogic:valuator.gameState
+#gameLogic:valuator.return&
+valuator:gameRules.getFieldRule(int id)&
+#gameRules:valuator.fieldRule
+#gameRules:valuator.return
+valuator:valuator.valuate()
+valuator:propertyValuator.returnValuation(GameField fieldRule)&
+valuator[2]:&
+valuator:aiClient.return
+valuator:stop
+[/c]
+[c buy Street]
+aiClient:server.accept/cancel()
+server:rules.accept(int playerID)
+rules:field=state.getField(int playerposition)
+rules:field.doAction(Player player, boolean accepted)
+field:player1.getCash(int amount)
+field:player1.setCash(int amount)
+player1:server.informCashChange(int cashChange, int playerID)
+server:aiClient.informCashChange(int cashChange, int playerID)
+aiClient:server.return
+server:stop
+server[,0]:oldClient.informCashChange(int cashChange, int playerID)
+oldClient:server.return
+server:stop
+field:player1.setAsOwner(this)
+player1:field.setOwner(this)
+field:server.informBuy()
+server:aiClient.informBuy()
+aiClient:server.return
+server:stop
+server[,6]:aiClient.informBuy()
+oldClient:server.return
+server[,6]:stop
+server[,0]:aiClient.return
+server[,10]:stop
+[/c]]]></source>
+<configuration>
+<property name="actorWidth" value="25"/>
+<property name="allowMessageProperties" value="false"/>
+<property name="arrowSize" value="6"/>
+<property name="colorizeThreads" value="false"/>
+<property name="destructorWidth" value="30"/>
+<property family="Dialog" name="font" size="12" style="0"/>
+<property name="fragmentMargin" value="8"/>
+<property name="fragmentPadding" value="10"/>
+<property name="fragmentTextPadding" value="3"/>
+<property name="glue" value="10"/>
+<property name="headHeight" value="35"/>
+<property name="headLabelPadding" value="5"/>
+<property name="headWidth" value="100"/>
+<property name="initialSpace" value="10"/>
+<property name="leftMargin" value="5"/>
+<property name="lineWrap" value="false"/>
+<property name="lowerMargin" value="5"/>
+<property name="mainLifelineWidth" value="8"/>
+<property name="messageLabelSpace" value="3"/>
+<property name="messagePadding" value="6"/>
+<property name="noteMargin" value="6"/>
+<property name="notePadding" value="6"/>
+<property name="opaqueMessageText" value="false"/>
+<property name="returnArrowVisible" value="true"/>
+<property name="rightMargin" value="5"/>
+<property name="selfMessageHorizontalSpace" value="15"/>
+<property name="separatorBottomMargin" value="8"/>
+<property name="separatorTopMargin" value="15"/>
+<property name="shouldShadowParticipants" value="true"/>
+<property name="spaceBeforeActivation" value="2"/>
+<property name="spaceBeforeAnswerToSelf" value="10"/>
+<property name="spaceBeforeConstruction" value="6"/>
+<property name="spaceBeforeSelfMessage" value="7"/>
+<property name="subLifelineWidth" value="6"/>
+<property name="tc0" value="-1118482"/>
+<property name="tc1" value="-256"/>
+<property name="tc2" value="-65536"/>
+<property name="tc3" value="-16776961"/>
+<property name="tc4" value="-16711936"/>
+<property name="tc5" value="-4144960"/>
+<property name="tc6" value="-65281"/>
+<property name="tc7" value="-14336"/>
+<property name="tc8" value="-20561"/>
+<property name="tc9" value="-12566464"/>
+<property name="threadNumbersVisible" value="false"/>
+<property name="threaded" value="true"/>
+<property name="upperMargin" value="5"/>
+<property name="verticallySplit" value="false"/>
+</configuration>
+</diagram>

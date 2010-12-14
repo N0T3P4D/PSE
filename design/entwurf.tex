@@ -514,8 +514,76 @@ Der Server verbindet mehrere Clienten in einem Spiel. Er ist die zentrale Stelle
 \end{itemize}
 
 \subsection{Netzwerk}
+Das Netzwerk stellt die Verbindung zwischen dem Client und dem Server dar, dabei ist es m"oglich das sich die Spieler in einem lokalen
+Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Machine arbeiten und am Spiel teilnehmen. Damit der Client Anfragen an den Server schicken kann, die die Ausf"uhrung von Methoden und die R"uckgabe von Ergebnissen beinhalten, verwenden wir den RMI (Remote Method Invocation) Mechanismus , der uns das entfernte Aufrufen von Methoden erlaubt. Die Verbindung von Client und Server wird durch Stellvertreterobjekte(engl. proxies) realisiert. Auf Seite des Clients wird ein Stellvertreter (Stub) des entfernten Objekts (Skeleton) erzeugt, welcher die Daten die "ubermittelt werden kapselt und diese in Form von Nachrichten an den Server "ubermittelt. Die Daten beinhalten unteranderem die zu ausf"uhrende Methode inklusive R"uckgabetyp und alle Parameter.   
+  
 \subsubsection{Interfaces}
+\begin{itemize}
+%Remote
+\item Remote
+\item IServer
+\begin{itemize}
+\item Hier werden alle Methoden zur Verf"ugung gestellt, die das Server Objekt auf Seite des Clients aufrufen kann
+\end{itemize}
+\item Serializable
+\end{itemize}
 \subsubsection{Klassen}
+
+
+\begin{itemize}
+\item UnicastRemoteObject
+\begin{itemize}
+\item Registriert das zu fernaufrufende Objekt bei der RMI Verwaltung
+\item Verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
+\end{itemize}
+\item ImplBuffer
+\item BufferServer
+\item RemoteObject
+\item Socket
+\item ServerSocket
+\item Network
+\begin {itemize}
+\item Attribute
+\begin{itemize}
+\item ServerSocket server
+\item Socket client
+\item List <ClientDetails>  client
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item Network(ServerSocket server,Socket client, ServerDetails details) 
+\item boolean waitingForClients()
+\item boolean cut (int playerID)
+\item boolean cut (int playerID, string message)
+\item boolean connectionLost(int playerID)
+\item boolean sendIServer(MyServer server)
+\item ServerDetails getServerDetails()
+\item addClient(ClientDetails client)
+\end{itemize}
+\end{itemize}
+\item ServerDetails
+\begin {itemize}
+\item Attribute
+\begin{itemize}
+\item String name
+\item String ip
+\item int connectedPlayers
+\item int maxPlayers
+\item boolean open
+\item int port
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item ServerDetails(ServerSocket server,Socket client, ServerDetails details) 
+\end{itemize}
+\end{itemize}
+\item ClientDetails
+\item ClientConnection
+\begin{itemize}
+\item Implementiert das Interface Serializable
+\end{itemize}
+\item BufferClient
+\end{itemize}
 
 \section{Beschreibung der zentralen Abläufe}
 \section{Weitere Entwurfdetails}
