@@ -21,19 +21,14 @@ oldClient:ClientBase[p]
 oldClient:server.endTurn()
 server:rules.nextTurn()
 rules:state.setPlayerOnTurn(int playerID)
-server:oldClient.notifyReturn(boolean return)
-oldClient:wait()
-server:client.markTurn()
+server:oldClient.return
+server:client.informTurn(int playerID)
+client:server.return
+server:stop
+server:oldClient.informTurn(int playerID)
+oldClient:server.return
+server:stop
 [/c]
-server:wait()
-server:....
-#server[0]:_
-client:server.getGameStatusMessage(int playerID)
-server:client.notifyReturn(string return)
-server:stop
-oldClient:server.getGameStatusMessage(int playerID)
-server:oldClient.notifyReturn(String return)
-server:stop
 [c roll Dice]
 client:server.rollDice(int playerID)
 server:rules.rollDice()
@@ -41,56 +36,69 @@ rules:state.newDiceRoll(Dice dice)
 state:state.setDice(Dice dice)&
 state:state.movePlayer(Player player, int pos)
 rules:server.addGameStatusMessage(string message)&
-server:client.notifyReturn(boolean return)
-server:{client,oldClient}.notifyNew()
+server:client.return
+server:stop
+server:client.informDiceValues(int[] values)
+client:server.return
+server:stop
+server:oldClient.informDiceValues(int[] values)
+oldClient:server.return
 server:stop
 [/c]
-oldClient:server.getGameStatusMessage(int playerID)
-server:oldClient.notifyReturn(String return)
-server:stop
-client:server.getGameStatusMessage(int playerID)
-server:client.notifyReturn(String return)
-server:stop
 [c buy Street]
 client:server.accept/cancel()
 server:rules.accept(int playerID)
 rules:field=state.getField(int playerposition)
 rules:field.doAction(Player player, boolean accepted)
-field:player1.increaseCash(int amount)
+field:player1.getCash(int amount)
+field:player1.setCash(int amount)
+player1:server.informCashChange(int cashChange, int playerID)
+server:client.informCashChange(int cashChange, int playerID)
+client:server.return
+server:stop
+server[,0]:oldClient.informCashChange(int cashChange, int playerID)
+oldClient:server.return
+server:stop
 field:player1.setAsOwner(this)
 player1:field.setOwner(this)
-server:client.notifyReturn()
-server:{client,oldClient}.notifyNew()
+field:server.informBuy()
+server:client.informBuy()
+client:server.return
 server:stop
+server[,6]:oldClient.informBuy()
+oldClient:server.return
+server[,6]:stop
+server[,0]:client.return
+server[,10]:stop
 [/c]
-client:server.getGameStatusMessage(int playerID)
-server:client.notifyReturn(string return)
-server:stop
-oldClient:server.getGameStatusMessage(int playerID)
-server:oldClient.notifyReturn(String return)
-server:stop
 [c Construct a house on the new street]
 client:server.construct(int playerID, int position)
 server:isValid=rules.upgradeValid(playerID, position)
 server:field=state.getField(position)
 server:field.construct()
 field:player1.decreaseCash(int amount)
-server:client.notifyReturn(boolean return)
-server:{client,oldClient}.notifyNew()
-server:stop
+server:oldClient.informConstruct(int position)
+oldClient:server.return
+server[,12]:stop
+server[,0]:client.informConstruct(int position)
+client:server.return
+server[,13]:stop
+server[,0]:client.return
+server[,11]:stop
 [/c]
-client:server.getGameStatusMessage(int playerID)
-server:client.notifyReturn(string return)
-server:stop
-oldClient:server.getGameStatusMessage(int playerID)
-server:oldClient.notifyReturn(String return)
-server:stop
 [c end Turn, same as on top]
 client:server.endTurn()
 server:rules.nextTurn()
 rules:state.setPlayerOnTurn(int playerID)
-server:client.notifyReturn(boolean return)
-server:oldClient.markTurn()
+server:client.informTurn(int playerID)
+client:server.return
+server[,15]:stop
+server[,0]:oldClient.informTurn(int playerID)
+oldClient:server.return
+server:stop
+server[,0]:client.return
+server:stop
+server:stop
 [/c]]]></source>
 <configuration>
 <property name="actorWidth" value="25"/>
