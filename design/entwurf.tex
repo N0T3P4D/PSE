@@ -353,24 +353,47 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 \end{itemize}
 \end{itemize}
 
+%Feld
+\item Field
+\begin{itemize}
+Dies Klasse beschreibt ein Spielfeld in Monopoly.
+
+Attribute:
+\begin{itemize}
+\item Player[] playersOnIt
+\end{itemize}
+
+Methoden:
+\begin{itemize}
+\item boolean isValid()
+\item void action()
+\\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion des Feldes aus.
+\end{itemize}
+\end{itemize}
+
 %Straße
 \item Street
 \begin{itemize}
-\item beschreibt ein besitzbares Feld in Monopoly
-\item Attribute
+Die Klasse Street beschreibt ein besitzbares Feld in Monopoly.
+
+Verwendet:
+\begin{itemize}
+\item Field
+\end{itemize}
+
+Attribute:
 \begin{itemize}
 \item int ownerPlayerID
-\item Player[] playersOnIt
 \item StreetGroup group
 \\Die Stra"sengruppen, der die Stra"se angeh"ort
 \item int level
 \\wie viele H"auser stehen auf der Stra"se?
 \end{itemize}
-\item Methoden
+
+Methoden:
 \begin{itemize}
-\item boolean isValid()
-\item void action()
-\\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion der Straße aus.
+\item void construct()
+\\ \textcolor{red}{Hinzufügt von Fabian}
 \end{itemize}
 \end{itemize}
 
