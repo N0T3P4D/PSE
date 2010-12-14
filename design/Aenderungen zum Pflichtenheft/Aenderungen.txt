@@ -1,5 +1,6 @@
-Validierung
+Netzwerkvalidierung
 =======================================================
+(Ist die Usereingabe
 wurde uns empfohlen zu minimieren/fallenzulassen
 => haben wir fallenlassen
 
@@ -8,3 +9,6 @@ Spielplan
 =======================================================
 Ist wegen Kompatibilitätsgruenden vollstaendig im Server
 
+Implementierung
+=======================================================
+Gruppen haben sich verändert.
