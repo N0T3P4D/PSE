@@ -84,11 +84,11 @@ field:server.informBuy()
 server:aiClient.informBuy()
 aiClient:server.return
 server:stop
-server[,6]:aiClient.informBuy()
+server[,0]:aiClient.informBuy()
 oldClient:server.return
-server[,6]:stop
+server[,7]:stop
 server[,0]:aiClient.return
-server[,10]:stop
+server[,11]:stop
 [/c]]]></source>
 <configuration>
 <property name="actorWidth" value="25"/>
