@@ -537,31 +537,64 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \item Verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
 \end{itemize}
 \item ImplBuffer
+\begin{itemize}
+\item erweitert die Klasse UnicastRemoteObject
+\item implementiert das Interface IServer
+\end{itemize}
 \item BufferServer
+\begin {itemize}
+\item Methoden
+\begin{itemize}
+\item createBufferServer()
+\end{itemize}
+\end{itemize}
+
+
 \item RemoteObject
+\begin{itemize}
+\item Implementiert das Interface Serializable
+\end{itemize}
 \item Socket
+\begin{itemize}
+\item Stellt die Steckverbindung zum Netzwerk f"ur den Clienten dar
+\end{itemize}
 \item ServerSocket
+\begin{itemize}
+\item Stellt die Steckverbindung zum Netzwerk f"ur den Server dar
+\end{itemize}
 \item Network
+\begin{itemize}
+\item Verwaltet das Netzwerk
+\end{itemize}
 \begin {itemize}
 \item Attribute
 \begin{itemize}
 \item ServerSocket server
 \item Socket client
-\item List <ClientDetails>  client
+\item List $<$ClientDetails$>$ client
 \end{itemize}
 \item Methoden
 \begin{itemize}
 \item Network(ServerSocket server,Socket client, ServerDetails details) 
 \item boolean waitingForClients()
+\\Wartet bis alle Clienten mit dem Server verbunden sind
 \item boolean cut (int playerID)
+\\Trennt die Verbindung eines Clienten zum Server
 \item boolean cut (int playerID, string message)
+\\Trennt die Verbindung eines Clienten zum Server und "ubergibt dabei dem Clienten eine Nachricht
 \item boolean connectionLost(int playerID)
+\\"Uberpr"uft ob die Verbindung zu einem Clienten unterbrochen worden ist
 \item boolean sendIServer(MyServer server)
+\\"Uberreicht dem Clienten ein IServer Objekt
 \item ServerDetails getServerDetails()
 \item addClient(ClientDetails client)
+\\F"ugt einen Clienten zum Server hinzu
 \end{itemize}
 \end{itemize}
 \item ServerDetails
+\begin{itemize}
+\item Verwaltet die Eigenschaften eines Servers
+\end{itemize}
 \begin {itemize}
 \item Attribute
 \begin{itemize}
@@ -578,11 +611,53 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \end{itemize}
 \end{itemize}
 \item ClientDetails
+\begin{itemize}
+\item Verwaltet die Eigenschaften eines Clienten
+\end{itemize}
+\begin {itemize}
+\item Attribute
+\begin{itemize}
+\item String ip
+\item String username
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item ClientDetails(String ip, String username) 
+\end{itemize}
+\end{itemize}
 \item ClientConnection
+\begin{itemize}
+\item Verwaltet die aktive Verbindung zwischen Client und Server
+\end{itemize}
+\begin {itemize}
+\item Attribute
+\begin{itemize}
+\item Socket clientSocket
+\end{itemize}
+\item Methoden
+\begin{itemize}
+\item boolean isConnected()
+\\"Uberpr"uft ob der Client mit dem Server verbunden ist
+\item connect(String ip, int port)
+\\Verbindet den Clienten mit dem Server
+\item disconnect() 
+\\Unterbricht die Verbindung des Clienten zum Server
+\end{itemize}
+\end{itemize}
+\item RemoteObject
 \begin{itemize}
 \item Implementiert das Interface Serializable
 \end{itemize}
 \item BufferClient
+\begin{itemize}
+\item Client sucht das Server Objekt beim Namendienst 
+\begin {itemize}
+\item Methoden
+\begin{itemize}
+\item registerClient() 
+\end{itemize}
+\end{itemize}
+\end{itemize}
 \end{itemize}
 
 \section{Beschreibung der zentralen Abläufe}
