@@ -1,5 +1,6 @@
-Validierung
+Netzwerkvalidierung
 =======================================================
+(Ist die Usereingabe
 wurde uns empfohlen zu minimieren/fallenzulassen
 => haben wir fallenlassen
 
