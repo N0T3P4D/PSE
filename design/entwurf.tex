@@ -222,7 +222,7 @@ Der GUI-Client baut auf dem Clientgrundger"ust auf bietet eine Graphische Oberfl
 \item void clearMessage() 
 \\löscht die Nachricht und zeigt nichts an
 \item void showMessage(string Message, boolean yes, boolean no)
-\\Zeigt eine neue Nachricht an, je nachdem sind ""accept"" und ""decline"" aktiviert
+\\Zeigt eine neue Nachricht an, je nachdem sind "`accept"' und "`decline"' aktiviert
 \end{itemize}
 \end{itemize}
 
@@ -527,12 +527,12 @@ Während der Entwurfsphase fanden mehrere Treffen mit einem Verantwortlichen der
 \item Die Validierung einkommender Befehle von Clienten an den Server wurde fallen gelassen, es wird nur noch "uberpr"uft ob die Befehle spielregelkonform sind
 \item Die Schnittstelle IClient kommt f"ur Kommunikationszwecke von Server zu Client dazu
 \item Der Spielstand wird allein beim Server gespeichert
-\item Aus Kompatibilit"atsgr"unden wird /PD01/ "Spielfeld" nur auf dem Server gespeichert
-\item Ein Spiel startet nun, wenn die maximale Anzahl der Clienten auf einem Server verbunden ist, statt bei variabler Anzahl mit "Bereit-Option" starten zu k"onnen
+\item Aus Kompatibilit"atsgr"unden wird /PD01/ "`Spielfeld"' nur auf dem Server gespeichert
+\item Ein Spiel startet nun, wenn die maximale Anzahl der Clienten auf einem Server verbunden ist, statt bei variabler Anzahl mit "`Bereit-Option"' starten zu können
 \item Es gibt keine M"oglichkeit, aktiv ein Spiel aufzugeben (/F12080/)
-\item Ein AIClient kann dem Server hinzugef"ugt werden, anstatt dass dieser als eigenes Programm gestarted wird dass sich auf den Server verbindet
-\item Es ist nicht m"oglich einem angefangenen Spiel (wieder) beizutreten
-\item /F11160/ "Spielstand laden" und /F11170/ "Spielstand speichern" wurden fallengelassen 
+\item Ein AIClient kann dem Server hinzugefügt werden, anstatt dass dieser als eigenes Programm gestartet wird dass sich auf den Server verbindet
+\item Es ist nicht möglich einem angefangenen Spiel (wieder) beizutreten
+\item /F11160/ "`Spielstand laden"' und /F11170/ "`Spielstand speichern"' wurden fallengelassen 
 \end{itemize}
 \section{Verantwortlichkeiten und Planung der Implementierungsphase}
 \section{Klassendiagramm}
