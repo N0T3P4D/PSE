@@ -52,6 +52,68 @@ WS 2010 / 2011} \\[2cm]
 
 \section{Architektur}
 
+%GEMEINSAME-SCHNITTSTELLE
+\subsection{Gemeinsame Schnittstelle}
+\subsubsection{Motivation}
+Wir haben gemeinsam die Schnittstellen entsprechend unseren Bedürfnissen angepasst. Diese besteht einerseits aus den Interfaces "`IServer"', "`IServerTrade"', "`IServerAuction"' und "`IClient"', sowie aus der Klasse "`Rules"'.
+\subsubsection{Schnittstellen}
+\begin{itemize}
+\item IServer
+\begin{itemize}
+\item PLATZHALTER
+\end{itemize}
+\item IServerTrade
+\begin{itemize}
+\item PLATZHALTER
+\end{itemize}
+\item IServerAuction
+\begin{itemize}
+\item PLATZHALTER
+\end{itemize}
+\item IClient
+\begin{itemize}
+\item PLATZHALTER
+\end{itemize}
+\end{itemize} % SCHNITTSTELLEN
+
+\subsubsection{Klassen}
+\begin{itemize}
+\item Rules \\
+Diese Klasse beschreibt einige Grundregeln. Die Eigenschaften sind dabei als öffentliche geschützte Attribute verfügbar.
+
+Attribute:
+\begin{itemize}
+\item public final int startMoney \\
+Dieser Wert gibt das verfügbare Startgeld an.
+\item public final int goMoney; \\
+In diesem Wert steht, wie viel Geld man bekommen, sobald man über Los kommt.
+\item public final boolean doubleMoneyOnGo \\
+Dieser Wahrheitswert ist wahr, wenn man doppelt so viel Geld bekommen soll, wenn man auf den Los-Feld zum stehen kommt.
+\item public final boolean tradesWithMoney \\
+Man kann über diesen Wert bestimmen, ob beim Handeln die "`Ware"' Geld mit benutzt werden darf.
+\item public final boolean auctionActive \\
+Hiermit kann man Auktionen aktivieren oder deaktivieren.
+\item public final boolean moneyOnFreeParking;
+Sofern dieser Wert auf wahr steht, bekommt man das Geld aus den Steuertopf sobald man auf das Feld "`Frei Parken"' kommt.
+\end{itemize}
+
+Methoden:
+\begin{itemize}
+\item public Rules(int startMoney, int goMoney, boolean doubleMoneyOnGo, boolean tradesWithMoney, boolean auctionActive, boolean moneyOnFreeParking) \\
+Dieser Konstruktor kann einmal die Spielregeln setzen.
+\item public Rules() \\
+Dieser setzt die Spielregeln auf die Standardregeln von Monopoly:
+\begin{enumerate}
+\item 30.000 Startgeld
+\item 4.000 Geld bei Los
+\item kein doppeltes Geld, wenn man auf Los zieht
+\item Geld ist beim Handeln erlaubt
+\item Auktionen sind erlaubt
+\item Man erhält kein Geld aus den Steuertopf, wenn man auf das "`Frei Parken"'-Feld kommt.
+\end{enumerate}
+\end{itemize}
+\end{itemize} % KLASSEN
+
 %EINGABE-VALIDIERUNG
 \subsection{Eingabe-Validierung durch Server}
 \subsubsection{Motivation}
@@ -80,8 +142,12 @@ Diese Klasse stellt ein paar minimalen Methoden zur Verfügung um ständiges nac
 
 Methoden:
 \begin{itemize}
+\item void informStartGame(int numberOfPlayers) \\
+Informiert den Spieler, dass das Spiel beginnt. Die Anzahl der Spieler steht in numberOfPlayers.
 \item void informTurn(int player) \\
 Informiert den Client, dass ein bestimmter Spieler an der Reihe ist.
+\item void informCashChange(int playerId, int cashChange) \\
+Informiert den Spieler dass sich das Geld eines Spielers geändert hat.
 \item informDiceValues(int[] diceValues) \\
 Informiert die Clients über das Würfelergebnis des aktiven Spielers.
 \item void informStreetBuy(int playerId) \\
@@ -92,21 +158,6 @@ Informiert den Spieler, dass ein Gebäude auf der Straße gebaut wurde.
 Informiert über den Abriss eines Gebäudes.
 \item void informMortageToogle(int street) \\
 Informiert den Client darüber, dass die Straße umgedreht wurde.
-\end{itemize}
-\item INetworkClient \\
-Diese Klasse verwendet den IClient und bietet noch einige spezifische Methoden an, die das Netzwerk betreffen.
-
-Verwendet:
-\begin{itemize}
-\item IClient
-\end{itemize}
-
-Methoden:
-\begin{itemize}
-\item void messageRecieved(string sender, string text, boolean private) \\
-Meldet, dass eine Nachricht an diesen Spieler gesendet wurde.
-\item void kicked(int player, int reason, string description) \\
-Meldet, dass ein Spieler gekickt wurde.
 \end{itemize}
 \end{itemize} % Schnittstellen
 \subsubsection{Klassen}
@@ -360,12 +411,11 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 
 %Feld
 \item Field
-\begin{itemize}
 Dies Klasse beschreibt ein Spielfeld in Monopoly.
 
 Attribute:
 \begin{itemize}
-\item Player[] playersOnIt
+\item PLATZHALTER
 \end{itemize}
 
 Methoden:
@@ -373,12 +423,11 @@ Methoden:
 \item boolean isValid()
 \item void action()
 \\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion des Feldes aus.
-\end{itemize}
+
 \end{itemize}
 
 %Straße
 \item Street
-\begin{itemize}
 Die Klasse Street beschreibt ein besitzbares Feld in Monopoly.
 
 Verwendet:
@@ -400,7 +449,7 @@ Methoden:
 \item void construct()
 \\ \textcolor{red}{Hinzufügt von Fabian}
 \end{itemize}
-\end{itemize}
+%Street end
 
 %StreetGroup
 \item StreetGroup
