@@ -114,24 +114,6 @@ Dieser setzt die Spielregeln auf die Standardregeln von Monopoly:
 \end{itemize}
 \end{itemize} % KLASSEN
 
-%EINGABE-VALIDIERUNG
-\subsection{Eingabe-Validierung durch Server}
-\subsubsection{Motivation}
-Bei Multiplayer-Spielen besteht die Gefahr, dass Spieler mit illegitimen Mitteln versuchen, sich Vorteile zu verschaffen ("`cheaten"'). Um dies zu verhindern ist angedacht, auf Serverseite alle von den Clients empfangenen Eingaben auf Richtigkeit zu prüfen, sodass an den Server keine falschen Befehle gesendet werden können. Weiteres Ziel ist das Verhindern von Denial-of-Service-Attacken durch Übersenden von unzulässigen oder sinnlosen Befehlen, die dazu geeignet sind, den reibungslosen Spielablauf zu unterbrechen. 
-
-\subsubsection{Klassen}
-\begin{itemize}
-\item Checker
-
-Diese Klasse implementiert die Interfaces IServer, bla, blub und enthält eine Instanz der Spielregeln und eine Referenz zum eigentlichen Server und zum Spielzustand. Wird eine der in den Interfaces deklarierten Methoden aufgerufen, so wird mithilfe der Spielregeln und des Spielzustandes überprüft, ob diese Eingabe zum jetzigen Zeitpunkt zulässig ist. Ist dies der Fall, wird sie an den Server weitergeleitet (Fassade), anderenfalls an die Fehlerbehandlungsklasse ErrorHandler übergeben, der über weitere Aktionen entscheidet. Bis auf den Konstruktur, der Referenzen zum Server und zum Spielzustand übernimmt, sind keine öffentlichen Methoden deklariert. 
-\item ErrorHandler
-
-Je nach unzulässiger Eingabe sind verschiedene Aktionen möglich. Da in unserer Implementierung die Clients ihre Eingaben mit den Spielregeln auf Zulässigkeit überprüfen, kann davon ausgegangen werden, dass Falscheingaben absichtlich herbeigeführt wurden. Entsprechend könnte eine Reaktion daher das sofortige Entfernen eines Spielers aus dem Spiel sein. Um abgestufte Reaktionen zu ermöglichen, könnte man für jeden Spieler ein Punktekonto mit Verstößen führen, wobei ab einem bestimmten Wert Aktionen gegen den Spieler unternommen werden. Öffentliche Methoden sind keine vorhanden, gespeichert wird lediglich eine Referenz auf den Server sowie ggf. eine Liste mit Punkten für jeden Spieler.
-\end{itemize}
-\subsubsection{Optionales}
-Optional könnte noch eine rudimentäre Client-Server-Authentifizierung über einen geheimen Zahlenwert implementiert werden.
-
-
 %CLIENT-GRUNDGERUEST
 \subsection{Client Grundgerüst}
 Das Client Grundgerüst dient als Grundgerüst für den KI- und GUI-Client.
@@ -152,6 +134,7 @@ Die entsprechende Serverinstanz wird hier abgelegt. Dabei handelt es sich u.U. u
 Ist eine Referenz auf das aktuelle Spielfeld und den Spielregeln.
 \end{itemize}
 Methoden:
+
 \begin{itemize}
 \item protected void connect(string host, int port) \\
 Verbindet sich mit einem Server mithilfe eines Hosts und den entsprechenden Port.
@@ -177,18 +160,41 @@ Setzt einen vorhanden IServer als entsprechendes Server-Objekt.
 \subsection{KI-Client}
 \subsubsection{Interfaces}
 \begin{itemize}
-\item RatingFunction
+\item ValuationFunction
 
-Das Interface "`RatingFunction"' dient zur Beschreibung der Bewertungsfunktionen. Diese sind als Singletons realisiert und enthalten eine Referenz zum Spielzustand; weiterhin gibt es eine öffentlich aufrufbare Bewertungsfunktion, die ein Argument vom Typ X (entsprechen dem, was zu bewerten gilt) entgegen nimmt und eine Zahl als zurückgibt.
+Das Interface "`ValuationFunction"' dient zur Beschreibung der Bewertungsfunktionen, die aus dem Paper von Frayn übernommen wurden. Das Interface stellt allen Funktionen jeweils eine Instanz der Spielregeln und des Spielzustands zur Verfügung. Durch diese können die Bewertungsfunktionen auf alle Informationen zugreifen.
+Die statische und öffentliche Methode "`returnValuation"', die von den implementierenden Klassen bereitgestellt wird, gibt die Bewertung des möglichen Spielzugs als Gleitkommaahl zurück.
 \end{itemize}
 \subsubsection{Klassen}
 \begin{itemize}
-\item KiClient
+\item AiClient
 
-Diese Klasse erbt vom Client-Grundgerüst und überschreibt bzw. implementiert Methoden, die KI-spezifisch sind.
-\item Rater
+Diese Klasse erbt vom Client-Grundgerüst und implementiert die dort vorgegebenen abstrakten Methoden. Die möglichen Spielzüge werden von der Klasse "`Valuator"' bewertet und der beste von AiClient ausgeführt.
+\item Valuator
 
-Der Rater fragt für alle Handlungsmöglichkeiten bei den einzelnen Rating-Funktionen das Ergebnis ab, gewichtet die Teilergebnisse und wählt die Handlungsmöglichkeit mit dem höchsten Ergebnis aus. Er ist als Singleton implementiert und hat eine Methode returnRating, die eine Zahl zurückgibt, die den auszuführenden Spielzug repräsentiert.
+Diese Klasse bewertet die möglichen Spielzüge. Der Spielzug mit der besten Bewertung wird an AiClient zurückgegeben und ausgeführt.
+In der Klassenvariable "`weights"' sind die einzelnen, noch zu bestimmenden Gewichte der einzelnen Bewertungsfunktionen gespeichert, die zusammen die Gesamtbewertung ergeben.
+\item ValuationParameters
+
+In der Klasse "`ValuationParameters"' werden die von den Bewertungsfunktionen benötigten und noch zu bestimmenden Gewichte gespeichert. Diese sind zur Laufzeit nicht veränderbar.
+\item PropertyValuator
+
+Dient zur Bewertung eines kaufbaren Objekts, z.B. einer Straße
+\item PropertyGroupValuator
+
+Dient zum Bewerten von Objektgruppen, insbesondere also aller Straßen gleicher Farbe
+\item BuildingOnPropertyValuator
+
+Bewertet das Bauen von Häusern, Hotels, etc.
+\item PrisonValuator
+
+Befindet sich der KI-Client im Gefängnis, entscheidet diese Klasse, ob Freikaufen rentabel ist. Es kann auch das Kaufen einer "`Gehe aus dem Gefängnis"'-Karte geprüft werden.
+\item MortgageValuator
+
+Dient zum Bewerten von Hypotheken
+\item CapitalValuator
+
+Es ist laut Paper empfehlenswert, immer eine Mindestmenge Geld zu besitzen.
 \end{itemize}
 
 
