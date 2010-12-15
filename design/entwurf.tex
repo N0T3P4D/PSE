@@ -58,12 +58,12 @@ WS 2010 / 2011} \\[2cm]
 Wir haben gemeinsam die Schnittstellen entsprechend unseren Bedürfnissen angepasst. Diese besteht einerseits aus den Interfaces "`IServer"', "`IServerTrade"', "`IServerAuction"' und "`IClient"', sowie aus der Klasse "`Rules"'.
 \subsubsection{Schnittstellen}
 \begin{itemize}
-\item IServer
+\item IServer \\
 Die IServer Schnittstelle dient als gemeinsame Basis für die Clients.
 
 Methoden:
 \begin{itemize}
-\item int getPlayerPiecePosition(int playerID) \\s
+\item int getPlayerPiecePosition(int playerID) \\
 Gibt die aktuelle Position des Spielers mit der ID "`playerID"' zurück.
 \item int addPlayer(IClient client) \\
 Fügt einen Client hinzu.
@@ -83,7 +83,7 @@ Gibt die Farbgruppe des Grundstückes zurück. Nicht-negative Werte stehen dabei
 \item[-1] Startfeld
 \item[-2] Gefängnis
 \item[-3] Frei Parken
-\item[-4] "` gehe in das Gefängnis"'
+\item[-4] "`gehe in das Gefängnis"'
 \item[-5] Ereignisfelder
 \item[-6] Gemeinschaftsfelder
 \item[-7] Bahnhöfe
@@ -100,7 +100,7 @@ Liefert die Höhe der Miete für ein Grundstück in der angegebenen Bebauung. Da
 \item String getGameStatusMessage(int playerID) \\
 Liefert die aktuelle Spielmeldung für einen Spieler. Dies können entweder reine Statusmeldungen
 oder für den Spielfluss entscheidende Fragen an den Spieler sein, z.B. ob man die Geldstrafe im Gefängnis zahlt oder etwa ob
-man ein Grundstück erwerben möchte. In den letzteren Fällen muss dem Server zunächst mit <code>accept()</code> oder <code>decline()</code>
+man ein Grundstück erwerben möchte. In den letzteren Fällen muss dem Server zunächst mit "`accept()"' oder "`decline()"'
 geantwortet werden bevor andere Aktionen (z.B. Häuser bauen, Zug beenden) getätigt werden.
 \item boolean isMortgaged(int position) \\
 Gibt an, ob das gegebene Grundstück mit einer Hypothek belastet ist.
@@ -182,13 +182,13 @@ Dieser Wert gibt das verfügbare Startgeld an.
 \item public final int goMoney; \\
 In diesem Wert steht, wie viel Geld man bekommen, sobald man über Los kommt.
 \item public final boolean doubleMoneyOnGo \\
-Dieser Wahrheitswert ist wahr, wenn man doppelt so viel Geld bekommen soll, wenn man auf den Los-Feld zum stehen kommt.
+Dieser Wahrheitswert ist wahr, wenn der Spieler doppelt so viel Geld bekommen soll, wenn er auf den Los-Feld zum stehen kommt.
 \item public final boolean tradesWithMoney \\
-Man kann über diesen Wert bestimmen, ob beim Handeln die "`Ware"' Geld mit benutzt werden darf.
+Über diesen Wert kann bestimmt werden, ob beim Handeln die "`Ware"' Geld mitbenutzt werden darf.
 \item public final boolean auctionActive \\
 Hiermit kann man Auktionen aktivieren oder deaktivieren.
 \item public final boolean moneyOnFreeParking;
-Sofern dieser Wert auf wahr steht, bekommt man das Geld aus den Steuertopf sobald man auf das Feld "`Frei Parken"' kommt.
+Sofern dieser Wert auf wahr steht, bekommt der Spieler das Geld aus den Steuertopf sobald dieser auf das Feld "`Frei Parken"' kommt.
 \end{itemize}
 
 Methoden:
@@ -435,13 +435,25 @@ Dieses Paket enthält den Zustand, sowie die Regeln und die Logik um Eingaben zu
 
 \item boolean newGame()
 \\Startet ein neues Spiel, lädt die Regeln und erstellt einen Zustand.
-\item boolean addPlayer()
+\item boolean addPlayer(int playerId, String playerName, int playerCash)
 \\
-\item boolean addMessage()
+\item void addMessage(int messageId, int playerId, String text)
 \\
-\item boolean addRoll()
+\item void addRoll(int player, int[] dices)
 \\
-\item boolean startGame()
+\item void startGame()
+\\
+\item void movePlayer(int player, int street)
+\\
+\item void buyStreet(int player, int street)
+\\
+\item void upgradeStreet(int player, int street, int level)
+\\
+\item void useCard(int player, int card)
+\\
+\item void exitJail(int player)
+\\
+\item GameState getGameState()
 \\
 
 \end{itemize}
@@ -457,12 +469,16 @@ Dieses Paket enthält den Zustand, sowie die Regeln und die Logik um Eingaben zu
 \begin{itemize}
 \item void setGameState(GameState gameState)
 \\Setzt den Gamestate
-\item string getName()
-\\der Name der Karte
-\item Image getImage()
-\\das Bild der Karte
-\item execute(int player)
-\\Führt die Aktion dieser Karte aus
+\item boolean movementValid(int player, int field)
+\\
+\item boolean buyingValid(int player, int street)
+\\
+\item boolean cardValid(int player, int card)
+\\
+\item boolean upgradeValid(int player, int street, int level)
+\\
+\item boolean playerHasCash(int player, int cash)
+\\
 \end{itemize}
 \end{itemize}
 
@@ -620,7 +636,7 @@ Die Regeln des Spiels
 \\der Name der Karte
 \item Image getImage()
 \\das Bild der Karte
-\item execute(int player)
+\item void execute(int player)
 \\Führt die Aktion dieser Karte aus
 \end{itemize}
 \end{itemize}
@@ -632,7 +648,7 @@ Die Regeln des Spiels
 
 \item Methoden
 \begin{itemize}
-\item boolean execute(int player,int[] argument)
+\item void execute(int player,int[] argument)
 \\Diese Aktion wird von einer Karte mit dieser Regel ausgeführt
 \end{itemize}
 \end{itemize}
@@ -657,9 +673,9 @@ Die Regeln des Spiels
 \\Die Mietkosten je nach Gebäudelevel
 \item Image getImage()
 \\Das Bild des Feldes
-\item boolean execute(int player)
+\item void execute(int player)
 \\Die Aktion wenn eine Spieler auf diesem Feld landet
-\item boolean passTrough(int player)
+\item void passTrough(int player)
 \\Die Aktion wenn eine Spieler über dieses Feld marschiert oder auf ihm landet
 \end{itemize}
 \end{itemize}
@@ -876,15 +892,15 @@ Während der Entwurfsphase fanden mehrere Treffen mit einem Verantwortlichen der
 \item /F11160/ "`Spielstand laden"' und /F11170/ "`Spielstand speichern"' wurden fallengelassen 
 \end{itemize}
 \section{Verantwortlichkeiten und weitere Planungen}
-Die Leitung der einzelnen Abschnitte wird von folgenden Personen übernommen:
+Die Leitung der einzelnen Abschnitte wird von folgenden Personen übernommen und vorgestellt:
 \begin{description}
 % Nennen?
 \item[Pflichtenheft] Philip Caroli
 % Nennen?
 \item[Entwurf] Fabian Neundorf
-\item[Implementierung]
-\item[Validierung]
-\item[Präsentation]
+\item[Implementierung] Jeremias Mechler
+\item[Validierung] Usman Ghani Ahmed
+\item[Präsentation] Maximilian Madlung
 \end{description}
 Zusätzlich übernimmt Fabian Neundorf die Kommunikation mit der anderen Gruppe und stimmt sich mit den Verantwortlichen ab.
 
