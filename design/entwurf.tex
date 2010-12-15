@@ -3,12 +3,16 @@
 \usepackage{amsmath,amssymb}
 \usepackage{enumerate}
 \usepackage{ngerman}
-\usepackage{graphicx}
+%\usepackage{graphicx}
 \usepackage{ifpdf}
 \usepackage[usenames]{color}
 \usepackage[left=2.5cm,right=2.5cm,top=2.5cm,bottom=2.5cm]{geometry}
 \usepackage[titles]{tocloft}
 \usepackage[colorlinks=true,linkcolor=black]{hyperref}
+\usepackage[pdftex]{graphicx}
+\usepackage{geometry}
+\geometry{top=0cm,bottom=0cm,left=0cm,right=0cm,nohead,nofoot}
+
 
 \title{Entwurf}
 \date{}
@@ -1009,7 +1013,22 @@ Ein Spielzug beginnt, nachdem der alte Spielzug beendet wurde. Die Reihenfolge d
 \item Der SpielStatus wird gespeichert
 \item ein neuer Zug beginnt
 \end{enumerate}
-%%%%%%%%%%%%% INCLUDE SEQUENZE DIAGRAM HERE
+\includegraphics[width=0.97\textwidth]{Spielzug}
+
+\subsection{Verbinden eines Client auf einen Server}
+Sobald ein Client sich auf einen (laufenden) Server verbinden will, müssen folgende Schritte stattfinden
+\begin{enumerate}
+\item Der (menschliche) Spieler gibt die IP-Addresse über ein Textfeld ein, der AIClient bekommt diese als Argument beim Starten übergeben
+\item Der Client wird entweder direkt dem Server hinzugefügt (ein IClient-Objekt wird dem Server übergeben und ein IServer-Objekt dem Clienten) oder über das Netzwerk verbunden
+\item Der Server fügt den Spieler seiner Spielerliste hinzu und initialisiert dessen Zustand
+\includegraphics{client_verbinden} 
+\end{enumerate}
+\includegraphics[width=0.97\textwidth]{client_verbinden}
+
+\subsection{Beispielhafte Spielzüge}
+\includegraphics[width=0.97\textwidth]{bankrott_gehen}
+\includegraphics[width=0.97\textwidth]{Ereigniskarte}
+
 
 \subsection{KI-Client-Zug}
 Grundsätzlich baut der KI-Client auf der gleichen Klasse (\textit{ClientBase}) wie die "`normalen"' Clients auf. Von daher kann alles, was nicht für den KI-Client spezifisch ist, unter dem Punkt "`Durchführen eines Spielzugs"' nachgelesen werden. Es wird hier nur auf die Abweichungen eingegangen.
