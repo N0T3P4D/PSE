@@ -59,7 +59,7 @@ Wir haben gemeinsam die Schnittstellen entsprechend unseren Bedürfnissen angepa
 \subsubsection{Schnittstellen}
 \begin{itemize}
 \item IServer \\
-Die IServer Schnittstelle dient als gemeinsame Basis für die Clients.
+Die IServer-Schnittstelle dient als gemeinsame Basis für die Clients.
 
 Methoden:
 \begin{itemize}
@@ -82,7 +82,7 @@ Gibt die Farbgruppe des Grundstückes zurück. Nicht-negative Werte stehen dabei
 \begin{description}
 \item[-1] Startfeld
 \item[-2] Gefängnis
-\item[-3] Frei Parken
+\item[-3] Frei parken
 \item[-4] "`gehe in das Gefängnis"'
 \item[-5] Ereignisfelder
 \item[-6] Gemeinschaftsfelder
@@ -165,12 +165,12 @@ Gibt den derzeitigen Stand der Auktion an
 \begin{description}
 \item[-1] keine Auktion l"auft
 \item[0] Auktion l"auft
-\item[1] ""Zum Ersten""
-\item[2] ""Zum Zweiten""
+\item[1] "`Zum Ersten"'
+\item[2] "`Zum Zweiten"'
 \item[3] Auktion abgeschlossen, Daten sind noch abrufbar
 \end{description}
 \item int getAuctionedEstate()
-Gibt die Position des Grundst"uck zur"uck, das versteigert wird
+Gibt die Position des Grundst"ucks zur"uck, das versteigert wird
 \item int getHighestBid()
 Gibt das bisher h"ochste Gebot zur"uck
 \item int getHighestBidder()
@@ -199,13 +199,13 @@ Liefert den Handelspartner
 \item boolean offerCash(int playerID, int cash)
 Bietet Geld
 \item offerGetOutOfJailCard(int playerID)
-Bietet eine ""Komme aus dem Gef"angnis frei Karte"" an
+Bietet eine "`Komme aus dem Gef"angnis frei Karte"' an
 \item boolean offerEstate(int playerID, int position)
 Bietet ein Grundst"uck an
 \item boolean requireCash(int playerID, int position)
 Fordert Geld
 \item boolean requireGetOutOfJailCard(int playerID)
-Fordert eine ""Komme aus dem Gef"angnis frei Karte""
+Fordert eine "`Komme aus dem Gef"angnis frei Karte"'
 \item requireEstate(int playerID, int position)
 Fordert ein Grundst"uck
 \item int[] getOfferedEstates
@@ -213,17 +213,17 @@ Liefert alle angebotenen Grundst"ucke
 \item int getOfferedCash()
 Liefert das angebotene Geld
 \item getNumberOfOfferedGetOutOfJailCards()
-Liefert die Anzahl angebotener ""Komme aus dem Gef"angnis frei Karten""
+Liefert die Anzahl angebotener "`Komme aus dem Gef"angnis frei"'-Karten
 \item int[] getRequiredEstates()
 Liefert alle angeforderten Grundst"ucke
 \item int getRequiredCash()
 Liefert das geforderte Geld
 \item int getNumberOfRequiredGetOutOfJailCards()
-Liefert die Anzahl geforderter ""Komme aus dem Gef"angnis frei Karten""
+Liefert die Anzahl geforderter "`Komme aus dem Gef"angnis frei"'-Karten
 \item boolean cancelTrade(int playerID)
 Bricht die aktuelle Handelssitzung ab
 \item boolean proposeTrade(int playerID)
-Schl"agt einen Handel vor, zuvor wurde mit offer/require Estate/Cash/GetOutOfJailCard festgelegt, um was gehandelt wurde
+Schl"agt einen Handel vor, zuvor wurde mit \textit{offer/require Estate/Cash/GetOutOfJailCard} festgelegt, um was gehandelt wurde
 \end{itemize}
 \item IClient \\
 Wurde gemeinsam mit der anderen Gruppe entwickelt. Dieses Interface dient dazu, die Kommunikation von Serverseite aus zu den Clienten zu erm"oglichen
@@ -277,7 +277,7 @@ Dieser Wahrheitswert ist wahr, wenn der Spieler doppelt so viel Geld bekommen so
 \item public final boolean auctionActive \\
 Hiermit kann man Auktionen aktivieren oder deaktivieren.
 \item public final boolean moneyOnFreeParking;
-Sofern dieser Wert auf wahr steht, bekommt der Spieler das Geld aus den Steuertopf sobald dieser auf das Feld "`Frei Parken"' kommt.
+Sofern dieser Wert auf wahr steht, bekommt der Spieler das Geld aus den Steuertopf sobald dieser auf das Feld "`Frei parken"' kommt.
 \end{itemize}
 
 Methoden:
@@ -292,14 +292,14 @@ Dieser setzt die Spielregeln auf die Standardregeln von Monopoly:
 \item kein doppeltes Geld, wenn man auf Los zieht
 \item Geld ist beim Handeln erlaubt
 \item Auktionen sind erlaubt
-\item Man erhält kein Geld aus den Steuertopf, wenn man auf das "`Frei Parken"'-Feld kommt.
+\item Man erhält kein Geld aus den Steuertopf, wenn man auf das "`Frei parken"'-Feld kommt.
 \end{enumerate}
 \end{itemize}
 \end{itemize} % KLASSEN
 
 %CLIENT-GRUNDGERUEST
-\subsection{Client Grundgerüst}
-Das Client Grundgerüst dient als Grundgerüst für den KI- und GUI-Client.
+\subsection{Client-Grundgerüst}
+Das Client-Grundgerüst dient als Grundgerüst für den KI- und GUI-Client.
 \subsubsection{Klassen}
 \begin{itemize}
 \item ClientBase\\
@@ -1054,5 +1054,5 @@ GANTT DIAGRAMM HIER!
 \section{Klassendiagramm}
 Das Klassendiagramm befindet sich als \textit{pdf}-Datei in "`class\_diagram.pdf"'.
 \section{Weitere Informationen}
-Ein Teil der Beschreibungen der Methoden IServer, IServerTrade und IServerAuction stammen von Daniel Bruns.
+Ein Teil der Beschreibungen der Methoden aus \textit{IServer, IServerTrade} und \textit{IServerAuction} stammen von Daniel Bruns.
 \end{document}
