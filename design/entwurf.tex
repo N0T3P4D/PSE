@@ -990,7 +990,35 @@ Methoden:
 \end{itemize} %end methoden
 \end{itemize} %end klassen
 
+%BESCHREIBUNG DER ZENTRALEN ABLÄUFE
 \section{Beschreibung der zentralen Abläufe}
+\subsection{Durchf"uhren eines Spielzugs}
+Ein Spielzug beginnt, nachdem der alte Spielzug beendet wurde. Die Reihenfolge der m"oglichen Aktionen ist
+\begin{enumerate}
+\item Benachrichtigen aller Spieler, dass ein neuer Zug startet
+\item Der aktive Spieler überprüft ob eine neue GameStatusMessage vorliegt
+\item Der aktive spieler ruft accept() oder decline auf (oder nichts von beiden bei keiner GameStatusMessage)
+\item Der aktive Spieler würfelt
+\item Alle Spieler werden darüber informiert dass gewürfelt wurde
+\item der Spielstein des Spielers wird verschoben, dadurch anfällige Aktionen ausgelöst (zB bei Überschreiten des ""Los-Felds"") und alle Spieler darüber informiert
+\item Der aktive Spieler prüft, ob eine GameStatusMessage vorliegt
+\item Bei Bedarf ruft der aktive Spieler accept() oder decline() auf
+\item Der aktive Spieler kann nun beliebige erlaubte Monopoly-Aktionen durchführen (Häuser kaufen, Hypotheken aufnehmen). Alle Spieler werden über deren Auswirkungen informiert
+\item Der aktive Spieler ruft endTurn() auf
+\item Ist der Kontostand des Spielers negativ, so muss dieser das Spiel verlassen
+\item Der SpielStatus wird gespeichert
+\item ein neuer Zug beginnt
+\end{enumerate}
+%%%%%%%%%%%%% INCLUDE SEQUENZE DIAGRAM HERE
+
+\subsection{KI-Client-Zug}
+Grundsätzlich baut der KI-Client auf der gleichen Klasse (\textit{ClientBase}) wie die "`normalen"' Clients auf. Von daher kann alles, was nicht für den KI-Client spezifisch ist, unter dem Punkt "`Durchführen eines Spielzugs"' nachgelesen werden. Es wird hier nur auf die Abweichungen eingegangen.
+
+Die Arbeitsweise des KI-Clients orientiert sich an dem Paper von \textit{Frayn} und der Vorlesung zu dem Thema. Es stehen sechs einzelne Berwertungsfunktionen zur Verfügung (siehe Klassendiagramm), die von einer Gesamt-Bewertungsfunktion aufgerufen und gewichtet werden. Der Ablauf eines Zuges sieht folgendermaßen aus:
+\begin{enumerate}
+\item Prüfen, welche Spielzüge der KI-Client machen kann
+\item Übergeben jedes möglichen Spielzug an die Gesamt-Bewertungsfunktion. Diese ruft (falls passend) die einzelnen Bewertungsfunktionen auf, die abhängig vom aktuellen Spielzustand den möglichen Zug bewerten. Von allen möglichen Zügen wird derjenige mit der besten Bewertung ausgeführt.
+\end{enumerate}
 \section{Weitere Entwurfdetails}
 \subsection{Kompatibilität mit Client und Server der anderen Gruppe}
 Während der Entwurfsphase fanden mehrere Treffen mit einem Verantwortlichen der anderen Gruppe statt. Im Vorfeld wurde versucht, Punkte, an denen es Missverständnisse geben könnte, zu identifizieren. Im Zuge dessen wurden die vorgegebenen Interfaces erweitert und verändert, ein eigenes Interface für den Client definiert. Obwohl beide Gruppen unterschiedliche Entwurfsansätze verfolgen, sollte zumindest nach jetzigem Kenntnisstand einer erfolgreichen Kommunikation nichts im Wege stehen. Beim Abstimmungsprozess wurden zugunsten der Kompatibilität Einschränkungen bei der Erweiterbarkeit hingenommen.
