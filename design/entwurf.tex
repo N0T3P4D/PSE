@@ -63,7 +63,7 @@ Wir haben gemeinsam die Schnittstellen entsprechend unseren Bedürfnissen angepa
 \subsubsection{Schnittstellen}
 \begin{itemize}
 \item IServer \\
-Die IServer Schnittstelle dient als gemeinsame Basis für die Clients.
+Die IServer-Schnittstelle dient als gemeinsame Basis für die Clients.
 
 Methoden:
 \begin{itemize}
@@ -86,7 +86,7 @@ Gibt die Farbgruppe des Grundstückes zurück. Nicht-negative Werte stehen dabei
 \begin{description}
 \item[-1] Startfeld
 \item[-2] Gefängnis
-\item[-3] Frei Parken
+\item[-3] Frei parken
 \item[-4] "`gehe in das Gefängnis"'
 \item[-5] Ereignisfelder
 \item[-6] Gemeinschaftsfelder
@@ -169,12 +169,12 @@ Gibt den derzeitigen Stand der Auktion an
 \begin{description}
 \item[-1] keine Auktion l"auft
 \item[0] Auktion l"auft
-\item[1] ""Zum Ersten""
-\item[2] ""Zum Zweiten""
+\item[1] "`Zum Ersten"'
+\item[2] "`Zum Zweiten"'
 \item[3] Auktion abgeschlossen, Daten sind noch abrufbar
 \end{description}
 \item int getAuctionedEstate()
-Gibt die Position des Grundst"uck zur"uck, das versteigert wird
+Gibt die Position des Grundst"ucks zur"uck, das versteigert wird
 \item int getHighestBid()
 Gibt das bisher h"ochste Gebot zur"uck
 \item int getHighestBidder()
@@ -203,13 +203,13 @@ Liefert den Handelspartner
 \item boolean offerCash(int playerID, int cash)
 Bietet Geld
 \item offerGetOutOfJailCard(int playerID)
-Bietet eine ""Komme aus dem Gef"angnis frei Karte"" an
+Bietet eine "`Komme aus dem Gef"angnis frei Karte"' an
 \item boolean offerEstate(int playerID, int position)
 Bietet ein Grundst"uck an
 \item boolean requireCash(int playerID, int position)
 Fordert Geld
 \item boolean requireGetOutOfJailCard(int playerID)
-Fordert eine ""Komme aus dem Gef"angnis frei Karte""
+Fordert eine "`Komme aus dem Gef"angnis frei Karte"'
 \item requireEstate(int playerID, int position)
 Fordert ein Grundst"uck
 \item int[] getOfferedEstates
@@ -217,17 +217,17 @@ Liefert alle angebotenen Grundst"ucke
 \item int getOfferedCash()
 Liefert das angebotene Geld
 \item getNumberOfOfferedGetOutOfJailCards()
-Liefert die Anzahl angebotener ""Komme aus dem Gef"angnis frei Karten""
+Liefert die Anzahl angebotener "`Komme aus dem Gef"angnis frei"'-Karten
 \item int[] getRequiredEstates()
 Liefert alle angeforderten Grundst"ucke
 \item int getRequiredCash()
 Liefert das geforderte Geld
 \item int getNumberOfRequiredGetOutOfJailCards()
-Liefert die Anzahl geforderter ""Komme aus dem Gef"angnis frei Karten""
+Liefert die Anzahl geforderter "`Komme aus dem Gef"angnis frei"'-Karten
 \item boolean cancelTrade(int playerID)
 Bricht die aktuelle Handelssitzung ab
 \item boolean proposeTrade(int playerID)
-Schl"agt einen Handel vor, zuvor wurde mit offer/require Estate/Cash/GetOutOfJailCard festgelegt, um was gehandelt wurde
+Schl"agt einen Handel vor, zuvor wurde mit \textit{offer/require Estate/Cash/GetOutOfJailCard} festgelegt, um was gehandelt wurde
 \end{itemize}
 \item IClient \\
 Wurde gemeinsam mit der anderen Gruppe entwickelt. Dieses Interface dient dazu, die Kommunikation von Serverseite aus zu den Clienten zu erm"oglichen
@@ -281,7 +281,7 @@ Dieser Wahrheitswert ist wahr, wenn der Spieler doppelt so viel Geld bekommen so
 \item public final boolean auctionActive \\
 Hiermit kann man Auktionen aktivieren oder deaktivieren.
 \item public final boolean moneyOnFreeParking;
-Sofern dieser Wert auf wahr steht, bekommt der Spieler das Geld aus den Steuertopf sobald dieser auf das Feld "`Frei Parken"' kommt.
+Sofern dieser Wert auf wahr steht, bekommt der Spieler das Geld aus den Steuertopf sobald dieser auf das Feld "`Frei parken"' kommt.
 \end{itemize}
 
 Methoden:
@@ -296,14 +296,14 @@ Dieser setzt die Spielregeln auf die Standardregeln von Monopoly:
 \item kein doppeltes Geld, wenn man auf Los zieht
 \item Geld ist beim Handeln erlaubt
 \item Auktionen sind erlaubt
-\item Man erhält kein Geld aus den Steuertopf, wenn man auf das "`Frei Parken"'-Feld kommt.
+\item Man erhält kein Geld aus den Steuertopf, wenn man auf das "`Frei parken"'-Feld kommt.
 \end{enumerate}
 \end{itemize}
 \end{itemize} % KLASSEN
 
 %CLIENT-GRUNDGERUEST
-\subsection{Client Grundgerüst}
-Das Client Grundgerüst dient als Grundgerüst für den KI- und GUI-Client.
+\subsection{Client-Grundgerüst}
+Das Client-Grundgerüst dient als Grundgerüst für den KI- und GUI-Client.
 \subsubsection{Klassen}
 \begin{itemize}
 \item ClientBase\\
@@ -389,7 +389,7 @@ Es ist laut Paper empfehlenswert, immer eine Mindestmenge Geld zu besitzen.
 \subsection{GUI-Client}
 
 %Beschreibung
-Der GUI-Client baut auf dem Clientgrundger"ust auf bietet eine Graphische Oberfl"ache, um dessen Zustand anzuzeigen und darüber den Server aufzurufen.
+Der GUI-Client baut auf dem Clientgrundger"ust auf bietet eine graphische Oberfl"ache, um dessen Zustand anzuzeigen und darüber den Server aufzurufen.
 
 \subsubsection{Klassen}
 
@@ -499,14 +499,14 @@ Initialisiert ein Eintrag mit den gegebenen Spieler.
 
 %PlayerInfoWindow
 \item PlayerInfoWindow \\
-Verwaltet alle einzelnen PlayerInfoField Einträge.
+Verwaltet alle einzelnen \textit{PlayerInfoField}-Einträge.
 
 Methoden:
 \begin{itemize}
 \item void turnOn(int player)
 \\Setzt den Spieler auf \textit{spielend}.
 \item void changeCash(int player, int newCashValue)
-\\Setzt den neuen Bargeld Wert.
+\\Setzt den neuen Bargeld-Wert.
 \end{itemize}
 
 \item Card \\
@@ -541,7 +541,7 @@ Entfernt eine Karte.
 \end{itemize}
 
 \item GUISettings \\
-Verwaltet die GUI Einstellungen.
+Verwaltet die GUI-Einstellungen.
 
 Attribute:
 \begin{itemize}
@@ -868,7 +868,7 @@ Methoden:
 \item boolean loadGame(string path)
 \item storeGame(int path)
 \item loadSettings(int path)
-\\l"adt die serverseitigen Einstellungen, zB welches Ruleset verwendet werden soll
+\\l"adt die serverseitigen Einstellungen, z.B. welches Ruleset verwendet werden soll
 \item boolean stopGame()
 \\beendet das Spiel, speichert den Spielstand und trennt die Clienten
 \item boolean startAIGames(int clientCount, int loops, string path)
@@ -878,27 +878,27 @@ Methoden:
 
 \subsection{Netzwerk}
 Das Netzwerk stellt die Verbindung zwischen dem Client und dem Server dar, dabei ist es m"oglich das sich die Spieler in einem lokalen
-Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Machine arbeiten und am Spiel teilnehmen. Damit der Client Anfragen an den Server schicken kann, die die Ausf"uhrung von Methoden und die R"uckgabe von Ergebnissen beinhalten, verwenden wir den RMI (Remote Method Invocation) Mechanismus , der uns das entfernte Aufrufen von Methoden erlaubt. Die Verbindung von Client und Server wird durch Stellvertreterobjekte(engl. proxies) realisiert. Auf Seite des Clients wird ein Stellvertreter (Stub) des entfernten Objekts (Skeleton) erzeugt, welcher die Daten die "ubermittelt werden kapselt und diese in Form von Nachrichten an den Server "ubermittelt. Die Daten beinhalten unteranderem die zu ausf"uhrende Methode inklusive R"uckgabetyp und alle Parameter. Durch den RMI-Compiler ist es m"oglich die ben"otigten Stubs und Skeletons zu erzeugen. Damit von au"sen keine unberechtigten Zugriffe auf den Server erfolgen, werden Regeln in einer lokal zug"anglichen Datei erstellt und vom RMI Security Manager verwaltet.    
+Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Machine arbeiten und am Spiel teilnehmen. Damit der Client Anfragen an den Server schicken kann, die die Ausf"uhrung von Methoden und die R"uckgabe von Ergebnissen beinhalten, verwenden wir den RMI (Remote Method Invocation)-Mechanismus , der uns das entfernte Aufrufen von Methoden erlaubt. Die Verbindung von Client und Server wird durch Stellvertreterobjekte(engl. \textit{proxies}) realisiert. Auf Seite des Clients wird ein Stellvertreter (\textit{Stub}) des entfernten Objekts (Skeleton) erzeugt, welcher die Daten die "ubermittelt werden kapselt und diese in Form von Nachrichten an den Server "ubermittelt. Die Daten beinhalten unteranderem die zu ausf"uhrende Methode inklusive R"uckgabetyp und alle Parameter. Durch den RMI-Compiler ist es m"oglich, die ben"otigten Stubs und Skeletons zu erzeugen. Damit von au"sen keine unberechtigten Zugriffe auf den Server erfolgen, werden Regeln in einer lokal zug"anglichen Datei erstellt und vom RMI Security Manager verwaltet.    
   
 \subsubsection{Interfaces}
 \begin{itemize}
 \item NetOjim \\
-Diese Schnittstelle erweitert die IServer Schnittstelle. Hier werden alle Methoden zur Verf"ugung gestellt, die das Server Objekt auf Seite des Clienten aufrufen kann
+Diese Schnittstelle erweitert die \textit{IServer}-Schnittstelle. Hier werden alle Methoden zur Verf"ugung gestellt, die das Server-Objekt auf Seite des Clients aufrufen kann
 \end{itemize}
 
 \subsubsection{Klassen}
 \begin{itemize}
 \item UnicastRemoteObject \\
-Diese Klasse registriert das zu fernaufrufende Objekt bei der RMI Verwaltung und verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
+Diese Klasse registriert das zu fernaufrufende Objekt bei der RMI-Verwaltung und verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
 \item ImplBuffer \\
-Diese Klasse erweitert die Klasse UnicastRemoteObject und implementiert das Interface IServer sowie das Interface Serializable. Um das komplette Objekt als Parameter f"ur die RMI-Aufrufe zu "ubertragen benutzen wir Object Serialization 
+Diese Klasse erweitert die Klasse UnicastRemoteObject und implementiert das Interface IServer sowie das Interface \textit{Serializable}. Um das komplette Objekt als Parameter f"ur die RMI-Aufrufe zu "ubertragen, benutzen wir Object Serialization 
 \item BufferServer \\
-Diese Klasse Verwaltet das Remote Objekt das f"ur den Clienten bereit steht.
+Diese Klasse Verwaltet das Remote-Objekt das f"ur den Client bereit steht.
 
 Methoden:
 \begin{itemize}
 \item createBufferServer()
-\\Meldet das Remote Objekt bei der RMI Registry an und sorgt daf"ur das dieses "uber das Netzwerk unter einen bestimmten Namen ansprechbar ist
+\\Meldet das Remote Objekt bei der RMI-Registry an und sorgt daf"ur das dieses "uber das Netzwerk unter einen bestimmten Namen ansprechbar ist
 \end{itemize}
 
 \item Socket \\
@@ -919,18 +919,18 @@ Methoden:
 \begin{itemize}
 \item Network(ServerSocket server,Socket client, ServerDetails details) 
 \item boolean waitingForClients()
-\\Wartet bis alle Clienten mit dem Server verbunden sind
+\\Wartet bis alle Clients mit dem Server verbunden sind
 \item boolean cut (int playerID)
-\\Trennt die Verbindung eines Clienten zum Server
+\\Trennt die Verbindung eines Clients zum Server
 \item boolean cut (int playerID, string message)
-\\Trennt die Verbindung eines Clienten zum Server und schickt dem Clienten eine Nachricht
+\\Trennt die Verbindung eines Clients zum Server und schickt dem Client eine Nachricht
 \item boolean connectionLost(int playerID)
-\\"Uberpr"uft ob die Verbindung zu einem Clienten unterbrochen ist
+\\"Uberpr"uft ob die Verbindung zu einem Client unterbrochen ist
 \item boolean sendIServer(OjimServer server)
-\\"Uberreicht dem Clienten ein IServer Objekt
+\\"Uberreicht dem Client ein IServer Objekt
 \item ServerDetails getServerDetails()
 \item addClient(ClientDetails client)
-\\F"ugt einen Clienten zum Server hinzu
+\\F"ugt einen Client zum Server hinzu
 \end{itemize} %end methoden
 %end Network
 \item ServerDetails \\
@@ -952,7 +952,7 @@ Methoden:
 \end{itemize}
 %end ServerDetails
 \item ClientDetails\\
-Verwaltet die Eigenschaften eines Clienten
+Verwaltet die Eigenschaften eines Clients
 
 Attribute:
 \begin{itemize}
@@ -979,9 +979,9 @@ Methoden:
 \item boolean isConnected()
 \\"Uberpr"uft ob der Client mit dem Server verbunden ist
 \item connect(String ip, int port)
-\\Verbindet den Clienten mit dem Server
+\\Verbindet den Client mit dem Server
 \item disconnect() 
-\\Unterbricht die Verbindung des Clienten zum Server
+\\Unterbricht die Verbindung des Client zum Server
 \end{itemize}
 %end ClientConnection
 
@@ -1001,14 +1001,14 @@ Ein Spielzug beginnt, nachdem der alte Spielzug beendet wurde. Die Reihenfolge d
 \begin{enumerate}
 \item Benachrichtigen aller Spieler, dass ein neuer Zug startet
 \item Der aktive Spieler überprüft ob eine neue GameStatusMessage vorliegt
-\item Der aktive spieler ruft accept() oder decline auf (oder nichts von beiden bei keiner GameStatusMessage)
+\item Der aktive spieler ruft \textit{accept()} oder \textit{decline()} auf (oder nichts von beiden bei keiner GameStatusMessage)
 \item Der aktive Spieler würfelt
 \item Alle Spieler werden darüber informiert dass gewürfelt wurde
-\item der Spielstein des Spielers wird verschoben, dadurch anfällige Aktionen ausgelöst (zB bei Überschreiten des ""Los-Felds"") und alle Spieler darüber informiert
-\item Der aktive Spieler prüft, ob eine GameStatusMessage vorliegt
-\item Bei Bedarf ruft der aktive Spieler accept() oder decline() auf
+\item der Spielstein des Spielers wird verschoben, dadurch anfällige Aktionen ausgelöst (zB bei Überschreiten des "`Los-Felds"') und alle Spieler darüber informiert
+\item Der aktive Spieler prüft, ob eine \textit{GameStatusMessage} vorliegt
+\item Bei Bedarf ruft der aktive Spieler \textit{accept()} oder \textit{decline()} auf
 \item Der aktive Spieler kann nun beliebige erlaubte Monopoly-Aktionen durchführen (Häuser kaufen, Hypotheken aufnehmen). Alle Spieler werden über deren Auswirkungen informiert
-\item Der aktive Spieler ruft endTurn() auf
+\item Der aktive Spieler ruft \textit{endTurn()} auf
 \item Ist der Kontostand des Spielers negativ, so muss dieser das Spiel verlassen
 \item Der SpielStatus wird gespeichert
 \item ein neuer Zug beginnt
@@ -1045,15 +1045,14 @@ Während der Entwurfsphase fanden mehrere Treffen mit einem Verantwortlichen der
 \section{Abweichungen vom Pflichtenheft}
 % besserer Name?
 \begin{itemize}
-\item Im Pflichtenheft wurde beschrieben dass der Server alle vom Clienten einkommenden Nachrichten/Befehle "uberpr"uft, ob diese auch vom richtigen Clienten kommen, so dass es nicht m"oglich ist sich als "falscher" Client auszugeben. Da dies allerdings nicht gefordert war/ist, wurde dies nicht modelliert. Da die Validierung als recht eigenst"andige Schicht zwischen Server-Netzwerkanschluss und Server-Spiellogik liegen sollte, ist es problemlos m"ogloch, diese zus"atzliche Schicht auszulassen. Das hei"st es ergeben sich abseits der Validierung keine "Anderungen an Architektur und Design.
-\item Nach Besprechungen innerhalb unserer Gruppe und gemeinsam mit der anderen Gruppe wurde beschlossen, den Nachrichtenflu"s zwischen Clienten und Server so umzugestalten, dass der Server nun statt passiv Anfragen der Clienten zu bearbeiten, sondern auch aktiv Benachrichtigungen an dieselben zu schicken. F"ur diesen Zweck wurde zusammen mit der anderen Gruppe die Schnittstelle IClient konzipiert, die auf "ahnliche Weise wie IServer funktionieren soll, d.h. die meisten Methoden der Schnittstelle IServer haben ein entgegengesetztes "Aquivalent in der Schnittstelle IClient
+\item Im Pflichtenheft wurde beschrieben, dass der Server alle vom Client einkommenden Nachrichten/Befehle darauf "uberpr"uft, ob diese auch vom richtigen Clienten kommen, sodass es nicht m"oglich ist, sich als "falscher" Client auszugeben. Da dies allerdings nicht gefordert war/ist, wurde dies nicht modelliert. Da die Validierung als recht eigenst"andige Schicht zwischen Server-Netzwerkanschluss und Server-Spiellogik liegen sollte, ist es problemlos m"ogloch, diese zus"atzliche Schicht auszulassen. Das hei"st, dass sich abseits der Validierung keine "Anderungen an Architektur und Design ergeben.
+\item Nach Besprechungen innerhalb unserer Gruppe und gemeinsam mit der anderen Gruppe wurde beschlossen, den Nachrichtenflu"s zwischen Clienten und Server so umzugestalten, dass der Server nun statt passiv Anfragen der Clients zu bearbeiten auch aktiv Benachrichtigungen an dieselben schickt. F"ur diesen Zweck wurde zusammen mit der anderen Gruppe die Schnittstelle \textit{IClient} konzipiert, die auf "ahnliche Weise wie \textit{IServer} funktionieren soll, d.h. die meisten Methoden der Schnittstelle \textit{IServer} haben ein entgegengesetztes "Aquivalent in der Schnittstelle \textit{IClient}
 \item Da bei beiden Monopoly-Gruppen das Spiel lokalisierbar sein soll und trotzdem Bereiche des Spielbretts/Spielfelds variabel gestaltet werden sollen, werden Stra"sennamen und "ahnliches vom Server in lokalisierter Fassung bereitgestellt. Dies f"uhrt aber auch dazu, dass anders als im Pflichtenheft der Spielplan nicht beim Clienten abgespeichert wird, sondern beim Server. Am Anfang eines Spieles, oder bei Bedarf, besorgt sich der Client vom Server alle f"ur ihn relevanten Daten als lokalisierten Text.
-\item Im Pflichtenheft wurde vorgesehen, dass auch die Clienten den Spielstand speichern k"onnen. Da dies aber wegen m"oglicherweise inkonsistenten Zust"anden und mangelnder Kompatibilität viel Zusatzarbeit bedeuten w"urde, wurde darauf verzichtet. Der Spielzustand wird also nur vom Server vollst"andig gespeichert, Clienten werden zwar "uber "Anderungen daran informiert, aber haben keinen Bedarf mehr daran, dies l"angerfristig zu speichern.
-\item Im Pflichtenheft ist eine Spielspezifische maximale Spieleranzahl nicht vorgesehen, aus Gr"unden der Einfachheit wurde diese aber eingef"uhrt. Ein Spiel startet nun, wenn sich die maximale Anzahl von Clienten im Wartezustand befinden. Dies f"uhrt zu einer Reduzierung des Warteraums, es ist dort nicht mehr m"oglich, sich selbst als "Zum Spielen bereit" zu setzen, was auch Probleme mit der Kompatibilit"at des Servers der anderen Gruppe verhindern sollte.
+\item Im Pflichtenheft wurde vorgesehen, dass auch die Clients den Spielstand speichern k"onnen. Da dies aber wegen m"oglicherweise inkonsistenten Zust"anden und mangelnder Kompatibilität viel Zusatzarbeit bedeuten w"urde, wurde darauf verzichtet. Der Spielzustand wird also nur vom Server vollst"andig gespeichert, Clients werden zwar "uber "Anderungen daran informiert, aber haben keinen Bedarf mehr daran, dies l"angerfristig zu speichern.
+\item Im Pflichtenheft ist eine spielspezifische maximale Spieleranzahl nicht vorgesehen, aus Gr"unden der Einfachheit wurde diese aber eingef"uhrt. Ein Spiel startet nun, wenn sich die maximale Anzahl von Clienten im Wartezustand befinden. Dies f"uhrt zu einer Reduzierung des Warteraums, es ist dort nicht mehr m"oglich, sich selbst als "`Zum Spielen bereit"' zu setzen, was auch Probleme mit der Kompatibilit"at des Servers der anderen Gruppe verhindern sollte.
 \item Ebenfalls verzichtet wurde auf die M"oglichkeit, ein Spiel aktiv aufzugeben und trotzdem weiterhin zuzuschauen.
-\item Im Pflichtenheft war es nur vorgesehen, dass ein AIClient von au"serhalb des Servers Zugriff auf das Spiel hat. Das hei"st ein AIClient m"usste als eigenes Programm gestartet werden und sich dann auf den Server verbinden. Es ist nun aber auch m"oglich, direkt vom Server aus einen solchen Clienten dem Spiel hinzuzuf"ugen.
-\item Es ist nicht möglich einem angefangenen Spiel (wieder) beizutreten
-\item 
+\item Im Pflichtenheft war es nur vorgesehen, dass ein \textit{AIClient} von au"serhalb des Servers Zugriff auf das Spiel hat. Das hei"st, dass ein \textit{AIClient} als eigenes Programm gestartet werdenund sich dann auf den Server verbinden müsste. Es ist nun aber auch m"oglich, direkt vom Server aus einen solchen Clienten dem Spiel hinzuzuf"ugen.
+\item Es ist nicht möglich, einem angefangenen Spiel (wieder) beizutreten
 \item /F11160/ "`Spielstand laden"' und /F11170/ "`Spielstand speichern"' wurden fallengelassen 
 \end{itemize}
 \section{Verantwortlichkeiten und weitere Planungen}
@@ -1074,5 +1073,5 @@ GANTT DIAGRAMM HIER!
 \section{Klassendiagramm}
 Das Klassendiagramm befindet sich als \textit{pdf}-Datei in "`class\_diagram.pdf"'.
 \section{Weitere Informationen}
-Ein Teil der Beschreibungen der Methoden IServer, IServerTrade und IServerAuction stammen von Daniel Bruns.
+Ein Teil der Beschreibungen der Methoden aus \textit{IServer, IServerTrade} und \textit{IServerAuction} stammen von Daniel Bruns.
 \end{document}
