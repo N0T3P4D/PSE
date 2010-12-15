@@ -417,6 +417,56 @@ Der GUI-Client baut auf dem Clientgrundger"ust auf bietet eine Graphische Oberfl
 
 \end{itemize}
 
+
+%LOGIKREGELNZUSTAND
+\subsection{LogikRegelnZustand}
+
+%Beschreibung
+Dieses Paket enthält den Zustand, sowie die Regeln und die Logik um Eingaben zu validieren, Informationen zu erlangen oder einzufügen.
+
+
+%GameLogic
+\item GameLogic
+\begin{itemize}
+\item Beinhaltet den Inhalt des Pakets und ist die Kontaktstelle nach außen.
+
+\item Methoden
+\begin{itemize}
+
+\item boolean newGame()
+\\Startet ein neues Spiel, lädt die Regeln und erstellt einen Zustand.
+\item boolean addPlayer()
+\\
+\item boolean addMessage()
+\\
+\item boolean addRoll()
+\\
+\item boolean startGame()
+\\
+
+\end{itemize}
+\end{itemize}
+
+
+%GameRules
+\item GameRules
+\begin{itemize}
+\item Beinhaltet die Regeln des Spiels.
+
+\item Methoden
+\begin{itemize}
+\item void setGameState(GameState gameState)
+\\Setzt den Gamestate
+\item string getName()
+\\der Name der Karte
+\item Image getImage()
+\\das Bild der Karte
+\item execute(int player)
+\\Führt die Aktion dieser Karte aus
+\end{itemize}
+\end{itemize}
+
+
 %SPIELSTATUS
 \subsection{Spielstatus}
 
@@ -547,7 +597,7 @@ Methoden:
 
 \end{itemize}
 
-%SPIELSTATUS
+%SPIELREGELN
 \subsection{Spielregeln}
 
 
@@ -557,51 +607,62 @@ Die Regeln des Spiels
 \subsubsection{Klassen}
 
 
+%CardRule
+\item CardRule
+\begin{itemize}
+\item Beinhaltet die Karten und ihre Regeln, sowie die Eigenschaften welche für diese Karte unabhängig vom Spielstatus sind.
 
-%StreetGroup
-\item StreetGroup
-\begin{itemize}
-\item Beinhaltet mehrere Straßen, die regeltechnisch eine Einheit bilden
-\item Attribute
-\begin{itemize}
-\item Color color
-\\Die Farbe der Stra"sengruppe (optisch)
-\item Street[] streets
-\\Liste aller Stra"sen, die der Stra"sengruppe angeh"oren
-\end{itemize}
-\end{itemize}
-
-%Karte
-\item GameCard
-\begin{itemize}
-\item Eine Spielkarte (Gemeinschafts- oder Ereigniskarte), die in Monopoly ausgeführt werden kann.
-\item Attribute
-\begin{itemize}
-\item string text
-\\Der Text, der beim Ausspielen der Karte angezeigt wird
-\item GameCardAction action
-\\Was wird beim Ausspielen der Karte gemacht?
-\end{itemize}
 \item Methoden
 \begin{itemize}
-\item boolean canBeCanceled()
-\\Kann die Karte abgelehnt werden?
-\item boolean execute(GameState state)
-\\Führt die Kartenaktion aus, welche den Spielstatus verändern kann.
+\item int getId()
+\\Die Id der Karte
+\item string getName()
+\\der Name der Karte
+\item Image getImage()
+\\das Bild der Karte
+\item execute(int player)
+\\Führt die Aktion dieser Karte aus
 \end{itemize}
 \end{itemize}
 
-%KartenAktion
-\item GameCardAction
+%CardAction
+\item CardAction
 \begin{itemize}
-\item Kapselung einer Aktion, die beim Ausspielen einer Ereignis- oder Gemeinschaftskarte ausgef"uhrt werden kann
+\item Kapselung einer Aktion, die beim Ausspielen einer Ereignis- oder Gemeinschaftskarte ausgef"uhrt werden kann.
+
 \item Methoden
 \begin{itemize}
-\item boolean execute(GameState state)
-\\f"uhrt eine Aktion aus, welche den Spielstatus verändern kann
+\item boolean execute(int player,int[] argument)
+\\Diese Aktion wird von einer Karte mit dieser Regel ausgeführt
 \end{itemize}
 \end{itemize}
-\end{itemize} 
+
+%FieldRule
+\item FieldRule
+\begin{itemize}
+\item Beinhaltet die Straßeninformationen die nicht durch den Spielstatus verändert werden.
+\item Methoden
+\begin{itemize}
+\item int getId()
+\\Die Id des Feldes
+\item String getName()
+\\Der Name des Feldes
+\item int getPosition()
+\\Die Position des Feldes
+\item Color getColor()
+\\Die Farbe der Stra"sengruppe (optisch) und damit auch die Zuordnung zu einer Gruppe
+\item int getPrice()
+\\Die Kosten des Feldes
+\item int getLevelPayment(int level)
+\\Die Mietkosten je nach Gebäudelevel
+\item Image getImage()
+\\Das Bild des Feldes
+\item boolean execute(int player)
+\\Die Aktion wenn eine Spieler auf diesem Feld landet
+\item boolean passTrough(int player)
+\\Die Aktion wenn eine Spieler über dieses Feld marschiert oder auf ihm landet
+\end{itemize}
+\end{itemize}
 
 
 %SERVER
