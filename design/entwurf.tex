@@ -431,21 +431,30 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 %Spielzustand
 \item GameState
 \begin{itemize}
-\item Beinhaltet alle Informationen eines Monopoly-Spiels
+\item Bietet Objekt-Zugriff auf alle Karten, Felder, Spieler, den Chat und bietet die Möglichkeit, Spielstände zu laden und zu speichern.
 \item Attribute
-\begin{itemize}
-\item int housesOfBank
-\item int hotelsOfBank
-\item Player[] players
-\item Street[] streets
-\item Card[] eventCards, communityCards
-\end{itemize}
+
+keine
 \item Methoden
 \begin{itemize}
-\item boolean loadGameState(int path)
-\item boolean SaveGameState(int path)
-\item boolean isValid()
-\\ist der derzeit geladene Spielstand fehlerfrei?
+\item getPlayer()
+
+Gibt eine Menge mit Referenzen auf alle Spieler zurück
+\item GameField getField()
+
+Gibt eine Referenz auf das Spielfeld zurück
+\item getCard()
+
+Gibt eine Menge mit Referenzen auf alle Karten zurück
+\item Chat getChat()
+
+Gibt eine Referenz auf das Chat-Objekt zurück
+\item boolean loadGameState(String path)
+
+Lädt den unter \textit{path} abgelegten Spielstand. Ist das Laden erfolgreich, wird \textit{true} zurückgegeben, sonst \textit{false}
+\item boolean saveGameState(String path)
+
+Speichert den Spielstand nach \textit{path}. Ist das Speichern erfolgreich, wird \textit{true} zurückgegeben, sonst \textit{false}
 \end{itemize}
 \end{itemize}
 
