@@ -153,20 +153,109 @@ Sendet eine öffentliche Nachricht an alle.
 \item void sendPrivateMessage(String text, int reciever)
 Sendet eine private Nachricht an den entsprechenden Empfänger.
 \end{itemize}
-\begin{itemize}
-\item PLATZHALTER
-\end{itemize}
+%IServerTrade
+
 \item IServerTrade
+Eine Erweiterung der IServer-Schnittstelle, sodass auch Auktionen abgewickelt werden k"onnen
+
+Methoden:
 \begin{itemize}
-\item PLATZHALTER
+\item int getAuctionState()
+Gibt den derzeitigen Stand der Auktion an
+\begin{description}
+\item[-1] keine Auktion l"auft
+\item[0] Auktion l"auft
+\item[1] ""Zum Ersten""
+\item[2] ""Zum Zweiten""
+\item[3] Auktion abgeschlossen, Daten sind noch abrufbar
+\end{description}
+\item int getAuctionedEstate()
+Gibt die Position des Grundst"uck zur"uck, das versteigert wird
+\item int getHighestBid()
+Gibt das bisher h"ochste Gebot zur"uck
+\item int getHighestBidder()
+Gibt den bisher h"ochsten Bieter zur"uck
+\item boolean placeBid(int playerID, int amount)
+Gibt ein Gebot in der H"ohe amount des Spielers playerID ab
 \end{itemize}
 \item IServerAuction
+Erweiterung der Schnittstelle IServer, sodass gehandelt werden kann
+
+Methoden:
 \begin{itemize}
-\item PLATZHALTER
+\item boolean initTrade(int actingPlayer, int partnerPlayer)
+Startet einen Handel zwischen actingPlayer und partnerPlayer
+\item int getTradeState()
+Gibt den Zustand des Handels an
+\begin{description}
+\item[-1] Dezeit kein Handel
+\item[0] Handelssitzung l"auft, bisher noch kein Angebot
+\item[1]Handelssitzung l"auft, Angebot liegt vor, noch keine Entscheidung
+\item[2] Handelsangebot wurde abgewiesen
+\item[3] Handelsangebot wurde angenommen
+\end{description}
+\item int getPartner()
+Liefert den Handelspartner
+\item boolean offerCash(int playerID, int cash)
+Bietet Geld
+\item offerGetOutOfJailCard(int playerID)
+Bietet eine ""Komme aus dem Gef"angnis frei Karte"" an
+\item boolean offerEstate(int playerID, int position)
+Bietet ein Grundst"uck an
+\item boolean requireCash(int playerID, int position)
+Fordert Geld
+\item boolean requireGetOutOfJailCard(int playerID)
+Fordert eine ""Komme aus dem Gef"angnis frei Karte""
+\item requireEstate(int playerID, int position)
+Fordert ein Grundst"uck
+\item int[] getOfferedEstates
+Liefert alle angebotenen Grundst"ucke
+\item int getOfferedCash()
+Liefert das angebotene Geld
+\item getNumberOfOfferedGetOutOfJailCards()
+Liefert die Anzahl angebotener ""Komme aus dem Gef"angnis frei Karten""
+\item int[] getRequiredEstates()
+Liefert alle angeforderten Grundst"ucke
+\item int getRequiredCash()
+Liefert das geforderte Geld
+\item int getNumberOfRequiredGetOutOfJailCards()
+Liefert die Anzahl geforderter ""Komme aus dem Gef"angnis frei Karten""
+\item boolean cancelTrade(int playerID)
+Bricht die aktuelle Handelssitzung ab
+\item boolean proposeTrade(int playerID)
+Schl"agt einen Handel vor, zuvor wurde mit offer/require Estate/Cash/GetOutOfJailCard festgelegt, um was gehandelt wurde
 \end{itemize}
 \item IClient
+Wurde gemeinsam mit der anderen Gruppe entwickelt. Dieses Interface dient dazu, die Kommunikation von Serverseite aus zu den Clienten zu erm"oglichen
+
+Methoden:
 \begin{itemize}
-\item PLATZHALTER
+\item string getName()
+Liefert den Namen des Spielers
+\item string getLanguage()
+Gibt die Sprache des Spielers zur"uck, zB ""de"" f"ur deutsch, ""fr"" f"ur Franz"osisch
+\item informStartGame(int numberOfPlayers)
+Informiert den Clienten, dass das Spiel beginnt
+\item void informTurn()
+Informiert den Clienten, dass er an der Reihe ist
+\item void informDiceValues(int[] diceValues, int playerID)
+Informiert den Clienten, dass ein neuer W"urfelwurf vorliegt
+\item void informCashChange(int playerID, int cashChange)
+Informiert den Clienten, dass sich ein Kontostand ge"andert hat
+\item void informStreetBuy(int playerID)
+Informiert den Clienten, dass ein Spieler eine Stra"se gekauft hat
+\item void informConstruct(int position)
+Informiert den Clienten, dass eine Stra"se ausgebaut wurde
+\item void informDestruct(int position)
+Informiert den Clienten, dass eine Stra"se um einen Rang verringert wurde
+\item void informMortageToogle(int position)
+Informiert den Clienten, dass eine Hypothek aufgenommen/abbezahlt wurde
+\item void informCardPull(String text, boolean communityCard)
+Informiert den Clienten, dass er eine Gemeinschafts- oder Ereigniskarte gezogen hat
+\item void informBankruptcy()
+Informiert den Clienten, dass der aktuelle Spieler bankrott ist
+\item void informMessage(string text, int sender, boolean privateMessage)
+Informiert den Clienten, dass er eine neue Nachricht empfangen hat
 \end{itemize}
 \end{itemize} % SCHNITTSTELLEN
 
@@ -436,25 +525,25 @@ Dieses Paket enthält den Zustand, sowie die Regeln und die Logik um Eingaben zu
 \item boolean newGame()
 \\Startet ein neues Spiel, lädt die Regeln und erstellt einen Zustand.
 \item boolean addPlayer(int playerId, String playerName, int playerCash)
-\\
+\\Fügt dem Spiel einen Spieler hinzu und gibt an ob es geklappt hat, schließlich dürfen laut Monopolyregeln z.B. nur maximal 8 Spieler spielen.
 \item void addMessage(int messageId, int playerId, String text)
-\\
+\\Fügt dem Chat eine Nachricht hinzu.
 \item void addRoll(int player, int[] dices)
-\\
+\\Fügt einen neuen Wurf dem Status hinzu
 \item void startGame()
-\\
+\\Startet das Spiel (Also aus der GUI aus gesehen vom Warteraum aufs Spielbrett)
 \item void movePlayer(int player, int street)
-\\
+\\Bewegt einen Spieler zu einer Straße
 \item void buyStreet(int player, int street)
-\\
+\\Gibt dem Spieler eine Straße
 \item void upgradeStreet(int player, int street, int level)
-\\
+\\Setzt eine Straße auf ein neues Level
 \item void useCard(int player, int card)
-\\
+\\Benutzt für den Spieler eine Karte
 \item void exitJail(int player)
-\\
+\\Befreit den Spieler aus dem Gefängnis :)
 \item GameState getGameState()
-\\
+\\Setzt einen neuen Spielstatus
 
 \end{itemize}
 \end{itemize}
@@ -470,15 +559,15 @@ Dieses Paket enthält den Zustand, sowie die Regeln und die Logik um Eingaben zu
 \item void setGameState(GameState gameState)
 \\Setzt den Gamestate
 \item boolean movementValid(int player, int field)
-\\
+\\Ist der Spielzug ok?
 \item boolean buyingValid(int player, int street)
-\\
+\\Ist dieser Kauf ok?
 \item boolean cardValid(int player, int card)
-\\
+\\Ist das Verwenden der Karte von diesem Spieler ok?
 \item boolean upgradeValid(int player, int street, int level)
-\\
+\\Ist das Upgraden dieser Straße ok?
 \item boolean playerHasCash(int player, int cash)
-\\
+\\hat der Spieler das gewollte Geld?
 \end{itemize}
 \end{itemize}
 
