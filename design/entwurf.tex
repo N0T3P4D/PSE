@@ -515,13 +515,12 @@ Dieses Paket enthält den Zustand, sowie die Regeln und die Logik um Eingaben zu
 
 
 %GameLogic
-\item GameLogic
 \begin{itemize}
-\item Beinhaltet den Inhalt des Pakets und ist die Kontaktstelle nach außen.
+\item GameLogic \\
+Beinhaltet den Inhalt des Pakets und ist die Kontaktstelle nach außen.
 
-\item Methoden
+Methoden:
 \begin{itemize}
-
 \item boolean newGame()
 \\Startet ein neues Spiel, lädt die Regeln und erstellt einen Zustand.
 \item boolean addPlayer(int playerId, String playerName, int playerCash)
@@ -545,16 +544,14 @@ Dieses Paket enthält den Zustand, sowie die Regeln und die Logik um Eingaben zu
 \item GameState getGameState()
 \\
 
-\end{itemize}
-\end{itemize}
-
+\end{itemize} % end methoden
+%end GameState
 
 %GameRules
-\item GameRules
-\begin{itemize}
-\item Beinhaltet die Regeln des Spiels.
+\item GameRules \\
+Beinhaltet die Regeln des Spiels.
 
-\item Methoden
+Methoden:
 \begin{itemize}
 \item void setGameState(GameState gameState)
 \\Setzt den Gamestate
@@ -568,9 +565,9 @@ Dieses Paket enthält den Zustand, sowie die Regeln und die Logik um Eingaben zu
 \\
 \item boolean playerHasCash(int player, int cash)
 \\
-\end{itemize}
-\end{itemize}
-
+\end{itemize} % end methoden
+%end GameRules
+\end{itemize} % end klassen
 
 %SPIELSTATUS
 \subsection{Spielstatus}
@@ -711,7 +708,7 @@ Die Regeln des Spiels
 
 \subsubsection{Klassen}
 
-
+\begin{itemize}
 %CardRule
 \item CardRule
 \begin{itemize}
@@ -768,7 +765,7 @@ Die Regeln des Spiels
 \\Die Aktion wenn eine Spieler über dieses Feld marschiert oder auf ihm landet
 \end{itemize}
 \end{itemize}
-
+\end{itemize}
 
 %SERVER
 \subsection{Server}
@@ -994,6 +991,7 @@ Die Leitung der einzelnen Abschnitte wird von folgenden Personen übernommen und
 Zusätzlich übernimmt Fabian Neundorf die Kommunikation mit der anderen Gruppe und stimmt sich mit den Verantwortlichen ab.
 
 GANTT DIAGRAMM HIER!
+%\includegraphics[height=2cm]{Gantt/gantt}
 \section{Klassendiagramm}
 Das Klassendiagramm befindet sich als \textit{pdf}-Datei in "`class\_diagram.pdf"'.
 \section{Weitere Informationen}
