@@ -472,16 +472,22 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 \end{itemize}
 
 %Feld
-\item Field
+\item GameField
 Dies Klasse beschreibt ein Spielfeld in Monopoly.
 
 Attribute:
 \begin{itemize}
-\item PLATZHALTER
+\item int id
+\item int ownedByPlayer
+\item boolean turnedAround
 \end{itemize}
 
 Methoden:
 \begin{itemize}
+\item int getId()
+\item boolean buy()
+\item boolean turnAround()
+\item boolean isTurnedAround()
 \item boolean isValid()
 \item void action()
 \\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion des Feldes aus.
@@ -502,7 +508,7 @@ Attribute:
 \item int ownerPlayerID
 \item StreetGroup group
 \\Die Stra"sengruppen, der die Stra"se angeh"ort
-\item int level
+\item int buildLevel
 \\wie viele H"auser stehen auf der Stra"se?
 \end{itemize}
 
@@ -510,8 +516,25 @@ Methoden:
 \begin{itemize}
 \item void construct()
 \\ \textcolor{red}{Hinzufügt von Fabian}
+\item int getLevel()
+\item int upgrade(int level)
 \end{itemize}
 %Street end
+
+
+
+\end{itemize}
+
+%SPIELSTATUS
+\subsection{Spielregeln}
+
+
+%Beschreibung
+Die Regeln des Spiels
+
+\subsubsection{Klassen}
+
+
 
 %StreetGroup
 \item StreetGroup
@@ -557,6 +580,7 @@ Methoden:
 \end{itemize}
 \end{itemize}
 \end{itemize} 
+
 
 %SERVER
 \subsection{Server}
