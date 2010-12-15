@@ -481,16 +481,22 @@ Speichert den Spielstand nach \textit{path}. Ist das Speichern erfolgreich, wird
 \end{itemize}
 
 %Feld
-\item Field
+\item GameField
 Dies Klasse beschreibt ein Spielfeld in Monopoly.
 
 Attribute:
 \begin{itemize}
-\item PLATZHALTER
+\item int id
+\item int ownedByPlayer
+\item boolean turnedAround
 \end{itemize}
 
 Methoden:
 \begin{itemize}
+\item int getId()
+\item boolean buy()
+\item boolean turnAround()
+\item boolean isTurnedAround()
 \item boolean isValid()
 \item void action()
 \\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion des Feldes aus.
@@ -511,7 +517,7 @@ Attribute:
 \item int ownerPlayerID
 \item StreetGroup group
 \\Die Stra"sengruppen, der die Stra"se angeh"ort
-\item int level
+\item int buildLevel
 \\wie viele H"auser stehen auf der Stra"se?
 \end{itemize}
 
@@ -519,8 +525,25 @@ Methoden:
 \begin{itemize}
 \item void construct()
 \\ \textcolor{red}{Hinzufügt von Fabian}
+\item int getLevel()
+\item int upgrade(int level)
 \end{itemize}
 %Street end
+
+
+
+\end{itemize}
+
+%SPIELSTATUS
+\subsection{Spielregeln}
+
+
+%Beschreibung
+Die Regeln des Spiels
+
+\subsubsection{Klassen}
+
+
 
 %StreetGroup
 \item StreetGroup
@@ -566,6 +589,7 @@ Methoden:
 \end{itemize}
 \end{itemize}
 \end{itemize} 
+
 
 %SERVER
 \subsection{Server}
@@ -623,8 +647,9 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \begin{itemize}
 %Remote
 \item Remote
-\item IServer
+\item NetOjim
 \begin{itemize}
+\item erweitert das IServer interface 
 \item Hier werden alle Methoden zur Verf"ugung gestellt, die das Server Objekt auf Seite des Clienten aufrufen kann
 \end{itemize}
 \item Serializable
@@ -636,13 +661,13 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \item UnicastRemoteObject
 \begin{itemize}
 \item Registriert das zu fernaufrufende Objekt bei der RMI Verwaltung
-\item Verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
+\item verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
 \end{itemize}
 \item ImplBuffer
 \begin{itemize}
 \item erweitert die Klasse UnicastRemoteObject
 \item implementiert das Interface IServer
-\item Implementiert das Interface Serializable
+\item implementiert das Interface Serializable
 \\Um das komplette Objekt als Parameter f"ur die RMI-Aufrufe zu "ubertragen benutzen wir Object Serialization 
 \end{itemize}
 \item BufferServer
