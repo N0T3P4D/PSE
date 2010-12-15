@@ -614,8 +614,9 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \begin{itemize}
 %Remote
 \item Remote
-\item IServer
+\item NetOjim
 \begin{itemize}
+\item erweitert das IServer interface 
 \item Hier werden alle Methoden zur Verf"ugung gestellt, die das Server Objekt auf Seite des Clienten aufrufen kann
 \end{itemize}
 \item Serializable
@@ -627,13 +628,13 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \item UnicastRemoteObject
 \begin{itemize}
 \item Registriert das zu fernaufrufende Objekt bei der RMI Verwaltung
-\item Verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
+\item verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
 \end{itemize}
 \item ImplBuffer
 \begin{itemize}
 \item erweitert die Klasse UnicastRemoteObject
 \item implementiert das Interface IServer
-\item Implementiert das Interface Serializable
+\item implementiert das Interface Serializable
 \\Um das komplette Objekt als Parameter f"ur die RMI-Aufrufe zu "ubertragen benutzen wir Object Serialization 
 \end{itemize}
 \item BufferServer
