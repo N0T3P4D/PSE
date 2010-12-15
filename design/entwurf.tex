@@ -58,12 +58,12 @@ WS 2010 / 2011} \\[2cm]
 Wir haben gemeinsam die Schnittstellen entsprechend unseren Bedürfnissen angepasst. Diese besteht einerseits aus den Interfaces "`IServer"', "`IServerTrade"', "`IServerAuction"' und "`IClient"', sowie aus der Klasse "`Rules"'.
 \subsubsection{Schnittstellen}
 \begin{itemize}
-\item IServer
+\item IServer \\
 Die IServer Schnittstelle dient als gemeinsame Basis für die Clients.
 
 Methoden:
 \begin{itemize}
-\item int getPlayerPiecePosition(int playerID) \\s
+\item int getPlayerPiecePosition(int playerID) \\
 Gibt die aktuelle Position des Spielers mit der ID "`playerID"' zurück.
 \item int addPlayer(IClient client) \\
 Fügt einen Client hinzu.
@@ -83,7 +83,7 @@ Gibt die Farbgruppe des Grundstückes zurück. Nicht-negative Werte stehen dabei
 \item[-1] Startfeld
 \item[-2] Gefängnis
 \item[-3] Frei Parken
-\item[-4] "` gehe in das Gefängnis"'
+\item[-4] "`gehe in das Gefängnis"'
 \item[-5] Ereignisfelder
 \item[-6] Gemeinschaftsfelder
 \item[-7] Bahnhöfe
@@ -100,7 +100,7 @@ Liefert die Höhe der Miete für ein Grundstück in der angegebenen Bebauung. Da
 \item String getGameStatusMessage(int playerID) \\
 Liefert die aktuelle Spielmeldung für einen Spieler. Dies können entweder reine Statusmeldungen
 oder für den Spielfluss entscheidende Fragen an den Spieler sein, z.B. ob man die Geldstrafe im Gefängnis zahlt oder etwa ob
-man ein Grundstück erwerben möchte. In den letzteren Fällen muss dem Server zunächst mit <code>accept()</code> oder <code>decline()</code>
+man ein Grundstück erwerben möchte. In den letzteren Fällen muss dem Server zunächst mit "`accept()"' oder "`decline()"'
 geantwortet werden bevor andere Aktionen (z.B. Häuser bauen, Zug beenden) getätigt werden.
 \item boolean isMortgaged(int position) \\
 Gibt an, ob das gegebene Grundstück mit einer Hypothek belastet ist.
@@ -182,13 +182,13 @@ Dieser Wert gibt das verfügbare Startgeld an.
 \item public final int goMoney; \\
 In diesem Wert steht, wie viel Geld man bekommen, sobald man über Los kommt.
 \item public final boolean doubleMoneyOnGo \\
-Dieser Wahrheitswert ist wahr, wenn man doppelt so viel Geld bekommen soll, wenn man auf den Los-Feld zum stehen kommt.
+Dieser Wahrheitswert ist wahr, wenn der Spieler doppelt so viel Geld bekommen soll, wenn er auf den Los-Feld zum stehen kommt.
 \item public final boolean tradesWithMoney \\
-Man kann über diesen Wert bestimmen, ob beim Handeln die "`Ware"' Geld mit benutzt werden darf.
+Über diesen Wert kann bestimmt werden, ob beim Handeln die "`Ware"' Geld mitbenutzt werden darf.
 \item public final boolean auctionActive \\
 Hiermit kann man Auktionen aktivieren oder deaktivieren.
 \item public final boolean moneyOnFreeParking;
-Sofern dieser Wert auf wahr steht, bekommt man das Geld aus den Steuertopf sobald man auf das Feld "`Frei Parken"' kommt.
+Sofern dieser Wert auf wahr steht, bekommt der Spieler das Geld aus den Steuertopf sobald dieser auf das Feld "`Frei Parken"' kommt.
 \end{itemize}
 
 Methoden:
@@ -876,15 +876,15 @@ Während der Entwurfsphase fanden mehrere Treffen mit einem Verantwortlichen der
 \item /F11160/ "`Spielstand laden"' und /F11170/ "`Spielstand speichern"' wurden fallengelassen 
 \end{itemize}
 \section{Verantwortlichkeiten und weitere Planungen}
-Die Leitung der einzelnen Abschnitte wird von folgenden Personen übernommen:
+Die Leitung der einzelnen Abschnitte wird von folgenden Personen übernommen und vorgestellt:
 \begin{description}
 % Nennen?
 \item[Pflichtenheft] Philip Caroli
 % Nennen?
 \item[Entwurf] Fabian Neundorf
-\item[Implementierung]
-\item[Validierung]
-\item[Präsentation]
+\item[Implementierung] Jeremias Mechler
+\item[Validierung] Usman Ghani Ahmed
+\item[Präsentation] Maximilian Madlung
 \end{description}
 Zusätzlich übernimmt Fabian Neundorf die Kommunikation mit der anderen Gruppe und stimmt sich mit den Verantwortlichen ab.
 
