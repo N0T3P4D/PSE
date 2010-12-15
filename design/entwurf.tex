@@ -24,7 +24,7 @@ Jeremias Mechler\\
 Fabian Neundorf}
 
 \ifpdf
-\DeclareGraphicsExtensions{.pdf}
+\DeclareGraphicsExtensions{.pdf,.png}
 \else
 \DeclareGraphicsExtensions{.eps}
 \fi
@@ -1013,22 +1013,21 @@ Ein Spielzug beginnt, nachdem der alte Spielzug beendet wurde. Die Reihenfolge d
 \item Der SpielStatus wird gespeichert
 \item ein neuer Zug beginnt
 \end{enumerate}
-\includegraphics[width=0.97\textwidth]{Spielzug}
-
+\newpage
+\includegraphics[width=18cm]{Sequenzdiagramme/Spielzug}
+\newpage
 \subsection{Verbinden eines Client auf einen Server}
 Sobald ein Client sich auf einen (laufenden) Server verbinden will, müssen folgende Schritte stattfinden
 \begin{enumerate}
 \item Der (menschliche) Spieler gibt die IP-Addresse über ein Textfeld ein, der AIClient bekommt diese als Argument beim Starten übergeben
 \item Der Client wird entweder direkt dem Server hinzugefügt (ein IClient-Objekt wird dem Server übergeben und ein IServer-Objekt dem Clienten) oder über das Netzwerk verbunden
 \item Der Server fügt den Spieler seiner Spielerliste hinzu und initialisiert dessen Zustand
-\includegraphics[width=0.97\textwidth]{client_verbinden} 
 \end{enumerate}
-\includegraphics[width=0.97\textwidth]{client_verbinden}
-
+\includegraphics[width=17cm]{Sequenzdiagramme/client_verbinden}
 \subsection{Beispielhafte Spielzüge}
-\includegraphics[angle = 90, height=0.97\textheight]{bankrott_gehen}
+\includegraphics[angle = 90, height=23cm]{Sequenzdiagramme/bankrott_gehen}
 \newpage
-\includegraphics[angle = 90,height=0.97\textheight]{Ereigniskarte}
+\includegraphics[angle = 90,height=24cm]{Sequenzdiagramme/Ereigniskarte}
 
 
 \subsection{KI-Client-Zug}
@@ -1039,6 +1038,8 @@ Die Arbeitsweise des KI-Clients orientiert sich an dem Paper von \textit{Frayn} 
 \item Prüfen, welche Spielzüge der KI-Client machen kann
 \item Übergeben jedes möglichen Spielzug an die Gesamt-Bewertungsfunktion. Diese ruft (falls passend) die einzelnen Bewertungsfunktionen auf, die abhängig vom aktuellen Spielzustand den möglichen Zug bewerten. Von allen möglichen Zügen wird derjenige mit der besten Bewertung ausgeführt.
 \end{enumerate}
+Beispiel-Zug:\\
+\includegraphics[angle = 90,height=17cm]{Sequenzdiagramme/ki_spielzug}
 \section{Weitere Entwurfdetails}
 \subsection{Kompatibilität mit Client und Server der anderen Gruppe}
 Während der Entwurfsphase fanden mehrere Treffen mit einem Verantwortlichen der anderen Gruppe statt. Im Vorfeld wurde versucht, Punkte, an denen es Missverständnisse geben könnte, zu identifizieren. Im Zuge dessen wurden die vorgegebenen Interfaces erweitert und verändert, ein eigenes Interface für den Client definiert. Obwohl beide Gruppen unterschiedliche Entwurfsansätze verfolgen, sollte zumindest nach jetzigem Kenntnisstand einer erfolgreichen Kommunikation nichts im Wege stehen. Beim Abstimmungsprozess wurden zugunsten der Kompatibilität Einschränkungen bei der Erweiterbarkeit hingenommen.
