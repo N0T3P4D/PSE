@@ -59,6 +59,100 @@ Wir haben gemeinsam die Schnittstellen entsprechend unseren Bedürfnissen angepa
 \subsubsection{Schnittstellen}
 \begin{itemize}
 \item IServer
+Die IServer Schnittstelle dient als gemeinsame Basis für die Clients.
+
+Methoden:
+\begin{itemize}
+\item int getPlayerPiecePosition(int playerID) \\s
+Gibt die aktuelle Position des Spielers mit der ID "`playerID"' zurück.
+\item int addPlayer(IClient client) \\
+Fügt einen Client hinzu.
+\item void setPlayerReady(int player) \\
+Setzt den Spieler mit der ID "`player"' auf bereit.
+\item String getPlayerName(int player) \\
+Gibt den Namen eines Spielers zurück.
+\item int getPlayerColor(int player) \\
+Gibt die Farbe des Spielers zurück.
+\item Rules getRules() \\
+Gibt den Regelsatz zurück.
+\item String getEstateName(int position) \\
+Gibt den Namen des Grundstücks auf der in "`position"' definierten Position zurück.
+\item int getEstateColorGroup(int position) \\
+Gibt die Farbgruppe des Grundstückes zurück. Nicht-negative Werte stehen dabei für die eigentlichen Farbgruppen in der Reihenfolge auf dem Brett. Negative Werte stehen für Sonderfelder:
+\begin{description}
+\item[-1] Startfeld
+\item[-2] Gefängnis
+\item[-3] Frei Parken
+\item[-4] "` gehe in das Gefängnis"'
+\item[-5] Ereignisfelder
+\item[-6] Gemeinschaftsfelder
+\item[-7] Bahnhöfe
+\item[-8] Infrastrukturgebäude
+\item[-9] Sondersteuerfelder
+\end{description}
+Weitere sind benutzerdefiniert.
+\item int getEstateHouses(int position) \\
+Liefert die Zahl der gebauten Häuser an der gegebenen Position. Ein Hotel wird dabei als die Zahl 5 repräsentiert.
+\item int getEstatePrice(int position) \\
+Liefert den Kaufpreis des Grundstücks an der gegebeben Position.
+\item int getEstateRent(int position, int houses) \\
+Liefert die Höhe der Miete für ein Grundstück in der angegebenen Bebauung. Dabei kann das Grundstück sowie die Bebauung gewählt werden.
+\item String getGameStatusMessage(int playerID) \\
+Liefert die aktuelle Spielmeldung für einen Spieler. Dies können entweder reine Statusmeldungen
+oder für den Spielfluss entscheidende Fragen an den Spieler sein, z.B. ob man die Geldstrafe im Gefängnis zahlt oder etwa ob
+man ein Grundstück erwerben möchte. In den letzteren Fällen muss dem Server zunächst mit <code>accept()</code> oder <code>decline()</code>
+geantwortet werden bevor andere Aktionen (z.B. Häuser bauen, Zug beenden) getätigt werden.
+\item boolean isMortgaged(int position) \\
+Gibt an, ob das gegebene Grundstück mit einer Hypothek belastet ist.
+\item int getOwner(int position) \\
+Gibt den Eigentümer des Grundstücks an der gegebenen Position an. Falls das Grundstück der Bank gehört, ist das Ergebnis -1.
+\item int getDiceValue() \\
+Liefert die aktuelle Augensumme.
+\item int[] getDiceValues() \\
+Liefert die Werte der einzelnen Würfel.
+\item int getPlayerCash(int playerID) \\
+Liefert das aktuelle Barvermögen eines Spielers. Ein negativer Wert bedeutet dabei, dass der Spieler bankrott ist und aus dem Spiel ausgeschieden ist.
+\item int getPlayerOnTurn() \\
+Liefert die ID des Spielers, der momentan am Zug ist. Falls das Spiel
+momentan nicht läuft, ist das Ergebnis -1.
+\item int getNumberOfGetOutOfJailCards(int playerID) \\
+Liefert die Zahl der "`Du kommst aus dem Gefängnis frei"'-Karten eines Spielers.
+\item int getNumberOfHousesLeft() \\
+Liefert die Zahl der noch in der Bank vorhandenen Häuser.
+\item int getNumberOfHotelsLeft() \\
+Liefert die Zahl der noch in der Bank verbliebenen Hotels.
+\item boolean rollDice(int playerID) \\
+Rollt die Würfel und bewegt die Figur (falls sie nicht im Gefängnis ist).
+Falls dem Spieler eine für den Spielfluss entscheidende Frage gestellt wird, so muss diese
+danach mit "`accept()"' oder "`decline()"' beantwortet
+werden. Es kann nur einmal am Anfang des Zuges gewürfelt werden (bzw. dreimal im Gefängnis).
+\item boolean accept(int playerID) \\
+Gibt eine positive Antwort auf eine spielentscheidende Frage des Servers.
+Kann nur getätigt werden, wenn die aktuelle Statusmeldung eine solche
+Frage ist.
+\item boolean decline(int playerID) \\
+Gibt eine negative Antwort auf eine spielentscheidende Frage des Servers.
+Kann nur getätigt werden, wenn die aktuelle Statusmeldung eine solche
+Frage ist.
+\item boolean endTurn(int playerID) \\
+Beendet den aktuellen Zug. Kann nur getätigt werden, wenn gewürfelt und
+alle spielentscheidenen Fragen beantwortet wurden.
+\item boolean declareBankruptcy(int playerID) \\
+Erklärt Bankrott. Setzt das Barvermögen des jeweiligen Spielers auf einen negativen Wert.
+\item boolean construct(int playerID, int position) \\
+Baut "`ein"' Haus auf das angegebene Grundstück. Kann nur getätigt
+werden, wenn die Bedingungen dafür erfüllt sind.
+\item boolean deconstruct(int playerID, int position)
+Löst "`ein"' Haus auf dem angegebenen Grundstück auf. Kann nur
+getätigt werden, wenn die Bedingungen dafür erfüllt sind.
+\item boolean toggleMortgage(int playerID, int position)
+Nimmt eine Hypothek auf das angegebene Grundstück auf oder zahlt diese
+zurück.
+\item void sendMessage(String text)
+Sendet eine öffentliche Nachricht an alle.
+\item void sendPrivateMessage(String text, int reciever)
+Sendet eine private Nachricht an den entsprechenden Empfänger.
+\end{itemize}
 \begin{itemize}
 \item PLATZHALTER
 \end{itemize}
@@ -694,5 +788,6 @@ Zusätzlich übernimmt Fabian Neundorf die Kommunikation mit der anderen Gruppe 
 GANTT DIAGRAMM HIER!
 \section{Klassendiagramm}
 Das Klassendiagramm befindet sich als \textit{pdf}-Datei in "`class\_diagram.pdf"'.
-
+\section{Weitere Informationen}
+Ein Teil der Beschreibungen der Methoden IServer, IServerTrade und IServerAuction stammen von Daniel Bruns.
 \end{document}

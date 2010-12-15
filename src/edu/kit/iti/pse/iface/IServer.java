@@ -71,7 +71,7 @@ public interface IServer {
 	public int addPlayer(IClient client);
 
 	/**
-	 * Setzt einen Spiler auf bereit.
+	 * Setzt einen Spieler auf bereit.
 	 * @param player
 	 *            Der Spieler der sich auf bereit setzt.
 	 */
@@ -109,7 +109,7 @@ public interface IServer {
 	 *            Die Position des Grundstücks.
 	 * @return Den namen des Grundstücks.
 	 */
-	String getEstateName(int position);
+	public String getEstateName(int position);
 
 	/**
 	 * Gibt an, zu welcher Farbgruppe das Grundstück gehört. Nicht-negative
