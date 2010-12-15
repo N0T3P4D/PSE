@@ -417,6 +417,56 @@ Der GUI-Client baut auf dem Clientgrundger"ust auf bietet eine Graphische Oberfl
 
 \end{itemize}
 
+
+%LOGIKREGELNZUSTAND
+\subsection{LogikRegelnZustand}
+
+%Beschreibung
+Dieses Paket enthält den Zustand, sowie die Regeln und die Logik um Eingaben zu validieren, Informationen zu erlangen oder einzufügen.
+
+
+%GameLogic
+\item GameLogic
+\begin{itemize}
+\item Beinhaltet den Inhalt des Pakets und ist die Kontaktstelle nach außen.
+
+\item Methoden
+\begin{itemize}
+
+\item boolean newGame()
+\\Startet ein neues Spiel, lädt die Regeln und erstellt einen Zustand.
+\item boolean addPlayer()
+\\
+\item boolean addMessage()
+\\
+\item boolean addRoll()
+\\
+\item boolean startGame()
+\\
+
+\end{itemize}
+\end{itemize}
+
+
+%GameRules
+\item GameRules
+\begin{itemize}
+\item Beinhaltet die Regeln des Spiels.
+
+\item Methoden
+\begin{itemize}
+\item void setGameState(GameState gameState)
+\\Setzt den Gamestate
+\item string getName()
+\\der Name der Karte
+\item Image getImage()
+\\das Bild der Karte
+\item execute(int player)
+\\Führt die Aktion dieser Karte aus
+\end{itemize}
+\end{itemize}
+
+
 %SPIELSTATUS
 \subsection{Spielstatus}
 
@@ -431,21 +481,30 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 %Spielzustand
 \item GameState
 \begin{itemize}
-\item Beinhaltet alle Informationen eines Monopoly-Spiels
+\item Bietet Objekt-Zugriff auf alle Karten, Felder, Spieler, den Chat und bietet die Möglichkeit, Spielstände zu laden und zu speichern.
 \item Attribute
-\begin{itemize}
-\item int housesOfBank
-\item int hotelsOfBank
-\item Player[] players
-\item Street[] streets
-\item Card[] eventCards, communityCards
-\end{itemize}
+
+keine
 \item Methoden
 \begin{itemize}
-\item boolean loadGameState(int path)
-\item boolean SaveGameState(int path)
-\item boolean isValid()
-\\ist der derzeit geladene Spielstand fehlerfrei?
+\item getPlayer()
+
+Gibt eine Menge mit Referenzen auf alle Spieler zurück
+\item GameField getField()
+
+Gibt eine Referenz auf das Spielfeld zurück
+\item getCard()
+
+Gibt eine Menge mit Referenzen auf alle Karten zurück
+\item Chat getChat()
+
+Gibt eine Referenz auf das Chat-Objekt zurück
+\item boolean loadGameState(String path)
+
+Lädt den unter \textit{path} abgelegten Spielstand. Ist das Laden erfolgreich, wird \textit{true} zurückgegeben, sonst \textit{false}
+\item boolean saveGameState(String path)
+
+Speichert den Spielstand nach \textit{path}. Ist das Speichern erfolgreich, wird \textit{true} zurückgegeben, sonst \textit{false}
 \end{itemize}
 \end{itemize}
 
@@ -456,32 +515,51 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 \item Attribute
 \begin{itemize}
 \item int id
-\item Color Color
-\item string name
+
+Die eindeutige Spieler-ID
+\item Color color
+
+Die Farbe des Spielers
+\item String name
+
+Der Name des Spielers
 \item int possition
+
+Die aktuelle Position des Spielers
 \item int cash
+
+Der aktuelle Geldbetrag des Spielers
 \item int getOutOfJailCardsCount
+
+Die Anzahl der "`Gehe aus dem Gefängnis"'-Karten des Spielers
 \end{itemize}
 \item Methoden
 \begin{itemize}
-\item boolean isValid()
-\\sind alle Attribute des Spielers g"ultig?
-\item void move()
+\item Spieler(int id, int cash, String name)
+
+Konstruktur. Für die Argumente siehe \textit{Attribute}
+\item getID
 \\ \textcolor{red}{Hinzufügt von Fabian}
 \end{itemize}
 \end{itemize}
 
 %Feld
-\item Field
+\item GameField
 Dies Klasse beschreibt ein Spielfeld in Monopoly.
 
 Attribute:
 \begin{itemize}
-\item PLATZHALTER
+\item int id
+\item int ownedByPlayer
+\item boolean turnedAround
 \end{itemize}
 
 Methoden:
 \begin{itemize}
+\item int getId()
+\item boolean buy()
+\item boolean turnAround()
+\item boolean isTurnedAround()
 \item boolean isValid()
 \item void action()
 \\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion des Feldes aus.
@@ -502,7 +580,7 @@ Attribute:
 \item int ownerPlayerID
 \item StreetGroup group
 \\Die Stra"sengruppen, der die Stra"se angeh"ort
-\item int level
+\item int buildLevel
 \\wie viele H"auser stehen auf der Stra"se?
 \end{itemize}
 
@@ -510,53 +588,82 @@ Methoden:
 \begin{itemize}
 \item void construct()
 \\ \textcolor{red}{Hinzufügt von Fabian}
+\item int getLevel()
+\item int upgrade(int level)
 \end{itemize}
 %Street end
 
-%StreetGroup
-\item StreetGroup
+
+
+\end{itemize}
+
+%SPIELREGELN
+\subsection{Spielregeln}
+
+
+%Beschreibung
+Die Regeln des Spiels
+
+\subsubsection{Klassen}
+
+
+%CardRule
+\item CardRule
 \begin{itemize}
-\item Beinhaltet mehrere Straßen, die regeltechnisch eine Einheit bilden
-\item Attribute
+\item Beinhaltet die Karten und ihre Regeln, sowie die Eigenschaften welche für diese Karte unabhängig vom Spielstatus sind.
+
+\item Methoden
 \begin{itemize}
-\item Color color
-\\Die Farbe der Stra"sengruppe (optisch)
-\item Street[] streets
-\\Liste aller Stra"sen, die der Stra"sengruppe angeh"oren
+\item int getId()
+\\Die Id der Karte
+\item string getName()
+\\der Name der Karte
+\item Image getImage()
+\\das Bild der Karte
+\item execute(int player)
+\\Führt die Aktion dieser Karte aus
 \end{itemize}
 \end{itemize}
 
-%Karte
-\item GameCard
+%CardAction
+\item CardAction
 \begin{itemize}
-\item Eine Spielkarte (Gemeinschafts- oder Ereigniskarte), die in Monopoly ausgeführt werden kann.
-\item Attribute
-\begin{itemize}
-\item string text
-\\Der Text, der beim Ausspielen der Karte angezeigt wird
-\item GameCardAction action
-\\Was wird beim Ausspielen der Karte gemacht?
-\end{itemize}
+\item Kapselung einer Aktion, die beim Ausspielen einer Ereignis- oder Gemeinschaftskarte ausgef"uhrt werden kann.
+
 \item Methoden
 \begin{itemize}
-\item boolean canBeCanceled()
-\\Kann die Karte abgelehnt werden?
-\item boolean execute(GameState state)
-\\Führt die Kartenaktion aus, welche den Spielstatus verändern kann.
+\item boolean execute(int player,int[] argument)
+\\Diese Aktion wird von einer Karte mit dieser Regel ausgeführt
 \end{itemize}
 \end{itemize}
 
-%KartenAktion
-\item GameCardAction
+%FieldRule
+\item FieldRule
 \begin{itemize}
-\item Kapselung einer Aktion, die beim Ausspielen einer Ereignis- oder Gemeinschaftskarte ausgef"uhrt werden kann
+\item Beinhaltet die Straßeninformationen die nicht durch den Spielstatus verändert werden.
 \item Methoden
 \begin{itemize}
-\item boolean execute(GameState state)
-\\f"uhrt eine Aktion aus, welche den Spielstatus verändern kann
+\item int getId()
+\\Die Id des Feldes
+\item String getName()
+\\Der Name des Feldes
+\item int getPosition()
+\\Die Position des Feldes
+\item Color getColor()
+\\Die Farbe der Stra"sengruppe (optisch) und damit auch die Zuordnung zu einer Gruppe
+\item int getPrice()
+\\Die Kosten des Feldes
+\item int getLevelPayment(int level)
+\\Die Mietkosten je nach Gebäudelevel
+\item Image getImage()
+\\Das Bild des Feldes
+\item boolean execute(int player)
+\\Die Aktion wenn eine Spieler auf diesem Feld landet
+\item boolean passTrough(int player)
+\\Die Aktion wenn eine Spieler über dieses Feld marschiert oder auf ihm landet
 \end{itemize}
 \end{itemize}
-\end{itemize} 
+
 
 %SERVER
 \subsection{Server}
@@ -614,8 +721,9 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \begin{itemize}
 %Remote
 \item Remote
-\item IServer
+\item NetOjim
 \begin{itemize}
+\item erweitert das IServer interface 
 \item Hier werden alle Methoden zur Verf"ugung gestellt, die das Server Objekt auf Seite des Clienten aufrufen kann
 \end{itemize}
 \item Serializable
@@ -627,13 +735,13 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \item UnicastRemoteObject
 \begin{itemize}
 \item Registriert das zu fernaufrufende Objekt bei der RMI Verwaltung
-\item Verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
+\item verwaltet die "Ubertragung des zu fernaufrufenden Objekts zur Java Virtual Machine des Clients.
 \end{itemize}
 \item ImplBuffer
 \begin{itemize}
 \item erweitert die Klasse UnicastRemoteObject
 \item implementiert das Interface IServer
-\item Implementiert das Interface Serializable
+\item implementiert das Interface Serializable
 \\Um das komplette Objekt als Parameter f"ur die RMI-Aufrufe zu "ubertragen benutzen wir Object Serialization 
 \end{itemize}
 \item BufferServer
@@ -677,7 +785,7 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \\Trennt die Verbindung eines Clienten zum Server und schickt dem Clienten eine Nachricht
 \item boolean connectionLost(int playerID)
 \\"Uberpr"uft ob die Verbindung zu einem Clienten unterbrochen ist
-\item boolean sendIServer(MyServer server)
+\item boolean sendIServer(OjimServer server)
 \\"Uberreicht dem Clienten ein IServer Objekt
 \item ServerDetails getServerDetails()
 \item addClient(ClientDetails client)
