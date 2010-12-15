@@ -465,17 +465,30 @@ Speichert den Spielstand nach \textit{path}. Ist das Speichern erfolgreich, wird
 \item Attribute
 \begin{itemize}
 \item int id
-\item Color Color
-\item string name
+
+Die eindeutige Spieler-ID
+\item Color color
+
+Die Farbe des Spielers
+\item String name
+
+Der Name des Spielers
 \item int possition
+
+Die aktuelle Position des Spielers
 \item int cash
+
+Der aktuelle Geldbetrag des Spielers
 \item int getOutOfJailCardsCount
+
+Die Anzahl der "`Gehe aus dem Gefängnis"'-Karten des Spielers
 \end{itemize}
 \item Methoden
 \begin{itemize}
-\item boolean isValid()
-\\sind alle Attribute des Spielers g"ultig?
-\item void move()
+\item Spieler(int id, int cash, String name)
+
+Konstruktur. Für die Argumente siehe \textit{Attribute}
+\item getID
 \\ \textcolor{red}{Hinzufügt von Fabian}
 \end{itemize}
 \end{itemize}
