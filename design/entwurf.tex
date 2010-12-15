@@ -655,25 +655,24 @@ Attribute:
 \item int id
 
 Eindeutige ID des Spielfeldes
-\item int ownedByPlayer
+\item int owner
 
-ID des Players. Ist die ID $<= 0$, so gehört das Feld der Bank.
+ID des Players, der das Feld besitzt. Ist die ID $<= 0$, so gehört das Feld der Bank.
 \item boolean turnedAround
 
 Gibt an, ob eine Hypothek auf dem Feld ist.
-
 \end{itemize}
-
 Methoden:
 \begin{itemize}
-\item int getId()
-\item boolean buy()
-\item boolean turnAround()
-\item boolean isTurnedAround()
-\item boolean isValid()
-\item void action()
-\\ \textcolor{red}{Hinzufügt von Fabian} Führt die Aktion des Feldes aus.
+\item void buy(int player)
 
+Setzt \textit{owner} auf \textit{player}
+\item void turnAround()
+
+Setzt oder löscht eine Hypothek
+\item boolean isTurnedAround()
+
+Gibt zurück, ob eine Hypothek auf dem Feld ist
 \end{itemize}
 
 %Straße
@@ -687,25 +686,55 @@ Verwendet:
 
 Attribute:
 \begin{itemize}
-\item int ownerPlayerID
-\item StreetGroup group
-\\Die Stra"sengruppen, der die Stra"se angeh"ort
 \item int buildLevel
-\\wie viele H"auser stehen auf der Stra"se?
+
+Gibt die aktuelle Ausbaustufe an
 \end{itemize}
 
 Methoden:
 \begin{itemize}
-\item void construct()
-\\ \textcolor{red}{Hinzufügt von Fabian}
-\item int getLevel()
-\item int upgrade(int level)
+\item void upgrade(int level);
+
+Erhöht die Ausbaustufe auf \textit{level}
 \end{itemize}
 %Street end
+\item Chat
+Dient zum Versenden von Nachrichten an alle Spieler.
 
 
+Attribute:
 
+keine
+
+
+Methoden:
+\begin{itemize}
+\item void addMessage(int player, String message)
+
+Gibt die Nachricht \textit{message} des Spielers \textit{player} weiter.
 \end{itemize}
+
+\item Card
+
+Klasse der Karten
+
+
+Attribute:
+\begin{itemize}
+\item int id
+
+Eindeutige ID der Karte
+\item int owner
+
+ID des Eigentümers der Karte
+\end{itemize}
+Methoden:
+
+
+keine
+\end{itemize}
+
+
 
 %SPIELREGELN
 \subsection{Spielregeln}
