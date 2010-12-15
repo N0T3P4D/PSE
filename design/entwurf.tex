@@ -554,8 +554,9 @@ Die Anzahl der "`Gehe aus dem Gefängnis"'-Karten des Spielers
 \item Spieler(int id, int cash, String name)
 
 Konstruktur. Für die Argumente siehe \textit{Attribute}
-\item getID
-\\ \textcolor{red}{Hinzufügt von Fabian}
+\item void addCash(int cash)
+
+Fügt dem Spieler den Geldbetrag \textit{cash} hinzu.
 \end{itemize}
 \end{itemize}
 
@@ -566,8 +567,15 @@ Dies Klasse beschreibt ein Spielfeld in Monopoly.
 Attribute:
 \begin{itemize}
 \item int id
+
+Eindeutige ID des Spielfeldes
 \item int ownedByPlayer
+
+ID des Players. Ist die ID $<= 0$, so gehört das Feld der Bank.
 \item boolean turnedAround
+
+Gibt an, ob eine Hypothek auf dem Feld ist.
+
 \end{itemize}
 
 Methoden:
