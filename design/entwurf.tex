@@ -11,7 +11,7 @@
 \usepackage[colorlinks=true,linkcolor=black]{hyperref}
 \usepackage[pdftex]{graphicx}
 \usepackage{geometry}
-\geometry{top=0cm,bottom=0cm,left=0cm,right=0cm,nohead,nofoot}
+%\geometry{top=0cm,bottom=0cm,left=0cm,right=0cm,nohead,nofoot}
 
 
 \title{Entwurf}
@@ -1021,13 +1021,14 @@ Sobald ein Client sich auf einen (laufenden) Server verbinden will, müssen folg
 \item Der (menschliche) Spieler gibt die IP-Addresse über ein Textfeld ein, der AIClient bekommt diese als Argument beim Starten übergeben
 \item Der Client wird entweder direkt dem Server hinzugefügt (ein IClient-Objekt wird dem Server übergeben und ein IServer-Objekt dem Clienten) oder über das Netzwerk verbunden
 \item Der Server fügt den Spieler seiner Spielerliste hinzu und initialisiert dessen Zustand
-\includegraphics{client_verbinden} 
+\includegraphics[width=0.97\textwidth]{client_verbinden} 
 \end{enumerate}
 \includegraphics[width=0.97\textwidth]{client_verbinden}
 
 \subsection{Beispielhafte Spielzüge}
-\includegraphics[width=0.97\textwidth]{bankrott_gehen}
-\includegraphics[width=0.97\textwidth]{Ereigniskarte}
+\includegraphics[angle = 90, height=0.97\textheight]{bankrott_gehen}
+\newpage
+\includegraphics[angle = 90,height=0.97\textheight]{Ereigniskarte}
 
 
 \subsection{KI-Client-Zug}
