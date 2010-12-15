@@ -455,12 +455,11 @@ Alle Elemente, die den derzeitigen Zustand des Spiels beschreiben (z.B. Geldst"a
 \item Beschreibt einen Spieler aus Sicht des Spielstands
 \item Attribute
 \begin{itemize}
-\item int playerID
-\item Color playerColor
-\item string playerName
+\item int id
+\item Color Color
+\item string name
 \item int possition
 \item int cash
-\item Street[] streets
 \item int getOutOfJailCardsCount
 \end{itemize}
 \item Methoden
@@ -609,7 +608,7 @@ Der Server verbindet mehrere Clienten in einem Spiel. Er ist die zentrale Stelle
 
 \subsection{Netzwerk}
 Das Netzwerk stellt die Verbindung zwischen dem Client und dem Server dar, dabei ist es m"oglich das sich die Spieler in einem lokalen
-Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Machine arbeiten und am Spiel teilnehmen. Damit der Client Anfragen an den Server schicken kann, die die Ausf"uhrung von Methoden und die R"uckgabe von Ergebnissen beinhalten, verwenden wir den RMI (Remote Method Invocation) Mechanismus , der uns das entfernte Aufrufen von Methoden erlaubt. Die Verbindung von Client und Server wird durch Stellvertreterobjekte(engl. proxies) realisiert. Auf Seite des Clients wird ein Stellvertreter (Stub) des entfernten Objekts (Skeleton) erzeugt, welcher die Daten die "ubermittelt werden kapselt und diese in Form von Nachrichten an den Server "ubermittelt. Die Daten beinhalten unteranderem die zu ausf"uhrende Methode inklusive R"uckgabetyp und alle Parameter.   
+Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Machine arbeiten und am Spiel teilnehmen. Damit der Client Anfragen an den Server schicken kann, die die Ausf"uhrung von Methoden und die R"uckgabe von Ergebnissen beinhalten, verwenden wir den RMI (Remote Method Invocation) Mechanismus , der uns das entfernte Aufrufen von Methoden erlaubt. Die Verbindung von Client und Server wird durch Stellvertreterobjekte(engl. proxies) realisiert. Auf Seite des Clients wird ein Stellvertreter (Stub) des entfernten Objekts (Skeleton) erzeugt, welcher die Daten die "ubermittelt werden kapselt und diese in Form von Nachrichten an den Server "ubermittelt. Die Daten beinhalten unteranderem die zu ausf"uhrende Methode inklusive R"uckgabetyp und alle Parameter. Durch den RMI-Compiler ist es m"oglich die ben"otigten Stubs und Skeletons zu erzeugen. Damit von au"sen keine unberechtigten Zugriffe auf den Server erfolgen, werden Regeln in einer lokal zug"anglichen Datei erstellt und vom RMI Security Manager verwaltet.    
   
 \subsubsection{Interfaces}
 \begin{itemize}
@@ -617,7 +616,7 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \item Remote
 \item IServer
 \begin{itemize}
-\item Hier werden alle Methoden zur Verf"ugung gestellt, die das Server Objekt auf Seite des Clients aufrufen kann
+\item Hier werden alle Methoden zur Verf"ugung gestellt, die das Server Objekt auf Seite des Clienten aufrufen kann
 \end{itemize}
 \item Serializable
 \end{itemize}
@@ -634,19 +633,19 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \begin{itemize}
 \item erweitert die Klasse UnicastRemoteObject
 \item implementiert das Interface IServer
+\item Implementiert das Interface Serializable
+\\Um das komplette Objekt als Parameter f"ur die RMI-Aufrufe zu "ubertragen benutzen wir Object Serialization 
 \end{itemize}
 \item BufferServer
+\begin{itemize}
+\item Verwaltet das Remote Objekt das f"ur den Clienten bereit steht  
+\end{itemize}
 \begin {itemize}
 \item Methoden
 \begin{itemize}
 \item createBufferServer()
+\\Meldet das Remote Objekt bei der RMI Registry an und sorgt daf"ur das dieses "uber das Netzwerk unter einen bestimmten Namen ansprechbar ist
 \end{itemize}
-\end{itemize}
-
-
-\item RemoteObject
-\begin{itemize}
-\item Implementiert das Interface Serializable
 \end{itemize}
 \item Socket
 \begin{itemize}
@@ -675,9 +674,9 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \item boolean cut (int playerID)
 \\Trennt die Verbindung eines Clienten zum Server
 \item boolean cut (int playerID, string message)
-\\Trennt die Verbindung eines Clienten zum Server und "ubergibt dabei dem Clienten eine Nachricht
+\\Trennt die Verbindung eines Clienten zum Server und schickt dem Clienten eine Nachricht
 \item boolean connectionLost(int playerID)
-\\"Uberpr"uft ob die Verbindung zu einem Clienten unterbrochen worden ist
+\\"Uberpr"uft ob die Verbindung zu einem Clienten unterbrochen ist
 \item boolean sendIServer(MyServer server)
 \\"Uberreicht dem Clienten ein IServer Objekt
 \item ServerDetails getServerDetails()
@@ -737,10 +736,6 @@ Netzwerk befinden als auch "uber das Internet in einer anderen Java Virtual Mach
 \item disconnect() 
 \\Unterbricht die Verbindung des Clienten zum Server
 \end{itemize}
-\end{itemize}
-\item RemoteObject
-\begin{itemize}
-\item Implementiert das Interface Serializable
 \end{itemize}
 \item BufferClient
 \begin{itemize}
