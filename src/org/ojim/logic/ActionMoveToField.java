@@ -5,7 +5,7 @@ public class ActionMoveToField implements Action {
 	private Field[] fields;
 	private State state;
 	
-	public ActionMoveToField(State state, Field[] fields) {
+	public ActionMoveToField(State state, Field... fields) {
 		this.state = state;
 		this.fields = fields;
 	}
