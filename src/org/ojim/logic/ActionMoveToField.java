@@ -5,6 +5,12 @@ public class ActionMoveToField implements Action {
 	private Field[] fields;
 	private State state;
 	
+	/**
+	 * Erstellt eine Aktion die bei Ausführungs sich zum nächsten Feld.
+	 * 
+	 * @param state Spielzustand.
+	 * @param fields Die Zielfelder.
+	 */
 	public ActionMoveToField(State state, Field... fields) {
 		this.state = state;
 		this.fields = fields;
@@ -12,6 +18,10 @@ public class ActionMoveToField implements Action {
 	
 	@Override
 	public void execute() {
+		ActionMoveToField.execute(state, fields);
+	}
+	
+	public static void execute(State state, Field... fields) {
 		// Das Field suchen, was am nächsten ist
 		
 		/*
