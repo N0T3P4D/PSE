@@ -350,16 +350,19 @@ Setzt einen vorhanden IServer als entsprechendes Server-Objekt.
 \item ValuationFunction
 
 Das Interface "`ValuationFunction"' dient zur Beschreibung der Bewertungsfunktionen, die aus dem Paper von Frayn übernommen wurden. Das Interface stellt allen Funktionen jeweils eine Instanz der Spielregeln und des Spielzustands zur Verfügung. Durch diese können die Bewertungsfunktionen auf alle Informationen zugreifen.
-Die statische und öffentliche Methode "`returnValuation"', die von den implementierenden Klassen bereitgestellt wird, gibt die Bewertung des möglichen Spielzugs als Gleitkommaahl zurück.
+Die statische und öffentliche Methode "`returnValuation"', die von den implementierenden Klassen bereitgestellt wird, gibt die Bewertung des möglichen Spielzugs als Gleitkommaahl zurück. Die Bewertungsfunktionen sind \textit{Singletons}.
+\item Command
+
+Zur Ausführung des am besten bewerteten Spielzugs wird das Entwurfsmuster "`Befehl"' verwendet. Das Interface "`Command"' stellt das Grundgerüst für die Befehle dar.
 \end{itemize}
 \subsubsection{Klassen}
 \begin{itemize}
 \item AiClient
 
-Diese Klasse erbt vom Client-Grundgerüst und implementiert die dort vorgegebenen abstrakten Methoden. Die möglichen Spielzüge werden von der Klasse "`Valuator"' bewertet und der beste von AiClient ausgeführt.
+Diese Klasse erbt vom Client-Grundgerüst und implementiert die dort vorgegebenen (abstrakten) Methoden.
 \item Valuator
 
-Diese Klasse bewertet die möglichen Spielzüge. Der Spielzug mit der besten Bewertung wird an AiClient zurückgegeben und ausgeführt.
+Diese Klasse bewertet die möglichen Spielzüge, die in dieser Klasse auch bestimmt werden. Der Spielzug mit der besten Bewertung wird an \textit{AiClient} als Befehls-Objekt zurückgegeben und dort ausgeführt.
 In der Klassenvariable "`weights"' sind die einzelnen, noch zu bestimmenden Gewichte der einzelnen Bewertungsfunktionen gespeichert, die zusammen die Gesamtbewertung ergeben.
 \item ValuationParameters
 
@@ -375,13 +378,35 @@ Dient zum Bewerten von Objektgruppen, insbesondere also aller Straßen gleicher 
 Bewertet das Bauen von Häusern, Hotels, etc.
 \item PrisonValuator
 
-Befindet sich der KI-Client im Gefängnis, entscheidet diese Klasse, ob Freikaufen rentabel ist. Es kann auch das Kaufen einer "`Gehe aus dem Gefängnis"'-Karte geprüft werden.
+Befindet sich der KI-Client im Gefängnis, entscheidet diese Klasse, ob Freikaufen rentabel ist.
 \item MortgageValuator
 
-Dient zum Bewerten von Hypotheken
+Dient zum Bewerten von Hypotheken.
 \item CapitalValuator
 
 Es ist laut Paper empfehlenswert, immer eine Mindestmenge Geld zu besitzen.
+\item OutOfPrisonCommand
+
+Sofern es sinnvoll ist, sich aus dem Gefängnis freizukaufen, wird eine Instanz dieser Klasse zurückgegeben
+\item BuyPropertyCommand
+
+Soll eine Straße etc. gekauft werden, wird dies von diesem Befehl übernommen.
+
+\item DeclineCommand
+
+Soll die Spielmöglichkeit nicht durchgeführt werden, wird ein \textit{DeclineCommand}-Objekt zurückgegeben
+
+\item MortgageCommand
+
+Dient zum Aufnehmen von Hypotheken
+
+\item AuctionCommand
+
+Dient zum Starten und Teilnehmen an einer Auktion
+
+\item TradeCommand
+
+Dient zur Teilnahme oder Initiierung eines Handels
 \end{itemize}
 
 
@@ -1035,7 +1060,8 @@ Grundsätzlich baut der KI-Client auf der gleichen Klasse (\textit{ClientBase}) 
 
 Die Arbeitsweise des KI-Clients orientiert sich an dem Paper von \textit{Frayn} und der Vorlesung zu dem Thema. Es stehen sechs einzelne Berwertungsfunktionen zur Verfügung (siehe Klassendiagramm), die von einer Gesamt-Bewertungsfunktion aufgerufen und gewichtet werden. Der Ablauf eines Zuges sieht folgendermaßen aus:
 \begin{enumerate}
-\item Prüfen, welche Spielzüge der KI-Client machen kann
+\item Aufrufen der \textit{returnBestCommand}-Methode von \textit{valuator}
+\item Dieser überprüft anhand des übergebenen 
 \item Übergeben jedes möglichen Spielzug an die Gesamt-Bewertungsfunktion. Diese ruft (falls passend) die einzelnen Bewertungsfunktionen auf, die abhängig vom aktuellen Spielzustand den möglichen Zug bewerten. Von allen möglichen Zügen wird derjenige mit der besten Bewertung ausgeführt.
 \end{enumerate}
 Beispiel-Zug:\\
