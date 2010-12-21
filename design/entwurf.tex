@@ -354,7 +354,7 @@ Das Interface "`ValuationFunction"' dient zur Beschreibung der Bewertungsfunktio
 Die statische und öffentliche Methode "`returnValuation"', die von den implementierenden Klassen bereitgestellt wird, gibt die Bewertung des möglichen Spielzugs als Gleitkommaahl zurück. Die Bewertungsfunktionen sind \textit{Singletons}.
 \item Command
 
-Zur Ausführung des am besten bewerteten Spielzugs wird das Entwurfsmuster "`Befehl"' verwendet. Das Interface "`Command"' stellt das Grundgerüst für die Befehle dar.
+Zur Ausführung des am besten bewerteten Spielzugs wird das Entwurfsmuster "`Befehl"' verwendet. Das Interface "`Command"' stellt das Grundgerüst für die Befehle dar. Die zu implementierende Methode \textit{execute()} dient zur eigentlichen Befehlsausführung.
 \end{itemize}
 \subsubsection{Klassen}
 \begin{itemize}
@@ -1111,4 +1111,7 @@ Das Klassendiagramm befindet sich als \textit{pdf}-Datei in "`class\_diagram.pdf
 \section{Weitere Informationen}
 Ein Teil der Beschreibungen der Methoden aus \textit{IServer, IServerTrade} und \textit{IServerAuction} stammen von Daniel Bruns.
 \section{Änderungen zwischen Version 1.0 und 1.1}
+\begin{itemize}
+\item KI-Client: Verwenden der Entwurfsmuster "`Befehl"' und "`Singleton"'
+\end{itemize}
 \end{document}
