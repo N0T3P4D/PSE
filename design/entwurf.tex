@@ -346,13 +346,13 @@ Setzt einen vorhanden IServer als entsprechendes Server-Objekt.
 
 %KI-CLIENT
 \subsection{KI-Client}
-\subsubsection{Interfaces}
+\subsubsection{Interfaces, abstrakte Klassen}
 \begin{itemize}
-\item ValuationFunction
+\item ValuationFunction (abstrakte Klasse)
 
 Das Interface "`ValuationFunction"' dient zur Beschreibung der Bewertungsfunktionen, die aus dem Paper von Frayn übernommen wurden. Das Interface stellt allen Funktionen jeweils eine Instanz der Spielregeln und des Spielzustands zur Verfügung. Durch diese können die Bewertungsfunktionen auf alle Informationen zugreifen.
 Die statische und öffentliche Methode "`returnValuation"', die von den implementierenden Klassen bereitgestellt wird, gibt die Bewertung des möglichen Spielzugs als Gleitkommaahl zurück. Die Bewertungsfunktionen sind \textit{Singletons}.
-\item Command
+\item Command (Interface)
 
 Zur Ausführung des am besten bewerteten Spielzugs wird das Entwurfsmuster "`Befehl"' verwendet. Das Interface "`Command"' stellt das Grundgerüst für die Befehle dar. Die zu implementierende Methode \textit{execute()} dient zur eigentlichen Befehlsausführung.
 \end{itemize}
