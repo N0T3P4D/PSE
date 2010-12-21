@@ -16,6 +16,7 @@ rules:Ruleset
 server:Server[r]
 aiClient:ClientBase[p]
 oldClient:ClientBase[p]
+command:BuyPropertyCommand
 valuator:Valuator
 gameLogic:GameLogic
 gameRules:GameRules
@@ -61,8 +62,12 @@ valuator:gameRules.getFieldRule(int id)&
 valuator:valuator.valuate()
 valuator:propertyValuator.returnValuation(GameField fieldRule)&
 valuator[2]:&
-valuator:aiClient.return
+valuator:aiClient.return new BuyPropertyCommand
 valuator:stop
+aiClient:command.execute()
+command:aiClient.accept()
+command:stop
+
 [/c]
 [c buy Street]
 aiClient:server.accept/cancel()
