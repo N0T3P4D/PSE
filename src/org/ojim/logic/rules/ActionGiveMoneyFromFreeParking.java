@@ -1,5 +1,7 @@
 package org.ojim.logic.rules;
 
+import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.state.FreeParking;
 import org.ojim.logic.state.GameState;
 
 public class ActionGiveMoneyFromFreeParking implements Action {
@@ -16,7 +18,8 @@ public class ActionGiveMoneyFromFreeParking implements Action {
 	}
 	
 	public static void execute(GameState state) {
-		//TODO: Implement action!
+		FreeParking field = null;
+		Bank.exchangeMoney(field, state.getActivePlayer(), field.getMoneyInPot());
 	}
 
 }
