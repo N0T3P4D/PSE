@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.ojim.client.ai.AIClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
+import org.ojim.logic.state.GameState;
 
 import edu.kit.iti.pse.iface.IServer;
 import edu.kit.iti.pse.iface.IServerAuction;
@@ -275,7 +276,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if(playerID >= this.connectedClients) {
 			return -1;
 		}
-		return ;
+		return 0;
 	}
 
 	@Override

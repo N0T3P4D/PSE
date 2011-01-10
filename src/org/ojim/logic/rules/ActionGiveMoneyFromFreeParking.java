@@ -1,12 +1,12 @@
 package org.ojim.logic.rules;
 
-import org.ojim.logic.State;
+import org.ojim.logic.state.GameState;
 
 public class ActionGiveMoneyFromFreeParking implements Action {
 
-	private final State state;
+	private final GameState state;
 	
-	public ActionGiveMoneyFromFreeParking(State state) {
+	public ActionGiveMoneyFromFreeParking(GameState state) {
 		this.state = state;
 	}
 	
@@ -15,7 +15,7 @@ public class ActionGiveMoneyFromFreeParking implements Action {
 		ActionGiveMoneyFromFreeParking.execute(this.state);
 	}
 	
-	public static void execute(State state) {
+	public static void execute(GameState state) {
 		//TODO: Implement action!
 	}
 

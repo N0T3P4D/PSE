@@ -1,14 +1,14 @@
 package org.ojim.logic.rules;
 
-import org.ojim.logic.State;
+import org.ojim.logic.state.GameState;
 
 public class ActionPayForBuildings implements Action {
 
 	private int costForEachHouse;
 	private int costForEachHotel;
-	private final State state;
+	private final GameState state;
 	
-	public ActionPayForBuildings(State state, int costForEachHouse, int costForEachHotel) {
+	public ActionPayForBuildings(GameState state, int costForEachHouse, int costForEachHotel) {
 		this.costForEachHouse = costForEachHouse;
 		this.costForEachHotel = costForEachHotel;
 		this.state = state;
@@ -19,7 +19,7 @@ public class ActionPayForBuildings implements Action {
 		ActionPayForBuildings.execute(this.state, this.costForEachHouse, this.costForEachHotel);
 	}
 	
-	public static void execute(State state, int costForEachHouse, int costForEachHotel) {
+	public static void execute(GameState state, int costForEachHouse, int costForEachHotel) {
 		//TODO: Implement action!
 	}
 

@@ -1,8 +1,7 @@
-package org.ojim.logic;
+package org.ojim.logic.state;
 
-import org.ojim.logic.state.Player;
 
-public class State {
+public class GameState {
 
 	//TODO: Add possibility to return the number of fields.
 	public int getNumberOfFields() {

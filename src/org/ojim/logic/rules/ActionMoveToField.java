@@ -1,12 +1,12 @@
 package org.ojim.logic.rules;
 
-import org.ojim.logic.State;
 import org.ojim.logic.state.Field;
+import org.ojim.logic.state.GameState;
 
 public class ActionMoveToField implements Action {
 
 	private Field[] fields;
-	private State state;
+	private GameState state;
 
 	/**
 	 * Erstellt eine Aktion die bei Ausführungs sich zum nächsten Feld.
@@ -16,7 +16,7 @@ public class ActionMoveToField implements Action {
 	 * @param fields
 	 *            Die Zielfelder.
 	 */
-	public ActionMoveToField(State state, Field... fields) {
+	public ActionMoveToField(GameState state, Field... fields) {
 		this.state = state;
 		this.fields = fields;
 	}
@@ -26,7 +26,7 @@ public class ActionMoveToField implements Action {
 		ActionMoveToField.execute(state, fields);
 	}
 
-	public static void execute(State state, Field... fields) {
+	public static void execute(GameState state, Field... fields) {
 		// Das Field suchen, was am nächsten ist
 		int playerPos = (int) (Math.random() * state.getNumberOfFields());
 		// TODO: Get position of the player.

@@ -1,13 +1,13 @@
 package org.ojim.logic.rules;
 
-import org.ojim.logic.State;
+import org.ojim.logic.state.GameState;
 
 public class ActionTransferMoneyToBank implements Action {
 
 	private int amount;
-	private final State state;
+	private final GameState state;
 	
-	public ActionTransferMoneyToBank(State state, int amount) {
+	public ActionTransferMoneyToBank(GameState state, int amount) {
 		this.amount = amount;
 		this.state = state;
 	}
@@ -17,7 +17,7 @@ public class ActionTransferMoneyToBank implements Action {
 		ActionTransferMoneyToBank.execute(state, this.amount);
 	}
 	
-	public static void execute(State state, int amount) {
+	public static void execute(GameState state, int amount) {
 		//TODO: Implement action!
 	}
 

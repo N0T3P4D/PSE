@@ -1,12 +1,12 @@
 package org.ojim.logic.rules;
 
-import org.ojim.logic.State;
 import org.ojim.logic.state.BuyableField;
+import org.ojim.logic.state.GameState;
 
 public class ActionGetFieldRent implements Action {
 
 	private BuyableField field;
-	private State state;
+	private GameState state;
 	
 	/**
 	 * Erstellt eine Aktion die die Miete eines Feldes bezahlt.
@@ -14,7 +14,7 @@ public class ActionGetFieldRent implements Action {
 	 * @param state Spielzustand.
 	 * @param fields Das Feld für das die Miete eingezogen wird.
 	 */
-	public ActionGetFieldRent(State state, BuyableField field) {
+	public ActionGetFieldRent(GameState state, BuyableField field) {
 		this.state = state;
 		this.field = field;
 	}
@@ -24,7 +24,7 @@ public class ActionGetFieldRent implements Action {
 		ActionMoveToField.execute(state, field);
 	}
 	
-	public static void execute(State state, BuyableField field) {
+	public static void execute(GameState state, BuyableField field) {
 		field.payRent(state.getActivePlayer());
 	}
 

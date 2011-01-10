@@ -1,13 +1,13 @@
 package org.ojim.logic.rules;
 
-import org.ojim.logic.State;
+import org.ojim.logic.state.GameState;
 
 public class ActionMoveForward implements Action {
 
 	private int steps;
-	private final State state;
+	private final GameState state;
 	
-	public ActionMoveForward(State state, int steps) {
+	public ActionMoveForward(GameState state, int steps) {
 		this.steps = steps;
 		this.state = state;
 	}
@@ -17,7 +17,7 @@ public class ActionMoveForward implements Action {
 		ActionMoveForward.execute(this.state, this.steps);
 	}
 	
-	public static void execute(State state, int steps) {
+	public static void execute(GameState state, int steps) {
 		//TODO: Implement action!
 	}
 
