@@ -4,6 +4,11 @@ import org.ojim.logic.accounting.IMoneyPartner;
 
 public class FreeParking extends Field implements IMoneyPartner {
 
+	public FreeParking(String name, int position) {
+		super(name, position);
+		// TODO Auto-generated constructor stub
+	}
+
 	private int moneyInPot;
 	
 	public int getMoneyInPot() {

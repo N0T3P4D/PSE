@@ -4,6 +4,17 @@ import org.ojim.logic.accounting.Bank;
 
 public class BuyableField extends Field {
 
+	private FieldGroup fieldGroup;
+	
+	public BuyableField(String name, int position) {
+		super(name, position);
+		// TODO Auto-generated constructor stub
+	}
+	
+	public void setFieldGroup(FieldGroup fieldGroup) {
+		this.fieldGroup = fieldGroup;
+	}
+
 	private Player owner;
 	
 	public int getRent() {
