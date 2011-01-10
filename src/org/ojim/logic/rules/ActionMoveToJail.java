@@ -1,13 +1,13 @@
 package org.ojim.logic.rules;
 
-import org.ojim.logic.State;
 import org.ojim.logic.state.Field;
+import org.ojim.logic.state.GameState;
 
 public class ActionMoveToJail implements Action {
 
-	private final State state;
+	private final GameState state;
 	
-	public ActionMoveToJail(State state) {
+	public ActionMoveToJail(GameState state) {
 		this.state = state;
 	}
 	
@@ -16,7 +16,7 @@ public class ActionMoveToJail implements Action {
 		ActionMoveToJail.execute(state);
 	}
 	
-	public static void execute(State state) {
+	public static void execute(GameState state) {
 		Field jail = null;
 		// jail = state.getJail() ...?!
 		ActionMoveToField.execute(state, jail);
