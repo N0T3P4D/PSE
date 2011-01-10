@@ -18,12 +18,10 @@ public class ActionTransferMoneyToPlayers implements Action {
 		ActionTransferMoneyToPlayers.execute(this.state, this.amount);
 	}
 	
-	public static void execute(GameState state, int amount) {
-		//TODO: Finish action!
-		
+	public static void execute(GameState state, int amount) {		
 		// Get all players:
 		Player activePlayer = state.getActivePlayer();
-		Player[] players = new Player[] { new Player(), activePlayer };
+		Player[] players = state.getPlayers();
 		
 		// Lets get everybody the money
 		for (Player player : players) {

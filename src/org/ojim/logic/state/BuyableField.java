@@ -1,5 +1,7 @@
 package org.ojim.logic.state;
 
+import org.ojim.logic.accounting.Bank;
+
 public class BuyableField extends Field {
 
 	private Player owner;
@@ -14,7 +16,7 @@ public class BuyableField extends Field {
 	 */
 	public void payRent(Player player) {
 		if (!this.owner.equals(player)) {
-			Player.exchangeMoney(player, this.owner, this.getRent());
+			Bank.exchangeMoney(player, this.owner, this.getRent());
 		}
 	}
 	

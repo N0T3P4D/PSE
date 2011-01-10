@@ -1,8 +1,10 @@
 package org.ojim.logic.state;
 
-import org.ojim.iface.Rules;
+import org.ojim.logic.accounting.IMoneyPartner;import org.ojim.logic.rules.Card;
+import java.util.ArrayList;
+import java.util.List;
 
-public class Player {
+public class Player implements IMoneyPartner{
 
 	/**
 	 * Name to identify the player
@@ -24,6 +26,12 @@ public class Player {
 	 */
 	private int id;
 
+	private List<Card> cards;
+	
+	public Player() {
+		this.cards = new ArrayList<Card>(2);
+	}
+	
 	/**
 	 * Is the Player ready to start the Game
 	 */
@@ -76,23 +84,6 @@ public class Player {
 	
 	public int getBalance() {
 		return this.balance;
-	}
-
-	/**
-	 * Transfers the money amount from player1 to player2. Information: If the
-	 * amount is negative the player1 will get cash and the player2 has to pay
-	 * it.
-	 * 
-	 * @param player1
-	 *            The money of this player will be decreased my the amount.
-	 * @param player2
-	 *            The money of this player will be increased my the amount.
-	 * @param amount
-	 *            The money amount.
-	 */
-	public static void exchangeMoney(Player player1, Player player2, int amount) {
-		player1.transferMoney(-amount);
-		player2.transferMoney(amount);
 	}
 
 }

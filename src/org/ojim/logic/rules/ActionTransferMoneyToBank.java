@@ -1,5 +1,6 @@
 package org.ojim.logic.rules;
 
+import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 
@@ -19,8 +20,7 @@ public class ActionTransferMoneyToBank implements Action {
 	}
 
 	public static void execute(GameState state, int amount) {
-		Player activePlayer = state.getActivePlayer();
-		activePlayer.transferMoney(-amount);
+		Bank.exchangeMoney(state.getActivePlayer(), state.getBank(), amount);
 	}
 
 }

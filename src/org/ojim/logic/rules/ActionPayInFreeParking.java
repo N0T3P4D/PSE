@@ -1,6 +1,7 @@
 package org.ojim.logic.rules;
 
-import org.ojim.logic.state.Player;
+import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.state.FreeParking;
 import org.ojim.logic.state.GameState;
 
 public class ActionPayInFreeParking implements Action {
@@ -19,7 +20,10 @@ public class ActionPayInFreeParking implements Action {
 	}
 	
 	public static void execute(GameState state, int amount) {
-		//TODO: Implement action!
+		//TODO: Finish action!
+		FreeParking field = null;
+		
+		Bank.exchangeMoney(state.getActivePlayer(), field, amount);
 	}
 
 }
