@@ -5,9 +5,13 @@ import org.ojim.logic.accounting.Bank;
 public class BuyableField extends Field {
 
 	private FieldGroup fieldGroup;
+	private int price;
+	private Player owner;
+	private boolean mortgaged;
 	
-	public BuyableField(String name, int position) {
+	public BuyableField(String name, int position, int price) {
 		super(name, position);
+		this.price = price;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -15,10 +19,20 @@ public class BuyableField extends Field {
 		this.fieldGroup = fieldGroup;
 	}
 
-	private Player owner;
-	
 	public int getRent() {
 		return 42;
+	}
+	
+	public int getPrice() {
+		return this.price;
+	}
+	
+	public boolean isMortgaged() {
+		return this.mortgaged;
+	}
+	
+	public void setMortgaged(boolean mortgaged) {
+		this.mortgaged = mortgaged;
 	}
 	
 	/**
@@ -29,6 +43,10 @@ public class BuyableField extends Field {
 		if (!this.owner.equals(player)) {
 			Bank.exchangeMoney(player, this.owner, this.getRent());
 		}
+	}
+	
+	public FieldGroup getFieldGroup() {
+		return this.fieldGroup;
 	}
 	
 	public Player getOwner() {

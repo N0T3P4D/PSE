@@ -37,7 +37,7 @@ public class ActionPayForBuildings implements Action {
 			if (buyableField instanceof Street) {
 				Street street = (Street) buyableField;
 				//TODO: Magic numbers :P jay
-				costs += (street.getBuildLevel() % 5) * costForEachHouse + (street.getBuildLevel() / 5) * costForEachHotel;
+				costs += (street.getBuiltLevel() % 5) * costForEachHouse + (street.getBuiltLevel() / 5) * costForEachHotel;
 			}
 		}
 		

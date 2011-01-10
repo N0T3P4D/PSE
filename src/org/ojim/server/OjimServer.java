@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.ojim.client.ai.AIClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
+import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -351,14 +352,20 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getEstatePrice(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		Field field = state.getFieldByID(position);
+		if(field instanceof BuyableField) {
+			((BuyableField)field).getPrice();
+		}
+		return -1;
 	}
 
 	@Override
 	public int getEstateRent(int position, int houses) {
-		// TODO Auto-generated method stub
-		return 0;
+		Field field = state.getFieldByID(position);
+		if(field instanceof Street) {
+			((Street)field).getRent(houses);
+		}
+		return -1;
 	}
 
 	@Override
@@ -369,14 +376,20 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean isMortgaged(int position) {
-		// TODO Auto-generated method stub
+		Field field = state.getFieldByID(position);
+		if(field instanceof BuyableField) {
+			return ((BuyableField)field).isMortgaged();
+		}
 		return false;
 	}
 
 	@Override
 	public int getOwner(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		Field field = state.getFieldByID(position);
+		if(field instanceof BuyableField) {
+			return ((BuyableField)field).getOwner().getId();
+		}
+		return -1;
 	}
 
 	@Override
