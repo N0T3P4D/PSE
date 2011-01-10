@@ -1,4 +1,7 @@
-package org.ojim.logic;
+package org.ojim.logic.rules;
+
+import org.ojim.logic.State;
+import org.ojim.logic.state.Field;
 
 public class ActionMoveToField implements Action {
 

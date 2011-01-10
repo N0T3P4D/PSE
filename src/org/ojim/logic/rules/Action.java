@@ -1,4 +1,4 @@
-package org.ojim.logic;
+package org.ojim.logic.rules;
 
 public interface Action {
 	

@@ -1,8 +1,8 @@
 package org.ojim;
 
-import org.ojim.logic.ActionMoveToField;
-import org.ojim.logic.Card;
-import org.ojim.logic.Field;
+import org.ojim.logic.rules.ActionMoveToField;
+import org.ojim.logic.rules.Card;
+import org.ojim.logic.state.Field;
 import org.ojim.logic.State;
 
 /**
