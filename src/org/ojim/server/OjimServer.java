@@ -6,8 +6,10 @@ import java.util.Scanner;
 import org.ojim.client.ai.AIClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
+import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
+import org.ojim.logic.state.Street;
 
 import edu.kit.iti.pse.iface.IServer;
 import edu.kit.iti.pse.iface.IServerAuction;
@@ -110,7 +112,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		
 		//Disconnecting all Clients
 		for(IClient client : clients) {
-			if(client.getName().equals("AIClient")) {
+			if(client instanceof AIClient) {
 				client = null;
 			} else {
 				disconnect(client);
@@ -282,7 +284,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		for(int i = 0; i < maxClients; i++) {
 			if(state.getPlayerByID(i) == null) {
 				this.clients[i] = client;
-				state.setPlayer(i, new Player(client.getName(), 0, state.getRules().startMoney, i));
+				state.setPlayer(i, new Player(client.getName(), 0, state.getRules().startMoney, i, i));
 				return i;
 			}
 		}
@@ -313,27 +315,23 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public String getPlayerName(int player) {
-		// TODO Auto-generated method stub
-		return null;
+	public String getPlayerName(int playerID) {
+		return state.getPlayerByID(playerID).getName();
 	}
 
 	@Override
-	public int getPlayerColor(int player) {
-		// TODO Auto-generated method stub
-		return 0;
+	public int getPlayerColor(int playerID) {
+		return state.getPlayerByID(playerID).getColor();
 	}
 
 	@Override
 	public Rules getRules() {
-		// TODO Auto-generated method stub
-		return null;
+		return state.getRules();
 	}
 
 	@Override
 	public String getEstateName(int position) {
-		// TODO Auto-generated method stub
-		return null;
+		return state.getFieldByID(position).getName();
 	}
 
 	@Override
@@ -344,8 +342,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getEstateHouses(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		Field field = state.getFieldByID(position);
+		if(field instanceof Street) {
+			return ((Street)field).getBuiltLevel();
+		}
+		return -1;
 	}
 
 	@Override

@@ -20,7 +20,7 @@ public class Test {
 		
 		this.cards = new Card[10];
 		for (int i = 0; i < this.cards.length; i++) {  /* Hier kann eine andere Aktion hin, oder mehrere hintereinander */
-			this.cards[i] = new Card("Beispielkarte #" + i, false, new ActionMoveToField(state, new Field()));
+			this.cards[i] = new Card("Beispielkarte #" + i, false, new ActionMoveToField(state, new Field("Test", 1)));
 		}
 	}
 }

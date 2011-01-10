@@ -1,6 +1,7 @@
 package org.ojim.logic.state;
 
-import org.ojim.logic.accounting.IMoneyPartner;import org.ojim.logic.rules.Card;
+import org.ojim.logic.accounting.IMoneyPartner;
+import org.ojim.logic.rules.Card;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -26,6 +27,11 @@ public class Player implements IMoneyPartner{
 	 */
 	private int id;
 
+	/**
+	 * The Color that symbolizes the Player
+	 */
+	private int color;
+	
 	private List<Card> cards;
 	
 	/**
@@ -50,11 +56,12 @@ public class Player implements IMoneyPartner{
 	 * @param balance
 	 * @param id
 	 */	
-	public Player(String name, int position, int balance, int id) {
+	public Player(String name, int position, int balance, int id, int color) {
 		this.name = name;
 		this.position = position;
 		this.balance = balance;
 		this.id = id;
+		this.color = color;
 		this.isReady = false;
 	}
 	
@@ -66,6 +73,10 @@ public class Player implements IMoneyPartner{
 	 */
 	public void transferMoney(int amount) {
 		this.balance += amount;
+	}
+	
+	public int getColor() {
+		return this.color;
 	}
 	
 	public void setIsReady(boolean ready) {
