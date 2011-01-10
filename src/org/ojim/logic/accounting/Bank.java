@@ -16,14 +16,14 @@ public class Bank implements IMoneyPartner {
 	}
 
 	/**
-	 * Transfers the money amount from player1 to player2. Information: If the
-	 * amount is negative the player1 will get cash and the player2 has to pay
+	 * Transfers the money amount from payer to payee. Information: If the
+	 * amount is negative the payer will get cash and the payee has to pay
 	 * it.
 	 * 
-	 * @param player1
-	 *            The money of this player will be decreased my the amount.
-	 * @param player2
-	 *            The money of this player will be increased my the amount.
+	 * @param payer
+	 *            The money of this partner will be decreased my the amount.
+	 * @param payee
+	 *            The money of this partner will be increased my the amount.
 	 * @param amount
 	 *            The money amount.
 	 */
