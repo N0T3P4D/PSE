@@ -26,6 +26,10 @@ public class GameState {
 		return fields[fieldID];
 	}
 	
+	public Player[] getPlayers() {
+		return this.players.clone();
+	}
+	
 	//TODO: Add possibility to return the number of fields.
 	public int getNumberOfFields() {
 		return FIELDS_AMOUNT;

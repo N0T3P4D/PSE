@@ -1,5 +1,10 @@
 package org.ojim.logic.state;
 
+import org.ojim.logic.rules.Card;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Player {
 
 	/**
@@ -17,6 +22,12 @@ public class Player {
 	 */
 	private int id;
 
+	private List<Card> cards;
+	
+	public Player() {
+		this.cards = new ArrayList<Card>(2);
+	}
+	
 	/**
 	 * Transfers the amount of money to the player.
 	 * 
