@@ -21,6 +21,6 @@ public class ActionTransferMoneyToPlayer implements Action {
 	}
 	
 	public static void execute(State state, int amount, Player player) {
-		//TODO: Implement action!
+		Player.exchangeMoney(state.getActivePlayer(), player, amount);
 	}
 }

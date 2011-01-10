@@ -1,6 +1,7 @@
 package org.ojim.logic.rules;
 
 import org.ojim.logic.State;
+import org.ojim.logic.state.Player;
 
 public class ActionTransferMoneyToBank implements Action {
 
@@ -18,7 +19,8 @@ public class ActionTransferMoneyToBank implements Action {
 	}
 	
 	public static void execute(State state, int amount) {
-		//TODO: Implement action!
+		Player activePlayer = state.getActivePlayer();
+		activePlayer.transferMoney(-amount);
 	}
 
 }
