@@ -7,37 +7,50 @@ public class ActionMoveToField implements Action {
 
 	private Field[] fields;
 	private State state;
-	
+
 	/**
 	 * Erstellt eine Aktion die bei Ausführungs sich zum nächsten Feld.
 	 * 
-	 * @param state Spielzustand.
-	 * @param fields Die Zielfelder.
+	 * @param state
+	 *            Spielzustand.
+	 * @param fields
+	 *            Die Zielfelder.
 	 */
 	public ActionMoveToField(State state, Field... fields) {
 		this.state = state;
 		this.fields = fields;
 	}
-	
+
 	@Override
 	public void execute() {
 		ActionMoveToField.execute(state, fields);
 	}
-	
+
 	public static void execute(State state, Field... fields) {
 		// Das Field suchen, was am nächsten ist
-		
-		/*
-		 * nächstesfeld = fields[0]
-		 * für jedes field aus fields 
-		 *   wenn (distanz zwischen mir und field) < (distanz zwischen mir und nächstesfeld) dann
-		 *     nächstesfeld = field 
-		 */
-		
+		int playerPos = (int) (Math.random() * state.getNumberOfFields());
+		// TODO: Get position of the player.
+
+		Field next = fields[0];
+		for (int i = 1; i < fields.length; i++) {
+			/*
+			 * Checks if the distance to the selected field is lower than this
+			 * to the previous determined field.
+			 */
+			if ((fields[i].getPosition() - playerPos + state
+					.getNumberOfFields())
+					% state.getNumberOfFields() < (next.getPosition()
+					- playerPos + state.getNumberOfFields())
+					% state.getNumberOfFields()) {
+				next = fields[i];
+			}
+		}
+
+
 		// Zu diesem Feld dann gehen
 		/*
 		 * movetofield(nächtesfeld)
 		 */
 	}
-	
+
 }
