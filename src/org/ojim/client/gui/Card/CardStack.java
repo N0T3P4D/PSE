@@ -2,7 +2,8 @@ package org.ojim.client.gui.Card;
 
 public class CardStack {
 
-	// hält Cards
+	//xZise: Please encode every non ASCII character (7-bit) as UTF-8!
+	// HÃ¤lt Cards
 	
 	// FIXME: INT
 	public void addCard(int cardId){
