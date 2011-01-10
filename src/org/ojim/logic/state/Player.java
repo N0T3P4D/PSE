@@ -2,8 +2,19 @@ package org.ojim.logic.state;
 
 public class Player {
 
+	/**
+	 * Name to identify the player
+	 */
 	private String name;
+	
+	/**
+	 * Amount of Cash the Player possesses
+	 */
 	private int balance;
+	
+	/**
+	 * The ID of the Player
+	 */
 	private int id;
 
 	/**
@@ -22,6 +33,10 @@ public class Player {
 	
 	public int getId() {
 		return this.id;
+	}
+	
+	public int getBalance() {
+		return this.balance;
 	}
 
 	/**

@@ -276,7 +276,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if(playerID >= this.connectedClients) {
 			return -1;
 		}
-		return 0;
+		return state.;
 	}
 
 	@Override
