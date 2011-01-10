@@ -11,12 +11,18 @@ public class GameState {
 	private Bank bank;
 	private Field[] fields;
 	private Rules rules;
+	private OjimDiceSet dices;
 	
 	public GameState(int maxPlayerCount) {
 		this.players = new Player[maxPlayerCount];
 		this.fields = new Field[FIELDS_AMOUNT];
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
+		this.dices = new OjimDiceSet(1337);
+	}
+	
+	public OjimDiceSet getDices() {
+		return this.dices;
 	}
 	
 	public Rules getRules() {
