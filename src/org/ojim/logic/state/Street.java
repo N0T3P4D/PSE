@@ -16,7 +16,8 @@ public class Street extends BuyableField {
 		this.builtLevel = 0;
 		this.rentByLevel = rentByLevel;
 	}
-	
+
+	//TODO: Noch benötigt?
 	public int getBuiltLevel() {
 		return this.builtLevel;
 	}
@@ -40,11 +41,17 @@ public class Street extends BuyableField {
 			return rentByLevel[level];
 		}
 	}
+		public int getNumberOfHotels() {
+		return this.builtLevel / 5;
+	}
 	
+	public int getNumberOfHouse() {
+		return this.builtLevel % 5;
+	}
+	
+	//xZise: Macht man nicht eher "+1 Upgrade" bzw. "-1 Upgrade"?
+
 	public void upgrade(int level) {
 		this.builtLevel = level;
 	}
-	
-	
-
 }
