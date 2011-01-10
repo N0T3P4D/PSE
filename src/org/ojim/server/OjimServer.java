@@ -7,6 +7,7 @@ import org.ojim.client.ai.AIClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
 import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Player;
 
 import edu.kit.iti.pse.iface.IServer;
 import edu.kit.iti.pse.iface.IServerAuction;
@@ -18,7 +19,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	private boolean isOpen = false;
 	private int connectedClients;
 	private int maxClients;
-	private LinkedList<IClient> clients;
+	private IClient[] clients;
 
 	private GameState state;
 	
@@ -90,21 +91,16 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		//Initializing Fields
 		this.connectedClients = 0;
 		this.maxClients = playerCount + aiCount;
-		clients = new LinkedList<IClient>();
+		clients = new IClient[maxClients];
 		
 		//Add AIClients to the Game
 		for(int i = 0; i < aiCount; i++) {
-			addAIClient();
+			addPlayer(new AIClient());
 		}
 				
 		//Open the Game
 		isOpen = true;
 		return true;
-	}
-
-	private void addAIClient() {
-		clients.add(new AIClient());
-		connectedClients++;
 	}
 
 	private boolean endGame() {
@@ -273,22 +269,47 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getPlayerPiecePosition(int playerID) {
-		if(playerID >= this.connectedClients) {
+		Player player = state.getPlayerByID(playerID);
+		if(player == null) {
 			return -1;
 		}
-		return state.;
+		return player.getPosition();
 	}
 
 	@Override
-	public int addPlayer(IClient client) {
-		// TODO Auto-generated method stub
-		return 0;
+	public synchronized int addPlayer(IClient client) {
+
+		for(int i = 0; i < maxClients; i++) {
+			if(state.getPlayerByID(i) == null) {
+				this.clients[i] = client;
+				state.setPlayer(i, new Player(client.getName(), 0, state.getRules().startMoney, i));
+				return i;
+			}
+		}
+		return -1;
 	}
 
 	@Override
-	public void setPlayerReady(int player) {
-		// TODO Auto-generated method stub
+	public void setPlayerReady(int playerID) {
+		state.getPlayerByID(playerID).setIsReady(true);
 
+		//Are all players Ready? then start the game
+		if(this.connectedClients == this.maxClients) {
+			for(int i = 0; i < connectedClients; i++) {
+				
+				//If at least 1 Player is not ready, dont start the game
+				if(!state.getPlayerByID(i).getIsReady()) {
+					return;
+				}
+			}
+			//All Players are ready, the Game can be started now
+			startGame();
+		}
+	}
+
+	private void startGame() {
+		// TODO Auto-generated method stub
+		
 	}
 
 	@Override
