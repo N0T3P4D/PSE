@@ -1,6 +1,6 @@
 package org.ojim.logic.state;
 
-public class Street extends Field {
+public class Street extends BuyableField {
 
 	private int builtLevel;
 	private int[] rentByLevel;

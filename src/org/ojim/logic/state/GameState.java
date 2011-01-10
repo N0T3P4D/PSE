@@ -16,7 +16,7 @@ public class GameState {
 		this.players = new Player[maxPlayerCount];
 		this.fields = new Field[FIELDS_AMOUNT];
 		this.bank = new Bank();
-		rules = new Rules(30000, 2000, true, true, false, true);
+		this.rules = new Rules();//30000, 2000, true, true, false, true);
 	}
 	
 	public Rules getRules() {
