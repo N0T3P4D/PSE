@@ -5,7 +5,8 @@ import javax.swing.JPanel;
 @SuppressWarnings("serial")
 public class CardWindow extends JPanel{
 
-	// hält CardStacks
+	//xZise: Please encode every non ASCII character (7-bit) as UTF-8!
+	// HÃ¤lt CardStacks
 	
 	// FIXME: INT
 	public void addCard(int cardStack, int cardId){
