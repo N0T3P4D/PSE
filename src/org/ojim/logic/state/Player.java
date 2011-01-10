@@ -25,8 +25,14 @@ public class Player implements IMoneyPartner{
 
 	private List<Card> cards;
 	
+	/**
+	 * Contains all fields which this player owns.
+	 */
+	private List<BuyableField> fields;
+	
 	public Player() {
 		this.cards = new ArrayList<Card>(2);
+		this.fields = new ArrayList<BuyableField>();
 	}
 	
 	/**
@@ -51,4 +57,9 @@ public class Player implements IMoneyPartner{
 		return this.balance;
 	}
 
+	/* TODO: Make immutable? */
+	public List<BuyableField> getFields() {
+		return this.fields;
+	}
+	
 }
