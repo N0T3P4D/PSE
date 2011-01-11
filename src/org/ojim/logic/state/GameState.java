@@ -10,7 +10,7 @@ public class GameState {
 	private Bank bank;
 	private Field[] fields;
 	private Rules rules;
-	private DiceSet dices;
+	private OjimDiceSet dices;
 	private Player activePlayer;
 	private int bankHouses;
 	private int bankHotels;
