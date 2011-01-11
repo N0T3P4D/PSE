@@ -4,6 +4,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import org.ojim.language.Localizer;
+
 public class MenuBar extends JMenuBar {
 
 	enum MenuBarState {
@@ -26,7 +28,7 @@ public class MenuBar extends JMenuBar {
 	public MenuBar() {
 		
 		menuBarState = MenuBarState.mainMenu;
-		GUILocalizer language = new GUILocalizer();
+		Localizer language = new Localizer();
 		//language.setLanguage("DE-de");
 		language.setLanguage("EN-uk");
 		//language.setLanguage("FR-fr");

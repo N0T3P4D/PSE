@@ -1,6 +1,6 @@
-package org.ojim.client.gui;
+package org.ojim.language;
 
-public class GUILocalizer {
+public class Localizer {
 
 	int language;
 
@@ -28,7 +28,7 @@ public class GUILocalizer {
 			{ "Hilfe", "Help"}
 	};
 
-	public GUILocalizer() {
+	public Localizer() {
 		language = 0;
 	}
 
