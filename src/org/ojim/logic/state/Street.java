@@ -4,6 +4,7 @@ public class Street extends BuyableField {
 
 	private int builtLevel;
 	private int[] rentByLevel;
+	private int mortgagePrice;
 
 	public Street(String name, int position, int[] rentByLevel, int builtLevel,
 			int price, GameState state) {
@@ -61,5 +62,9 @@ public class Street extends BuyableField {
 		}
 		this.builtLevel = newLevel;
 		return true;
+	}
+
+	public int getMortgagePrice() {
+		return this.mortgagePrice;
 	}
 }

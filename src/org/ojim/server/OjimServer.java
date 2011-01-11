@@ -338,8 +338,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getEstateColorGroup(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		if(position < 0 || position >= state.getNumberOfFields()) {
+			return -1;
+		}
+		if(!(state.getFieldByID(position) instanceof BuyableField)) {
+			return -1;
+		}
+		return ((BuyableField)state.getFieldByID(position)).getFieldGroup().getColor();
 	}
 
 	@Override
@@ -478,20 +483,22 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean toggleMortgage(int playerID, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		return GameRules.changeMortgage(playerID, position);
 	}
 
 	@Override
 	public void sendMessage(String text) {
-		// TODO Auto-generated method stub
-
+		for(IClient client : this.clients) {
+			//TODO Add sender ID
+			client.informMessage(text, 0, false);
+		}
 	}
 
 	@Override
 	public void sendPrivateMessage(String text, int reciever) {
-		// TODO Auto-generated method stub
-
+		if(reciever >= 0 && reciever < this.connectedClients) {
+			this.clients[reciever].informMessage(text, 0, true);
+		}
 	}
 
 }
