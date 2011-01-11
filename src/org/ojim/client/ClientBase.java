@@ -20,7 +20,6 @@ public class ClientBase implements IClient {
 	
 	private ClientConnection connection;
 	
-	//TODO: Wie kommt man daran?
 	private int playerID;
 	//TODO: Wie kommt man daran?
 	private String name;
@@ -43,7 +42,17 @@ public class ClientBase implements IClient {
 		
 		if (this.server != null) {
 			this.rules = this.server.getRules();
+			this.playerID = this.server.addPlayer(this);
 		}
+	}
+	
+	/**
+	 * Returns true if this player is on turn.
+	 * @return true if this player is on turn.
+	 */
+	protected final boolean isMyTurn() {
+		// Better comparision! Only for test!
+		return this.server.getPlayerOnTurn() == this.playerID;
 	}
 	
 	/*
@@ -72,11 +81,15 @@ public class ClientBase implements IClient {
 	}
 	
 	protected final void rollDice() {
-		this.server.rollDice(this.playerID);
+		if (this.isMyTurn()) {
+			this.server.rollDice(this.playerID);
+		}
 	}
 	
 	protected final void endTurn() {
-		this.server.endTurn(this.playerID);
+		if (this.isMyTurn()) {
+			this.server.endTurn(this.playerID);
+		}
 	}
 	
 	protected final void declareBankruptcy() {
@@ -84,15 +97,21 @@ public class ClientBase implements IClient {
 	}
 	
 	protected final void construct(int street) {
-		this.server.construct(this.playerID, street);
+		if (this.isMyTurn()) {
+			this.server.construct(this.playerID, street);
+		}
 	}
 	
 	protected final void destruct(int street) {
-		this.server.deconstruct(this.playerID, street);
+		if (this.isMyTurn()) {
+			this.server.deconstruct(this.playerID, street);
+		}
 	}
 	
 	protected final void toggleMortage(int street) {
-		this.server.toggleMortgage(this.playerID, street);
+		if (this.isMyTurn()) {
+			this.server.toggleMortgage(this.playerID, street);
+		}
 	}
 	
 	protected final boolean connect(String host, int port) {

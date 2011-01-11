@@ -21,7 +21,7 @@ public class ActionPayFieldRent implements Action {
 	
 	@Override
 	public void execute() {
-		ActionMoveToField.execute(state, field);
+		ActionPayFieldRent.execute(state, field);
 	}
 	
 	public static void execute(GameState state, BuyableField field) {

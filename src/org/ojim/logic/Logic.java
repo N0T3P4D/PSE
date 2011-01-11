@@ -6,4 +6,8 @@ public class Logic {
 		
 	}
 
+	public void addDiceRoll(int[] diceValues) {
+		
+	}
+	
 }
