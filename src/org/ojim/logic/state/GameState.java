@@ -1,5 +1,9 @@
 package org.ojim.logic.state;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 import org.ojim.logic.accounting.Bank;
 import org.ojim.iface.Rules;
 
@@ -95,5 +99,28 @@ public class GameState {
 	/* xZise: Implement this as buffer for some actions, can be modified if incorrect!*/
 	public Player getActivePlayer() {
 		return null;
+	}
+	
+	public boolean saveGameState(String path) {
+		return saveGameState(new File(path));
+	}
+
+	private boolean saveGameState(File file) {
+		try {
+			if (!file.createNewFile()) {
+				return false;
+			}
+		} catch (IOException e) {
+			return false;
+		}
+		
+		try {
+			FileWriter fw = new FileWriter(file);
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return true;
 	}
 }
