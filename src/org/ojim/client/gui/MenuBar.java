@@ -26,23 +26,27 @@ public class MenuBar extends JMenuBar {
 	public MenuBar() {
 		
 		menuBarState = MenuBarState.mainMenu;
+		GUILocalizer language = new GUILocalizer();
+		//language.setLanguage("DE-de");
+		language.setLanguage("EN-uk");
+		language.setLanguage("FR-fr");
 		
 		// TODO: Lokalisierung
-        fileMenu = new JMenu("Datei");
-        editMenu = new JMenu("?");
+        fileMenu = new JMenu(language.getText("Datei"));
+        editMenu = new JMenu(language.getText("?"));
 
-        createGame = new JMenuItem("Spiel erstellen");
-        joinGame = new JMenuItem("Spiel beitreten");
-        leaveGame = new JMenuItem("Spiel verlassen");
-        settings = new JMenu("Einstellungen");
+        createGame = new JMenuItem(language.getText("Spiel erstellen"));
+        joinGame = new JMenuItem(language.getText("Spiel beitreten"));
+        leaveGame = new JMenuItem(language.getText("Spiel verlassen"));
+        settings = new JMenu(language.getText("Einstellungen"));
 
-        directConnection = new JMenuItem("Direkte Verbindung");
-        serverList = new JMenuItem("Serverliste");
+        directConnection = new JMenuItem(language.getText("Direkte Verbindung"));
+        serverList = new JMenuItem(language.getText("Serverliste"));
 
-        exit = new JMenuItem("Beenden");
+        exit = new JMenuItem(language.getText("Beenden"));
 
-        about = new JMenuItem("Über OJim");
-        help = new JMenuItem("Hilfe");
+        about = new JMenuItem(language.getText("Über Ojim"));
+        help = new JMenuItem(language.getText("Hilfe"));
         
         draw();
         
