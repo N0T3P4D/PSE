@@ -29,7 +29,7 @@ public class MenuBar extends JMenuBar {
 		GUILocalizer language = new GUILocalizer();
 		//language.setLanguage("DE-de");
 		language.setLanguage("EN-uk");
-		language.setLanguage("FR-fr");
+		//language.setLanguage("FR-fr");
 		
 		// TODO: Lokalisierung
         fileMenu = new JMenu(language.getText("Datei"));
