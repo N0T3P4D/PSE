@@ -4,6 +4,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
+import org.ojim.language.Localizer;
+
 public class MenuBar extends JMenuBar {
 
 	enum MenuBarState {
@@ -14,9 +16,9 @@ public class MenuBar extends JMenuBar {
 	private JMenu fileMenu;
 	private JMenu editMenu;
 	private JMenuItem createGame;
-	private JMenuItem joinGame;
+	private JMenu joinGame;
 	private JMenuItem leaveGame;
-	private JMenu settings;
+	private JMenuItem settings;
 	private JMenuItem directConnection;
 	private JMenuItem serverList;
 	private JMenuItem exit;
@@ -26,7 +28,7 @@ public class MenuBar extends JMenuBar {
 	public MenuBar() {
 		
 		menuBarState = MenuBarState.mainMenu;
-		GUILocalizer language = new GUILocalizer();
+		Localizer language = new Localizer();
 		//language.setLanguage("DE-de");
 		language.setLanguage("EN-uk");
 		//language.setLanguage("FR-fr");
@@ -36,9 +38,9 @@ public class MenuBar extends JMenuBar {
         editMenu = new JMenu(language.getText("?"));
 
         createGame = new JMenuItem(language.getText("Spiel erstellen"));
-        joinGame = new JMenuItem(language.getText("Spiel beitreten"));
+        joinGame = new JMenu(language.getText("Spiel beitreten"));
         leaveGame = new JMenuItem(language.getText("Spiel verlassen"));
-        settings = new JMenu(language.getText("Einstellungen"));
+        settings = new JMenuItem(language.getText("Einstellungen"));
 
         directConnection = new JMenuItem(language.getText("Direkte Verbindung"));
         serverList = new JMenuItem(language.getText("Serverliste"));
@@ -74,8 +76,8 @@ public class MenuBar extends JMenuBar {
         fileMenu.add(settings);
         fileMenu.add(exit);
 
-        settings.add(directConnection);
-        settings.add(serverList);
+        joinGame.add(directConnection);
+        joinGame.add(serverList);
         
         editMenu.add(about);
         editMenu.add(help);

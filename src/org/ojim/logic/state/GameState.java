@@ -10,7 +10,7 @@ public class GameState {
 	private Bank bank;
 	private Field[] fields;
 	private Rules rules;
-	private DiceSet dices;
+	private OjimDiceSet dices;
 	private Player activePlayer;
 	private int bankHouses;
 	private int bankHotels;
@@ -26,14 +26,6 @@ public class GameState {
 		//TODO Add bankHouses / bankHotels somewhere in the Rules
 		this.bankHouses = 40;
 		this.bankHotels = 20;
-	}
-	
-	public int getBankHouses() {
-		return this.bankHouses;
-	}
-	
-	public int getBankHotels() {
-		return this.bankHotels;
 	}
 	
 	public boolean changeBankHouses(int changeAmount) {

@@ -3,6 +3,8 @@ package org.ojim.logic.accounting;
 public class Bank implements IMoneyPartner {
 
 	private int balance;
+	private int houses;
+	private int hotels;
 	
 	public Bank() {
 		// All available amount of money!
@@ -15,6 +17,14 @@ public class Bank implements IMoneyPartner {
 		this.balance += amount;
 	}
 
+	public int getHouses() {
+		return this.houses;
+	}
+	
+	public int getHotels() {
+		return this.hotels;
+	}
+	
 	/**
 	 * Transfers the money amount from payer to payee. Information: If the
 	 * amount is negative the payer will get cash and the payee has to pay

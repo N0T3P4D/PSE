@@ -1,10 +1,10 @@
-package org.ojim.client.gui;
+package org.ojim.language;
 
-public class GUILocalizer {
+public class Localizer {
 
 	int language;
 
-	private static final String[] languages = { 
+	private static final String[] LANGUAGE = { 
 		// Deutschland Deutsch
 		"DE-de", 
 		// Vereinigtes Königreich Englisch
@@ -12,7 +12,7 @@ public class GUILocalizer {
 		// Frankreich Französisch
 		"FR-fr" };
 
-	private static final String[][] languageFiles = 
+	private static final String[][] LANGUAGE_FILES = 
 	{
 			{ "Fehlender Text", "Missing Text", " Erreur" },
 			{ "Datei", "File", " Fichier" } ,
@@ -28,14 +28,15 @@ public class GUILocalizer {
 			{ "Hilfe", "Help"}
 	};
 
-	public GUILocalizer() {
+	public Localizer() {
 		language = 0;
+		// TODO: Aus Textdatei LANGUAGE_FILES auslesen
 	}
 
 	public void setLanguage(String language) {
 
-		for (int i = 0; i < languages.length; i++) {
-			if (language.equals(languages[i])) {
+		for (int i = 0; i < LANGUAGE.length; i++) {
+			if (language.equals(LANGUAGE[i])) {
 				this.language = i;
 			}
 		}
@@ -43,17 +44,17 @@ public class GUILocalizer {
 	}
 
 	public String getText(String textRequest) {
-		for (int i = 0; i < languageFiles.length; i++) {
-			if (languageFiles[i][0].equals(textRequest)) {
+		for (int i = 0; i < LANGUAGE_FILES.length; i++) {
+			if (LANGUAGE_FILES[i][0].equals(textRequest)) {
 				try {
-					return languageFiles[i][this.language];
+					return LANGUAGE_FILES[i][this.language];
 				} catch (Exception e) {
-					return languageFiles[0][this.language];
+					return LANGUAGE_FILES[0][this.language];
 				}
 			}
 		}
 
-		return languageFiles[0][this.language];
+		return LANGUAGE_FILES[0][this.language];
 
 	}
 
