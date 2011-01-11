@@ -332,7 +332,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public String getEstateName(int position) {
-		return state.getFieldByID(position).getName();
+		return state.getFieldByID(position).getRule().getName();
 	}
 
 	@Override
@@ -394,20 +394,17 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getDiceValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return state.getDices().getResultSum();
 	}
 
 	@Override
 	public int[] getDiceValues() {
-		// TODO Auto-generated method stub
-		return null;
+		return state.getDices().getResult();
 	}
 
 	@Override
 	public int getPlayerCash(int playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		return state.getPlayerByID(playerID).getBalance();
 	}
 
 	@Override

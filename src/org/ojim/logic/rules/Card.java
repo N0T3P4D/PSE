@@ -1,15 +1,19 @@
 package org.ojim.logic.rules;
 
+import org.ojim.logic.state.GameState;
+
 public class Card {
 
 	public final String text;
 	private final Action[] actions;
 	private final boolean hold;
-
-	public Card(String text, boolean hold, Action... actions) {
+	private final GameState state;
+	
+	public Card(String text, GameState state, boolean hold, Action... actions) {
 		this.text = text;
 		this.actions = actions;
 		this.hold = hold;
+		this.state = state;
 	}
 
 	/**
@@ -19,7 +23,10 @@ public class Card {
 	 */
 	public void fetch() {
 		if (hold) {
-			//TODO: Move card to players card stack.
+			//TODO: Remove card from active stack.
+			
+			// Add this card to the players card stack:
+			this.state.getActivePlayer().addCard(this);
 		} else {
 			this.execute();
 		}
@@ -29,6 +36,9 @@ public class Card {
 	 * Führt die Actions der Karte nach der Reihe aus.
 	 */
 	public void execute() {
+		if (hold) {
+			this.state.getActivePlayer().removeCard(this);
+		}
 		for (int i = 0; i < this.actions.length; i++) {
 			this.actions[i].execute();
 		}

@@ -18,7 +18,8 @@ public class ActionMoveToJail implements Action {
 	
 	public static void execute(GameState state) {
 		Field jail = null;
+		//TODO: Get all jail field(s).
 		// jail = state.getJail() ...?!
-		ActionMoveToField.execute(state, jail);
+		ActionMoveToField.execute(state, false, jail);
 	}
 }
