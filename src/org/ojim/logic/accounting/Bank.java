@@ -3,11 +3,17 @@ package org.ojim.logic.accounting;
 public class Bank implements IMoneyPartner {
 
 	private int balance;
+	private int houses;
+	private int hotels;
 	
 	public Bank() {
 		// All available amount of money!
 		//TODO: Finish this!
 		this.balance = 1000000;
+		
+		//TODO Add bankHouses / bankHotels somewhere in the Rules
+		this.houses = 40;
+		this.hotels = 20;
 	}
 	
 	@Override
@@ -15,6 +21,30 @@ public class Bank implements IMoneyPartner {
 		this.balance += amount;
 	}
 
+	public int getHouses() {
+		return this.houses;
+	}
+	
+	public int getHotels() {
+		return this.hotels;
+	}
+	
+	public boolean changeHouses(int changeAmount) {
+		if(this.houses - changeAmount < 0) {
+			return false;
+		}
+		this.houses += changeAmount;
+		return true;
+	}
+	
+	public boolean changeHotels(int changeAmount) {
+		if(this.hotels - changeAmount < 0) {
+			return false;
+		}
+		this.hotels += changeAmount;
+		return true;
+	}
+	
 	/**
 	 * Transfers the money amount from payer to payee. Information: If the
 	 * amount is negative the payer will get cash and the payee has to pay

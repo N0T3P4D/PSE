@@ -14,10 +14,8 @@ public class GameState {
 	private Bank bank;
 	private Field[] fields;
 	private Rules rules;
-	private OjimDiceSet dices;
+	private DiceSet dices;
 	private Player activePlayer;
-	private int bankHouses;
-	private int bankHotels;
 	
 	
 	public GameState(int maxPlayerCount) {
@@ -26,37 +24,9 @@ public class GameState {
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
 		this.dices = new OjimDiceSet(1337);
-		
-		//TODO Add bankHouses / bankHotels somewhere in the Rules
-		this.bankHouses = 40;
-		this.bankHotels = 20;
 	}
 	
-	public int getBankHouses() {
-		return this.bankHouses;
-	}
-	
-	public int getBankHotels() {
-		return this.bankHotels;
-	}
-	
-	public boolean changeBankHouses(int changeAmount) {
-		if(this.bankHouses - changeAmount < 0) {
-			return false;
-		}
-		this.bankHouses += changeAmount;
-		return true;
-	}
-	
-	public boolean changeBankHotels(int changeAmount) {
-		if(this.bankHotels - changeAmount < 0) {
-			return false;
-		}
-		this.bankHotels += changeAmount;
-		return true;
-	}
-	
-	public OjimDiceSet getDices() {
+	public DiceSet getDices() {
 		return this.dices;
 	}
 	
@@ -86,19 +56,26 @@ public class GameState {
 		return this.players.clone();
 	}
 	
+	/**
+	 * Returns the bank.
+	 * @return The bank.
+	 * @see {@link Bank}
+	 */
 	public Bank getBank() {
 		return this.bank;
 	}
 	
-	//TODO: Add possibility to return the number of fields.
+	/**
+	 * Returns the number of fields.
+	 * @return The number of fields.
+	 */
 	public int getNumberOfFields() {
 		return FIELDS_AMOUNT;
 	}
 	
-	//TODO: Does this class support this? If so: finish!s
-	/* xZise: Implement this as buffer for some actions, can be modified if incorrect!*/
+	//TODO: Does this class support this? If so: finish!
 	public Player getActivePlayer() {
-		return null;
+		return this.activePlayer;
 	}
 	
 	public boolean saveGameState(String path) {

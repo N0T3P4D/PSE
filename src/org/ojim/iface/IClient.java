@@ -36,7 +36,7 @@ public interface IClient {
 	/**
 	 * Gibt die Sprache des Clients zurück.
 	 * 
-	 * @return Die Clientsprache nach ISO 639-5.
+	 * @return Die Clientsprache nach ISO 639-3.
 	 */
 	String getLanguage();
 

@@ -428,12 +428,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getNumberOfHousesLeft() {
-		return state.getBankHouses();
+		return state.getBank().getHouses();
 	}
 
 	@Override
 	public int getNumberOfHotelsLeft() {
-		return state.getBankHotels();
+		return state.getBank().getHotels();
 	}
 
 	@Override
