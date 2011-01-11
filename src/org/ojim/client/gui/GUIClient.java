@@ -24,9 +24,9 @@ public class GUIClient extends ClientBase {
 
 		GUIFrame = new JFrame("OJim");
 
-		MenuBar menubar = new MenuBar();
+		//MenuBar menubar = new MenuBar();
 
-		GUIFrame.setJMenuBar(menubar);
+		//GUIFrame.setJMenuBar(menubar);
 
 		LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 

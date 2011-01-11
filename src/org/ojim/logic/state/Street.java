@@ -51,7 +51,12 @@ public class Street extends BuyableField {
 	
 	//xZise: Macht man nicht eher "+1 Upgrade" bzw. "-1 Upgrade"?
 
-	public void upgrade(int level) {
-		this.builtLevel = level;
+	public boolean upgrade(int level) {
+		int newLevel = this.builtLevel + level;
+		if(newLevel < 0 || newLevel > 5) {
+			return false;
+		}
+		this.builtLevel = newLevel;
+		return true;
 	}
 }

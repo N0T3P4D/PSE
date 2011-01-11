@@ -6,6 +6,7 @@ import java.util.Scanner;
 import org.ojim.client.ai.AIClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
+import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
@@ -409,31 +410,33 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getPlayerOnTurn() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(state.getActivePlayer() != null) {
+			return state.getActivePlayer().getId();
+		}
+		return -1;
 	}
 
 	@Override
 	public int getNumberOfGetOutOfJailCards(int playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		return state.getPlayerByID(playerID).getNumberOfGetOutOfJailCards();
 	}
 
 	@Override
 	public int getNumberOfHousesLeft() {
-		// TODO Auto-generated method stub
-		return 0;
+		return state.getBankHouses();
 	}
 
 	@Override
 	public int getNumberOfHotelsLeft() {
-		// TODO Auto-generated method stub
-		return 0;
+		return state.getBankHotels();
 	}
 
 	@Override
 	public boolean rollDice(int playerID) {
-		// TODO Auto-generated method stub
+		if(playerID == state.getActivePlayer().getId()) {
+			state.getDices().roll();
+			return true;
+		}
 		return false;
 	}
 
@@ -460,17 +463,17 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// TODO Auto-generated method stub
 		return false;
 	}
+	
+	
 
 	@Override
 	public boolean construct(int playerID, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		return GameRules.upgradeStreet(playerID, position, 1);
 	}
 
 	@Override
 	public boolean deconstruct(int playerID, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		return GameRules.upgradeStreet(playerID, position, -1);
 	}
 
 	@Override

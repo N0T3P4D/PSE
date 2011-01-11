@@ -7,6 +7,9 @@ import java.util.List;
 
 public class Player implements IMoneyPartner{
 
+	//TODO: Add NullPlayer behaviour
+	public static final Player NullPlayer = new Player();
+	
 	/**
 	 * Name to identify the player
 	 */
@@ -32,6 +35,9 @@ public class Player implements IMoneyPartner{
 	 */
 	private int color;
 	
+	private int NumberOfGetOutOfJailCards;
+	
+	
 	private List<Card> cards;
 	
 	/**
@@ -42,6 +48,19 @@ public class Player implements IMoneyPartner{
 	public Player() {
 		this.cards = new ArrayList<Card>(2);
 		this.fields = new ArrayList<BuyableField>();
+		this.NumberOfGetOutOfJailCards = 0;
+	}
+	
+	public int getNumberOfGetOutOfJailCards() {
+		return this.NumberOfGetOutOfJailCards;
+	}
+	
+	public void addGetOutOfJailCard() {
+		this.NumberOfGetOutOfJailCards++;
+	}
+	
+	public void takeGetOutOfJailCard() {
+		this.NumberOfGetOutOfJailCards--;
 	}
 	
 	/**
