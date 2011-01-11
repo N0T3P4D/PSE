@@ -13,14 +13,22 @@ public class GameRules {
 		this.state = state;
 	}
 	
-	public static boolean upgradeStreet(int playerID, int position, int levelChange) {
-
-		if(!canPlayerModifyStreet(playerID, position)) {
+	public static boolean upgradeStreet(Player player, Field street, int levelChange) {
+		
+		if(!canPlayerModifyStreet(player, street)) {
 			return false;
 		}
-		
+
 		//then try to upgrade/downgrade the Street
-		return ((Street)state.getFieldByID(position)).upgrade(levelChange);
+		return ((Street)street).upgrade(levelChange);
+	}
+	
+	public static boolean upgradeStreet(int playerID, int position, int levelChange) {
+		
+		Street street = (Street)state.getFieldByID(position);
+		Player player = state.getPlayerByID(playerID);
+		
+		return upgradeStreet(player, street, levelChange);
 	}
 	
 	private static boolean canPlayerModifyStreet(Player player, Field street) {
