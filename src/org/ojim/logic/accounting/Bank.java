@@ -10,6 +10,10 @@ public class Bank implements IMoneyPartner {
 		// All available amount of money!
 		//TODO: Finish this!
 		this.balance = 1000000;
+		
+		//TODO Add bankHouses / bankHotels somewhere in the Rules
+		this.houses = 40;
+		this.hotels = 20;
 	}
 	
 	@Override

@@ -12,8 +12,6 @@ public class GameState {
 	private Rules rules;
 	private OjimDiceSet dices;
 	private Player activePlayer;
-	private int bankHouses;
-	private int bankHotels;
 	
 	
 	public GameState(int maxPlayerCount) {
@@ -26,22 +24,6 @@ public class GameState {
 		//TODO Add bankHouses / bankHotels somewhere in the Rules
 		this.bankHouses = 40;
 		this.bankHotels = 20;
-	}
-	
-	public boolean changeBankHouses(int changeAmount) {
-		if(this.bankHouses - changeAmount < 0) {
-			return false;
-		}
-		this.bankHouses += changeAmount;
-		return true;
-	}
-	
-	public boolean changeBankHotels(int changeAmount) {
-		if(this.bankHotels - changeAmount < 0) {
-			return false;
-		}
-		this.bankHotels += changeAmount;
-		return true;
 	}
 	
 	public DiceSet getDices() {
