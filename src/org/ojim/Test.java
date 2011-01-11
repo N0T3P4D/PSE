@@ -5,6 +5,7 @@ import org.ojim.logic.rules.ActionMoveToField;
 import org.ojim.logic.rules.Card;
 import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
+import org.ojim.server.OjimServer;
 
 /**
  * NUR EINE BEISPIELKLASSE!
@@ -25,6 +26,14 @@ public class Test {
 		this.cards = new Card[10];
 		for (int i = 0; i < this.cards.length; i++) {  /* Hier kann eine andere Aktion hin, oder mehrere hintereinander */
 			this.cards[i] = new Card("Beispielkarte #" + i, state, false, new ActionMoveToField(state, false, new Field(state)));
+		}
+	}
+	
+	public static void main(String args[]) {
+		if (args.length == 0 || !args[0].equals("s")) {
+			GUIClient c = new GUIClient();
+		} else {
+			OjimServer s = new OjimServer("foobar");
 		}
 	}
 }
