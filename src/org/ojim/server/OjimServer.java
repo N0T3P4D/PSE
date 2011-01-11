@@ -332,7 +332,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public String getEstateName(int position) {
-		return state.getFieldByID(position).getName();
+		return state.getFieldByID(position).getRule().getName();
 	}
 
 	@Override

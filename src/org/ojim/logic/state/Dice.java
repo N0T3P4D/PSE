@@ -1,68 +1,55 @@
 package org.ojim.logic.state;
 
-import java.util.Random;
+/**
+ * Default dice implementation. Every dice has to extends this class.
+ * 
+ * @author Philip, Fabian Neundorf.
+ */
+public abstract class Dice {
 
-public class Dice {
-	
 	/**
-	 * Sides the Dice is having, e.g. a 12-sided dice can rollvalues between 1 and 12
+	 * Sides the Dice is having, e.g. a 12-sided dice can rollvalues between 1
+	 * and 12
 	 */
-	private int sides;
-	
-	/**
-	 * Number of times the Dice was rolled
-	 */
-	private int timesRolled;
-	
-	/**
-	 * Startseed
-	 */
-	private int seed;
-	
+	protected final int sides;
+
 	/**
 	 * Is the Dice deterministic?
 	 */
 	private boolean isDeterministic;
-	
-	/**
-	 * Random for the dice
-	 */
-	private Random random;
 
+	/**
+	 * Number of times the Dice was rolled
+	 */
+	private int timesRolled;
+
+	/**
+	 * The rolled result.
+	 */
 	private int result;
-	
+
 	public boolean isDeterministic() {
 		return this.isDeterministic;
 	}
-	
+
 	public String toString() {
-		return this.sides + "-sided, " + (!this.isDeterministic ? "not deterministic": ("deterministic, seed=" + this.seed));
+		return this.sides + "-sided, " + (!this.isDeterministic ? "not" : "")
+				+ "deterministic";
 	}
-	
-	public Dice(int sides) {
+
+	public Dice(int sides, boolean deterministic) {
 		this.sides = sides;
-		this.random = new Random();
-		this.seed = 0;
-		this.isDeterministic = false;
 		this.timesRolled = 0;
 	}
-	
-	public Dice(int sides, int seed) {
-		this.sides = sides;
-		this.random = new Random(seed);
-		this.seed = seed;
-		this.isDeterministic = true;
-		this.timesRolled = 0;
-	}
-	
-	public void roll() {
+
+	protected abstract int getRoll();
+
+	public final void roll() {
 		this.timesRolled++;
-		this.result = random.nextInt(sides) + 1;
-		
+		this.result = this.getRoll();
 	}
-	
-	public int getResult() {
+
+	public final int getResult() {
 		return this.result;
-		
 	}
 }

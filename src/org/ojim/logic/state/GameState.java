@@ -1,7 +1,6 @@
 package org.ojim.logic.state;
 
 import org.ojim.logic.accounting.Bank;
-import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
 
 public class GameState {
@@ -11,7 +10,7 @@ public class GameState {
 	private Bank bank;
 	private Field[] fields;
 	private Rules rules;
-	private OjimDiceSet dices;
+	private DiceSet dices;
 	
 	public GameState(int maxPlayerCount) {
 		this.players = new Player[maxPlayerCount];
@@ -21,7 +20,7 @@ public class GameState {
 		this.dices = new OjimDiceSet(1337);
 	}
 	
-	public OjimDiceSet getDices() {
+	public DiceSet getDices() {
 		return this.dices;
 	}
 	

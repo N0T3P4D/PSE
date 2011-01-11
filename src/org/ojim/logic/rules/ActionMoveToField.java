@@ -5,31 +5,36 @@ import org.ojim.logic.state.GameState;
 
 public class ActionMoveToField implements Action {
 
-	private Field[] fields;
-	private GameState state;
+	private final Field[] fields;
+	private final GameState state;
+	private final boolean executePasses;
 
 	/**
 	 * Erstellt eine Aktion die bei Ausführungs sich zum nächsten Feld.
 	 * 
 	 * @param state
 	 *            Spielzustand.
+	 * @param executePasses
+	 *            Wenn wahr, wird die "passThrough"-Methode der betretenden
+	 *            Felder ausgeführt.
 	 * @param fields
 	 *            Die Zielfelder.
 	 */
-	public ActionMoveToField(GameState state, Field... fields) {
+	public ActionMoveToField(GameState state, boolean executePasses,
+			Field... fields) {
 		this.state = state;
 		this.fields = fields;
+		this.executePasses = executePasses;
 	}
 
 	@Override
 	public void execute() {
-		ActionMoveToField.execute(state, fields);
+		ActionMoveToField.execute(this.state, this.executePasses, this.fields);
 	}
 
-	public static void execute(GameState state, Field... fields) {
+	public static void execute(GameState state, boolean executePasses, Field... fields) {
 		// Das Field suchen, was am nächsten ist
-		int playerPos = (int) (Math.random() * state.getNumberOfFields());
-		// TODO: Get position of the player.
+		int playerPos = state.getActivePlayer().getPosition();
 
 		Field next = fields[0];
 		for (int i = 1; i < fields.length; i++) {
@@ -37,15 +42,14 @@ public class ActionMoveToField implements Action {
 			 * Checks if the distance to the selected field is lower than this
 			 * to the previous determined field.
 			 */
-			if ((fields[i].getPosition() - playerPos + state
+			if ((fields[i].getRule().getPosition() - playerPos + state
 					.getNumberOfFields())
-					% state.getNumberOfFields() < (next.getPosition()
+					% state.getNumberOfFields() < (next.getRule().getPosition()
 					- playerPos + state.getNumberOfFields())
 					% state.getNumberOfFields()) {
 				next = fields[i];
 			}
 		}
-
 
 		// Zu diesem Feld dann gehen
 		/*
