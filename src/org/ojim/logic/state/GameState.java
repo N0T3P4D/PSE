@@ -20,10 +20,6 @@ public class GameState {
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
 		this.dices = new OjimDiceSet(1337);
-		
-		//TODO Add bankHouses / bankHotels somewhere in the Rules
-		this.bankHouses = 40;
-		this.bankHotels = 20;
 	}
 	
 	public DiceSet getDices() {
