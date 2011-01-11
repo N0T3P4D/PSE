@@ -52,7 +52,7 @@ public class GameState {
 		return true;
 	}
 	
-	public OjimDiceSet getDices() {
+	public DiceSet getDices() {
 		return this.dices;
 	}
 	
