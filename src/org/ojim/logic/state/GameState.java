@@ -10,7 +10,7 @@ public class GameState {
 	private Bank bank;
 	private Field[] fields;
 	private Rules rules;
-	private OjimDiceSet dices;
+	private DiceSet dices;
 	private Player activePlayer;
 	
 	
@@ -52,18 +52,25 @@ public class GameState {
 		return this.players.clone();
 	}
 	
+	/**
+	 * Returns the bank.
+	 * @return The bank.
+	 * @see {@link Bank}
+	 */
 	public Bank getBank() {
 		return this.bank;
 	}
 	
-	//TODO: Add possibility to return the number of fields.
+	/**
+	 * Returns the number of fields.
+	 * @return The number of fields.
+	 */
 	public int getNumberOfFields() {
 		return FIELDS_AMOUNT;
 	}
 	
-	//TODO: Does this class support this? If so: finish!s
-	/* xZise: Implement this as buffer for some actions, can be modified if incorrect!*/
+	//TODO: Does this class support this? If so: finish!
 	public Player getActivePlayer() {
-		return null;
+		return this.activePlayer;
 	}
 }

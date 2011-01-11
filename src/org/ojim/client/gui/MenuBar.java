@@ -29,9 +29,9 @@ public class MenuBar extends JMenuBar {
 		
 		menuBarState = MenuBarState.mainMenu;
 		Localizer language = new Localizer();
-		//language.setLanguage("DE-de");
-		language.setLanguage("EN-uk");
-		//language.setLanguage("FR-fr");
+		//language.setLanguage("deu");
+		language.setLanguage("eng");
+		//language.setLanguage("fra");
 		
 		// TODO: Lokalisierung
         fileMenu = new JMenu(language.getText("Datei"));

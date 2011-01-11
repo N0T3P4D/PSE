@@ -1,5 +1,6 @@
 package org.ojim;
 
+import org.ojim.client.ai.AIClient;
 import org.ojim.client.gui.GUIClient;
 import org.ojim.logic.rules.ActionMoveToField;
 import org.ojim.logic.rules.Card;
@@ -29,11 +30,26 @@ public class Test {
 		}
 	}
 	
+	// Possible parameters:
+	// -g --gui == GUI Client
+	// -s --server == ojim server
+	// -a --ai == AI Client
 	public static void main(String args[]) {
-		if (args.length == 0 || !args[0].equals("s")) {
-			GUIClient c = new GUIClient();
-		} else {
-			OjimServer s = new OjimServer("foobar");
+		String param = "-g";
+		for (String string : args) {
+			if (args.equals("-g") || args.equals("--gui")) {
+				System.out.println("Starting guiclient!");
+				GUIClient c = new GUIClient();
+				return;
+			} else if (args.equals("-s") || args.equals("--server")) {
+				System.out.println("Starting server!");
+				OjimServer s = new OjimServer("test");
+				return;
+			} else if (args.equals("-a") || args.equals("--ai")) {
+				System.out.println("Starting aiclient!");
+				AIClient a = new AIClient();
+				return;
+			}
 		}
 	}
 }
