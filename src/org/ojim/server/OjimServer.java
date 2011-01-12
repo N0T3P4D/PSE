@@ -30,61 +30,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public OjimServer(String name) {
 		this.name = name;
 		
-		System.out.println("Server started");
-		boolean running = true;
 		
-		System.out.println("\nAdministrative Functions can be executed here, type help for an overview of existing calls");
-		
-		String input;
-		Scanner in = new Scanner(System.in);
-		while(running)
-		{
-			//read input
-			input = in.nextLine();
-			
-			if(input.equals("help")) {
-				System.out.println("help            shows this dialog");
-				System.out.println("info            shows some information");
-				System.out.println("exit            ends Ojim");
-				System.out.println("start [1] [2]   starts a new game");
-				System.out.println("                [1] PlayerCount");
-				System.out.println("                [2] AICount");
-				System.out.println("                currently its start 2 1");
-				System.out.println("end             ends the current game");
-			} else if(input.equals("info")) {
-				System.out.println("Servername:     " + this.name);
-				System.out.println("Status:         " + (isOpen ? "open": "closed"));
-				System.out.println("Players:        " + connectedClients + "/" + maxClients);
-				System.out.println("AI:             " + "-");
-			} else if(input.equals("exit")) {
-				if(isOpen) {
-					System.out.println("Ending current game");
-					endGame();
-					System.out.println("Current game Ended!");
-				}
-				running = false;
-			} else if(input.startsWith("start")) {
-				if(isOpen) {
-					System.out.println("There is already a Game running, end it first before starting a new one!");
-				} else {
-					System.out.println("Initializing Game");
-					initGame(2,1);
-					System.out.println("Game initialized!");
-				}
-			} else if(input.equals("end")) {
-				if(!isOpen) {
-					System.out.println("There is no Game running!");
-				} else {
-					System.out.println("Ending current game");
-					endGame();
-					System.out.println("Current game Ended!");
-				}
-			}
-		}
-
 	}
 
-	private boolean initGame(int playerCount, int aiCount) {
+	boolean initGame(int playerCount, int aiCount) {
 		
 		//Make sure no negative numbers appear and there are players at all
 		if(playerCount < 0 || aiCount < 0 || playerCount + aiCount == 0) {
@@ -96,6 +45,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.connectedClients = 0;
 		this.maxClients = playerCount + aiCount;
 		clients = new IClient[maxClients];
+		this.state = new GameState(this.maxClients);
 		
 		//Add AIClients to the Game
 		for(int i = 0; i < aiCount; i++) {
@@ -107,7 +57,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return true;
 	}
 
-	private boolean endGame() {
+	boolean endGame() {
 		
 		//Closing the Game
 		isOpen = false;
@@ -283,8 +233,17 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized int addPlayer(IClient client) {
 
+		//TestClients are Threads to test things better
+//		if(client instanceof TestClient) {
+//			TestThread t = new TestThread((TestClient)client);
+//			t.start();
+//		}
+		
 		for(int i = 0; i < maxClients; i++) {
-			if(state.getPlayerByID(i) == null) {
+			try {
+				state.getPlayerByID(i);
+			}
+			catch(NullPointerException e) {
 				this.clients[i] = client;
 				state.setPlayer(i, new Player(client.getName(), 0, state.getRules().startMoney, i, i));
 				return i;
@@ -312,7 +271,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private void startGame() {
-		// TODO Auto-generated method stub
 		
 	}
 
@@ -499,6 +457,18 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if(reciever >= 0 && reciever < this.connectedClients) {
 			this.clients[reciever].informMessage(text, 0, true);
 		}
+	}
+
+	public String getName() {
+		return this.name;
+	}
+
+	public int getMaxClients() {
+		return this.maxClients;
+	}
+
+	public int getConnectedClients() {
+		return this.connectedClients;
 	}
 
 }
