@@ -7,6 +7,9 @@
 #	- name
 #	- english name
 #	- code (ISO 639-3)
+
+# Copyright (C) 2010 Licensed under GNU GPL version 3.
+
 ;author=Maximilian
 ;name=Deutsch
 ;english name=German

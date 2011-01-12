@@ -1,10 +1,26 @@
+/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
+ * 						Usman Ghani Ahmed, Jeremias Mechler
+ *
+ *  This program is free software: you can redistribute it and/or modify
+ *  it under the terms of the GNU General Public License as published by
+ *  the Free Software Foundation, either version 3 of the License, or
+ *  (at your option) any later version.
+ *  
+ *  This program is distributed in the hope that it will be useful,
+ *  but WITHOUT ANY WARRANTY; without even the implied warranty of
+ *  MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ *  GNU General Public License for more details.
+ *  
+ *  You should have received a copy of the GNU General Public License
+ *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ */
+
 package org.ojim.logic.state;
 
 public class Street extends BuyableField {
 
 	private int builtLevel;
 	private int[] rentByLevel;
-	private int mortgagePrice;
 
 	public Street(String name, int position, int[] rentByLevel, int builtLevel,
 			int price, GameState state) {
@@ -53,8 +69,10 @@ public class Street extends BuyableField {
 		return this.builtLevel % 5;
 	}
 
-	// xZise: Macht man nicht eher "+1 Upgrade" bzw. "-1 Upgrade"?
-
+	/**
+	 * Changes the built level of this street by the given change.
+	 * @param level Changes of the level.
+	 */
 	public boolean upgrade(int level) {
 		int newLevel = this.builtLevel + level;
 		if(newLevel < 0 || newLevel > 5) {
@@ -62,9 +80,5 @@ public class Street extends BuyableField {
 		}
 		this.builtLevel = newLevel;
 		return true;
-	}
-
-	public int getMortgagePrice() {
-		return this.mortgagePrice;
 	}
 }
