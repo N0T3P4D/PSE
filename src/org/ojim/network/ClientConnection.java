@@ -1,12 +1,53 @@
-package org.ojim.network;
+package network;
 
-import edu.kit.iti.pse.iface.IServer;
+import java.net.Socket;
+import java.nio.Buffer;
+import java.rmi.Naming;
+import java.rmi.RMISecurityManager;
 
+/**
+ * Der Client baut eine aktive Verbindung zum Server aufgebaut
+ * @author Usman Ghani Ahmed
+ *
+ */
 public class ClientConnection {
 	
-	public IServer connect(String host, int port) {
-		//TODO: Return correct IServer!
-		return null;
+	
+	private Socket clientSoket;
+	
+	public ClientConnection(){
+		
+		
 	}
 	
+	public boolean isConnected (){
+		
+		
+		return false;
+		
+	}
+	
+	/* Wurde geändert
+	public void connect(String ip,int port){
+		
+		
+	}
+	*/
+	
+	public Buffer connect(String ip,String name){
+		
+		Buffer b1 = null;
+		System.setSecurityManager(new RMISecurityManager());
+		    String url = "rmi://"+ip+"/";   
+		    try {
+		      b1 = (Buffer)Naming.lookup(url + name);
+		      
+		    } catch (Exception e) {
+		      System.out.println ("Fehler: " + e);
+		    }
+		  
+		
+    
+	return b1;	
+	}
 }
