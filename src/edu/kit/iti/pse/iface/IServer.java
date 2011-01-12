@@ -133,11 +133,17 @@ public interface IServer {
 	/**
 	 * Liefert die Zahl der gebauten Häuser an der gegebenen Position. Ein Hotel
 	 * wird dabei als die Zahl 5 repräsentiert.
+	 * 
+	 * @param position Gegebene Position.
+	 * @return Liefert die Anzahl der Häuser zurück. Sofern die Position keine Straße angibt, wird -1 zurückgegeben.
 	 */
 	public int getEstateHouses(int position);
 
 	/**
 	 * Liefert den Kaufpreis des Grundstücks an der gegebeben Position.
+	 * 
+	 * @param position Gegebene Position.
+	 * @return Liefert die Anzahl der Hotels zurück. Sofern die Position keine Straße angibt, wird -1 zurückgegeben.
 	 */
 	public int getEstatePrice(int position);
 
