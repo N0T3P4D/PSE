@@ -1,4 +1,4 @@
-package rmi.server;
+package org.ojim.rmi.server;
 
 import java.io.Serializable;
 import java.rmi.RemoteException;

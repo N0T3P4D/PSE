@@ -1,10 +1,9 @@
-package network;
+package org.ojim.network;
 
 import java.net.ServerSocket;
 import java.net.Socket;
 
-import ojim.OjimServer;
-
+import org.ojim.server.OjimServer;
 
 public class Network {
 	

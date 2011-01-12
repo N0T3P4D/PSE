@@ -55,7 +55,15 @@ public class ClientBase implements IClient {
 	public final int getPlayerID() {
 		return this.playerID;
 	}
+	
+	protected Rules getRules() {
+		return rules;
+	}
 
+	protected Logic getLogic() {
+		return logic;
+	}
+	
 	/*
 	 * MISC
 	 */
