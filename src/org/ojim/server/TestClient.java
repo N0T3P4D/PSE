@@ -1,6 +1,7 @@
 package org.ojim.server;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -21,14 +22,21 @@ public class TestClient implements IClient {
 	public TestClient(final IServer server) {
 		this.server = server;
 	
+		GridLayout experimentLayout = new GridLayout(0, 3);
+		
 		JPanel pane = new JPanel();		
+		JPanel panel = new JPanel();
+		panel.setLayout(new GridLayout(0,5));
+		
+		pane.setLayout(experimentLayout);
 		JFrame frame = new JFrame("TestClient");
 		JTextField var1 = new JTextField();
 		var1.setMinimumSize(new Dimension(200, 100));
-		//pane.add(var1);
+		pane.add(var1);
 		JTextField var2 = new JTextField();
 		var2.setMinimumSize(new Dimension(200, 100));
-		//pane.add(var2);
+		var2.setMaximumSize(new Dimension(200, 100));
+		pane.add(var2);
 		final JLabel res = new JLabel("Result     ");
 		pane.add(res);
 		JButton bt1 = new JButton("getNumberOfHousesLeft()");
@@ -37,25 +45,27 @@ public class TestClient implements IClient {
 				res.setText("" + server.getNumberOfHousesLeft());
 			}
 		});
-		pane.add(bt1);
+		panel.add(bt1);
 		
 		JButton bt2 = new JButton("getPlayerOnTurn()");
-		bt1.addActionListener(new ActionListener() {
+		bt2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				res.setText("" + server.getPlayerOnTurn());
 			}
 		});
-		pane.add(bt2);
+		panel.add(bt2);
 		
 		JButton bt3 = new JButton("getNumberOfHotelsLeft()");
-		bt1.addActionListener(new ActionListener() {
+		bt3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				res.setText("" + server.getNumberOfHotelsLeft());
 			}
 		});
-		pane.add(bt3);
+		panel.add(bt3);
 		
+		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		
+		frame.add(panel);
 		frame.setSize(640, 360);		
 		frame.setVisible(true);
 		
