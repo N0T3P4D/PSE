@@ -1,4 +1,4 @@
-package network;
+package org.ojim.network;
 
 public class ServerDetails {
 	
