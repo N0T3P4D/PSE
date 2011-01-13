@@ -33,35 +33,15 @@ import edu.kit.iti.pse.iface.IServer;
  * 
  * @author Fabian Neundorf
  */
-public class ClientBase implements IClient {
-
-	private IServer server;
-	private Rules rules;
-	private Logic logic;
+public class ClientBase extends SimpleClient implements IClient {
 
 	private ClientConnection connection;
 
-	private int playerID;
 	private String name;
 
 	public ClientBase() {
+		super(new Logic());
 		this.connection = new ClientConnection();
-		this.logic = new Logic();
-		
-		// xZise: Bäääääääääh igittigittigit
-		new GameRules(this.logic.getGameState());
-	}
-
-	public final int getPlayerID() {
-		return this.playerID;
-	}
-	
-	protected Rules getRules() {
-		return rules;
-	}
-
-	protected Logic getLogic() {
-		return logic;
 	}
 	
 	/*
@@ -71,100 +51,22 @@ public class ClientBase implements IClient {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	private void setServer(IServer server) {
-		this.server = server;
-
-		if (this.server != null) {
-			this.rules = this.server.getRules();
-			this.playerID = this.server.addPlayer(this);
-		}
-	}
-
-	/**
-	 * Returns true if this player is on turn.
-	 * 
-	 * @return true if this player is on turn.
-	 */
-	protected final boolean isMyTurn() {
-		// Better comparision! Only for test!
-		return this.server.getPlayerOnTurn() == this.playerID;
-	}
 
 	/*
 	 * ACTION METHODS
 	 */
 
-	/**
-	 * Setzt diesen Spieler auf „bereit“.
-	 */
-	protected final void ready() {
-		this.server.setPlayerReady(this.playerID);
-	}
-
-	/**
-	 * Akzeptiert die Nachricht.
-	 * 
-	 * @see {@link edu.kit.iti.pse.iface.IServer.accept}
-	 */
-	protected final void accept() {
-
-		this.server.accept(this.playerID);
-	}
-
-	protected final void decline() {
-		this.server.decline(this.playerID);
-	}
-
-	protected final void rollDice() {
-		if (this.isMyTurn()) {
-			this.server.rollDice(this.playerID);
-		}
-	}
-
-	protected final void endTurn() {
-		if (this.isMyTurn()) {
-			this.server.endTurn(this.playerID);
-		}
-	}
-
-	protected final void declareBankruptcy() {
-		this.server.declareBankruptcy(this.playerID);
-	}
-
-	protected final void construct(int street) {
-		if (this.isMyTurn()) {
-			this.server.construct(this.playerID, street);
-		}
-	}
-
-	protected final void destruct(int street) {
-		if (this.isMyTurn()) {
-			this.server.deconstruct(this.playerID, street);
-		}
-	}
-
-	protected final void toggleMortage(int street) {
-		if (this.isMyTurn()) {
-			this.server.toggleMortgage(this.playerID, street);
-		}
-	}
-
 	protected final boolean connect(String host, int port) {
-		this.setServer(this.connection.connect(host, port));
-		return this.server != null;
+		IServer server = this.connection.connect(host, "ojim");
+		if (server == null) {
+			return false;
+		}
+		this.setParameters(server.addPlayer(this), server);
+		return true;
 	}
 
 	protected final void connect(IServer server) {
-		this.setServer(server);
-	}
-
-	protected final void sendMessage(String text) {
-		this.server.sendMessage(text);
-	}
-
-	protected final void sendPrivateMessage(String text, int reciever) {
-		this.server.sendPrivateMessage(text, reciever);
+		this.setParameters(server.addPlayer(this), server);
 	}
 
 	/*
@@ -208,17 +110,17 @@ public class ClientBase implements IClient {
 
 	@Override
 	public void informConstruct(int street) {
-		Field field = this.logic.getGameState().getFieldAt(street);
+		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof Street) {
-			this.logic.upgrade((Street) field, +1);
+			this.getLogic().upgrade((Street) field, +1);
 		}
 	}
 
 	@Override
 	public void informDestruct(int street) {
-		Field field = this.logic.getGameState().getFieldAt(street);
+		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof Street) {
-			this.logic.upgrade((Street) field, -1);
+			this.getLogic().upgrade((Street) field, -1);
 		}
 	}
 
@@ -236,9 +138,9 @@ public class ClientBase implements IClient {
 
 	@Override
 	public void informMortgageToogle(int street) {
-		Field field = this.logic.getGameState().getFieldAt(street);
+		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof BuyableField) {
-			this.logic.toggleMortgage((BuyableField) field);
+			this.getLogic().toggleMortgage((BuyableField) field);
 		}
 	}
 
@@ -251,7 +153,7 @@ public class ClientBase implements IClient {
 	// xZise: Brauchen wir den Parameter?
 	@Override
 	public void informStreetBuy(int player) {
-		this.logic.buyStreet();
+		this.getLogic().buyStreet();
 	}
 
 	@Override
