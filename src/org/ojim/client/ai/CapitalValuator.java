@@ -28,8 +28,6 @@ import org.ojim.logic.state.Player;
  */
 public class CapitalValuator extends ValuationFunction {
 
-	private static ValuationFunction valuationFunction;
-
 	private CapitalValuator() {}
 	
 	public static ValuationFunction getInstance() {
