@@ -18,11 +18,12 @@
 package org.ojim.logic.state;
 
 import org.ojim.logic.accounting.Bank;
-import org.ojim.logic.rules.ActionPayFieldRent;
+import org.ojim.logic.actions.ActionPayFieldRent;
 import org.ojim.logic.rules.FieldRule;
 
 public abstract class BuyableField extends Field {
 
+	//TODO: Gehört in Field
 	private FieldGroup fieldGroup;
 	private int price;
 	private Player owner;

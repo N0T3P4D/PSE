@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -20,5 +20,26 @@ package org.ojim.client.ai;
 import org.ojim.client.ClientBase;
 
 public class AIClient extends ClientBase {
+	
+	void bla() {
+		accept();
+	}
+	
+	public void acceptExternal() {
+		accept();
+	}
+	
+	public void declineExternal() {
+		decline();
+	}
+	
+
+	// Should be in commands
+	
+	public void useOutOfJailCard() {
+//		if (getServer().getNumberOfGetOutOfJailCards(getId()) > 0) {
+//			getServer().
+//		}
+	}
 	
 }

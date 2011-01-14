@@ -19,7 +19,6 @@ package org.ojim.logic.state;
 
 import java.util.NoSuchElementException;
 
-import org.ojim.logic.rules.Card;
 
 /**
  * Implements one stack of cards. Uses a double linked list.

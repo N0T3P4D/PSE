@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,9 +18,7 @@
 package org.ojim.client;
 
 import org.ojim.iface.IClient;
-import org.ojim.iface.Rules;
 import org.ojim.logic.Logic;
-import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.Field;
 import org.ojim.logic.state.Street;
@@ -47,7 +45,7 @@ public class ClientBase extends SimpleClient implements IClient {
 	/*
 	 * MISC
 	 */
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -56,8 +54,8 @@ public class ClientBase extends SimpleClient implements IClient {
 	 * ACTION METHODS
 	 */
 
-	protected final boolean connect(String host, int port) {
-		IServer server = this.connection.connect(host, "ojim");
+	protected final boolean connect(String host, String name) {
+		IServer server = null;//this.connection.connect(host, name);
 		if (server == null) {
 			return false;
 		}

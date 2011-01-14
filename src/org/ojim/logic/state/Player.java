@@ -18,7 +18,6 @@
 package org.ojim.logic.state;
 
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.rules.Card;
 import java.util.ArrayList;
 import java.util.List;
 

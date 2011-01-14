@@ -4,6 +4,9 @@ import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import org.ojim.iface.IClient;
+import org.ojim.iface.Rules;
+
 /**
  * Klasse verwaltet alle Methoden die ueber das Netzwerk aufgerufen werden koennen
  * @author Usman Ghani Ahmed
@@ -166,6 +169,54 @@ public class ImplBuffer extends UnicastRemoteObject implements NetOjim {
 	public boolean toggleMortgage(int playerID, int position) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public int addPlayer(IClient client) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getEstateName(int position) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int getPlayerColor(int player) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public String getPlayerName(int player) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Rules getRules() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void sendMessage(String text) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void sendPrivateMessage(String text, int reciever) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setPlayerReady(int player) {
+		// TODO Auto-generated method stub
+		
 	}
 
 

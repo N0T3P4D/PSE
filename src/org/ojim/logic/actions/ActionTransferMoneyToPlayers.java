@@ -15,8 +15,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.rules;
+package org.ojim.logic.actions;
 
+import java.util.Map;
+
+import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.GameState;
 
@@ -38,18 +41,13 @@ public class ActionTransferMoneyToPlayers implements Action {
 	public static void execute(GameState state, int amount) {		
 		// Get all players:
 		Player activePlayer = state.getActivePlayer();
-		Player[] players = state.getPlayers();
+		Map<Integer, Player> players = state.getPlayers();
 		
-		// Lets get everybody the money
-		for (Player player : players) {
-			// If the player is not you
+		for (Player player : players.values()) {
 			if (!player.equals(activePlayer)) {
-				player.transferMoney(amount);
+				Bank.exchangeMoney(activePlayer, player, amount);
 			}
 		}
-		
-		// Pay money
-		activePlayer.transferMoney(-amount * players.length);
 	}
 
 }

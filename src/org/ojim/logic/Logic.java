@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,6 +17,8 @@
 
 package org.ojim.logic;
 
+import org.ojim.iface.Rules;
+import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
@@ -24,23 +26,39 @@ import org.ojim.logic.state.Player;
 import org.ojim.logic.state.Street;
 
 public class Logic {
-	
+
 	private GameState state;
-	
-	/**
-	 * @deprecated "Use buyStreet() or buyStreet(Player) instead"
-	 */
-	public void buyStreet(BuyableField field, Player player) {
-		
+	private GameRules rules;
+
+	public Logic(Rules rules) {
+		/*
+		 * xZise: Unable to call Logic(GameState, GameRules) because GameRules
+		 * needs a GameState which doesn't exists. So I call Logic(GameState,
+		 * Rules).
+		 */
+		this(new GameState(), rules);
 	}
-	
+
+	public Logic(GameState state, Rules rules) {
+		this(state, new GameRules(state, rules));
+	}
+
+	public Logic(GameRules rules) {
+		this(new GameState(), rules);
+	}
+
+	public Logic(GameState state, GameRules rules) {
+		this.state = state;
+		this.rules = rules;
+	}
+
 	public void buyStreet(Player active) {
 		Field field = this.state.getFieldAt(active.getPosition());
 		if (field instanceof BuyableField) {
 			((BuyableField) field).buy(active);
 		}
 	}
-	
+
 	public void buyStreet() {
 		// Get active player
 		Player active = this.state.getActivePlayer();
@@ -48,20 +66,24 @@ public class Logic {
 	}
 
 	public void addDiceRoll(int[] diceValues) {
-		
+
 	}
-	
+
 	public void toggleMortgage(BuyableField field) {
-		//TODO: Finish?
+		// TODO: Finished?
 		field.setMortgaged(!field.isMortgaged());
 	}
-	
+
 	public GameState getGameState() {
 		return this.state;
 	}
 	
+	public GameRules getGameRules() {
+		return this.rules;
+	}
+
 	public boolean upgrade(Street street, int level) {
 		return street.upgrade(level);
 	}
-	
+
 }

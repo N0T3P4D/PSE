@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.rules;
+package org.ojim.logic.actions;
 
 import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;

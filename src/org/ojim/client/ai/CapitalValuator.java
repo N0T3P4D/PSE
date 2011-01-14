@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -25,32 +25,29 @@ import org.ojim.logic.state.Player;
  * auszugeben
  * 
  * @author Jeremias Mechler
- * 
  */
 public class CapitalValuator extends ValuationFunction {
 
-	private static ValuationFunction valuationFunction;
-
-	private CapitalValuator() {
-	}
-
+	private CapitalValuator() {}
+	
 	public static ValuationFunction getInstance() {
-		if (valuationFunction == null) {
-			valuationFunction = new CapitalValuator();
-		}
-		return valuationFunction;
+		return ValuationFunction.getInstance(false, CapitalValuator.class);
 	}
+	
+//	public void foo() {
+//		(CapitalValuator.getInstance()).returnValuation();
+//	}
 
-	public static double returnValuation(int amount) {
+	public double returnValuation(int amount) {
 		// Da die Klasse ein Singleton ist, muss der aktive Spieler bei jedem
 		// Aufruf bestimmt werden
-		Player currentPlayer = state.getActivePlayer();
+		Player currentPlayer = this.getGameState().getActivePlayer();
 
 		// Die Gesamtgeldsumme aller Gegenspieler
 		int sum = 0;
 		// Der Geldbetrag des Spielers mit dem meisten Geld
 		int max = 0;
-		Player[] players = state.getPlayers();
+		Player[] players = this.getGameState().getPlayers();
 		for (Player player : players) {
 			if (player == currentPlayer)
 				continue;
@@ -72,7 +69,8 @@ public class CapitalValuator extends ValuationFunction {
 
 	}
 
-	public static double returnValuation() {
+	@Override
+	public double returnValuation() {
 		return returnValuation(0);
 	}
 }
