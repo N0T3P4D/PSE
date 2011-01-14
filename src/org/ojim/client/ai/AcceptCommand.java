@@ -17,17 +17,20 @@
 
 package org.ojim.client.ai;
 
-public class AcceptCommand implements Command {
+import org.ojim.client.SimpleClient;
+import org.ojim.logic.Logic;
 
-	private AIClient client;
-	
-	public AcceptCommand (AIClient client) {
-		this.client = client;
+import edu.kit.iti.pse.iface.IServer;
+
+public class AcceptCommand extends SimpleClient implements Command {
+
+	public AcceptCommand(Logic logic, IServer server, int playerId) {
+		super(logic, playerId, server);
 	}
 	
 	@Override
 	public void execute() {
-//		client.accept();		
+		this.accept();		
 	}
 
 }
