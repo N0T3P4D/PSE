@@ -11,7 +11,7 @@ public class AcceptCommand implements Command {
 	
 	@Override
 	public void execute() {
-		client.accept();		
+//		client.accept();		
 	}
 
 }

@@ -23,6 +23,7 @@ import org.ojim.logic.rules.FieldRule;
 
 public abstract class BuyableField extends Field {
 
+	//TODO: Gehört in Field
 	private FieldGroup fieldGroup;
 	private int price;
 	private Player owner;

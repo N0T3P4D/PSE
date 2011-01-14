@@ -9,5 +9,6 @@ public abstract class ValuationFunction {
 	protected static Rules rules;
 	protected static GameState state;
 
+	public abstract double returnValuation();
 
 }

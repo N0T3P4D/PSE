@@ -47,7 +47,7 @@ public class ClientBase extends SimpleClient implements IClient {
 	/*
 	 * MISC
 	 */
-
+	
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -56,8 +56,8 @@ public class ClientBase extends SimpleClient implements IClient {
 	 * ACTION METHODS
 	 */
 
-	protected final boolean connect(String host, int port) {
-		IServer server = this.connection.connect(host, "ojim");
+	protected final boolean connect(String host, String name) {
+		IServer server = null;//this.connection.connect(host, name);
 		if (server == null) {
 			return false;
 		}

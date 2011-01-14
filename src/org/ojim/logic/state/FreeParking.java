@@ -37,10 +37,6 @@ public class FreeParking extends Field implements IMoneyPartner {
 		return this.moneyInPot;
 	}
 
-	public void insertInPot(int amount) {
-		this.moneyInPot += amount;
-	}
-
 	@Override
 	public void transferMoney(int amount) {
 		// TODO: Don't allow negative values!

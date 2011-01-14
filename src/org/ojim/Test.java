@@ -52,6 +52,8 @@ public class Test {
 	// -s --server == ojim server
 	// -a --ai == AI Client
 	public static void main(String args[]) {
+		GUIClient foo = new GUIClient();
+		
 		String param = "-g";
 		for (String string : args) {
 			if (args.equals("-g") || args.equals("--gui")) {

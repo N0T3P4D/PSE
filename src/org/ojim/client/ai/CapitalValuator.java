@@ -40,6 +40,10 @@ public class CapitalValuator extends ValuationFunction {
 		}
 		return valuationFunction;
 	}
+	
+//	public void foo() {
+//		(CapitalValuator.getInstance()).returnValuation();
+//	}
 
 	public static double returnValuation(int amount) {
 		// Da die Klasse ein Singleton ist, muss der aktive Spieler bei jedem
@@ -72,7 +76,8 @@ public class CapitalValuator extends ValuationFunction {
 
 	}
 
-	public static double returnValuation() {
+	@Override
+	public double returnValuation() {
 		return returnValuation(0);
 	}
 }
