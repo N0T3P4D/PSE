@@ -39,9 +39,6 @@ public class SimpleClient {
 
 	public SimpleClient(Logic logic) {
 		this.logic = logic;
-
-		// xZise: Bäääääääääh igittigittigit
-		new GameRules(this.logic.getGameState());
 	}
 
 	public SimpleClient(Logic logic, int playerId, IServer server) {

@@ -17,8 +17,8 @@
 
 package org.ojim.logic.state;
 
-import org.ojim.logic.rules.Action;
-import org.ojim.logic.rules.ActionMoveToJail;
+import org.ojim.logic.actions.Action;
+import org.ojim.logic.actions.ActionMoveToJail;
 import org.ojim.logic.rules.FieldRule;
 
 public class GoToJail extends Field {

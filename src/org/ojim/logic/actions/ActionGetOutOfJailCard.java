@@ -15,28 +15,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.rules;
+package org.ojim.logic.actions;
 
-import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
 
-public class ActionMoveToJail implements Action {
+/**
+ * Führt die „Komme aus den Gefängnis frei“-Karte aus.
+ * 
+ * @author Fabian Neundorf
+ */
+public class ActionGetOutOfJailCard implements Action {
 
-	private final GameState state;
-	
-	public ActionMoveToJail(GameState state) {
+	private GameState state;
+
+	public ActionGetOutOfJailCard(GameState state) {
 		this.state = state;
 	}
-	
+
 	@Override
 	public void execute() {
-		ActionMoveToJail.execute(state);
+		ActionGetOutOfJailCard.execute(this.state);
 	}
-	
+
 	public static void execute(GameState state) {
-		Field jail = null;
-		//TODO: Get all jail field(s).
-		// jail = state.getJail() ...?!
-		ActionMoveToField.execute(state, false, jail);
+		// TODO: Implement action!
 	}
+
 }

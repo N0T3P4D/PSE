@@ -15,49 +15,29 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.rules;
+package org.ojim.logic.actions;
 
 import org.ojim.logic.state.GameState;
 
-public class Card {
+public class ActionMoveForward implements Action {
 
-	public final String text;
-	private final Action[] actions;
-	private final boolean hold;
+	private int steps;
 	private final GameState state;
 	
-	public Card(String text, GameState state, boolean hold, Action... actions) {
-		this.text = text;
-		this.actions = actions;
-		this.hold = hold;
+	public ActionMoveForward(GameState state, int steps) {
+		this.steps = steps;
 		this.state = state;
 	}
-
-	/**
-	 * Zieht eine Karte aus den Kartenstapel. Wenn die Karte in dein eigenen
-	 * Stapel aufgenommen werden soll, wird diese Karte aufgenommen. Ansonsten
-	 * wird {@link #execute()} ausgeführt.
-	 */
-	public void fetch() {
-		if (hold) {
-			//TODO: Remove card from active stack.
-			
-			// Add this card to the players card stack:
-			this.state.getActivePlayer().addCard(this);
-		} else {
-			this.execute();
-		}
-	}
-
-	/**
-	 * Führt die Actions der Karte nach der Reihe aus.
-	 */
+	
+	@Override
 	public void execute() {
-		if (hold) {
-			this.state.getActivePlayer().removeCard(this);
-		}
-		for (int i = 0; i < this.actions.length; i++) {
-			this.actions[i].execute();
-		}
+		ActionMoveForward.execute(this.state, this.steps);
 	}
+	
+	public static void execute(GameState state, int steps) {
+		//TODO: Implement action!
+		//New position:
+		//state.getActivePlayer().getPosition() + steps;
+	}
+
 }

@@ -18,8 +18,8 @@
 package org.ojim.logic.state;
 
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.rules.Action;
-import org.ojim.logic.rules.ActionGiveMoneyFromFreeParking;
+import org.ojim.logic.actions.Action;
+import org.ojim.logic.actions.ActionGiveMoneyFromFreeParking;
 import org.ojim.logic.rules.FieldRule;
 
 public class FreeParking extends Field implements IMoneyPartner {

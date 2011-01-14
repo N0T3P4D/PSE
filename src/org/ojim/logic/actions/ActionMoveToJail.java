@@ -15,29 +15,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.rules;
+package org.ojim.logic.actions;
 
-import org.ojim.logic.accounting.Bank;
-import org.ojim.logic.state.FreeParking;
+import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
 
-public class ActionGiveMoneyFromFreeParking implements Action {
+public class ActionMoveToJail implements Action {
 
 	private final GameState state;
-	private final FreeParking field;
 	
-	public ActionGiveMoneyFromFreeParking(GameState state, FreeParking field) {
+	public ActionMoveToJail(GameState state) {
 		this.state = state;
-		this.field = field;
 	}
 	
 	@Override
 	public void execute() {
-		ActionGiveMoneyFromFreeParking.execute(this.state, this.field);
+		ActionMoveToJail.execute(state);
 	}
 	
-	public static void execute(GameState state, FreeParking field) {
-		Bank.exchangeMoney(field, state.getActivePlayer(), field.getMoneyInPot());
+	public static void execute(GameState state) {
+		Field jail = null;
+		//TODO: Get all jail field(s).
+		// jail = state.getJail() ...?!
+		ActionMoveToField.execute(state, false, jail);
 	}
-
 }

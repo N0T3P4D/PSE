@@ -20,17 +20,22 @@ package org.ojim.logic.state;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import org.ojim.logic.accounting.Bank;
-import org.ojim.logic.rules.ActionGetOutOfJailCard;
-import org.ojim.logic.rules.ActionMoveForward;
-import org.ojim.logic.rules.Card;
+import org.ojim.logic.actions.ActionGetOutOfJailCard;
+import org.ojim.logic.actions.ActionMoveForward;
 import org.ojim.iface.Rules;
 
 public class GameState {
 
+	private final int MAXIMUM_PLAYER_COUNT = 8;
 	private final int FIELDS_AMOUNT = 40;
-	private Player[] players;
+	private Map<Integer, Player> players;
+	private List<Integer> playerIds;
 	private Bank bank;
 	private Field[] fields;
 	private Rules rules;
@@ -40,8 +45,9 @@ public class GameState {
 	private CardStack eventCards;
 	private CardStack communityCards;
 	
-	public GameState(int maxPlayerCount) {
-		this.players = new Player[maxPlayerCount];
+	public GameState() {
+		this.players = new HashMap<Integer, Player>(MAXIMUM_PLAYER_COUNT);
+		this.playerIds = new ArrayList<Integer>(MAXIMUM_PLAYER_COUNT);
 		this.fields = new Field[FIELDS_AMOUNT];
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
@@ -63,14 +69,14 @@ public class GameState {
 	}
 	
 	public void setPlayer(int id, Player player) {
-		players[id] = player;
+		this.players.put(id, player);
+		if (!this.playerIds.contains(id)) {
+			this.playerIds.add(id);
+		}
 	}
 	
 	public Player getPlayerByID(int playerID) {
-		if(playerID >= players.length) {
-			return null;
-		}
-		return players[playerID];
+		return this.players.get(playerID);
 	}
 	
 	//xZise: Klingt nach dem was es macht (siehe getFieldAt). Entweder jedes Feld durchgehen und ID checken oder entfernen.
@@ -88,8 +94,9 @@ public class GameState {
 		return fields[position];
 	}
 	
-	public Player[] getPlayers() {
-		return this.players.clone();
+	public Map<Integer, Player> getPlayers() {
+		//TODO: (xZise) Clone object?
+		return this.players;
 	}
 	
 	/**
@@ -112,7 +119,7 @@ public class GameState {
 	//TODO: Does this class support this? If so: finish!
 	public Player getActivePlayer() {
 		if(this.activePlayer == null) {
-			this.activePlayer = this.players[0];
+			this.activePlayer = this.players.get(this.playerIds.get(0));
 		}
 		return this.activePlayer;
 	}

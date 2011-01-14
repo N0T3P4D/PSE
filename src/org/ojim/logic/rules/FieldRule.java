@@ -17,6 +17,8 @@
 
 package org.ojim.logic.rules;
 
+import org.ojim.logic.actions.Action;
+
 public class FieldRule {
 	
 	private final String name;

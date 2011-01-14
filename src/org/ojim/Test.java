@@ -19,8 +19,8 @@ package org.ojim;
 
 import org.ojim.client.ai.AIClient;
 import org.ojim.client.gui.GUIClient;
-import org.ojim.logic.rules.ActionMoveToField;
-import org.ojim.logic.rules.Card;
+import org.ojim.logic.actions.ActionMoveToField;
+import org.ojim.logic.state.Card;
 import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
 import org.ojim.server.OjimServer;

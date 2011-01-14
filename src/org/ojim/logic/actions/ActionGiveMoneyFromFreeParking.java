@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
- *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
+ * 						Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -15,34 +15,29 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.rules;
+package org.ojim.logic.actions;
 
-import org.ojim.logic.state.BuyableField;
+import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.state.FreeParking;
 import org.ojim.logic.state.GameState;
 
-public class ActionPayFieldRent implements Action {
+public class ActionGiveMoneyFromFreeParking implements Action {
 
-	private BuyableField field;
-	private GameState state;
+	private final GameState state;
+	private final FreeParking field;
 	
-	/**
-	 * Erstellt eine Aktion die die Miete eines Feldes bezahlt.
-	 * 
-	 * @param state Spielzustand.
-	 * @param fields Das Feld für das die Miete eingezogen wird.
-	 */
-	public ActionPayFieldRent(GameState state, BuyableField field) {
+	public ActionGiveMoneyFromFreeParking(GameState state, FreeParking field) {
 		this.state = state;
 		this.field = field;
 	}
 	
 	@Override
 	public void execute() {
-		ActionPayFieldRent.execute(state, field);
+		ActionGiveMoneyFromFreeParking.execute(this.state, this.field);
 	}
 	
-	public static void execute(GameState state, BuyableField field) {
-		field.payRent(state.getActivePlayer());
+	public static void execute(GameState state, FreeParking field) {
+		Bank.exchangeMoney(field, state.getActivePlayer(), field.getMoneyInPot());
 	}
 
 }
