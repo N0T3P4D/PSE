@@ -36,14 +36,13 @@ public class SimpleClient {
 	private Logic logic;
 
 	private int playerId;
-
-	public SimpleClient(Logic logic) {
-		this.logic = logic;
+	
+	public SimpleClient() {
+		
 	}
 
 	public SimpleClient(Logic logic, int playerId, IServer server) {
-		this(logic);
-		this.setParameters(playerId, server);
+		this.setParameters(logic, playerId, server);
 	}
 	
 	protected Logic getLogic() {
@@ -55,7 +54,8 @@ public class SimpleClient {
 		return true;
 	}
 
-	protected void setParameters(int playerId, IServer server) {
+	protected void setParameters(Logic logic, int playerId, IServer server) {
+		this.logic = logic;
 		this.playerId = playerId;
 		this.server = server;
 	}

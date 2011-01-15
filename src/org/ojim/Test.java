@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,6 +19,7 @@ package org.ojim;
 
 import org.ojim.client.ai.AIClient;
 import org.ojim.client.gui.GUIClient;
+import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionMoveToField;
 import org.ojim.logic.state.Card;
 import org.ojim.logic.state.Field;
@@ -33,17 +34,15 @@ public class Test {
 	
 	private Card[] cards;
 	
-	private static final int foo = 8;
-	
 	private Test() {
 		
 		GUIClient gc = new GUIClient();
 		
-		GameState state = new GameState(foo);
+		GameState state = new GameState();
 		
 		this.cards = new Card[10];
 		for (int i = 0; i < this.cards.length; i++) {  /* Hier kann eine andere Aktion hin, oder mehrere hintereinander */
-			this.cards[i] = new Card("Beispielkarte #" + i, state, false, new ActionMoveToField(state, false, new Field(state)));
+			this.cards[i] = new Card("Beispielkarte #" + i, state, false, new ActionMoveToField(state, false, new Field(state, "foo", (int) (Math.random() * 40), new Action[0], new Action[0])));
 		}
 	}
 	
@@ -52,7 +51,6 @@ public class Test {
 	// -s --server == ojim server
 	// -a --ai == AI Client
 	public static void main(String args[]) {
-		GUIClient foo = new GUIClient();
 		
 		String param = "-g";
 		for (String string : args) {
@@ -70,5 +68,11 @@ public class Test {
 				return;
 			}
 		}
+		
+		// No usable parameter found
+		System.out.println("No parameter for type defined. Starting default.");
+		System.out.println("Starting guiclient!");
+		GUIClient c = new GUIClient();
+		return;
 	}
 }

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,17 +18,13 @@
 package org.ojim.logic.state;
 
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionGiveMoneyFromFreeParking;
-import org.ojim.logic.rules.FieldRule;
 
 public class FreeParking extends Field implements IMoneyPartner {
 
 	public FreeParking(GameState state, int position) {
-		super(state);
-		this.setRule(new FieldRule("Free parking", position,
-				new Action[] { new ActionGiveMoneyFromFreeParking(state, this) },
-				new Action[0]));
+		super(state, "Free parking", position);
+		this.setExecuteActions(new ActionGiveMoneyFromFreeParking(state, this));
 	}
 
 	private int moneyInPot;
@@ -39,7 +35,6 @@ public class FreeParking extends Field implements IMoneyPartner {
 
 	@Override
 	public void transferMoney(int amount) {
-		// TODO: Don't allow negative values!
 		this.moneyInPot += amount;
 	}
 }

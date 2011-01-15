@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,7 +19,6 @@ package org.ojim.logic.state;
 
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.actions.ActionPayFieldRent;
-import org.ojim.logic.rules.FieldRule;
 
 public abstract class BuyableField extends Field {
 
@@ -32,8 +31,8 @@ public abstract class BuyableField extends Field {
 	private int mortgagePrice;
 
 	public BuyableField(String name, int position, int price, GameState state) {
-		super(state);
-		this.setRule(FieldRule.newExecuteRule(name, position, new ActionPayFieldRent(state, this)));
+		super(state, name, position);
+		this.setExecuteActions(new ActionPayFieldRent(state, this));
 		this.price = price;
 	}
 	
