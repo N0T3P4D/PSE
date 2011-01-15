@@ -19,6 +19,10 @@ package org.ojim.client;
 
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
+import org.ojim.logic.state.BuyableField;
+import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Player;
+import org.ojim.logic.state.Street;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -34,6 +38,7 @@ public class SimpleClient {
 
 	private IServer server;
 	private Logic logic;
+	private Player me;
 
 	private int playerId;
 	
@@ -43,15 +48,19 @@ public class SimpleClient {
 
 	public SimpleClient(Logic logic, int playerId, IServer server) {
 		this.setParameters(logic, playerId, server);
+		this.me = this.getGameState().getPlayerByID(playerId);
 	}
 	
 	protected Logic getLogic() {
-		return logic;
+		return this.logic;
 	}
 	
-	//xZise: Buffer method call → In future use the logic!
-	private boolean isMyTurn() {
-		return true;
+	protected GameState getGameState() {
+		return this.logic.getGameState();
+	}
+	
+	protected GameRules getGameRules() {
+		return this.logic.getGameRules();
 	}
 
 	protected void setParameters(Logic logic, int playerId, IServer server) {
@@ -90,13 +99,13 @@ public class SimpleClient {
 	}
 
 	protected final void rollDice() {
-		if (this.isMyTurn()) {
+		if (this.getGameRules().isPlayerOnTurn(this.me)) {
 			this.server.rollDice(this.playerId);
 		}
 	}
 
 	protected final void endTurn() {
-		if (this.isMyTurn()) {
+		if (this.getGameRules().isPlayerOnTurn(this.me)) {
 			this.server.endTurn(this.playerId);
 		}
 	}
@@ -105,21 +114,21 @@ public class SimpleClient {
 		this.server.declareBankruptcy(this.playerId);
 	}
 
-	protected final void construct(int street) {
-		if (this.isMyTurn()) {
-			this.server.construct(this.playerId, street);
+	protected final void construct(Street street) {
+		if (this.getGameRules().isFieldUpgradable(this.me, street, +1)) {
+			this.server.construct(this.playerId, street.getPosition());
 		}
 	}
 
-	protected final void destruct(int street) {
-		if (this.isMyTurn()) {
-			this.server.deconstruct(this.playerId, street);
+	protected final void destruct(Street street) {
+		if (this.getGameRules().isFieldUpgradable(this.me, street, -1)) {
+			this.server.deconstruct(this.playerId, street.getPosition());
 		}
 	}
 
-	protected final void toggleMortage(int street) {
-		if (this.isMyTurn()) {
-			this.server.toggleMortgage(this.playerId, street);
+	protected final void toggleMortage(BuyableField street) {
+		if (this.getGameRules().isFieldMortgageable(this.me, street)) {
+			this.server.toggleMortgage(this.playerId, street.getPosition());
 		}
 	}
 

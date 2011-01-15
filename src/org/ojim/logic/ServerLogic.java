@@ -15,38 +15,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.logic;
 
-import java.util.Map;
+import org.ojim.logic.rules.GameRules;
+import org.ojim.logic.state.ServerGameState;
 
-import org.ojim.logic.accounting.Bank;
-import org.ojim.logic.state.Player;
-import org.ojim.logic.state.GameState;
+/**
+ * Acts as logic, but this class informs also the players.
+ * 
+ * @author Fabian Neundorf
+ */
+public class ServerLogic extends Logic {
 
-public class ActionTransferMoneyToPlayers implements Action {
-
-	private int amount;
-	private final GameState state;
-	
-	public ActionTransferMoneyToPlayers(GameState state, int amount) {
-		this.amount = amount;
-		this.state = state;
-	}
-	
-	@Override
-	public void execute() {
-		ActionTransferMoneyToPlayers.execute(this.state, this.amount);
-	}
-	
-	public static void execute(GameState state, int amount) {		
-		// Get all players:
-		Player activePlayer = state.getActivePlayer();
-		
-		for (Player player : state.getPlayers()) {
-			if (!player.equals(activePlayer)) {
-				Bank.exchangeMoney(activePlayer, player, amount);
-			}
-		}
+	public ServerLogic(ServerGameState state, GameRules rules) {
+		super(state, rules);
 	}
 
 }
