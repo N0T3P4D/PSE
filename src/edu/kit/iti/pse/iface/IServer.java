@@ -58,6 +58,14 @@ public interface IServer {
 	 * 
 	 * @param playerID
 	 *            Nummer des Spielers [0,max-1]
+	 * @since SVN revision 12 (negative Werte hinzugefügt)
+	 * @return Der Rückgabewert gibt die Position auf dem Spielfeld an. Der
+	 *         Rückgabewert hat die entsprechende Bedeutung aus der Tabelle:
+	 *         <ul>
+	 *         <li>0- auf dem Spielfeld
+	 *         <li>-1 im Gefängnis
+	 *         <li>weitere können benutzerdefiniert werden
+	 *         </ul>
 	 */
 	public int getPlayerPiecePosition(int playerID);
 
@@ -72,6 +80,7 @@ public interface IServer {
 
 	/**
 	 * Setzt einen Spieler auf bereit.
+	 * 
 	 * @param player
 	 *            Der Spieler der sich auf bereit setzt.
 	 */
@@ -94,6 +103,23 @@ public interface IServer {
 	 * @return Die Farbe des Spielers.
 	 */
 	public int getPlayerColor(int player);
+
+	/**
+	 * Gibt die Zahl der Runden an, die der Spieler im Gefängnis verbracht hat.
+	 * Diese Ergänzung ist notwendig, da Gefängnisse und zugehörige
+	 * "nur-zu-Besuch"-Felder auf dem gleichen Feld liegen und außerdem im 2.
+	 * Zug im Gefängnis nicht gewürfelt werden darf.
+	 * 
+	 * @return <ul>
+	 *         <li>-1 falls der Spieler nicht im Gefängnis ist
+	 *         <li>0 falls der Spieler in dieser Runde ins Gefängnis gewandert
+	 *         ist
+	 *         <li>1 falls der Spieler in der vergangenen Runde ins Gefängnis
+	 *         gewandert ist
+	 *         <li>...
+	 * @since SVN revision 9
+	 */
+	public int getTurnsInPrison(int playerID);
 
 	/**
 	 * Gibt den Regelsatz zurück.
@@ -134,16 +160,20 @@ public interface IServer {
 	 * Liefert die Zahl der gebauten Häuser an der gegebenen Position. Ein Hotel
 	 * wird dabei als die Zahl 5 repräsentiert.
 	 * 
-	 * @param position Gegebene Position.
-	 * @return Liefert die Anzahl der Häuser zurück. Sofern die Position keine Straße angibt, wird -1 zurückgegeben.
+	 * @param position
+	 *            Gegebene Position.
+	 * @return Liefert die Anzahl der Häuser zurück. Sofern die Position keine
+	 *         Straße angibt, wird -1 zurückgegeben.
 	 */
 	public int getEstateHouses(int position);
 
 	/**
 	 * Liefert den Kaufpreis des Grundstücks an der gegebeben Position.
 	 * 
-	 * @param position Gegebene Position.
-	 * @return Liefert die Anzahl der Hotels zurück. Sofern die Position keine Straße angibt, wird -1 zurückgegeben.
+	 * @param position
+	 *            Gegebene Position.
+	 * @return Liefert die Anzahl der Hotels zurück. Sofern die Position keine
+	 *         Straße angibt, wird -1 zurückgegeben.
 	 */
 	public int getEstatePrice(int position);
 
@@ -280,6 +310,32 @@ public interface IServer {
 	 *            Der handelnde Spieler.
 	 */
 	public boolean endTurn(int playerID);
+
+	/**
+	 * Sofern der Spieler im Gefängnis ist, kann diese Methode aufgerufen
+	 * werden, um mithilfe einer "Komme aus dem Gefängnis frei"-Karte aus dem
+	 * Gefängnis zu kommen.
+	 * 
+	 * @param playerID
+	 *            Der handelnde Spieler
+	 * @return Gibt <code>false</code> zurück, sofern der Spieler nicht an der
+	 *         Reihe ist, nicht im Gefängnis ist oder keine entsprechenden
+	 *         Karten besitzt. Ansonsten <code>true</code>.
+	 * @since SVN revision 12
+	 */
+	public boolean useGetOutOfJailCard(int playerID);
+
+	/**
+	 * Sofern der Spieler im Gefängnis ist, kann diese Methode aufgerufen
+	 * werden, um die Strafe zu bezahlen und damit aus dem Gefängnis zu kommen.
+	 * 
+	 * @param playerID
+	 *            Der handelnde Spieler
+	 * @return Gibt <code>false</code> zurück, sofern der Spieler nicht an der
+	 *         Reihe ist oder nicht im Gefängnis ist. Ansonsten <code>true</code>.
+	 * @since SVN revision 12
+	 */
+	public boolean payFine(int playerID);
 
 	/**
 	 * Erklärt Bankrott. Setzt das Barvermögen des jeweiligen Spielers auf einen

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -41,9 +41,6 @@ public class GameState {
 	private Rules rules;
 	private DiceSet dices;
 	private Player activePlayer;
-
-	private CardStack eventCards;
-	private CardStack communityCards;
 	
 	public GameState() {
 		this.players = new HashMap<Integer, Player>(MAXIMUM_PLAYER_COUNT);
@@ -52,12 +49,6 @@ public class GameState {
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
 		this.dices = new OjimDiceSet(1337);
-		
-		this.eventCards = new CardStack();
-		this.eventCards.add(new Card("foobar", this, false, new ActionMoveForward(this, 5)));
-		this.eventCards.add(new Card("anti jail", this, true, new ActionGetOutOfJailCard(this)));
-		
-		this.communityCards = new CardStack();
 	}
 	
 	public DiceSet getDices() {
@@ -94,9 +85,8 @@ public class GameState {
 		return fields[position];
 	}
 	
-	public Map<Integer, Player> getPlayers() {
-		//TODO: (xZise) Clone object?
-		return this.players;
+	public Player[] getPlayers() {
+		return this.players.values().toArray(new Player[0]);
 	}
 	
 	/**
@@ -145,17 +135,5 @@ public class GameState {
 		}
 		
 		return true;
-	}
-	
-	/*
-	 * CARD STACK
-	 */
-	
-	public Card getFirstEventCard() {
-		return this.eventCards.getPointedCard();
-	}
-	
-	public Card getFirstCommunityCard() {
-		return this.communityCards.getPointedCard();
 	}
 }

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -59,9 +59,9 @@ public class ActionMoveToField implements Action {
 			 * Checks if the distance to the selected field is lower than this
 			 * to the previous determined field.
 			 */
-			if ((fields[i].getRule().getPosition() - playerPos + state
+			if ((fields[i].getPosition() - playerPos + state
 					.getNumberOfFields())
-					% state.getNumberOfFields() < (next.getRule().getPosition()
+					% state.getNumberOfFields() < (next.getPosition()
 					- playerPos + state.getNumberOfFields())
 					% state.getNumberOfFields()) {
 				next = fields[i];

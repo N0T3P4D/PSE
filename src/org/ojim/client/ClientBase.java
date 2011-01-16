@@ -38,7 +38,7 @@ public class ClientBase extends SimpleClient implements IClient {
 	private String name;
 
 	public ClientBase() {
-		super(new Logic());
+		super();
 		this.connection = new ClientConnection();
 	}
 	
@@ -55,16 +55,16 @@ public class ClientBase extends SimpleClient implements IClient {
 	 */
 
 	protected final boolean connect(String host, String name) {
-		IServer server = null;//this.connection.connect(host, name);
+		IServer server = this.connection.connect(host, name);
 		if (server == null) {
 			return false;
 		}
-		this.setParameters(server.addPlayer(this), server);
+		this.setParameters(new Logic(server.getRules()), server.addPlayer(this), server);
 		return true;
 	}
 
 	protected final void connect(IServer server) {
-		this.setParameters(server.addPlayer(this), server);
+		this.setParameters(new Logic(server.getRules()), server.addPlayer(this), server);
 	}
 
 	/*
@@ -73,8 +73,7 @@ public class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public String getLanguage() {
-		// TODO Auto-generated method stub
-		return null;
+		return "eng";
 	}
 
 	@Override

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,22 +17,59 @@
 
 package org.ojim.logic.state;
 
-import org.ojim.logic.rules.FieldRule;
+import org.ojim.logic.actions.Action;
 
 public class Field {
 	
-	private FieldRule rule;
+	private final String name;
+	private final int position;
+	
+	private Action[] executeActions;
+	private Action[] passThroughActions;
+	
 	protected GameState state;
 	
-	public Field(GameState state) {
+	public Field(GameState state, String name, int position) {
+		this(state, name, position, new Action[0], new Action[0]);
+	}
+	
+	public Field(GameState state, String name, int position, Action[] executeActions, Action[] passThroughActions) {
+		this.name = name;
+		this.position = position;
 		this.state = state;
+		this.setActions(executeActions, passThroughActions);
 	}
 	
-	protected void setRule(FieldRule rule) {
-		this.rule = rule;
+	protected final void setActions(Action[] executeActions, Action[] passThroughActions) {
+		this.executeActions = executeActions;
+		this.passThroughActions = passThroughActions;
 	}
 	
-	public FieldRule getRule() {
-		return this.rule;
-	}	
+	protected final void setExecuteActions(Action... executeActions) {
+		this.executeActions = executeActions;
+	}
+	
+	protected final void setPassThroughActions(Action... passThroughActions) {
+		this.passThroughActions = passThroughActions;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public int getPosition() {
+		return this.position;
+	}
+	
+	public void execute() {
+		for (int i = 0; i < this.executeActions.length; i++) {
+			this.executeActions[i].execute();
+		}
+	}
+	
+	public void passThrough() {
+		for (int i = 0; i < this.passThroughActions.length; i++) {
+			this.passThroughActions[i].execute();
+		}		
+	}
 }

@@ -15,26 +15,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic;
 
-import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.actions.ActionGiveMoneyFromFreeParking;
+import org.ojim.logic.rules.GameRules;
+import org.ojim.logic.state.ServerGameState;
 
-public class FreeParking extends Field implements IMoneyPartner {
+/**
+ * Acts as logic, but this class informs also the players.
+ * 
+ * @author Fabian Neundorf
+ */
+public class ServerLogic extends Logic {
 
-	public FreeParking(GameState state, int position) {
-		super(state, "Free parking", position);
-		this.setExecuteActions(new ActionGiveMoneyFromFreeParking(state, this));
+	public ServerLogic(ServerGameState state, GameRules rules) {
+		super(state, rules);
 	}
 
-	private int moneyInPot;
-
-	public int getMoneyInPot() {
-		return this.moneyInPot;
-	}
-
-	@Override
-	public void transferMoney(int amount) {
-		this.moneyInPot += amount;
-	}
 }

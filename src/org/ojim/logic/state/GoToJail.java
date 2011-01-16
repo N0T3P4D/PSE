@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,17 +17,13 @@
 
 package org.ojim.logic.state;
 
-import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionMoveToJail;
-import org.ojim.logic.rules.FieldRule;
 
 public class GoToJail extends Field {
 
 	public GoToJail(GameState state, int position) {
-		super(state);
-		this.setRule(new FieldRule("Go to jail", position,
-				new Action[] { new ActionMoveToJail(state) },
-				new Action[0]));
+		super(state, "Go to jail", position);
+		this.setExecuteActions(new ActionMoveToJail(state));
 	}
 
 }
