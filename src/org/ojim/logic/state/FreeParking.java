@@ -17,14 +17,19 @@
 
 package org.ojim.logic.state;
 
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.actions.ActionGiveMoneyFromFreeParking;
 
 public class FreeParking extends Field implements IMoneyPartner {
 
-	public FreeParking(GameState state, int position) {
-		super(state, "Free parking", position);
-		this.setExecuteActions(new ActionGiveMoneyFromFreeParking(state, this));
+	public FreeParking(int position) {
+		super("Free parking", position);
+	}
+
+	public FreeParking(ServerLogic logic, int position) {
+		this(position);
+		this.setExecuteActions(new ActionGiveMoneyFromFreeParking(logic, this));
 	}
 
 	private int moneyInPot;

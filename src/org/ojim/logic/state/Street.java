@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,21 +17,37 @@
 
 package org.ojim.logic.state;
 
+import org.ojim.logic.ServerLogic;
+
 public class Street extends BuyableField {
 
 	private int builtLevel;
 	private int[] rentByLevel;
 
 	public Street(String name, int position, int[] rentByLevel, int builtLevel,
-			int price, GameState state) {
-		super(name, position, price, state);
-		this.builtLevel = builtLevel;
-		this.rentByLevel = rentByLevel;
+			int price) {
+		super(name, position, price);
+		this.setRentAndBuiltLevel(rentByLevel, builtLevel);
 	}
 
-	public Street(String name, int position, int[] rentByLevel, int price,
-			GameState state) {
-		this(name, position, rentByLevel, 0, price, state);
+	public Street(String name, int position, int[] rentByLevel, int price) {
+		this(name, position, rentByLevel, 0, price);
+	}
+	
+	public Street(String name, int position, int[] rentByLevel, int builtLevel,
+			int price, ServerLogic logic) {
+		super(name, position, price, logic);
+		this.setRentAndBuiltLevel(rentByLevel, builtLevel);
+	}
+	
+	public Street(String name, int position, int[] rentByLevel,
+			int price, ServerLogic logic) {
+		this(name, position, rentByLevel, 0, price, logic);
+	}
+	
+	private void setRentAndBuiltLevel(int[] rentByLevel, int builtLevel) {
+		this.builtLevel = builtLevel;
+		this.rentByLevel = rentByLevel;
 	}
 
 	// xZise: Please activate the UTF-8 encoding in Eclipse!
