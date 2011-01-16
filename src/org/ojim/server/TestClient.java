@@ -43,11 +43,11 @@ public class TestClient implements IClient {
 		
 		JPanel pane = new JPanel();		
 		JPanel panel = new JPanel();
-		panel.setLayout(new GridLayout(0,5));
+		panel.setLayout(new GridLayout(5,5));
 		
 		pane.setLayout(experimentLayout);
 		JFrame frame = new JFrame("TestClient");
-		JTextField var1 = new JTextField();
+		final JTextField var1 = new JTextField();
 		var1.setMinimumSize(new Dimension(200, 100));
 		pane.add(var1);
 		JTextField var2 = new JTextField();
@@ -79,6 +79,14 @@ public class TestClient implements IClient {
 			}
 		});
 		panel.add(bt3);
+		
+		JButton bt4 = new JButton("isMortgaged(var1)");
+		bt4.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				res.setText("" + (server.isMortgaged(Integer.parseInt(var1.getText())) ? "mortgaged" : "not mortgaged"));
+			}
+		});
+		panel.add(bt4);
 		
 		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		

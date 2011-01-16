@@ -17,9 +17,6 @@
 
 package org.ojim.server;
 
-import java.util.LinkedList;
-import java.util.Scanner;
-
 import org.ojim.client.ai.AIClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
@@ -52,6 +49,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	boolean initGame(int playerCount, int aiCount) {
 		
+		if(isOpen) {
+			return false;
+		}
+		
 		//Make sure no negative numbers appear and there are players at all
 		if(playerCount < 0 || aiCount < 0 || playerCount + aiCount == 0) {
 			display("Player- and AICount must not be negative and one of them must be positive");
@@ -76,6 +77,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	boolean endGame() {
 		
+		if(!isOpen) {
+			return true;
+		}
 		//Closing the Game
 		isOpen = false;
 		
