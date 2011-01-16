@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,6 +17,10 @@
 
 package org.ojim.logic.accounting;
 
+/**
+ * Simple bank that holds the houses/hotels and the amount of money.
+ * @author Fabian Neundorf.
+ */
 public class Bank implements IMoneyPartner {
 
 	private int balance;

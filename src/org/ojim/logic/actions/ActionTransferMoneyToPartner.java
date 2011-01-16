@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,9 +17,9 @@
 
 package org.ojim.logic.actions;
 
-import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.FreeParking;
 
 /**
  * Action to transfer the money between the player and one instance of
@@ -29,9 +29,9 @@ import org.ojim.logic.state.GameState;
  */
 public class ActionTransferMoneyToPartner implements Action {
 
-	private int amount;
-	private IMoneyPartner partner;
-	private final GameState state;
+	private final int amount;
+	private final IMoneyPartner partner;
+	private final ServerLogic logic;
 
 	/**
 	 * Creates a new action to transfer money to/from another trading partner.
@@ -44,16 +44,16 @@ public class ActionTransferMoneyToPartner implements Action {
 	 * @param partner
 	 *            The partner of this money exchange.
 	 */
-	public ActionTransferMoneyToPartner(GameState state, int amount,
+	public ActionTransferMoneyToPartner(ServerLogic logic, int amount,
 			IMoneyPartner partner) {
 		this.amount = amount;
 		this.partner = partner;
-		this.state = state;
+		this.logic = logic;
 	}
 
 	@Override
 	public void execute() {
-		ActionTransferMoneyToPartner.execute(this.state, this.partner,
+		ActionTransferMoneyToPartner.execute(this.logic, this.partner,
 				this.amount);
 	}
 
@@ -68,9 +68,10 @@ public class ActionTransferMoneyToPartner implements Action {
 	 * @param partner
 	 *            The partner of this money exchange.
 	 */
-	public static void execute(GameState state, IMoneyPartner partner,
+	public static void execute(ServerLogic logic, IMoneyPartner partner,
 			int amount) {
-		Bank.exchangeMoney(state.getActivePlayer(), partner, amount);
+		logic.exchangeMoney(logic.getGameState().getActivePlayer(), partner,
+				amount);
 	}
 
 	/**
@@ -84,8 +85,9 @@ public class ActionTransferMoneyToPartner implements Action {
 	 * @return New created action.
 	 */
 	public static ActionTransferMoneyToPartner newTransferMoneyToBank(
-			GameState state, int amount) {
-		return new ActionTransferMoneyToPartner(state, amount, state.getBank());
+			ServerLogic logic, int amount) {
+		return new ActionTransferMoneyToPartner(logic, amount, logic
+				.getGameState().getBank());
 	}
 
 	/**
@@ -99,9 +101,8 @@ public class ActionTransferMoneyToPartner implements Action {
 	 * @return New created action.
 	 */
 	public static ActionTransferMoneyToPartner newTransferMoneyToFreeParking(
-			GameState state, int amount) {
-		// TODO: Get Free Parking field
-		return new ActionTransferMoneyToPartner(state, amount, null);
+			ServerLogic logic, int amount, FreeParking field) {
+		return new ActionTransferMoneyToPartner(logic, amount, field);
 	}
 
 }

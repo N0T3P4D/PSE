@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -19,39 +19,40 @@ package org.ojim.logic.actions;
 
 import java.util.List;
 
-import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.state.BuyableField;
-import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Player;
 import org.ojim.logic.state.Street;
 
 public class ActionPayForBuildings implements Action {
 
 	private final int costForEachHouse;
 	private final int costForEachHotel;
-	private final GameState state;
+	private final ServerLogic logic;
 	private final IMoneyPartner payee;
 
-	public ActionPayForBuildings(GameState state, int costForEachHouse,
+	public ActionPayForBuildings(ServerLogic logic, int costForEachHouse,
 			int costForEachHotel, IMoneyPartner payee) {
 		this.costForEachHouse = costForEachHouse;
 		this.costForEachHotel = costForEachHotel;
-		this.state = state;
+		this.logic = logic;
 		this.payee = payee;
 	}
 
 	@Override
 	public void execute() {
-		ActionPayForBuildings.execute(this.state, this.costForEachHouse,
+		ActionPayForBuildings.execute(this.logic, this.costForEachHouse,
 				this.costForEachHotel, this.payee);
 	}
 
-	public static void execute(GameState state, int costForEachHouse,
+	public static void execute(ServerLogic logic, int costForEachHouse,
 			int costForEachHotel, IMoneyPartner payee) {
+		Player active = logic.getGameState().getActivePlayer();
 		int costs = 0;
-
+		
 		// Gehe jede Straße des Spielers durch
-		List<BuyableField> field = state.getActivePlayer().getFields();
+		List<BuyableField> field = active.getFields();
 
 		// In jeder Straße gucke wie viele Häuse/Hotels es gibt
 		for (BuyableField buyableField : field) {
@@ -62,8 +63,8 @@ public class ActionPayForBuildings implements Action {
 			}
 		}
 
-		// Danach dann abrechnen:
-		Bank.exchangeMoney(state.getActivePlayer(), payee, costs);
+		// Danach dann abrechnen:	
+		logic.exchangeMoney(active, payee, costs);
 	}
 
 }

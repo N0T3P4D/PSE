@@ -34,8 +34,8 @@ public class ServerGameState extends GameState {
 		super();
 		this.eventCards = new CardStack();
 		// Fill here the cards
-		this.eventCards.add(new Card("foobar", this, false, new ActionMoveForward(this, 5)));
-		this.eventCards.add(new Card("anti jail", this, true, new ActionGetOutOfJailCard(this)));
+//		this.eventCards.add(new Card("foobar", this, false, new ActionMoveForward(this, 5)));
+//		this.eventCards.add(new Card("anti jail", this, true, new ActionGetOutOfJailCard(this)));
 		
 		this.communityCards = new CardStack();
 		// Fill here the cards

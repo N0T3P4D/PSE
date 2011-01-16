@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,31 +17,30 @@
 
 package org.ojim.logic.actions;
 
-import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.state.GameState;
 
 public class ActionPayForDiceValues implements Action {
 
 	private final int factor;
 	private final IMoneyPartner payee;
-	private final GameState state;
+	private final ServerLogic logic;
 
-	public ActionPayForDiceValues(GameState state, int factor,
+	public ActionPayForDiceValues(ServerLogic logic, int factor,
 			IMoneyPartner payee) {
 		this.factor = factor;
 		this.payee = payee;
-		this.state = state;
+		this.logic = logic;
 	}
 
 	@Override
 	public void execute() {
-		ActionPayForDiceValues.execute(this.state, this.payee, this.factor);
+		ActionPayForDiceValues.execute(this.logic, this.payee, this.factor);
 	}
 
-	public static void execute(GameState state, IMoneyPartner payee, int factor) {
-		Bank.exchangeMoney(state.getActivePlayer(), payee, factor
-				* state.getDices().getResultSum());
+	public static void execute(ServerLogic logic, IMoneyPartner payee, int factor) {
+		logic.exchangeMoney(logic.getGameState().getActivePlayer(), payee, factor
+				* logic.getGameState().getDices().getResultSum());
 	}
 
 }

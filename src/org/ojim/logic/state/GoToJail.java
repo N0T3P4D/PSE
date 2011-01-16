@@ -17,13 +17,18 @@
 
 package org.ojim.logic.state;
 
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.actions.ActionMoveToJail;
 
 public class GoToJail extends Field {
 
-	public GoToJail(GameState state, int position) {
-		super(state, "Go to jail", position);
-		this.setExecuteActions(new ActionMoveToJail(state));
+	public GoToJail(int position) {
+		super("Go to jail", position);
+	}
+	
+	public GoToJail(ServerLogic logic, int position) {
+		this(position);
+		this.setExecuteActions(new ActionMoveToJail(logic));
 	}
 
 }
