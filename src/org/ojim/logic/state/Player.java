@@ -75,6 +75,8 @@ public class Player implements IMoneyPartner {
 	 */
 	private boolean isReady;
 
+	private boolean isInPrison;
+
 	/**
 	 * Creates a new player object.
 	 * 
@@ -99,6 +101,7 @@ public class Player implements IMoneyPartner {
 		this.id = id;
 		this.color = color;
 		this.isReady = false;
+		this.isInPrison = false;
 	}
 
 	/**
@@ -111,6 +114,10 @@ public class Player implements IMoneyPartner {
 		this.balance += amount;
 	}
 
+	public void tooglePrison() {
+		this.isInPrison = !this.isInPrison;
+	}
+	
 	public int getColor() {
 		return this.color;
 	}
@@ -183,6 +190,10 @@ public class Player implements IMoneyPartner {
 				field.buy(null);
 			}
 		}
+	}
+
+	public Object getIsInPrison() {
+		return this.isInPrison;
 	}
 	
 }

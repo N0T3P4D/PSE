@@ -86,4 +86,14 @@ public class Logic {
 		return street.upgrade(level);
 	}
 
+	public void sendPlayerToJail(Player player, ) {
+		
+	}
+	
+	public void startGame() {
+		//Set a random Player to be the StartPlayer
+		this.state.getPlayers().length;
+		
+	}
+
 }

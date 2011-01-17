@@ -20,6 +20,7 @@ package org.ojim.server;
 import org.ojim.client.ai.AIClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
+import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.Field;
@@ -40,6 +41,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	private IClient[] clients;
 
 	private GameState state;
+	private Logic logic;
+	private GameRules rules;
 	
 	public OjimServer(String name) {
 		this.name = name;
@@ -63,7 +66,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.connectedClients = 0;
 		this.maxClients = playerCount + aiCount;
 		clients = new IClient[maxClients];
-		this.state = new GameState(this.maxClients);
+		this.state = new GameState();
 		
 		//Add AIClients to the Game
 		for(int i = 0; i < aiCount; i++) {
@@ -292,7 +295,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private void startGame() {
-		
+		this.logic = new Logic(this.state, new Rules());
+		logic.startGame();
 	}
 
 	@Override
@@ -312,7 +316,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public String getEstateName(int position) {
-		return state.getFieldByID(position).getRule().getName();
+		return state.getFieldByID(position).getName();
 	}
 
 	@Override
@@ -452,17 +456,41 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean construct(int playerID, int position) {
-		return GameRules.upgradeStreet(playerID, position, 1);
+		return changeLevel(playerID, position, 1);
+	}
+	
+	private boolean changeLevel(int playerID, int position, int levelChange) {
+		Player player = state.getPlayerByID(playerID);
+		Field field = state.getFieldAt(position);
+		if(player != null) {
+			if(field != null) {
+				if(rules.isFieldUpgradable(player, field, levelChange)) {
+					logic.upgrade((Street)field, levelChange);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
 	public boolean deconstruct(int playerID, int position) {
-		return GameRules.upgradeStreet(playerID, position, -1);
+		return changeLevel(playerID, position, -1);
 	}
 
 	@Override
 	public boolean toggleMortgage(int playerID, int position) {
-		return GameRules.changeMortgage(playerID, position);
+		Player player = state.getPlayerByID(playerID);
+		Field field = state.getFieldAt(position);
+		if(player != null) {
+			if(field != null) {
+				if(rules.isFieldMortgageable(player, field)) {
+					logic.toggleMortgage((BuyableField)field);
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	@Override
@@ -490,6 +518,26 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	public int getConnectedClients() {
 		return this.connectedClients;
+	}
+
+	@Override
+	public int getTurnsInPrison(int playerID) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean useGetOutOfJailCard(int playerID) {
+		Player player = state.getPlayerByID(playerID);
+		if(player != null) {
+			rules.isPlayerInPrison(player);
+		}
+	}
+
+	@Override
+	public boolean payFine(int playerID) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

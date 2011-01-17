@@ -86,7 +86,7 @@ public class TestClient implements IClient {
 				res.setText("" + (server.isMortgaged(Integer.parseInt(var1.getText())) ? "mortgaged" : "not mortgaged"));
 			}
 		});
-		panel.add(bt4);
+		//panel.add(bt4);
 		
 		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		

@@ -117,4 +117,8 @@ public class GameRules {
 		
 		return true;
 	}
+
+	public void isPlayerInPrison(Player player) {
+		return player.getIsInPrison();
+	}
 }
