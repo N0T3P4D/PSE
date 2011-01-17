@@ -89,6 +89,10 @@ public class SimpleClient {
 		return this.getEstatePrice(position);
 	}
 	
+	public int getEstateRent(int position, int houses) {
+		return this.getEstateRent(position, houses);
+	}
+	
 	/*
 	 * ACTION METHODS
 	 */

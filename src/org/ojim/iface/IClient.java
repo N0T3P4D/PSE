@@ -149,4 +149,11 @@ public interface IClient {
 	 * Informiert den Spieler, dass eine Auktion begonnen hat.
 	 */
 	void informAuction();
+
+	/**
+	 * Informiert den Spieler, dass ein Spieler sich bewegt hat.
+	 * @param position Die neue Position des Spielers. Siehe {@link IServer#getPlayerPiecePosition(int)}.
+	 * @param playerId Die Id des Spielers der bewegt wurde.
+	 */
+	void informMove(int position, int playerId);
 }

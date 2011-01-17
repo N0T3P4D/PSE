@@ -27,10 +27,12 @@ import org.ojim.logic.state.Field;
 import org.ojim.logic.state.FieldGroup;
 import org.ojim.logic.state.FreeParking;
 import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.GoField;
 import org.ojim.logic.state.GoToJail;
 import org.ojim.logic.state.InfrastructureField;
 import org.ojim.logic.state.Jail;
 import org.ojim.logic.state.Street;
+import org.ojim.logic.state.TaxField;
 import org.ojim.network.ClientConnection;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -55,7 +57,7 @@ public class ClientBase extends SimpleClient implements IClient {
 	 * MISC
 	 */
 
-	private void loadGameState() {
+	private void loadGameBoard() {
 
 		GameState state = this.getGameState();
 		
@@ -68,7 +70,7 @@ public class ClientBase extends SimpleClient implements IClient {
 			int price = this.getEstatePrice(position);
 			switch (this.getEstateColorGroup(position)) {
 			case FieldGroup.GO:
-				; // Los feld
+				field = new GoField(position); // Los feld
 				break;
 			case FieldGroup.JAIL: // Gefängnis
 				//FIXME: (xZise) Get real values!
@@ -93,6 +95,7 @@ public class ClientBase extends SimpleClient implements IClient {
 				field = infrastructures.addField(new InfrastructureField(name, position, price));
 				break;
 			case FieldGroup.TAX:
+				field = new TaxField(name, position, this.getEstateRent(position, 0), this.getGameState().getBank());
 				break;
 			}
 			
@@ -119,12 +122,14 @@ public class ClientBase extends SimpleClient implements IClient {
 		}
 		this.setParameters(new Logic(server.getRules()),
 				server.addPlayer(this), server);
+		this.loadGameBoard();
 		return true;
 	}
 
 	protected final void connect(IServer server) {
 		this.setParameters(new Logic(server.getRules()),
 				server.addPlayer(this), server);
+		this.loadGameBoard();
 	}
 
 	/*
@@ -225,6 +230,12 @@ public class ClientBase extends SimpleClient implements IClient {
 		// TODO Auto-generated method stub
 
 		// GameState bescheid sagen, wer jetzt dran ist
+	}
+
+	@Override
+	public void informMove(int position, int playerId) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

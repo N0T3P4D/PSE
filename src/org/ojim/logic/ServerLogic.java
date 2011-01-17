@@ -70,7 +70,7 @@ public class ServerLogic extends Logic {
 		//Inform All Player that a new Turn has come
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if(onePlayer instanceof ServerPlayer) {
-				((ServerPlayer)onePlayer).getClient().informTurn(this.state.getActivePlayer().getId());
+				((ServerPlayer)onePlayer).getClient().informTurn(this.getGameState().getActivePlayer().getId());
 			}
 		}
 	}
@@ -92,7 +92,7 @@ public class ServerLogic extends Logic {
 		 player.sendToJail(jail);
 		 for (Player onePlayer : this.getGameState().getPlayers()) {
 			if(onePlayer instanceof ServerPlayer) {
-				((ServerPlayer)onePlayer).getClient().informMove(jail.getPosition(), player.getId());
+				((ServerPlayer)onePlayer).getClient().informMove(-jail.getPosition(), player.getId());
 				//TODO Inform Players that this one is in Prison?
 			}
 		}
@@ -118,10 +118,10 @@ public class ServerLogic extends Logic {
 	}
 	
 	/**
-	 * Exchanges Money and informs all Players if payer or payee is a Player
-	 * @param payer The Player paying Money
-	 * @param payee the Player getting Money 
-	 * @param amount The amount of Money
+	 * Exchanges Money and informs all Players if payer or payee is a Player.
+	 * @param payer The Player paying Money.
+	 * @param payee The Player getting Money. 
+	 * @param amount The amount of Money.
 	 */
 	public void exchangeMoney(IMoneyPartner payer, IMoneyPartner payee,
 			int amount) {
