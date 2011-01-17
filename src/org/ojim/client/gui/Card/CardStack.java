@@ -17,12 +17,21 @@
 
 package org.ojim.client.gui.Card;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+
 // xZise: Als Info: Es gibt bereits eine Klasse CardStack? Könnte die für dich interessant sein?
+// Card Stack ist in diesem Fall ein Kartenstapel unten im Card Window
 
-public class CardStack {
+public class CardStack extends JPanel {
 
-	// xZise: Please encode every non ASCII character (7-bit) as UTF-8!
 	// Hält Cards
+
+	public CardStack() {
+		super();
+		this.add(new JPanel().add(new JLabel("CStack")));
+		// TODO Auto-generated constructor stub
+	}
 
 	// FIXME: INT
 	// TODO: (xZise) Klassen statt untypisierte Zahlen!

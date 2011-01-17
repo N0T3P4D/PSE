@@ -1,8 +1,15 @@
 package org.ojim.client.gui.GameField;
 
-public class GameField {
+import javax.swing.JPanel;
 
-	// Hält GameFieldPieceCollection
-	// Hält Referenz auf GameFieldPiece
+public class GameField  extends JPanel{
+
+	public GameField() {
+		super();
+		// TODO Auto-generated constructor stub
+	}
+
+	// HÃ¤lt GameFieldPieceCollection
+	// HÃ¤lt Referenz auf GameFieldPiece
 	InteractionPopup interactionPopup;
 }

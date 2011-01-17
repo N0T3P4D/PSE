@@ -35,6 +35,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.ojim.client.ClientBase;
+import org.ojim.client.gui.Card.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
@@ -45,104 +46,159 @@ public class GUIClient extends ClientBase {
 	GameField gameField;
 	ChatWindow chatWindow;
 	PlayerInfoWindow playerInfoWindow;
+	CardWindow cardWindow;
 
 	JFrame GUIFrame;
 
 	JPanel pane = new JPanel(new OJIMLayout());
 
 	private MenuState menuState;
-	
-	public GUIClient() {
-		
-		setMenuState(MenuState.mainMenu);
 
-		
-		// LanguageDefinition languageDefinition = new LanguageDefinition("Maximilian", "English", "English", "eng", new File("org/ojim/language/eng.lang") );
-		LanguageDefinition languageDefinition = new LanguageDefinition("Maximilian", "deutsch", "German", "deu", new File("org/ojim/language/deu.lang") );
-		
+	public GUIClient() {
+
+		setMenuState(MenuState.game);
+
+		// LanguageDefinition languageDefinition = new
+		// LanguageDefinition("Maximilian", "English", "English", "eng", new
+		// File("org/ojim/language/eng.lang") );
+		LanguageDefinition languageDefinition = new LanguageDefinition(
+				"Maximilian", "deutsch", "German", "deu", new File(
+						"org/ojim/language/deu.lang"));
+
 		Localizer language = new Localizer();
 		language.getLanguages();
-		
-		
-		//language.setLanguage("deu");
+
+		// language.setLanguage("deu");
 		language.setLanguage(languageDefinition);
-		//language.setLanguage("fra");
-		
+		// language.setLanguage("fra");
+
 		GUIFrame = new JFrame("OJim");
 
-		
 		MenuBar menubar = new MenuBar(language);
 
 		GUIFrame.setJMenuBar(menubar);
 
-		//LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
-		
+		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
+
 		try {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		        if ("Windows".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		        else if ("Nimbus".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		        else if ("Metal".equals(info.getName())) {
-		            UIManager.setLookAndFeel(info.getClassName());
-		            break;
-		        }
-		    }
-		// Keines der Standarddesigns vorhanden. Nimm das was du hast.
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				if ("Windows".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				} else if ("Nimbus".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				} else if ("Metal".equals(info.getName())) {
+					UIManager.setLookAndFeel(info.getClassName());
+					break;
+				}
+			}
+			// Keines der Standarddesigns vorhanden. Nimm das was du hast.
 		} catch (Exception e) {
-		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-		    	try {
+			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+				try {
 					UIManager.setLookAndFeel(info.getClassName());
 				} catch (Exception e1) {
 					// Kein Look and Feel
 					e1.printStackTrace();
 				}
-		    }
+			}
 		}
 
+		switch (menuState) {
 
-		
+		case mainMenu:
+			
+			//TODO Ein schönes Bild, oder ein Vorschauspiel vielleicht?
+			
+			
+			break;
+			
+			
+		case waitRoom:
 
-        JButton button;
-        
+			JPanel window = new JPanel();
+			JPanel leftWindow = new JPanel();
+			JPanel rightWindow = new JPanel();
 
-		button = new JButton("Upleft");
-		pane.add(button);
-		
-		JPanel rightWindow = new JPanel();
+			window.setLayout(new GridLayout(1, 0));
+			rightWindow.setLayout(new GridLayout(0, 1));
+			
+			
+			playerInfoWindow = new PlayerInfoWindow();
+			chatWindow = new ChatWindow();
 
-		playerInfoWindow = new PlayerInfoWindow();
-		chatWindow = new ChatWindow();
+			rightWindow.add(playerInfoWindow);
+			leftWindow.add(chatWindow);
+			
+			
+			JButton button;
+			button = new JButton(language.getText("ready"));
+			rightWindow.add(button);
+			
+			
+
+			window.add(leftWindow);
+			window.add(rightWindow);
+			
+			
+			GUIFrame.add(window);
+			break;
 		
-		rightWindow.add(playerInfoWindow);
-		rightWindow.add(chatWindow);
 		
-		pane.add(rightWindow);
-		
-		
-		button = new JButton("Down");
-		pane.add(button);
-		
-		
-		button = new JButton("Downright");
-		pane.add(button);
-		GUIFrame.add(pane);
-		
+		case game:
+
+			gameField = new GameField();
+			pane.add(gameField);
+
+			JPanel rightWindow1 = new JPanel();
+
+			rightWindow1.setLayout(new GridLayout(0, 1));
+
+			playerInfoWindow = new PlayerInfoWindow();
+			chatWindow = new ChatWindow();
+
+			rightWindow1.add(playerInfoWindow);
+			rightWindow1.add(chatWindow);
+
+			pane.add(rightWindow1);
+
+			JPanel downWindow = new JPanel();
+
+			downWindow.setLayout(new GridLayout(1, 0));
+
+			cardWindow = new CardWindow();
+
+			downWindow.add(cardWindow);
+
+			pane.add(downWindow);
+
+			JPanel downRight = new JPanel();
+			downRight.setLayout(new GridLayout(1, 0));
+
+			JButton button1;
+
+			button1 = new JButton(language.getText("buy"));
+			downRight.add(button1);
+			button1 = new JButton(language.getText("roll"));
+			downRight.add(button1);
+
+			pane.add(downRight);
+
+			GUIFrame.add(pane);
+			break;
+
+		}
+
 		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		
-		GUIFrame.setMinimumSize(new Dimension(400,400));
-				
+
+		GUIFrame.setMinimumSize(new Dimension(400, 400));
+
 		GUIFrame.setVisible(true);
 
-
 	}
-	
-	
-	public static void main (String[] args){
+
+	public static void main(String[] args) {
 		new GUIClient();
 	}
 
