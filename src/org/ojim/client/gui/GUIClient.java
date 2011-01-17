@@ -242,6 +242,7 @@ public class GUIClient extends ClientBase implements ComponentListener {
 		c.gridy = 1;
 		pane.add(button,c);
 		GUIFrame.add(pane);
+		GUIFrame.setVisible(true);
 	}
 
 	@Override
