@@ -136,4 +136,9 @@ public class GameState {
 		
 		return true;
 	}
+
+	public void startGame(int start) {
+		this.activePlayer = this.players.get(start);
+		
+	}
 }

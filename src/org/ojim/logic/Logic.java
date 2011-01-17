@@ -22,6 +22,7 @@ import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Jail;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.Street;
 
@@ -86,14 +87,6 @@ public class Logic {
 		return street.upgrade(level);
 	}
 
-	public void sendPlayerToJail(Player player, ) {
-		
-	}
-	
-	public void startGame() {
-		//Set a random Player to be the StartPlayer
-		this.state.getPlayers().length;
-		
-	}
+
 
 }

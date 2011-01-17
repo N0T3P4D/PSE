@@ -118,7 +118,24 @@ public class GameRules {
 		return true;
 	}
 
-	public void isPlayerInPrison(Player player) {
-		return player.getIsInPrison();
+	public boolean isPlayerInPrison(Player player) {
+		if(player.getJail() != null) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean canPlayerGetOutOfJail(Player player, boolean usesGetOutOfJailCard) {
+		if(usesGetOutOfJailCard) {
+			if(player.getNumberOfGetOutOfJailCards() > 0) {
+				return true;
+			}
+		} else {
+			if(player.getBalance() >= player.getJail().getMoneyToPay()) {
+				return true;
+			}
+		}
+		return false;
 	}
 }

@@ -18,6 +18,9 @@
 package org.ojim.logic.state;
 
 import org.ojim.logic.accounting.IMoneyPartner;
+import org.ojim.logic.actions.Action;
+import org.ojim.logic.actions.ActionGetOutOfJailCard;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,10 +45,11 @@ public class Player implements IMoneyPartner {
 
 	/** The color that symbolizes the Player */
 	private int color;
-
-	/** Contains all cards this player got (e.g. get out of jail cards). */
-	private int NumberOfGetOutOfJailCards;
 	
+	/**
+	 * Number of Rounds the Player has to stay in Jail
+	 */
+	private int roundsInJail;
 	
 	private List<Card> cards;
 
@@ -55,19 +59,26 @@ public class Player implements IMoneyPartner {
 	public Player() {
 		this.cards = new ArrayList<Card>(2);
 		this.fields = new ArrayList<BuyableField>();
-		this.NumberOfGetOutOfJailCards = 0;
+	}
+	
+	public int getRoundsInJail() {
+		return this.roundsInJail;
+	}
+	
+	public List<Card> getCards() {
+		return this.cards;
 	}
 	
 	public int getNumberOfGetOutOfJailCards() {
-		return this.NumberOfGetOutOfJailCards;
-	}
-	
-	public void addGetOutOfJailCard() {
-		this.NumberOfGetOutOfJailCards++;
-	}
-	
-	public void takeGetOutOfJailCard() {
-		this.NumberOfGetOutOfJailCards--;
+		int counter = 0;
+		for(Card card : this.cards) {
+			for(Action action : card.getActions()) {
+				if(action instanceof ActionGetOutOfJailCard) {
+					counter++;
+				}
+			}
+		}
+		return counter;
 	}
 	
 	/**
@@ -75,7 +86,10 @@ public class Player implements IMoneyPartner {
 	 */
 	private boolean isReady;
 
-	private boolean isInPrison;
+	/**
+	 * NULL if Player is not in jail
+	 */
+	private Jail jail;
 
 	/**
 	 * Creates a new player object.
@@ -101,7 +115,7 @@ public class Player implements IMoneyPartner {
 		this.id = id;
 		this.color = color;
 		this.isReady = false;
-		this.isInPrison = false;
+		this.jail = null;
 	}
 
 	/**
@@ -113,9 +127,14 @@ public class Player implements IMoneyPartner {
 	public void transferMoney(int amount) {
 		this.balance += amount;
 	}
+	
+	public void waitInJail() {
+		this.roundsInJail--;
+	}
 
-	public void tooglePrison() {
-		this.isInPrison = !this.isInPrison;
+	public void sendToJail(Jail jail) {
+		this.jail = jail;
+		this.roundsInJail = jail.getRoundsToWait();
 	}
 	
 	public int getColor() {
@@ -192,8 +211,8 @@ public class Player implements IMoneyPartner {
 		}
 	}
 
-	public Object getIsInPrison() {
-		return this.isInPrison;
+	public Jail getJail() {
+		return this.jail;
 	}
 	
 }
