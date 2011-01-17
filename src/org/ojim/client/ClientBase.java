@@ -17,10 +17,14 @@
 
 package org.ojim.client;
 
+import java.util.logging.Logger;
+
 import org.ojim.iface.IClient;
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.Field;
+import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Jail;
 import org.ojim.logic.state.Street;
 import org.ojim.network.ClientConnection;
 
@@ -41,15 +45,40 @@ public class ClientBase extends SimpleClient implements IClient {
 		super();
 		this.connection = new ClientConnection();
 	}
-	
+
 	/*
 	 * MISC
 	 */
-	
+
 	private void loadGameState() {
-		
+
+		// <li>-1 für das Startfeld
+		// * <li>-2 für das Gefängnis
+		// * <li>-3 für Frei Parken
+		// * <li>-4 für "gehe in das Gefängnis"
+		// * <li>-5 für Ereignisfelder
+		// * <li>-6 für Gemeinschaftsfelder
+		// * <li>-7 für Bahnhöfe
+		// * <li>-8 für Infrastrukturgebäude
+		// * <li>-9 für Sondersteuerfelder
+
+		GameState state = this.getGameState();
+		Field field = null;
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			switch (this.getEstateColorGroup(i)) {
+			case -1:
+				; // Los feld
+				break;
+			case -2: // Gefängnis
+				Jail jail = new Jail(i);
+				
+				break;
+			}
+			
+			state.setFieldAt(field, i);
+		}
 	}
-	
+
 	public void setName(String name) {
 		this.name = name;
 	}
@@ -63,12 +92,14 @@ public class ClientBase extends SimpleClient implements IClient {
 		if (server == null) {
 			return false;
 		}
-		this.setParameters(new Logic(server.getRules()), server.addPlayer(this), server);
+		this.setParameters(new Logic(server.getRules()),
+				server.addPlayer(this), server);
 		return true;
 	}
 
 	protected final void connect(IServer server) {
-		this.setParameters(new Logic(server.getRules()), server.addPlayer(this), server);
+		this.setParameters(new Logic(server.getRules()),
+				server.addPlayer(this), server);
 	}
 
 	/*

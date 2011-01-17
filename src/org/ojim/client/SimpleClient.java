@@ -74,6 +74,14 @@ public class SimpleClient {
 	}
 	
 	/*
+	 * GETTER OF ISERVER
+	 */
+	
+	public int getEstateColorGroup(int position) {
+		return this.server.getEstateColorGroup(position);
+	}
+	
+	/*
 	 * ACTION METHODS
 	 */
 

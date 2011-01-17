@@ -34,35 +34,22 @@ public class Test {
 	
 	private Card[] cards;
 	
-	private Test() {
-		
-		GUIClient gc = new GUIClient();
-		
-		GameState state = new GameState();
-		
-		this.cards = new Card[10];
-		for (int i = 0; i < this.cards.length; i++) {  /* Hier kann eine andere Aktion hin, oder mehrere hintereinander */
-			this.cards[i] = new Card("Beispielkarte #" + i, state, false, new ActionMoveToField(state, false, new Field(state, "foo", (int) (Math.random() * 40), new Action[0], new Action[0])));
-		}
-	}
-	
 	// Possible parameters:
 	// -g --gui == GUI Client
 	// -s --server == ojim server
 	// -a --ai == AI Client
 	public static void main(String args[]) {
 		
-		String param = "-g";
 		for (String string : args) {
-			if (args.equals("-g") || args.equals("--gui")) {
+			if (string.equals("-g") || string.equals("--gui")) {
 				System.out.println("Starting guiclient!");
 				GUIClient c = new GUIClient();
 				return;
-			} else if (args.equals("-s") || args.equals("--server")) {
+			} else if (string.equals("-s") || string.equals("--server")) {
 				System.out.println("Starting server!");
 				OjimServer s = new OjimServer("test");
 				return;
-			} else if (args.equals("-a") || args.equals("--ai")) {
+			} else if (string.equals("-a") || string.equals("--ai")) {
 				System.out.println("Starting aiclient!");
 				AIClient a = new AIClient();
 				return;
