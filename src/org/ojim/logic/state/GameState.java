@@ -32,8 +32,9 @@ import org.ojim.iface.Rules;
 
 public class GameState {
 
-	private final int MAXIMUM_PLAYER_COUNT = 8;
-	private final int FIELDS_AMOUNT = 40;
+	public final static int MAXIMUM_PLAYER_COUNT = 8;
+	public final static int FIELDS_AMOUNT = 40;
+	
 	private Map<Integer, Player> players;
 	private List<Integer> playerIds;
 	private Bank bank;
@@ -83,7 +84,11 @@ public class GameState {
 		if(position >= FIELDS_AMOUNT) {
 			return null;
 		}
-		return fields[position];
+		return this.fields[position];
+	}
+	
+	public void setFieldAt(Field field, int position) {
+		this.fields[position] = field;
 	}
 	
 	public Player[] getPlayers() {
