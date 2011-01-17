@@ -35,6 +35,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.ojim.client.ClientBase;
+import org.ojim.client.gui.Card.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
@@ -45,6 +46,7 @@ public class GUIClient extends ClientBase {
 	GameField gameField;
 	ChatWindow chatWindow;
 	PlayerInfoWindow playerInfoWindow;
+	CardWindow cardWindow;
 
 	JFrame GUIFrame;
 
@@ -115,7 +117,7 @@ public class GUIClient extends ClientBase {
 		
 		JPanel rightWindow = new JPanel();
 		
-		rightWindow.setLayout(new GridLayout());
+		rightWindow.setLayout(new GridLayout(0,1));
 
 		playerInfoWindow = new PlayerInfoWindow();
 		chatWindow = new ChatWindow();
@@ -126,8 +128,15 @@ public class GUIClient extends ClientBase {
 		pane.add(rightWindow);
 		
 		
-		button = new JButton("Down");
-		pane.add(button);
+		JPanel downWindow = new JPanel();
+		
+		downWindow.setLayout(new GridLayout(1,0));
+		
+		cardWindow = new CardWindow();
+		
+		downWindow.add(cardWindow);
+		
+		pane.add(downWindow);
 		
 		
 		button = new JButton("Downright");
