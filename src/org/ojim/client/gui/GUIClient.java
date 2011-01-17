@@ -114,6 +114,8 @@ public class GUIClient extends ClientBase {
 		pane.add(button);
 		
 		JPanel rightWindow = new JPanel();
+		
+		rightWindow.setLayout(new GridLayout());
 
 		playerInfoWindow = new PlayerInfoWindow();
 		chatWindow = new ChatWindow();
