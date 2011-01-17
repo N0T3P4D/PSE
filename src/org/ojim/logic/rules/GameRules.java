@@ -76,11 +76,19 @@ public class GameRules {
 	
 	
 	/**
-	 * The Start Time 
+	 * The Start Time for an Auction, between a Auction started and the first call
 	 * @return
 	 */
 	public int getActionStartTime() {
 		return 20;
+	}
+	
+	/**
+	 * The Time between two calls or ticks in an Auction
+	 * @return
+	 */
+	public int getActionTickTime() {
+		return 5;
 	}
 	
 	public boolean isFieldMortgageable(Player player, Field field) {

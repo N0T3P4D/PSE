@@ -17,6 +17,7 @@
 
 package org.ojim.logic;
 
+import org.ojim.client.ClientBase;
 import org.ojim.iface.Rules;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.BuyableField;
@@ -24,6 +25,7 @@ import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Jail;
 import org.ojim.logic.state.Player;
+import org.ojim.logic.state.ServerPlayer;
 import org.ojim.logic.state.Street;
 
 public class Logic {
@@ -85,6 +87,33 @@ public class Logic {
 
 	public boolean upgrade(Street street, int level) {
 		return street.upgrade(level);
+	}
+
+	public void auctionWithoutResult(BuyableField objective) {
+		return;
+	}
+	
+	private void changeFieldOwner(Player oldOwner, Player newOwner, BuyableField field) {
+		int newOwnerId = -1;
+		//Take away the Field from the old Owner
+		if(oldOwner != null) {
+			oldOwner.removeField(field);
+			//TODO Add informBuy(int playerID, int position) to IClient
+		}
+		if(newOwner != null) {
+			newOwner.addField(field);
+			newOwnerId = newOwner.getId();
+		}
+		
+		for(Player player : state.getPlayers()) {
+			if(player instanceof ServerPlayer) {
+				((ServerPlayer)player).getClient().informBuy(newOwnerId, field.getPosition());
+			}
+		}
+	}
+	
+	public void auctionWithResult(BuyableField objective, Player winner) {
+		
 	}
 
 
