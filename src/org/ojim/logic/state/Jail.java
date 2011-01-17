@@ -19,8 +19,23 @@ package org.ojim.logic.state;
 
 public class Jail extends Field {
 
-	public Jail(int position) {
+	private int moneyToPay;
+	private int roundsToWait;
+	
+	public Jail(int position, int moneyToPay, int roundsToWait) {
 		super("Jail", position);
+		this.moneyToPay = moneyToPay;
+		this.roundsToWait = roundsToWait;
 	}
+
+	public int getMoneyToPay() {
+		return moneyToPay;
+	}
+
+	public int getRoundsToWait() {
+		return roundsToWait;
+	}
+	
+	
 
 }

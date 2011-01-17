@@ -35,6 +35,7 @@ import edu.kit.iti.pse.iface.IServer;
 public class TestClient implements IClient {
 	
 	private IServer server;
+	private int id = -1;
 	
 	public TestClient(final IServer server) {
 		this.server = server;
@@ -80,13 +81,16 @@ public class TestClient implements IClient {
 		});
 		panel.add(bt3);
 		
-		JButton bt4 = new JButton("isMortgaged(var1)");
+		JButton bt4 = new JButton("setPlayerReady()");
 		bt4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				res.setText("" + (server.isMortgaged(Integer.parseInt(var1.getText())) ? "mortgaged" : "not mortgaged"));
+				if(id != -1) {
+					server.setPlayerReady(id);
+					res.setText("Set ready!");
+				}
 			}
 		});
-		panel.add(bt4);
+		//panel.add(bt4);
 		
 		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		

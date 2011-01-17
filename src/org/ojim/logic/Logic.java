@@ -22,6 +22,7 @@ import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Jail;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.Street;
 
@@ -85,5 +86,7 @@ public class Logic {
 	public boolean upgrade(Street street, int level) {
 		return street.upgrade(level);
 	}
+
+
 
 }

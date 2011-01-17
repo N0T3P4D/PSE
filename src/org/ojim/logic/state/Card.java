@@ -48,6 +48,10 @@ public class Card {
 			this.execute();
 		}
 	}
+	
+	public Action[] getActions() {
+		return this.actions;
+	}
 
 	/**
 	 * Führt die Actions der Karte nach der Reihe aus.
