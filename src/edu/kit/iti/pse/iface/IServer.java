@@ -172,8 +172,8 @@ public interface IServer {
 	 * 
 	 * @param position
 	 *            Gegebene Position.
-	 * @return Liefert die Anzahl der Hotels zurück. Sofern die Position keine
-	 *         Straße angibt, wird -1 zurückgegeben.
+	 * @return Liefert den Kaufpreis zurück. Wenn dieses Feld unverkäuflich ist
+	 *         wird -1 zurückgegeben.
 	 */
 	public int getEstatePrice(int position);
 
@@ -332,7 +332,8 @@ public interface IServer {
 	 * @param playerID
 	 *            Der handelnde Spieler
 	 * @return Gibt <code>false</code> zurück, sofern der Spieler nicht an der
-	 *         Reihe ist oder nicht im Gefängnis ist. Ansonsten <code>true</code>.
+	 *         Reihe ist oder nicht im Gefängnis ist. Ansonsten
+	 *         <code>true</code>.
 	 * @since SVN revision 12
 	 */
 	public boolean payFine(int playerID);

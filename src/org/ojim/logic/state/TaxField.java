@@ -15,35 +15,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.logic.state;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.Rentable;
+import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.actions.ActionPayFieldRent;
 
-public class ActionPayFieldRent implements Action {
-
-	private Rentable field;
-	private ServerLogic logic;
+public class TaxField extends Field implements Rentable {
 	
-	/**
-	 * Erstellt eine Aktion die die Miete eines Feldes bezahlt.
-	 * 
-	 * @param state Spielzustand.
-	 * @param fields Das Feld für das die Miete eingezogen wird.
-	 */
-	public ActionPayFieldRent(ServerLogic logic, Rentable field) {
-		this.logic = logic;
-		this.field = field;
+	private final int amount;
+	private final Bank bank;
+
+	public TaxField(String name, int position, int amount, Bank bank) {
+		super(name, position);
+		this.bank = bank;
+		this.amount = amount;
 	}
 	
+	public TaxField(String name, int position, int amount, ServerLogic logic) {
+		this(name, position, amount, logic.getGameState().getBank());
+		this.setExecuteActions(new ActionPayFieldRent(logic, this));
+	}
+
 	@Override
-	public void execute() {
-		ActionPayFieldRent.execute(logic, field);
-	}
-	
-	public static void execute(ServerLogic logic, Rentable field) {
-		//TODO: (xZise) Inform other player -> payRent(Player) gets logic? Or has a field a reference to logic?
-		field.payRent(logic.getGameState().getActivePlayer());
+	public void payRent(Player payer) {
+		Bank.exchangeMoney(payer, this.bank, this.amount);
 	}
 
 }
