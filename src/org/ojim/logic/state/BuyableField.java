@@ -58,7 +58,9 @@ public abstract class BuyableField extends Field implements Rentable {
 	}
 
 	public void setFieldGroup(FieldGroup fieldGroup) {
-		this.fieldGroup = fieldGroup;
+		if (this.fieldGroup != fieldGroup) {
+			this.fieldGroup = fieldGroup;
+		}
 	}
 
 	public abstract int getRent();

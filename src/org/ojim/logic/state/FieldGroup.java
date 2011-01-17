@@ -52,6 +52,7 @@ public class FieldGroup {
 	
 	public BuyableField addField(BuyableField field) {
 		this.fields.add(field);
+		field.setFieldGroup(this);
 		return field;
 	}
 	
