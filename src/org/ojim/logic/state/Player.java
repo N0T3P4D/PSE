@@ -90,6 +90,8 @@ public class Player implements IMoneyPartner {
 	 * NULL if Player is not in jail
 	 */
 	private Jail jail;
+	
+	private boolean isBankrupt;
 
 	/**
 	 * Creates a new player object.
@@ -116,6 +118,7 @@ public class Player implements IMoneyPartner {
 		this.color = color;
 		this.isReady = false;
 		this.jail = null;
+		this.isBankrupt = false;
 	}
 
 	/**
@@ -126,6 +129,14 @@ public class Player implements IMoneyPartner {
 	 */
 	public void transferMoney(int amount) {
 		this.balance += amount;
+	}
+	
+	public boolean getIsBankrupt() {
+		return this.isBankrupt;
+	}
+	
+	public void setBankrupt() {
+		this.isBankrupt = true;
 	}
 	
 	public void waitInJail() {
