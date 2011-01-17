@@ -46,6 +46,10 @@ public class ClientBase extends SimpleClient implements IClient {
 	 * MISC
 	 */
 	
+	private void loadGameState() {
+		
+	}
+	
 	public void setName(String name) {
 		this.name = name;
 	}
