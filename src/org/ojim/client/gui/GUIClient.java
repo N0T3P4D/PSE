@@ -124,6 +124,7 @@ public class GUIClient extends ClientBase {
 		button = new JButton("Downright");
 		pane.add(button);
 		GUIFrame.add(pane);
+		
 		GUIFrame.setMinimumSize(new Dimension(400,400));
 				
 		GUIFrame.setVisible(true);
