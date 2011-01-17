@@ -41,24 +41,24 @@ public class SimpleClient {
 	private Player me;
 
 	private int playerId;
-	
+
 	public SimpleClient() {
-		
+
 	}
 
 	public SimpleClient(Logic logic, int playerId, IServer server) {
 		this.setParameters(logic, playerId, server);
 		this.me = this.getGameState().getPlayerByID(playerId);
 	}
-	
+
 	protected Logic getLogic() {
 		return this.logic;
 	}
-	
+
 	protected GameState getGameState() {
 		return this.logic.getGameState();
 	}
-	
+
 	protected GameRules getGameRules() {
 		return this.logic.getGameRules();
 	}
@@ -68,31 +68,64 @@ public class SimpleClient {
 		this.playerId = playerId;
 		this.server = server;
 	}
-	
+
 	public final int getPlayerId() {
 		return this.playerId;
 	}
-	
+
 	/*
 	 * GETTER OF ISERVER
 	 */
-	
+
 	public int getEstateColorGroup(int position) {
 		return this.server.getEstateColorGroup(position);
 	}
-	
+
 	public String getEstateName(int position) {
 		return this.server.getEstateName(position);
 	}
-	
+
 	public int getEstatePrice(int position) {
-		return this.getEstatePrice(position);
+		return this.server.getEstatePrice(position);
 	}
-	
+
 	public int getEstateRent(int position, int houses) {
-		return this.getEstateRent(position, houses);
+		return this.server.getEstateRent(position, houses);
 	}
-	
+
+	/*
+	 * ADITIONAL GETTER
+	 */
+
+	public int getMaximumBuiltLevel() {
+		return 6; // TODO: Implement higher level
+	}
+
+	/**
+	 * Returns the money the player has to pay to leave the jail.
+	 * 
+	 * @param position
+	 *            The position of the jail.
+	 * @return The money the player has to pay. If there is no money it returns
+	 *         -1.
+	 */
+	public int getMoneyToPay(int position) {
+		return 1000;
+	}
+
+	/**
+	 * Returns the number of rounds the player has to wait if the player is in
+	 * jail.
+	 * 
+	 * @param position
+	 *            The position of the jail.
+	 * @return The number of rounds the player has to wait. If this is no jail
+	 *         it returns -1.
+	 */
+	public int getRoundsToWait(int position) {
+		return 3;
+	}
+
 	/*
 	 * ACTION METHODS
 	 */

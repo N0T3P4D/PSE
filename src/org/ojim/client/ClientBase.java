@@ -17,7 +17,8 @@
 
 package org.ojim.client;
 
-import java.util.logging.Logger;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.ojim.iface.IClient;
 import org.ojim.logic.Logic;
@@ -60,47 +61,66 @@ public class ClientBase extends SimpleClient implements IClient {
 	private void loadGameBoard() {
 
 		GameState state = this.getGameState();
-		
+
 		FieldGroup stations = new FieldGroup(FieldGroup.STATIONS);
 		FieldGroup infrastructures = new FieldGroup(FieldGroup.INFRASTRUCTURE);
+		Map<Integer, FieldGroup> colorGroups = new HashMap<Integer, FieldGroup>(8);
 		
 		for (int position = 0; position < GameState.FIELDS_AMOUNT; position++) {
 			Field field = null;
 			String name = this.getEstateName(position);
 			int price = this.getEstatePrice(position);
-			switch (this.getEstateColorGroup(position)) {
-			case FieldGroup.GO:
-				field = new GoField(position); // Los feld
-				break;
-			case FieldGroup.JAIL: // Gefängnis
-				//FIXME: (xZise) Get real values!
-				field = new Jail(position, 1000, 3);
-				break;
-			case FieldGroup.FREE_PARKING:
-				field = new FreeParking(position);
-				break;
-			case FieldGroup.GO_TO_JAIL:
-				field = new GoToJail(position);
-				break;
-			case FieldGroup.EVENT:
-				field = new CardField(position);
-				break;
-			case FieldGroup.COMMUNITY:
-				field = new CardField(position);
-				break;
-			case FieldGroup.STATIONS:
-				field = stations.addField(new Station(name, position, price));
-				break;
-			case FieldGroup.INFRASTRUCTURE:
-				field = infrastructures.addField(new InfrastructureField(name, position, price));
-				break;
-			case FieldGroup.TAX:
-				field = new TaxField(name, position, this.getEstateRent(position, 0), this.getGameState().getBank());
-				break;
+			int group = this.getEstateColorGroup(position);
+			if (group >= 0) {
+				FieldGroup theChoosenGroup = colorGroups.get(group);
+				if (theChoosenGroup == null) {
+					theChoosenGroup = new FieldGroup(group);
+				}
+				
+				int[] rentByLevel = new int[this.getMaximumBuiltLevel()];
+				for (int builtLevel = 0; builtLevel < rentByLevel.length; builtLevel++) {
+					rentByLevel[builtLevel] = this.getEstateRent(position, builtLevel);
+				}
+				
+				field = theChoosenGroup.addField(new Street(name, position, rentByLevel, price));
+			} else {
+				switch (this.getEstateColorGroup(position)) {
+				case FieldGroup.GO:
+					field = new GoField(position); // Los feld
+					break;
+				case FieldGroup.JAIL: // Gefängnis
+					// FIXME: (xZise) Get real values!
+					field = new Jail(position, 1000, 3);
+					break;
+				case FieldGroup.FREE_PARKING:
+					field = new FreeParking(position);
+					break;
+				case FieldGroup.GO_TO_JAIL:
+					field = new GoToJail(position);
+					break;
+				case FieldGroup.EVENT:
+					field = new CardField(position);
+					break;
+				case FieldGroup.COMMUNITY:
+					field = new CardField(position);
+					break;
+				case FieldGroup.STATIONS:
+					field = stations
+							.addField(new Station(name, position, price));
+					break;
+				case FieldGroup.INFRASTRUCTURE:
+					field = infrastructures.addField(new InfrastructureField(
+							name, position, price));
+					break;
+				case FieldGroup.TAX:
+					field = new TaxField(name, position, this.getEstateRent(
+							position, 0), this.getGameState().getBank());
+					break;
+				}
 			}
-			
+
 			if (field == null) {
-				//TODO: show error
+				// TODO: show error
 			} else {
 				state.setFieldAt(field, position);
 			}
@@ -235,7 +255,7 @@ public class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public void informMove(int position, int playerId) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }
