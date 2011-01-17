@@ -75,21 +75,21 @@ public class MenuBar extends JMenuBar {
 	public void language(Localizer language){
 		
 		// TODO: Lokalisierung
-        fileMenu = new JMenu(language.getText("Datei"));
+        fileMenu = new JMenu(language.getText("file"));
         editMenu = new JMenu(language.getText("?"));
 
-        createGame = new JMenuItem(language.getText("Spiel erstellen"));
-        joinGame = new JMenu(language.getText("Spiel beitreten"));
-        leaveGame = new JMenuItem(language.getText("Spiel verlassen"));
-        settings = new JMenuItem(language.getText("Einstellungen"));
+        createGame = new JMenuItem(language.getText("create game"));
+        joinGame = new JMenu(language.getText("join game"));
+        leaveGame = new JMenuItem(language.getText("leave game"));
+        settings = new JMenuItem(language.getText("settings"));
 
-        directConnection = new JMenuItem(language.getText("Direkte Verbindung"));
-        serverList = new JMenuItem(language.getText("Serverliste"));
+        directConnection = new JMenuItem(language.getText("direct connection"));
+        serverList = new JMenuItem(language.getText("list of servers"));
 
-        exit = new JMenuItem(language.getText("Beenden"));
+        exit = new JMenuItem(language.getText("exit"));
 
-        about = new JMenuItem(language.getText("Über Ojim"));
-        help = new JMenuItem(language.getText("Hilfe"));
+        about = new JMenuItem(language.getText("about"));
+        help = new JMenuItem(language.getText("help"));
 	}
 	
 	public void switchMenuBarState(MenuBarState state){

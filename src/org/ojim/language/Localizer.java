@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,11 @@
 
 package org.ojim.language;
 
+import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -57,7 +61,7 @@ public class Localizer {
 
 	private static final String[] TEXT_KEYS = { "file", "missing text", "?",
 			"create game", "join game", "leave game", "settings",
-			"direct connection", "serverlist", "exit", "about", "help", };
+			"direct connection", "list of servers", "exit", "about", "help", };
 
 	/** Saves the translation to a key. */
 	private Map<String, String> strings;
@@ -131,33 +135,51 @@ public class Localizer {
 		// Clear
 		this.strings.clear();
 		// Insert correct entries
-		// TODO: Read file
-		/* load file here and read everyline in there: */
-		List<String> lines = new ArrayList<String>();
-		for (String string : lines) {
-			string = string.trim();
-			int comment = string.indexOf('#');
-			if (comment >= 0) {
-				string = string.substring(0, comment - 1);
-			}
-			// File definition fields
-			if (string.charAt(0) == ';') {
-				// Cuts off the ";" and any leaving beginning/ending spaces
-				string = string.substring(1).trim();
-				if (string.equals("author")) {
+		
+		
+		try {
+			BufferedReader in = new BufferedReader(new FileReader(definition.file));
+			
+			String string;
+			
+			try {
+				while ((string = in.readLine()) != null)
+				{
+					string = string.trim();
+					int comment = string.indexOf('#');
+					if (comment == 0 || string.length() == 0) {
+						continue;
+					}
+					if (comment > 0) {
+						string = string.substring(0, comment - 1);
+					}
+					// File definition fields
+					if (string.charAt(0) == ';') {
+						// Cuts off the ";" and any leaving beginning/ending spaces
+						string = string.substring(1).trim();
+						if (string.equals("author")) {
 
-				} else if (string.equals("english language")) {
+						} else if (string.equals("english language")) {
 
-				} else if (string.equals("language")) {
+						} else if (string.equals("language")) {
 
+						}
+					} else {
+						String[] values = string.trim().split("=");
+						// TODO: Test if key is in Text Keys (?)
+						if (values.length == 2) {
+							this.strings.put(values[0], values[1]);
+						}
+					}
 				}
-			} else {
-				String[] values = string.trim().split("=");
-				// TODO: Test if key is in Text Keys (?)
-				if (values.length == 2) {
-					this.strings.put(values[0], values[1]);
-				}
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				System.out.println("I/O: Language File");
 			}
+			
+		} catch (FileNotFoundException e) {
+			// TODO Auto-generated catch block
+			System.out.println("File not found: Language File: "+definition.file.getAbsolutePath());
 		}
 	}
 
@@ -171,7 +193,7 @@ public class Localizer {
 	}
 
 	// Newer version (replace example)
-	public String getText2(String key) {
+	public String getText(String key) {
 		String text = this.strings.get(key);
 		if (text == null) {
 			for (String string : Localizer.TEXT_KEYS) {
@@ -181,13 +203,13 @@ public class Localizer {
 				}
 			}
 			// Maybe throw exception
-			return null;
+			return key;
 		} else {
 			return text;
 		}
 	}
 
-	public String getText(String textRequest) {
+	public String getText2(String textRequest) {
 		for (int i = 0; i < LANGUAGE_FILES.length; i++) {
 			if (LANGUAGE_FILES[i][0].equals(textRequest)) {
 				try {

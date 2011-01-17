@@ -18,6 +18,7 @@
 package org.ojim.client.gui;
 
 import java.awt.GridLayout;
+import java.io.File;
 
 import javax.swing.JFrame;
 import javax.swing.JPanel;
@@ -29,6 +30,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.GameField.GameField;
 import org.ojim.language.Localizer;
+import org.ojim.language.LanguageDefinition;
 
 public class GUIClient extends ClientBase {
 
@@ -41,9 +43,12 @@ public class GUIClient extends ClientBase {
 
 	public GUIClient() {
 
+		LanguageDefinition languageDefinition = new LanguageDefinition("Maximilian", "English", "English", "eng", new File("org/ojim/language/eng.lang") );
+		//LanguageDefinition languageDefinition = new LanguageDefinition("Maximilian", "deutsch", "German", "deu", new File("org/ojim/language/deu.lang") );
+		
 		Localizer language = new Localizer();
 		//language.setLanguage("deu");
-		language.setLanguage("deu");
+		language.setLanguage(languageDefinition);
 		//language.setLanguage("fra");
 		
 		GUIFrame = new JFrame("OJim");
