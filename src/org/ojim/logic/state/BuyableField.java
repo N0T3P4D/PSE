@@ -21,6 +21,11 @@ import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.actions.ActionPayFieldRent;
 
+/**
+ * A fields, that is able to buy.
+ * 
+ * @author Fabian Neundorf
+ */
 public abstract class BuyableField extends Field {
 
 	//TODO: Gehört in Field
@@ -89,7 +94,11 @@ public abstract class BuyableField extends Field {
 	public FieldGroup getFieldGroup() {
 		return this.fieldGroup;
 	}
-
+	
+	/**
+	 * Returns the owner of the user.
+	 * @return the owner of the user. If this field is buyable it returns <code>null</code>.
+	 */
 	public Player getOwner() {
 		return this.owner;
 	}
