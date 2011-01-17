@@ -113,8 +113,15 @@ public class GUIClient extends ClientBase {
 		button = new JButton("Upleft");
 		pane.add(button);
 		
-		button = new JButton("Right");
-		pane.add(button);
+		JPanel rightWindow = new JPanel();
+
+		playerInfoWindow = new PlayerInfoWindow();
+		chatWindow = new ChatWindow();
+		
+		rightWindow.add(playerInfoWindow);
+		rightWindow.add(chatWindow);
+		
+		pane.add(rightWindow);
 		
 		
 		button = new JButton("Down");
