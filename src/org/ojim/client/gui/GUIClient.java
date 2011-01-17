@@ -39,7 +39,7 @@ import org.ojim.client.gui.GameField.GameField;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
 
-public class GUIClient extends ClientBase implements ComponentListener {
+public class GUIClient extends ClientBase {
 
 	GUISettings settings;
 	GameField gameField;
@@ -48,7 +48,7 @@ public class GUIClient extends ClientBase implements ComponentListener {
 
 	JFrame GUIFrame;
 
-	JPanel pane = new JPanel(new GridBagLayout());
+	JPanel pane = new JPanel(new OJIMLayout());
 
 	private MenuState menuState;
 	
@@ -104,20 +104,30 @@ public class GUIClient extends ClientBase implements ComponentListener {
 		    }
 		}
 
-		//GridLayout experimentLayout = new GridLayout(0, 2);
-		
-
-		//GUIFrame.addComponentListener(this);
-		pane.addComponentListener(this);
-		//GUIFrame.addComponentListener(this);
-		
 
 		
-		GUIFrame.setSize(640, 360);
-		
-		GUIFrame.show();
 
-		fill();
+        JButton button;
+        
+
+		button = new JButton("Upleft");
+		pane.add(button);
+		
+		button = new JButton("Right");
+		pane.add(button);
+		
+		
+		button = new JButton("Down");
+		pane.add(button);
+		
+		
+		button = new JButton("Downright");
+		pane.add(button);
+		GUIFrame.add(pane);
+		GUIFrame.setMinimumSize(new Dimension(400,400));
+				
+		GUIFrame.setVisible(true);
+
 
 	}
 	
@@ -132,122 +142,6 @@ public class GUIClient extends ClientBase implements ComponentListener {
 
 	public MenuState getMenuState() {
 		return menuState;
-	}
-
-	@Override
-	public void componentHidden(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void componentMoved(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	public void componentResized(ComponentEvent arg0) {
-        //System.out.println(" --- Resized ");   
-        
-        //System.out.println("Main: "+arg0.getComponent().getWidth());
-        //System.out.println(pane.getWidth());
-        //System.out.println(pane.getHeight());
-        /*
-        try {
-			Thread.sleep(100);
-		} catch (InterruptedException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}*/
-        
-        fill();
-        
-		GUIFrame.add(pane);
-        
-		
-	}
-	
-	void fill(){
-
-        pane.removeAll();
-        
-        int width = pane.getWidth();
-        int height = pane.getHeight();
-        
-    	pane.setLayout(new OJIMLayout());
-    	GridBagConstraints c = new GridBagConstraints();
-
-        if(width<300){
-        	//GUIFrame.setPreferredSize(new Dimension(300, 350));
-        	//pane.setPreferredSize(new Dimension(300, 300));
-        	GUIFrame.setSize(new Dimension(400, 400));
-        } else {
-        	width -= 10;
-        }
-        if(height<300){
-        	//GUIFrame.setPreferredSize(new Dimension(300, 350));
-        	GUIFrame.setSize(new Dimension(400, 400));
-	    } else {
-	    	height -= 30;
-	    }
-        
-
-        if(height>width*1.3){
-        	//GUIFrame.setPreferredSize(new Dimension(300, 350));
-        	GUIFrame.setSize(new Dimension(height, height));
-	    }
-        
-        
-    	//pane.setLayout(new GridBagLayout());
-    	//GridBagConstraints c = new GridBagConstraints();
-        
-        JButton button;
-        
-
-		button = new JButton("Upleft");
-		//button.setBounds(0, 0, (int) (height*0.8), (int) (height*0.8));
-		//button.setSize((int) (height*0.8), (int) (height*0.8));
-		//button.setPreferredSize(new Dimension((int) (height*0.8), (int) (height*0.8)));
-		c.fill = GridBagConstraints.BOTH;
-		c.weighty = 0.8;
-		c.gridx = 0;
-		c.gridy = 0;
-		pane.add(button,c);
-		
-		button = new JButton("Right");
-		//button.setPreferredSize(new Dimension(width - (int) (height*0.8)-1, (int) (height*0.8)));
-		c.weighty = 0.8;
-		c.fill = GridBagConstraints.VERTICAL;
-		c.gridx = 1;
-		c.gridy = 0;
-		pane.add(button, c);
-		
-
-		
-		button = new JButton("Down");
-		//button.setPreferredSize(new Dimension((int) (height*0.8)-1, height - (int) (height*0.8)));
-		c.weighty = 0.2;
-		c.fill = GridBagConstraints.VERTICAL;
-		c.gridx = 0;
-		c.gridy = 1;
-		pane.add(button,c);
-		
-		
-		button = new JButton("Downright");
-		//button.setPreferredSize(new Dimension(width - (int) (height*0.8)-1, height - (int) (height*0.8)));
-		c.weighty = 0.2;
-		c.fill = GridBagConstraints.VERTICAL;
-		c.gridx = 1;
-		c.gridy = 1;
-		pane.add(button,c);
-		GUIFrame.add(pane);
-	}
-
-	@Override
-	public void componentShown(ComponentEvent arg0) {
-		// TODO Auto-generated method stub
-		
 	}
 
 }

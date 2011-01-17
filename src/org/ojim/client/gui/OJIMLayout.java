@@ -24,11 +24,6 @@ public class OJIMLayout implements LayoutManager {
         Dimension d = null;
 
         //Reset preferred/minimum width and height.
-        preferredWidth = 0;
-        preferredHeight = 0;
-        minWidth = 0;
-        minHeight = 0;
-
         for (int i = 0; i < nComps; i++) {
             Component c = parent.getComponent(i);
             if (c.isVisible()) {
@@ -66,19 +61,7 @@ public class OJIMLayout implements LayoutManager {
             setSizes(parent);
         	//System.out.println("Handlungsbedarf");
         }
-
-        if (maxWidth <= minWidth) {
-            oneColumn = true;
-        }
-
-        if (maxWidth != preferredWidth) {
-            xFudge = (maxWidth - preferredWidth)/(nComps - 1);
-        }
-
-        if (maxHeight > preferredHeight) {
-            yFudge = (maxHeight - preferredHeight)/(nComps - 1);
-        }
-
+        
         for (int i = 0 ; i < nComps ; i++) {
             Component c = parent.getComponent(i);
             
