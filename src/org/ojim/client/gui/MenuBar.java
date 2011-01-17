@@ -17,19 +17,17 @@
 
 package org.ojim.client.gui;
 
+import java.io.File;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import org.ojim.language.Localizer;
+import org.ojim.language.LanguageDefinition;
 
 public class MenuBar extends JMenuBar {
-
-	enum MenuBarState {
-		mainMenu, waitRoom, game
-	};
 	
-	private MenuBarState menuBarState;
 	private JMenu fileMenu;
 	private JMenu editMenu;
 	private JMenuItem createGame;
@@ -41,31 +39,15 @@ public class MenuBar extends JMenuBar {
 	private JMenuItem exit;
 	private JMenuItem about;
 	private JMenuItem help;
+	private MenuState menuBarState;
 	
 	public MenuBar() {
 		
-		menuBarState = MenuBarState.mainMenu;
-		Localizer language = new Localizer();
-		//language.setLanguage("deu");
-		language.setLanguage("eng");
-		//language.setLanguage("fra");
+		menuBarState = MenuState.mainMenu;
 		
-		// TODO: Lokalisierung
-        fileMenu = new JMenu(language.getText("Datei"));
-        editMenu = new JMenu(language.getText("?"));
-
-        createGame = new JMenuItem(language.getText("Spiel erstellen"));
-        joinGame = new JMenu(language.getText("Spiel beitreten"));
-        leaveGame = new JMenuItem(language.getText("Spiel verlassen"));
-        settings = new JMenuItem(language.getText("Einstellungen"));
-
-        directConnection = new JMenuItem(language.getText("Direkte Verbindung"));
-        serverList = new JMenuItem(language.getText("Serverliste"));
-
-        exit = new JMenuItem(language.getText("Beenden"));
-
-        about = new JMenuItem(language.getText("Über Ojim"));
-        help = new JMenuItem(language.getText("Hilfe"));
+		Localizer language = null;
+		
+		language(language);
         
         draw();
         
@@ -74,7 +56,43 @@ public class MenuBar extends JMenuBar {
         
 	}
 	
-	public void switchMenuBarState(MenuBarState state){
+	public MenuBar(Localizer language) {
+		
+		menuBarState = MenuState.mainMenu;
+		
+		
+		language(language);
+        
+        draw();
+        
+        
+	}
+	
+	public void setMenuBarState(MenuState menuBarState){
+		this.menuBarState = menuBarState;
+	}
+	
+	public void language(Localizer language){
+		
+		// TODO: Lokalisierung
+        fileMenu = new JMenu(language.getText("file"));
+        editMenu = new JMenu(language.getText("?"));
+
+        createGame = new JMenuItem(language.getText("create game"));
+        joinGame = new JMenu(language.getText("join game"));
+        leaveGame = new JMenuItem(language.getText("leave game"));
+        settings = new JMenuItem(language.getText("settings"));
+
+        directConnection = new JMenuItem(language.getText("direct connection"));
+        serverList = new JMenuItem(language.getText("list of servers"));
+
+        exit = new JMenuItem(language.getText("exit"));
+
+        about = new JMenuItem(language.getText("about"));
+        help = new JMenuItem(language.getText("help"));
+	}
+	
+	public void switchMenuBarState(MenuState state){
 		menuBarState = state;
 	}
 	
@@ -86,7 +104,7 @@ public class MenuBar extends JMenuBar {
         fileMenu.add(createGame);
         fileMenu.add(joinGame);
         
-        if(menuBarState.equals(MenuBarState.game)){
+        if(menuBarState.equals(MenuState.game)){
         	fileMenu.add(leaveGame);
         }
         
