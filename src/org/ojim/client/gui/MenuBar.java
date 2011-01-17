@@ -27,12 +27,7 @@ import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
 
 public class MenuBar extends JMenuBar {
-
-	enum MenuBarState {
-		mainMenu, waitRoom, game
-	};
 	
-	private MenuBarState menuBarState;
 	private JMenu fileMenu;
 	private JMenu editMenu;
 	private JMenuItem createGame;
@@ -44,10 +39,11 @@ public class MenuBar extends JMenuBar {
 	private JMenuItem exit;
 	private JMenuItem about;
 	private JMenuItem help;
+	private MenuState menuBarState;
 	
 	public MenuBar() {
 		
-		menuBarState = MenuBarState.mainMenu;
+		menuBarState = MenuState.mainMenu;
 		
 		Localizer language = null;
 		
@@ -62,7 +58,7 @@ public class MenuBar extends JMenuBar {
 	
 	public MenuBar(Localizer language) {
 		
-		menuBarState = MenuBarState.mainMenu;
+		menuBarState = MenuState.mainMenu;
 		
 		
 		language(language);
@@ -70,6 +66,10 @@ public class MenuBar extends JMenuBar {
         draw();
         
         
+	}
+	
+	public void setMenuBarState(MenuState menuBarState){
+		this.menuBarState = menuBarState;
 	}
 	
 	public void language(Localizer language){
@@ -92,7 +92,7 @@ public class MenuBar extends JMenuBar {
         help = new JMenuItem(language.getText("help"));
 	}
 	
-	public void switchMenuBarState(MenuBarState state){
+	public void switchMenuBarState(MenuState state){
 		menuBarState = state;
 	}
 	
@@ -104,7 +104,7 @@ public class MenuBar extends JMenuBar {
         fileMenu.add(createGame);
         fileMenu.add(joinGame);
         
-        if(menuBarState.equals(MenuBarState.game)){
+        if(menuBarState.equals(MenuState.game)){
         	fileMenu.add(leaveGame);
         }
         

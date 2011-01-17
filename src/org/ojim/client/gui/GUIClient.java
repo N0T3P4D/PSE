@@ -17,14 +17,21 @@
 
 package org.ojim.client.gui;
 
+import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.event.ComponentEvent;
+import java.awt.event.ComponentListener;
 import java.io.File;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
-import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.ojim.client.ClientBase;
@@ -32,7 +39,7 @@ import org.ojim.client.gui.GameField.GameField;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
 
-public class GUIClient extends ClientBase {
+public class GUIClient extends ClientBase implements ComponentListener {
 
 	GUISettings settings;
 	GameField gameField;
@@ -41,12 +48,22 @@ public class GUIClient extends ClientBase {
 
 	JFrame GUIFrame;
 
-	public GUIClient() {
+	JPanel pane = new JPanel(new GridBagLayout());
 
-		LanguageDefinition languageDefinition = new LanguageDefinition("Maximilian", "English", "English", "eng", new File("org/ojim/language/eng.lang") );
-		//LanguageDefinition languageDefinition = new LanguageDefinition("Maximilian", "deutsch", "German", "deu", new File("org/ojim/language/deu.lang") );
+	private MenuState menuState;
+	
+	public GUIClient() {
+		
+		setMenuState(MenuState.mainMenu);
+
+		
+		// LanguageDefinition languageDefinition = new LanguageDefinition("Maximilian", "English", "English", "eng", new File("org/ojim/language/eng.lang") );
+		LanguageDefinition languageDefinition = new LanguageDefinition("Maximilian", "deutsch", "German", "deu", new File("org/ojim/language/deu.lang") );
 		
 		Localizer language = new Localizer();
+		language.getLanguages();
+		
+		
 		//language.setLanguage("deu");
 		language.setLanguage(languageDefinition);
 		//language.setLanguage("fra");
@@ -58,7 +75,7 @@ public class GUIClient extends ClientBase {
 
 		GUIFrame.setJMenuBar(menubar);
 
-		LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
+		//LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
@@ -87,20 +104,130 @@ public class GUIClient extends ClientBase {
 		    }
 		}
 
-		GridLayout experimentLayout = new GridLayout(0, 2);
+		//GridLayout experimentLayout = new GridLayout(0, 2);
+		
 
-		JPanel pane = new JPanel(experimentLayout);
+		//GUIFrame.addComponentListener(this);
+		pane.addComponentListener(this);
+		//GUIFrame.addComponentListener(this);
+		
 
-		GUIFrame.add(pane);
 		
 		GUIFrame.setSize(640, 360);
 		
 		GUIFrame.show();
 
+		fill();
+
 	}
+	
 	
 	public static void main (String[] args){
 		new GUIClient();
+	}
+
+	public void setMenuState(MenuState menuState) {
+		this.menuState = menuState;
+	}
+
+	public MenuState getMenuState() {
+		return menuState;
+	}
+
+	@Override
+	public void componentHidden(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentMoved(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void componentResized(ComponentEvent arg0) {
+        System.out.println(" --- Resized ");   
+        
+        System.out.println("Main: "+arg0.getComponent().getWidth());
+        System.out.println(pane.getWidth());
+        System.out.println(pane.getHeight());
+        
+        try {
+			Thread.sleep(100);
+		} catch (InterruptedException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        fill();
+        
+		GUIFrame.add(pane);
+        
+		
+	}
+	
+	void fill(){
+
+        pane.removeAll();
+        
+        int width = pane.getWidth();
+        int height = pane.getHeight();
+        
+        pane.setLayout(new FlowLayout());
+
+        if(width<300){
+        	//GUIFrame.setPreferredSize(new Dimension(300, 350));
+        	//pane.setPreferredSize(new Dimension(300, 300));
+        	GUIFrame.setSize(new Dimension(400, 400));
+        } else {
+        	width -= 10;
+        }
+        if(height<300){
+        	//GUIFrame.setPreferredSize(new Dimension(300, 350));
+        	GUIFrame.setSize(new Dimension(400, 400));
+	    } else {
+	    	height -= 30;
+	    }
+        
+
+        if(height>width*1.3){
+        	//GUIFrame.setPreferredSize(new Dimension(300, 350));
+        	GUIFrame.setSize(new Dimension(height, height));
+	    }
+        
+        
+    	//pane.setLayout(new GridBagLayout());
+    	//GridBagConstraints c = new GridBagConstraints();
+        
+        JButton button;
+        
+
+		button = new JButton("Upleft");
+		//button.setBounds(0, 0, (int) (height*0.8), (int) (height*0.8));
+		//button.setSize((int) (height*0.8), (int) (height*0.8));
+		button.setPreferredSize(new Dimension((int) (height*0.8), (int) (height*0.8)));
+		pane.add(button);
+		button = new JButton("Right");
+		button.setPreferredSize(new Dimension(width - (int) (height*0.8)-1, (int) (height*0.8)));
+		pane.add(button);
+		
+
+		
+		button = new JButton("Down");
+		button.setPreferredSize(new Dimension((int) (height*0.8)-1, height - (int) (height*0.8)));
+		pane.add(button);
+		button = new JButton("Downright");
+		button.setPreferredSize(new Dimension(width - (int) (height*0.8)-1, height - (int) (height*0.8)));
+		pane.add(button);
+		GUIFrame.add(pane);
+	}
+
+	@Override
+	public void componentShown(ComponentEvent arg0) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }
