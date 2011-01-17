@@ -148,18 +148,18 @@ public class GUIClient extends ClientBase implements ComponentListener {
 
 	@Override
 	public void componentResized(ComponentEvent arg0) {
-        System.out.println(" --- Resized ");   
+        //System.out.println(" --- Resized ");   
         
-        System.out.println("Main: "+arg0.getComponent().getWidth());
-        System.out.println(pane.getWidth());
-        System.out.println(pane.getHeight());
-        
+        //System.out.println("Main: "+arg0.getComponent().getWidth());
+        //System.out.println(pane.getWidth());
+        //System.out.println(pane.getHeight());
+        /*
         try {
 			Thread.sleep(100);
 		} catch (InterruptedException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		}
+		}*/
         
         fill();
         
@@ -175,7 +175,8 @@ public class GUIClient extends ClientBase implements ComponentListener {
         int width = pane.getWidth();
         int height = pane.getHeight();
         
-        pane.setLayout(new FlowLayout());
+    	pane.setLayout(new OJIMLayout());
+    	GridBagConstraints c = new GridBagConstraints();
 
         if(width<300){
         	//GUIFrame.setPreferredSize(new Dimension(300, 350));
@@ -207,20 +208,39 @@ public class GUIClient extends ClientBase implements ComponentListener {
 		button = new JButton("Upleft");
 		//button.setBounds(0, 0, (int) (height*0.8), (int) (height*0.8));
 		//button.setSize((int) (height*0.8), (int) (height*0.8));
-		button.setPreferredSize(new Dimension((int) (height*0.8), (int) (height*0.8)));
-		pane.add(button);
+		//button.setPreferredSize(new Dimension((int) (height*0.8), (int) (height*0.8)));
+		c.fill = GridBagConstraints.BOTH;
+		c.weighty = 0.8;
+		c.gridx = 0;
+		c.gridy = 0;
+		pane.add(button,c);
+		
 		button = new JButton("Right");
-		button.setPreferredSize(new Dimension(width - (int) (height*0.8)-1, (int) (height*0.8)));
-		pane.add(button);
+		//button.setPreferredSize(new Dimension(width - (int) (height*0.8)-1, (int) (height*0.8)));
+		c.weighty = 0.8;
+		c.fill = GridBagConstraints.VERTICAL;
+		c.gridx = 1;
+		c.gridy = 0;
+		pane.add(button, c);
 		
 
 		
 		button = new JButton("Down");
-		button.setPreferredSize(new Dimension((int) (height*0.8)-1, height - (int) (height*0.8)));
-		pane.add(button);
+		//button.setPreferredSize(new Dimension((int) (height*0.8)-1, height - (int) (height*0.8)));
+		c.weighty = 0.2;
+		c.fill = GridBagConstraints.VERTICAL;
+		c.gridx = 0;
+		c.gridy = 1;
+		pane.add(button,c);
+		
+		
 		button = new JButton("Downright");
-		button.setPreferredSize(new Dimension(width - (int) (height*0.8)-1, height - (int) (height*0.8)));
-		pane.add(button);
+		//button.setPreferredSize(new Dimension(width - (int) (height*0.8)-1, height - (int) (height*0.8)));
+		c.weighty = 0.2;
+		c.fill = GridBagConstraints.VERTICAL;
+		c.gridx = 1;
+		c.gridy = 1;
+		pane.add(button,c);
 		GUIFrame.add(pane);
 	}
 
