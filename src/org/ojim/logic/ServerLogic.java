@@ -17,7 +17,10 @@
 
 package org.ojim.logic;
 
+import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.rules.GameRules;
+import org.ojim.logic.state.FreeParking;
 import org.ojim.logic.state.ServerGameState;
 
 /**
@@ -29,6 +32,17 @@ public class ServerLogic extends Logic {
 
 	public ServerLogic(ServerGameState state, GameRules rules) {
 		super(state, rules);
+	}
+	
+	public void getFreeParkingMoney(FreeParking field) {
+		this.exchangeMoney(field, this.getGameState().getActivePlayer(), field.getMoneyInPot());
+	}
+	
+	public void exchangeMoney(IMoneyPartner payer, IMoneyPartner payee,
+			int amount) {
+		Bank.exchangeMoney(payer, payee, amount);
+		
+		//TODO: (xZise) Inform other players!
 	}
 
 }

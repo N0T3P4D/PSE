@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,27 +17,33 @@
 
 package org.ojim.logic.actions;
 
-import org.ojim.logic.state.GameState;
+import org.ojim.logic.ServerLogic;
 
 public class ActionMoveForward implements Action {
 
-	private int steps;
-	private final GameState state;
-	
-	public ActionMoveForward(GameState state, int steps) {
+	private final int steps;
+	private final ServerLogic logic;
+	private final boolean executePasses;
+
+	public ActionMoveForward(ServerLogic logic, boolean executePasses, int steps) {
 		this.steps = steps;
-		this.state = state;
+		this.logic = logic;
+		this.executePasses = executePasses;
 	}
-	
+
 	@Override
 	public void execute() {
-		ActionMoveForward.execute(this.state, this.steps);
+		ActionMoveForward.execute(this.logic, this.executePasses, this.steps);
 	}
-	
-	public static void execute(GameState state, int steps) {
-		//TODO: Implement action!
-		//New position:
-		//state.getActivePlayer().getPosition() + steps;
+
+	public static void execute(ServerLogic logic, boolean executePasses,
+			int steps) {
+		ActionMoveToField.execute(
+				logic,
+				executePasses,
+				logic.getGameState().getFieldAt(
+						logic.getGameState().getActivePlayer().getPosition()
+								+ steps));
 	}
 
 }

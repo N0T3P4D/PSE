@@ -17,6 +17,7 @@
 
 package org.ojim.logic.state;
 
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.actions.ActionPayFieldRent;
 
@@ -30,10 +31,14 @@ public abstract class BuyableField extends Field {
 	private boolean mortgaged;
 	private int mortgagePrice;
 
-	public BuyableField(String name, int position, int price, GameState state) {
-		super(state, name, position);
-		this.setExecuteActions(new ActionPayFieldRent(state, this));
+	public BuyableField(String name, int position, int price) {
+		super(name, position);
 		this.price = price;
+	}
+	
+	public BuyableField(String name, int position, int price, ServerLogic logic) {
+		this(name, position, price);
+		this.setExecuteActions(new ActionPayFieldRent(logic, this));
 	}
 	
 	public void buy(Player newOwner) {

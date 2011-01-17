@@ -15,35 +15,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.logic.state;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.Player;
+public class Jail extends Field {
 
-public class ActionTransferMoneyToPlayers implements Action {
-
-	private final int amount;
-	private final ServerLogic logic;
-	
-	public ActionTransferMoneyToPlayers(ServerLogic logic, int amount) {
-		this.amount = amount;
-		this.logic = logic;
-	}
-	
-	@Override
-	public void execute() {
-		ActionTransferMoneyToPlayers.execute(this.logic, this.amount);
-	}
-	
-	public static void execute(ServerLogic logic, int amount) {		
-		// Get all players:
-		Player activePlayer = logic.getGameState().getActivePlayer();
-		
-		for (Player player : logic.getGameState().getPlayers()) {
-			if (!player.equals(activePlayer)) {
-				logic.exchangeMoney(activePlayer, player, amount);
-			}
-		}
+	public Jail(int position) {
+		super("Jail", position);
 	}
 
 }

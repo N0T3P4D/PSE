@@ -27,16 +27,13 @@ public class Field {
 	private Action[] executeActions;
 	private Action[] passThroughActions;
 	
-	protected GameState state;
-	
-	public Field(GameState state, String name, int position) {
-		this(state, name, position, new Action[0], new Action[0]);
+	public Field(String name, int position) {
+		this(name, position, new Action[0], new Action[0]);
 	}
 	
-	public Field(GameState state, String name, int position, Action[] executeActions, Action[] passThroughActions) {
+	public Field(String name, int position, Action[] executeActions, Action[] passThroughActions) {
 		this.name = name;
 		this.position = position;
-		this.state = state;
 		this.setActions(executeActions, passThroughActions);
 	}
 	

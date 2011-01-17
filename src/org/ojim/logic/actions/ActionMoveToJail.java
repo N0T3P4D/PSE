@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,26 +17,27 @@
 
 package org.ojim.logic.actions;
 
-import org.ojim.logic.state.Field;
-import org.ojim.logic.state.GameState;
+import org.ojim.logic.ServerLogic;
+import org.ojim.logic.state.Jail;
 
 public class ActionMoveToJail implements Action {
 
-	private final GameState state;
+	private final ServerLogic logic;
+	private final Jail[] jails;
 	
-	public ActionMoveToJail(GameState state) {
-		this.state = state;
+	public ActionMoveToJail(ServerLogic logic, Jail... jails) {
+		this.logic = logic;
+		this.jails = jails;
 	}
 	
 	@Override
 	public void execute() {
-		ActionMoveToJail.execute(state);
+		ActionMoveToJail.execute(logic, jails);
 	}
 	
-	public static void execute(GameState state) {
-		Field jail = null;
-		//TODO: Get all jail field(s).
-		// jail = state.getJail() ...?!
-		ActionMoveToField.execute(state, false, jail);
+	public static void execute(ServerLogic logic, Jail... jails) {
+		ActionMoveToField.execute(logic, false, jails);
+		
+		//TODO: (xZise) Extra jail stuff?
 	}
 }

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,27 +17,26 @@
 
 package org.ojim.logic.actions;
 
-import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.state.FreeParking;
-import org.ojim.logic.state.GameState;
 
 public class ActionGiveMoneyFromFreeParking implements Action {
 
-	private final GameState state;
+	private final ServerLogic logic;
 	private final FreeParking field;
-	
-	public ActionGiveMoneyFromFreeParking(GameState state, FreeParking field) {
-		this.state = state;
+
+	public ActionGiveMoneyFromFreeParking(ServerLogic logic, FreeParking field) {
+		this.logic = logic;
 		this.field = field;
 	}
-	
+
 	@Override
 	public void execute() {
-		ActionGiveMoneyFromFreeParking.execute(this.state, this.field);
+		ActionGiveMoneyFromFreeParking.execute(this.logic, this.field);
 	}
-	
-	public static void execute(GameState state, FreeParking field) {
-		Bank.exchangeMoney(field, state.getActivePlayer(), field.getMoneyInPot());
+
+	public static void execute(ServerLogic logic, FreeParking field) {
+		logic.getFreeParkingMoney(field);
 	}
 
 }

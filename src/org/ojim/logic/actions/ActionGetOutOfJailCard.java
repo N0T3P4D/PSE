@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,7 @@
 
 package org.ojim.logic.actions;
 
-import org.ojim.logic.state.GameState;
+import org.ojim.logic.ServerLogic;
 
 /**
  * Führt die „Komme aus den Gefängnis frei“-Karte aus.
@@ -26,19 +26,19 @@ import org.ojim.logic.state.GameState;
  */
 public class ActionGetOutOfJailCard implements Action {
 
-	private GameState state;
+	private final ServerLogic logic;
 
-	public ActionGetOutOfJailCard(GameState state) {
-		this.state = state;
+	public ActionGetOutOfJailCard(ServerLogic logic) {
+		this.logic = logic;
 	}
 
 	@Override
 	public void execute() {
-		ActionGetOutOfJailCard.execute(this.state);
+		ActionGetOutOfJailCard.execute(this.logic);
 	}
 
-	public static void execute(GameState state) {
-		// TODO: Implement action!
+	public static void execute(ServerLogic logic) {
+		// TODO: (xZise) Implement action!
 	}
 
 }

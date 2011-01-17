@@ -15,35 +15,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.logic.state;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.Player;
+import org.ojim.iface.IClient;
 
-public class ActionTransferMoneyToPlayers implements Action {
-
-	private final int amount;
-	private final ServerLogic logic;
+public class ServerPlayer extends Player {
 	
-	public ActionTransferMoneyToPlayers(ServerLogic logic, int amount) {
-		this.amount = amount;
-		this.logic = logic;
-	}
+	private final IClient client;
 	
-	@Override
-	public void execute() {
-		ActionTransferMoneyToPlayers.execute(this.logic, this.amount);
-	}
-	
-	public static void execute(ServerLogic logic, int amount) {		
-		// Get all players:
-		Player activePlayer = logic.getGameState().getActivePlayer();
-		
-		for (Player player : logic.getGameState().getPlayers()) {
-			if (!player.equals(activePlayer)) {
-				logic.exchangeMoney(activePlayer, player, amount);
-			}
-		}
+	public ServerPlayer(IClient client) {
+		super();
+		this.client = client;
 	}
 
 }

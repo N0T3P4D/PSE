@@ -17,13 +17,13 @@
 
 package org.ojim.logic.actions;
 
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.state.Field;
-import org.ojim.logic.state.GameState;
 
 public class ActionMoveToField implements Action {
 
 	private final Field[] fields;
-	private final GameState state;
+	private final ServerLogic logic;
 	private final boolean executePasses;
 
 	/**
@@ -37,21 +37,22 @@ public class ActionMoveToField implements Action {
 	 * @param fields
 	 *            Die Zielfelder.
 	 */
-	public ActionMoveToField(GameState state, boolean executePasses,
+	public ActionMoveToField(ServerLogic logic, boolean executePasses,
 			Field... fields) {
-		this.state = state;
+		this.logic = logic;
 		this.fields = fields;
 		this.executePasses = executePasses;
 	}
 
 	@Override
 	public void execute() {
-		ActionMoveToField.execute(this.state, this.executePasses, this.fields);
+		ActionMoveToField.execute(this.logic, this.executePasses, this.fields);
 	}
 
-	public static void execute(GameState state, boolean executePasses, Field... fields) {
+	public static void execute(ServerLogic logic, boolean executePasses,
+			Field... fields) {
 		// Das Field suchen, was am nächsten ist
-		int playerPos = state.getActivePlayer().getPosition();
+		int playerPos = logic.getGameState().getActivePlayer().getPosition();
 
 		Field next = fields[0];
 		for (int i = 1; i < fields.length; i++) {
@@ -59,11 +60,12 @@ public class ActionMoveToField implements Action {
 			 * Checks if the distance to the selected field is lower than this
 			 * to the previous determined field.
 			 */
-			if ((fields[i].getPosition() - playerPos + state
+			if ((fields[i].getPosition() - playerPos + logic.getGameState()
 					.getNumberOfFields())
-					% state.getNumberOfFields() < (next.getPosition()
-					- playerPos + state.getNumberOfFields())
-					% state.getNumberOfFields()) {
+					% logic.getGameState().getNumberOfFields() < (next
+					.getPosition() - playerPos + logic.getGameState()
+					.getNumberOfFields())
+					% logic.getGameState().getNumberOfFields()) {
 				next = fields[i];
 			}
 		}
