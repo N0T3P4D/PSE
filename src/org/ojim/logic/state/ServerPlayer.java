@@ -22,15 +22,25 @@ import org.ojim.iface.IClient;
 public class ServerPlayer extends Player {
 	
 	private final IClient client;
-	private int gameStatusMessage;
+	private String gameStatusMessage;
 	
 	public ServerPlayer(IClient client) {
 		super();
 		this.client = client;
+		this.gameStatusMessage = "";
+	}
+	
+	public void sendMessage(String text, int sender, boolean privateMessage) {
+		this.gameStatusMessage = text;
+		this.client.informMessage(text, sender, privateMessage);
 	}
 	
 	public IClient getClient() {
 		return this.client;
+	}
+
+	public String getGameStatusMessage() {
+		return this.gameStatusMessage;
 	}
 
 }

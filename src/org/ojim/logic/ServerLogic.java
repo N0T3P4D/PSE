@@ -48,6 +48,33 @@ public class ServerLogic extends Logic {
 		super(state, rules);
 	}
 	
+	public void setPlayerBankrupt(Player player) {
+		player.transferMoney(-(player.getBalance() + 1));
+		player.setBankrupt();
+		
+		// Inform All Players that this Player is bankrupt
+		for (Player onePlayer : this.getGameState().getPlayers()) {
+			if(onePlayer instanceof ServerPlayer) {
+				((ServerPlayer)onePlayer).sendMessage("Current Player is Bankrupt!", 0, false);
+			}
+		}		
+	}
+	
+	/**
+	 * Start a new Turn in the Game
+	 */
+	public void startNewTurn() {
+		//Get a new Player On Turn
+		this.GetNewPlayerOnTurn();
+		
+		//Inform All Player that a new Turn has come
+		for (Player onePlayer : this.getGameState().getPlayers()) {
+			if(onePlayer instanceof ServerPlayer) {
+				((ServerPlayer)onePlayer).getClient().informTurn(this.state.getActivePlayer().getId());
+			}
+		}
+	}
+	
 	/**
 	 * Called when a MoneyPot of a Free-Parking-Field should be emptied
 	 * @param field
@@ -142,6 +169,22 @@ public class ServerLogic extends Logic {
 				((ServerPlayer)onePlayer).getClient().informMessage("Current Player is now out of Jail!", 0, false);
 			}
 		}
+	}
+
+	public void GetNewPlayerOnTurn() {
+		Player[] players = this.getGameState().getPlayers();
+		Player currentPlayer = this.getGameState().getActivePlayer();
+		for(int i = 0; i < players.length; i++) {
+			if(players[i].equals(currentPlayer)) {
+				for(int j = 1; j < players.length; j++) {
+					if(players[i] != null && !players[i].getIsBankrupt()) {
+						this.getGameState().setActivePlayer(players[i]);
+						this.getGameState().setActivePlayerNeedsToRoll(true);
+					}
+				}
+			}
+		}
+		
 	}
 
 }
