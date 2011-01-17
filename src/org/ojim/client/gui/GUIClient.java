@@ -28,6 +28,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.GameField.GameField;
+import org.ojim.language.Localizer;
 
 public class GUIClient extends ClientBase {
 
@@ -40,33 +41,19 @@ public class GUIClient extends ClientBase {
 
 	public GUIClient() {
 
+		Localizer language = new Localizer();
+		//language.setLanguage("deu");
+		language.setLanguage("deu");
+		//language.setLanguage("fra");
+		
 		GUIFrame = new JFrame("OJim");
 
-		MenuBar menubar = new MenuBar();
+		
+		MenuBar menubar = new MenuBar(language);
 
 		GUIFrame.setJMenuBar(menubar);
 
 		LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
-/*
-		try {
-			UIManager
-					.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-		} catch (ClassNotFoundException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (InstantiationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (IllegalAccessException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		} catch (UnsupportedLookAndFeelException e) {
-			// TODO Auto-generated catch block
-			UIManager
-			.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-			System.out.print("lol");
-			//e.printStackTrace();
-		}*/
 		
 		try {
 		    for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {

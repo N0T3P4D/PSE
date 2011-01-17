@@ -17,11 +17,14 @@
 
 package org.ojim.client.gui;
 
+import java.io.File;
+
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import org.ojim.language.Localizer;
+import org.ojim.language.LanguageDefinition;
 
 public class MenuBar extends JMenuBar {
 
@@ -45,10 +48,31 @@ public class MenuBar extends JMenuBar {
 	public MenuBar() {
 		
 		menuBarState = MenuBarState.mainMenu;
-		Localizer language = new Localizer();
-		//language.setLanguage("deu");
-		language.setLanguage("eng");
-		//language.setLanguage("fra");
+		
+		Localizer language = null;
+		
+		language(language);
+        
+        draw();
+        
+        
+        
+        
+	}
+	
+	public MenuBar(Localizer language) {
+		
+		menuBarState = MenuBarState.mainMenu;
+		
+		
+		language(language);
+        
+        draw();
+        
+        
+	}
+	
+	public void language(Localizer language){
 		
 		// TODO: Lokalisierung
         fileMenu = new JMenu(language.getText("Datei"));
@@ -66,12 +90,6 @@ public class MenuBar extends JMenuBar {
 
         about = new JMenuItem(language.getText("Über Ojim"));
         help = new JMenuItem(language.getText("Hilfe"));
-        
-        draw();
-        
-        
-        
-        
 	}
 	
 	public void switchMenuBarState(MenuBarState state){
