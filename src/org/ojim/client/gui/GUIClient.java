@@ -125,6 +125,8 @@ public class GUIClient extends ClientBase {
 		pane.add(button);
 		GUIFrame.add(pane);
 		
+		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		GUIFrame.setMinimumSize(new Dimension(400,400));
 				
 		GUIFrame.setVisible(true);
