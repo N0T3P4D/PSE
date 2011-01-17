@@ -17,29 +17,7 @@
 
 package org.ojim.logic.state;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.accounting.Bank;
-import org.ojim.logic.actions.ActionPayFieldRent;
+public interface Rentable {
 
-public class TaxField extends Field implements Rentable {
-	
-	private final int amount;
-	private final Bank bank;
-
-	public TaxField(String name, int position, int amount, Bank bank) {
-		super(name, position);
-		this.bank = bank;
-		this.amount = amount;
-	}
-	
-	public TaxField(String name, int position, int amount, ServerLogic logic) {
-		this(name, position, amount, logic.getGameState().getBank());
-		this.setExecuteActions(new ActionPayFieldRent(logic, this));
-	}
-
-	@Override
-	public void payRent(Player payer) {
-		Bank.exchangeMoney(payer, this.bank, this.amount);
-	}
-
+	void payRent(Player payer);
 }

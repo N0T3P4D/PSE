@@ -26,7 +26,7 @@ import org.ojim.logic.actions.ActionPayFieldRent;
  * 
  * @author Fabian Neundorf
  */
-public abstract class BuyableField extends Field {
+public abstract class BuyableField extends Field implements Rentable {
 
 	//TODO: Gehört in Field
 	private FieldGroup fieldGroup;
@@ -85,8 +85,9 @@ public abstract class BuyableField extends Field {
 	 * @param player
 	 *            the player who got to the field.
 	 */
+	@Override
 	public void payRent(Player player) {
-		if (!this.owner.equals(player)) {
+		if (!this.owner.equals(player) && this.owner != null) {
 			Bank.exchangeMoney(player, this.owner, this.getRent());
 		}
 	}

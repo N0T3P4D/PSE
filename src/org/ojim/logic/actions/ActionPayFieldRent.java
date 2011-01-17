@@ -18,11 +18,11 @@
 package org.ojim.logic.actions;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.BuyableField;
+import org.ojim.logic.state.Rentable;
 
 public class ActionPayFieldRent implements Action {
 
-	private BuyableField field;
+	private Rentable field;
 	private ServerLogic logic;
 	
 	/**
@@ -31,7 +31,7 @@ public class ActionPayFieldRent implements Action {
 	 * @param state Spielzustand.
 	 * @param fields Das Feld für das die Miete eingezogen wird.
 	 */
-	public ActionPayFieldRent(ServerLogic logic, BuyableField field) {
+	public ActionPayFieldRent(ServerLogic logic, Rentable field) {
 		this.logic = logic;
 		this.field = field;
 	}
@@ -41,7 +41,7 @@ public class ActionPayFieldRent implements Action {
 		ActionPayFieldRent.execute(logic, field);
 	}
 	
-	public static void execute(ServerLogic logic, BuyableField field) {
+	public static void execute(ServerLogic logic, Rentable field) {
 		//TODO: (xZise) Inform other player -> payRent(Player) gets logic? Or has a field a reference to logic?
 		field.payRent(logic.getGameState().getActivePlayer());
 	}
