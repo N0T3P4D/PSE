@@ -31,21 +31,22 @@ import javax.swing.JTextArea;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
 
+import org.ojim.language.Localizer;
+
 public class ChatWindow extends JPanel {
 
-	
+	Localizer language;
 	// TODO Auch das ChatWindow muss mit der Fenstergröße wachsen
 	
-	public ChatWindow() {
+	public ChatWindow(Localizer language) {
 		super();
 
-		JPanel panel = new JPanel();
-
-		panel.setLayout(new GridBagLayout());
+		this.setLayout(new GridBagLayout());
 
 		JTextPane textPane = new JTextPane();
 
 		textPane.setEditable(false);
+		textPane.add(new JLabel("bla"));
 		add(new JScrollPane(textPane));
 		// textPane.append("Zeile 1\nZeile 2\nZeile3\nZeile4");
 
@@ -53,23 +54,21 @@ public class ChatWindow extends JPanel {
 		// indem dort der Caret positioniert wird
 		// textPane.setCaretPosition(4);
 
-		panel.add(textPane, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
+		this.add(textPane, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
 				GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL,
 				new Insets(0, 0, 0, 0), 0, 0));
 
-		JTextField textField = new JTextField("blaaa");
+		JTextField textField = new JTextField("      ");
 
-		panel.add(textField, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
+		this.add(textField, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
 				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
 				new Insets(0, 0, 0, 0), 0, 0));
 
-		JButton sendButton = new JButton("send");
+		JButton sendButton = new JButton(language.getText("send"));
 
-		panel.add(sendButton, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0,
+		this.add(sendButton, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0,
 				GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
 				new Insets(0, 0, 0, 0), 0, 0));
-
-		this.add(panel);
 	}
 
 	public void clear() {

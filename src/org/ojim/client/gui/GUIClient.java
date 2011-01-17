@@ -126,7 +126,7 @@ public class GUIClient extends ClientBase {
 			
 			
 			playerInfoWindow = new PlayerInfoWindow();
-			chatWindow = new ChatWindow();
+			chatWindow = new ChatWindow(language);
 
 			rightWindow.add(playerInfoWindow);
 			leftWindow.add(chatWindow);
@@ -156,7 +156,7 @@ public class GUIClient extends ClientBase {
 			rightWindow1.setLayout(new GridLayout(0, 1));
 
 			playerInfoWindow = new PlayerInfoWindow();
-			chatWindow = new ChatWindow();
+			chatWindow = new ChatWindow(language);
 
 			rightWindow1.add(playerInfoWindow);
 			rightWindow1.add(chatWindow);
