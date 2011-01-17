@@ -21,7 +21,23 @@ import java.util.Date;
 
 public class ChatMessage {
 
+	
+	
+	public ChatMessage(int player, Date date, String message) {
+		this.player = player;
+		this.date = date;
+		this.message = message;
+	}
 	private int player;
 	private Date date;
 	private String message;
+	public int getPlayer() {
+		return player;
+	}
+	public Date getDate() {
+		return date;
+	}
+	public String getMessage() {
+		return message;
+	}
 }

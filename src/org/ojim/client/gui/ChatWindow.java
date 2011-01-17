@@ -17,11 +17,13 @@
 
 package org.ojim.client.gui;
 
+import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.TextArea;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
@@ -36,39 +38,47 @@ import org.ojim.language.Localizer;
 public class ChatWindow extends JPanel {
 
 	Localizer language;
-	// TODO Auch das ChatWindow muss mit der Fenstergröße wachsen
+	LinkedList<ChatMessage> messages = new LinkedList<ChatMessage>();
+	JTextArea textArea;
 	
 	public ChatWindow(Localizer language) {
 		super();
 
 		this.setLayout(new GridBagLayout());
 
-		JTextPane textPane = new JTextPane();
+		textArea = new JTextArea();
 
-		textPane.setEditable(false);
-		textPane.add(new JLabel("bla"));
-		add(new JScrollPane(textPane));
+		textArea.setEditable(false);
+		textArea.add(new JLabel("bla"));
+		//add(new JScrollPane(textArea));
 		// textPane.append("Zeile 1\nZeile 2\nZeile3\nZeile4");
+		
+		
 
 		// Zeigt die erste Zeile an,
 		// indem dort der Caret positioniert wird
 		// textPane.setCaretPosition(4);
 
-		this.add(textPane, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
-				GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL,
+		this.add(textArea, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
+				GridBagConstraints.NORTH, GridBagConstraints.BOTH,
 				new Insets(0, 0, 0, 0), 0, 0));
 
-		JTextField textField = new JTextField("      ");
+		
+		JPanel textPanel = new JPanel();
+		
+		textPanel.setLayout(new GridLayout(1,0));
+		
+		JTextField textField = new JTextField("");
 
-		this.add(textField, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
-				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+		this.add(textPanel, new GridBagConstraints(0, 1, 2, 1, 1.0, 0.0,
+				GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
 				new Insets(0, 0, 0, 0), 0, 0));
 
 		JButton sendButton = new JButton(language.getText("send"));
 
-		this.add(sendButton, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0,
-				GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
-				new Insets(0, 0, 0, 0), 0, 0));
+		textPanel.add(textField);
+		
+		textPanel.add(sendButton);
 	}
 
 	public void clear() {
@@ -76,7 +86,8 @@ public class ChatWindow extends JPanel {
 	}
 
 	public void write(ChatMessage message) {
-
+		messages.add(message);
+		textArea.append(message.getDate()+" <"+message.getPlayer()+"> "+message.getMessage()+"\n");
 	}
 
 }
