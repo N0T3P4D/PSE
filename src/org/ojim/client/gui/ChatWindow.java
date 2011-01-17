@@ -17,23 +17,67 @@
 
 package org.ojim.client.gui;
 
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+import java.awt.Insets;
+import java.awt.TextArea;
+
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.JTextPane;
 
 public class ChatWindow extends JPanel {
 
+	
+	// TODO Auch das ChatWindow muss mit der Fenstergröße wachsen
+	
 	public ChatWindow() {
 		super();
-		this.add(new JPanel().add(new JLabel("ChatWindow")));
+
+		JPanel panel = new JPanel();
+
+		panel.setLayout(new GridBagLayout());
+
+		JTextPane textPane = new JTextPane();
+
+		textPane.setEditable(false);
+		add(new JScrollPane(textPane));
+		// textPane.append("Zeile 1\nZeile 2\nZeile3\nZeile4");
+
+		// Zeigt die erste Zeile an,
+		// indem dort der Caret positioniert wird
+		// textPane.setCaretPosition(4);
+
+		panel.add(textPane, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
+				GridBagConstraints.NORTH, GridBagConstraints.HORIZONTAL,
+				new Insets(0, 0, 0, 0), 0, 0));
+
+		JTextField textField = new JTextField("blaaa");
+
+		panel.add(textField, new GridBagConstraints(0, 1, 1, 1, 1.0, 0.0,
+				GridBagConstraints.WEST, GridBagConstraints.HORIZONTAL,
+				new Insets(0, 0, 0, 0), 0, 0));
+
+		JButton sendButton = new JButton("send");
+
+		panel.add(sendButton, new GridBagConstraints(1, 1, 1, 1, 1.0, 0.0,
+				GridBagConstraints.EAST, GridBagConstraints.HORIZONTAL,
+				new Insets(0, 0, 0, 0), 0, 0));
+
+		this.add(panel);
 	}
 
-	public void clear(){
-		
+	public void clear() {
+
 	}
-	
-	public void write(ChatMessage message){
-		
+
+	public void write(ChatMessage message) {
+
 	}
-	
-	
+
 }
