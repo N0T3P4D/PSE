@@ -66,6 +66,23 @@ public class GameRules {
 		return true;
 	}
 	
+	public int getGoMoney(){
+		return this.rules.goMoney;
+	}
+	
+	public boolean getdoubleMoneyOnGo() {
+		return this.rules.doubleMoneyOnGo;
+	}
+	
+	
+	/**
+	 * The Start Time 
+	 * @return
+	 */
+	public int getActionStartTime() {
+		return 20;
+	}
+	
 	public boolean isFieldMortgageable(Player player, Field field) {
 		if(!canPlayerModifyBuyableField(player, field)) {
 			return false;
@@ -145,5 +162,14 @@ public class GameRules {
 		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Gets the Starting Bid for an Auction, normally this is 0
+	 * @param objective The Field that is Auctioned
+	 * @return The Minimum Value of the Auctioned Field
+	 */
+	public int getAuctionStartBid(BuyableField objective) {
+		return 0;
 	}
 }
