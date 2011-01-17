@@ -70,7 +70,7 @@ public class GameRules {
 		return this.rules.goMoney;
 	}
 	
-	public boolean getdoubleMoneyOnGo() {
+	public boolean getDoubleMoneyOnGo() {
 		return this.rules.doubleMoneyOnGo;
 	}
 	
