@@ -28,3 +28,6 @@ list of servers=List of Servers
 exit=Exit
 about=About OJIM
 help=Help
+roll=Roll Dices
+buy=Buy
+ready=Ready?
