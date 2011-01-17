@@ -36,6 +36,8 @@ public class TestClient implements IClient {
 	
 	private IServer server;
 	private int id = -1;
+	private final JTextField var1, var2;
+	private final JLabel res;
 	
 	public TestClient(final IServer server) {
 		this.server = server;
@@ -48,14 +50,11 @@ public class TestClient implements IClient {
 		
 		pane.setLayout(experimentLayout);
 		JFrame frame = new JFrame("TestClient");
-		final JTextField var1 = new JTextField();
-		var1.setMinimumSize(new Dimension(200, 100));
+		var1 = new JTextField();
 		pane.add(var1);
-		JTextField var2 = new JTextField();
-		var2.setMinimumSize(new Dimension(200, 100));
-		var2.setMaximumSize(new Dimension(200, 100));
+		var2 = new JTextField();
 		pane.add(var2);
-		final JLabel res = new JLabel("Result     ");
+		res = new JLabel("Result     ");
 		pane.add(res);
 		JButton bt1 = new JButton("getNumberOfHousesLeft()");
 		bt1.addActionListener(new ActionListener() {
@@ -113,7 +112,7 @@ public class TestClient implements IClient {
 	}
 	
 	private void print(String out) {
-		System.out.println("TestClient:" + out);
+		this.res.setText("out");
 	}
 
 	@Override

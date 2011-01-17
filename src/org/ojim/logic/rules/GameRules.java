@@ -138,4 +138,12 @@ public class GameRules {
 		}
 		return false;
 	}
+
+	public boolean isRollRequiredByActivePlayer() {
+		if(this.state.getActivePlayerNeedsToRoll()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 }

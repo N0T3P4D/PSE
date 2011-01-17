@@ -42,6 +42,7 @@ public class GameState {
 	private Rules rules;
 	private DiceSet dices;
 	private Player activePlayer;
+	private boolean activePlayerNeedsToRoll;
 	
 	public GameState() {
 		this.players = new HashMap<Integer, Player>(MAXIMUM_PLAYER_COUNT);
@@ -145,5 +146,17 @@ public class GameState {
 	public void startGame(int start) {
 		this.activePlayer = this.players.get(start);
 		
+	}
+	
+	public void setActivePlayerNeedsToRoll(boolean needsToRoll) {
+		this.activePlayerNeedsToRoll = needsToRoll;
+	}
+
+	public boolean getActivePlayerNeedsToRoll() {
+		return this.activePlayerNeedsToRoll;
+	}
+
+	public void setActivePlayer(Player player) {
+		this.activePlayer = player;		
 	}
 }
