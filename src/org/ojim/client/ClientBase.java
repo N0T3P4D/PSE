@@ -22,8 +22,13 @@ import java.util.logging.Logger;
 import org.ojim.iface.IClient;
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.BuyableField;
+import org.ojim.logic.state.CardField;
 import org.ojim.logic.state.Field;
+import org.ojim.logic.state.FieldGroup;
+import org.ojim.logic.state.FreeParking;
 import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.GoToJail;
+import org.ojim.logic.state.InfrastructureField;
 import org.ojim.logic.state.Jail;
 import org.ojim.logic.state.Street;
 import org.ojim.network.ClientConnection;
@@ -52,30 +57,50 @@ public class ClientBase extends SimpleClient implements IClient {
 
 	private void loadGameState() {
 
-		// <li>-1 für das Startfeld
-		// * <li>-2 für das Gefängnis
-		// * <li>-3 für Frei Parken
-		// * <li>-4 für "gehe in das Gefängnis"
-		// * <li>-5 für Ereignisfelder
-		// * <li>-6 für Gemeinschaftsfelder
-		// * <li>-7 für Bahnhöfe
-		// * <li>-8 für Infrastrukturgebäude
-		// * <li>-9 für Sondersteuerfelder
-
 		GameState state = this.getGameState();
-		Field field = null;
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-			switch (this.getEstateColorGroup(i)) {
-			case -1:
+		
+		FieldGroup stations = new FieldGroup(FieldGroup.STATIONS);
+		FieldGroup infrastructures = new FieldGroup(FieldGroup.INFRASTRUCTURE);
+		
+		for (int position = 0; position < GameState.FIELDS_AMOUNT; position++) {
+			Field field = null;
+			String name = this.getEstateName(position);
+			int price = this.getEstatePrice(position);
+			switch (this.getEstateColorGroup(position)) {
+			case FieldGroup.GO:
 				; // Los feld
 				break;
-			case -2: // Gefängnis
-				Jail jail = new Jail(i);
-				
+			case FieldGroup.JAIL: // Gefängnis
+				//FIXME: (xZise) Get real values!
+				field = new Jail(position, 1000, 3);
+				break;
+			case FieldGroup.FREE_PARKING:
+				field = new FreeParking(position);
+				break;
+			case FieldGroup.GO_TO_JAIL:
+				field = new GoToJail(position);
+				break;
+			case FieldGroup.EVENT:
+				field = new CardField(position);
+				break;
+			case FieldGroup.COMMUNITY:
+				field = new CardField(position);
+				break;
+			case FieldGroup.STATIONS:
+				field = stations.addField(new Station(name, position, price));
+				break;
+			case FieldGroup.INFRASTRUCTURE:
+				field = infrastructures.addField(new InfrastructureField(name, position, price));
+				break;
+			case FieldGroup.TAX:
 				break;
 			}
 			
-			state.setFieldAt(field, i);
+			if (field == null) {
+				//TODO: show error
+			} else {
+				state.setFieldAt(field, position);
+			}
 		}
 	}
 

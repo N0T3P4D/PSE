@@ -15,35 +15,30 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.client;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.Rentable;
+import org.ojim.logic.state.BuyableField;
 
-public class ActionPayFieldRent implements Action {
+public class Station extends BuyableField {
 
-	private Rentable field;
-	private ServerLogic logic;
-	
-	/**
-	 * Erstellt eine Aktion die die Miete eines Feldes bezahlt.
-	 * 
-	 * @param state Spielzustand.
-	 * @param fields Das Feld für das die Miete eingezogen wird.
-	 */
-	public ActionPayFieldRent(ServerLogic logic, Rentable field) {
-		this.logic = logic;
-		this.field = field;
+	public Station(String name, int position, int price) {
+		//TODO: (xZise) Soll der Preis konstant bleiben?
+		super(name, position, 1000);
 	}
 	
 	@Override
-	public void execute() {
-		ActionPayFieldRent.execute(logic, field);
-	}
-	
-	public static void execute(ServerLogic logic, Rentable field) {
-		//TODO: (xZise) Inform other player -> payRent(Player) gets logic? Or has a field a reference to logic?
-		field.payRent(logic.getGameState().getActivePlayer());
+	public int getRent() {
+		int ownerOwns = 0;
+		for (BuyableField field : this.getFieldGroup().getFields()) {
+			if (field instanceof Station) {
+				if (((Station) field).getOwner().equals(this.getOwner())) {
+					ownerOwns++;
+				}
+			}
+		}
+		
+		//TODO: (xZise) Sind die Werte so gut? Also 500 für einen bahnhof, 1000 für 2, 2000 für 3 ...?
+		return (int) Math.floor(500 * Math.pow(ownerOwns - 1, 2));
 	}
 
 }
