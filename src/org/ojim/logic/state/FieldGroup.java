@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -21,6 +21,16 @@ import java.util.LinkedList;
 
 public class FieldGroup {
 	
+	public static final int GO = -1;
+	public static final int JAIL = -2;
+	public static final int FREE_PARKING = -3;
+	public static final int GO_TO_JAIL = -4;
+	public static final int EVENT = -5;
+	public static final int COMMUNITY = -6;
+	public static final int STATIONS = -7;
+	public static final int INFRASTRUCTURE = -8;
+	public static final int TAX = -9;
+	
 	private int color;
 	private LinkedList<BuyableField> fields;
 	private int housePrice;
@@ -40,8 +50,9 @@ public class FieldGroup {
 		return this.housePrice;
 	}
 	
-	public void addField(BuyableField field) {
-		fields.add(field);
+	public BuyableField addField(BuyableField field) {
+		this.fields.add(field);
+		return field;
 	}
 	
 	public LinkedList<BuyableField> getFields() {

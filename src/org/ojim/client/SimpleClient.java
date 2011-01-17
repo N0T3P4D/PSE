@@ -81,6 +81,14 @@ public class SimpleClient {
 		return this.server.getEstateColorGroup(position);
 	}
 	
+	public String getEstateName(int position) {
+		return this.server.getEstateName(position);
+	}
+	
+	public int getEstatePrice(int position) {
+		return this.getEstatePrice(position);
+	}
+	
 	/*
 	 * ACTION METHODS
 	 */
