@@ -107,11 +107,18 @@ public class ServerLogic extends Logic {
 		int start = new Random().nextInt(playerCount);
 		this.getGameState().startGame(start);
 		
+		int[] ids = new int[playerCount];
+		int i = 0;
+		for(Player player : this.getGameState().getPlayers()) {
+			ids[i++] = player.getId();
+		}
+		
+		
 		//Send all Players notification that the Game has started
 		for(Player player : this.getGameState().getPlayers()) {
 			if(player instanceof ServerPlayer) {
 				IClient client = ((ServerPlayer)player).getClient();
-				client.informStartGame(playerCount);
+				client.informStartGame(ids);
 			}
 		}
 		

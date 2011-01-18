@@ -42,10 +42,18 @@ public class Bank implements IMoneyPartner {
 		this.balance += amount;
 	}
 
+	public void setHouses(int houses) {
+		this.houses = houses;
+	}
+	
 	public int getHouses() {
 		return this.houses;
 	}
 
+	public void setHotels(int hotels) {
+		this.hotels = hotels;
+	}
+	
 	public int getHotels() {
 		return this.hotels;
 	}

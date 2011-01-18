@@ -92,6 +92,44 @@ public class SimpleClient {
 	public int getEstateRent(int position, int houses) {
 		return this.server.getEstateRent(position, houses);
 	}
+	
+	public int getEstateHouses(int position) {
+		return this.server.getEstateHouses(position);
+	}
+	
+	public boolean isMortgaged(int position) {
+		return this.server.isMortgaged(position);
+	}
+	
+	public int getOwner(int position) {
+		return this.server.getOwner(position);
+	}
+	
+	// Bank
+	public int getNumberOfHousesLeft() {
+		return this.server.getNumberOfHousesLeft();
+	}
+	
+	public int getNumberOfHotelsLeft() {
+		return this.server.getNumberOfHotelsLeft();
+	}
+	
+	// Spieler
+	public int getPlayerCash(int playerID) {
+		return this.server.getPlayerCash(playerID);
+	}
+	
+	public String getPlayerName(int player) {
+		return this.server.getPlayerName(player);
+	}
+	
+	public int getPlayerColor(int player) {
+		return this.server.getPlayerColor(player);
+	}
+	
+	public int getPlayerPiecePosition(int playerID) {
+		return this.server.getPlayerPiecePosition(playerID);
+	}
 
 	/*
 	 * ADITIONAL GETTER

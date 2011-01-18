@@ -43,10 +43,10 @@ public interface IClient {
 
 	/**
 	 * Informiert den Spieler, dass das Spiel beginnt.
-	 * @param numberOfPlayers
+	 * @param ids
 	 *            Die Anzahl der Spieler.
 	 */
-	void informStartGame(int numberOfPlayers);
+	void informStartGame(int[] ids);
 
 	/**
 	 * Informiert den Spieler, dass der Spieler mit der id "player" an der Reihe ist und nun Würfeln darf.

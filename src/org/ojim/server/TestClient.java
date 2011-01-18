@@ -116,7 +116,7 @@ public class TestClient implements IClient {
 	}
 
 	@Override
-	public void informStartGame(int numberOfPlayers) {
+	public void informStartGame(int[] ids) {
 		print("informed: StartGame");
 
 	}

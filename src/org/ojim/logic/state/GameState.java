@@ -104,14 +104,6 @@ public class GameState {
 		return this.bank;
 	}
 	
-	/**
-	 * Returns the number of fields.
-	 * @return The number of fields.
-	 */
-	public int getNumberOfFields() {
-		return FIELDS_AMOUNT;
-	}
-	
 	//TODO: Does this class support this? If so: finish!
 	public Player getActivePlayer() {
 		if(this.activePlayer == null) {

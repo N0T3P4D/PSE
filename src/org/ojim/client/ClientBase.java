@@ -32,6 +32,7 @@ import org.ojim.logic.state.GoField;
 import org.ojim.logic.state.GoToJail;
 import org.ojim.logic.state.InfrastructureField;
 import org.ojim.logic.state.Jail;
+import org.ojim.logic.state.Player;
 import org.ojim.logic.state.Street;
 import org.ojim.logic.state.TaxField;
 import org.ojim.network.ClientConnection;
@@ -62,10 +63,14 @@ public class ClientBase extends SimpleClient implements IClient {
 
 		GameState state = this.getGameState();
 
+		state.getBank().setHotels(this.getNumberOfHotelsLeft());
+		state.getBank().setHouses(this.getNumberOfHousesLeft());
+
 		FieldGroup stations = new FieldGroup(FieldGroup.STATIONS);
 		FieldGroup infrastructures = new FieldGroup(FieldGroup.INFRASTRUCTURE);
-		Map<Integer, FieldGroup> colorGroups = new HashMap<Integer, FieldGroup>(8);
-		
+		Map<Integer, FieldGroup> colorGroups = new HashMap<Integer, FieldGroup>(
+				8);
+
 		for (int position = 0; position < GameState.FIELDS_AMOUNT; position++) {
 			Field field = null;
 			String name = this.getEstateName(position);
@@ -76,13 +81,18 @@ public class ClientBase extends SimpleClient implements IClient {
 				if (theChoosenGroup == null) {
 					theChoosenGroup = new FieldGroup(group);
 				}
-				
+
 				int[] rentByLevel = new int[this.getMaximumBuiltLevel()];
 				for (int builtLevel = 0; builtLevel < rentByLevel.length; builtLevel++) {
-					rentByLevel[builtLevel] = this.getEstateRent(position, builtLevel);
+					rentByLevel[builtLevel] = this.getEstateRent(position,
+							builtLevel);
 				}
-				
-				field = theChoosenGroup.addField(new Street(name, position, rentByLevel, price));
+
+				Street street = new Street(name, position, rentByLevel, this
+						.getEstateHouses(position), price);
+				street.setMortgaged(this.isMortgaged(position));
+
+				field = theChoosenGroup.addField(street);
 			} else {
 				switch (this.getEstateColorGroup(position)) {
 				case FieldGroup.GO:
@@ -227,9 +237,26 @@ public class ClientBase extends SimpleClient implements IClient {
 	}
 
 	@Override
-	public void informStartGame(int numberOfPlayers) {
-		// TODO Auto-generated method stub
-
+	public void informStartGame(int[] ids) {
+		for (int id : ids) {
+			this.getGameState().setPlayer(id,
+							new Player(this.getPlayerName(id), 
+									   this.getPlayerPiecePosition(id),
+									   this.getPlayerCash(id),
+									   id,
+									   this.getPlayerColor(id)));
+		}
+		
+		// Load all owners
+		for (int position = 0; position < GameState.FIELDS_AMOUNT; position++) {
+			Field field = this.getGameState().getFieldAt(position);
+			if (field instanceof BuyableField) {
+				int id = this.getOwner(position);
+				if (id >= 0) {
+					((BuyableField) field).buy(this.getGameState().getPlayerByID(id));
+				}
+			}
+		}
 	}
 
 	// xZise: Brauchen wir den Parameter?
