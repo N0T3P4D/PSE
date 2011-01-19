@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
 public class Jail extends Field {
 

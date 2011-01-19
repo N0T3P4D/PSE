@@ -23,16 +23,15 @@ import java.util.List;
 import org.ojim.client.ai.AIClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
-import org.ojim.logic.Logic;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.rules.GameRules;
-import org.ojim.logic.state.BuyableField;
-import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
-import org.ojim.logic.state.Street;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Street;
 
 import edu.kit.iti.pse.iface.IServer;
 import edu.kit.iti.pse.iface.IServerAuction;
@@ -380,7 +379,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getEstateColorGroup(int position) {
-		if (position < 0 || position >= state.FIELDS_AMOUNT) {
+		if (position < 0 || position >= GameState.FIELDS_AMOUNT) {
 			return -1;
 		}
 		Field field = state.getFieldAt(position);
@@ -659,6 +658,45 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			}
 		}
 		return false;
+	}
+
+	public int getMaximumBuiltLevel() {
+		//TODO: (xZise) Eine besondere Methode von OjimServer (nicht in IServer).
+		//xZise: Extra mit Fehler, damit es dir auffällt, das deine Klasse auf einmal eine Methode mehr hat :)
+	}
+
+	@Override
+	public int getEstateHousePrice(int position) {
+		// TODO Auto-generated method stub
+		//xZise: Extra mit Fehler, damit es dir auffällt, das deine Klasse auf einmal eine Methode mehr hat :)
+		//xZise: Diese Methode stammt aber aus IServer :P
+	}
+
+	/**
+	 * Returns the money the player has to pay to leave the jail.
+	 * 
+	 * @param position
+	 *            The position of the jail.
+	 * @return The money the player has to pay. If there is no money the return
+	 *         is undefined;.
+	 */
+	public int getMoneyToPay(int position) {
+		//TODO: (xZise) Eine besondere Methode von OjimServer (nicht in IServer).
+		//xZise: Extra mit Fehler, damit es dir auffällt, das deine Klasse auf einmal eine Methode mehr hat :)
+	}
+
+	/**
+	 * Returns the number of rounds the player has to wait if the player is in
+	 * jail.
+	 * 
+	 * @param position
+	 *            The position of the jail.
+	 * @return The number of rounds the player has to wait. If this is no jail
+	 *         it return is undefined.
+	 */
+	public int getRoundsToWait(int position) {
+		//TODO: (xZise) Eine besondere Methode von OjimServer (nicht in IServer).
+		//xZise: Extra mit Fehler, damit es dir auffällt, das deine Klasse auf einmal eine Methode mehr hat :)
 	}
 
 }

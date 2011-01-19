@@ -15,28 +15,32 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.fields.FreeParking;
+import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.actions.ActionPayFieldRent;
+import org.ojim.logic.state.Player;
 
-public class ActionGiveMoneyFromFreeParking implements Action {
+public class TaxField extends Field implements Rentable {
+	
+	private final int amount;
+	private final Bank bank;
 
-	private final ServerLogic logic;
-	private final FreeParking field;
-
-	public ActionGiveMoneyFromFreeParking(ServerLogic logic, FreeParking field) {
-		this.logic = logic;
-		this.field = field;
+	public TaxField(String name, int position, int amount, Bank bank) {
+		super(name, position);
+		this.bank = bank;
+		this.amount = amount;
+	}
+	
+	public TaxField(String name, int position, int amount, ServerLogic logic) {
+		this(name, position, amount, logic.getGameState().getBank());
+		this.setExecuteActions(new ActionPayFieldRent(logic, this));
 	}
 
 	@Override
-	public void execute() {
-		ActionGiveMoneyFromFreeParking.execute(this.logic, this.field);
-	}
-
-	public static void execute(ServerLogic logic, FreeParking field) {
-		logic.getFreeParkingMoney(field);
+	public void payRent(Player payer) {
+		Bank.exchangeMoney(payer, this.bank, this.amount);
 	}
 
 }

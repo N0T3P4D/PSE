@@ -15,12 +15,13 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
 import org.ojim.logic.actions.Action;
 
 public class Field {
-	
+
+	private FieldGroup fieldGroup;
 	private final String name;
 	private final int position;
 	
@@ -68,5 +69,15 @@ public class Field {
 		for (int i = 0; i < this.passThroughActions.length; i++) {
 			this.passThroughActions[i].execute();
 		}		
+	}
+
+	public void setFieldGroup(FieldGroup fieldGroup) {
+		if (this.fieldGroup != fieldGroup) {
+			this.fieldGroup = fieldGroup;
+		}
+	}
+	
+	public FieldGroup getFieldGroup() {
+		return this.fieldGroup;
 	}
 }

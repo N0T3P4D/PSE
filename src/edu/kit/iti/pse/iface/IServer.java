@@ -58,14 +58,11 @@ public interface IServer {
 	 * 
 	 * @param playerID
 	 *            Nummer des Spielers [0,max-1]
-	 * @since SVN revision 12 (negative Werte hinzugefügt)
-	 * @return Der Rückgabewert gibt die Position auf dem Spielfeld an. Der
-	 *         Rückgabewert hat die entsprechende Bedeutung aus der Tabelle:
-	 *         <ul>
-	 *         <li>0- auf dem Spielfeld
-	 *         <li>-1 im Gefängnis
-	 *         <li>weitere können benutzerdefiniert werden
-	 *         </ul>
+	 * @return Der Rückgabewert gibt die Position auf dem Spielfeld an. Sofern
+	 *         der Wert negativ ist, steht der Spieler auf den Sonderteil des
+	 *         Feldes. Beim Gefängnisfeld würde die Position als positive Zahl
+	 *         "Nur zu Besuch" bedeuten, und die negative dass der Spieler im
+	 *         Gefängnis einsitzt.
 	 */
 	public int getPlayerPiecePosition(int playerID);
 
@@ -176,6 +173,17 @@ public interface IServer {
 	 *         wird -1 zurückgegeben.
 	 */
 	public int getEstatePrice(int position);
+
+	/**
+	 * Liefert den Kaufpreis eines Hauses einer Straße zurück.
+	 * 
+	 * @param position
+	 *            Gegebene Position.
+	 * @return Liefert den Kaufpreis eines Hauses zurück. Wenn das Feld keine
+	 *         Häuser zulässt wird -1 zurückgegeben.
+	 * @since SVN revision 13.
+	 */
+	public int getEstateHousePrice(int position);
 
 	/**
 	 * Liefert die Höhe der Miete für ein Grundstück in der angegebenen

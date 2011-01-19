@@ -28,6 +28,7 @@ import java.util.Map;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.actions.ActionMoveForward;
+import org.ojim.logic.state.fields.Field;
 import org.ojim.iface.Rules;
 
 public class GameState {

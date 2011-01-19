@@ -18,11 +18,11 @@
 package org.ojim.logic.rules;
 
 import org.ojim.iface.Rules;
-import org.ojim.logic.state.BuyableField;
-import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
-import org.ojim.logic.state.Street;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Street;
 
 public class GameRules {
 

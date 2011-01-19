@@ -15,28 +15,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.logic.state.fields;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.fields.FreeParking;
+import org.ojim.logic.state.fields.BuyableField;
 
-public class ActionGiveMoneyFromFreeParking implements Action {
+public class Station extends BuyableField {
 
-	private final ServerLogic logic;
-	private final FreeParking field;
-
-	public ActionGiveMoneyFromFreeParking(ServerLogic logic, FreeParking field) {
-		this.logic = logic;
-		this.field = field;
+	public Station(String name, int position, int price) {
+		//TODO: (xZise) Soll der Preis konstant bleiben?
+		super(name, position, 1000);
 	}
-
+	
 	@Override
-	public void execute() {
-		ActionGiveMoneyFromFreeParking.execute(this.logic, this.field);
-	}
-
-	public static void execute(ServerLogic logic, FreeParking field) {
-		logic.getFreeParkingMoney(field);
+	public int getRent() {
+		int ownerOwns = 0;
+		for (Field field : this.getFieldGroup().getFields()) {
+			if (field instanceof Station && ((Station) field).getOwner().equals(this.getOwner())) {
+				ownerOwns++;	
+			}
+		}
+		
+		//TODO: (xZise) Sind die Werte so gut? Also 500 für einen bahnhof, 1000 für 2, 2000 für 3 ...?
+		return (int) Math.floor(500 * Math.pow(ownerOwns - 1, 2));
 	}
 
 }

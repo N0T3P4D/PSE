@@ -20,6 +20,8 @@ package org.ojim.logic.state;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ojim.logic.state.fields.BuyableField;
+
 /**
  * Saves everything related to a trade.
  * 

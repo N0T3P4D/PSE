@@ -29,36 +29,6 @@ import java.util.Map;
 
 public class Localizer {
 
-	int language;
-
-	// private static final String[] LANGUAGE = {
-	// // Deutschland Deutsch
-	// "DE-de",
-	// // Vereinigtes Königreich Englisch
-	// "EN-uk",
-	// // Frankreich Französisch
-	// "FR-fr" };
-	// xZise: The Language is encoded as ISO 639-3
-	// See: https://secure.wikimedia.org/wikipedia/en/wiki/ISO_639-3
-	private static final String[] LANGUAGE = {
-	// Deutschland Deutsch
-			"deu",
-			// Vereinigtes Königreich Englisch
-			"eng",
-			// Frankreich Französisch
-			"fra" };
-
-	private static final String[][] LANGUAGE_FILES = {
-			{ "Fehlender Text", "Missing Text", " Erreur" },
-			{ "Datei", "File", " Fichier" }, { "?", "?", " ?" },
-			{ "Spiel erstellen", "Create Game" },
-			{ "Spiel beitreten", "Join Game" },
-			{ "Spiel verlassen", "Leave Game" },
-			{ "Einstellungen", "Settings" },
-			{ "Direkte Verbindung", "Direct Connection" },
-			{ "Serverliste", "Serverlist" }, { "Beenden", "Exit" },
-			{ "Über Ojim", "About Ojim" }, { "Hilfe", "Help" } };
-
 	private static final String[] TEXT_KEYS = { "file", "missing text", "?",
 			"create game", "join game", "leave game", "settings",
 			"direct connection", "list of servers", "exit", "about", "help", };
@@ -67,9 +37,6 @@ public class Localizer {
 	private Map<String, String> strings;
 
 	public Localizer() {
-		language = 0;
-		// TODO: Aus Textdatei LANGUAGE_FILES auslesen
-
 		this.strings = new HashMap<String, String>();
 		// Initalize the map:
 		for (String string : Localizer.TEXT_KEYS) {
@@ -135,60 +102,48 @@ public class Localizer {
 		// Clear
 		this.strings.clear();
 		// Insert correct entries
-		
-		
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(definition.file));
 			
-			String string;
+			String string;			
 			
-			try {
-				while ((string = in.readLine()) != null)
-				{
-					string = string.trim();
-					int comment = string.indexOf('#');
-					if (comment == 0 || string.length() == 0) {
-						continue;
+			while ((string = in.readLine()) != null)
+			{
+				string = string.trim();
+				int comment = string.indexOf('#');
+				if (comment == 0 || string.length() == 0) {
+					continue;
+				}
+				if (comment > 0) {
+					string = string.substring(0, comment - 1);
+				}
+				// File definition fields
+				if (string.charAt(0) == ';') {
+					// Cuts off the ";" and any leaving beginning/ending spaces
+					string = string.substring(1).trim();
+					if (string.equals("author")) {
+
+					} else if (string.equals("english language")) {
+
+					} else if (string.equals("language")) {
+
 					}
-					if (comment > 0) {
-						string = string.substring(0, comment - 1);
-					}
-					// File definition fields
-					if (string.charAt(0) == ';') {
-						// Cuts off the ";" and any leaving beginning/ending spaces
-						string = string.substring(1).trim();
-						if (string.equals("author")) {
-
-						} else if (string.equals("english language")) {
-
-						} else if (string.equals("language")) {
-
-						}
+				} else {
+					string = string.trim(); // Notwendig?
+					int delim = string.indexOf('=');
+					if (delim < 1) {
+						//TODO: No "=" found/"=" is first char?!
 					} else {
-						String[] values = string.trim().split("=");
-						// TODO: Test if key is in Text Keys (?)
-						if (values.length == 2) {
-							this.strings.put(values[0], values[1]);
-						}
+						String key = string.substring(0, delim - 1).trim();
+						String value = string.substring(delim + 1).trim();
+						this.strings.put(key, value);
 					}
 				}
-			} catch (IOException e) {
-				// TODO Auto-generated catch block
-				System.out.println("I/O: Language File");
-			}
-			
+			}			
 		} catch (FileNotFoundException e) {
-			// TODO Auto-generated catch block
 			System.out.println("File not found: Language File: "+definition.file.getAbsolutePath());
-		}
-	}
-
-	public void setLanguage(String language) {
-
-		for (int i = 0; i < LANGUAGE.length; i++) {
-			if (language.equals(LANGUAGE[i])) {
-				this.language = i;
-			}
+		} catch (IOException e) {
+			System.out.println("I/O: Language File");		
 		}
 	}
 
@@ -208,19 +163,4 @@ public class Localizer {
 			return text;
 		}
 	}
-
-	public String getText2(String textRequest) {
-		for (int i = 0; i < LANGUAGE_FILES.length; i++) {
-			if (LANGUAGE_FILES[i][0].equals(textRequest)) {
-				try {
-					return LANGUAGE_FILES[i][this.language];
-				} catch (Exception e) {
-					return LANGUAGE_FILES[0][this.language];
-				}
-			}
-		}
-
-		return LANGUAGE_FILES[0][this.language];
-	}
-
 }

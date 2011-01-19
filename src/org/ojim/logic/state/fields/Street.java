@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
 
@@ -64,8 +64,8 @@ public class Street extends BuyableField {
 		// If no buildings here and all streets of the Group belong to the same
 		// owner, the rent is doubled
 		if (level == 0) {
-			for (BuyableField field : getFieldGroup().getFields()) {
-				if (!this.getOwner().equals(field.getOwner())) {
+			for (Field field : this.getFieldGroup().getFields()) {
+				if (!(field instanceof Street) || !this.getOwner().equals(((Street) field).getOwner())) {
 					// Not all the same owner: normal rent
 					return rentByLevel[0];
 				}
@@ -96,5 +96,13 @@ public class Street extends BuyableField {
 		}
 		this.builtLevel = newLevel;
 		return true;
+	}
+	
+	public void setFieldGroup(StreetFieldGroup fieldGroup) {
+		super.setFieldGroup(fieldGroup);
+	}
+	
+	public StreetFieldGroup getFieldGroup() {
+		return (StreetFieldGroup) super.getFieldGroup();
 	}
 }

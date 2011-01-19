@@ -15,9 +15,29 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
-public interface Rentable {
+public class InfrastructureField extends BuyableField {
 
-	void payRent(Player payer);
+	public InfrastructureField(String name, int position, int price) {
+		super(name, position, price);
+	}
+
+	@Override
+	public int getRent() {
+		// Calculate here
+
+		int ownerOwns = 0;
+		for (Field field : this.getFieldGroup().getFields()) {
+			if (field instanceof InfrastructureField && ((InfrastructureField) field).getOwner().equals(
+						this.getOwner())) {
+				ownerOwns++;
+			}
+		}
+		// TODO: (xZise) Add dice dependent rent.
+		
+
+		return 0;
+	}
+
 }

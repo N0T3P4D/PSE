@@ -15,7 +15,7 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
 import java.util.LinkedList;
 
@@ -32,32 +32,21 @@ public class FieldGroup {
 	public static final int TAX = -9;
 	
 	private int color;
-	private LinkedList<BuyableField> fields;
-	private int housePrice;
+	private LinkedList<Field> fields;
 	
 	public FieldGroup(int color) {
 		this.color = color;
-		fields = new LinkedList<BuyableField>();
+		fields = new LinkedList<Field>();
 	}
 	
-	public FieldGroup(int color, int housePrice) {
-		this.color = color;
-		fields = new LinkedList<BuyableField>();
-		this.housePrice = housePrice;
-	}
-	
-	public int getHousePrice() {
-		return this.housePrice;
-	}
-	
-	public BuyableField addField(BuyableField field) {
+	public Field addField(Field field) {
 		this.fields.add(field);
 		field.setFieldGroup(this);
 		return field;
 	}
 	
-	public LinkedList<BuyableField> getFields() {
-		return this.fields;
+	public Field[] getFields() {
+		return this.fields.toArray(new Field[0]);
 	}
 
 	public int getColor() {
