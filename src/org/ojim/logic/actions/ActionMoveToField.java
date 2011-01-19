@@ -18,7 +18,8 @@
 package org.ojim.logic.actions;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.Field;
+import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.fields.Field;
 
 public class ActionMoveToField implements Action {
 
@@ -60,12 +61,10 @@ public class ActionMoveToField implements Action {
 			 * Checks if the distance to the selected field is lower than this
 			 * to the previous determined field.
 			 */
-			if ((fields[i].getPosition() - playerPos + logic.getGameState()
-					.getNumberOfFields())
-					% logic.getGameState().getNumberOfFields() < (next
-					.getPosition() - playerPos + logic.getGameState()
-					.getNumberOfFields())
-					% logic.getGameState().getNumberOfFields()) {
+			if ((fields[i].getPosition() - playerPos + GameState.FIELDS_AMOUNT)
+					% GameState.FIELDS_AMOUNT < (next
+					.getPosition() - playerPos + GameState.FIELDS_AMOUNT)
+					% GameState.FIELDS_AMOUNT) {
 				next = fields[i];
 			}
 		}

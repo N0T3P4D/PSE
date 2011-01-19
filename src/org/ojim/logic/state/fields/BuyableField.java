@@ -15,11 +15,12 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.actions.ActionPayFieldRent;
+import org.ojim.logic.state.Player;
 
 /**
  * A fields, that is able to buy.
@@ -28,8 +29,6 @@ import org.ojim.logic.actions.ActionPayFieldRent;
  */
 public abstract class BuyableField extends Field implements Rentable {
 
-	//TODO: Gehört in Field
-	private FieldGroup fieldGroup;
 	private int price;
 	private Player owner;
 	
@@ -54,12 +53,6 @@ public abstract class BuyableField extends Field implements Rentable {
 		this.owner = newOwner;
 		if (this.owner != null) {
 			this.owner.addField(this);
-		}
-	}
-
-	public void setFieldGroup(FieldGroup fieldGroup) {
-		if (this.fieldGroup != fieldGroup) {
-			this.fieldGroup = fieldGroup;
 		}
 	}
 
@@ -92,10 +85,6 @@ public abstract class BuyableField extends Field implements Rentable {
 		if (!this.owner.equals(player) && this.owner != null) {
 			Bank.exchangeMoney(player, this.owner, this.getRent());
 		}
-	}
-
-	public FieldGroup getFieldGroup() {
-		return this.fieldGroup;
 	}
 	
 	/**

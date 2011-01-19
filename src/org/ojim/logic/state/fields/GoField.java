@@ -15,28 +15,25 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.fields.FreeParking;
+import org.ojim.logic.actions.ActionTransferMoneyToPartner;
 
-public class ActionGiveMoneyFromFreeParking implements Action {
+public class GoField extends Field {
 
-	private final ServerLogic logic;
-	private final FreeParking field;
-
-	public ActionGiveMoneyFromFreeParking(ServerLogic logic, FreeParking field) {
-		this.logic = logic;
-		this.field = field;
+	public GoField(int position) {
+		super("go", position);
 	}
-
-	@Override
-	public void execute() {
-		ActionGiveMoneyFromFreeParking.execute(this.logic, this.field);
-	}
-
-	public static void execute(ServerLogic logic, FreeParking field) {
-		logic.getFreeParkingMoney(field);
+	
+	public GoField(String name, int position, ServerLogic logic) {
+		this(position);
+		int gomoney = logic.getGameRules().getGoMoney();
+		this.setPassThroughActions(ActionTransferMoneyToPartner.newTransferMoneyToBank(logic, -gomoney));
+		if (logic.getGameRules().getDoubleMoneyOnGo()) {
+			gomoney *= 2;
+		}
+		this.setExecuteActions(ActionTransferMoneyToPartner.newTransferMoneyToBank(logic, -gomoney));
 	}
 
 }

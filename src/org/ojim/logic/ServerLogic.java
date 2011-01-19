@@ -26,11 +26,11 @@ import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.Card;
-import org.ojim.logic.state.FreeParking;
-import org.ojim.logic.state.Jail;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
+import org.ojim.logic.state.fields.FreeParking;
+import org.ojim.logic.state.fields.Jail;
 
 /**
  * Acts as logic, but this class informs also the players.

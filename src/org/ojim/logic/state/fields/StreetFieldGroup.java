@@ -15,20 +15,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.actions.ActionMoveToJail;
-
-public class GoToJail extends Field {
-
-	public GoToJail(int position) {
-		super("Go to jail", position);
+public class StreetFieldGroup extends FieldGroup {
+	
+	private int housePrice;
+	
+	public StreetFieldGroup(int color, int housePrice) {
+		super(color);
+		this.housePrice = housePrice;
 	}
 	
-	public GoToJail(ServerLogic logic, int position) {
-		this(position);
-		this.setExecuteActions(new ActionMoveToJail(logic));
+	public int getHousePrice() {
+		return this.housePrice;
 	}
-
 }

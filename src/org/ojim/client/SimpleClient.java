@@ -19,10 +19,11 @@ package org.ojim.client;
 
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
-import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
-import org.ojim.logic.state.Street;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Street;
+import org.ojim.server.OjimServer;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -92,43 +93,47 @@ public class SimpleClient {
 	public int getEstateRent(int position, int houses) {
 		return this.server.getEstateRent(position, houses);
 	}
-	
+
 	public int getEstateHouses(int position) {
 		return this.server.getEstateHouses(position);
 	}
-	
+
 	public boolean isMortgaged(int position) {
 		return this.server.isMortgaged(position);
 	}
-	
+
 	public int getOwner(int position) {
 		return this.server.getOwner(position);
 	}
-	
+
 	// Bank
 	public int getNumberOfHousesLeft() {
 		return this.server.getNumberOfHousesLeft();
 	}
-	
+
 	public int getNumberOfHotelsLeft() {
 		return this.server.getNumberOfHotelsLeft();
 	}
-	
+
 	// Spieler
 	public int getPlayerCash(int playerID) {
 		return this.server.getPlayerCash(playerID);
 	}
-	
+
 	public String getPlayerName(int player) {
 		return this.server.getPlayerName(player);
 	}
-	
+
 	public int getPlayerColor(int player) {
 		return this.server.getPlayerColor(player);
 	}
-	
+
 	public int getPlayerPiecePosition(int playerID) {
 		return this.server.getPlayerPiecePosition(playerID);
+	}
+	
+	public int getEstateHousePrice(int position) {
+		return this.server.getEstateHousePrice(position);
 	}
 
 	/*
@@ -136,7 +141,11 @@ public class SimpleClient {
 	 */
 
 	public int getMaximumBuiltLevel() {
-		return 6; // TODO: Implement higher level
+		if (this.server instanceof OjimServer) {
+			return ((OjimServer) this.server).getMaximumBuiltLevel();
+		} else {
+			return 6;
+		}
 	}
 
 	/**
@@ -144,11 +153,15 @@ public class SimpleClient {
 	 * 
 	 * @param position
 	 *            The position of the jail.
-	 * @return The money the player has to pay. If there is no money it returns
-	 *         -1.
+	 * @return The money the player has to pay. If there is no money the return
+	 *         is undefined;.
 	 */
 	public int getMoneyToPay(int position) {
-		return 1000;
+		if (this.server instanceof OjimServer) {
+			return ((OjimServer) this.server).getMoneyToPay(position);
+		} else {
+			return 1000; // TODO: (xZise) Is this the correct value?
+		}
 	}
 
 	/**
@@ -158,10 +171,14 @@ public class SimpleClient {
 	 * @param position
 	 *            The position of the jail.
 	 * @return The number of rounds the player has to wait. If this is no jail
-	 *         it returns -1.
+	 *         it return is undefined.
 	 */
 	public int getRoundsToWait(int position) {
-		return 3;
+		if (this.server instanceof OjimServer) {
+			return ((OjimServer) this.server).getRoundsToWait(position);
+		} else {
+			return 3; // TODO: (xZise) Is this the correct value?
+		}
 	}
 
 	/*

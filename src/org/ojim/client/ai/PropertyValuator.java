@@ -17,7 +17,7 @@
 
 package org.ojim.client.ai;
 
-import org.ojim.logic.state.BuyableField;
+import org.ojim.logic.state.fields.BuyableField;
 
 public class PropertyValuator extends ValuationFunction {
 	

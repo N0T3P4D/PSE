@@ -15,25 +15,11 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.actions.ActionTransferMoneyToPartner;
+import org.ojim.logic.state.Player;
 
-public class GoField extends Field {
+public interface Rentable {
 
-	public GoField(int position) {
-		super("go", position);
-	}
-	
-	public GoField(String name, int position, ServerLogic logic) {
-		this(position);
-		int gomoney = logic.getGameRules().getGoMoney();
-		this.setPassThroughActions(ActionTransferMoneyToPartner.newTransferMoneyToBank(logic, -gomoney));
-		if (logic.getGameRules().getDoubleMoneyOnGo()) {
-			gomoney *= 2;
-		}
-		this.setExecuteActions(ActionTransferMoneyToPartner.newTransferMoneyToBank(logic, -gomoney));
-	}
-
+	void payRent(Player payer);
 }

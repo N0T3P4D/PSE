@@ -19,7 +19,7 @@ package org.ojim.logic.actions;
 
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.state.FreeParking;
+import org.ojim.logic.state.fields.FreeParking;
 
 /**
  * Action to transfer the money between the player and one instance of

@@ -15,31 +15,14 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.actions.ActionGiveMoneyFromFreeParking;
 
-public class FreeParking extends Field implements IMoneyPartner {
-
-	public FreeParking(int position) {
-		super("Free parking", position);
+public class CardField extends Field {
+	
+	public CardField(int position) {
+		//TODO: (xZise) Namen finden.
+		super("name", position);
 	}
 
-	public FreeParking(ServerLogic logic, int position) {
-		this(position);
-		this.setExecuteActions(new ActionGiveMoneyFromFreeParking(logic, this));
-	}
-
-	private int moneyInPot;
-
-	public int getMoneyInPot() {
-		return this.moneyInPot;
-	}
-
-	@Override
-	public void transferMoney(int amount) {
-		this.moneyInPot += amount;
-	}
 }

@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -43,13 +43,16 @@ public interface IClient {
 
 	/**
 	 * Informiert den Spieler, dass das Spiel beginnt.
+	 * 
 	 * @param ids
 	 *            Die Anzahl der Spieler.
 	 */
 	void informStartGame(int[] ids);
 
 	/**
-	 * Informiert den Spieler, dass der Spieler mit der id "player" an der Reihe ist und nun Würfeln darf.
+	 * Informiert den Spieler, dass der Spieler mit der id "player" an der Reihe
+	 * ist und nun Würfeln darf.
+	 * 
 	 * @param player
 	 *            Der Spieler der an die Reihe gekommen ist.
 	 */
@@ -67,7 +70,7 @@ public interface IClient {
 	/**
 	 * Informiert den Spieler dass sich das Geld eines Spielers geändert hat.
 	 * 
-	 * @param playerId
+	 * @param player
 	 *            Der Spieler mit dem geänderten Bargeld.
 	 * @param cashChange
 	 *            Die Bargeldänderung.
@@ -75,13 +78,15 @@ public interface IClient {
 	void informCashChange(int player, int cashChange);
 
 	/**
-	 * Informiert den Spieler, dass die Straße gekauft wurde, auf den der
-	 * Spieler mit der angegeben ID steht.
+	 * Informiert den Spieler, dass ein Spieler ein Objekt gekauft hat.
 	 * 
-	 * @param playerId
+	 * @param player
 	 *            der neue Besitzer der Straße.
+	 * @param position
+	 *            Die Position des Objekts, welches gekauft wurde.
+	 * @since SVN revision 13 (davor <code>informStreetBuy(int)</code>).
 	 */
-	void informStreetBuy(int player);
+	void informBuy(int player, int position);
 
 	/**
 	 * Informiert den Spieler, dass ein Spieler <i>ein</i> Gebäude gebaut hat.
@@ -126,34 +131,55 @@ public interface IClient {
 	 *            Gemeinschaftskarte, sonst um eine Ereigniskarte.
 	 */
 	void informCardPull(String text, boolean communityCard);
-	
+
 	/**
 	 * Informiert den Spieler darüber, dass der aktive Spieler bankrott ist.
 	 */
 	void informBankruptcy();
-	
+
 	/**
 	 * Informiert den Spieler, dass eine Chat Nachricht eingegangen ist.
-	 * @param text Der Text der Chat Nachricht.
-	 * @param sender Der Empfänger der Nachricht.
-	 * @param privateMessage Ist wahr, wenn es sich um eine private Nachricht handelt.
+	 * 
+	 * @param text
+	 *            Der Text der Chat Nachricht.
+	 * @param sender
+	 *            Der Empfänger der Nachricht.
+	 * @param privateMessage
+	 *            Ist wahr, wenn es sich um eine private Nachricht handelt.
 	 */
 	void informMessage(String text, int sender, boolean privateMessage);
 
 	/**
-	 * Informiert den Spieler, dass ein Handelsangebot vorliegt, bzw. dass eine Antwort vorliegt.
+	 * Informiert den Spieler, dass ein Handelsangebot vorliegt, bzw. dass eine
+	 * Antwort vorliegt.
 	 */
 	void informTrade(int actingPlayer, int partnerPlayer);
 
 	/**
 	 * Informiert den Spieler, dass eine Auktion begonnen hat.
+	 * 
+	 * @param auctionState
+	 *            Gibt den aktuellen Status der Auktion an:
+	 *            <ul>
+	 *            <li>&lt;0 → Auktion hat begonnen.</li>
+	 *            <li>0 → Jemand hat geboten und der Zähler wird zurückgesetzt</li>
+	 *            <li>1 → „Zum ersten“</li>
+	 *            <li>2 → „Zum zweiten“</li>
+	 *            <li>3 → „Zum dritten“ (verkauft :P)</li>
+	 *            </ul>
+	 * @since SVN revision 13.
 	 */
-	void informAuction();
+	void informAuction(int auctionState);
 
 	/**
 	 * Informiert den Spieler, dass ein Spieler sich bewegt hat.
-	 * @param position Die neue Position des Spielers. Siehe {@link IServer#getPlayerPiecePosition(int)}.
-	 * @param playerId Die Id des Spielers der bewegt wurde.
+	 * 
+	 * @param playerId
+	 *            Die Id des Spielers der bewegt wurde.
+	 * @param position
+	 *            Die neue Position des Spielers. Siehe
+	 *            {@link IServer#getPlayerPiecePosition(int)}.
+	 * @since SVN revision 13.
 	 */
-	void informMove(int position, int playerId);
+	void informMove(int playerId, int position);
 }

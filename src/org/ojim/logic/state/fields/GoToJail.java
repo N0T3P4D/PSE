@@ -15,31 +15,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.accounting.Bank;
-import org.ojim.logic.actions.ActionPayFieldRent;
+import org.ojim.logic.actions.ActionMoveToJail;
 
-public class TaxField extends Field implements Rentable {
-	
-	private final int amount;
-	private final Bank bank;
+public class GoToJail extends Field {
 
-	public TaxField(String name, int position, int amount, Bank bank) {
-		super(name, position);
-		this.bank = bank;
-		this.amount = amount;
+	public GoToJail(int position) {
+		super("Go to jail", position);
 	}
 	
-	public TaxField(String name, int position, int amount, ServerLogic logic) {
-		this(name, position, amount, logic.getGameState().getBank());
-		this.setExecuteActions(new ActionPayFieldRent(logic, this));
-	}
-
-	@Override
-	public void payRent(Player payer) {
-		Bank.exchangeMoney(payer, this.bank, this.amount);
+	public GoToJail(ServerLogic logic, int position) {
+		this(position);
+		this.setExecuteActions(new ActionMoveToJail(logic));
 	}
 
 }
