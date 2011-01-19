@@ -41,6 +41,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	private String name;
 	private boolean isOpen = false;
+	private boolean gameStarted;
 	private int connectedClients;
 	private int maxClients;
 	private List<IClient> clients;
@@ -51,7 +52,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	public OjimServer(String name) {
 		this.name = name;
-
+		this.gameStarted = false;
 	}
 
 	boolean initGame(int playerCount, int aiCount) {
@@ -72,6 +73,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		clients = new LinkedList<IClient>();
 		this.state = new ServerGameState();
 
+		
+		
 		// Add AIClients to the Game
 		for (int i = 0; i < aiCount; i++) {
 			addPlayer(new AIClient());
@@ -84,6 +87,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	boolean endGame() {
 
+		this.gameStarted = false;
 		if (!isOpen) {
 			return true;
 		}
@@ -293,12 +297,15 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// t.start();
 		// }
 
+		display("Add Player!");
+		
 		for (int i = 0; i < maxClients; i++) {
 			if (state.getPlayerByID(i) == null) {
 				this.clients.add(client);
 				state.setPlayer(i,
 						new Player(client.getName(), 0,
 								state.getRules().startMoney, i, i));
+				this.connectedClients++;
 				return i;
 			}
 		}
@@ -307,6 +314,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public void setPlayerReady(int playerID) {
+		
+		display("Set Player " + playerID + " ready!");
 		state.getPlayerByID(playerID).setIsReady(true);
 
 		// Are all players Ready? then start the game
@@ -315,9 +324,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 				// If at least 1 Player is not ready, dont start the game
 				if (!state.getPlayerByID(i).getIsReady()) {
+					display("Player " + i + " is not ready!");
 					return;
 				}
 			}
+			display("Starting Game!");
 			// All Players are ready, the Game can be started now
 			startGame();
 		}
@@ -327,27 +338,43 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.rules = new GameRules(this.state, new Rules());
 		this.logic = new ServerLogic(this.state, this.rules);
 		this.display("Started a Game!");
+		this.gameStarted = true;
 		logic.startGame();
 	}
 
 	@Override
 	public String getPlayerName(int playerID) {
-		return state.getPlayerByID(playerID).getName();
+		Player player = state.getPlayerByID(playerID);
+		if(player != null) {
+			return player.getName();
+		}
+		return "";
 	}
 
 	@Override
 	public int getPlayerColor(int playerID) {
-		return state.getPlayerByID(playerID).getColor();
+		Player player = state.getPlayerByID(playerID);
+		if(player != null) {
+			return player.getColor();
+		}
+		return -1;
 	}
 
 	@Override
 	public Rules getRules() {
-		return state.getRules();
+		if(this.state.getRules() != null) {
+			return state.getRules();
+		}
+		return null;
 	}
 
 	@Override
 	public String getEstateName(int position) {
-		return state.getFieldByID(position).getName();
+		Field field = state.getFieldAt(position);
+		if(field != null) {
+			return field.getName();
+		}
+		return "";
 	}
 
 	@Override
@@ -355,18 +382,18 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (position < 0 || position >= GameState.FIELDS_AMOUNT) {
 			return -1;
 		}
-		if (!(state.getFieldByID(position) instanceof BuyableField)) {
-			return -1;
+		Field field = state.getFieldAt(position);
+		if (field != null && field instanceof BuyableField) {
+			return ((BuyableField)field).getFieldGroup().getColor();
 		}
-		return ((BuyableField) state.getFieldByID(position)).getFieldGroup()
-				.getColor();
+		return -1;
 	}
 
 	@Override
 	public int getEstateHouses(int position) {
 		Field field = state.getFieldByID(position);
-		if (field instanceof Street) {
-			return ((Street) field).getBuiltLevel();
+		if (field != null && field instanceof Street) {
+			return ((Street)field).getBuiltLevel();
 		}
 		return -1;
 	}
@@ -374,8 +401,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public int getEstatePrice(int position) {
 		Field field = state.getFieldByID(position);
-		if (field instanceof BuyableField) {
-			((BuyableField) field).getPrice();
+		if (field != null && field instanceof BuyableField) {
+			((BuyableField)field).getPrice();
 		}
 		return -1;
 	}
@@ -383,8 +410,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public int getEstateRent(int position, int houses) {
 		Field field = state.getFieldByID(position);
-		if (field instanceof Street) {
-			((Street) field).getRent(houses);
+		if (field != null && field instanceof Street) {
+			((Street)field).getRent(houses);
 		}
 		return -1;
 	}
@@ -401,8 +428,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public boolean isMortgaged(int position) {
 		Field field = state.getFieldByID(position);
-		if (field instanceof BuyableField) {
-			return ((BuyableField) field).isMortgaged();
+		if (field != null && field instanceof BuyableField) {
+			return ((BuyableField)field).isMortgaged();
 		}
 		return false;
 	}
@@ -410,8 +437,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public int getOwner(int position) {
 		Field field = state.getFieldByID(position);
-		if (field instanceof BuyableField) {
-			return ((BuyableField) field).getOwner().getId();
+		if (field != null && field instanceof BuyableField) {
+			return ((BuyableField)field).getOwner().getId();
 		}
 		return -1;
 	}
@@ -428,7 +455,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getPlayerCash(int playerID) {
-		return state.getPlayerByID(playerID).getBalance();
+		Player player = state.getPlayerByID(playerID);
+		if(player != null) {
+			return player.getBalance();
+		}
+		return -1;
 	}
 
 	@Override
@@ -441,7 +472,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getNumberOfGetOutOfJailCards(int playerID) {
-		return state.getPlayerByID(playerID).getNumberOfGetOutOfJailCards();
+		Player player = this.state.getPlayerByID(playerID);
+		if(player != null) {
+			return player.getNumberOfGetOutOfJailCards();
+		}
+		return -1;
 	}
 
 	@Override
@@ -457,7 +492,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public boolean rollDice(int playerID) {
 		Player player = this.state.getPlayerByID(playerID);
-		if (player == null) {
+		if (player == null && this.gameStarted == false && !this.rules.isRollRequiredByActivePlayer()) {
 			return false;
 		}
 
@@ -490,7 +525,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public boolean endTurn(int playerID) {
 		Player player = state.getPlayerByID(playerID);
-		if (rules.isPlayerOnTurn(player)
+		if (player != null && rules.isPlayerOnTurn(player)
 				&& !rules.isRollRequiredByActivePlayer()) {
 
 			// Player is bankrupt
@@ -506,7 +541,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean declareBankruptcy(int playerID) {
-		// TODO Auto-generated method stub
+		Player player = state.getPlayerByID(playerID);
+		if(player != null) {
+			this.logic.setPlayerBankrupt(player);
+			return true;
+		}
 		return false;
 	}
 
@@ -623,13 +662,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	public int getMaximumBuiltLevel() {
 		//TODO: (xZise) Eine besondere Methode von OjimServer (nicht in IServer).
-		//xZise: Extra mit Fehler, damit es dir auff√§llt, das deine Klasse auf einmal eine Methode mehr hat :)
+		//xZise: Extra mit Fehler, damit es dir auff‰llt, das deine Klasse auf einmal eine Methode mehr hat :)
 	}
 
 	@Override
 	public int getEstateHousePrice(int position) {
 		// TODO Auto-generated method stub
-		//xZise: Extra mit Fehler, damit es dir auff√§llt, das deine Klasse auf einmal eine Methode mehr hat :)
+		//xZise: Extra mit Fehler, damit es dir auff‰llt, das deine Klasse auf einmal eine Methode mehr hat :)
 		//xZise: Diese Methode stammt aber aus IServer :P
 	}
 
@@ -643,7 +682,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 */
 	public int getMoneyToPay(int position) {
 		//TODO: (xZise) Eine besondere Methode von OjimServer (nicht in IServer).
-		//xZise: Extra mit Fehler, damit es dir auff√§llt, das deine Klasse auf einmal eine Methode mehr hat :)
+		//xZise: Extra mit Fehler, damit es dir auff‰llt, das deine Klasse auf einmal eine Methode mehr hat :)
 	}
 
 	/**
@@ -657,7 +696,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 */
 	public int getRoundsToWait(int position) {
 		//TODO: (xZise) Eine besondere Methode von OjimServer (nicht in IServer).
-		//xZise: Extra mit Fehler, damit es dir auff√§llt, das deine Klasse auf einmal eine Methode mehr hat :)
+		//xZise: Extra mit Fehler, damit es dir auff‰llt, das deine Klasse auf einmal eine Methode mehr hat :)
 	}
 
 }

@@ -38,6 +38,7 @@ public class TestClient implements IClient {
 	private int id = -1;
 	private final JTextField var1, var2;
 	private final JLabel res;
+	private TestClient client = this; 
 	
 	public TestClient(final IServer server) {
 		this.server = server;
@@ -89,7 +90,29 @@ public class TestClient implements IClient {
 				}
 			}
 		});
-		//panel.add(bt4);
+		panel.add(bt4);
+		
+		JButton bt5 = new JButton("rollDices()");
+		bt5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(id != -1) {
+					server.rollDice(id);
+					res.setText("Rolled Dice!");
+				}
+			}
+		});
+		panel.add(bt5);
+		
+		JButton bt6 = new JButton("AddPlayer(this)");
+		bt6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(id == -1) {
+					id = server.addPlayer(client);
+					res.setText("Added Player, Id:" + id);
+				}
+			}
+		});
+		panel.add(bt6);
 		
 		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		
@@ -181,6 +204,12 @@ public class TestClient implements IClient {
 	@Override
 	public void informAuction() {
 		print("informed: Auction");
+	}
+
+	@Override
+	public void informMove(int position, int playerId) {
+		print("informed: Move Pos:" + position + " Player:" + playerId);
+		
 	}
 
 }
