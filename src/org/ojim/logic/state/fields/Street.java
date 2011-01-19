@@ -21,6 +21,9 @@ import org.ojim.logic.ServerLogic;
 
 public class Street extends BuyableField {
 
+	// Erlaube maximal ein Hotel.
+	public static final int MAXMIMUM_BUILT_LEVEL = 5;
+	
 	private int builtLevel;
 	private int[] rentByLevel;
 

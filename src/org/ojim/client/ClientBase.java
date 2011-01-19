@@ -56,7 +56,7 @@ public class ClientBase extends SimpleClient implements IClient {
 		super();
 		this.connection = new ClientConnection();
 	}
-
+	
 	/*
 	 * MISC
 	 */
@@ -86,7 +86,7 @@ public class ClientBase extends SimpleClient implements IClient {
 					group = new StreetFieldGroup(groupColor, this.getEstateHousePrice(position));
 				}
 
-				int[] rentByLevel = new int[this.getMaximumBuiltLevel()];
+				int[] rentByLevel = new int[Street.MAXMIMUM_BUILT_LEVEL];
 				for (int builtLevel = 0; builtLevel < rentByLevel.length; builtLevel++) {
 					rentByLevel[builtLevel] = this.getEstateRent(position,
 							builtLevel);
