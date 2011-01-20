@@ -520,9 +520,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 			
 		//Now move the Player forward
-		logic.movePlayer(state.getDices().getResult());
+		logic.movePlayerForDice(player, state.getDices().getResultSum());
 		return true;
-		return false;
 	}
 
 	@Override

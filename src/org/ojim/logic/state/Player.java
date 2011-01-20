@@ -227,5 +227,9 @@ public class Player implements IMoneyPartner {
 	public Jail getJail() {
 		return this.jail;
 	}
+
+	public void setPosition(int position) {
+		this.position = position;
+	}
 	
 }
