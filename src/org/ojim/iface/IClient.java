@@ -143,7 +143,7 @@ public interface IClient {
 	 * @param text
 	 *            Der Text der Chat Nachricht.
 	 * @param sender
-	 *            Der Empfänger der Nachricht.
+	 *            Der Sender der Nachricht. Ist -1, wenn der Server der Sender ist.
 	 * @param privateMessage
 	 *            Ist wahr, wenn es sich um eine private Nachricht handelt.
 	 */

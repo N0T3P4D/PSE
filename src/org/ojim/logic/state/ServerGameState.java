@@ -52,4 +52,8 @@ public class ServerGameState extends GameState {
 	public Card getFirstCommunityCard() {
 		return this.communityCards.getPointedCard();
 	}
+	
+	public ServerPlayer getPlayerByID(int playerId) {
+		return (ServerPlayer) super.getPlayerByID(playerId);
+	}
 }
