@@ -22,8 +22,8 @@ public class Jail extends Field {
 	private int moneyToPay;
 	private int roundsToWait;
 	
-	public Jail(int position, int moneyToPay, int roundsToWait) {
-		super("Jail", position);
+	public Jail(String name, int position, int moneyToPay, int roundsToWait) {
+		super(name, position);
 		this.moneyToPay = moneyToPay;
 		this.roundsToWait = roundsToWait;
 	}
