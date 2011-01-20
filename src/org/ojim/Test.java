@@ -22,8 +22,8 @@ import org.ojim.client.gui.GUIClient;
 import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionMoveToField;
 import org.ojim.logic.state.Card;
-import org.ojim.logic.state.Field;
 import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.fields.Field;
 import org.ojim.server.OjimServer;
 
 /**

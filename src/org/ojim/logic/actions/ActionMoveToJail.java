@@ -18,7 +18,7 @@
 package org.ojim.logic.actions;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.Jail;
+import org.ojim.logic.state.fields.Jail;
 
 public class ActionMoveToJail implements Action {
 

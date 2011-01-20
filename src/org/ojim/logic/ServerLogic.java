@@ -26,11 +26,11 @@ import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.Card;
-import org.ojim.logic.state.FreeParking;
-import org.ojim.logic.state.Jail;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
+import org.ojim.logic.state.fields.FreeParking;
+import org.ojim.logic.state.fields.Jail;
 
 /**
  * Acts as logic, but this class informs also the players.
@@ -191,6 +191,25 @@ public class ServerLogic extends Logic {
 				}
 			}
 		}
+		
+	}
+
+	public void playerRolledOutOfJail(Player player) {
+		
+	}
+
+	public void movePlayerForDice(Player player, int result) {
+		//Do the passthrough-Action for all Fields the Player steps on
+		int position = player.getPosition();
+		for(int i = 1; i >= result; i++) {
+			//Move Player 1 forward
+			player.setPosition(position + i);
+			
+			//Do the passthrough
+			this.getGameState().getFieldAt(position + i).passThrough();
+		}
+		//Do the Execute for the Field the Player is standing on
+		this.getGameState().getFieldAt(position + result).execute();
 		
 	}
 

@@ -18,7 +18,7 @@
 package org.ojim.logic.actions;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.Rentable;
+import org.ojim.logic.state.fields.Rentable;
 
 public class ActionPayFieldRent implements Action {
 

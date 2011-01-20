@@ -28,6 +28,11 @@ import java.util.Map;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.actions.ActionMoveForward;
+import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.GoField;
+import org.ojim.logic.state.fields.InfrastructureField;
+import org.ojim.logic.state.fields.Station;
+import org.ojim.logic.state.fields.Street;
 import org.ojim.iface.Rules;
 
 public class GameState {
@@ -51,7 +56,11 @@ public class GameState {
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
 		this.dices = new OjimDiceSet(1337);
-	}
+		
+		//TODO (philip) really?
+		this.activePlayerNeedsToRoll = true;
+		//TODO Add the Possibility to load other GameStates
+	}	
 	
 	public DiceSet getDices() {
 		return this.dices;

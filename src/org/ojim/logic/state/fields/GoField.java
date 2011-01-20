@@ -15,27 +15,25 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
-public class Jail extends Field {
+import org.ojim.logic.ServerLogic;
+import org.ojim.logic.actions.ActionFactory;
 
-	private int moneyToPay;
-	private int roundsToWait;
-	
-	public Jail(int position, int moneyToPay, int roundsToWait) {
-		super("Jail", position);
-		this.moneyToPay = moneyToPay;
-		this.roundsToWait = roundsToWait;
-	}
+public class GoField extends Field {
 
-	public int getMoneyToPay() {
-		return moneyToPay;
-	}
-
-	public int getRoundsToWait() {
-		return roundsToWait;
+	public GoField(String name, int position) {
+		super(name, position);
 	}
 	
-	
+	public GoField(String name, int position, ServerLogic logic) {
+		this(name, position);
+		int gomoney = logic.getGameRules().getGoMoney();
+		this.setPassThroughActions(ActionFactory.newTransferMoneyToBank(logic, -gomoney));
+		if (logic.getGameRules().getDoubleMoneyOnGo()) {
+			gomoney *= 2;
+		}
+		this.setExecuteActions(ActionFactory.newTransferMoneyToBank(logic, -gomoney));
+	}
 
 }

@@ -15,30 +15,42 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client;
+package org.ojim.logic.state.fields;
 
-import org.ojim.logic.state.BuyableField;
+import org.ojim.logic.ServerLogic;
+import org.ojim.logic.state.DiceSet;
 
-public class Station extends BuyableField {
+public class InfrastructureField extends BuyableField {
 
-	public Station(String name, int position, int price) {
-		//TODO: (xZise) Soll der Preis konstant bleiben?
-		super(name, position, 1000);
+	private DiceSet dices;
+	private final int[] RENT = new int[] {80,200};
+	
+	public InfrastructureField(String name, int position, int price) {
+		super(name, position, price);
 	}
 	
+	public InfrastructureField(String name, int position, int price, ServerLogic logic) {
+		super(name, position, price, logic);
+		this.dices = logic.getGameState().getDices();
+	}
+
 	@Override
 	public int getRent() {
+		// Calculate here
+
 		int ownerOwns = 0;
-		for (BuyableField field : this.getFieldGroup().getFields()) {
-			if (field instanceof Station) {
-				if (((Station) field).getOwner().equals(this.getOwner())) {
-					ownerOwns++;
-				}
+		for (Field field : this.getFieldGroup().getFields()) {
+			if (field instanceof InfrastructureField && ((InfrastructureField) field).getOwner().equals(
+						this.getOwner())) {
+				ownerOwns++;
 			}
 		}
 		
-		//TODO: (xZise) Sind die Werte so gut? Also 500 für einen bahnhof, 1000 für 2, 2000 für 3 ...?
-		return (int) Math.floor(500 * Math.pow(ownerOwns - 1, 2));
+		if(ownerOwns >= RENT.length) {
+			ownerOwns = RENT.length - 1;
+		}
+		
+		return RENT[ownerOwns] * dices.getResultSum();
 	}
 
 }

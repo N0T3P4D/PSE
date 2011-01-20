@@ -15,9 +15,31 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state;
+package org.ojim.logic.state.fields;
 
-public interface Rentable {
+import org.ojim.logic.ServerLogic;
+import org.ojim.logic.state.fields.BuyableField;
 
-	void payRent(Player payer);
+public class Station extends BuyableField {
+
+	public Station(String name, int position, int price) {
+		super(name, position, price);
+	}
+	
+	public Station(String name, int position, int price, ServerLogic logic) {
+		super(name, position, price, logic);
+	}
+	
+	@Override
+	public int getRent() {
+		int ownerOwns = 0;
+		for (Field field : this.getFieldGroup().getFields()) {
+			if (field instanceof Station && ((Station) field).getOwner().equals(this.getOwner())) {
+				ownerOwns++;	
+			}
+		}
+		
+		return ((StationFieldGroup) this.getFieldGroup()).getRent(ownerOwns);
+	}
+
 }

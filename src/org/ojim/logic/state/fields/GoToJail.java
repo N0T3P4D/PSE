@@ -15,28 +15,20 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.fields.FreeParking;
+import org.ojim.logic.actions.ActionMoveToJail;
 
-public class ActionGiveMoneyFromFreeParking implements Action {
+public class GoToJail extends Field {
 
-	private final ServerLogic logic;
-	private final FreeParking field;
-
-	public ActionGiveMoneyFromFreeParking(ServerLogic logic, FreeParking field) {
-		this.logic = logic;
-		this.field = field;
+	public GoToJail(String name, int position) {
+		super(name, position);
 	}
-
-	@Override
-	public void execute() {
-		ActionGiveMoneyFromFreeParking.execute(this.logic, this.field);
-	}
-
-	public static void execute(ServerLogic logic, FreeParking field) {
-		logic.getFreeParkingMoney(field);
+	
+	public GoToJail(String name, int position, ServerLogic logic) {
+		this(name, position);
+		this.setExecuteActions(new ActionMoveToJail(logic));
 	}
 
 }

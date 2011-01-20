@@ -20,6 +20,8 @@ package org.ojim.logic.state;
 import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionGetOutOfJailCard;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Jail;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -224,6 +226,10 @@ public class Player implements IMoneyPartner {
 
 	public Jail getJail() {
 		return this.jail;
+	}
+
+	public void setPosition(int position) {
+		this.position = position;
 	}
 	
 }

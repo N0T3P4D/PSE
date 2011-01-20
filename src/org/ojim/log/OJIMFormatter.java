@@ -15,28 +15,40 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.log;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.fields.FreeParking;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.logging.Formatter;
+import java.util.logging.LogRecord;
 
-public class ActionGiveMoneyFromFreeParking implements Action {
+/**
+ * 
+ * OJIMFormatter is a custom formatter for logging
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
 
-	private final ServerLogic logic;
-	private final FreeParking field;
+public class OJIMFormatter extends Formatter {
 
-	public ActionGiveMoneyFromFreeParking(ServerLogic logic, FreeParking field) {
-		this.logic = logic;
-		this.field = field;
+	private SimpleDateFormat dateFormatter;
+
+	/**
+	 * Default constructor
+	 */
+	public OJIMFormatter() {
+		dateFormatter = new SimpleDateFormat("dd.MM.yy HH:mm:ss");
 	}
 
 	@Override
-	public void execute() {
-		ActionGiveMoneyFromFreeParking.execute(this.logic, this.field);
+	public String format(LogRecord record) {
+		return (formatDate(record) + ": [" + record.getLevel() + "] " + record.getSourceClassName() + "."
+				+ record.getSourceMethodName() + "(): " + record.getMessage() + '\n');
 	}
 
-	public static void execute(ServerLogic logic, FreeParking field) {
-		logic.getFreeParkingMoney(field);
+	private String formatDate(LogRecord record) {
+		return dateFormatter.format(new Date(record.getMillis()));
 	}
 
 }

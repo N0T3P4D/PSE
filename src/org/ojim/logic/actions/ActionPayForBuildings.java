@@ -21,9 +21,9 @@ import java.util.List;
 
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.state.BuyableField;
 import org.ojim.logic.state.Player;
-import org.ojim.logic.state.Street;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Street;
 
 public class ActionPayForBuildings implements Action {
 

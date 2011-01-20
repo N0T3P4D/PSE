@@ -15,28 +15,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.logic.state.fields;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.fields.FreeParking;
-
-public class ActionGiveMoneyFromFreeParking implements Action {
-
-	private final ServerLogic logic;
-	private final FreeParking field;
-
-	public ActionGiveMoneyFromFreeParking(ServerLogic logic, FreeParking field) {
-		this.logic = logic;
-		this.field = field;
+public class StreetFieldGroup extends FieldGroup {
+	
+	private int housePrice;
+	
+	public StreetFieldGroup(int color, int housePrice) {
+		super(color);
+		this.housePrice = housePrice;
 	}
-
-	@Override
-	public void execute() {
-		ActionGiveMoneyFromFreeParking.execute(this.logic, this.field);
+	
+	public int getHousePrice() {
+		return this.housePrice;
 	}
-
-	public static void execute(ServerLogic logic, FreeParking field) {
-		logic.getFreeParkingMoney(field);
-	}
-
 }

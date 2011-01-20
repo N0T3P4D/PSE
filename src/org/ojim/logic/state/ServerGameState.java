@@ -30,6 +30,7 @@ public class ServerGameState extends GameState {
 	private CardStack eventCards;
 	private CardStack communityCards;
 	
+	
 	public ServerGameState() {
 		super();
 		this.eventCards = new CardStack();
@@ -41,15 +42,33 @@ public class ServerGameState extends GameState {
 		// Fill here the cards
 	}
 	
+	
+	
 	/*
 	 * CARD STACK
 	 */
 	
-	public Card getFirstEventCard() {
-		return this.eventCards.getPointedCard();
+	public CardStack getEventCards() {
+		return eventCards;
+	}
+
+
+
+	public CardStack getCommunityCards() {
+		return communityCards;
 	}
 	
-	public Card getFirstCommunityCard() {
-		return this.communityCards.getPointedCard();
+	public ServerPlayer getPlayerByID(int playerId) {
+		return (ServerPlayer) super.getPlayerByID(playerId);
 	}
+
+//	public void 
+//
+//	public Card getFirstEventCard() {
+//		return this.eventCards.getPointedCard();
+//	}
+//	
+//	public Card getFirstCommunityCard() {
+//		return this.communityCards.getPointedCard();
+//	}
 }

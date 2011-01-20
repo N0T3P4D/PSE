@@ -38,6 +38,7 @@ public class TestClient implements IClient {
 	private int id = -1;
 	private final JTextField var1, var2;
 	private final JLabel res;
+	private TestClient client = this; 
 	
 	public TestClient(final IServer server) {
 		this.server = server;
@@ -89,7 +90,37 @@ public class TestClient implements IClient {
 				}
 			}
 		});
-		//panel.add(bt4);
+		panel.add(bt4);
+		
+		JButton bt5 = new JButton("rollDices()");
+		bt5.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(id != -1) {
+					server.rollDice(id);
+					res.setText("Rolled Dice!");
+				}
+			}
+		});
+		panel.add(bt5);
+		
+		JButton bt6 = new JButton("AddPlayer(this)");
+		bt6.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(id == -1) {
+					id = server.addPlayer(client);
+					res.setText("Added Player, Id:" + id);
+				}
+			}
+		});
+		panel.add(bt6);
+		
+		JButton bt7 = new JButton("getPlayerPiecePosition");
+		bt7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				res.setText("Position:" + server.getPlayerPiecePosition(id));
+			}
+		});
+		panel.add(bt7);
 		
 		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		
@@ -139,11 +170,6 @@ public class TestClient implements IClient {
 	}
 
 	@Override
-	public void informStreetBuy(int player) {
-		print("informed: StreetBuy Player:" + player);
-	}
-
-	@Override
 	public void informConstruct(int street) {
 		print("informed: Construct Street:" + street);
 	}
@@ -179,8 +205,21 @@ public class TestClient implements IClient {
 	}
 
 	@Override
-	public void informAuction() {
-		print("informed: Auction");
+	public void informMove(int position, int playerId) {
+		print("informed: Move Pos:" + position + " Player:" + playerId);
+		
+	}
+
+	@Override
+	public void informBuy(int player, int position) {
+		print("informed: StreetBuy Player:" + player + " Field:" + position);
+		
+	}
+
+	@Override
+	public void informAuction(int auctionState) {
+		print("informed: Auction state:" + auctionState);
+		
 	}
 
 }

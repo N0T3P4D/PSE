@@ -67,14 +67,14 @@ public class ServerStart {
 				running = false;
 			} else if(input.equals("test")) {
 				System.out.println("Adding new TestClient!");
-				server.addPlayer(new TestClient(server));
+				new TestClient(server);
 				System.out.println("TestClient added!");
 			} else if(input.startsWith("start")) {
 				if(isOpen) {
 					System.out.println("There is already a Game running, end it first before starting a new one!");
 				} else {
 					System.out.println("Initializing Game");
-					server.initGame(2,0);
+					server.initGame(1,0);
 					System.out.println("Game initialized!");
 				}
 			} else if(input.equals("end")) {
