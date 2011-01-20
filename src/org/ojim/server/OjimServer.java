@@ -83,8 +83,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.maxClients = playerCount + aiCount;
 		clients = new LinkedList<IClient>();
 		this.state = new ServerGameState();
-
-		
 		
 		// Add AIClients to the Game
 		for (int i = 0; i < aiCount; i++) {
@@ -352,6 +350,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.logic = new ServerLogic(this.state, this.rules);
 		this.display("Started a Game!");
 		this.gameStarted = true;
+		
+		Field[] fields = new Field[GameState.FIELDS_AMOUNT];
+		this.loadDefaultGameStateFields(fields);
+		for (Field field : fields) {
+			this.state.setFieldAt(field, field.getPosition());
+		}
+		
 		logic.startGame();
 	}
 
@@ -505,9 +510,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public boolean rollDice(int playerID) {
 		Player player = this.state.getPlayerByID(playerID);
+		
+		display("Starting Roll");
+		
 		if (player == null && player.equals(state.getActivePlayer()) && this.gameStarted == false && !this.rules.isRollRequiredByActivePlayer()) {
 			return false;
 		}		
+		
+		display("Initials checks over");
 		
 		if (this.rules.isPlayerInPrison(player)) {
 
@@ -526,9 +536,27 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 			}
 		}
-			
+
+		int doubles = 0;
+		while(state.getActivePlayerNeedsToRoll()) {
+		
+		//Roll the Dices
+		state.getDices().roll();
+		
 		//Now move the Player forward
 		logic.movePlayerForDice(player, state.getDices().getResultSum());
+		
+		//If the Player has not rolled a double, stop rolling
+		if(!state.getDices().isDouble()) {
+			state.setActivePlayerNeedsToRoll(false);
+		} else {
+			doubles++;
+			if (doubles >= MAX_DOUBLES_ALLOWED) {
+				//Player has to get to 
+			}
+		}
+		
+		}
 		return true;
 	}
 
@@ -751,6 +779,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		streets[5] = new StreetFieldGroup(5, 3000);
 		streets[6] = new StreetFieldGroup(6, 4000);
 		streets[7] = new StreetFieldGroup(7, 4000);
+		FieldGroup infrastructures = new FieldGroup(FieldGroup.INFRASTRUCTURE);
 		
 		//Add Streets
 		fields[0] = new GoField("Los", 0, this.logic);
@@ -765,7 +794,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[9] = streets[1].addField(new Street("Hoth - Nordgebirge", 9, new int[] {160,800,2000,6000,9000,12000}, 0, 2400, logic));
 		fields[10] = new Jail(10, 1000, 3);
 		fields[11] = streets[2].addField(new Street("Tatooine - Lars Heimstatt", 11, new int[] {200,1000,3000,9000,12500,15000}, 0, 2800, logic));
-		fields[12] = new InfrastructureField("Kern-Reaktor", 12, 3000, this.logic);
+		fields[12] = infrastructures.addField(new InfrastructureField("Kern-Reaktor", 12, 3000, this.logic));
 		fields[13] = streets[2].addField(new Street("Tatooine - Mos Eisley", 13, new int[] {200,1000,3000,9000,12500,15000}, 0, 2800, logic));
 		fields[14] = streets[2].addField(new Street("Tatooine - Jabbas Palast", 14, new int[] {240,1200,3600,10000,14000,18000}, 0, 3200, logic));
 		fields[15] = stations.addField(new Station("Millenium Falke", 15, 4000, this.logic));
@@ -781,7 +810,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[25] = stations.addField(new Station("X-Wing Fighter", 25, 4000, this.logic));
 		fields[26] = streets[5].addField(new Street("Todesstern - LandeDeck", 26, new int[] {440,2200,6600,16000,19500,23000}, 0, 5200, logic));
 		fields[27] = streets[5].addField(new Street("Todesstern - Thronsaal", 27, new int[] {440,2200,6600,16000,19500,23000}, 0, 5200, logic));
-		fields[28] = new InfrastructureField("Wasser-Farm", 28, 3000, this.logic);
+		fields[28] = infrastructures.addField(new InfrastructureField("Wasser-Farm", 28, 3000, this.logic));
 		fields[29] = streets[5].addField(new Street("Todesstern - Hauptreaktor", 29, new int[] {480,2400,7200,17000,20500,24000}, 0, 5600, logic));
 		fields[30] = new GoToJail(30, this.logic);
 		fields[31] = streets[6].addField(new Street("Endor - Wald", 31, new int[] {520,2600,7800,18000,22000,25500}, 0, 6000, logic));

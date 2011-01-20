@@ -57,6 +57,8 @@ public class GameState {
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
 		this.dices = new OjimDiceSet(1337);
 		
+		//TODO (philip) really?
+		this.activePlayerNeedsToRoll = true;
 		//TODO Add the Possibility to load other GameStates
 	}	
 	
