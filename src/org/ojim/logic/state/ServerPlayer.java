@@ -24,8 +24,8 @@ public class ServerPlayer extends Player {
 	private final IClient client;
 	private String gameStatusMessage;
 	
-	public ServerPlayer(IClient client) {
-		super();
+	public ServerPlayer(String name, int position, int balance, int id, int color, IClient client) {
+		super(name, position, balance, id, color);
 		this.client = client;
 		this.gameStatusMessage = "";
 	}

@@ -194,4 +194,8 @@ public class ServerLogic extends Logic {
 		
 	}
 
+	public void playerRolledOutOfJail(Player player) {
+		
+	}
+
 }

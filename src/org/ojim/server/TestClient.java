@@ -114,6 +114,14 @@ public class TestClient implements IClient {
 		});
 		panel.add(bt6);
 		
+		JButton bt7 = new JButton("getPlayerPiecePosition");
+		bt7.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				res.setText("Position:" + server.getPlayerPiecePosition(id));
+			}
+		});
+		panel.add(bt7);
+		
 		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		
 		frame.add(panel);
@@ -162,11 +170,6 @@ public class TestClient implements IClient {
 	}
 
 	@Override
-	public void informStreetBuy(int player) {
-		print("informed: StreetBuy Player:" + player);
-	}
-
-	@Override
 	public void informConstruct(int street) {
 		print("informed: Construct Street:" + street);
 	}
@@ -202,13 +205,20 @@ public class TestClient implements IClient {
 	}
 
 	@Override
-	public void informAuction() {
-		print("informed: Auction");
+	public void informMove(int position, int playerId) {
+		print("informed: Move Pos:" + position + " Player:" + playerId);
+		
 	}
 
 	@Override
-	public void informMove(int position, int playerId) {
-		print("informed: Move Pos:" + position + " Player:" + playerId);
+	public void informBuy(int player, int position) {
+		print("informed: StreetBuy Player:" + player + " Field:" + position);
+		
+	}
+
+	@Override
+	public void informAuction(int auctionState) {
+		print("informed: Auction state:" + auctionState);
 		
 	}
 

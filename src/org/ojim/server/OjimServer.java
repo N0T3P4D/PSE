@@ -31,7 +31,10 @@ import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.FieldGroup;
+import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.logic.state.fields.StreetFieldGroup;
 
 import edu.kit.iti.pse.iface.IServer;
 import edu.kit.iti.pse.iface.IServerAuction;
@@ -299,13 +302,15 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		display("Add Player!");
 		
+		Player[] players = state.getPlayers();
 		for (int i = 0; i < maxClients; i++) {
 			if (state.getPlayerByID(i) == null) {
 				this.clients.add(client);
 				state.setPlayer(i,
-						new Player(client.getName(), 0,
-								state.getRules().startMoney, i, i));
+						new ServerPlayer(client.getName(), 0,
+								state.getRules().startMoney, i, i, client));
 				this.connectedClients++;
+				display("Player with id:" + i + " added!");
 				return i;
 			}
 		}
@@ -322,7 +327,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (this.connectedClients == this.maxClients) {
 			for (int i = 0; i < connectedClients; i++) {
 
-				// If at least 1 Player is not ready, dont start the game
+				// If at least 1 Player is not ready, don't start the game
 				if (!state.getPlayerByID(i).getIsReady()) {
 					display("Player " + i + " is not ready!");
 					return;
@@ -492,21 +497,31 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public boolean rollDice(int playerID) {
 		Player player = this.state.getPlayerByID(playerID);
-		if (player == null && this.gameStarted == false && !this.rules.isRollRequiredByActivePlayer()) {
+		if (player == null && player.equals(state.getActivePlayer()) && this.gameStarted == false && !this.rules.isRollRequiredByActivePlayer()) {
 			return false;
-		}
-
+		}		
+		
 		if (this.rules.isPlayerInPrison(player)) {
 
 			// Still need to wait
 			if (player.getJail().getRoundsToWait() > 0) {
-				// TODO continue
+				
+				state.getDices().roll();
+				
+				//Player has not rolled a Double and stays in jail
+				if(!state.getDices().isDouble()) {
+					state.setActivePlayerNeedsToRoll(false);
+					return true;
+				} else {
+					//Get the Player out of Jail
+					logic.playerRolledOutOfJail(player);
+				}
 			}
 		}
-		if (playerID == state.getActivePlayer().getId()) {
-			state.getDices().roll();
-			return true;
-		}
+			
+		//Now move the Player forward
+		logic.movePlayer(state.getDices().getResult());
+		return true;
 		return false;
 	}
 
@@ -661,15 +676,19 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	public int getMaximumBuiltLevel() {
-		//TODO: (xZise) Eine besondere Methode von OjimServer (nicht in IServer).
-		//xZise: Extra mit Fehler, damit es dir auffällt, das deine Klasse auf einmal eine Methode mehr hat :)
+		return 5;
 	}
 
 	@Override
 	public int getEstateHousePrice(int position) {
-		// TODO Auto-generated method stub
-		//xZise: Extra mit Fehler, damit es dir auffällt, das deine Klasse auf einmal eine Methode mehr hat :)
-		//xZise: Diese Methode stammt aber aus IServer :P
+		Field field = state.getFieldAt(position);
+		if(field != null && field instanceof Street) {
+			StreetFieldGroup group = ((Street)field).getFieldGroup();
+			if(group != null) {
+				return group.getHousePrice();
+			}
+		}
+		return -1;
 	}
 
 	/**
@@ -681,8 +700,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 *         is undefined;.
 	 */
 	public int getMoneyToPay(int position) {
-		//TODO: (xZise) Eine besondere Methode von OjimServer (nicht in IServer).
-		//xZise: Extra mit Fehler, damit es dir auffällt, das deine Klasse auf einmal eine Methode mehr hat :)
+		Field field = state.getFieldAt(position);
+		if(field != null && field instanceof Jail) {
+			((Jail)field).getMoneyToPay();
+		}
+		return -1;
 	}
 
 	/**
@@ -695,8 +717,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 *         it return is undefined.
 	 */
 	public int getRoundsToWait(int position) {
-		//TODO: (xZise) Eine besondere Methode von OjimServer (nicht in IServer).
-		//xZise: Extra mit Fehler, damit es dir auffällt, das deine Klasse auf einmal eine Methode mehr hat :)
+		Field field = state.getFieldAt(position);
+		if(field != null && field instanceof Jail) {
+			return ((Jail)field).getRoundsToWait();
+		}
+		return -1;
 	}
 
 }
