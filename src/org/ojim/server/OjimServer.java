@@ -537,8 +537,26 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			}
 		}
 
+		int doubles = 0;
+		while(state.getActivePlayerNeedsToRoll()) {
+		
+		//Roll the Dices
+		state.getDices().roll();
+		
 		//Now move the Player forward
 		logic.movePlayerForDice(player, state.getDices().getResultSum());
+		
+		//If the Player has not rolled a double, stop rolling
+		if(!state.getDices().isDouble()) {
+			state.setActivePlayerNeedsToRoll(false);
+		} else {
+			doubles++;
+			if (doubles >= MAX_DOUBLES_ALLOWED) {
+				//Player has to get to 
+			}
+		}
+		
+		}
 		return true;
 	}
 
