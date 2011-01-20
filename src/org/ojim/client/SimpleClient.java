@@ -233,10 +233,10 @@ public class SimpleClient {
 	}
 
 	protected final void sendMessage(String text) {
-		this.server.sendMessage(text);
+		this.server.sendMessage(text, this.playerId);
 	}
 
 	protected final void sendPrivateMessage(String text, int reciever) {
-		this.server.sendPrivateMessage(text, reciever);
+		this.server.sendPrivateMessage(text, this.playerId, reciever);
 	}
 }

@@ -388,7 +388,7 @@ public interface IServer {
 	 * @param text
 	 *            Der Inhalt der Nachricht.
 	 */
-	public void sendMessage(String text);
+	public void sendMessage(String text, int sender);
 
 	/**
 	 * Sendet eine private Nachricht an den entsprechenden Empfänger.
@@ -398,5 +398,5 @@ public interface IServer {
 	 * @param reciever
 	 *            Der Empfänger der Nachricht.
 	 */
-	public void sendPrivateMessage(String text, int reciever);
+	public void sendPrivateMessage(String text, int sender, int reciever);
 }
