@@ -140,14 +140,6 @@ public class SimpleClient {
 	 * ADITIONAL GETTER
 	 */
 
-	public int getMaximumBuiltLevel() {
-		if (this.server instanceof OjimServer) {
-			return ((OjimServer) this.server).getMaximumBuiltLevel();
-		} else {
-			return 6;
-		}
-	}
-
 	/**
 	 * Returns the money the player has to pay to leave the jail.
 	 * 

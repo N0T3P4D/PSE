@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,6 +17,7 @@
 
 package org.ojim.client.gui.GameField;
 
+import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.JPanel;
@@ -25,7 +26,11 @@ public class GameFieldPiece extends JPanel {
 
 	// FIXME: cardID statt ID Objekt!
 	public GameFieldPiece(int cardId, String name, int position, Image image) {
-
+		
 	}
 
+	@Override
+	protected void paintComponent(Graphics g) {
+		// Draw Field piece here
+	}
 }
