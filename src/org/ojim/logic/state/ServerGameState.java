@@ -57,6 +57,10 @@ public class ServerGameState extends GameState {
 	public CardStack getCommunityCards() {
 		return communityCards;
 	}
+	
+	public ServerPlayer getPlayerByID(int playerId) {
+		return (ServerPlayer) super.getPlayerByID(playerId);
+	}
 
 //	public void 
 //

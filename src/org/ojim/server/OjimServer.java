@@ -133,7 +133,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		for (IClient oneClient : this.clients) {
 			if (oneClient.equals(oneClient)) {
 				// TODO Add Language
-				oneClient.informMessage("You have been Disconnected!", 0, true);
+				oneClient.informMessage("You have been Disconnected!", -1, true);
 				this.clients.remove(oneClient);
 			}
 			if (this.state.getActivePlayer().getId() != -1) {
@@ -141,7 +141,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				// TODO Add Language
 				for (IClient informClient : this.clients) {
 					informClient.informMessage("Client has been disconnected!",
-							0, false);
+							-1, false);
 				}
 			}
 		}
@@ -611,20 +611,19 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public void sendMessage(String text) {
+	public void sendMessage(String text, int sender) {
 		for (IClient client : this.clients) {
-			// TODO Add sender ID
-			client.informMessage(text, 0, false);
+			client.informMessage(text, sender, false);
 		}
 	}
 
 	@Override
-	public void sendPrivateMessage(String text, int reciever) {
+	public void sendPrivateMessage(String text, int sender, int reciever) {
 		if (reciever >= 0 && reciever < this.connectedClients) {
 			Player player = state.getPlayerByID(reciever);
 			if (player != null && player instanceof ServerPlayer) {
 				((ServerPlayer) player).getClient()
-						.informMessage(text, 0, true);
+						.informMessage(text, sender, true);
 			}
 		}
 	}
