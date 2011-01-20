@@ -17,10 +17,21 @@
 
 package org.ojim.logic.state.fields;
 
+import org.ojim.logic.ServerLogic;
+import org.ojim.logic.state.DiceSet;
+
 public class InfrastructureField extends BuyableField {
 
+	private DiceSet dices;
+	private final int[] RENT = new int[] {80,200};
+	
 	public InfrastructureField(String name, int position, int price) {
 		super(name, position, price);
+	}
+	
+	public InfrastructureField(String name, int position, int price, ServerLogic logic) {
+		super(name, position, price, logic);
+		this.dices = logic.getGameState().getDices();
 	}
 
 	@Override
@@ -34,10 +45,12 @@ public class InfrastructureField extends BuyableField {
 				ownerOwns++;
 			}
 		}
-		// TODO: (xZise) Add dice dependent rent.
 		
-
-		return 0;
+		if(ownerOwns >= RENT.length) {
+			ownerOwns = RENT.length - 1;
+		}
+		
+		return RENT[ownerOwns] * dices.getResultSum();
 	}
 
 }

@@ -17,12 +17,19 @@
 
 package org.ojim.logic.state.fields;
 
+import org.ojim.logic.ServerLogic;
+import org.ojim.logic.actions.ActionFetchCard;
+import org.ojim.logic.state.CardStack;
 
 public class CardField extends Field {
 	
-	public CardField(int position) {
-		//TODO: (xZise) Namen finden.
-		super("name", position);
+	public CardField(String name, int position) {
+		super(name, position);
+	}
+
+	public CardField(String name, int position, CardStack stack, ServerLogic logic) {
+		this(name, position);
+		this.setExecuteActions(new ActionFetchCard(logic, stack));
 	}
 
 }

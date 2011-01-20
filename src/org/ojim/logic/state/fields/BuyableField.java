@@ -38,6 +38,7 @@ public abstract class BuyableField extends Field implements Rentable {
 	public BuyableField(String name, int position, int price) {
 		super(name, position);
 		this.price = price;
+		this.mortgagePrice = this.price / 2;
 	}
 	
 	public BuyableField(String name, int position, int price, ServerLogic logic) {

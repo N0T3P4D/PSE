@@ -23,12 +23,12 @@ import org.ojim.logic.actions.ActionGiveMoneyFromFreeParking;
 
 public class FreeParking extends Field implements IMoneyPartner {
 
-	public FreeParking(int position) {
-		super("Free parking", position);
+	public FreeParking(String name, int position) {
+		super(name, position);
 	}
 
-	public FreeParking(ServerLogic logic, int position) {
-		this(position);
+	public FreeParking(String name, int position, ServerLogic logic) {
+		this(name, position);
 		this.setExecuteActions(new ActionGiveMoneyFromFreeParking(logic, this));
 	}
 

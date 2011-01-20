@@ -19,7 +19,6 @@ package org.ojim.logic.actions;
 
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.state.fields.FreeParking;
 
 /**
  * Action to transfer the money between the player and one instance of
@@ -73,36 +72,4 @@ public class ActionTransferMoneyToPartner implements Action {
 		logic.exchangeMoney(logic.getGameState().getActivePlayer(), partner,
 				amount);
 	}
-
-	/**
-	 * Creates a new action for a default transfer to a bank.
-	 * 
-	 * @param state
-	 *            The GameState.
-	 * @param amount
-	 *            The amount of money which will be transfered. To transfer to
-	 *            player input a negative value.
-	 * @return New created action.
-	 */
-	public static ActionTransferMoneyToPartner newTransferMoneyToBank(
-			ServerLogic logic, int amount) {
-		return new ActionTransferMoneyToPartner(logic, amount, logic
-				.getGameState().getBank());
-	}
-
-	/**
-	 * Creates a new action for a default transfer to the free parking pot.
-	 * 
-	 * @param state
-	 *            The GameState.
-	 * @param amount
-	 *            The amount of money which will be transfered. To transfer to
-	 *            player input a negative value.
-	 * @return New created action.
-	 */
-	public static ActionTransferMoneyToPartner newTransferMoneyToFreeParking(
-			ServerLogic logic, int amount, FreeParking field) {
-		return new ActionTransferMoneyToPartner(logic, amount, field);
-	}
-
 }

@@ -17,13 +17,17 @@
 
 package org.ojim.logic.state.fields;
 
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.state.fields.BuyableField;
 
 public class Station extends BuyableField {
 
 	public Station(String name, int position, int price) {
-		//TODO: (xZise) Soll der Preis konstant bleiben?
-		super(name, position, 1000);
+		super(name, position, price);
+	}
+	
+	public Station(String name, int position, int price, ServerLogic logic) {
+		super(name, position, price, logic);
 	}
 	
 	@Override
@@ -35,8 +39,7 @@ public class Station extends BuyableField {
 			}
 		}
 		
-		//TODO: (xZise) Sind die Werte so gut? Also 500 für einen bahnhof, 1000 für 2, 2000 für 3 ...?
-		return (int) Math.floor(500 * Math.pow(ownerOwns - 1, 2));
+		return ((StationFieldGroup) this.getFieldGroup()).getRent(ownerOwns);
 	}
 
 }

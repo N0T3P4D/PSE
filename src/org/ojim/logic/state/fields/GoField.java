@@ -18,22 +18,22 @@
 package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.actions.ActionTransferMoneyToPartner;
+import org.ojim.logic.actions.ActionFactory;
 
 public class GoField extends Field {
 
-	public GoField(int position) {
-		super("go", position);
+	public GoField(String name, int position) {
+		super(name, position);
 	}
 	
 	public GoField(String name, int position, ServerLogic logic) {
-		this(position);
+		this(name, position);
 		int gomoney = logic.getGameRules().getGoMoney();
-		this.setPassThroughActions(ActionTransferMoneyToPartner.newTransferMoneyToBank(logic, -gomoney));
+		this.setPassThroughActions(ActionFactory.newTransferMoneyToBank(logic, -gomoney));
 		if (logic.getGameRules().getDoubleMoneyOnGo()) {
 			gomoney *= 2;
 		}
-		this.setExecuteActions(ActionTransferMoneyToPartner.newTransferMoneyToBank(logic, -gomoney));
+		this.setExecuteActions(ActionFactory.newTransferMoneyToBank(logic, -gomoney));
 	}
 
 }

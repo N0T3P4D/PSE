@@ -26,7 +26,7 @@ public class GoToJail extends Field {
 		super("Go to jail", position);
 	}
 	
-	public GoToJail(ServerLogic logic, int position) {
+	public GoToJail(int position, ServerLogic logic) {
 		this(position);
 		this.setExecuteActions(new ActionMoveToJail(logic));
 	}
