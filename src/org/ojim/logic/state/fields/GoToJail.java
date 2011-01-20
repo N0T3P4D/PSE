@@ -22,12 +22,12 @@ import org.ojim.logic.actions.ActionMoveToJail;
 
 public class GoToJail extends Field {
 
-	public GoToJail(int position) {
-		super("Go to jail", position);
+	public GoToJail(String name, int position) {
+		super(name, position);
 	}
 	
-	public GoToJail(int position, ServerLogic logic) {
-		this(position);
+	public GoToJail(String name, int position, ServerLogic logic) {
+		this(name, position);
 		this.setExecuteActions(new ActionMoveToJail(logic));
 	}
 

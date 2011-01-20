@@ -34,6 +34,7 @@ import org.ojim.logic.state.fields.GoToJail;
 import org.ojim.logic.state.fields.InfrastructureField;
 import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Station;
+import org.ojim.logic.state.fields.StationFieldGroup;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.logic.state.fields.TaxField;
@@ -68,7 +69,7 @@ public class ClientBase extends SimpleClient implements IClient {
 		state.getBank().setHotels(this.getNumberOfHotelsLeft());
 		state.getBank().setHouses(this.getNumberOfHousesLeft());
 
-		FieldGroup stations = new FieldGroup(FieldGroup.STATIONS);
+		StationFieldGroup stations = new StationFieldGroup();
 		FieldGroup infrastructures = new FieldGroup(FieldGroup.INFRASTRUCTURE);
 		Map<Integer, StreetFieldGroup> colorGroups = new HashMap<Integer, StreetFieldGroup>(
 				8);
@@ -100,23 +101,23 @@ public class ClientBase extends SimpleClient implements IClient {
 			} else {
 				switch (this.getEstateColorGroup(position)) {
 				case FieldGroup.GO:
-					field = new GoField(position); // Los feld
+					field = new GoField(name, position);
 					break;
-				case FieldGroup.JAIL: // Gefängnis
-					field = new Jail(position, this.getMoneyToPay(position),
+				case FieldGroup.JAIL:
+					field = new Jail(name, position, this.getMoneyToPay(position),
 							this.getRoundsToWait(position));
 					break;
 				case FieldGroup.FREE_PARKING:
-					field = new FreeParking(position);
+					field = new FreeParking(name, position);
 					break;
 				case FieldGroup.GO_TO_JAIL:
-					field = new GoToJail(position);
+					field = new GoToJail(name, position);
 					break;
 				case FieldGroup.EVENT:
-					field = new CardField(position);
+					field = new CardField(name, position);
 					break;
 				case FieldGroup.COMMUNITY:
-					field = new CardField(position);
+					field = new CardField(name, position);
 					break;
 				case FieldGroup.STATIONS:
 					field = stations
@@ -128,7 +129,10 @@ public class ClientBase extends SimpleClient implements IClient {
 					break;
 				case FieldGroup.TAX:
 					field = new TaxField(name, position, this.getEstateRent(
-							position, 0), this.getGameState().getBank());
+							position, 0));
+					break;
+				default :
+					field = null;
 					break;
 				}
 			}
