@@ -93,7 +93,7 @@ public abstract class BuyableField extends Field {
 	 *            the player who got to the field.
 	 */
 	public void payRent(Player player) {
-		if (!this.owner.equals(player) && this.owner != null) {
+		if (this.owner != null && !this.owner.equals(player)) {
 			Bank.exchangeMoney(player, this.owner, this.getRent());
 		}
 	}
