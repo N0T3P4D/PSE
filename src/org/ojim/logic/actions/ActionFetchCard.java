@@ -16,9 +16,11 @@ public class ActionFetchCard implements Action {
 	
 	@Override
 	public void execute() {
-		Card topCard = this.stack.getPointedCard();
-		this.stack.step();
-		topCard.fetch();
+		if (this.stack.isEmpty()) {
+			Card topCard = this.stack.getPointedCard();
+			this.stack.step();
+			topCard.fetch();
+		}
 	}
 
 }

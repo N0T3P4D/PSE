@@ -119,4 +119,8 @@ public class CardStack {
 		}
 		return this.pointer.card;
 	}
+	
+	public boolean isEmpty() {
+		return this.pointer == null;
+	}
 }
