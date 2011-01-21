@@ -17,6 +17,10 @@
 
 package org.ojim.logic.state.fields;
 
+import java.util.Map;
+
+import org.jdom.DataConversionException;
+import org.jdom.Element;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.actions.ActionPayFieldRent;
@@ -27,7 +31,7 @@ import org.ojim.logic.state.Player;
  * 
  * @author Fabian Neundorf
  */
-public abstract class BuyableField extends Field implements Rentable {
+public abstract class BuyableField extends Field {
 
 	private int price;
 	private Player owner;
@@ -43,6 +47,13 @@ public abstract class BuyableField extends Field implements Rentable {
 	
 	public BuyableField(String name, int position, int price, ServerLogic logic) {
 		this(name, position, price);
+		this.setExecuteActions(new ActionPayFieldRent(logic, this));
+	}
+	
+	public BuyableField(Element element, ServerLogic logic, Map<Integer, FieldGroup> groups) throws DataConversionException {
+		super(element, groups);
+		this.price = Integer.parseInt(element.getChild("price").getText());
+		this.mortgagePrice = this.price / 2;
 		this.setExecuteActions(new ActionPayFieldRent(logic, this));
 	}
 	
@@ -81,7 +92,6 @@ public abstract class BuyableField extends Field implements Rentable {
 	 * @param player
 	 *            the player who got to the field.
 	 */
-	@Override
 	public void payRent(Player player) {
 		if (!this.owner.equals(player) && this.owner != null) {
 			Bank.exchangeMoney(player, this.owner, this.getRent());

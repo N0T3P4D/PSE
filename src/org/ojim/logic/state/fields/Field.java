@@ -17,9 +17,13 @@
 
 package org.ojim.logic.state.fields;
 
+import java.util.Map;
+
+import org.jdom.DataConversionException;
+import org.jdom.Element;
 import org.ojim.logic.actions.Action;
 
-public class Field {
+public abstract class Field {
 
 	private FieldGroup fieldGroup;
 	private final String name;
@@ -36,6 +40,19 @@ public class Field {
 		this.name = name;
 		this.position = position;
 		this.setActions(executeActions, passThroughActions);
+	}
+	
+	public Field(Element element, Map<Integer, FieldGroup> groups) throws DataConversionException {
+		this.position = element.getAttribute("pos").getIntValue();
+		this.name = element.getChildText("name");
+		Element group = element.getChild("group");
+		if (group != null) {
+			groups.get(group.getAttribute("color").getIntValue()).addField(this);
+		}
+	}
+	
+	protected FieldGroup newGroup(Element group) throws DataConversionException {
+		return new FieldGroup(group.getAttribute("color").getIntValue());
 	}
 	
 	protected final void setActions(Action[] executeActions, Action[] passThroughActions) {
@@ -80,4 +97,5 @@ public class Field {
 	public FieldGroup getFieldGroup() {
 		return this.fieldGroup;
 	}
+
 }

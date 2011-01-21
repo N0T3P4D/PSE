@@ -15,11 +15,28 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.state.fields;
+package org.ojim.client.gui.GameField.fielddrawer;
 
-import org.ojim.logic.state.Player;
+import java.awt.Graphics;
 
-public interface Rentable {
+import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Jail;
 
-	void payRent(Player payer);
+public class JailDrawer extends FieldDrawer {
+
+	/*
+	 * At the moment doesn't work:
+	 * http://www.java-forum.org/allgemeine-java-themen
+	 * /112314-dynamisch-konstruktor-aufrufen.html
+	 */
+	// public JailDrawer(Jail field) {
+	public JailDrawer(Field field) {
+		super(field);
+	}
+
+	@Override
+	public void drawTo(Graphics g) {
+		// TODO Auto-generated method stub
+		System.out.println("jail");
+	}
 }

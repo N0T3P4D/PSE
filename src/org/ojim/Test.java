@@ -17,13 +17,17 @@
 
 package org.ojim;
 
+import java.lang.reflect.InvocationTargetException;
+
 import org.ojim.client.ai.AIClient;
 import org.ojim.client.gui.GUIClient;
+import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
 import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionMoveToField;
 import org.ojim.logic.state.Card;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Jail;
 import org.ojim.server.OjimServer;
 
 /**
@@ -39,6 +43,9 @@ public class Test {
 	// -s --server == ojim server
 	// -a --ai == AI Client
 	public static void main(String args[]) {
+		
+		FieldDrawer d = FieldDrawer.getDrawer(new Jail("foo", 2, 1, 2));
+		d.drawTo(null);
 		
 		for (String string : args) {
 			if (string.equals("-g") || string.equals("--gui")) {

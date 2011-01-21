@@ -2,7 +2,7 @@ package org.ojim.logic.state.fields;
 
 public class StationFieldGroup extends FieldGroup {
 
-	public int[] rent;
+	private int[] rent;
 	
 	public StationFieldGroup() {
 		super(FieldGroup.STATIONS);

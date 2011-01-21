@@ -4,6 +4,8 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import org.ojim.language.Localizer;
+
 
 public class CardWindow extends JPanel{
 
@@ -21,6 +23,12 @@ public class CardWindow extends JPanel{
 		for(int i = 0; i < MAX_CARD_STACKS; i++){
 			cardStacks[i] = new CardStack();
 			this.add(cardStacks[i]);
+		}
+	}
+	
+	public void setLanguage(Localizer language){
+		for(int i = 0; i < MAX_CARD_STACKS; i++){
+			cardStacks[i].setLanguage(language);
 		}
 	}
 

@@ -15,35 +15,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.logic.actions;
+package org.ojim.client.gui.GameField.fielddrawer;
 
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.fields.BuyableField;
+import java.awt.Graphics;
 
-public class ActionPayFieldRent implements Action {
+import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.GoField;
 
-	private BuyableField field;
-	private ServerLogic logic;
-	
-	/**
-	 * Erstellt eine Aktion die die Miete eines Feldes bezahlt.
-	 * 
-	 * @param state Spielzustand.
-	 * @param fields Das Feld für das die Miete eingezogen wird.
+/**
+ * Class that draw a go field.
+ * @author Fabian Neundorf.
+ */
+public class GoFieldDrawer extends FieldDrawer {
+
+	/*
+	 * At the moment doesn't work:
+	 * http://www.java-forum.org/allgemeine-java-themen
+	 * /112314-dynamisch-konstruktor-aufrufen.html
 	 */
-	public ActionPayFieldRent(ServerLogic logic, BuyableField field) {
-		this.logic = logic;
-		this.field = field;
+//	public GoFieldDrawer(GoField field) {
+	public GoFieldDrawer(Field field) {
+		super(field);
 	}
-	
+
 	@Override
-	public void execute() {
-		ActionPayFieldRent.execute(logic, field);
-	}
-	
-	public static void execute(ServerLogic logic, BuyableField field) {
-		//TODO: (xZise) Inform other player -> payRent(Player) gets logic? Or has a field a reference to logic?
-		field.payRent(logic.getGameState().getActivePlayer());
+	public void drawTo(Graphics g) {
+		// TODO Auto-generated method stub
+
 	}
 
 }

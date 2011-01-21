@@ -20,6 +20,8 @@ package org.ojim.client.gui.Card;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.ojim.language.Localizer;
+
 // xZise: Als Info: Es gibt bereits eine Klasse CardStack? Könnte die für dich interessant sein?
 // Card Stack ist in diesem Fall ein Kartenstapel unten im Card Window
 
@@ -42,6 +44,11 @@ public class CardStack extends JPanel {
 	// TODO: (xZise) Klassen statt untypisierte Zahlen!
 	public void removeCard(int cardId) {
 
+	}
+
+	public void setLanguage(Localizer language) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

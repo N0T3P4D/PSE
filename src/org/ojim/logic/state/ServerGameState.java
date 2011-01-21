@@ -19,6 +19,7 @@ package org.ojim.logic.state;
 
 import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.actions.ActionMoveForward;
+import org.ojim.logic.state.fields.Jail;
 
 /**
  * Extends the GameState for the purposes of the server.
@@ -29,7 +30,7 @@ public class ServerGameState extends GameState {
 	
 	private CardStack eventCards;
 	private CardStack communityCards;
-	
+	private Jail defaultJail;
 	
 	public ServerGameState() {
 		super();
@@ -42,7 +43,20 @@ public class ServerGameState extends GameState {
 		// Fill here the cards
 	}
 	
+	public Jail getDefaultJail() {
+		if(defaultJail == null) {
+			for(int i = 0; i < this.FIELDS_AMOUNT; i++) {
+				if(this.getFieldAt(i) instanceof Jail) {
+					this.defaultJail = (Jail) this.getFieldAt(i);
+				}
+			}
+		}
+		return this.defaultJail;
+	}
 	
+	public void setDefaultJail(Jail jail) {
+		this.defaultJail = jail;
+	}
 	
 	/*
 	 * CARD STACK
