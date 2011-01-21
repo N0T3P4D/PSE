@@ -15,42 +15,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.ai;
+package org.ojim.client.ai.commands;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ojim.log.OJIMLogger;
+import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
+import org.ojim.logic.state.BuyableField;
 
-import org.ojim.client.ClientBase;
 import edu.kit.iti.pse.iface.IServer;
 
+/**
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
+public class MortgageCommand extends SimpleClient implements Command {
 
-public class AIClient extends ClientBase {
+	private int position;
 
-	private Logger logger;
-
-	public AIClient(IServer server, Logic logic, int playerID) {
-		super();
-		logger = OJIMLogger.getLogger(this.getClass().toString());
-		logger.log(Level.INFO, "Hello! AI client with ID " + playerID + " created.");
-		if (server == null) {
-			throw new IllegalArgumentException("Server == null");
-		}
-		if (logic == null) {
-			throw new IllegalArgumentException("Logic == null");
-		}
-		super.setParameters(logic, playerID, server);
+	public MortgageCommand(Logic logic, IServer server, int playerId,
+			int position) {
+		super(logic, playerId, server);
+		this.position = position;
 	}
 
-	public void useOutOfJailCard() {
-	}
-
-	public void informTurn(int player) {
-	}
-	
-	public void setReady() {
-		ready();
+	@Override
+	public void execute() {
+		BuyableField field = (BuyableField) this.getLogic().getGameState()
+				.getFieldAt(position);
+		if (field.isMortgaged())
+			field.setMortgaged(true);
+		else
+			field.setMortgaged(false);
 	}
 
 }

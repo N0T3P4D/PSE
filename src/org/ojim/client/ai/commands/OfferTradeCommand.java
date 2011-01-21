@@ -15,42 +15,17 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.ai;
+package org.ojim.client.ai.commands;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 
-import org.ojim.client.ClientBase;
 import edu.kit.iti.pse.iface.IServer;
 
+public class OfferTradeCommand extends TradeCommand {
 
-public class AIClient extends ClientBase {
-
-	private Logger logger;
-
-	public AIClient(IServer server, Logic logic, int playerID) {
-		super();
-		logger = OJIMLogger.getLogger(this.getClass().toString());
-		logger.log(Level.INFO, "Hello! AI client with ID " + playerID + " created.");
-		if (server == null) {
-			throw new IllegalArgumentException("Server == null");
-		}
-		if (logic == null) {
-			throw new IllegalArgumentException("Logic == null");
-		}
-		super.setParameters(logic, playerID, server);
-	}
-
-	public void useOutOfJailCard() {
-	}
-
-	public void informTurn(int player) {
-	}
-	
-	public void setReady() {
-		ready();
+	public OfferTradeCommand(Logic logic, IServer server, int playerId) {
+		super(logic, server, playerId);
+		// TODO Auto-generated constructor stub
 	}
 
 }
