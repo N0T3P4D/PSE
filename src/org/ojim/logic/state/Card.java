@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -22,46 +22,57 @@ import org.ojim.logic.actions.Action;
 public class Card {
 
 	public final String text;
-	private final Action[] actions;
-	private final boolean hold;
+	private final Action[] preActions, acceptActions, declineActions, holdingActions;
 	private final GameState state;
 	
-	public Card(String text, GameState state, boolean hold, Action... actions) {
+	public Card(String text, GameState state, Action[] preActions, Action[] acceptActions, Action[] declineActions, Action[] holdingActions) {
 		this.text = text;
-		this.actions = actions;
-		this.hold = hold;
+		this.preActions = preActions;
+		this.acceptActions = acceptActions;
+		this.declineActions = declineActions;
+		this.holdingActions = holdingActions;
 		this.state = state;
 	}
 
 	/**
 	 * Zieht eine Karte aus den Kartenstapel. Wenn die Karte in dein eigenen
-	 * Stapel aufgenommen werden soll, wird diese Karte aufgenommen. Ansonsten
-	 * wird {@link #execute()} ausgeführt.
+	 * Stapel aufgenommen werden soll, wird diese Karte aufgenommen.
 	 */
 	public void fetch() {
-		if (hold) {
-			//TODO: Remove card from active stack.
-			
-			// Add this card to the players card stack:
-			this.state.getActivePlayer().addCard(this);
+		executeActions(this.preActions);
+		if (this.acceptActions.length > 0) {
+			//TODO: (xZise) servergamestate informieren
 		} else {
-			this.execute();
+			this.postFetch();
 		}
 	}
 	
-	public Action[] getActions() {
-		return this.actions;
-	}
-
-	/**
-	 * Führt die Actions der Karte nach der Reihe aus.
-	 */
-	public void execute() {
-		if (hold) {
-			this.state.getActivePlayer().removeCard(this);
+	private void postFetch() {
+		if (this.holdingActions.length > 0) {
+			//TODO: Remove card from active stack.
+			
+			// Add this card to the players card stack:
+			this.state.getActivePlayer().addCard(this);			
 		}
-		for (int i = 0; i < this.actions.length; i++) {
-			this.actions[i].execute();
+	}
+	
+	public void accept() {
+		executeActions(this.acceptActions);
+		this.postFetch();
+	}
+	
+	public void decline() {
+		executeActions(this.declineActions);
+		this.postFetch();
+	}
+	
+	public void file() {
+		executeActions(this.holdingActions);
+	}
+	
+	public static void executeActions(Action[] actions) {
+		for (int i = 0; i < actions.length; i++) {
+			actions[i].execute();
 		}
 	}
 }
