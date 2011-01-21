@@ -17,6 +17,9 @@
 
 package org.ojim.logic.state;
 
+import java.util.LinkedList;
+import java.util.Queue;
+
 import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.actions.ActionMoveForward;
 import org.ojim.logic.state.fields.Jail;
@@ -31,6 +34,7 @@ public class ServerGameState extends GameState {
 	private CardStack eventCards;
 	private CardStack communityCards;
 	private Jail defaultJail;
+	private Queue<Card> waitingCards;
 	
 	public ServerGameState() {
 		super();
@@ -38,7 +42,7 @@ public class ServerGameState extends GameState {
 		// Fill here the cards
 //		this.eventCards.add(new Card("foobar", this, false, new ActionMoveForward(this, 5)));
 //		this.eventCards.add(new Card("anti jail", this, true, new ActionGetOutOfJailCard(this)));
-		
+		waitingCards = new LinkedList<Card>();
 		this.communityCards = new CardStack();
 		// Fill here the cards
 	}
@@ -56,6 +60,22 @@ public class ServerGameState extends GameState {
 	
 	public void setDefaultJail(Jail jail) {
 		this.defaultJail = jail;
+	}
+	
+	public void addWaitingCard(Card card) {
+		this.waitingCards.add(card);
+	}
+	
+	public Card getFirstWaitingCard() {
+		return this.waitingCards.peek();
+	}
+	
+	public void RemoveWaitingCard(Card card) {
+		this.waitingCards.remove(card);
+	}
+	
+	public Queue<Card> getWaitingCards() {
+		return this.waitingCards;
 	}
 	
 	/*
