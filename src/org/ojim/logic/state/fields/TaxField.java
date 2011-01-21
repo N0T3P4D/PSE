@@ -17,6 +17,10 @@
 
 package org.ojim.logic.state.fields;
 
+import java.util.Map;
+
+import org.jdom.DataConversionException;
+import org.jdom.Element;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.actions.ActionFactory;
 
@@ -31,6 +35,12 @@ public class TaxField extends Field {
 	
 	public TaxField(String name, int position, int amount, ServerLogic logic) {
 		this(name, position, amount);
+		this.setExecuteActions(ActionFactory.newTransferMoneyToBank(logic, amount));
+	}
+	
+	public TaxField(Element element, Map<Integer, FieldGroup> groups, ServerLogic logic) throws DataConversionException {
+		super(element, groups);
+		this.amount = Integer.parseInt(element.getChildText("amount"));
 		this.setExecuteActions(ActionFactory.newTransferMoneyToBank(logic, amount));
 	}
 	

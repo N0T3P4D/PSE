@@ -17,6 +17,11 @@
 
 package org.ojim.logic.state.fields;
 
+import java.util.List;
+import java.util.Map;
+
+import org.jdom.DataConversionException;
+import org.jdom.Element;
 import org.ojim.logic.ServerLogic;
 
 public class Street extends BuyableField {
@@ -46,6 +51,19 @@ public class Street extends BuyableField {
 	public Street(String name, int position, int[] rentByLevel,
 			int price, ServerLogic logic) {
 		this(name, position, rentByLevel, 0, price, logic);
+	}
+	
+	public Street(Element element, ServerLogic logic, Map<Integer, FieldGroup> groups) throws DataConversionException {
+		super(element, logic, groups);
+		this.rentByLevel = new int[Street.MAXMIMUM_BUILT_LEVEL];
+		/* 
+		 * These guys think that generics are out -.- *facepalm*
+		 * http://www.jdom.org/pipermail/jdom-interest/2002-July/010244.html
+		 */
+		List rents = element.getChildren("rent");
+		for (Object object : rents) {
+			this.rentByLevel[((Element) object).getAttribute("level").getIntValue()] = Integer.parseInt(((Element) object).getText());
+		}
 	}
 	
 	private void setRentAndBuiltLevel(int[] rentByLevel, int builtLevel) {

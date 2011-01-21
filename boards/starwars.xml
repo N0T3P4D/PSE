@@ -1,0 +1,351 @@
+<?xml version="1.0" encoding="uft-8"?>
+<board>
+	<fields>
+		<go pos="0">
+			<name>Los</name>
+		</go>
+		<street pos="1">
+			<name>Sumpf</name>
+			<group color="0" />
+			<price>1200</price>
+			<rent level="0">40</rent>
+			<rent level="1">200</rent>
+			<rent level="2">600</rent>
+			<rent level="3">1800</rent>
+			<rent level="4">3200</rent>
+			<rent level="5">5000</rent>
+		</street>
+		<card pos="2">
+			<name>Ereigniskarte</name>
+			<stack>event</stack>
+		</card>
+		<street pos="3">
+			<name>Jodas Hütte</name>
+			<group color="0" />
+			<price>1200</price>
+			<rent level="0">90</rent>
+			<rent level="1">400</rent>
+			<rent level="2">1200</rent>
+			<rent level="3">3600</rent>
+			<rent level="4">6400</rent>
+			<rent level="5">9000</rent>
+		</street>
+		<tax pos="4">
+			<name>Landungssteuer</name>
+			<amount>4000</amount>
+		</tax>
+		<station pos="5">
+			<name>TIE-Fighter</name>
+			<price>4000</price>
+		</station>
+		<street pos="6">
+			<name>EchoBasis</name>
+			<group color="1" />
+			<price>2000</price>
+			<rent level="0">120</rent>
+			<rent level="1">600</rent>
+			<rent level="2">1800</rent>
+			<rent level="3">5400</rent>
+			<rent level="4">8000</rent>
+			<rent level="5">11000</rent>
+		</street>
+		<card pos="7">
+			<name>Gemeinschaftskarte</name>
+			<stack>community</stack>
+		</card>
+		<street pos="8">
+			<name>EisSteppen</name>
+			<group color="1" />
+			<price>2000</price>
+			<rent level="0">120</rent>
+			<rent level="1">600</rent>
+			<rent level="2">1800</rent>
+			<rent level="3">5400</rent>
+			<rent level="4">8000</rent>
+			<rent level="5">11000</rent>
+		</street>
+		<street pos="9">
+			<name>Nordgebirge</name>
+			<group color="1" />
+			<price>2400</price>
+			<rent level="0">160</rent>
+			<rent level="1">800</rent>
+			<rent level="2">2000</rent>
+			<rent level="3">6000</rent>
+			<rent level="4">9000</rent>
+			<rent level="5">12000</rent>
+		</street>
+		<jail pos="10">
+			<name>Gefängnis</name>
+			<money>1000</money>
+			<rounds>3</rounds>
+		</jail>
+		<street pos="11">
+			<name>Lars Heimstatt</name>
+			<group color="2" />
+			<price>2800</price>
+			<rent level="0">200</rent>
+			<rent level="1">1000</rent>
+			<rent level="2">3000</rent>
+			<rent level="3">9000</rent>
+			<rent level="4">12500</rent>
+			<rent level="5">15000</rent>
+		</street>
+		<infrastructure pos="12">
+			<name>Kern-Reaktor</name>
+			<price>3000</price>
+		</infrastructure>
+		<street pos="13">
+			<name>Mos Eisley</name>
+			<group color="2" />
+			<price>2800</price>
+			<rent level="0">200</rent>
+			<rent level="1">1000</rent>
+			<rent level="2">3000</rent>
+			<rent level="3">9000</rent>
+			<rent level="4">12500</rent>
+			<rent level="5">15000</rent>
+		</street>
+		<street pos="14">
+			<name>Jabbas Palast</name>
+			<group color="2" />
+			<price>3200</price>
+			<rent level="0">240</rent>
+			<rent level="1">1200</rent>
+			<rent level="2">3600</rent>
+			<rent level="3">10000</rent>
+			<rent level="4">14000</rent>
+			<rent level="5">18000</rent>
+		</street>
+		<station pos="15">
+			<name>Millenium Falke</name>
+			<price>4000</price>
+		</station>
+		<street pos="16">
+			<name>Kommandozentrale</name>
+			<group color="3" />
+			<price>3600</price>
+			<rent level="0">280</rent>
+			<rent level="1">1400</rent>
+			<rent level="2">4000</rent>
+			<rent level="3">11000</rent>
+			<rent level="4">15000</rent>
+			<rent level="5">19000</rent>
+		</street>
+		<card pos="17">
+			<name>Ereigniskarte</name>
+			<stack>event</stack>
+		</card>
+		<street pos="18">
+			<name>Massassi Tempel</name>
+			<group color="3" />
+			<price>3600</price>
+			<rent level="0">280</rent>
+			<rent level="1">1400</rent>
+			<rent level="2">4000</rent>
+			<rent level="3">11000</rent>
+			<rent level="4">15000</rent>
+			<rent level="5">19000</rent>
+		</street>
+		<street pos="19">
+			<name>TempelThronsaal</name>
+			<group color="3" />
+			<price>4000</price>
+			<rent level="0">320</rent>
+			<rent level="1">1600</rent>
+			<rent level="2">4400</rent>
+			<rent level="3">12000</rent>
+			<rent level="4">16000</rent>
+			<rent level="5">20000</rent>
+		</street>
+		<freeparking pos="20">
+			<name>Frei Parken</name>
+		</freeparking>
+		<street pos="21">
+			<name>Andockbucht</name>
+			<group color="4" />
+			<price>4400</price>
+			<rent level="0">360</rent>
+			<rent level="1">1800</rent>
+			<rent level="2">5000</rent>
+			<rent level="3">14000</rent>
+			<rent level="4">17500</rent>
+			<rent level="5">21000</rent>
+		</street>
+		<card pos="22">
+			<name>Gemeinschaftskarte</name>
+			<stack>community</stack>
+		</card>
+		<street pos="23">
+			<name>KarbonGefrierkammer</name>
+			<group color="4" />
+			<price>4400</price>
+			<rent level="0">360</rent>
+			<rent level="1">1800</rent>
+			<rent level="2">5000</rent>
+			<rent level="3">14000</rent>
+			<rent level="4">17500</rent>
+			<rent level="5">21000</rent>
+		</street>
+		<street pos="24">
+			<name>ReaktorKontrollraum</name>
+			<group color="4">Wolkenstadt</group>
+			<price>4800</price>
+			<rent level="0">400</rent>
+			<rent level="1">2000</rent>
+			<rent level="2">6000</rent>
+			<rent level="3">15000</rent>
+			<rent level="4">18500</rent>
+			<rent level="5">22000</rent>
+		</street>
+		<station pos="25">
+			<name>X-Wing Fighter</name>
+			<price>4000</price>
+		</station>
+		<street pos="26">
+			<name>LandeDeck</name>
+			<group color="5" />
+			<price>5200</price>
+			<rent level="0">440</rent>
+			<rent level="1">2200</rent>
+			<rent level="2">6600</rent>
+			<rent level="3">16000</rent>
+			<rent level="4">19500</rent>
+			<rent level="5">23000</rent>
+		</street>
+		<street pos="27">
+			<name>Thronsaal</name>
+			<group color="5" />
+			<price>5200</price>
+			<rent level="0">440</rent>
+			<rent level="1">2200</rent>
+			<rent level="2">6600</rent>
+			<rent level="3">16000</rent>
+			<rent level="4">19500</rent>
+			<rent level="5">23000</rent>
+		</street>
+		<infrastructure pos="28">
+			<name>Wasser-Farm</name>
+			<price>3000</price>
+		</infrastructure>
+		<street pos="29">
+			<name>Hauptreaktor</name>
+			<group color="5" />
+			<price>5600</price>
+			<rent level="0">480</rent>
+			<rent level="1">2400</rent>
+			<rent level="2">7200</rent>
+			<rent level="3">17000</rent>
+			<rent level="4">20500</rent>
+			<rent level="5">24000</rent>
+		</street>
+		<gotojail pos="30">
+			<name>Gehe ins Gefängnis</name>
+		</gotojail>
+		<street pos="31">
+			<name>Wald</name>
+			<group color="6" />
+			<price>6000</price>
+			<rent level="0">520</rent>
+			<rent level="1">2600</rent>
+			<rent level="2">7800</rent>
+			<rent level="3">18000</rent>
+			<rent level="4">22000</rent>
+			<rent level="5">25500</rent>
+		</street>
+		<street pos="32">
+			<name>Schildgenerator</name>
+			<group color="6" />
+			<price>6000</price>
+			<rent level="0">520</rent>
+			<rent level="1">2600</rent>
+			<rent level="2">7800</rent>
+			<rent level="3">18000</rent>
+			<rent level="4">22000</rent>
+			<rent level="5">25500</rent>
+		</street>
+		<card pos="33">
+			<name>Ereigniskarte</name>
+			<stack>event</stack>
+		</card>
+		<street pos="34">
+			<name>EwokDorf</name>
+			<group color="6" />
+			<price>6400</price>
+			<rent level="0">560</rent>
+			<rent level="1">3000</rent>
+			<rent level="2">9000</rent>
+			<rent level="3">20000</rent>
+			<rent level="4">24000</rent>
+			<rent level="5">28000</rent>
+		</street>		
+		<station pos="35">
+			<name>Stern-Zerstörer</name>
+			<price>4000</price>
+		</station>
+		<card pos="36">
+			<name>Gemeinschaftskarte</name>
+			<stack>community</stack>
+		</card>		
+		<street pos="37">
+			<name>Platz des Volkes</name>
+			<group color="7" />
+			<price>7000</price>
+			<rent level="0">700</rent>
+			<rent level="1">3500</rent>
+			<rent level="2">10000</rent>
+			<rent level="3">22000</rent>
+			<rent level="4">26000</rent>
+			<rent level="5">30000</rent>
+		</street>
+		<tax pos="38">
+			<name>Kopf-Geld Prämie</name>
+			<amount>2000</amount>
+		</tax>
+		<street pos="39">
+			<name>Imperialer Palast</name>
+			<group color="7" />
+			<price>8000</price>
+			<rent level="0">1000</rent>
+			<rent level="1">4000</rent>
+			<rent level="2">12000</rent>
+			<rent level="3">28000</rent>
+			<rent level="4">34000</rent>
+			<rent level="5">40000</rent>
+		</street>
+	</fields>
+	<groups>
+		<group color="0">
+			<name>Dagobah</name>
+			<houseprice>1000</houseprice>
+		</group>
+		<group color="1">
+			<name>Hoth</name>
+			<houseprice>1000</houseprice>
+		</group>
+		<group color="2">
+			<name>Tatooine</name>
+			<houseprice>2000</houseprice>
+		</group>
+		<group color="3">
+			<name>Yavin 4</name>
+			<houseprice>2000</houseprice>
+		</group>
+		<group color="4">
+			<name>Wolkenstadt</name>
+			<houseprice>3000</houseprice>
+		</group>
+		<group color="5">
+			<name>Todesstern</name>
+			<houseprice>3000</houseprice>
+		</group>
+		<group color="6">
+			<name>Endor</name>
+			<houseprice>4000</houseprice>
+		</group>
+		<group color="7">
+			<name>Coruscant</name>
+			<houseprice>4000</houseprice>
+		</group>
+	</groups>
+</board>
