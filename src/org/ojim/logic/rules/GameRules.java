@@ -26,6 +26,7 @@ import org.ojim.logic.state.fields.Street;
 
 public class GameRules {
 
+	public static final int MAX_DOUBLES_ALLOWED = 3;
 	private GameState state;
 	private Rules rules;
 	
