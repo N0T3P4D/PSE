@@ -35,7 +35,7 @@ public abstract class BuyableField extends Field {
 
 	private int price;
 	private Player owner;
-	
+
 	private boolean mortgaged;
 	private int mortgagePrice;
 
@@ -44,19 +44,20 @@ public abstract class BuyableField extends Field {
 		this.price = price;
 		this.mortgagePrice = this.price / 2;
 	}
-	
+
 	public BuyableField(String name, int position, int price, ServerLogic logic) {
 		this(name, position, price);
 		this.setExecuteActions(new ActionPayFieldRent(logic, this));
 	}
-	
-	public BuyableField(Element element, ServerLogic logic, Map<Integer, FieldGroup> groups) throws DataConversionException {
+
+	public BuyableField(Element element, ServerLogic logic, Map<Integer, FieldGroup> groups)
+			throws DataConversionException {
 		super(element, groups);
 		this.price = Integer.parseInt(element.getChild("price").getText());
 		this.mortgagePrice = this.price / 2;
 		this.setExecuteActions(new ActionPayFieldRent(logic, this));
 	}
-	
+
 	public void buy(Player newOwner) {
 		// Remove previous owner
 		if (this.owner != null) {
@@ -97,10 +98,12 @@ public abstract class BuyableField extends Field {
 			Bank.exchangeMoney(player, this.owner, this.getRent());
 		}
 	}
-	
+
 	/**
-	 * Returns the owner of the user.
-	 * @return the owner of the user. If this field is buyable it returns <code>null</code>.
+	 * Returns the owner of the field.
+	 * 
+	 * @return the owner of the field. If this field has no owner it returns
+	 *         <code>null</code>.
 	 */
 	public Player getOwner() {
 		return this.owner;
