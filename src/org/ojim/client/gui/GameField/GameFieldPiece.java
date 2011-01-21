@@ -22,11 +22,20 @@ import java.awt.Image;
 
 import javax.swing.JPanel;
 
+import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
+import org.ojim.logic.state.fields.Field;
+
 public class GameFieldPiece extends JPanel {
+	
+	private FieldDrawer drawer;
 
 	// FIXME: cardID statt ID Objekt!
 	public GameFieldPiece(int cardId, String name, int position, Image image) {
 		
+	}
+	
+	public GameFieldPiece(Field field) {
+		this.drawer = FieldDrawer.getDrawer(field); 
 	}
 
 	@Override
