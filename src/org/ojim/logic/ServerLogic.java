@@ -208,6 +208,8 @@ public class ServerLogic extends Logic {
 			//Do the passthrough
 			this.getGameState().getFieldAt(position + i).passThrough();
 		}
+		player.setPosition(position + result);
+		System.out.println("Moved Player from " + position + " to " + player.getPosition() + ", roll was " + result);
 		//Do the Execute for the Field the Player is standing on
 		this.getGameState().getFieldAt(position + result).execute();
 		

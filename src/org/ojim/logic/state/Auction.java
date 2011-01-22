@@ -23,6 +23,7 @@ import java.util.TimerTask;
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 
 public class Auction {
 	
@@ -70,12 +71,20 @@ public class Auction {
 			}
 		}
 	}
+	
+	public Player getHighestBidder() {
+		return this.highestBidder;
+	}
+	
+	public int getHighestBid() {
+		return this.currentBid;
+	}
 		
 	public int getAuctionState() {
 		return this.auctionState;
 	}
 	
-	public void placeBid(Player bidder, int bid) {
+	public boolean placeBid(Player bidder, int bid) {
 		if(bid > currentBid) {
 			//Set the Bidder as the Highest Bidder
 			this.highestBidder = bidder;
@@ -91,8 +100,10 @@ public class Auction {
 				if(player instanceof ServerPlayer) {
 					((ServerPlayer)player).getClient().informAuction(this.auctionState);
 				}
-			}			
+			}	
+			return true;
 		}
+		return false;
 	}
 	
 	protected void tick() {
@@ -118,6 +129,10 @@ public class Auction {
 				}
 			}
 		}
+	}
+
+	public Field getObjective() {
+		return this.objective;
 	}
 	
 }

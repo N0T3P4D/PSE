@@ -25,6 +25,8 @@ import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.rules.GameRules;
+import org.ojim.logic.state.Auction;
+import org.ojim.logic.state.Card;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
@@ -60,10 +62,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	private ServerGameState state;
 	private ServerLogic logic;
 	private GameRules rules;
+	private List<Card> currentCards;
+	private Auction auction;
 
 	public OjimServer(String name) {
 		this.name = name;
 		this.gameStarted = false;
+		this.currentCards = new LinkedList<Card>();
 	}
 
 	boolean initGame(int playerCount, int aiCount) {
@@ -261,31 +266,42 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getAuctionState() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(auction != null) {
+			return auction.getAuctionState();
+		}
+		return false;
 	}
 
 	@Override
 	public int getAuctionedEstate() {
-		// TODO Auto-generated method stub
+		if(auction != null) {
+		return auction.getObjective().getPosition();
+		}
 		return 0;
 	}
 
 	@Override
 	public int getHighestBid() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(auction != null) {
+			return auction.getHighestBid();
+		}
+		return -1;
 	}
 
 	@Override
 	public int getBidder() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(auction != null) {
+			return auction.getHighestBidder().getId();
+		}
+		return -1;
 	}
 
 	@Override
 	public boolean placeBid(int playerID, int amount) {
-		// TODO Auto-generated method stub
+		Player player = state.getPlayerByID(playerID);
+		if(auction != null && player != null) {
+			return auction.placeBid(player, amount);
+		}
 		return false;
 	}
 
@@ -297,15 +313,17 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		return player.getPosition();
 	}
+	
+	public void addCurrentCard(Card card) {
+		this.currentCards.add(card);
+	}
+	
+	public List<Card> getCurrentCards() {
+		return this.currentCards;
+	}
 
 	@Override
 	public synchronized int addPlayer(IClient client) {
-
-		// TestClients are Threads to test things better
-		// if(client instanceof TestClient) {
-		// TestThread t = new TestThread((TestClient)client);
-		// t.start();
-		// }
 
 		display("Add Player!");
 
@@ -514,9 +532,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		display("Starting Roll");
 
-		if (player == null && player.equals(state.getActivePlayer())
-				&& this.gameStarted == false
-				&& !this.rules.isRollRequiredByActivePlayer()) {
+		if (player == null || player.equals(state.getActivePlayer())
+				|| this.gameStarted == false
+				|| !this.rules.isRollRequiredByActivePlayer()) {
 			return false;
 		}
 
@@ -583,13 +601,41 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean accept(int playerID) {
-		// TODO Auto-generated method stub
+		ServerPlayer player = state.getPlayerByID(playerID);
+		if(player == null || playerID != state.getActivePlayer().getId()) {
+			return false;
+		}
+		//First check if a Action needs Confirmation
+		Card card = state.getFirstWaitingCard();
+		if(card != null) {
+			//TODO dirty, change if time is left
+			card.accept();
+			state.RemoveWaitingCard(card);
+			return true;
+		} 
+		Field field = state.getFieldAt(player.getPosition());
+		if(field instanceof BuyableField && ((BuyableField)field).getOwner() == null) {
+			logic.buyStreet();
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean decline(int playerID) {
-		// TODO Auto-generated method stub
+		ServerPlayer player = state.getPlayerByID(playerID);
+		if(player == null || playerID != state.getActivePlayer().getId()) {
+			return false;
+		}
+		//First check if a Action needs Confirmation
+		Card card = state.getFirstWaitingCard();
+		if(card != null) {
+			//TODO dirty, change if time is left
+			String oldCardText = currentCards.get(0).text;
+			card.decline();
+			state.RemoveWaitingCard(card);
+			return true;
+		}
 		return false;
 	}
 
