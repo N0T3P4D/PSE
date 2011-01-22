@@ -62,10 +62,4 @@ public class AIClient extends ClientBase {
 	public void setReady() {
 		ready();
 	}
-	
-	@Override
-	public void informTurn(int player) {
-//		assert (player == super)
-		logger.log(Level.INFO, "Inform turn for client " + player);
-	}
 }

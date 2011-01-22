@@ -18,11 +18,8 @@
 package org.ojim.logic;
 
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import org.ojim.iface.IClient;
-import org.ojim.log.OJIMLogger;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.actions.Action;
@@ -44,138 +41,111 @@ import org.ojim.logic.state.fields.Jail;
  */
 public class ServerLogic extends Logic {
 
-	// AI
-	private Logger logger;
-
 	/**
-	 * Creates a new ServerLogic which contains Server-specific content
-	 * 
-	 * @param state
-	 *            The GameState on which the Logic applies
-	 * @param rules
-	 *            The GameRules that apply for this Server
+	 * Creates a new ServerLogic which contains Server-specific content 
+	 * @param state The GameState on which the Logic applies
+	 * @param rules The GameRules that apply for this Server
 	 */
 	public ServerLogic(ServerGameState state, GameRules rules) {
 		super(state, rules);
-		logger = OJIMLogger.getLogger(this.getClass().toString());
 	}
-
+	
 	public void setPlayerBankrupt(Player player) {
 		player.transferMoney(-(player.getBalance() + 1));
 		player.setBankrupt();
-
+		
 		// Inform All Players that this Player is bankrupt
 		for (Player onePlayer : this.getGameState().getPlayers()) {
-			if (onePlayer instanceof ServerPlayer) {
-				((ServerPlayer) onePlayer).sendMessage(
-						"Current Player is Bankrupt!", 0, false);
+			if(onePlayer instanceof ServerPlayer) {
+				((ServerPlayer)onePlayer).sendMessage("Current Player is Bankrupt!", 0, false);
 			}
-		}
+		}		
 	}
-
+	
 	/**
 	 * Start a new Turn in the Game
 	 */
 	public void startNewTurn() {
-		// AI
-		logger.log(Level.INFO, "Starting new turn");
-		// Get a new Player On Turn
+		//Get a new Player On Turn
 		this.GetNewPlayerOnTurn();
-
-		// Inform All Player that a new Turn has come
+		
+		//Inform All Player that a new Turn has come
 		for (Player onePlayer : this.getGameState().getPlayers()) {
-			// if (onePlayer instanceof ServerPlayer) {
-			logger.log(Level.INFO, "lol!");
-			((ServerPlayer) onePlayer).getClient().informTurn(
-					this.getGameState().getActivePlayer().getId());
-			// } else {
-			// logger.log(Level.INFO, "blub!");
-			// }
+			if(onePlayer instanceof ServerPlayer) {
+				((ServerPlayer)onePlayer).getClient().informTurn(this.getGameState().getActivePlayer().getId());
+			}
 		}
 	}
-
+	
 	/**
 	 * Called when a MoneyPot of a Free-Parking-Field should be emptied
-	 * 
 	 * @param field
 	 */
 	public void getFreeParkingMoney(FreeParking field) {
-		this.exchangeMoney(field, this.getGameState().getActivePlayer(),
-				field.getMoneyInPot());
+		this.exchangeMoney(field, this.getGameState().getActivePlayer(), field.getMoneyInPot());
 	}
-
+	
 	/**
 	 * Called when a Player should get into Jail
-	 * 
-	 * @param player
-	 *            The Player who is getting into Jail
-	 * @param jail
-	 *            the specific Jail where the Player goes to
+	 * @param player The Player who is getting into Jail
+	 * @param jail the specific Jail where the Player goes to
 	 */
 	public void sendPlayerToJail(ServerPlayer player, Jail jail) {
-		player.sendToJail(jail);
-		for (Player onePlayer : this.getGameState().getPlayers()) {
-			if (onePlayer instanceof ServerPlayer) {
-				((ServerPlayer) onePlayer).getClient().informMove(
-						-jail.getPosition(), player.getId());
-				// TODO Inform Players that this one is in Prison?
+		 player.sendToJail(jail);
+		 for (Player onePlayer : this.getGameState().getPlayers()) {
+			if(onePlayer instanceof ServerPlayer) {
+				((ServerPlayer)onePlayer).getClient().informMove(-jail.getPosition(), player.getId());
+				//TODO Inform Players that this one is in Prison?
 			}
 		}
 	}
-
+	
 	/**
-	 * Start a Game, sets the current Player and informs all Players the Game
-	 * has started
+	 * Start a Game, sets the current Player and informs all Players the Game has started
 	 */
 	public void startGame() {
-		// Set a random Player to be the StartPlayer
+		//Set a random Player to be the StartPlayer
 		int playerCount = this.getGameState().getPlayers().length;
 		int start = new Random().nextInt(playerCount);
 		this.getGameState().startGame(start);
-
+		
 		int[] ids = new int[playerCount];
 		int i = 0;
-		for (Player player : this.getGameState().getPlayers()) {
+		for(Player player : this.getGameState().getPlayers()) {
 			ids[i++] = player.getId();
 		}
-
-		// Send all Players notification that the Game has started
-		for (Player player : this.getGameState().getPlayers()) {
-			if (player instanceof ServerPlayer) {
-				// AI
-				IClient client = ((ServerPlayer) player).getClient();
+		
+		
+		//Send all Players notification that the Game has started
+		for(Player player : this.getGameState().getPlayers()) {
+			if(player instanceof ServerPlayer) {
+				IClient client = ((ServerPlayer)player).getClient();
 				client.informStartGame(ids);
 			}
 		}
-		// AI added
-		logger.log(Level.INFO, "Almost Starting new turn");
-		startNewTurn();
-
+		
 	}
-
+	
 	/**
 	 * Exchanges Money and informs all Players if payer or payee is a Player.
-	 * 
-	 * @param payer
-	 *            The Player paying Money.
-	 * @param payee
-	 *            The Player getting Money.
-	 * @param amount
-	 *            The amount of Money.
+	 * @param payer The Player paying Money.
+	 * @param payee The Player getting Money. 
+	 * @param amount The amount of Money.
 	 */
 	public void exchangeMoney(IMoneyPartner payer, IMoneyPartner payee,
 			int amount) {
 		Bank.exchangeMoney(payer, payee, amount);
-
-		// Inform other Players that Cash has changed
-		for (Player player : this.getGameState().getPlayers()) {
-			if (player instanceof ServerPlayer) {
-				IClient client = ((ServerPlayer) player).getClient();
-				if (payer instanceof Player) {
-					client.informCashChange(((Player) payer).getId(), -amount);
+		
+		
+		//Inform other Players that Cash has changed
+		for(Player player : this.getGameState().getPlayers()) {
+			if(player instanceof ServerPlayer) {
+				IClient client = ((ServerPlayer)player).getClient();
+				if(payer instanceof Player) {
+					client.informCashChange(((Player)payer).getId(), -amount);
 				}
-				if (payee instanceof Player) {
-					client.informCashChange(((Player) payee).getId(), amount);
+				if(payee instanceof Player) {
+					client.informCashChange(((Player)payee).getId(), amount);
 				}
 			}
 		}
@@ -183,31 +153,27 @@ public class ServerLogic extends Logic {
 
 	/**
 	 * Called when a Player should use a GetOutOfJail-Card
-	 * 
-	 * @param player
-	 *            The Player using the Card
+	 * @param player The Player using the Card
 	 */
 	public void playerUsesGetOutOfJailCard(ServerPlayer player) {
-		for (Card card : player.getCards()) {
-			if (card instanceof GetOutOfJailCard) {
+		for(Card card : player.getCards()) {
+			if(card instanceof GetOutOfJailCard) {
 				card.file();
 			}
 		}
 	}
 
 	public void playerUsesFineForJail(Player player) {
-
-		// Lets a Player pay money to get out of Jail
-		this.exchangeMoney(player, this.getGameState().getBank(), player
-				.getJail().getMoneyToPay());
+		
+		//Lets a Player pay money to get out of Jail
+		this.exchangeMoney(player, this.getGameState().getBank(), player.getJail().getMoneyToPay());
 		player.sendToJail(null);
-
-		// Inform all Player that the current Player is now out of Jail
+		
+		//Inform all Player that the current Player is now out of Jail
 		for (Player onePlayer : this.getGameState().getPlayers()) {
-			if (onePlayer instanceof ServerPlayer) {
-				// TODO Add Language
-				((ServerPlayer) onePlayer).getClient().informMessage(
-						"Current Player is now out of Jail!", 0, false);
+			if(onePlayer instanceof ServerPlayer) {
+				//TODO Add Language
+				((ServerPlayer)onePlayer).getClient().informMessage("Current Player is now out of Jail!", 0, false);
 			}
 		}
 	}
@@ -215,57 +181,54 @@ public class ServerLogic extends Logic {
 	public void GetNewPlayerOnTurn() {
 		Player[] players = this.getGameState().getPlayers();
 		Player currentPlayer = this.getGameState().getActivePlayer();
-		for (int i = 0; i < players.length; i++) {
-			if (players[i].equals(currentPlayer)) {
-				for (int j = 1; j < players.length; j++) {
-					if (players[i] != null && !players[i].getIsBankrupt()) {
+		for(int i = 0; i < players.length; i++) {
+			if(players[i].equals(currentPlayer)) {
+				for(int j = 1; j < players.length; j++) {
+					if(players[i] != null && !players[i].getIsBankrupt()) {
 						this.getGameState().setActivePlayer(players[i]);
 						this.getGameState().setActivePlayerNeedsToRoll(true);
 					}
 				}
 			}
 		}
-
+		
 	}
 
 	public void playerRolledOutOfJail(Player player) {
-
+		
 	}
 
 	public void movePlayerForDice(Player player, int result) {
-		// Do the passthrough-Action for all Fields the Player steps on
+		//Do the passthrough-Action for all Fields the Player steps on
 		int position = player.getPosition();
-		for (int i = 1; i >= result; i++) {
-			// Move Player 1 forward
+		for(int i = 1; i >= result; i++) {
+			//Move Player 1 forward
 			player.setPosition(position + i);
-
-			// Do the passthrough
+			
+			//Do the passthrough
 			this.getGameState().getFieldAt(position + i).passThrough();
 		}
 		player.setPosition(position + result);
-		System.out.println("Moved Player from " + position + " to "
-				+ player.getPosition() + ", roll was " + result);
-		// Do the Execute for the Field the Player is standing on
+		System.out.println("Moved Player from " + position + " to " + player.getPosition() + ", roll was " + result);
+		//Do the Execute for the Field the Player is standing on
 		this.getGameState().getFieldAt(position + result).execute();
-
+		
 	}
 
-	public void changeFieldOwner(Player oldOwner, Player newOwner,
-			BuyableField field) {
+	public void changeFieldOwner(Player oldOwner, Player newOwner, BuyableField field) {
 		int newOwnerId = -1;
-		// Take away the Field from the old Owner
-		if (oldOwner != null) {
+		//Take away the Field from the old Owner
+		if(oldOwner != null) {
 			oldOwner.removeField(field);
 		}
-		if (newOwner != null) {
+		if(newOwner != null) {
 			newOwner.addField(field);
 			newOwnerId = newOwner.getId();
 		}
-
-		for (Player player : this.getGameState().getPlayers()) {
-			if (player instanceof ServerPlayer) {
-				((ServerPlayer) player).getClient().informBuy(newOwnerId,
-						field.getPosition());
+		
+		for(Player player : this.getGameState().getPlayers()) {
+			if(player instanceof ServerPlayer) {
+				((ServerPlayer)player).getClient().informBuy(newOwnerId, field.getPosition());
 			}
 		}
 	}
