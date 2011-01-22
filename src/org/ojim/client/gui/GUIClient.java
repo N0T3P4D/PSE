@@ -51,19 +51,24 @@ public class GUIClient extends ClientBase {
 
 		setMenuState(MenuState.game);
 
-		LanguageDefinition languageDefinition = new LanguageDefinition(
-				"Maximilian", "English", "English", "eng", new File(
-						"org/ojim/language/langs/eng.lang"));
+//		LanguageDefinition languageDefinition = new LanguageDefinition(
+//				"Maximilian", "English", "English", "eng", new File(
+//						"org/ojim/language/langs/eng.lang"));
 		// LanguageDefinition languageDefinition = new LanguageDefinition(
 		// "Maximilian", "Deutsch", "German", "deu", new File(
 		// "org/ojim/language/langs/deu.lang"));
 
 		Localizer language = new Localizer();
-		language.getLanguages();
+		LanguageDefinition[] langs = language.getLanguages();
+		if (langs.length == 0) {
+			System.out.println("No languagefile found.");
+		}
+		for (LanguageDefinition lang : langs) {
+			System.out.println("Found language: " + lang.name + " (" + lang.englishName + " code: " + lang.code + ")");
+		}
 
-		// language.setLanguage("deu");
-		language.setLanguage(languageDefinition);
-		// language.setLanguage("fra");
+		if (langs.length > 0)
+			language.setLanguage(langs[0]);
 
 		GUIFrame = new JFrame(language.getText("ojim"));
 
