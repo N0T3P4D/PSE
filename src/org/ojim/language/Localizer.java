@@ -106,7 +106,8 @@ public class Localizer {
 		try {
 			BufferedReader in = new BufferedReader(new FileReader(
 					definition.file));
-
+			
+			
 			String string;
 
 			while ((string = in.readLine()) != null) {
@@ -135,7 +136,7 @@ public class Localizer {
 					if (delim < 1) {
 						// TODO: No "=" found/"=" is first char?!
 					} else {
-						String key = string.substring(0, delim - 1).trim();
+						String key = string.substring(0, delim).trim();
 						String value = string.substring(delim + 1).trim();
 						this.strings.put(key, value);
 					}

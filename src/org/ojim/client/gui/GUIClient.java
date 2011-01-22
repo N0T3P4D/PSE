@@ -51,12 +51,12 @@ public class GUIClient extends ClientBase {
 
 		setMenuState(MenuState.game);
 
-		// LanguageDefinition languageDefinition = new
-		// LanguageDefinition("Maximilian", "English", "English", "eng", new
-		// File("org/ojim/language/eng.lang") );
 		LanguageDefinition languageDefinition = new LanguageDefinition(
-				"Maximilian", "deutsch", "German", "deu", new File(
-						"org/ojim/language/deu.lang"));
+				"Maximilian", "English", "English", "eng", new File(
+						"org/ojim/language/langs/eng.lang"));
+		// LanguageDefinition languageDefinition = new LanguageDefinition(
+		// "Maximilian", "Deutsch", "German", "deu", new File(
+		// "org/ojim/language/langs/deu.lang"));
 
 		Localizer language = new Localizer();
 		language.getLanguages();
@@ -65,9 +65,7 @@ public class GUIClient extends ClientBase {
 		language.setLanguage(languageDefinition);
 		// language.setLanguage("fra");
 
-		GUIFrame = new JFrame("OJim");
-		
-		System.out.println(language.getText("file"));
+		GUIFrame = new JFrame(language.getText("ojim"));
 
 		MenuBar menubar = new MenuBar(language);
 
@@ -103,13 +101,11 @@ public class GUIClient extends ClientBase {
 		switch (menuState) {
 
 		case mainMenu:
-			
-			//TODO Ein schönes Bild, oder ein Vorschauspiel vielleicht?
-			
-			
+
+			// TODO Ein schönes Bild, oder ein Vorschauspiel vielleicht?
+
 			break;
-			
-			
+
 		case waitRoom:
 
 			JPanel window = new JPanel();
@@ -118,29 +114,23 @@ public class GUIClient extends ClientBase {
 
 			window.setLayout(new GridLayout(1, 0));
 			rightWindow.setLayout(new GridLayout(0, 1));
-			
-			
+
 			playerInfoWindow = new PlayerInfoWindow(language);
 			chatWindow = new ChatWindow(language);
 
 			rightWindow.add(playerInfoWindow);
 			leftWindow.add(chatWindow);
-			
-			
+
 			JButton button;
 			button = new JButton(language.getText("ready"));
 			rightWindow.add(button);
-			
-			
 
 			window.add(leftWindow);
 			window.add(rightWindow);
-			
-			
+
 			GUIFrame.add(window);
 			break;
-		
-		
+
 		case game:
 
 			gameField = new GameField();

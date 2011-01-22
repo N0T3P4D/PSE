@@ -35,7 +35,6 @@ public class PlayerInfoWindow extends JPanel {
 		
 		this.language = language;
 		
-		System.out.print(language.getText("ojim"));
 		
 		playerInfoFields = new PlayerInfoField[MAX_PLAYERS];
 		
