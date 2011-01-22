@@ -30,6 +30,8 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.Card.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
+import org.ojim.client.gui.RightBar.ChatWindow;
+import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
 
