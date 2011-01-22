@@ -19,22 +19,33 @@ package org.ojim.client.ai.commands;
 
 import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
-
 import edu.kit.iti.pse.iface.IServer;
+
 /**
  * 
  * @author Jeremias Mechler
- *
+ * 
  */
 public class AcceptCommand extends SimpleClient implements Command {
 
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 */
 	public AcceptCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
 	}
-	
+
 	@Override
 	public void execute() {
-		this.accept();		
+		this.accept();
 	}
 
 }

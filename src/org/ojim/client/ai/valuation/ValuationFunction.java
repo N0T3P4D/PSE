@@ -34,6 +34,9 @@ public abstract class ValuationFunction {
 	// xZise: Implicit set by logic (logic.getGameState)
 	// protected GameState state;
 
+	/**
+	 * Constructor
+	 */
 	protected ValuationFunction() {
 	}
 
@@ -41,13 +44,29 @@ public abstract class ValuationFunction {
 
 	// xZise: Falls du das brauchst ;) Eine Möglichkeit
 
-	public static ValuationFunction getInstance(
-			Class<? extends ValuationFunction> clazz) {
+	/**
+	 * 
+	 * Gets you an instance of clazz
+	 * 
+	 * @param clazz
+	 *            Class
+	 * @return Instance
+	 * 
+	 */
+	public static ValuationFunction getInstance(Class<? extends ValuationFunction> clazz) {
 		return CapitalValuator.getInstance(false, clazz);
 	}
 
-	public static ValuationFunction getInstance(boolean forceNew,
-			Class<? extends ValuationFunction> clazz) {
+	/**
+	 * Gets you an instance
+	 * 
+	 * @param forceNew
+	 *            Do you need a new instance?
+	 * @param clazz
+	 *            Class
+	 * @return Instance
+	 */
+	public static ValuationFunction getInstance(boolean forceNew, Class<? extends ValuationFunction> clazz) {
 		if (instance == null) {
 			try {
 				instance = clazz.newInstance();
@@ -62,23 +81,51 @@ public abstract class ValuationFunction {
 		return instance;
 	}
 
+	/**
+	 * Sets logic and rules
+	 * 
+	 * @param logic
+	 *            logic
+	 * @param rules
+	 *            rules
+	 */
 	public void setParameters(Logic logic, GameRules rules) {
 		this.logic = logic;
 		this.rules = rules;
 	}
 
+	/**
+	 * Get Logic
+	 * 
+	 * @return reference to logic
+	 */
 	protected final Logic getGameLogic() {
 		return this.logic;
 	}
 
+	/**
+	 * Get Rules
+	 * 
+	 * @return reference to rules
+	 */
 	protected final GameRules getGameRules() {
 		return this.rules;
 	}
 
+	/**
+	 * Get State
+	 * 
+	 * @return reference to state
+	 */
 	protected final GameState getGameState() {
 		return this.logic.getGameState();
 	}
 
+	/**
+	 * Returns valuation
+	 * 
+	 * @return Valuation as double
+	 */
 	public abstract double returnValuation();
 
 }

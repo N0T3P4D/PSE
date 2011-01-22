@@ -22,12 +22,29 @@ import org.ojim.logic.Logic;
 
 import edu.kit.iti.pse.iface.IServer;
 
+/**
+ * Auction command for running an auction
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
 public class AuctionCommand extends SimpleClient implements Command {
 
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 */
 	public AuctionCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
 	}
-	
+
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub

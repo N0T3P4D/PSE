@@ -30,11 +30,17 @@ import org.ojim.logic.state.GameState;
 
 import edu.kit.iti.pse.iface.IServer;
 
+/**
+ * Valuator - returns the best command
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
 public class Valuator {
 
-	double weights[];
+	double[] weights;
 	GameState state;
-	ValuationFunction valuationFunctions[];
+	ValuationFunction[] valuationFunctions;
 	Logic logic;
 	IServer server;
 	int playerID;
@@ -43,10 +49,22 @@ public class Valuator {
 	CapitalValuator capitalValuator;
 	PropertyValuator propertyValuator;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param state
+	 *            reference to state
+	 * @param logic
+	 *            reference to logic
+	 * @param server
+	 *            reference to server
+	 * @param playerID
+	 *            The player's ID
+	 */
 	public Valuator(GameState state, Logic logic, IServer server, int playerID) {
 		weights = new double[6];
-		for (double weight : weights) {
-			weight = 1;
+		for (int i = 0; i < weights.length; i++) {
+			weights[i] = 1;
 		}
 		valuationFunctions = new ValuationFunction[6];
 		this.state = state;
@@ -55,6 +73,13 @@ public class Valuator {
 		this.logic = logic;
 	}
 
+	/**
+	 * Returns the best command
+	 * 
+	 * @param pos
+	 *            current position
+	 * @return command
+	 */
 	public Command returnBestCommand(int pos) {
 		Field field = state.getFieldByID(pos);
 		// Jail?
@@ -69,10 +94,11 @@ public class Valuator {
 			double valuation = weights[0] * propertyValuator.returnValuation() + weights[1]
 					* capitalValuator.returnValuation(((BuyableField) field).getPrice());
 
-			if (valuation > 0)
+			if (valuation > 0) {
 				return new DeclineCommand(logic, server, playerID);
-			else
+			} else {
 				return new AcceptCommand(logic, server, playerID);
+			}
 		}
 		return null;
 	}

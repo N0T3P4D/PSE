@@ -22,8 +22,26 @@ import org.ojim.logic.Logic;
 
 import edu.kit.iti.pse.iface.IServer;
 
+/**
+ * 
+ * Common class for trades
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
 public class TradeCommand extends SimpleClient implements Command {
 
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 */
 	public TradeCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
 	}
@@ -31,7 +49,6 @@ public class TradeCommand extends SimpleClient implements Command {
 	@Override
 	public void execute() {
 		// TODO Auto-generated method stub
-
 	}
 
 }

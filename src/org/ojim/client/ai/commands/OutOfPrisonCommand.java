@@ -23,10 +23,28 @@ import org.ojim.logic.Logic;
 
 import edu.kit.iti.pse.iface.IServer;
 
+/**
+ * 
+ * Gets you out of prison
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
 public class OutOfPrisonCommand extends SimpleClient implements Command {
 
 	AIClient client;
 
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 */
 	public OutOfPrisonCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
 	}

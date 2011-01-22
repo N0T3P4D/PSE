@@ -17,11 +17,21 @@
 
 package org.ojim.client.ai.valuation;
 
-public class MortgageValuator extends ValuationFunction {
+/**
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
+public final class MortgageValuator extends ValuationFunction {
 
 	private MortgageValuator() {
 	}
 
+	/**
+	 * This is a singleton object!
+	 * 
+	 * @return An instance
+	 */
 	public static ValuationFunction getInstance() {
 		return ValuationFunction.getInstance(false, MortgageValuator.class);
 	}
