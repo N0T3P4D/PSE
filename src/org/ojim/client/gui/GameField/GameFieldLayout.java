@@ -79,13 +79,23 @@ public class GameFieldLayout implements LayoutManager {
 
 			// Kartengröße
 			int cardWidth = (int) (maxSize * 1 / 13);
-			int cardHeight = (int) (maxSize * 2 / 13);
+			int cardHeight = 2 * cardWidth;
 
 			// Mittelfeldgröße
-			int middleFieldSize = maxSize - 2 * cardHeight;
+			int middleFieldSize = 9 * cardWidth;
+			/*
+			 * System.out.println("totalWidth: " + totalWidth);
+			 * System.out.println("totalHeight: " + totalHeight);
+			 * System.out.println("maxSize: " + maxSize);
+			 * System.out.println("cardWidth: " + cardWidth);
+			 * System.out.println("cardHeight: " + cardHeight);
+			 */
+			// Rundungsfehler vermeiden, alle Zahlen werden aus CardWitdh
+			// aufgebaut
+			maxSize = middleFieldSize + 2 * cardHeight;
 
 			if (c.isVisible()) {
-
+				// System.out.println("Container "+c.getName());
 				// Feld Position
 				int field = Integer.parseInt(c.getName());
 				int fieldNumber = field % 10;
@@ -95,6 +105,7 @@ public class GameFieldLayout implements LayoutManager {
 				if (field == -1) {
 					c.setBounds(cardHeight, cardHeight, middleFieldSize,
 							middleFieldSize);
+					// System.out.println("Mittelfeld ist da");
 					// Randfelder
 				} else if (field % 10 == 0) {
 					switch (field) {
@@ -103,14 +114,14 @@ public class GameFieldLayout implements LayoutManager {
 								middleFieldSize + cardHeight, cardHeight,
 								cardHeight);
 						break;
-					case 1:
+					case 10:
 						c.setBounds(0, middleFieldSize + cardHeight,
 								cardHeight, cardHeight);
 						break;
-					case 2:
+					case 20:
 						c.setBounds(0, 0, cardHeight, cardHeight);
 						break;
-					case 3:
+					case 30:
 						c.setBounds(middleFieldSize + cardHeight, 0,
 								cardHeight, cardHeight);
 						break;
@@ -118,21 +129,21 @@ public class GameFieldLayout implements LayoutManager {
 					// Felder unten
 				} else if (field < 10) {
 					c.setBounds(middleFieldSize + cardHeight
-							- (fieldNumber * cardWidth), middleFieldSize
+							- ((fieldNumber % 10) * cardWidth), middleFieldSize
 							+ cardHeight, cardWidth, cardHeight);
 					// Felder links
 				} else if (field < 20) {
 					c.setBounds(0, middleFieldSize + cardHeight
-							+ (fieldNumber * cardWidth), cardHeight, cardWidth);
+							- ((fieldNumber % 10) * cardWidth), cardHeight,
+							cardWidth);
 					// Felder oben
 				} else if (field < 30) {
-					c.setBounds(middleFieldSize + cardHeight
-							- (fieldNumber * cardWidth), 0, cardWidth,
-							cardHeight);
+					c.setBounds(((fieldNumber % 10) * cardWidth) + cardWidth,
+							0, cardWidth, cardHeight);
 					// Felder rechts
 				} else {
-					c.setBounds(middleFieldSize + cardHeight, middleFieldSize
-							+ cardHeight + (fieldNumber * cardWidth),
+					c.setBounds(middleFieldSize + cardHeight, cardHeight
+							+ ((fieldNumber % 10) * cardWidth) - cardWidth,
 							cardHeight, cardWidth);
 				}
 			}

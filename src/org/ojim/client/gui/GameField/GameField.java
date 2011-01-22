@@ -22,12 +22,14 @@ import java.awt.GridLayout;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.ojim.client.gui.StreetColor;
+
 public class GameField extends JPanel {
 
 	public GameField() {
 		super();
 		// 1 Eckfeld = 2, sonst jeweils 1
-
+		/*
 		for (int i = 0; i < 13 * 13; i++) {
 			if (i % 13 == 0 || i % 13 == 1 || i % 13 == 11 || i % 13 == 12
 					|| i < 13 * 2 || i > 13 * 11) {
@@ -36,8 +38,31 @@ public class GameField extends JPanel {
 				this.add(new JLabel("."));
 			}
 		}
+		*/
+		
+		this.setLayout(new GameFieldLayout());
+		
 
-		this.setLayout(new GridLayout(13, 13));
+		JPanel actualLabel = new JPanel();
+
+		actualLabel.setBackground(StreetColor.getBackGroundColor(2));
+		
+		actualLabel.setName(-1+"");
+		this.add(actualLabel);
+		
+		for(int i = 0; i<41; i++){
+			actualLabel = new JPanel();
+			if(i%2 == 0){
+				actualLabel.setBackground(StreetColor.getBackGroundColor(0));
+			} else {
+				actualLabel.setBackground(StreetColor.getBackGroundColor(1));				
+			}
+			actualLabel.setName(i+"");
+			this.add(actualLabel);
+		}
+		
+
+		//this.setLayout(new GridLayout(13, 13));
 		// System.out.println("X: " + this.getWidth() + ", Y: " +
 		// this.getHeight());
 

@@ -45,6 +45,13 @@ public class PlayerInfoField extends JPanel {
 		this.player = player;
 		isTurnedOn = false;
 		this.cash = cash;
+		
+
+		activeLabel = new JLabel();
+		nameLabel = new JLabel(this.player.getName());
+		cashLabel = new JLabel(this.cash + " " + 
+				language.getText("currency"));
+		
 		draw();
 	}
 
@@ -62,13 +69,15 @@ public class PlayerInfoField extends JPanel {
 		this.setBackground(PlayerColor.getBackGroundColor(player.getColor()));
 
 		this.setBorder(getBorder());
-		
-		activeLabel = new JLabel(language.getText("ojim"));
-		nameLabel = new JLabel(this.player.getName());
-		cashLabel = new JLabel(this.cash + " " + 
-				language.getText("currency"));
 
 		// TODO Schriftfarbe, Schriftgröße
+		
+		if(isTurnedOn){
+			activeLabel = new JLabel("On");
+		} else {
+			activeLabel = new JLabel("Off");
+		}
+		
 		
 		// Eigener Layouter?
 		this.setLayout(new GridLayout(0,3));
