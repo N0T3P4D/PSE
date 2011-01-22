@@ -70,6 +70,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	private Auction auction;
 	private Trade trade;
 
+	//AI added
 	private AIClient aiClients[];
 
 	Logger logger;
@@ -78,6 +79,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.name = name;
 		this.gameStarted = false;
 		this.currentCards = new LinkedList<Card>();
+		//AI added for AI
 		this.state = new ServerGameState();
 		this.rules = new GameRules(this.state, new Rules());
 		this.logic = new ServerLogic(this.state, this.rules);
@@ -102,13 +104,15 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		clients = new LinkedList<IClient>();
 
 		aiClients = new AIClient[aiCount];
-		// Add AIClients to the Game
+		//AI Add AIClients to the Game
 		for (int i = 0; i < aiCount; i++) {
+			//AI changed
 			aiClients[i] = new AIClient(this, logic, i);
 			addPlayer((IClient) aiClients[i]);
 			logger.log(Level.CONFIG, "AI Client " + i + " added!");
 			aiClients[i].setReady();
 		}
+		//AI added
 		logger.log(Level.CONFIG, "All AI clients added");
 		// Open the Game
 		isOpen = true;
@@ -434,10 +438,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public void setPlayerReady(int playerID) {
 
 		display("Set Player " + playerID + " ready!");
+		//AI added
 		assert (state != null);
 		state.getPlayerByID(playerID).setIsReady(true);
+		//AI added
 		logger.log(Level.INFO, "Number of connected players = " + connectedClients);
 		// Are all players Ready? then start the game
+		//AI "test" client doesn't set itself ready, ignore it
 		//if (this.connectedClients == this.maxClients) {
 		if (this.connectedClients == aiClients.length) {
 			for (int i = 0; i < connectedClients; i++) {
@@ -455,6 +462,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private void startGame() {
+		//AI moved logic and rules
 
 		this.display("Started a Game!");
 		this.gameStarted = true;

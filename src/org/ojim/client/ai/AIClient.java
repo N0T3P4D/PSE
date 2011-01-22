@@ -58,4 +58,8 @@ public class AIClient extends ClientBase {
 		}
 		super.setParameters(logic, playerID, server);
 	}
+	
+	public void setReady() {
+		ready();
+	}
 }
