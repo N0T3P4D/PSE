@@ -75,18 +75,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	Logger logger;
 
-	private AIClient aiClients[];
-
-	Logger logger;
-
 	public OjimServer(String name) {
 		this.name = name;
 		this.gameStarted = false;
-<<<<<<< HEAD
 		this.currentCards = new LinkedList<Card>();
 		//AI added for AI
-=======
->>>>>>> ee9c146425fec6c603100a41c7ee18f13d50a106
 		this.state = new ServerGameState();
 		this.rules = new GameRules(this.state, new Rules());
 		this.logic = new ServerLogic(this.state, this.rules);
@@ -111,23 +104,15 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		clients = new LinkedList<IClient>();
 
 		aiClients = new AIClient[aiCount];
-<<<<<<< HEAD
 		//AI Add AIClients to the Game
 		for (int i = 0; i < aiCount; i++) {
 			//AI changed
-=======
-		// Add AIClients to the Game
-		for (int i = 0; i < aiCount; i++) {
->>>>>>> ee9c146425fec6c603100a41c7ee18f13d50a106
 			aiClients[i] = new AIClient(this, logic, i);
 			addPlayer((IClient) aiClients[i]);
 			logger.log(Level.CONFIG, "AI Client " + i + " added!");
 			aiClients[i].setReady();
 		}
-<<<<<<< HEAD
 		//AI added
-=======
->>>>>>> ee9c146425fec6c603100a41c7ee18f13d50a106
 		logger.log(Level.CONFIG, "All AI clients added");
 		// Open the Game
 		isOpen = true;
@@ -453,7 +438,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public void setPlayerReady(int playerID) {
 
 		display("Set Player " + playerID + " ready!");
-<<<<<<< HEAD
 		//AI added
 		assert (state != null);
 		state.getPlayerByID(playerID).setIsReady(true);
@@ -461,12 +445,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		logger.log(Level.INFO, "Number of connected players = " + connectedClients);
 		// Are all players Ready? then start the game
 		//AI "test" client doesn't set itself ready, ignore it
-=======
-		assert (state != null);
-		state.getPlayerByID(playerID).setIsReady(true);
-		logger.log(Level.INFO, "Number of connected players = " + connectedClients);
-		// Are all players Ready? then start the game
->>>>>>> ee9c146425fec6c603100a41c7ee18f13d50a106
 		//if (this.connectedClients == this.maxClients) {
 		if (this.connectedClients == aiClients.length) {
 			for (int i = 0; i < connectedClients; i++) {
@@ -484,10 +462,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private void startGame() {
-<<<<<<< HEAD
 		//AI moved logic and rules
-=======
->>>>>>> ee9c146425fec6c603100a41c7ee18f13d50a106
 
 		this.display("Started a Game!");
 		this.gameStarted = true;
@@ -654,14 +629,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		display("Starting Roll");
 
-<<<<<<< HEAD
 		if (player == null || player.equals(state.getActivePlayer())
 				|| this.gameStarted == false
 				|| !this.rules.isRollRequiredByActivePlayer()) {
-=======
-		if (player == null && player.equals(state.getActivePlayer()) && this.gameStarted == false
-				&& !this.rules.isRollRequiredByActivePlayer()) {
->>>>>>> ee9c146425fec6c603100a41c7ee18f13d50a106
 			return false;
 		}
 
