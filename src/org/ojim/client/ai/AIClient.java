@@ -56,7 +56,8 @@ public class AIClient extends ClientBase {
 		if (logic == null) {
 			throw new IllegalArgumentException("Logic == null");
 		}
-		super.setParameters(logic, playerID, server);
+//		super.setParameters(logic, playerID, server);
+		connect(server);
 	}
 	
 	public void setReady() {
