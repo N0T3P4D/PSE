@@ -192,6 +192,8 @@ public class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public void informCardPull(String text, boolean communityCard) {
+		Player active = this.getGameState().getActivePlayer();
+		active.setNumberOfGetOutOfJailCards(this.getNumberOfGetOutOfJailCards(active.getId()));
 		// TODO Auto-generated method stub
 
 	}

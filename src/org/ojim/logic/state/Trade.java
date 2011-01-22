@@ -80,6 +80,20 @@ public class Trade {
 	}
 
 	/**
+	 * @param offeredNumberOfGetOutOfJailCards the offeredNumberOfGetOutOfJailCards to set
+	 */
+	public void setOfferedNumberOfGetOutOfJailCards(int offeredNumberOfGetOutOfJailCards) {
+		this.offeredNumberOfGetOutOfJailCards = offeredNumberOfGetOutOfJailCards;
+	}
+
+	/**
+	 * @param requiredNumberOfGetOutOfJailCards the requiredNumberOfGetOutOfJailCards to set
+	 */
+	public void setRequiredNumberOfGetOutOfJailCards(int requiredNumberOfGetOutOfJailCards) {
+		this.requiredNumberOfGetOutOfJailCards = requiredNumberOfGetOutOfJailCards;
+	}
+
+	/**
 	 * @return the required number of GetOutOfJailCards
 	 */
 	public int getRequiredNumberOfGetOutOfJailCards() {
@@ -99,14 +113,6 @@ public class Trade {
 	
 	public void setRequiredCash(int amount) {
 		this.requiredCash = amount;
-	}
-
-	/**
-	 * Sets the number of "get out of jail cards" in the trade.
-	 * @param amount The number of cards. Set it to a negative value to receive the cards. 
-	 */	
-	public void setNumberOfGetOutOfJailCards(int count) {
-		this.numberOfGetOutOfJailCards = count;
 	}
 	
 	/**

@@ -17,6 +17,9 @@
 
 package org.ojim.logic.state;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.ojim.iface.IClient;
 
 public class ServerPlayer extends Player {
@@ -24,8 +27,11 @@ public class ServerPlayer extends Player {
 	private final IClient client;
 	private String gameStatusMessage;
 	
+	private List<Card> cards;
+	
 	public ServerPlayer(String name, int position, int balance, int id, int color, IClient client) {
 		super(name, position, balance, id, color);
+		this.cards = new ArrayList<Card>(2);
 		this.client = client;
 		this.gameStatusMessage = "";
 	}
@@ -41,6 +47,32 @@ public class ServerPlayer extends Player {
 
 	public String getGameStatusMessage() {
 		return this.gameStatusMessage;
+	}
+	
+	public List<Card> getCards() {
+		return this.cards;
+	}
+
+	/* CARD STACK */
+
+	/**
+	 * Inserts a card in the players card stack.
+	 * 
+	 * @param card
+	 *            New card in the stack.
+	 */
+	public void addCard(Card card) {
+		this.cards.add(card);
+	}
+
+	/**
+	 * Removes the card from the players card stack.
+	 * 
+	 * @param card
+	 *            The card which will be removed.
+	 */
+	public void removeCard(Card card) {
+		this.cards.remove(card);
 	}
 
 }

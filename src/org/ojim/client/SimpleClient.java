@@ -136,6 +136,10 @@ public class SimpleClient {
 		return this.server.getEstateHousePrice(position);
 	}
 
+	public int getNumberOfGetOutOfJailCards(int playerID) {
+		return this.server.getNumberOfGetOutOfJailCards(playerID);
+	}
+	
 	/*
 	 * ADITIONAL GETTER
 	 */
