@@ -15,29 +15,37 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.ai;
+package org.ojim.client.ai.valuation;
 
 import org.ojim.logic.state.Player;
 
 /**
  * 
- * Die Klasse CapitalValuator bewertet, ob sich der KI-Client leisten kann, Geld
- * auszugeben
+ * Die Klasse CapitalValuator bewertet, ob sich der KI-Client leisten kann, Geld auszugeben
  * 
  * @author Jeremias Mechler
  */
-public class CapitalValuator extends ValuationFunction {
+public final class CapitalValuator extends ValuationFunction {
 
-	private CapitalValuator() {}
-	
+	private CapitalValuator() {
+	}
+
+	/**
+	 * This is a singleton object!
+	 * 
+	 * @return An instance
+	 */
 	public static ValuationFunction getInstance() {
 		return ValuationFunction.getInstance(false, CapitalValuator.class);
 	}
-	
-//	public void foo() {
-//		(CapitalValuator.getInstance()).returnValuation();
-//	}
 
+	/**
+	 * Sometimes we have to specify an amount, for example if we want to buy something
+	 * 
+	 * @param amount
+	 *            Amount of money
+	 * @return Valuation
+	 */
 	public double returnValuation(int amount) {
 		// Da die Klasse ein Singleton ist, muss der aktive Spieler bei jedem
 		// Aufruf bestimmt werden
@@ -49,24 +57,24 @@ public class CapitalValuator extends ValuationFunction {
 		int max = 0;
 		Player[] players = this.getGameState().getPlayers();
 		for (Player player : players) {
-			if (player == currentPlayer)
+			if (player == currentPlayer) {
 				continue;
+			}
 			sum += player.getBalance();
-			if (player.getBalance() > max)
+			if (player.getBalance() > max) {
 				max = player.getBalance();
+			}
 		}
 
 		// Nach dem Papier
-		double required = ValuationParameters.baseCash
-				+ ValuationParameters.averageCashPercentage
-				* (((double) sum / (double) (players.length - 1)) + sum)
-				+ ValuationParameters.maxCashPercentage * max;
+		double required = ValuationParameters.baseCash + ValuationParameters.averageCashPercentage
+				* (((double) sum / (double) (players.length - 1)) + sum) + ValuationParameters.maxCashPercentage * max;
 
-		if (currentPlayer.getBalance() - amount >= required)
+		if (currentPlayer.getBalance() - amount >= required) {
 			return 1;
-		else
+		} else {
 			return 0;
-
+		}
 	}
 
 	@Override
