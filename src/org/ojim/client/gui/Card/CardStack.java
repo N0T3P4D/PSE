@@ -35,20 +35,19 @@ public class CardStack extends JPanel {
 		// TODO Auto-generated constructor stub
 	}
 
-	// FIXME: INT
-	// TODO: (xZise) Klassen statt untypisierte Zahlen!
-	public void addCard(int cardId) {
+	// Um verwechslungen mit der GUI Card zu vermeiden, die ausführliche
+	// Beschreibung
+	public void addCard(org.ojim.logic.state.Card card) {
 
 	}
 
-	// TODO: (xZise) Klassen statt untypisierte Zahlen!
-	public void removeCard(int cardId) {
+	public void removeCard(org.ojim.logic.state.Card card) {
 
 	}
 
 	public void setLanguage(Localizer language) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 }

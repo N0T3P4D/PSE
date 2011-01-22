@@ -19,15 +19,16 @@ package org.ojim.client.gui.GameField;
 
 import java.awt.Image;
 
-@SuppressWarnings("serial")
+import org.ojim.logic.state.Player;
+
+
 public class GameFieldCard extends GameFieldPiece {
 
 	private boolean turnedAround = false;
 
-	// FIXME: cardID statt ID Objekt!
-	public GameFieldCard(int cardId, String name, int position, Image image,
+	public GameFieldCard(org.ojim.logic.state.Card card, String name, int position, Image image,
 			int price) {
-		super(price, name, price, image);
+		super(card, name, price, image);
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,8 +36,7 @@ public class GameFieldCard extends GameFieldPiece {
 		this.turnedAround = !this.turnedAround;
 	}
 
-	// FIXME: PLAYER ALS OBJEKT!
-	public void switchOwner(int player) {
+	public void switchOwner(Player player) {
 
 	}
 

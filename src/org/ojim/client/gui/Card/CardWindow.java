@@ -32,12 +32,11 @@ public class CardWindow extends JPanel{
 		}
 	}
 
-	// FIXME: INT
-	public void addCard(int cardStack, int cardId){
+	public void addCard(int cardStack, org.ojim.logic.state.Card card){
 		
 	}
 	
-	public void removeCard(int cardId){
+	public void removeCard(org.ojim.logic.state.Card card){
 		
 	}
 	

@@ -19,18 +19,50 @@ package org.ojim.client.gui;
 
 import javax.swing.JPanel;
 
+import org.ojim.logic.state.Player;
+
 public class PlayerInfoField extends JPanel {
 
-	
-	
-	// FIXME: int
-	//TODO: (xZise) Klassen statt untypisierte Zahlen!
-	public PlayerInfoField(int player) {
-		// TODO Auto-generated constructor stub
+	private boolean isTurnedOn;
+	private Player player;
+	private int cash;
+
+	public PlayerInfoField(Player player, int cash) {
+		this.player = player;
+		isTurnedOn = false;
+		this.cash = cash;
 	}
-	
-	public void switchStatus(){
-		
+
+	public void switchStatus() {
+		isTurnedOn = !isTurnedOn;
+	}
+
+	public boolean isPlayer(Player player) {
+		// TODO: Player Objekt eine richtige Equalsmethode übergeben?
+		if (this.player.getId() == player.getId()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public void turnOn() {
+		isTurnedOn = true;
+
+	}
+
+	public void turnOff() {
+		isTurnedOn = false;
+
+	}
+
+	public boolean isOn() {
+		return isTurnedOn;
+	}
+
+	public void changeCash(int newCashValue) {
+		cash = newCashValue;
+
 	}
 
 }

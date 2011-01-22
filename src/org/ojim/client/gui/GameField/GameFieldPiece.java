@@ -29,8 +29,7 @@ public class GameFieldPiece extends JPanel {
 	
 	private FieldDrawer drawer;
 
-	// FIXME: cardID statt ID Objekt!
-	public GameFieldPiece(int cardId, String name, int position, Image image) {
+	public GameFieldPiece(org.ojim.logic.state.Card card, String name, int position, Image image) {
 		
 	}
 	

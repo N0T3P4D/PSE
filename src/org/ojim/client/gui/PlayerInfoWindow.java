@@ -17,28 +17,61 @@
 
 package org.ojim.client.gui;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.ojim.logic.state.Player;
+
 public class PlayerInfoWindow extends JPanel {
-	
-	
+
 	// hält PlayerInfoField playerInfoField;
-	
-	
-	
+	private PlayerInfoField[] playerInfoFields;
+	private static final int MAX_PLAYERS = 8;
+
 	public PlayerInfoWindow() {
 		super();
-		this.add(new JLabel("PlayerInfoField"));
 	}
 
-	// FIXME: int -.-
-	public void turnOn(int player){
-		
+	public void addPlayer(Player player,int cash) {
+		if (findPlayer(player) != -1) {
+			for (int i = 0; i < MAX_PLAYERS; i++) {
+				if (playerInfoFields[i] == null) {
+					playerInfoFields[i] = new PlayerInfoField(player, cash);
+					break;
+				}
+			}
+		}
 	}
-	
-	// FIXME: int -.-
-	public void changeCash(int player, int newCashValue){
-		
+
+	public void removePlayer(Player player) {
+		int i = findPlayer(player);
+		for (int j = i; j <= MAX_PLAYERS; j++) {
+			playerInfoFields[j] = playerInfoFields[j + 1];
+		}
+		playerInfoFields[MAX_PLAYERS] = null;
+	}
+
+	public void turnOn(Player player) {
+		for (int i = 0; i < MAX_PLAYERS; i++) {
+			if (playerInfoFields[i].isOn()) {
+				playerInfoFields[i].turnOff();
+				break;
+			}
+		}
+		int i = findPlayer(player);
+		playerInfoFields[i].turnOn();
+	}
+
+	public void changeCash(Player player, int newCashValue) {
+		int i = findPlayer(player);
+		playerInfoFields[i].changeCash(newCashValue);
+	}
+
+	private int findPlayer(Player player) {
+		for (int i = 0; i < MAX_PLAYERS; i++) {
+			if (playerInfoFields[i].isPlayer(player)) {
+				return i;
+			}
+		}
+		return -1;
 	}
 }

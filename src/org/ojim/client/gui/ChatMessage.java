@@ -19,24 +19,28 @@ package org.ojim.client.gui;
 
 import java.util.Date;
 
+import org.ojim.logic.state.Player;
+
 public class ChatMessage {
 
-	
-	
-	public ChatMessage(int player, Date date, String message) {
+	public ChatMessage(Player player, Date date, String message) {
 		this.player = player;
 		this.date = date;
 		this.message = message;
 	}
-	private int player;
+
+	private Player player;
 	private Date date;
 	private String message;
-	public int getPlayer() {
+
+	public Player getPlayer() {
 		return player;
 	}
+
 	public Date getDate() {
 		return date;
 	}
+
 	public String getMessage() {
 		return message;
 	}
