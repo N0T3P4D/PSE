@@ -224,11 +224,7 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void informCashChange(int player, int cashChange) {
-		// TODO Auto-generated method stub
-		super.informCashChange(player, cashChange);
-		
-		// Playerobjekt statt int
-		//playerInfoWindow.changeCash(player, cashChange);
+		playerInfoWindow.changeCash(this.getGameState().getPlayerByID(player), cashChange);
 	}
 
 	@Override

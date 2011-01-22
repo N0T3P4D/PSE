@@ -88,6 +88,7 @@ public class GameFieldLayout implements LayoutManager {
 
 				// Feld Position
 				int field = Integer.parseInt(c.getName());
+				int fieldNumber = field % 10;
 
 				// Mittelfeld = -1
 
@@ -114,6 +115,25 @@ public class GameFieldLayout implements LayoutManager {
 								cardHeight, cardHeight);
 						break;
 					}
+					// Felder unten
+				} else if (field < 10) {
+					c.setBounds(middleFieldSize + cardHeight
+							- (fieldNumber * cardWidth), middleFieldSize
+							+ cardHeight, cardWidth, cardHeight);
+					// Felder links
+				} else if (field < 20) {
+					c.setBounds(middleFieldSize + cardHeight
+							- (fieldNumber * cardWidth), middleFieldSize
+							+ cardHeight, cardWidth, cardHeight);
+					// Felder oben
+				} else if (field < 30) {
+					c.setBounds(middleFieldSize + cardHeight
+							- (fieldNumber * cardWidth), 0, cardWidth, cardHeight);
+					// Felder rechts
+				} else {
+					c.setBounds(middleFieldSize + cardHeight
+							- (fieldNumber * cardWidth), middleFieldSize
+							+ cardHeight, cardWidth, cardHeight);
 				}
 			}
 		}
