@@ -12,7 +12,7 @@ public class PlayerColor {
 			// Spieler 3
 			{ Color.red, Color.white },
 			// Spieler 4
-			{ Color.green, Color.white },
+			{ Color.green, Color.black },
 			// Spieler 5
 			{ Color.orange, Color.white },
 			// Spieler 6
