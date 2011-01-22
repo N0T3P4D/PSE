@@ -17,9 +17,6 @@
 
 package org.ojim.client.gui.CardBar;
 
-import java.awt.GridLayout;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.language.Localizer;
@@ -44,7 +41,6 @@ public class CardStack extends JPanel {
 		}
 
 		draw();
-		// TODO Auto-generated constructor stub
 	}
 
 	// Um verwechslungen mit der GUI Card zu vermeiden, die ausführliche
@@ -85,8 +81,8 @@ public class CardStack extends JPanel {
 	}
 
 	public void draw() {
-		// TODO EIGENES VERDECKUNGSLAYOUT
-		this.setLayout(new GridLayout(0, MAX_CARDS));
+		
+		this.setLayout(new CardStackLayout());
 
 		for (int i = 0; i < MAX_CARDS; i++) {
 			this.add(cards[i]);

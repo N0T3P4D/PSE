@@ -64,9 +64,10 @@ public class GUIClient extends ClientBase {
 		if (langs.length == 0) {
 			System.out.println("No languagefile found.");
 		}
+		/*
 		for (LanguageDefinition lang : langs) {
 			//System.out.println("Found language: " + lang.name + " (" + lang.englishName + " code: " + lang.code + ")");
-		}
+		}*/
 
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
