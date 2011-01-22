@@ -29,6 +29,7 @@ import org.ojim.logic.state.Card;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
+import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.FreeParking;
 import org.ojim.logic.state.fields.Jail;
 
@@ -213,6 +214,24 @@ public class ServerLogic extends Logic {
 		//Do the Execute for the Field the Player is standing on
 		this.getGameState().getFieldAt(position + result).execute();
 		
+	}
+
+	public void changeFieldOwner(Player oldOwner, Player newOwner, BuyableField field) {
+		int newOwnerId = -1;
+		//Take away the Field from the old Owner
+		if(oldOwner != null) {
+			oldOwner.removeField(field);
+		}
+		if(newOwner != null) {
+			newOwner.addField(field);
+			newOwnerId = newOwner.getId();
+		}
+		
+		for(Player player : this.getGameState().getPlayers()) {
+			if(player instanceof ServerPlayer) {
+				((ServerPlayer)player).getClient().informBuy(newOwnerId, field.getPosition());
+			}
+		}
 	}
 
 }
