@@ -19,7 +19,6 @@ package org.ojim.client.gui;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
-import java.io.File;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -28,7 +27,7 @@ import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.ojim.client.ClientBase;
-import org.ojim.client.gui.Card.CardWindow;
+import org.ojim.client.gui.CardBar.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
 import org.ojim.client.gui.RightBar.ChatWindow;
 import org.ojim.client.gui.RightBar.PlayerInfoWindow;
@@ -66,7 +65,7 @@ public class GUIClient extends ClientBase {
 			System.out.println("No languagefile found.");
 		}
 		for (LanguageDefinition lang : langs) {
-			System.out.println("Found language: " + lang.name + " (" + lang.englishName + " code: " + lang.code + ")");
+			//System.out.println("Found language: " + lang.name + " (" + lang.englishName + " code: " + lang.code + ")");
 		}
 
 		if (langs.length > 0)
@@ -184,7 +183,7 @@ public class GUIClient extends ClientBase {
 
 		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		GUIFrame.setMinimumSize(new Dimension(400, 400));
+		GUIFrame.setMinimumSize(new Dimension(500, 450));
 
 		GUIFrame.setVisible(true);
 
@@ -200,6 +199,22 @@ public class GUIClient extends ClientBase {
 
 	public MenuState getMenuState() {
 		return menuState;
+	}
+
+	public GameField getGameField() {
+		return gameField;
+	}
+
+	public ChatWindow getChatWindow() {
+		return chatWindow;
+	}
+
+	public PlayerInfoWindow getPlayerInfoWindow() {
+		return playerInfoWindow;
+	}
+
+	public CardWindow getCardWindow() {
+		return cardWindow;
 	}
 
 }
