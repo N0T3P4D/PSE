@@ -25,6 +25,8 @@ import edu.kit.iti.pse.iface.IServer;
 
 /**
  * 
+ * Toggles a mortgage
+ * 
  * @author Jeremias Mechler
  * 
  */
@@ -32,20 +34,33 @@ public class MortgageCommand extends SimpleClient implements Command {
 
 	private int position;
 
-	public MortgageCommand(Logic logic, IServer server, int playerId,
-			int position) {
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 * @param position
+	 *            Position to toggle
+	 */
+
+	public MortgageCommand(Logic logic, IServer server, int playerId, int position) {
 		super(logic, playerId, server);
 		this.position = position;
 	}
 
 	@Override
 	public void execute() {
-		BuyableField field = (BuyableField) this.getLogic().getGameState()
-				.getFieldAt(position);
-		if (field.isMortgaged())
+		BuyableField field = (BuyableField) this.getLogic().getGameState().getFieldAt(position);
+		if (field.isMortgaged()) {
 			field.setMortgaged(true);
-		else
+		} else {
 			field.setMortgaged(false);
+		}
 	}
 
 }

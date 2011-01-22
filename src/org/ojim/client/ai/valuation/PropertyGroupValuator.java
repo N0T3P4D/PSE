@@ -17,11 +17,23 @@
 
 package org.ojim.client.ai.valuation;
 
-public class PropertyGroupValuator extends ValuationFunction {
+/**
+ * 
+ * Returns the valuation of a property group
+ * 
+ * @author Jeremias
+ *
+ */
+public final class PropertyGroupValuator extends ValuationFunction {
 
 	private PropertyGroupValuator() {
 	}
 
+	/**
+	 * This is a singleton object!
+	 * 
+	 * @return An instance
+	 */
 	public static ValuationFunction getInstance() {
 		return ValuationFunction
 				.getInstance(false, PropertyGroupValuator.class);

@@ -17,11 +17,21 @@
 
 package org.ojim.client.ai.valuation;
 
-public class PrisonValuator extends ValuationFunction {
+/**
+ * 
+ * @author Jeremias
+ *
+ */
+public final class PrisonValuator extends ValuationFunction {
 
 	private PrisonValuator() {
 	}
 
+	/**
+	 * This is a singleton object!
+	 * 
+	 * @return An instance
+	 */
 	public static ValuationFunction getInstance() {
 		return ValuationFunction.getInstance(false, PrisonValuator.class);
 	}

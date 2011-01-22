@@ -25,11 +25,27 @@ import org.ojim.logic.Logic;
 import org.ojim.client.ClientBase;
 import edu.kit.iti.pse.iface.IServer;
 
-
+/**
+ * AI Client
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
 public class AIClient extends ClientBase {
 
 	private Logger logger;
 
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 * Reference to the server
+	 * @param logic
+	 * Reference to the game logic
+	 * @param playerID
+	 * This client's ID
+	 */
 	public AIClient(IServer server, Logic logic, int playerID) {
 		super();
 		logger = OJIMLogger.getLogger(this.getClass().toString());
@@ -42,15 +58,4 @@ public class AIClient extends ClientBase {
 		}
 		super.setParameters(logic, playerID, server);
 	}
-
-	public void useOutOfJailCard() {
-	}
-
-	public void informTurn(int player) {
-	}
-	
-	public void setReady() {
-		ready();
-	}
-
 }

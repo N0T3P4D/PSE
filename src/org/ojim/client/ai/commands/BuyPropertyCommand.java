@@ -31,26 +31,23 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class BuyPropertyCommand extends SimpleClient implements Command {
 	
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 */
 	public BuyPropertyCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
 	}
 	
-	boolean accept;
-	
+	@Override
 	public void execute() {
 		accept();
 	}
-	
-/*
-	public Buy(Logic logic, IServer server, int playerId) {
-		super(logic, playerId, server);
-	}
-	@Override
-	public void execute() {
-		if (accept)
-			client.accept();
-		else
-			client.decline();
-	}
-*/
 }

@@ -24,11 +24,24 @@ import edu.kit.iti.pse.iface.IServer;
 
 /**
  * 
+ * Command for declining
+ * 
  * @author Jeremias Mechler
  * 
  */
 public class DeclineCommand extends SimpleClient implements Command {
 
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 */
 	public DeclineCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
 	}

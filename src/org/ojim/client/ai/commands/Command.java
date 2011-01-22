@@ -17,6 +17,16 @@
 
 package org.ojim.client.ai.commands;
 
+/**
+ * Interface for the commands
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
 public interface Command {
+
+	/**
+	 * Execute method, has to be implemented by all commands!
+	 */
 	public void execute();
 }

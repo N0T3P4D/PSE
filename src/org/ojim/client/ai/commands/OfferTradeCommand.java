@@ -21,8 +21,26 @@ import org.ojim.logic.Logic;
 
 import edu.kit.iti.pse.iface.IServer;
 
+/**
+ * 
+ * Offers a trade
+ * 
+ * @author Jeremias Mechler
+ *
+ */
 public class OfferTradeCommand extends TradeCommand {
 
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 */
 	public OfferTradeCommand(Logic logic, IServer server, int playerId) {
 		super(logic, server, playerId);
 		// TODO Auto-generated constructor stub

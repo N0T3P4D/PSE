@@ -17,14 +17,25 @@
 
 package org.ojim.client.ai.valuation;
 
-public class BuildingOnPropertyValuator extends ValuationFunction {
+/**
+ * 
+ * Valuates a building on a property
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
+public final class BuildingOnPropertyValuator extends ValuationFunction {
 
 	private BuildingOnPropertyValuator() {
 	}
 
+	/**
+	 * This is a singleton object!
+	 * 
+	 * @return An instance
+	 */
 	public static ValuationFunction getInstance() {
-		return ValuationFunction.getInstance(false,
-				BuildingOnPropertyValuator.class);
+		return ValuationFunction.getInstance(false, BuildingOnPropertyValuator.class);
 	}
 
 	@Override

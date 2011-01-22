@@ -19,19 +19,30 @@ package org.ojim.client.ai.valuation;
 
 import org.ojim.logic.state.fields.BuyableField;
 
-public class PropertyValuator extends ValuationFunction {
+/**
+ * Property valuator
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
+public final class PropertyValuator extends ValuationFunction {
 
 	private PropertyValuator() {
 	}
 
+	/**
+	 * This is a singleton object!
+	 * 
+	 * @return An instance
+	 */
 	public static ValuationFunction getInstance() {
 		return ValuationFunction.getInstance(false, PropertyValuator.class);
 	}
 
+	@Override
 	public double returnValuation() {
 		int position = this.getGameState().getActivePlayer().getPosition();
-		BuyableField field = (BuyableField) this.getGameState().getFieldAt(
-				position);
+		BuyableField field = (BuyableField) this.getGameState().getFieldAt(position);
 		int price = field.getPrice();
 		boolean isMortgaged = field.isMortgaged();
 
@@ -40,8 +51,7 @@ public class PropertyValuator extends ValuationFunction {
 			return -1;
 		} else {
 			if (isMortgaged) {
-				if (price > ValuationParameters.getStreetValue(position)
-						* ValuationParameters.mortgageFactor) {
+				if (price > ValuationParameters.getStreetValue(position) * ValuationParameters.mortgageFactor) {
 					return 1;
 				} else {
 					return -1;
