@@ -25,6 +25,7 @@ import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.rules.GameRules;
+import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.Card;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -62,6 +63,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	private ServerLogic logic;
 	private GameRules rules;
 	private List<Card> currentCards;
+	private Auction auction;
 
 	public OjimServer(String name) {
 		this.name = name;
@@ -264,31 +266,42 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getAuctionState() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(auction != null) {
+			return auction.getAuctionState();
+		}
+		return false;
 	}
 
 	@Override
 	public int getAuctionedEstate() {
-		// TODO Auto-generated method stub
+		if(auction != null) {
+		return auction.getObjective().getPosition();
+		}
 		return 0;
 	}
 
 	@Override
 	public int getHighestBid() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(auction != null) {
+			return auction.getHighestBid();
+		}
+		return -1;
 	}
 
 	@Override
 	public int getBidder() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(auction != null) {
+			return auction.getHighestBidder().getId();
+		}
+		return -1;
 	}
 
 	@Override
 	public boolean placeBid(int playerID, int amount) {
-		// TODO Auto-generated method stub
+		Player player = state.getPlayerByID(playerID);
+		if(auction != null && player != null) {
+			return auction.placeBid(player, amount);
+		}
 		return false;
 	}
 
@@ -311,12 +324,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized int addPlayer(IClient client) {
-
-		// TestClients are Threads to test things better
-		// if(client instanceof TestClient) {
-		// TestThread t = new TestThread((TestClient)client);
-		// t.start();
-		// }
 
 		display("Add Player!");
 
@@ -602,17 +609,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		Card card = state.getFirstWaitingCard();
 		if(card != null) {
 			//TODO dirty, change if time is left
-			String oldCardText = currentCards.get(0).text;
 			card.accept();
 			state.RemoveWaitingCard(card);
 			return true;
-		} else {
-			//Is the Player standing on a buyable field owned by no one?
-			Field field = state.getFieldAt(player.getPosition());
-			if(field instanceof BuyableField && ((BuyableField)field).getOwner() == null) {
-				//Then buy that Field
-				logic.buyStreet(player);
-			}
+		} 
+		Field field = state.getFieldAt(player.getPosition());
+		if(field instanceof BuyableField && ((BuyableField)field).getOwner() == null) {
+			logic.buyStreet();
 			return true;
 		}
 		return false;

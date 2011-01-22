@@ -34,17 +34,21 @@ public class Trade {
 	private final Player acting;
 	private final Player partner;
 	
-	private int cash;
-	private int numberOfGetOutOfJailCards; //xZise: Jay :D
-	private List<BuyableField> sellEstates;
-	private List<BuyableField> buyEstates;
+	private int offeredCash, requiredCash;
+	private int offeredNumberOfGetOutOfJailCards, requiredNumberOfGetOutOfJailCards; //xZise: Jay :D
+	private List<BuyableField> offeredEstates;
+	private List<BuyableField> requiredEstates;
 
 	public Trade(Player acting, Player partner) {
 		this.acting = acting;
 		this.partner = partner;
 		
-		this.sellEstates = new ArrayList<BuyableField>();
-		this.buyEstates = new ArrayList<BuyableField>();
+		this.offeredCash = 0;
+		this.requiredCash = 0;
+		this.offeredNumberOfGetOutOfJailCards = 0;
+		this.requiredNumberOfGetOutOfJailCards = 0;
+		this.offeredEstates	= new ArrayList<BuyableField>();
+		this.requiredEstates = new ArrayList<BuyableField>();
 	}
 	
 	/**
@@ -62,25 +66,39 @@ public class Trade {
 	}
 
 	/**
-	 * @return the cash
+	 * @return the offered cash
 	 */
-	public int getCash() {
-		return this.cash;
+	public int getOfferedCash() {
+		return this.offeredCash;
+	}
+	
+	/**
+	 * @return the required cash
+	 */
+	public int getRequiredCash() {
+		return this.requiredCash;
 	}
 
 	/**
-	 * @return the numberOfGetOutOfJailCards
+	 * @return the required number of GetOutOfJailCards
 	 */
-	public int getNumberOfGetOutOfJailCards() {
-		return this.numberOfGetOutOfJailCards;
+	public int getRequiredNumberOfGetOutOfJailCards() {
+		return this.requiredNumberOfGetOutOfJailCards;
+	}
+	
+	/**
+	 * @return the offerd number of GetOutOfJailCards
+	 */
+	public int getOfferedNumberOfGetOutOfJailCards() {
+		return this.offeredNumberOfGetOutOfJailCards;
 	}
 
-	/**
-	 * Sets the cash of the trade.
-	 * @param amount The cash value of the trade. Set it to a negative value to receive the money. 
-	 */
-	public void setCash(int amount) {
-		this.cash = amount;
+	public void setOfferdCash(int amount) {
+		this.offeredCash = amount;
+	}
+	
+	public void setRequiredCash(int amount) {
+		this.requiredCash = amount;
 	}
 
 	/**
@@ -96,8 +114,8 @@ public class Trade {
 	 * @param estate The selling estate.
 	 * @return True if the estate wasn't on the list before. Otherwise false.
 	 */
-	public boolean addSellingEstate(BuyableField estate) {
-		return this.sellEstates.add(estate);
+	public boolean addOfferedEstate(BuyableField estate) {
+		return this.offeredEstates.add(estate);
 	}
 	
 	/**
@@ -105,23 +123,23 @@ public class Trade {
 	 * @param estate The buying estate.
 	 * @return True if the estate wasn't on the list before. Otherwise false.
 	 */
-	public boolean addBuyingEstate(BuyableField estate) {
-		return this.buyEstates.add(estate);
+	public boolean addRequiredEstate(BuyableField estate) {
+		return this.requiredEstates.add(estate);
 	}
 	
-	public BuyableField[] getSellingEstates() {
-		return this.sellEstates.toArray(new BuyableField[0]);
+	public List<BuyableField> getOfferedEstates() {
+		return this.offeredEstates;
 	}
 	
-	public BuyableField[] getBuyingEstates() {
-		return this.buyEstates.toArray(new BuyableField[0]);
+	public List<BuyableField> getRequiredEstates() {
+		return this.requiredEstates;
 	}
 	
-	public boolean removeSellingEstate(BuyableField estate) {
-		return this.sellEstates.remove(estate);
+	public boolean removeOfferedEstate(BuyableField estate) {
+		return this.offeredEstates.remove(estate);
 	}
 	
-	public boolean removeBuyingEstate(BuyableField estate) {
-		return this.buyEstates.remove(estate);
+	public boolean removeRequiredEstate(BuyableField estate) {
+		return this.requiredEstates.remove(estate);
 	}
 }
