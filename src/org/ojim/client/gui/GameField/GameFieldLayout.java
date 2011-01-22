@@ -122,18 +122,18 @@ public class GameFieldLayout implements LayoutManager {
 							+ cardHeight, cardWidth, cardHeight);
 					// Felder links
 				} else if (field < 20) {
-					c.setBounds(middleFieldSize + cardHeight
-							- (fieldNumber * cardWidth), middleFieldSize
-							+ cardHeight, cardWidth, cardHeight);
+					c.setBounds(0, middleFieldSize + cardHeight
+							+ (fieldNumber * cardWidth), cardHeight, cardWidth);
 					// Felder oben
 				} else if (field < 30) {
 					c.setBounds(middleFieldSize + cardHeight
-							- (fieldNumber * cardWidth), 0, cardWidth, cardHeight);
+							- (fieldNumber * cardWidth), 0, cardWidth,
+							cardHeight);
 					// Felder rechts
 				} else {
-					c.setBounds(middleFieldSize + cardHeight
-							- (fieldNumber * cardWidth), middleFieldSize
-							+ cardHeight, cardWidth, cardHeight);
+					c.setBounds(middleFieldSize + cardHeight, middleFieldSize
+							+ cardHeight + (fieldNumber * cardWidth),
+							cardHeight, cardWidth);
 				}
 			}
 		}
