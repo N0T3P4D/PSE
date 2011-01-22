@@ -26,6 +26,7 @@ import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.Card;
+import org.ojim.logic.state.GetOutOfJailCard;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
@@ -154,12 +155,10 @@ public class ServerLogic extends Logic {
 	 * Called when a Player should use a GetOutOfJail-Card
 	 * @param player The Player using the Card
 	 */
-	public void playerUsesGetOutOfJailCard(Player player) {
+	public void playerUsesGetOutOfJailCard(ServerPlayer player) {
 		for(Card card : player.getCards()) {
-			for(Action action : card.getActions()) {
-				if(action instanceof ActionGetOutOfJailCard) {
-					card.execute();
-				}
+			if(card instanceof GetOutOfJailCard) {
+				card.file();
 			}
 		}
 	}

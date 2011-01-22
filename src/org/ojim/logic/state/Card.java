@@ -52,7 +52,7 @@ public class Card {
 			//TODO: Remove card from active stack.
 			
 			// Add this card to the players card stack:
-			this.state.getActivePlayer().addCard(this);			
+//			this.state.getActivePlayer().addCard(this);			
 		}
 	}
 	

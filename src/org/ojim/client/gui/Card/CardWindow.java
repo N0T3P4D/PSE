@@ -16,7 +16,7 @@ public class CardWindow extends JPanel{
 	public CardWindow() {
 		super();
 		
-		cardStacks = new CardStack[4];
+		cardStacks = new CardStack[MAX_CARD_STACKS];
 		
 		this.setLayout(new GridLayout(0,MAX_CARD_STACKS));
 		
