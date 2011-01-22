@@ -17,8 +17,14 @@
 
 package org.ojim.client.gui;
 
-import javax.swing.JPanel;
+import java.awt.Font;
+import java.awt.GridLayout;
 
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.Border;
+
+import org.ojim.language.Localizer;
 import org.ojim.logic.state.Player;
 
 public class PlayerInfoField extends JPanel {
@@ -26,15 +32,50 @@ public class PlayerInfoField extends JPanel {
 	private boolean isTurnedOn;
 	private Player player;
 	private int cash;
+	private JLabel nameLabel;
+	private JLabel activeLabel;
+	private JLabel cashLabel;
+	private Localizer language;
 
-	public PlayerInfoField(Player player, int cash) {
+	public PlayerInfoField(Player player, int cash, Localizer language) {
+
+		this.language = language;
+		
 		this.player = player;
 		isTurnedOn = false;
 		this.cash = cash;
+		draw();
+	}
+
+	public void setLanguage(Localizer language) {
+		this.language = language;
+		draw();
 	}
 
 	public void switchStatus() {
 		isTurnedOn = !isTurnedOn;
+		draw();
+	}
+
+	private void draw() {
+		this.setBackground(PlayerColor.getBackGroundColor(player.getColor()));
+
+		this.setBorder(getBorder());
+		
+		activeLabel = new JLabel(language.getText("ojim"));
+		nameLabel = new JLabel(this.player.getName());
+		cashLabel = new JLabel(this.cash + " " + 
+				language.getText("currency"));
+
+		// TODO Schriftfarbe, Schriftgröße
+		
+		// Eigener Layouter?
+		this.setLayout(new GridLayout(0,3));
+		
+		this.add(activeLabel);
+		this.add(nameLabel);
+		this.add(cashLabel);
+		//System.out.println("Player " + player.getId() + " gezeichnet.");
 	}
 
 	public boolean isPlayer(Player player) {
@@ -48,11 +89,13 @@ public class PlayerInfoField extends JPanel {
 
 	public void turnOn() {
 		isTurnedOn = true;
+		draw();
 
 	}
 
 	public void turnOff() {
 		isTurnedOn = false;
+		draw();
 
 	}
 
@@ -62,7 +105,15 @@ public class PlayerInfoField extends JPanel {
 
 	public void changeCash(int newCashValue) {
 		cash = newCashValue;
+		draw();
 
+	}
+
+	public boolean isNull() {
+		if (player == Player.NullPlayer) {
+			return true;
+		}
+		return false;
 	}
 
 }

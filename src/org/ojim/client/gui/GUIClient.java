@@ -66,6 +66,8 @@ public class GUIClient extends ClientBase {
 		// language.setLanguage("fra");
 
 		GUIFrame = new JFrame("OJim");
+		
+		System.out.println(language.getText("file"));
 
 		MenuBar menubar = new MenuBar(language);
 
@@ -118,7 +120,7 @@ public class GUIClient extends ClientBase {
 			rightWindow.setLayout(new GridLayout(0, 1));
 			
 			
-			playerInfoWindow = new PlayerInfoWindow();
+			playerInfoWindow = new PlayerInfoWindow(language);
 			chatWindow = new ChatWindow(language);
 
 			rightWindow.add(playerInfoWindow);
@@ -148,7 +150,7 @@ public class GUIClient extends ClientBase {
 
 			rightWindow1.setLayout(new GridLayout(0, 1));
 
-			playerInfoWindow = new PlayerInfoWindow();
+			playerInfoWindow = new PlayerInfoWindow(language);
 			chatWindow = new ChatWindow(language);
 
 			rightWindow1.add(playerInfoWindow);

@@ -29,9 +29,10 @@ import java.util.Map;
 
 public class Localizer {
 
-	private static final String[] TEXT_KEYS = { "file", "missing text", "?",
-			"create game", "join game", "leave game", "settings",
-			"direct connection", "list of servers", "exit", "about", "help", };
+	private static final String[] TEXT_KEYS = { "ojim", "file", "missing text",
+			"?", "create game", "join game", "leave game", "settings",
+			"direct connection", "list of servers", "exit", "about", "help",
+			"roll", "buy", "ready", "send", "currency" };
 
 	/** Saves the translation to a key. */
 	private Map<String, String> strings;
@@ -103,12 +104,12 @@ public class Localizer {
 		this.strings.clear();
 		// Insert correct entries
 		try {
-			BufferedReader in = new BufferedReader(new FileReader(definition.file));
-			
-			String string;			
-			
-			while ((string = in.readLine()) != null)
-			{
+			BufferedReader in = new BufferedReader(new FileReader(
+					definition.file));
+
+			String string;
+
+			while ((string = in.readLine()) != null) {
 				string = string.trim();
 				int comment = string.indexOf('#');
 				if (comment == 0 || string.length() == 0) {
@@ -132,18 +133,19 @@ public class Localizer {
 					string = string.trim(); // Notwendig?
 					int delim = string.indexOf('=');
 					if (delim < 1) {
-						//TODO: No "=" found/"=" is first char?!
+						// TODO: No "=" found/"=" is first char?!
 					} else {
 						String key = string.substring(0, delim - 1).trim();
 						String value = string.substring(delim + 1).trim();
 						this.strings.put(key, value);
 					}
 				}
-			}			
+			}
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found: Language File: "+definition.file.getAbsolutePath());
+			System.out.println("File not found: Language File: "
+					+ definition.file.getAbsolutePath());
 		} catch (IOException e) {
-			System.out.println("I/O: Language File");		
+			System.out.println("I/O: Language File");
 		}
 	}
 
