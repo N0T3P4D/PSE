@@ -22,9 +22,9 @@ import org.ojim.client.ai.commands.Command;
 import org.ojim.client.ai.commands.DeclineCommand;
 import org.ojim.client.ai.commands.OutOfPrisonCommand;
 import org.ojim.logic.Logic;
-import org.ojim.logic.state.BuyableField;
-import org.ojim.logic.state.Field;
-import org.ojim.logic.state.Jail;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Jail;
 
 import org.ojim.logic.state.GameState;
 
@@ -66,11 +66,8 @@ public class Valuator {
 
 		// Buy House
 		if (field.getClass().isInstance(BuyableField.class)) {
-			double valuation = weights[0]
-					* propertyValuator.returnValuation()
-					+ weights[1]
-					* capitalValuator.returnValuation(((BuyableField) field)
-							.getPrice());
+			double valuation = weights[0] * propertyValuator.returnValuation() + weights[1]
+					* capitalValuator.returnValuation(((BuyableField) field).getPrice());
 
 			if (valuation > 0)
 				return new DeclineCommand(logic, server, playerID);
