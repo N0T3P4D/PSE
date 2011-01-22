@@ -572,7 +572,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public int getOwner(int position) {
 		Field field = state.getFieldByID(position);
 		if (field != null && field instanceof BuyableField) {
-			return ((BuyableField) field).getOwner().getId();
+			Player owner = ((BuyableField) field).getOwner();
+			if(owner != null) {
+				return owner.getId();
+			}
 		}
 		return -1;
 	}
