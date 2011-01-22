@@ -198,6 +198,99 @@ public class GUIClient extends ClientBase {
 		this.menuState = menuState;
 	}
 
+	@Override
+	public void informAuction(int auctionState) {
+		// TODO Auto-generated method stub
+		super.informAuction(auctionState);
+	}
+
+	@Override
+	public void informBankruptcy() {
+		// TODO Auto-generated method stub
+		super.informBankruptcy();
+	}
+
+	@Override
+	public void informBuy(int player, int position) {
+		// TODO Auto-generated method stub
+		super.informBuy(player, position);
+	}
+
+	@Override
+	public void informCardPull(String text, boolean communityCard) {
+		// TODO Auto-generated method stub
+		super.informCardPull(text, communityCard);
+	}
+
+	@Override
+	public void informCashChange(int player, int cashChange) {
+		// TODO Auto-generated method stub
+		super.informCashChange(player, cashChange);
+		
+		// Playerobjekt statt int
+		//playerInfoWindow.changeCash(player, cashChange);
+	}
+
+	@Override
+	public void informConstruct(int street) {
+		// TODO Auto-generated method stub
+		super.informConstruct(street);
+	}
+
+	@Override
+	public void informDestruct(int street) {
+		// TODO Auto-generated method stub
+		super.informDestruct(street);
+	}
+
+	@Override
+	public void informDiceValues(int[] diceValues) {
+		// TODO Auto-generated method stub
+		super.informDiceValues(diceValues);
+	}
+
+	@Override
+	public void informMessage(String text, int sender, boolean privateMessage) {
+		// TODO Auto-generated method stub
+		super.informMessage(text, sender, privateMessage);
+	}
+
+	@Override
+	public void informMortgageToogle(int street) {
+		// TODO Auto-generated method stub
+		super.informMortgageToogle(street);
+	}
+
+	@Override
+	public void informMove(int position, int playerId) {
+		// TODO Auto-generated method stub
+		super.informMove(position, playerId);
+	}
+
+	@Override
+	public void informStartGame(int[] ids) {
+		// TODO Auto-generated method stub
+		super.informStartGame(ids);
+	}
+
+	@Override
+	public void informTrade(int actingPlayer, int partnerPlayer) {
+		// TODO Auto-generated method stub
+		super.informTrade(actingPlayer, partnerPlayer);
+	}
+
+	@Override
+	public void informTurn(int player) {
+		// TODO Auto-generated method stub
+		super.informTurn(player);
+	}
+
+	@Override
+	public void setName(String name) {
+		// TODO Auto-generated method stub
+		super.setName(name);
+	}
+
 	public MenuState getMenuState() {
 		return menuState;
 	}
