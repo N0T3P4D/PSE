@@ -31,6 +31,7 @@ import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
+import org.ojim.logic.state.Trade;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.CardField;
 import org.ojim.logic.state.fields.Field;
@@ -64,6 +65,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	private GameRules rules;
 	private List<Card> currentCards;
 	private Auction auction;
+	private Trade trade;
 
 	public OjimServer(String name) {
 		this.name = name;
@@ -164,103 +166,180 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean initTrade(int actingPlayer, int partnerPlayer) {
-		// TODO Auto-generated method stub
+		//If there is already a Trade in process, dont create a new one
+		if(trade != null) {
+			if(trade.getTradeState() < 2) {
+				return false;
+			}
+		}
+		ServerPlayer acting = state.getPlayerByID(actingPlayer);
+		ServerPlayer partner = state.getPlayerByID(partnerPlayer);
+		
+		if(acting != null && partner != null) {
+			trade = new Trade(acting, partner);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public int getTradeState() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(trade != null) {
+			return trade.getTradeState();
+		}
+		return -1;
 	}
 
 	@Override
 	public int getPartner() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(trade != null) {
+			return trade.getPartner().getId();
+		}
+		return -1;
 	}
 
 	@Override
 	public boolean offerCash(int playerID, int amount) {
-		// TODO Auto-generated method stub
+		Player player = state.getPlayerByID(playerID);
+		if(trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+			trade.setOfferdCash(amount);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean offerGetOutOfJailCard(int playerID) {
-		// TODO Auto-generated method stub
+		Player player = state.getPlayerByID(playerID);
+		if(trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+			trade.setOfferedNumberOfGetOutOfJailCards(trade.getOfferedNumberOfGetOutOfJailCards() + 1);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean offerEstate(int playerID, int position) {
-		// TODO Auto-generated method stub
+		Player player = state.getPlayerByID(playerID);
+		Field field = state.getFieldAt(position);
+		if(trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing()) && field != null && field instanceof BuyableField) {
+			return trade.addOfferedEstate((BuyableField)field);
+		}
 		return false;
 	}
 
 	@Override
 	public boolean requireCash(int playerID, int amount) {
-		// TODO Auto-generated method stub
+		Player player = state.getPlayerByID(playerID);
+		if(trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+			trade.setRequiredCash(amount);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean requireGetOutOfJailCard(int playerID) {
-		// TODO Auto-generated method stub
+		Player player = state.getPlayerByID(playerID);
+		if(trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+			trade.setRequiredNumberOfGetOutOfJailCards(trade.getRequiredNumberOfGetOutOfJailCards() + 1);
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean requireEstate(int playerID, int position) {
-		// TODO Auto-generated method stub
+		Player player = state.getPlayerByID(playerID);
+		Field field = state.getFieldAt(position);
+		if(trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing()) && field != null && field instanceof BuyableField) {
+			return trade.addOfferedEstate((BuyableField)field);
+		}
 		return false;
 	}
 
 	@Override
 	public int[] getOfferedEstates() {
-		// TODO Auto-generated method stub
-		return null;
+		if(trade != null) {
+			int[] out = new int[trade.getOfferedEstates().size()];
+			int i = 0;
+			for(BuyableField field : trade.getOfferedEstates()) {
+				if(i < out.length) {
+					out[i] = field.getPosition();
+					i++;
+				}
+			}
+			return out;
+		}
+		return new int[0];
 	}
 
 	@Override
 	public int getOfferedCash() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(trade != null) {
+			return trade.getOfferedCash();
+		}
+		return -1;
 	}
 
 	@Override
 	public int getNumberOfOfferedGetOutOfJailCards() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(trade != null) {
+			return trade.getOfferedNumberOfGetOutOfJailCards();
+		}
+		return -1;
 	}
 
 	@Override
 	public int[] getRequiredEstates() {
-		// TODO Auto-generated method stub
-		return null;
+		if(trade != null) {
+			int[] out = new int[trade.getRequiredEstates().size()];
+			int i = 0;
+			for(BuyableField field : trade.getRequiredEstates()) {
+				if(i < out.length) {
+					out[i] = field.getPosition();
+					i++;
+				}
+			}
+			return out;
+		}
+		return new int[0];
 	}
 
 	@Override
 	public int getRequiredCash() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(trade != null) {
+			return trade.getRequiredCash();
+		}
+		return -1;
 	}
 
 	@Override
 	public int getNumberOfRequiredGetOutOfJailCards() {
-		// TODO Auto-generated method stub
-		return 0;
+		if(trade != null) {
+			return trade.getRequiredNumberOfGetOutOfJailCards();
+		}
+		return -1;
 	}
 
 	@Override
 	public boolean cancelTrade(int playerID) {
-		// TODO Auto-generated method stub
+		ServerPlayer player = state.getPlayerByID(playerID);
+		if(trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+			trade = null;
+			return true;
+		}
 		return false;
 	}
 
 	@Override
 	public boolean proposeTrade(int playerID) {
-		// TODO Auto-generated method stub
+		ServerPlayer player = state.getPlayerByID(playerID);
+		if(trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+			trade.setTradeState(1);
+			trade.getPartner().getClient().informTrade(trade.getActing().getId(), trade.getPartner().getId());
+			return true;
+		}
 		return false;
 	}
 
@@ -269,7 +348,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if(auction != null) {
 			return auction.getAuctionState();
 		}
-		return false;
+		return -1;
 	}
 
 	@Override
@@ -327,7 +406,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		display("Add Player!");
 
-		Player[] players = state.getPlayers();
 		for (int i = 0; i < maxClients; i++) {
 			if (state.getPlayerByID(i) == null) {
 				this.clients.add(client);
@@ -602,13 +680,19 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public boolean accept(int playerID) {
 		ServerPlayer player = state.getPlayerByID(playerID);
+		
+		//Does a Trade need Confirmation?
+		if(trade != null && player != null && trade.getTradeState() == 1 && player.equals(trade.getPartner())) {
+			trade.setTradeState(3);
+			trade.executeTrade(logic);
+		}
+		
 		if(player == null || playerID != state.getActivePlayer().getId()) {
 			return false;
 		}
 		//First check if a Action needs Confirmation
 		Card card = state.getFirstWaitingCard();
 		if(card != null) {
-			//TODO dirty, change if time is left
 			card.accept();
 			state.RemoveWaitingCard(card);
 			return true;
@@ -630,12 +714,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		//First check if a Action needs Confirmation
 		Card card = state.getFirstWaitingCard();
 		if(card != null) {
-			//TODO dirty, change if time is left
-			String oldCardText = currentCards.get(0).text;
 			card.decline();
 			state.RemoveWaitingCard(card);
 			return true;
-		}
+		} 
 		return false;
 	}
 

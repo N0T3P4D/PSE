@@ -20,6 +20,7 @@ package org.ojim.logic.state;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.state.fields.BuyableField;
 
 /**
@@ -31,18 +32,20 @@ public class Trade {
 	
 	//TODO: (xZise) finish all setters/getters. I didn't finished it :P
 
-	private final Player acting;
-	private final Player partner;
+	private final ServerPlayer acting;
+	private final ServerPlayer partner;
+	private int tradeState;
 	
 	private int offeredCash, requiredCash;
 	private int offeredNumberOfGetOutOfJailCards, requiredNumberOfGetOutOfJailCards; //xZise: Jay :D
 	private List<BuyableField> offeredEstates;
 	private List<BuyableField> requiredEstates;
 
-	public Trade(Player acting, Player partner) {
+	public Trade(ServerPlayer acting, ServerPlayer partner) {
 		this.acting = acting;
 		this.partner = partner;
 		
+		this.tradeState = 0;
 		this.offeredCash = 0;
 		this.requiredCash = 0;
 		this.offeredNumberOfGetOutOfJailCards = 0;
@@ -51,17 +54,25 @@ public class Trade {
 		this.requiredEstates = new ArrayList<BuyableField>();
 	}
 	
+	public int getTradeState() {
+		return this.tradeState;
+	}
+	
+	public void setTradeState(int state) {
+		this.tradeState = state;
+	}
+	
 	/**
 	 * @return the acting
 	 */
-	public Player getActing() {
+	public ServerPlayer getActing() {
 		return this.acting;
 	}
 
 	/**
 	 * @return the partner
 	 */
-	public Player getPartner() {
+	public ServerPlayer getPartner() {
 		return this.partner;
 	}
 
@@ -80,20 +91,6 @@ public class Trade {
 	}
 
 	/**
-	 * @param offeredNumberOfGetOutOfJailCards the offeredNumberOfGetOutOfJailCards to set
-	 */
-	public void setOfferedNumberOfGetOutOfJailCards(int offeredNumberOfGetOutOfJailCards) {
-		this.offeredNumberOfGetOutOfJailCards = offeredNumberOfGetOutOfJailCards;
-	}
-
-	/**
-	 * @param requiredNumberOfGetOutOfJailCards the requiredNumberOfGetOutOfJailCards to set
-	 */
-	public void setRequiredNumberOfGetOutOfJailCards(int requiredNumberOfGetOutOfJailCards) {
-		this.requiredNumberOfGetOutOfJailCards = requiredNumberOfGetOutOfJailCards;
-	}
-
-	/**
 	 * @return the required number of GetOutOfJailCards
 	 */
 	public int getRequiredNumberOfGetOutOfJailCards() {
@@ -101,7 +98,7 @@ public class Trade {
 	}
 	
 	/**
-	 * @return the offerd number of GetOutOfJailCards
+	 * @return the offered number of GetOutOfJailCards
 	 */
 	public int getOfferedNumberOfGetOutOfJailCards() {
 		return this.offeredNumberOfGetOutOfJailCards;
@@ -114,6 +111,22 @@ public class Trade {
 	public void setRequiredCash(int amount) {
 		this.requiredCash = amount;
 	}
+
+	/**
+	 * Sets the number of "get out of jail cards" in the trade.
+	 * @param amount The number of cards. Set it to a negative value to receive the cards. 
+	 */	
+	public void setOfferedNumberOfGetOutOfJailCards(int count) {
+		this.offeredNumberOfGetOutOfJailCards = count;
+	}
+	
+	/**
+	 * Sets the number of "get out of jail cards" in the trade.
+	 * @param amount The number of cards. Set it to a negative value to receive the cards. 
+	 */	
+	public void setRequiredNumberOfGetOutOfJailCards(int count) {
+		this.requiredNumberOfGetOutOfJailCards = count;
+	}
 	
 	/**
 	 * Adds a estate to the selling list.
@@ -121,7 +134,10 @@ public class Trade {
 	 * @return True if the estate wasn't on the list before. Otherwise false.
 	 */
 	public boolean addOfferedEstate(BuyableField estate) {
-		return this.offeredEstates.add(estate);
+		if(estate.getOwner() == acting) {
+			return this.offeredEstates.add(estate);
+		}
+		return false;
 	}
 	
 	/**
@@ -130,7 +146,10 @@ public class Trade {
 	 * @return True if the estate wasn't on the list before. Otherwise false.
 	 */
 	public boolean addRequiredEstate(BuyableField estate) {
-		return this.requiredEstates.add(estate);
+		if(estate.getOwner() == partner) {
+			return this.requiredEstates.add(estate);
+		}
+		return false;
 	}
 	
 	public List<BuyableField> getOfferedEstates() {
@@ -147,5 +166,19 @@ public class Trade {
 	
 	public boolean removeRequiredEstate(BuyableField estate) {
 		return this.requiredEstates.remove(estate);
+	}
+
+	public void executeTrade(ServerLogic logic) {
+		//Change the Estates
+		for(BuyableField field : this.requiredEstates) {
+			logic.changeFieldOwner(partner, acting, field);
+		}
+		for(BuyableField field : this.offeredEstates) {
+			logic.changeFieldOwner(acting, acting, field);
+		}
+		
+		//TODO Do the Exchange of GetOutOfJailCards
+		
+		//TODO Do the Cash exchange
 	}
 }

@@ -93,24 +93,7 @@ public class Logic {
 		return;
 	}
 	
-	private void changeFieldOwner(Player oldOwner, Player newOwner, BuyableField field) {
-		int newOwnerId = -1;
-		//Take away the Field from the old Owner
-		if(oldOwner != null) {
-			oldOwner.removeField(field);
-			//TODO Add informBuy(int playerID, int position) to IClient
-		}
-		if(newOwner != null) {
-			newOwner.addField(field);
-			newOwnerId = newOwner.getId();
-		}
-		
-		for(Player player : state.getPlayers()) {
-			if(player instanceof ServerPlayer) {
-				((ServerPlayer)player).getClient().informBuy(newOwnerId, field.getPosition());
-			}
-		}
-	}
+	
 	
 	public void auctionWithResult(BuyableField objective, Player winner) {
 		
