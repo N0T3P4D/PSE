@@ -20,7 +20,6 @@ package org.ojim.client.gui.GameField.fielddrawer;
 import java.awt.Graphics;
 
 import org.ojim.logic.state.fields.Field;
-import org.ojim.logic.state.fields.GoField;
 
 /**
  * Class that draw a go field.

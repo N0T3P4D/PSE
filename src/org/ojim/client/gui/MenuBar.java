@@ -17,14 +17,11 @@
 
 package org.ojim.client.gui;
 
-import java.io.File;
-
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import org.ojim.language.Localizer;
-import org.ojim.language.LanguageDefinition;
 
 public class MenuBar extends JMenuBar {
 	
@@ -74,7 +71,6 @@ public class MenuBar extends JMenuBar {
 	
 	public void language(Localizer language){
 		
-		// TODO: Lokalisierung
         fileMenu = new JMenu(language.getText("file"));
         editMenu = new JMenu(language.getText("?"));
 

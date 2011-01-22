@@ -20,7 +20,6 @@ package org.ojim.client.gui;
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
-import java.awt.Insets;
 import java.awt.LayoutManager;
 
 public class OJIMLayout implements LayoutManager {
@@ -60,13 +59,7 @@ public class OJIMLayout implements LayoutManager {
 
 	@Override
 	public void layoutContainer(Container parent) {
-		Insets insets = parent.getInsets();
-		int maxWidth = parent.getWidth() - (insets.left + insets.right);
-		int maxHeight = parent.getHeight() - (insets.top + insets.bottom);
 		int nComps = parent.getComponentCount();
-		int xFudge = 0, yFudge = 0;
-		boolean oneColumn = false;
-
 		// Go through the components' sizes, if neither
 		// preferredLayoutSize nor minimumLayoutSize has
 		// been called.
@@ -89,7 +82,7 @@ public class OJIMLayout implements LayoutManager {
 				parent.setSize(parent.getHeight(), parent.getHeight());
 			} else {
 				if (c.isVisible()) {
-					Dimension d = c.getPreferredSize();
+					//Dimension d = c.getPreferredSize();
 
 					switch (i) {
 					case 0:

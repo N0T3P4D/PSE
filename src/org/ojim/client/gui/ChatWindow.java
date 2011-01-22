@@ -17,22 +17,17 @@
 
 package org.ojim.client.gui;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.TextArea;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
-
 import org.ojim.language.Localizer;
 
 public class ChatWindow extends JPanel {

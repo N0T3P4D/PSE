@@ -17,12 +17,11 @@
 
 package org.ojim.client.gui;
 
-import java.awt.LayoutManager;
-
 import javax.swing.JPanel;
 
 public class PlayerInfoField extends JPanel {
 
+	
 	
 	// FIXME: int
 	//TODO: (xZise) Klassen statt untypisierte Zahlen!
