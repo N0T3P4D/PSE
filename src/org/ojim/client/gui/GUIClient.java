@@ -229,20 +229,10 @@ public class GUIClient extends ClientBase {
 	}
 
 	@Override
-	public void informAuction(int auctionState) {
-		// TODO Auto-generated method stub
-		super.informAuction(auctionState);
-	}
-
-	@Override
-	public void informBankruptcy() {
-		// TODO Auto-generated method stub
-		super.informBankruptcy();
-	}
-
-	@Override
-	public void informBuy(Player player, BuyableField field) {
+	public void onBuy(Player player, BuyableField field) {
 		gameField.playerBuysField(player, field);
+		
+		
 		
 		//TODO if player = gui player => feld and cardBar schicken zum aufnehmen
 		// Wo finde ich heraus ob ich der GUI Player bin?
@@ -250,67 +240,70 @@ public class GUIClient extends ClientBase {
 	}
 
 	@Override
-	public void informCardPull(String text, boolean communityCard) {
-		// TODO Auto-generated method stub
-		// Mittelfeld
-		super.informCardPull(text, communityCard);
-	}
-
-	@Override
-	public void informCashChange(Player player, int cashChange) {
+	public void onCashChange(Player player, int cashChange) {
 		playerInfoWindow.changeCash(player, cashChange);
 	}
 
 	@Override
-	public void informConstruct(Street street) {
+	public void onConstruct(Street street) {
 		gameField.buildOnStreet(street);
 	}
 
 	@Override
-	public void informDestruct(Street street) {
+	public void onDestruct(Street street) {
 		gameField.destroyOnStreet(street);
 	}
 
 	@Override
-	public void informDiceValues(int[] diceValues) {
-		// TODO Mittelfeld
-		super.informDiceValues(diceValues);
-	}
-
-	@Override
-	public void informMessage(String text, Player sender, boolean privateMessage) {
+	public void onMessage(String text, Player sender, boolean privateMessage) {
 		chatWindow.write(new ChatMessage(sender, privateMessage, text));
 	}
 
 	@Override
-	public void informMortgageToogle(BuyableField street) {
+	public void onMortgageToogle(BuyableField street) {
 		cardWindow.switchCardStatus(street);
 		gameField.switchFieldStatus(street);
 	}
 
 	@Override
-	public void informMove(Player player, int position) {
+	public void onMove(Player player, int position) {
 		//TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		gameField.playerMoves(this.getGameState().getFieldAt(position), player);
 	}
 
 	@Override
-	public void informStartGame(int[] ids) {
+	public void onTrade(Player actingPlayer, Player partnerPlayer) {
+		// TODO Auto-generated method stub
+	}
+
+	@Override
+	public void onBankruptcy() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onCardPull(String text, boolean communityCard) {
+		// TODO Auto-generated method stub
+		// Mittelfeld
+	}
+
+	@Override
+	public void onDiceValues(int[] diceValues) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onStartGame(Player[] players) {
 		this.menuState = MenuState.game;
 
 		// TODO IDS! -> Sind das die Spieler?
-		//xZise: Korrekt
-				
+		//xZise: Korrekt		
 	}
 
 	@Override
-	public void informTrade(Player actingPlayer, Player partnerPlayer) {
-		// TODO Auto-generated method stub
-		super.informTrade(actingPlayer, partnerPlayer);
-	}
-
-	@Override
-	public void informTurn(Player player) {
+	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
 	}
 
@@ -399,6 +392,12 @@ public class GUIClient extends ClientBase {
 		aboutFrame.setTitle(language.getText("about"));
 		menubar.language(language);
 
+	}
+
+	@Override
+	public void onAuction(int auctionState) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

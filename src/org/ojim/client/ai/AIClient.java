@@ -63,36 +63,31 @@ public class AIClient extends ClientBase {
 	}
 	
 	@Override
-	public void informTurn(Player player) {
+	public void onTurn(Player player) {
 //		assert (player == super)
-		logger.log(Level.INFO, "Inform turn for client " + player);
+		logger.log(Level.INFO, "Inform turn for client " + player.getName() + " (id: " + player.getId() + ")");
 		logger.log(Level.INFO, "Position is " + this.getGameState().getActivePlayer().getPosition());
 		this.rollDice();
 	}
 	
 	@Override
-	public void informCashChange(Player player, int cashChange) {
-		logger.log(Level.INFO, "Call!");
+	public void onCashChange(Player player, int cashChange) {
+		logger.log(Level.INFO, "Call onCashChange!");
 
 	}
 
 	@Override
-	public void informDiceValues(int[] diceValues) {
-		logger.log(Level.INFO, "Call!");
+	public void onMessage(String text, Player sender, boolean privateMessage) {
+		logger.log(Level.INFO, "Call onMessage!");
 	}
 
 	@Override
-	public void informMessage(String text, Player sender, boolean privateMessage) {
-		logger.log(Level.INFO, "Call!");
+	public void onTrade(Player actingPlayer, Player partnerPlayer) {
+		logger.log(Level.INFO, "Call onTrade!");
 	}
 
 	@Override
-	public void informTrade(Player actingPlayer, Player partnerPlayer) {
-		logger.log(Level.INFO, "Call!");
-	}
-
-	@Override
-	public void informMove(Player player, int position) {
+	public void onMove(Player player, int position) {
 		logger.log(Level.INFO, "New position is " + position + " with name " + getLogic().getGameState().getFieldAt(position).getName());
 		isPrison(position);
 		if (position == 11) {
@@ -107,13 +102,8 @@ public class AIClient extends ClientBase {
 	}
 
 	@Override
-	public void informBuy(Player player, BuyableField position) {
-		logger.log(Level.INFO, "Call!");
-	}
-
-	@Override
-	public void informAuction(int auctionState) {
-		logger.log(Level.INFO, "Call!");
+	public void onBuy(Player player, BuyableField position) {
+		logger.log(Level.INFO, "Call onBuy!");
 	}
 	
 	private void isPrison(int position) {
@@ -124,5 +114,45 @@ public class AIClient extends ClientBase {
 	
 	public void blub(String message) {
 		System.out.println(message);
+	}
+
+	@Override
+	public void onBankruptcy() {
+		logger.log(Level.INFO, "Call onBankruptcy!");		
+	}
+
+	@Override
+	public void onCardPull(String text, boolean communityCard) {
+		logger.log(Level.INFO, "Call onCardPull!");		
+	}
+
+	@Override
+	public void onConstruct(Street street) {
+		logger.log(Level.INFO, "Call onConstruct!");		
+	}
+
+	@Override
+	public void onDestruct(Street street) {
+		logger.log(Level.INFO, "Call onDestruct!");		
+	}
+
+	@Override
+	public void onDiceValues(int[] diceValues) {
+		logger.log(Level.INFO, "Call onDiceValues!");		
+	}
+
+	@Override
+	public void onMortgageToogle(BuyableField street) {
+		logger.log(Level.INFO, "Call onMortgageToogle!");		
+	}
+
+	@Override
+	public void onStartGame(Player[] players) {
+		logger.log(Level.INFO, "Call onStartGame!");		
+	}
+
+	@Override
+	public void onAuction(int auctionState) {
+		logger.log(Level.INFO, "Call onAuction!");		
 	}
 }
