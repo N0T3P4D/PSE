@@ -5,6 +5,7 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 import org.ojim.language.Localizer;
+import org.ojim.logic.state.fields.Field;
 
 public class CardWindow extends JPanel {
 
@@ -87,6 +88,10 @@ public class CardWindow extends JPanel {
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1); i++) {
 			this.add(cardStacks[i]);
 		}
+	}
+	
+	public void switchCardStatus(Field field){
+		
 	}
 
 }
