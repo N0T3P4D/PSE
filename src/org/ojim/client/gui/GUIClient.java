@@ -47,28 +47,27 @@ public class GUIClient extends ClientBase {
 	ChatWindow chatWindow;
 	PlayerInfoWindow playerInfoWindow;
 	CardWindow cardWindow;
-	
+
 	CreateGameFrame createGameFrame;
 	JoinGameFrame joinGameFrame;
 	SettingsFrame settingsFrame;
 	HelpFrame helpFrame;
 	AboutFrame aboutFrame;
-	
+
 	MenuBar menubar;
 
 	JFrame GUIFrame;
 
 	JPanel pane = new JPanel(new OJIMLayout());
 	Localizer language;
-	
+
 	private MenuState menuState;
 
 	public GUIClient() {
 
 		// Nur zu Debugzwecken auf game
 		setMenuState(MenuState.mainMenu);
-		
-		
+
 		createGameFrame = new CreateGameFrame();
 		joinGameFrame = new JoinGameFrame();
 		settingsFrame = new SettingsFrame();
@@ -76,7 +75,7 @@ public class GUIClient extends ClientBase {
 		aboutFrame = new AboutFrame();
 
 		language = new Localizer();
-		
+
 		LanguageDefinition[] langs = language.getLanguages();
 		if (langs.length == 0) {
 			System.out.println("No languagefile found.");
@@ -84,7 +83,6 @@ public class GUIClient extends ClientBase {
 
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
-
 
 		createGameFrame.setTitle(language.getText("create game"));
 		joinGameFrame.setTitle(language.getText("join game"));
@@ -99,11 +97,12 @@ public class GUIClient extends ClientBase {
 		draw();
 
 	}
-	
-	private void draw(){
+
+	private void draw() {
 
 		GUIFrame.removeAll();
-		
+		GUIFrame = new JFrame(language.getText("ojim"));
+
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Windows".equals(info.getName())) {
@@ -128,12 +127,10 @@ public class GUIClient extends ClientBase {
 				}
 			}
 		}
-		
-		menubar = new MenuBar(language,this);
-		System.out.println("Test3");
+
+		menubar = new MenuBar(language, this);
 		GUIFrame.setJMenuBar(menubar);
-		
-		
+
 		switch (menuState) {
 
 		case mainMenu:
@@ -170,11 +167,11 @@ public class GUIClient extends ClientBase {
 		case game:
 
 			gameField = new GameField();
-			
+
 			gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
-			
+
 			gameField.draw();
-			
+
 			pane.add(gameField);
 
 			JPanel rightWindow1 = new JPanel();
@@ -222,7 +219,6 @@ public class GUIClient extends ClientBase {
 
 		GUIFrame.setVisible(true);
 	}
-	
 
 	public static void main(String[] args) {
 		new GUIClient();
@@ -250,7 +246,7 @@ public class GUIClient extends ClientBase {
 		
 		//TODO if player = gui player => feld and cardBar schicken zum aufnehmen
 		// Wo finde ich heraus ob ich der GUI Player bin?
-		
+
 	}
 
 	@Override
@@ -301,7 +297,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void informStartGame(int[] ids) {
 		this.menuState = MenuState.game;
-		
+
 		// TODO IDS! -> Sind das die Spieler?
 		//xZise: Korrekt
 				
@@ -344,64 +340,55 @@ public class GUIClient extends ClientBase {
 		return cardWindow;
 	}
 
-
 	public void openCreateGameWindow() {
 		createGameFrame.setVisible(true);
-		
-	}
 
+	}
 
 	public void leaveGame() {
 		// TODO Game beenden
-		
-		menuState = MenuState.mainMenu;
-		
-	}
 
+		menuState = MenuState.mainMenu;
+
+	}
 
 	public void openJoinGameWindow() {
 		joinGameFrame.showJoin();
 		joinGameFrame.setVisible(true);
-		
-	}
 
+	}
 
 	public void openServerListWindow() {
 		joinGameFrame.showServerList();
 		joinGameFrame.setVisible(true);
-		
-	}
 
+	}
 
 	public void openDirectConnectionWindow() {
 		joinGameFrame.showDirectConnection();
 		joinGameFrame.setVisible(true);
-		
-	}
 
+	}
 
 	public void openAboutWindow() {
 		aboutFrame.setVisible(true);
-		
-	}
 
+	}
 
 	public void openHelpWindow() {
 		helpFrame.setVisible(true);
-		
+
 	}
 
-
 	public void changeLanguage(String languageName) {
-		for(int i = 0; i < language.getLanguages().length; i++){
-			if(language.getLanguages()[i].name.equals(languageName)){
+		for (int i = 0; i < language.getLanguages().length; i++) {
+			if (language.getLanguages()[i].name.equals(languageName)) {
 				language.setLanguage(language.getLanguages()[i]);
 				resetLanguage();
 			}
 		}
-		
-	}
 
+	}
 
 	private void resetLanguage() {
 		GUIFrame.setTitle(language.getText("ojim"));
@@ -411,7 +398,7 @@ public class GUIClient extends ClientBase {
 		helpFrame.setTitle(language.getText("help"));
 		aboutFrame.setTitle(language.getText("about"));
 		menubar.language(language);
-		
+
 	}
 
 }
