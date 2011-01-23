@@ -50,6 +50,6 @@ public class TaxField extends Field {
 
 	@Override
 	public int getColorGroup() {
-		return -9;
+		return FieldGroup.TAX;
 	}
 }

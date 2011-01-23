@@ -38,9 +38,6 @@ public class Jail extends Field {
 
 	@Override
 	public int getColorGroup() {
-		return -2;
+		return FieldGroup.JAIL;
 	}
-	
-	
-
 }

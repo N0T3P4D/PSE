@@ -45,6 +45,6 @@ public class FreeParking extends Field implements IMoneyPartner {
 
 	@Override
 	public int getColorGroup() {
-		return -3;
+		return FieldGroup.FREE_PARKING;
 	}
 }

@@ -52,10 +52,4 @@ public class InfrastructureField extends BuyableField {
 		
 		return RENT[ownerOwns] * dices.getResultSum();
 	}
-
-	@Override
-	public int getColorGroup() {
-		return -8;
-	}
-
 }

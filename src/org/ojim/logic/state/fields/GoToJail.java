@@ -33,7 +33,6 @@ public class GoToJail extends Field {
 
 	@Override
 	public int getColorGroup() {
-		return -4;
+		return FieldGroup.GO_TO_JAIL;
 	}
-
 }
