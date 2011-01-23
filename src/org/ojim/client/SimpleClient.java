@@ -205,6 +205,8 @@ public class SimpleClient {
 	protected final void rollDice() {
 		if (this.getGameRules().isPlayerOnTurn(this.me)) {
 			this.server.rollDice(this.playerId);
+		} else {
+			System.out.println("not on turn");
 		}
 	}
 
