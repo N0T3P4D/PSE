@@ -198,14 +198,14 @@ public class ClientBase extends SimpleClient implements IClient {
 		// TODO Auto-generated method stub
 
 	}
-	
-	public void informCashChange(Player player, int cashChange) {
-		
-	}
 
 	@Override
 	public final void informCashChange(int player, int cashChange) {
 		this.informCashChange(this.getGameState().getPlayerByID(player), cashChange);
+	}
+	
+	public void informCashChange(Player player, int cashChange) {
+		
 	}
 
 	@Override
@@ -265,7 +265,7 @@ public class ClientBase extends SimpleClient implements IClient {
 			this.getLogic().toggleMortgage((BuyableField) field);
 			this.informMortgageToogle((BuyableField) field);
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid buyable field.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMortgageToogle with invalid buyable field.");
 		}
 	}
 	
@@ -299,17 +299,17 @@ public class ClientBase extends SimpleClient implements IClient {
 	}
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer) {
+	public final void informTrade(int actingPlayer, int partnerPlayer) {
 		Player acting = this.getGameState().getPlayerByID(actingPlayer);
 		if (acting != null) {
-			Player parnter = this.getGameState().getPlayerByID(partnerPlayer);
-			if (parnter != null) {
-				this.informTrade(acting, parnter);
+			Player partner = this.getGameState().getPlayerByID(partnerPlayer);
+			if (partner != null) {
+				this.informTrade(acting, partner);
 			} else {
-				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid buyable field.");
+				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTrade with invalid partner player.");
 			}
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid buyable field.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTrade with invalid acting player.");
 		}
 	}
 	
@@ -318,23 +318,52 @@ public class ClientBase extends SimpleClient implements IClient {
 	}
 
 	@Override
-	public void informTurn(int player) {
+	public final void informTurn(int player) {
+		Player newPlayer = this.getGameState().getPlayerByID(player);
+		if (newPlayer != null) {
+			this.informTurn(newPlayer);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTurn with invalid player.");
+		}
 
-		// TODO Auto-generated method stub
-
-		// GameState bescheid sagen, wer jetzt dran ist
+		//TODO GameState bescheid sagen, wer jetzt dran ist
+	}
+	
+	public void informTurn(Player player) {
+		
 	}
 
 	@Override
-	public void informMove(int playerId, int position) {
-		// TODO Auto-generated method stub
-
+	public final void informMove(int playerId, int position) {
+		Player player = this.getGameState().getPlayerByID(playerId);
+		if (player != null) {
+			this.informMove(player, position);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMove with invalid player.");
+		}
+	}
+	
+	public void informMove(Player player, int position) {
+		
 	}
 
 	@Override
-	public void informBuy(int player, int position) {
-		// TODO Auto-generated method stub
-
+	public final void informBuy(int playerId, int position) {
+		Player player = this.getGameState().getPlayerByID(playerId);
+		if (player != null) {
+			Field field = this.getGameState().getFieldAt(position);
+			if (field instanceof BuyableField) {
+				this.informBuy(player, (BuyableField) field);
+			} else {
+				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informBuy with invalid position.");
+			}
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informBuy with invalid player.");
+		}
+	}
+	
+	public void informBuy(Player player, BuyableField field) {
+		
 	}
 
 	@Override

@@ -36,6 +36,9 @@ import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
 import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Player;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Street;
 
 public class GUIClient extends ClientBase {
 
@@ -242,8 +245,8 @@ public class GUIClient extends ClientBase {
 	}
 
 	@Override
-	public void informBuy(int player, int position) {
-		gameField.playerBuysField(this.getGameState().getPlayerByID(player), this.getGameState().getFieldAt(position));
+	public void informBuy(Player player, BuyableField field) {
+		gameField.playerBuysField(player, field);
 		
 		//TODO if player = gui player => feld and cardBar schicken zum aufnehmen
 		// Wo finde ich heraus ob ich der GUI Player bin?
@@ -258,18 +261,18 @@ public class GUIClient extends ClientBase {
 	}
 
 	@Override
-	public void informCashChange(int player, int cashChange) {
-		playerInfoWindow.changeCash(this.getGameState().getPlayerByID(player), cashChange);
+	public void informCashChange(Player player, int cashChange) {
+		playerInfoWindow.changeCash(player, cashChange);
 	}
 
 	@Override
-	public void informConstruct(int street) {
-		gameField.buildOnStreet(this.getGameState().getFieldByID(street));
+	public void informConstruct(Street street) {
+		gameField.buildOnStreet(street);
 	}
 
 	@Override
-	public void informDestruct(int street) {
-		gameField.destroyOnStreet(this.getGameState().getFieldByID(street));
+	public void informDestruct(Street street) {
+		gameField.destroyOnStreet(street);
 	}
 
 	@Override
@@ -279,19 +282,20 @@ public class GUIClient extends ClientBase {
 	}
 
 	@Override
-	public void informMessage(String text, int sender, boolean privateMessage) {
-		chatWindow.write(new ChatMessage(this.getGameState().getPlayerByID(sender), privateMessage, text));
+	public void informMessage(String text, Player sender, boolean privateMessage) {
+		chatWindow.write(new ChatMessage(sender, privateMessage, text));
 	}
 
 	@Override
-	public void informMortgageToogle(int street) {
-		cardWindow.switchCardStatus(this.getGameState().getFieldByID(street));
-		gameField.switchFieldStatus(this.getGameState().getFieldByID(street));
+	public void informMortgageToogle(BuyableField street) {
+		cardWindow.switchCardStatus(street);
+		gameField.switchFieldStatus(street);
 	}
 
 	@Override
-	public void informMove(int position, int playerId) {
-		gameField.playerMoves(this.getGameState().getFieldAt(position),this.getGameState().getPlayerByID(playerId));
+	public void informMove(Player player, int position) {
+		//TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
+		gameField.playerMoves(this.getGameState().getFieldAt(position), player);
 	}
 
 	@Override
@@ -299,18 +303,19 @@ public class GUIClient extends ClientBase {
 		this.menuState = MenuState.game;
 		
 		// TODO IDS! -> Sind das die Spieler?
-		
+		//xZise: Korrekt
+				
 	}
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer) {
+	public void informTrade(Player actingPlayer, Player partnerPlayer) {
 		// TODO Auto-generated method stub
 		super.informTrade(actingPlayer, partnerPlayer);
 	}
 
 	@Override
-	public void informTurn(int player) {
-		playerInfoWindow.turnOn(this.getGameState().getPlayerByID(player));
+	public void informTurn(Player player) {
+		playerInfoWindow.turnOn(player);
 	}
 
 	@Override

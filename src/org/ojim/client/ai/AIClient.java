@@ -63,7 +63,7 @@ public class AIClient extends ClientBase {
 	}
 	
 	@Override
-	public void informTurn(int player) {
+	public void informTurn(Player player) {
 //		assert (player == super)
 		logger.log(Level.INFO, "Inform turn for client " + player);
 		logger.log(Level.INFO, "Position is " + this.getGameState().getActivePlayer().getPosition());
@@ -71,7 +71,7 @@ public class AIClient extends ClientBase {
 	}
 	
 	@Override
-	public void informCashChange(int player, int cashChange) {
+	public void informCashChange(Player player, int cashChange) {
 		logger.log(Level.INFO, "Call!");
 
 	}
@@ -82,17 +82,17 @@ public class AIClient extends ClientBase {
 	}
 
 	@Override
-	public void informMessage(String text, int sender, boolean privateMessage) {
+	public void informMessage(String text, Player sender, boolean privateMessage) {
 		logger.log(Level.INFO, "Call!");
 	}
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer) {
+	public void informTrade(Player actingPlayer, Player partnerPlayer) {
 		logger.log(Level.INFO, "Call!");
 	}
 
 	@Override
-	public void informMove(int playerId, int position) {
+	public void informMove(Player player, int position) {
 		logger.log(Level.INFO, "New position is " + position + " with name " + getLogic().getGameState().getFieldAt(position).getName());
 		isPrison(position);
 		if (position == 11) {
@@ -107,7 +107,7 @@ public class AIClient extends ClientBase {
 	}
 
 	@Override
-	public void informBuy(int player, int position) {
+	public void informBuy(Player player, BuyableField position) {
 		logger.log(Level.INFO, "Call!");
 	}
 

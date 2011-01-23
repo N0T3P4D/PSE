@@ -113,7 +113,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		//AI Add AIClients to the Game
 		for (int i = 0; i < aiCount; i++) {
 			//AI changed
-			aiClients[i] = new AIClient(this, logic, i);
+			aiClients[i] = new AIClient(this);
 			logger.log(Level.CONFIG, "AI Client " + i + " added!");
 			aiClients[i].setReady();
 		}
