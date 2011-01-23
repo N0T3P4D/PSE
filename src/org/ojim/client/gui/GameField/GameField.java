@@ -17,28 +17,59 @@
 
 package org.ojim.client.gui.GameField;
 
-import java.awt.GridLayout;
-
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.client.gui.StreetColor;
+import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Player;
+import org.ojim.logic.state.fields.Field;
 
 public class GameField extends JPanel {
 
+	
+	GameFieldPiece[] fields;
+	
 	public GameField() {
-		super();
-		// 1 Eckfeld = 2, sonst jeweils 1
-		/*
-		for (int i = 0; i < 13 * 13; i++) {
-			if (i % 13 == 0 || i % 13 == 1 || i % 13 == 11 || i % 13 == 12
-					|| i < 13 * 2 || i > 13 * 11) {
-				this.add(new JLabel("X"));
-			} else {
-				this.add(new JLabel("."));
-			}
+		
+
+	}
+
+	// Hält GameFieldPieceCollection
+	// Hält Referenz auf GameFieldPiece
+	InteractionPopup interactionPopup;
+
+	public void buildOnStreet(Field field) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void playerBuysField(Player player, Field field) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void destroyOnStreet(Field field) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void switchFieldStatus(Field field) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void playerMoves(Field field, Player player) {
+		// TODO Auto-generated method stub
+	}
+	
+	public void init(int fieldsAmount, GameState gameState){
+		fields = new GameFieldPiece[fieldsAmount];
+		for(int i = 0; i < fieldsAmount; i++){
+			fields[i].setField(gameState.getFieldByID(i));
 		}
-		*/
+	}
+	
+	public void draw(){
 		
 		this.setLayout(new GameFieldLayout());
 		
@@ -60,15 +91,6 @@ public class GameField extends JPanel {
 			actualLabel.setName(i+"");
 			this.add(actualLabel);
 		}
-		
-
-		//this.setLayout(new GridLayout(13, 13));
-		// System.out.println("X: " + this.getWidth() + ", Y: " +
-		// this.getHeight());
-
 	}
-
-	// Hält GameFieldPieceCollection
-	// Hält Referenz auf GameFieldPiece
-	InteractionPopup interactionPopup;
+	
 }

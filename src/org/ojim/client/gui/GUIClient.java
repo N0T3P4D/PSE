@@ -29,10 +29,12 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.CardBar.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
+import org.ojim.client.gui.RightBar.ChatMessage;
 import org.ojim.client.gui.RightBar.ChatWindow;
 import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
+import org.ojim.logic.state.GameState;
 
 public class GUIClient extends ClientBase {
 
@@ -50,24 +52,15 @@ public class GUIClient extends ClientBase {
 
 	public GUIClient() {
 
-		setMenuState(MenuState.game);
+		// Nur zu Debugzwecken
+		setMenuState(MenuState.mainMenu);
 
-//		LanguageDefinition languageDefinition = new LanguageDefinition(
-//				"Maximilian", "English", "English", "eng", new File(
-//						"org/ojim/language/langs/eng.lang"));
-		// LanguageDefinition languageDefinition = new LanguageDefinition(
-		// "Maximilian", "Deutsch", "German", "deu", new File(
-		// "org/ojim/language/langs/deu.lang"));
 
 		Localizer language = new Localizer();
 		LanguageDefinition[] langs = language.getLanguages();
 		if (langs.length == 0) {
 			System.out.println("No languagefile found.");
 		}
-		/*
-		for (LanguageDefinition lang : langs) {
-			//System.out.println("Found language: " + lang.name + " (" + lang.englishName + " code: " + lang.code + ")");
-		}*/
 
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
@@ -141,6 +134,11 @@ public class GUIClient extends ClientBase {
 		case game:
 
 			gameField = new GameField();
+			
+			gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
+			
+			gameField.draw();
+			
 			pane.add(gameField);
 
 			JPanel rightWindow1 = new JPanel();
@@ -184,7 +182,7 @@ public class GUIClient extends ClientBase {
 
 		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		GUIFrame.setMinimumSize(new Dimension(500, 450));
+		GUIFrame.setMinimumSize(new Dimension(550, 450));
 
 		GUIFrame.setVisible(true);
 
@@ -212,13 +210,17 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void informBuy(int player, int position) {
-		// TODO Auto-generated method stub
-		super.informBuy(player, position);
+		gameField.playerBuysField(this.getGameState().getPlayerByID(player), this.getGameState().getFieldAt(position));
+		
+		//TODO if player = gui player => feld and cardBar schicken zum aufnehmen
+		// Wo finde ich heraus ob ich der GUI Player bin?
+		
 	}
 
 	@Override
 	public void informCardPull(String text, boolean communityCard) {
 		// TODO Auto-generated method stub
+		// Mittelfeld
 		super.informCardPull(text, communityCard);
 	}
 
@@ -229,44 +231,42 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void informConstruct(int street) {
-		// TODO Auto-generated method stub
-		super.informConstruct(street);
+		gameField.buildOnStreet(this.getGameState().getFieldByID(street));
 	}
 
 	@Override
 	public void informDestruct(int street) {
-		// TODO Auto-generated method stub
-		super.informDestruct(street);
+		gameField.destroyOnStreet(this.getGameState().getFieldByID(street));
 	}
 
 	@Override
 	public void informDiceValues(int[] diceValues) {
-		// TODO Auto-generated method stub
+		// TODO Mittelfeld
 		super.informDiceValues(diceValues);
 	}
 
 	@Override
 	public void informMessage(String text, int sender, boolean privateMessage) {
-		// TODO Auto-generated method stub
-		super.informMessage(text, sender, privateMessage);
+		chatWindow.write(new ChatMessage(this.getGameState().getPlayerByID(sender), privateMessage, text));
 	}
 
 	@Override
 	public void informMortgageToogle(int street) {
-		// TODO Auto-generated method stub
-		super.informMortgageToogle(street);
+		cardWindow.switchCardStatus(this.getGameState().getFieldByID(street));
+		gameField.switchFieldStatus(this.getGameState().getFieldByID(street));
 	}
 
 	@Override
 	public void informMove(int position, int playerId) {
-		// TODO Auto-generated method stub
-		super.informMove(position, playerId);
+		gameField.playerMoves(this.getGameState().getFieldAt(position),this.getGameState().getPlayerByID(playerId));
 	}
 
 	@Override
 	public void informStartGame(int[] ids) {
-		// TODO Auto-generated method stub
-		super.informStartGame(ids);
+		this.menuState = MenuState.game;
+		
+		// TODO IDS! -> Sind das die Spieler?
+		
 	}
 
 	@Override
@@ -277,8 +277,7 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void informTurn(int player) {
-		// TODO Auto-generated method stub
-		super.informTurn(player);
+		playerInfoWindow.turnOn(this.getGameState().getPlayerByID(player));
 	}
 
 	@Override

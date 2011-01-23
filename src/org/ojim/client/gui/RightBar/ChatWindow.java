@@ -81,9 +81,13 @@ public class ChatWindow extends JPanel {
 
 	}
 
-	public void write(ChatMessage message) {
-		messages.add(message);
-		textArea.append(message.getDate()+" <"+message.getPlayer()+"> "+message.getMessage()+"\n");
+	public void write(ChatMessage chatMessage) {
+		messages.add(chatMessage);
+		if(chatMessage.getPrivate()){
+			textArea.append(language.getText("private")+": ");
+			
+		}
+		textArea.append(" <"+chatMessage.getPlayer()+"> "+chatMessage.getMessage()+"\n");
 	}
 
 }
