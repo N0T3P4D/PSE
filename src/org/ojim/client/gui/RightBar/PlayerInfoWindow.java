@@ -122,6 +122,7 @@ public class PlayerInfoWindow extends JPanel {
 		playerInfoFields[i].changeCash(newCashValue);
 		draw();
 	}
+	
 
 	private int findPlayer(Player player) {
 		for (int i = 0; i < MAX_PLAYERS; i++) {

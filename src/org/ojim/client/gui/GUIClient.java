@@ -266,8 +266,10 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void informStartGame(int[] ids) {
-		// TODO Auto-generated method stub
-		super.informStartGame(ids);
+		this.menuState = MenuState.game;
+		
+		// TODO IDS! -> Sind das die Spieler?
+		
 	}
 
 	@Override
@@ -278,8 +280,7 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void informTurn(int player) {
-		// TODO Auto-generated method stub
-		super.informTurn(player);
+		playerInfoWindow.turnOn(this.getGameState().getPlayerByID(player));
 	}
 
 	@Override
