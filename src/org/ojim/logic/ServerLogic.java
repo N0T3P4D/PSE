@@ -68,7 +68,7 @@ public class ServerLogic extends Logic {
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if (onePlayer instanceof ServerPlayer) {
 				((ServerPlayer) onePlayer).sendMessage(
-						"Current Player is Bankrupt!", 0, false);
+						"Current Player is Bankrupt!", -1, false);
 			}
 		}
 	}
@@ -80,17 +80,11 @@ public class ServerLogic extends Logic {
 		// AI
 		logger.log(Level.INFO, "Starting new turn");
 		// Get a new Player On Turn
-		this.GetNewPlayerOnTurn();
-		this.getGameState().setActivePlayerNeedsToRoll(true);
+		this.getNewPlayerOnTurn();
+		int id = this.getGameState().getActivePlayer().getId();
 		// Inform All Player that a new Turn has come
-		for (Player onePlayer : this.getGameState().getPlayers()) {
-			// if (onePlayer instanceof ServerPlayer) {
-			logger.log(Level.INFO, "lol!");
-			((ServerPlayer) onePlayer).getClient().informTurn(
-					this.getGameState().getActivePlayer().getId());
-			// } else {
-			// logger.log(Level.INFO, "blub!");
-			// }
+		for (Player player : this.getGameState().getPlayers()) {
+			((ServerPlayer) player).getClient().informTurn(id);
 		}
 	}
 
@@ -212,15 +206,17 @@ public class ServerLogic extends Logic {
 		}
 	}
 
-	public void GetNewPlayerOnTurn() {
+	public void getNewPlayerOnTurn() {
 		Player[] players = this.getGameState().getPlayers();
 		Player currentPlayer = this.getGameState().getActivePlayer();
 		for (int i = 0; i < players.length; i++) {
 			if (players[i].equals(currentPlayer)) {
 				for (int j = 1; j < players.length; j++) {
-					if (players[i] != null && !players[i].getIsBankrupt()) {
-						this.getGameState().setActivePlayer(players[i]);
+					int playerPos = (j + i) % players.length;
+					if (players[playerPos] != null && !players[playerPos].getIsBankrupt()) {
+						this.getGameState().setActivePlayer(players[playerPos]);
 						this.getGameState().setActivePlayerNeedsToRoll(true);
+						return;
 					}
 				}
 			}
