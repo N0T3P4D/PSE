@@ -632,12 +632,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		display("Starting Roll");
 
-		if (player == null || player.equals(state.getActivePlayer())
+		if (player == null || !player.equals(state.getActivePlayer())
 				|| this.gameStarted == false
 				|| !this.rules.isRollRequiredByActivePlayer()) {
 			return false;
 		}
-
+		
 		if (this.rules.isPlayerInPrison(player)) {
 
 			// Still need to wait
@@ -733,6 +733,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if(player == null || playerID != state.getActivePlayer().getId()) {
 			return false;
 		}
+
 		//First check if a Action needs Confirmation
 		Card card = state.getFirstWaitingCard();
 		if(card != null) {
@@ -745,6 +746,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean endTurn(int playerID) {
+
 		Player player = state.getPlayerByID(playerID);
 		if (player != null && rules.isPlayerOnTurn(player) && !rules.isRollRequiredByActivePlayer()) {
 
