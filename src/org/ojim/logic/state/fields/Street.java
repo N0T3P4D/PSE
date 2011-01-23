@@ -86,7 +86,7 @@ public class Street extends BuyableField {
 		// owner, the rent is doubled
 		if (level == 0) {
 			for (Field field : this.getFieldGroup().getFields()) {
-				if (!(field instanceof Street) || !this.getOwner().equals(((Street) field).getOwner())) {
+				if (!(field instanceof Street) || ((Street)field).getOwner() == null || !this.getOwner().equals(((Street) field).getOwner())) {
 					// Not all the same owner: normal rent
 					return rentByLevel[0];
 				}
