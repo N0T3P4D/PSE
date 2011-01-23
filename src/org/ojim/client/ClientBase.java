@@ -115,10 +115,10 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 					field = new GoToJail(name, position);
 					break;
 				case FieldGroup.EVENT:
-					field = new CardField(name, position);
+					field = new CardField(name, position, false);
 					break;
 				case FieldGroup.COMMUNITY:
-					field = new CardField(name, position);
+					field = new CardField(name, position, true);
 					break;
 				case FieldGroup.STATIONS:
 					field = stations
