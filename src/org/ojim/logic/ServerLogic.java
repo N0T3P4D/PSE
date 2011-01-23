@@ -223,7 +223,7 @@ public class ServerLogic extends Logic {
 		}
 
 	}
-
+	
 	public void playerRolledOutOfJail(Player player) {
 
 	}
@@ -246,6 +246,17 @@ public class ServerLogic extends Logic {
 
 	}
 
+	public void buyStreet() {
+		Player player = this.getGameState().getActivePlayer();
+		int position = player.getPosition();
+		changeFieldOwner(null, player, (BuyableField)this.getGameState().getFieldAt(position));
+		for(Player onePlayer : this.getGameState().getPlayers()) {
+			if(onePlayer instanceof ServerPlayer) {
+				((ServerPlayer)onePlayer).getClient().informBuy(player.getId(), position);
+			}
+		}
+	}
+	
 	public void changeFieldOwner(Player oldOwner, Player newOwner,
 			BuyableField field) {
 		int newOwnerId = -1;
