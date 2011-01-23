@@ -38,4 +38,13 @@ public class CardField extends Field {
 	public boolean isCommunityField() {
 		return this.community;
 	}
+
+	@Override
+	public int getColorGroup() {
+		if(this.community) {
+			return -6;
+		} else {
+			return -5;
+		}
+	}
 }

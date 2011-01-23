@@ -42,4 +42,9 @@ public class FreeParking extends Field implements IMoneyPartner {
 	public void transferMoney(int amount) {
 		this.moneyInPot += amount;
 	}
+
+	@Override
+	public int getColorGroup() {
+		return -3;
+	}
 }

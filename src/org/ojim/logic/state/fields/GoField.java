@@ -36,4 +36,9 @@ public class GoField extends Field {
 		this.setExecuteActions(ActionFactory.newTransferMoneyToBank(logic, -gomoney));
 	}
 
+	@Override
+	public int getColorGroup() {
+		return -1;
+	}
+
 }

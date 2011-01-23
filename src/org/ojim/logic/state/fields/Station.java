@@ -42,4 +42,9 @@ public class Station extends BuyableField {
 		return ((StationFieldGroup) this.getFieldGroup()).getRent(ownerOwns);
 	}
 
+	@Override
+	public int getColorGroup() {
+		return -7;
+	}
+
 }

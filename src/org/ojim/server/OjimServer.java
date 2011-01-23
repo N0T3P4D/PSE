@@ -524,14 +524,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getEstateColorGroup(int position) {
-		if (position < 0 || position >= GameState.FIELDS_AMOUNT) {
-			return -1;
-		}
 		Field field = state.getFieldAt(position);
-		if (field != null && field instanceof BuyableField) {
-			return ((BuyableField) field).getFieldGroup().getColor();
+		if(field != null) {
+			return field.getColorGroup();
 		}
-		return -1;
+		return 0;
 	}
 
 	@Override
@@ -725,25 +722,29 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public boolean accept(int playerID) {
 		ServerPlayer player = state.getPlayerByID(playerID);
-		
+		display("accepting");
 		//Does a Trade need Confirmation?
 		if(trade != null && player != null && trade.getTradeState() == 1 && player.equals(trade.getPartner())) {
 			trade.setTradeState(3);
+			display("accept: trade");
 			trade.executeTrade(logic);
 		}
 		
-		if(player == null || playerID != state.getActivePlayer().getId()) {
+		if(player == null || !rules.isPlayerOnTurn(player)) {
+			display("accept: not on turn");
 			return false;
 		}
 		//First check if a Action needs Confirmation
 		Card card = state.getFirstWaitingCard();
 		if(card != null) {
+			display("accept: card");
 			card.accept();
 			state.RemoveWaitingCard(card);
 			return true;
 		} 
 		Field field = state.getFieldAt(player.getPosition());
 		if(field instanceof BuyableField && ((BuyableField)field).getOwner() == null) {
+			display("accept: buy field");
 			logic.buyStreet();
 			return true;
 		}
