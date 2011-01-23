@@ -525,24 +525,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public int getEstateColorGroup(int position) {
 		Field field = state.getFieldAt(position);
-		if(field == null) {
-			//Shouldnt be the case
-			return -199;
-		} else if(field instanceof Street) {
-			return ((Street) field).getFieldGroup().getColor();
-		} else if (field instanceof GoField) {
-			return -1;
-		} else if(field instanceof Jail) {
-			return -2;
-		} else if(field instanceof FreeParking) {
-			return -3;
-		} else if(field instanceof GoToJail) {
-			return -4;
-		} else if(field instanceof CardField) {
-			if(((CardField)field).)
+		if(field != null) {
+			return field.getColorGroup();
 		}
 		return 0;
-		
 	}
 
 	@Override

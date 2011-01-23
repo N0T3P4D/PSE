@@ -31,4 +31,9 @@ public class GoToJail extends Field {
 		this.setExecuteActions(new ActionMoveToJail(logic));
 	}
 
+	@Override
+	public int getColorGroup() {
+		return -4;
+	}
+
 }
