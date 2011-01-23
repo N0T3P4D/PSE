@@ -261,17 +261,18 @@ public class ServerLogic extends Logic {
 			BuyableField field) {
 		int newOwnerId = -1;
 		// Take away the Field from the old Owner
-		if (oldOwner != null) {
+		/*if (oldOwner != null) {
 			oldOwner.removeField(field);
 		}
 		if (newOwner != null) {
 			newOwner.addField(field);
 			newOwnerId = newOwner.getId();
-		}
+		}*/
+		field.buy(newOwner);
 
 		for (Player player : this.getGameState().getPlayers()) {
 			if (player instanceof ServerPlayer) {
-				((ServerPlayer) player).getClient().informBuy(newOwnerId,
+				((ServerPlayer) player).getClient().informBuy(newOwner.getId(),
 						field.getPosition());
 			}
 		}
