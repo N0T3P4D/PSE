@@ -34,6 +34,7 @@ import org.ojim.client.gui.RightBar.ChatWindow;
 import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
+import org.ojim.logic.state.GameState;
 
 public class GUIClient extends ClientBase {
 
@@ -51,24 +52,15 @@ public class GUIClient extends ClientBase {
 
 	public GUIClient() {
 
-		setMenuState(MenuState.game);
+		// Nur zu Debugzwecken
+		setMenuState(MenuState.mainMenu);
 
-//		LanguageDefinition languageDefinition = new LanguageDefinition(
-//				"Maximilian", "English", "English", "eng", new File(
-//						"org/ojim/language/langs/eng.lang"));
-		// LanguageDefinition languageDefinition = new LanguageDefinition(
-		// "Maximilian", "Deutsch", "German", "deu", new File(
-		// "org/ojim/language/langs/deu.lang"));
 
 		Localizer language = new Localizer();
 		LanguageDefinition[] langs = language.getLanguages();
 		if (langs.length == 0) {
 			System.out.println("No languagefile found.");
 		}
-		/*
-		for (LanguageDefinition lang : langs) {
-			//System.out.println("Found language: " + lang.name + " (" + lang.englishName + " code: " + lang.code + ")");
-		}*/
 
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
@@ -142,6 +134,11 @@ public class GUIClient extends ClientBase {
 		case game:
 
 			gameField = new GameField();
+			
+			gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
+			
+			gameField.draw();
+			
 			pane.add(gameField);
 
 			JPanel rightWindow1 = new JPanel();
@@ -185,7 +182,7 @@ public class GUIClient extends ClientBase {
 
 		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		GUIFrame.setMinimumSize(new Dimension(500, 450));
+		GUIFrame.setMinimumSize(new Dimension(550, 450));
 
 		GUIFrame.setVisible(true);
 
