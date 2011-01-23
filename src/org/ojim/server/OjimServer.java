@@ -746,10 +746,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean endTurn(int playerID) {
-
+		display("test");
 		Player player = state.getPlayerByID(playerID);
+		if(player == null)
+			display("player == null");
+		if(!rules.isPlayerOnTurn(player))
+			display("player not on turn");
 		if (player != null && rules.isPlayerOnTurn(player) && !rules.isRollRequiredByActivePlayer()) {
-
+			display("test finished");
 			// Player is bankrupt
 			if (player.getBalance() < 0) {
 				this.logic.setPlayerBankrupt(player);

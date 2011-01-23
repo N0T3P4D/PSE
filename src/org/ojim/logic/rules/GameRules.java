@@ -109,7 +109,7 @@ public class GameRules {
 	}
 	
 	public boolean isPlayerOnTurn(Player player) {
-		return player != this.state.getActivePlayer();
+		return player.equals(this.state.getActivePlayer());
 	}
 	
 	private boolean canPlayerModifyStreet(Player player, Field street) {

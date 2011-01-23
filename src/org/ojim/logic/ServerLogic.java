@@ -92,6 +92,7 @@ public class ServerLogic extends Logic {
 			// logger.log(Level.INFO, "blub!");
 			// }
 		}
+		this.getGameState().setActivePlayerNeedsToRoll(true);
 	}
 
 	/**
