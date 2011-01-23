@@ -81,6 +81,7 @@ public class ServerLogic extends Logic {
 		logger.log(Level.INFO, "Starting new turn");
 		// Get a new Player On Turn
 		this.getNewPlayerOnTurn();
+		this.getGameState().setActivePlayerNeedsToRoll(true);
 		int id = this.getGameState().getActivePlayer().getId();
 		// Inform All Player that a new Turn has come
 		for (Player player : this.getGameState().getPlayers()) {
@@ -233,16 +234,16 @@ public class ServerLogic extends Logic {
 		int position = player.getPosition();
 		for (int i = 1; i >= result; i++) {
 			// Move Player 1 forward
-			player.setPosition(position + i);
+			player.setPosition((position + i) % this.getGameState().FIELDS_AMOUNT);
 
 			// Do the passthrough
-			this.getGameState().getFieldAt(position + i).passThrough();
+			this.getGameState().getFieldAt((position + i) % this.getGameState().FIELDS_AMOUNT).passThrough();
 		}
-		player.setPosition(position + result);
+		player.setPosition((position + result) % this.getGameState().FIELDS_AMOUNT);
 		System.out.println("Moved Player from " + position + " to "
 				+ player.getPosition() + ", roll was " + result);
 		// Do the Execute for the Field the Player is standing on
-		this.getGameState().getFieldAt(position + result).execute();
+		this.getGameState().getFieldAt((position + result) % this.getGameState().FIELDS_AMOUNT).execute();
 
 	}
 
