@@ -15,34 +15,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.gui;
+package org.ojim.client.gui.PopUpFrames;
 
-import java.awt.Color;
+import java.awt.Dimension;
 
-public class StreetColor {
-	private static final Color[][] colors = {
-	// Straße 1
-			{ Color.blue, Color.white },
-			// Straße 2
-			{ Color.yellow, Color.black },
-			// Straße 3
-			{ Color.red, Color.white },
-			// Straße 4
-			{ Color.green, Color.white },
-			// Straße 5
-			{ Color.orange, Color.white },
-			// Straße 6
-			{ Color.cyan, Color.white },
-			// Straße 7
-			{ Color.pink, Color.white },
-			// Straße 8
-			{ Color.black, Color.white } };
+import javax.swing.JFrame;
 
-	public static Color getBackGroundColor(int color) {
-		return colors[color][0];
+public class JoinGameFrame extends JFrame {
+
+	public JoinGameFrame() {
+
+		setMinimumSize(new Dimension(200, 50));
+		this.pack();
 	}
 
-	public static Color getFontColor(int color) {
-		return colors[color][1];
+	public void showDirectConnection() {
+		// TODO Auto-generated method stub
+
 	}
+
+	public void showServerList() {
+		// TODO Auto-generated method stub
+
+	}
+
+	public void showJoin() {
+		// TODO Auto-generated method stub
+
+	}
+
 }
