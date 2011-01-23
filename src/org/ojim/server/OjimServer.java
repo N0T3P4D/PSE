@@ -97,8 +97,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			display("Player- and AICount must not be negative and one of them must be positive");
 			return false;
 		}
+		
+		//Init the GameFields
+		Field[] fields = new Field[GameState.FIELDS_AMOUNT];
+		this.loadDefaultGameStateFields(fields);
+		for (Field field : fields) {
+			this.state.setFieldAt(field, field.getPosition());
+		}
 
-		// Initializing Fields
 		this.connectedClients = 0;
 		this.maxClients = playerCount + aiCount;
 		clients = new LinkedList<IClient>();
@@ -108,7 +114,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		for (int i = 0; i < aiCount; i++) {
 			//AI changed
 			aiClients[i] = new AIClient(this, logic, i);
-//			addPlayer((IClient) aiClients[i]);
 			logger.log(Level.CONFIG, "AI Client " + i + " added!");
 			aiClients[i].setReady();
 		}
@@ -467,12 +472,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.display("Started a Game!");
 		this.gameStarted = true;
 
-		Field[] fields = new Field[GameState.FIELDS_AMOUNT];
-		this.loadDefaultGameStateFields(fields);
-		for (Field field : fields) {
-			this.state.setFieldAt(field, field.getPosition());
-		}
-
 		logic.startGame();
 	}
 
@@ -632,12 +631,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		display("Starting Roll");
 
-		if (player == null || !player.equals(state.getActivePlayer())
+		if (player == null || player.equals(state.getActivePlayer())
 				|| this.gameStarted == false
 				|| !this.rules.isRollRequiredByActivePlayer()) {
 			return false;
 		}
-		
+
 		if (this.rules.isPlayerInPrison(player)) {
 
 			// Still need to wait
@@ -733,7 +732,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if(player == null || playerID != state.getActivePlayer().getId()) {
 			return false;
 		}
-
 		//First check if a Action needs Confirmation
 		Card card = state.getFirstWaitingCard();
 		if(card != null) {
@@ -746,7 +744,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean endTurn(int playerID) {
-
 		Player player = state.getPlayerByID(playerID);
 		if (player != null && rules.isPlayerOnTurn(player) && !rules.isRollRequiredByActivePlayer()) {
 
