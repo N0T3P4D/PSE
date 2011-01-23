@@ -15,8 +15,40 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.ai;
+package org.ojim.client.ai.commands;
 
-public interface Command {
-	public void execute();
+import org.ojim.client.SimpleClient;
+import org.ojim.logic.Logic;
+
+import edu.kit.iti.pse.iface.IServer;
+
+/**
+ * 
+ * Common class for trades
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
+public class TradeCommand extends SimpleClient implements Command {
+
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 */
+	public TradeCommand(Logic logic, IServer server, int playerId) {
+		super(logic, playerId, server);
+	}
+
+	@Override
+	public void execute() {
+		// TODO Auto-generated method stub
+	}
+
 }

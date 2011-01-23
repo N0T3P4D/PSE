@@ -15,22 +15,52 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.ai;
+package org.ojim.client.ai.commands;
 
 import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
+import org.ojim.logic.state.fields.BuyableField;
 
 import edu.kit.iti.pse.iface.IServer;
 
-public class AcceptCommand extends SimpleClient implements Command {
+/**
+ * 
+ * Toggles a mortgage
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
+public class MortgageCommand extends SimpleClient implements Command {
 
-	public AcceptCommand(Logic logic, IServer server, int playerId) {
+	private int position;
+
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 * @param position
+	 *            Position to toggle
+	 */
+
+	public MortgageCommand(Logic logic, IServer server, int playerId, int position) {
 		super(logic, playerId, server);
+		this.position = position;
 	}
-	
+
 	@Override
 	public void execute() {
-		this.accept();		
+		BuyableField field = (BuyableField) this.getLogic().getGameState().getFieldAt(position);
+		if (field.isMortgaged()) {
+			field.setMortgaged(true);
+		} else {
+			field.setMortgaged(false);
+		}
 	}
 
 }

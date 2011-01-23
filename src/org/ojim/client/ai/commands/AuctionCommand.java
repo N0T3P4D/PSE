@@ -15,57 +15,40 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.ai;
+package org.ojim.client.ai.commands;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
-import org.ojim.log.OJIMLogger;
+import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
 
-import org.ojim.client.ClientBase;
 import edu.kit.iti.pse.iface.IServer;
 
 /**
- * AI Client
+ * Auction command for running an auction
  * 
  * @author Jeremias Mechler
  * 
  */
-public class AIClient extends ClientBase {
-
-	private Logger logger;
+public class AuctionCommand extends SimpleClient implements Command {
 
 	/**
 	 * 
 	 * Constructor
 	 * 
 	 * @param server
-	 * Reference to the server
+	 *            Reference to the server
 	 * @param logic
-	 * Reference to the game logic
-	 * @param playerID
-	 * This client's ID
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
 	 */
-	public AIClient(IServer server, Logic logic, int playerID) {
-		super();
-		logger = OJIMLogger.getLogger(this.getClass().toString());
-		logger.log(Level.INFO, "Hello! AI client with ID " + playerID + " created.");
-		if (server == null) {
-			throw new IllegalArgumentException("Server == null");
-		}
-		if (logic == null) {
-			throw new IllegalArgumentException("Logic == null");
-		}
-		super.setParameters(logic, playerID, server);
+	public AuctionCommand(Logic logic, IServer server, int playerId) {
+		super(logic, playerId, server);
 	}
-	
-	public void setReady() {
-		ready();
-	}
-	
+
 	@Override
-	public void informTurn(int player) {
-//		assert (player == super)
-		logger.log(Level.INFO, "Inform turn for client " + player);
+	public void execute() {
+		// TODO Auto-generated method stub
+
 	}
+
 }

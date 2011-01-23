@@ -15,30 +15,57 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.ai;
+package org.ojim.client.ai.valuation;
 
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.GameState;
 
+/**
+ * 
+ * @author Jeremias Mechler
+ * 
+ */
 public abstract class ValuationFunction {
-	
+
 	private Logic logic;
 	private GameRules rules;
-	//xZise: Implicit set by logic (logic.getGameState)
-//	protected GameState state;
-	
-	protected ValuationFunction() { }
-	
+
+	// xZise: Implicit set by logic (logic.getGameState)
+	// protected GameState state;
+
+	/**
+	 * Constructor
+	 */
+	protected ValuationFunction() {
+	}
+
 	private static ValuationFunction instance;
-	
-	//xZise: Falls du das brauchst ;) Eine Möglichkeit
-	
+
+	// xZise: Falls du das brauchst ;) Eine Möglichkeit
+
+	/**
+	 * 
+	 * Gets you an instance of clazz
+	 * 
+	 * @param clazz
+	 *            Class
+	 * @return Instance
+	 * 
+	 */
 	public static ValuationFunction getInstance(Class<? extends ValuationFunction> clazz) {
 		return CapitalValuator.getInstance(false, clazz);
 	}
-		
-	
+
+	/**
+	 * Gets you an instance
+	 * 
+	 * @param forceNew
+	 *            Do you need a new instance?
+	 * @param clazz
+	 *            Class
+	 * @return Instance
+	 */
 	public static ValuationFunction getInstance(boolean forceNew, Class<? extends ValuationFunction> clazz) {
 		if (instance == null) {
 			try {
@@ -53,24 +80,52 @@ public abstract class ValuationFunction {
 		}
 		return instance;
 	}
-	
+
+	/**
+	 * Sets logic and rules
+	 * 
+	 * @param logic
+	 *            logic
+	 * @param rules
+	 *            rules
+	 */
 	public void setParameters(Logic logic, GameRules rules) {
 		this.logic = logic;
 		this.rules = rules;
 	}
-	
+
+	/**
+	 * Get Logic
+	 * 
+	 * @return reference to logic
+	 */
 	protected final Logic getGameLogic() {
 		return this.logic;
 	}
-	
+
+	/**
+	 * Get Rules
+	 * 
+	 * @return reference to rules
+	 */
 	protected final GameRules getGameRules() {
 		return this.rules;
 	}
-	
+
+	/**
+	 * Get State
+	 * 
+	 * @return reference to state
+	 */
 	protected final GameState getGameState() {
 		return this.logic.getGameState();
 	}
-	
+
+	/**
+	 * Returns valuation
+	 * 
+	 * @return Valuation as double
+	 */
 	public abstract double returnValuation();
 
 }

@@ -2,24 +2,23 @@ package org.ojim.client.gui;
 
 import java.awt.Color;
 
-public class PlayerColor {
-
+public class StreetColor {
 	private static final Color[][] colors = {
-			// Spieler 1
+	// Straße 1
 			{ Color.blue, Color.white },
-			// Spieler 2
+			// Straße 2
 			{ Color.yellow, Color.black },
-			// Spieler 3
+			// Straße 3
 			{ Color.red, Color.white },
-			// Spieler 4
-			{ Color.green, Color.black },
-			// Spieler 5
+			// Straße 4
+			{ Color.green, Color.white },
+			// Straße 5
 			{ Color.orange, Color.white },
-			// Spieler 6
+			// Straße 6
 			{ Color.cyan, Color.white },
-			// Spieler 7
+			// Straße 7
 			{ Color.pink, Color.white },
-			// Spieler 8
+			// Straße 8
 			{ Color.black, Color.white } };
 
 	public static Color getBackGroundColor(int color) {
@@ -29,5 +28,4 @@ public class PlayerColor {
 	public static Color getFontColor(int color) {
 		return colors[color][1];
 	}
-
 }
