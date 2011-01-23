@@ -17,6 +17,7 @@
 
 package org.ojim.client.gui;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -52,7 +53,6 @@ public class MenuBar extends JMenuBar {
 
 		language(language);
 
-
 	}
 
 	public MenuBar(Localizer language, GUIClient gui) {
@@ -63,7 +63,6 @@ public class MenuBar extends JMenuBar {
 
 		language(language);
 
-
 	}
 
 	public void setMenuBarState(MenuState menuBarState) {
@@ -72,7 +71,9 @@ public class MenuBar extends JMenuBar {
 	}
 
 	public void language(Localizer language) {
-		System.out.println(language.getText("file"));
+
+		System.out.println(language.getText("Übersetzt:"+language.getText("file")));
+
 		fileMenu = new JMenu(language.getText("file"));
 		langMenu = new JMenu(language.getText("languages"));
 		editMenu = new JMenu(language.getText("?"));
@@ -92,17 +93,19 @@ public class MenuBar extends JMenuBar {
 
 		for (int i = 0; i < language.getLanguages().length; i++) {
 			languageName = language.getLanguages()[i].name;
+
 			JMenuItem langItem = new JMenuItem(languageName);
 
-			ActionListener createGameListener = new ActionListener() {
+			ActionListener languageListener = new ActionListener() {
 
 				@Override
 				public void actionPerformed(ActionEvent e) {
-					gui.changeLanguage(languageName);
+					gui.changeLanguage(((JMenuItem) (e.getSource())).getName());
+					System.out.println(((JMenuItem) (e.getSource())).getName());
 				}
 			};
 
-			langItem.addActionListener(createGameListener);
+			langItem.addActionListener(languageListener);
 
 			langMenu.add(langItem);
 		}
@@ -117,8 +120,6 @@ public class MenuBar extends JMenuBar {
 
 	public void draw() {
 
-		System.out.println("Test2");
-		
 		add(fileMenu);
 		add(langMenu);
 		add(editMenu);
