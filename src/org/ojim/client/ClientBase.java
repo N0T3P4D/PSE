@@ -277,7 +277,7 @@ public class ClientBase extends SimpleClient implements IClient {
 	}
 
 	@Override
-	public void informMove(int position, int playerId) {
+	public void informMove(int playerId, int position) {
 		// TODO Auto-generated method stub
 
 	}

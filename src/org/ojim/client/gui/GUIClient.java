@@ -29,6 +29,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.CardBar.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
+import org.ojim.client.gui.PopUpFrames.*;
 import org.ojim.client.gui.RightBar.ChatMessage;
 import org.ojim.client.gui.RightBar.ChatWindow;
 import org.ojim.client.gui.RightBar.PlayerInfoWindow;
@@ -43,20 +44,36 @@ public class GUIClient extends ClientBase {
 	ChatWindow chatWindow;
 	PlayerInfoWindow playerInfoWindow;
 	CardWindow cardWindow;
+	
+	CreateGameFrame createGameFrame;
+	JoinGameFrame joinGameFrame;
+	SettingsFrame settingsFrame;
+	HelpFrame helpFrame;
+	AboutFrame aboutFrame;
+	
+	MenuBar menubar;
 
 	JFrame GUIFrame;
 
 	JPanel pane = new JPanel(new OJIMLayout());
-
+	Localizer language;
+	
 	private MenuState menuState;
 
 	public GUIClient() {
 
-		// Nur zu Debugzwecken
+		// Nur zu Debugzwecken auf game
 		setMenuState(MenuState.mainMenu);
+		
+		
+		createGameFrame = new CreateGameFrame();
+		joinGameFrame = new JoinGameFrame();
+		settingsFrame = new SettingsFrame();
+		helpFrame = new HelpFrame();
+		aboutFrame = new AboutFrame();
 
-
-		Localizer language = new Localizer();
+		language = new Localizer();
+		
 		LanguageDefinition[] langs = language.getLanguages();
 		if (langs.length == 0) {
 			System.out.println("No languagefile found.");
@@ -65,14 +82,25 @@ public class GUIClient extends ClientBase {
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
 
+
+		createGameFrame.setTitle(language.getText("create game"));
+		joinGameFrame.setTitle(language.getText("join game"));
+		settingsFrame.setTitle(language.getText("settings"));
+		helpFrame.setTitle(language.getText("help"));
+		aboutFrame.setTitle(language.getText("about"));
+
 		GUIFrame = new JFrame(language.getText("ojim"));
-
-		MenuBar menubar = new MenuBar(language);
-
-		GUIFrame.setJMenuBar(menubar);
 
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
+		draw();
+
+	}
+	
+	private void draw(){
+
+		GUIFrame.removeAll();
+		
 		try {
 			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
 				if ("Windows".equals(info.getName())) {
@@ -97,7 +125,12 @@ public class GUIClient extends ClientBase {
 				}
 			}
 		}
-
+		
+		menubar = new MenuBar(language,this);
+		System.out.println("Test3");
+		GUIFrame.setJMenuBar(menubar);
+		
+		
 		switch (menuState) {
 
 		case mainMenu:
@@ -185,8 +218,8 @@ public class GUIClient extends ClientBase {
 		GUIFrame.setMinimumSize(new Dimension(550, 450));
 
 		GUIFrame.setVisible(true);
-
 	}
+	
 
 	public static void main(String[] args) {
 		new GUIClient();
@@ -304,6 +337,76 @@ public class GUIClient extends ClientBase {
 
 	public CardWindow getCardWindow() {
 		return cardWindow;
+	}
+
+
+	public void openCreateGameWindow() {
+		createGameFrame.setVisible(true);
+		
+	}
+
+
+	public void leaveGame() {
+		// TODO Game beenden
+		
+		menuState = MenuState.mainMenu;
+		
+	}
+
+
+	public void openJoinGameWindow() {
+		joinGameFrame.showJoin();
+		joinGameFrame.setVisible(true);
+		
+	}
+
+
+	public void openServerListWindow() {
+		joinGameFrame.showServerList();
+		joinGameFrame.setVisible(true);
+		
+	}
+
+
+	public void openDirectConnectionWindow() {
+		joinGameFrame.showDirectConnection();
+		joinGameFrame.setVisible(true);
+		
+	}
+
+
+	public void openAboutWindow() {
+		aboutFrame.setVisible(true);
+		
+	}
+
+
+	public void openHelpWindow() {
+		helpFrame.setVisible(true);
+		
+	}
+
+
+	public void changeLanguage(String languageName) {
+		for(int i = 0; i < language.getLanguages().length; i++){
+			if(language.getLanguages()[i].name.equals(languageName)){
+				language.setLanguage(language.getLanguages()[i]);
+				resetLanguage();
+			}
+		}
+		
+	}
+
+
+	private void resetLanguage() {
+		GUIFrame.setTitle(language.getText("ojim"));
+		createGameFrame.setTitle(language.getText("create game"));
+		joinGameFrame.setTitle(language.getText("join game"));
+		settingsFrame.setTitle(language.getText("settings"));
+		helpFrame.setTitle(language.getText("help"));
+		aboutFrame.setTitle(language.getText("about"));
+		menubar.language(language);
+		
 	}
 
 }

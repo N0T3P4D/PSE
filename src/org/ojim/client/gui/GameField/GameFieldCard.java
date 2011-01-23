@@ -20,13 +20,14 @@ package org.ojim.client.gui.GameField;
 import java.awt.Image;
 
 import org.ojim.logic.state.Player;
+import org.ojim.logic.state.fields.Field;
 
 
 public class GameFieldCard extends GameFieldPiece {
 
 	private boolean turnedAround = false;
 
-	public GameFieldCard(org.ojim.logic.state.Card card, String name, int position, Image image,
+	public GameFieldCard(Field card, String name, int position, Image image,
 			int price) {
 		super(card, name, price, image);
 		// TODO Auto-generated constructor stub
