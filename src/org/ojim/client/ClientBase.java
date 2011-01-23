@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ojim.iface.IClient;
+import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -197,27 +198,44 @@ public class ClientBase extends SimpleClient implements IClient {
 		// TODO Auto-generated method stub
 
 	}
-
-	@Override
-	public void informCashChange(int player, int cashChange) {
-		// TODO Auto-generated method stub
-
+	
+	public void informCashChange(Player player, int cashChange) {
+		
 	}
 
 	@Override
-	public void informConstruct(int street) {
+	public final void informCashChange(int player, int cashChange) {
+		this.informCashChange(this.getGameState().getPlayerByID(player), cashChange);
+	}
+
+	@Override
+	public final void informConstruct(int street) {
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof Street) {
 			this.getLogic().upgrade((Street) field, +1);
+			this.informConstruct((Street) field);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informConstruct with invalid street.");
 		}
+	}
+	
+	public void informConstruct(Street street) {
+		
 	}
 
 	@Override
-	public void informDestruct(int street) {
+	public final void informDestruct(int street) {
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof Street) {
 			this.getLogic().upgrade((Street) field, -1);
+			this.informDestruct((Street) field);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informDestruct with invalid street.");
 		}
+	}
+	
+	public void informDestruct(Street street) {
+		
 	}
 
 	@Override
@@ -227,17 +245,32 @@ public class ClientBase extends SimpleClient implements IClient {
 	}
 
 	@Override
-	public void informMessage(String text, int sender, boolean privateMessage) {
-		// TODO Auto-generated method stub
-
+	public final void informMessage(String text, int sender, boolean privateMessage) {
+		Player player = this.getGameState().getPlayerByID(sender);
+		if (player != null) {
+			this.informMessage(text, player, privateMessage);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid player.");
+		}
+	}
+	
+	public void informMessage(String text, Player sender, boolean privateMessage) {
+		
 	}
 
 	@Override
-	public void informMortgageToogle(int street) {
+	public final void informMortgageToogle(int street) {
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof BuyableField) {
 			this.getLogic().toggleMortgage((BuyableField) field);
+			this.informMortgageToogle((BuyableField) field);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid buyable field.");
 		}
+	}
+	
+	public void informMortgageToogle(BuyableField street) {
+		
 	}
 
 	@Override
@@ -247,6 +280,9 @@ public class ClientBase extends SimpleClient implements IClient {
 					this.getPlayerPiecePosition(id), this.getPlayerCash(id),
 					id, this.getPlayerColor(id));
 			this.getGameState().setPlayer(id, player);
+			if (id == this.getPlayerId()) {
+				this.setMyPlayer(player);
+			}
 		}
 
 		// Load all owners
@@ -264,8 +300,21 @@ public class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public void informTrade(int actingPlayer, int partnerPlayer) {
-		// TODO Auto-generated method stub
-
+		Player acting = this.getGameState().getPlayerByID(actingPlayer);
+		if (acting != null) {
+			Player parnter = this.getGameState().getPlayerByID(partnerPlayer);
+			if (parnter != null) {
+				this.informTrade(acting, parnter);
+			} else {
+				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid buyable field.");
+			}
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid buyable field.");
+		}
+	}
+	
+	public void informTrade(Player actingPlayer, Player partnerPlayer) {
+		
 	}
 
 	@Override

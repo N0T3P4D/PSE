@@ -58,7 +58,7 @@ public class Test {
 				return;
 			} else if (string.equals("-a") || string.equals("--ai")) {
 				System.out.println("Starting aiclient!");
-				AIClient a = new AIClient();
+//				AIClient a = new AIClient();
 				return;
 			}
 		}

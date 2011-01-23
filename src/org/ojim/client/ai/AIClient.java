@@ -47,23 +47,15 @@ public class AIClient extends ClientBase {
 	 * 
 	 * @param server
 	 * Reference to the server
-	 * @param logic
-	 * Reference to the game logic
-	 * @param playerID
-	 * This client's ID
 	 */
-	public AIClient(IServer server, Logic logic, int playerID) {
+	public AIClient(IServer server) {
 		super();
 		logger = OJIMLogger.getLogger(this.getClass().toString());
-		logger.log(Level.INFO, "Hello! AI client with ID " + playerID + " created.");
 		if (server == null) {
 			throw new IllegalArgumentException("Server == null");
 		}
-		if (logic == null) {
-			throw new IllegalArgumentException("Logic == null");
-		}
-//		super.setParameters(logic, playerID, server);
 		connect(server);
+		logger.log(Level.INFO, "Hello! AI client with ID " + this.getPlayerId() + " created.");
 	}
 	
 	public void setReady() {

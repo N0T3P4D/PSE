@@ -52,6 +52,10 @@ public class SimpleClient {
 		this.me = this.getGameState().getPlayerByID(playerId);
 	}
 
+	protected void setMyPlayer(Player player) {
+		this.me = player;
+	}
+	
 	protected Logic getLogic() {
 		return this.logic;
 	}
@@ -242,5 +246,13 @@ public class SimpleClient {
 
 	protected final void sendPrivateMessage(String text, int reciever) {
 		this.server.sendPrivateMessage(text, this.playerId, reciever);
+	}
+	
+	/*
+	 * RULES
+	 */
+	
+	public final boolean isMyTurn() {
+		return this.getGameRules().isPlayerOnTurn(this.me);
 	}
 }
