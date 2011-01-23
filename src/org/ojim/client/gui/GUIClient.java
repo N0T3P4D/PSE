@@ -29,6 +29,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.CardBar.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
+import org.ojim.client.gui.RightBar.ChatMessage;
 import org.ojim.client.gui.RightBar.ChatWindow;
 import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
@@ -212,13 +213,17 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void informBuy(int player, int position) {
-		// TODO Auto-generated method stub
-		super.informBuy(player, position);
+		gameField.playerBuysField(this.getGameState().getPlayerByID(player), this.getGameState().getFieldAt(position));
+		
+		//TODO if player = gui player => feld and cardBar schicken zum aufnehmen
+		// Wo finde ich heraus ob ich der GUI Player bin?
+		
 	}
 
 	@Override
 	public void informCardPull(String text, boolean communityCard) {
 		// TODO Auto-generated method stub
+		// Mittelfeld
 		super.informCardPull(text, communityCard);
 	}
 
@@ -229,38 +234,34 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void informConstruct(int street) {
-		// TODO Auto-generated method stub
-		super.informConstruct(street);
+		gameField.buildOnStreet(this.getGameState().getFieldByID(street));
 	}
 
 	@Override
 	public void informDestruct(int street) {
-		// TODO Auto-generated method stub
-		super.informDestruct(street);
+		gameField.destroyOnStreet(this.getGameState().getFieldByID(street));
 	}
 
 	@Override
 	public void informDiceValues(int[] diceValues) {
-		// TODO Auto-generated method stub
+		// TODO Mittelfeld
 		super.informDiceValues(diceValues);
 	}
 
 	@Override
 	public void informMessage(String text, int sender, boolean privateMessage) {
-		// TODO Auto-generated method stub
-		super.informMessage(text, sender, privateMessage);
+		chatWindow.write(new ChatMessage(this.getGameState().getPlayerByID(sender), privateMessage, text));
 	}
 
 	@Override
 	public void informMortgageToogle(int street) {
-		// TODO Auto-generated method stub
-		super.informMortgageToogle(street);
+		cardWindow.switchCardStatus(this.getGameState().getFieldByID(street));
+		gameField.switchFieldStatus(this.getGameState().getFieldByID(street));
 	}
 
 	@Override
 	public void informMove(int position, int playerId) {
-		// TODO Auto-generated method stub
-		super.informMove(position, playerId);
+		gameField.playerMoves(this.getGameState().getFieldAt(position),this.getGameState().getPlayerByID(playerId));
 	}
 
 	@Override

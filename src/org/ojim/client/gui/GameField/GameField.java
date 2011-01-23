@@ -23,6 +23,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.client.gui.StreetColor;
+import org.ojim.logic.state.Player;
+import org.ojim.logic.state.fields.Field;
 
 public class GameField extends JPanel {
 
@@ -71,4 +73,29 @@ public class GameField extends JPanel {
 	// Hält GameFieldPieceCollection
 	// Hält Referenz auf GameFieldPiece
 	InteractionPopup interactionPopup;
+
+	public void buildOnStreet(Field fieldByID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void playerBuysField(Player playerByID, Field fieldAt) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void destroyOnStreet(Field fieldByID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void switchFieldStatus(Field fieldByID) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void playerMoves(Field fieldAt, Player playerByID) {
+		// TODO Auto-generated method stub
+		
+	}
 }
