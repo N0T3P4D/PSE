@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 
 package org.ojim.server;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +37,7 @@ public class TestClient implements IClient {
 	private int id = -1;
 	private final JTextField var1, var2;
 	private final JLabel res;
+	private final JFrame frame;
 	private TestClient client = this; 
 	
 	public TestClient(final IServer server) {
@@ -50,7 +50,7 @@ public class TestClient implements IClient {
 		panel.setLayout(new GridLayout(5,5));
 		
 		pane.setLayout(experimentLayout);
-		JFrame frame = new JFrame("TestClient");
+		frame = new JFrame("TestClient");
 		var1 = new JTextField();
 		pane.add(var1);
 		var2 = new JTextField();
@@ -109,6 +109,7 @@ public class TestClient implements IClient {
 				if(id == -1) {
 					id = server.addPlayer(client);
 					res.setText("Added Player, Id:" + id);
+					TestClient.this.frame.setTitle("TestClient [id " + id + "]");
 				}
 			}
 		});
@@ -143,7 +144,7 @@ public class TestClient implements IClient {
 	}
 	
 	private void print(String out) {
-		this.res.setText("out");
+		this.res.setText(out);
 	}
 
 	@Override
@@ -205,7 +206,7 @@ public class TestClient implements IClient {
 	}
 
 	@Override
-	public void informMove(int position, int playerId) {
+	public void informMove(int playerId, int position) {
 		print("informed: Move Pos:" + position + " Player:" + playerId);
 		
 	}
