@@ -21,6 +21,12 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
+import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Player;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Jail;
+import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Street;
 
 import org.ojim.client.ClientBase;
 import edu.kit.iti.pse.iface.IServer;
@@ -56,7 +62,8 @@ public class AIClient extends ClientBase {
 		if (logic == null) {
 			throw new IllegalArgumentException("Logic == null");
 		}
-		super.setParameters(logic, playerID, server);
+//		super.setParameters(logic, playerID, server);
+		connect(server);
 	}
 	
 	public void setReady() {
@@ -67,5 +74,63 @@ public class AIClient extends ClientBase {
 	public void informTurn(int player) {
 //		assert (player == super)
 		logger.log(Level.INFO, "Inform turn for client " + player);
+		logger.log(Level.INFO, "Position is " + this.getGameState().getActivePlayer().getPosition());
+		this.rollDice();
+	}
+	
+	@Override
+	public void informCashChange(int player, int cashChange) {
+		logger.log(Level.INFO, "Call!");
+
+	}
+
+	@Override
+	public void informDiceValues(int[] diceValues) {
+		logger.log(Level.INFO, "Call!");
+	}
+
+	@Override
+	public void informMessage(String text, int sender, boolean privateMessage) {
+		logger.log(Level.INFO, "Call!");
+	}
+
+	@Override
+	public void informTrade(int actingPlayer, int partnerPlayer) {
+		logger.log(Level.INFO, "Call!");
+	}
+
+	@Override
+	public void informMove(int playerId, int position) {
+		logger.log(Level.INFO, "New position is " + position + " with name " + getLogic().getGameState().getFieldAt(position).getName());
+		isPrison(position);
+		if (position == 11) {
+			blub("lol");
+			decline();
+			accept();
+		}
+		rollDice();
+		endTurn();
+		rollDice();
+//		rollDice();
+	}
+
+	@Override
+	public void informBuy(int player, int position) {
+		logger.log(Level.INFO, "Call!");
+	}
+
+	@Override
+	public void informAuction(int auctionState) {
+		logger.log(Level.INFO, "Call!");
+	}
+	
+	private void isPrison(int position) {
+		if (getLogic().getGameState().getFieldAt(position) instanceof Jail) {
+		logger.log(Level.INFO, "In prison!");
+		}
+	}
+	
+	public void blub(String message) {
+		System.out.println(message);
 	}
 }
