@@ -120,7 +120,14 @@ public class TestClient implements IClient {
 				res.setText("Position:" + server.getPlayerPiecePosition(id));
 			}
 		});
-		panel.add(bt7);
+		
+		JButton bt8 = new JButton("endTurn()");
+		bt8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				res.setText("Position:" + server.endTurn(id));
+			}
+		});
+		panel.add(bt8);
 		
 		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		
