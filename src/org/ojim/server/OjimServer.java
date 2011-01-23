@@ -955,11 +955,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private CardField newEventCardField(int position) {
-		return new CardField("Ereigniskarte", position, this.state.getEventCards(), this.logic);
+		return new CardField("Ereigniskarte", position, false, this.state.getEventCards(), this.logic);
 	}
 
 	private CardField newCommunityCardField(int position) {
-		return new CardField("Gemeinschaftskarte", position, this.state.getCommunityCards(), this.logic);
+		return new CardField("Gemeinschaftskarte", position, true, this.state.getCommunityCards(), this.logic);
 	}
 
 	private void loadDefaultGameStateFields(Field[] fields) {
