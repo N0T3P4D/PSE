@@ -852,7 +852,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean useGetOutOfJailCard(int playerID) {
-		Player player = state.getPlayerByID(playerID);
+		ServerPlayer player = state.getPlayerByID(playerID);
 		if (player != null && rules.isPlayerInPrison(player)) {
 			if (rules.canPlayerGetOutOfJail(player, true)) {
 				logic.playerUsesGetOutOfJailCard(player);
