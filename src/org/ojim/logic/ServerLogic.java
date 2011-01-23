@@ -81,7 +81,7 @@ public class ServerLogic extends Logic {
 		logger.log(Level.INFO, "Starting new turn");
 		// Get a new Player On Turn
 		this.GetNewPlayerOnTurn();
-
+		this.getGameState().setActivePlayerNeedsToRoll(true);
 		// Inform All Player that a new Turn has come
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			// if (onePlayer instanceof ServerPlayer) {

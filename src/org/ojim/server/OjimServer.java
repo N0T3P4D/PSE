@@ -450,8 +450,20 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		logger.log(Level.INFO, "Number of connected players = " + connectedClients);
 		// Are all players Ready? then start the game
 		//AI "test" client doesn't set itself ready, ignore it
-		//if (this.connectedClients == this.maxClients) {
-		if (this.connectedClients == aiClients.length) {
+		if (this.connectedClients == this.maxClients) {
+			for(Player player : state.getPlayers()) {
+				//Check if the Player is ready
+				if(!player.getIsReady()) {
+					//AI Clients don't need to be set to ready
+					if(player instanceof ServerPlayer && !(((ServerPlayer)player).getClient() instanceof AIClient)) {
+						return;
+					}
+				}
+			}
+		}
+		//If all (non-AI) Players are ready, start the Game
+		startGame();
+		/*if (this.connectedClients == aiClients.length) {
 			for (int i = 0; i < connectedClients; i++) {
 
 				// If at least 1 Player is not ready, don't start the game
@@ -463,7 +475,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			display("Starting Game!");
 			// All Players are ready, the Game can be started now
 			startGame();
-		}
+		}*/
 	}
 
 	private void startGame() {
@@ -636,6 +648,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				|| this.gameStarted == false
 				|| !this.rules.isRollRequiredByActivePlayer()) {
 			display("cant roll dices");
+			if(!rules.isPlayerOnTurn(player))
+				display("not on turn");
+			if(player == null)
+				display("player == null");
+			if(!rules.isRollRequiredByActivePlayer()) {
+				display("no roll required");
+			}
 			
 			return false;
 		}
