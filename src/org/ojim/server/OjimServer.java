@@ -43,6 +43,7 @@ import org.ojim.logic.state.fields.FreeParking;
 import org.ojim.logic.state.fields.GoField;
 import org.ojim.logic.state.fields.GoToJail;
 import org.ojim.logic.state.fields.InfrastructureField;
+import org.ojim.logic.state.fields.InfrastructureFieldGroup;
 import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Station;
 import org.ojim.logic.state.fields.StationFieldGroup;
@@ -976,7 +977,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		streets[5] = new StreetFieldGroup(5, 3000);
 		streets[6] = new StreetFieldGroup(6, 4000);
 		streets[7] = new StreetFieldGroup(7, 4000);
-		FieldGroup infrastructures = new FieldGroup(FieldGroup.INFRASTRUCTURE);
+		InfrastructureFieldGroup infrastructures = new InfrastructureFieldGroup();
 
 		// Add Streets
 		fields[0] = new GoField("Los", 0, this.logic);
@@ -1024,11 +1025,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[20] = new FreeParking("Frei Parken", 20, this.logic);
 		fields[21] = streets[4].addField(new Street("Wolkenstadt - Andockbucht", 21, new int[] { 360, 1800, 5000,
 				14000, 17500, 21000 }, 0, 4400, logic));
-		fields[22] = this.newCommunityCardField(22); // new
-														// CardField("Gemeinschaftskarte",
-														// 22,
-														// this.state.getCommunityCards(),
-														// this.logic);
+		fields[22] = this.newCommunityCardField(22);
 		fields[23] = streets[4].addField(new Street("Wolkenstadt - KarbonGefrierkammer", 23, new int[] { 360, 1800,
 				5000, 14000, 17500, 21000 }, 0, 4400, logic));
 		fields[24] = streets[4].addField(new Street("Wolkenstadt - ReaktorKontrollraum", 24, new int[] { 400, 2000,
@@ -1046,19 +1043,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				25500 }, 0, 6000, logic));
 		fields[32] = streets[6].addField(new Street("Endor - Schildgenerator", 32, new int[] { 520, 2600, 7800, 18000,
 				22000, 25500 }, 0, 6000, logic));
-		fields[33] = this.newEventCardField(33); // new
-													// CardField("Ereigniskarte",
-													// 33,
-													// this.state.getEventCards(),
-													// this.logic);
+		fields[33] = this.newEventCardField(33);
 		fields[34] = streets[6].addField(new Street("Endor - EwokDorf", 34, new int[] { 560, 3000, 9000, 20000, 24000,
 				28000 }, 0, 6400, logic));
 		fields[35] = stations.addField(new Station("Stern-Zerstörer", 35, 4000));
-		fields[36] = this.newCommunityCardField(36); // new
-														// CardField("Gemeinschaftskarte",
-														// 36,
-														// this.state.getCommunityCards(),
-														// this.logic);
+		fields[36] = this.newCommunityCardField(36);
 		fields[37] = streets[7].addField(new Street("Coruscant - Platz des Volkes", 37, new int[] { 700, 3500, 10000,
 				22000, 16000, 30000 }, 0, 7000, logic));
 		fields[38] = new TaxField("Kopf-Geld Prämie", 38, 2000);
@@ -1066,6 +1055,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				28000, 34000, 40000 }, 0, 8000, logic));
 
 		stations.setRent(new int[] { 500, 1000, 2000, 4000 });
+		infrastructures.setFactors(new int[] {80, 200});
 
 		// Add Cards
 	}
