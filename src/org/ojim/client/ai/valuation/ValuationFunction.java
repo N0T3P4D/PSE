@@ -38,7 +38,7 @@ public abstract class ValuationFunction {
 	// protected GameState state;
 
 	public static final int COUNT = 6;
-	
+
 	/**
 	 * Constructor
 	 */
@@ -47,6 +47,7 @@ public abstract class ValuationFunction {
 
 	private static Map<Class<? extends ValuationFunction>, ValuationFunction> instances = new HashMap<Class<? extends ValuationFunction>, ValuationFunction>(
 			ValuationFunction.COUNT);
+
 	/**
 	 * 
 	 * Gets you an instance of clazz
@@ -56,10 +57,11 @@ public abstract class ValuationFunction {
 	 * @return Instance
 	 * 
 	 */
-//	public static ValuationFunction getInstance(Class<? extends ValuationFunction> clazz) {
-//		return ValuationFunction.getInstance(false, clazz);
-//	}
-	
+	// public static ValuationFunction getInstance(Class<? extends
+	// ValuationFunction> clazz) {
+	// return ValuationFunction.getInstance(false, clazz);
+	// }
+
 	public static <T extends ValuationFunction> T getInstance(Class<T> clazz) {
 		return ValuationFunction.getInstance(false, clazz);
 	}
@@ -75,10 +77,14 @@ public abstract class ValuationFunction {
 	 */
 	@SuppressWarnings("unchecked")
 	public static <T extends ValuationFunction> T getInstance(boolean forceNew, Class<T> clazz) {
-		ValuationFunction instance = ValuationFunction.instances.get(clazz);
+		T instance = null;
+		if (!forceNew) {
+			instance = (T) ValuationFunction.instances.get(clazz);
+		}
 		if (instance == null) {
 			try {
-				return (T) ValuationFunction.instances.put(clazz, clazz.newInstance());
+				instance = clazz.newInstance();
+				ValuationFunction.instances.put(clazz, instance);
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

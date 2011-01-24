@@ -27,7 +27,7 @@ import org.ojim.logic.state.fields.BuyableField;
  */
 public final class PropertyValuator extends ValuationFunction {
 
-	private PropertyValuator() {
+	protected PropertyValuator() {
 	}
 
 	/**
