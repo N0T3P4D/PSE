@@ -170,7 +170,7 @@ public class GUIClient extends ClientBase {
 
 		case game:
 
-			connect("127.0.0.1", "60");
+			//connect("127.0.0.1", "60");
 			
 			
 			gameField = new GameField();
