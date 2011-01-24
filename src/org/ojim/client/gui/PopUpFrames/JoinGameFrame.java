@@ -19,35 +19,85 @@ package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.ojim.language.Localizer;
 
 public class JoinGameFrame extends JFrame {
 
+	JLabel ip;
+	JTextField ipField;
+	JPanel panel;
+	JButton joinButton;
+	Localizer language;
+	
+	Window windowStatus;
+	
+	enum Window {
+		directConnection, serverList
+	}
+	
 	public JoinGameFrame(Localizer language) {
+		this.language = language;
+		setMinimumSize(new Dimension(400, 100));
+		
+		ip = new JLabel(this.language.getText("IP"));
+		ipField = new JTextField();
+		joinButton = new JButton();
+		joinButton.add(new JLabel(this.language.getText("join")));
+		ipField.setColumns(20);
+		panel = new JPanel();
 
-		setMinimumSize(new Dimension(200, 50));
+		panel.add(ip);
+		panel.add(ipField);
+		panel.add(joinButton);
+		
 		this.pack();
 	}
 
 	public void showDirectConnection() {
-		// TODO Auto-generated method stub
+		
+		
+		ip = new JLabel(this.language.getText("ip"));
+		ipField = new JTextField();
+		joinButton = new JButton();
+		joinButton.add(new JLabel(this.language.getText("join")));
+		ipField.setColumns(20);
+		panel = new JPanel();
+		
+		panel.add(ip);
+		panel.add(ipField);
+		panel.add(joinButton);
+		
+		showJoin();
 
 	}
 
 	public void showServerList() {
-		// TODO Auto-generated method stub
+		ip = new JLabel(this.language.getText("serverListText"));
 
+		panel.add(ip);
 	}
 
 	public void showJoin() {
-		// TODO Auto-generated method stub
+		
+		remove(panel);
+		
+		this.add(panel);
+		this.repaint();
+		setVisible(true);
 
 	}
 
 	public void setLanguage(Localizer language) {
-		// TODO Auto-generated method stub
+		this.language = language;
+		if(isVisible()){
+			showJoin();
+		}
 		
 	}
 
