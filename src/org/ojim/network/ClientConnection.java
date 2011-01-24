@@ -21,10 +21,9 @@ package org.ojim.network;
 
 
 
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
-
-import org.ojim.rmi.server.ImplNetOjim;
+import java.rmi.RemoteException;
+import org.ojim.rmi.client.ImplNetClient;
+import org.ojim.rmi.server.NetOjim;
 
 
 
@@ -36,15 +35,9 @@ import org.ojim.rmi.server.ImplNetOjim;
  */
 public class ClientConnection {
 
-	//private Socket clientSoket;
-	
-	//Speichert die Verbindungsart
-	//0 für eine Verbindung im Local Area Network
-	//1 für eine Verbindung über das internet
-	private int connectionType;
 
 	public ClientConnection() {
-//		this.connectionType=connectionType;
+
 
 	}
 
@@ -61,14 +54,20 @@ public class ClientConnection {
 	 * @param port port der Registry , die auf dem Server läuft
 	 * @return Remote Objekt 
 	 */
-	public ImplNetOjim connect(String ip, int port) {
+	public NetOjim connect(String ip, int port) {
 		
-		ImplNetOjim iServer = null;
+		NetOjim iServer = null;
 		
-//		if(this.connectionType == 0){
-//			ip="localhost";
-//		} 
+		try {
+			ImplNetClient client = new ImplNetClient();
+			iServer = client.createClientRMIConnection(port,ip);
 		
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		/*
 		try {
 		    Registry registry = LocateRegistry.getRegistry(ip,port);
 		    iServer = (ImplNetOjim) registry.lookup("myServer");
@@ -77,6 +76,7 @@ public class ClientConnection {
 		    System.err.println("Client exception: " + e.toString());
 		    e.printStackTrace();
 		}
+		*/
 		
 		return iServer;
 		

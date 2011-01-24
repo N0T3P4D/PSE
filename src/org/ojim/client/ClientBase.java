@@ -40,6 +40,7 @@ import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.logic.state.fields.TaxField;
 import org.ojim.network.ClientConnection;
+import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -161,6 +162,8 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		}
 		this.setParameters(new Logic(server.getRules()),
 				server.addPlayer(this), server);
+		
+		
 		this.loadGameBoard();
 		return true;
 	}

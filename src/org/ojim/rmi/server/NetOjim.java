@@ -21,6 +21,8 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import org.ojim.client.SimpleClient;
+import org.ojim.iface.IClient;
+import org.ojim.iface.Rules;
 import org.ojim.rmi.client.NetClient;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -32,7 +34,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Usman Ghani Ahmed
  *
  */
-public interface NetOjim extends Remote ,IServer {
+public interface NetOjim extends Remote {
 	
 	/**
 	 * Meldet einen Client beim Server an, damit der Server Methoden des Client über
@@ -65,7 +67,7 @@ public interface NetOjim extends Remote ,IServer {
 	 * @return Anzahl der Runden
 	 * @throws RemoteException
 	 */
-	public int getRoundsToWait(SimpleClient sClient, int position)throws RemoteException;
+	public int getRoundsToWait(int position)throws RemoteException;
 
 	
 	/**
@@ -77,7 +79,15 @@ public interface NetOjim extends Remote ,IServer {
 	 * @return Geldbetrag
 	 * @throws RemoteException
 	 */
-	public int getMoneyToPay(SimpleClient sClient, int position) throws RemoteException;
+	public int getMoneyToPay(int position) throws RemoteException;
+	
+	
+	
+	public Rules getRules() throws RemoteException ;
+	
+	public int addPlayer(IClient client) throws RemoteException ;
+		
+	
 			
 
 

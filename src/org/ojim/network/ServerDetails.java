@@ -71,5 +71,16 @@ public class ServerDetails {
 	public int getPortStub(){
 		 return this.portStub;
 	}
+	
+	public void connectPlayer(){
+		this.connectedPlayers = this.connectedPlayers + 1;
+		
+	}
+	
+	public void closeServerRegistration(){
+		this.open = false;
+	}
+	
+	
 
 }	
