@@ -29,6 +29,8 @@ import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
 
 import org.ojim.client.ClientBase;
+import org.ojim.client.ai.valuation.Valuator;
+
 import edu.kit.iti.pse.iface.IServer;
 
 /**
@@ -40,6 +42,7 @@ import edu.kit.iti.pse.iface.IServer;
 public class AIClient extends ClientBase {
 
 	private Logger logger;
+	private Valuator valuator;
 
 	/**
 	 * 
@@ -56,6 +59,7 @@ public class AIClient extends ClientBase {
 		}
 		connect(server);
 		logger.log(Level.INFO, "Hello! AI client with ID " + this.getPlayerId() + " created.");
+		valuator = new Valuator(getGameState(), server, getPlayerId());
 	}
 	
 	public void setReady() {
@@ -89,15 +93,22 @@ public class AIClient extends ClientBase {
 	@Override
 	public void onMove(Player player, int position) {
 		logger.log(Level.INFO, "New position is " + position + " with name " + getLogic().getGameState().getFieldAt(position).getName());
-		isPrison(position);
-		if (position == 11) {
-			blub("lol");
-			decline();
-			accept();
+		if (getLogic().getGameState().getFieldAt(position) instanceof BuyableField) {
+			logger.log(Level.INFO, "On buyable field");
+			valuator.returnBestCommand(position);
 		}
-		rollDice();
+//		isPrison(position);
+		if (position == 11) {
+//			blub("lol");
+//			decline();
+//			accept();
+			decline();
+		}
+		
+		
+//		rollDice();
 		endTurn();
-		rollDice();
+//		rollDice();
 //		rollDice();
 	}
 

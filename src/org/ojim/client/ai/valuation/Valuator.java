@@ -17,10 +17,14 @@
 
 package org.ojim.client.ai.valuation;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.ojim.client.ai.commands.AcceptCommand;
 import org.ojim.client.ai.commands.Command;
 import org.ojim.client.ai.commands.DeclineCommand;
 import org.ojim.client.ai.commands.OutOfPrisonCommand;
+import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
@@ -44,6 +48,7 @@ public class Valuator {
 	Logic logic;
 	IServer server;
 	int playerID;
+	private Logger logger;
 
 	PrisonValuator prisonValuator;
 	CapitalValuator capitalValuator;
@@ -61,7 +66,7 @@ public class Valuator {
 	 * @param playerID
 	 *            The player's ID
 	 */
-	public Valuator(GameState state, Logic logic, IServer server, int playerID) {
+	public Valuator(GameState state, IServer server, int playerID) {
 		weights = new double[6];
 		for (int i = 0; i < weights.length; i++) {
 			weights[i] = 1;
@@ -70,7 +75,12 @@ public class Valuator {
 		this.state = state;
 		this.server = server;
 		this.playerID = playerID;
-		this.logic = logic;
+		capitalValuator = (CapitalValuator) CapitalValuator.getInstance();
+		capitalValuator.setState(state);
+		propertyValuator = (PropertyValuator) PropertyValuator.getInstance();
+		propertyValuator.setState(state);
+		this.logger = OJIMLogger.getLogger(this.getClass().toString());
+//		this.logic = logic;
 	}
 
 	/**
@@ -81,22 +91,25 @@ public class Valuator {
 	 * @return command
 	 */
 	public Command returnBestCommand(int pos) {
-		Field field = state.getFieldByID(pos);
+		Field field = state.getFieldAt(pos);
 		// Jail?
-		if (field.getClass().isInstance(Jail.class)) {
-			if (prisonValuator.returnValuation() > 0) {
-				return new OutOfPrisonCommand(logic, server, playerID);
-			}
-		}
+//		if (field.getClass().isInstance(Jail.class)) {
+//			if (prisonValuator.returnValuation() > 0) {
+//				return new OutOfPrisonCommand(logic, server, playerID);
+//			}
+//		}
 
 		// Buy House
-		if (field.getClass().isInstance(BuyableField.class)) {
+		if (field instanceof BuyableField) {
+			logger.log(Level.INFO, "BuyableField!");
 			double valuation = weights[0] * propertyValuator.returnValuation() + weights[1]
 					* capitalValuator.returnValuation(((BuyableField) field).getPrice());
 
 			if (valuation > 0) {
+				assert(false);
 				return new DeclineCommand(logic, server, playerID);
 			} else {
+				assert(false);
 				return new AcceptCommand(logic, server, playerID);
 			}
 		}
