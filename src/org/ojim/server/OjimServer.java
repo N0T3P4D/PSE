@@ -190,7 +190,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * Ends a Game and prepares the Server for the next Game
 	 * @return successful?
 	 */
-	boolean endGame() {
+	public boolean endGame() {
 
 		//Stops the Game
 		this.gameStarted = false;
@@ -890,6 +890,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 
 				logic.startNewTurn();
+				if(this.state.getGameIsWon()) {
+					this.endGame();
+				}
 				return true;
 			}
 		}

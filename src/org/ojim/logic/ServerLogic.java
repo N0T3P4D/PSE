@@ -64,6 +64,10 @@ public class ServerLogic extends Logic {
 		player.transferMoney(-(player.getBalance() + 1));
 		player.setBankrupt();
 
+		if(player instanceof ServerPlayer) {
+			((ServerPlayer)player).getClient().informBankruptcy();
+		}
+		
 		// Inform All Players that this Player is bankrupt
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if (onePlayer instanceof ServerPlayer) {
@@ -231,6 +235,15 @@ public class ServerLogic extends Logic {
 						return;
 					}
 				}
+				//Only 1 Player is left, he has won
+				System.out.println("Player has won!");
+				for(Player player : this.getGameState().getPlayers()) {
+					if(player instanceof ServerPlayer) {
+						//TODO add language
+						((ServerPlayer)player).getClient().informMessage("Player " + currentPlayer.getName() + " has won!", -1, false);
+					}
+				}
+				this.getGameState().setGameIsWon(true);
 			}
 		}
 
