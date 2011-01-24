@@ -26,9 +26,9 @@ public class GoToJail extends Field {
 		super(name, position);
 	}
 	
-	public GoToJail(String name, int position, ServerLogic logic) {
+	public GoToJail(String name, int position, ServerLogic logic, Jail targetJail) {
 		this(name, position);
-		this.setExecuteActions(new ActionMoveToJail(logic));
+		this.setExecuteActions(new ActionMoveToJail(logic, targetJail));
 	}
 
 	@Override

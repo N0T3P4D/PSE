@@ -1038,7 +1038,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[28] = infrastructures.addField(new InfrastructureField("Wasser-Farm", 28, 3000, this.logic));
 		fields[29] = streets[5].addField(new Street("Todesstern - Hauptreaktor", 29, new int[] { 480, 2400, 7200,
 				17000, 20500, 24000 }, 0, 5600, logic));
-		fields[30] = new GoToJail("Gehe ins Gefängnis", 30, this.logic);
+		fields[30] = new GoToJail("Gehe ins Gefängnis", 30, this.logic, (Jail) fields[10]);
 		fields[31] = streets[6].addField(new Street("Endor - Wald", 31, new int[] { 520, 2600, 7800, 18000, 22000,
 				25500 }, 0, 6000, logic));
 		fields[32] = streets[6].addField(new Street("Endor - Schildgenerator", 32, new int[] { 520, 2600, 7800, 18000,
