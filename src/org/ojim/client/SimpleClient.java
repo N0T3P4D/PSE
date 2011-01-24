@@ -250,6 +250,10 @@ public class SimpleClient {
 		this.server.sendPrivateMessage(text, this.playerId, reciever);
 	}
 	
+	protected final void payFine() {
+		this.server.payFine(this.playerId);
+	}
+	
 	/*
 	 * RULES
 	 */
