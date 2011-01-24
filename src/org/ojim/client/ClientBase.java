@@ -329,10 +329,10 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public final void informMove(int playerId, int position) {
 		Player player = this.getGameState().getPlayerByID(playerId);
 		if (player != null) {
-			player.setPosition(position);
 			this.onMove(player, position);
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMove with invalid player.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMove with invalid player, ID = " + playerId);
+			assert(false);
 		}
 	}
 	
