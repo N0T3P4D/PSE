@@ -70,8 +70,6 @@ public class ActionMoveToField implements Action {
 		}
 
 		// Zu diesem Feld dann gehen
-		/*
-		 * movetofield(nächtesfeld)
-		 */
+		this.logic.movePlayerTo(next, this.logic.getGameState().getActivePlayer(), this.special, this.executePasses);
 	}
 }

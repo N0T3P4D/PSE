@@ -26,16 +26,19 @@ public class ActionMoveForward implements Action {
 	private final int steps;
 	private final ServerLogic logic;
 	private final boolean executePasses;
+	private final boolean special;
 
-	public ActionMoveForward(ServerLogic logic, boolean executePasses, int steps) {
+	public ActionMoveForward(ServerLogic logic, boolean executePasses, boolean special, int steps) {
 		this.steps = steps;
 		this.logic = logic;
 		this.executePasses = executePasses;
+		this.special = special;
 	}
 
 	@Override
 	public void execute() {
 		Field target = this.logic.getGameState().getFieldAt(
 				(this.logic.getGameState().getActivePlayer().getPosition() + this.steps) % GameState.FIELDS_AMOUNT);
+		logic.movePlayerTo(target, this.logic.getGameState().getActivePlayer(), this.special, this.executePasses);
 	}
 }
