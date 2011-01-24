@@ -161,7 +161,8 @@ public class SimpleClient implements Serializable {
 	 */
 	public int getMoneyToPay(int position) {
 		if (this.server instanceof NetOjim) {
-			return ((NetOjim) this.server).getMoneyToPay(position);
+//			return ((NetOjim) this.server).getMoneyToPay(position);
+			return 1000;
 		} else {
 			return 1000; // TODO: (xZise) Is this the correct value?
 		}
@@ -178,7 +179,8 @@ public class SimpleClient implements Serializable {
 	 */
 	public int getRoundsToWait(int position) {
 		if (this.server instanceof NetOjim) {
-			return ((NetOjim) this.server).getRoundsToWait(position);
+//			return ((NetOjim) this.server).getRoundsToWait(position);
+			return 3;
 		} else {
 			return 3; // TODO: (xZise) Is this the correct value?
 		}
