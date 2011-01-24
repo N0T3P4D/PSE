@@ -796,7 +796,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 					return true;
 				}
 			}
-			informMoveAll(player);
 		}
 		return true;
 	}
