@@ -17,6 +17,8 @@
 
 package org.ojim.client.ai.valuation;
 
+import org.ojim.logic.state.fields.BuyableField;
+
 /**
  * 
  * Returns the valuation of a property group
@@ -40,7 +42,10 @@ public final class PropertyGroupValuator extends ValuationFunction {
 
 	@Override
 	public double returnValuation() {
-		// TODO Auto-generated method stub
+		getLogger();
+		int position = getGameState().getActivePlayer().getPosition();
+//		if (((BuyableField)getGameState().getFieldAt(position)).getFieldGroup() instanceof StreetFieldGroup;
+//		if (((BuyableField)getGameState().getFieldAt(position)). )
 		return 0;
 	}
 

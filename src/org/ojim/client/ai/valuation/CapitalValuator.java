@@ -17,11 +17,14 @@
 
 package org.ojim.client.ai.valuation;
 
+import java.util.logging.Level;
+
 import org.ojim.logic.state.Player;
 
 /**
  * 
- * Die Klasse CapitalValuator bewertet, ob sich der KI-Client leisten kann, Geld auszugeben
+ * Die Klasse CapitalValuator bewertet, ob sich der KI-Client leisten kann, Geld
+ * auszugeben
  * 
  * @author Jeremias Mechler
  */
@@ -40,16 +43,21 @@ public final class CapitalValuator extends ValuationFunction {
 	}
 
 	/**
-	 * Sometimes we have to specify an amount, for example if we want to buy something
+	 * Sometimes we have to specify an amount, for example if we want to buy
+	 * something
 	 * 
 	 * @param amount
 	 *            Amount of money
 	 * @return Valuation
 	 */
 	public double returnValuation(int amount) {
+
 		// Da die Klasse ein Singleton ist, muss der aktive Spieler bei jedem
 		// Aufruf bestimmt werden
+		getLogger();
 		Player currentPlayer = this.getGameState().getActivePlayer();
+		logger.log(Level.INFO, "Current cash = " + currentPlayer.getBalance()
+				+ " Price = " + amount);
 
 		// Die Gesamtgeldsumme aller Gegenspieler
 		int sum = 0;
@@ -67,12 +75,17 @@ public final class CapitalValuator extends ValuationFunction {
 		}
 
 		// Nach dem Papier
-		double required = ValuationParameters.baseCash + ValuationParameters.averageCashPercentage
-				* (((double) sum / (double) (players.length - 1)) + sum) + ValuationParameters.maxCashPercentage * max;
+		double required = ValuationParameters.baseCash
+		// + ValuationParameters.averageCashPercentage
+		// * (((double) sum / (double) (players.length - 1)) + sum)
+				+ ValuationParameters.maxCashPercentage * max;
+		logger.log(Level.INFO, "Required = " + required);
 
 		if (currentPlayer.getBalance() - amount >= required) {
+			logger.log(Level.INFO, "Granted");
 			return 1;
 		} else {
+			logger.log(Level.INFO, "Denied");
 			return 0;
 		}
 	}

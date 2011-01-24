@@ -37,9 +37,11 @@ public class InfrastructureField extends BuyableField {
 	public int getRent() {
 		// Calculate here
 
+		assert this.getFieldGroup() != null;
+		
 		int ownerOwns = 0;
 		for (Field field : this.getFieldGroup().getFields()) {
-			if (field instanceof InfrastructureField && ((InfrastructureField) field).getOwner().equals(
+			if (field instanceof InfrastructureField && ((BuyableField)field).getOwner() != null && ((InfrastructureField) field).getOwner().equals(
 						this.getOwner())) {
 				ownerOwns++;
 			}

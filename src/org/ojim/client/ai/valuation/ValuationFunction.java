@@ -80,7 +80,8 @@ public abstract class ValuationFunction {
 	 * @return Instance
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T extends ValuationFunction> T getInstance(boolean forceNew, Class<T> clazz) {
+	public static <T extends ValuationFunction> T getInstance(boolean forceNew,
+			Class<T> clazz) {
 		T instance = null;
 		if (!forceNew) {
 			instance = (T) ValuationFunction.instances.get(clazz);
@@ -145,12 +146,12 @@ public abstract class ValuationFunction {
 	 * @return Valuation as double
 	 */
 	public abstract double returnValuation();
-	
+
 	protected final void getLogger() {
 		if (logger == null) {
 			logger = OJIMLogger.getLogger(this.getClass().toString());
 		}
-//		return logger;
+		// return logger;
 	}
 
 }
