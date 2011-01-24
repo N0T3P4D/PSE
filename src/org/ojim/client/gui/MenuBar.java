@@ -104,7 +104,6 @@ public class MenuBar extends JMenuBar {
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					gui.changeLanguage(((JMenuItem) (e.getSource())).getName());
-					System.out.println(((JMenuItem) (e.getSource())).getName());
 				}
 			};
 
