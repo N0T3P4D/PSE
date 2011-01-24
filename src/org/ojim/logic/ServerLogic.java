@@ -197,6 +197,10 @@ public class ServerLogic extends Logic {
 		// Lets a Player pay money to get out of Jail
 		this.exchangeMoney(player, this.getGameState().getBank(), player
 				.getJail().getMoneyToPay());
+		this.sendPlayerOutOfJail(player);
+	}
+	
+	public void sendPlayerOutOfJail(Player player) {
 		player.sendToJail(null);
 
 		// Inform all Player that the current Player is now out of Jail
@@ -204,9 +208,10 @@ public class ServerLogic extends Logic {
 			if (onePlayer instanceof ServerPlayer) {
 				// TODO Add Language
 				((ServerPlayer) onePlayer).getClient().informMessage(
-						"Current Player is now out of Jail!", 0, false);
+						"Current Player is now out of Jail!", -1, false);
 			}
 		}
+		
 	}
 
 	public void getNewPlayerOnTurn() {

@@ -32,18 +32,13 @@ public class ActionTransferMoneyToPlayers implements Action {
 	
 	@Override
 	public void execute() {
-		ActionTransferMoneyToPlayers.execute(this.logic, this.amount);
-	}
-	
-	public static void execute(ServerLogic logic, int amount) {		
 		// Get all players:
-		Player activePlayer = logic.getGameState().getActivePlayer();
+		Player activePlayer = this.logic.getGameState().getActivePlayer();
 		
-		for (Player player : logic.getGameState().getPlayers()) {
+		for (Player player : this.logic.getGameState().getPlayers()) {
 			if (!player.equals(activePlayer)) {
-				logic.exchangeMoney(activePlayer, player, amount);
+				this.logic.exchangeMoney(activePlayer, player, amount);
 			}
 		}
 	}
-
 }

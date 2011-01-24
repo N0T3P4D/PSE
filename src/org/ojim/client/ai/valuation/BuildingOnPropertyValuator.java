@@ -35,7 +35,7 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 	 * @return An instance
 	 */
 	public static ValuationFunction getInstance() {
-		return ValuationFunction.getInstance(false, BuildingOnPropertyValuator.class);
+		return BuildingOnPropertyValuator.getInstance(false, BuildingOnPropertyValuator.class);
 	}
 
 	@Override

@@ -158,9 +158,8 @@ public class Player implements IMoneyPartner {
 		return this.balance;
 	}
 
-	/* TODO: Make immutable? */
-	public List<BuyableField> getFields() {
-		return this.fields;
+	public BuyableField[] getFields() {
+		return this.fields.toArray(new BuyableField[0]);
 	}
 
 	/* FIELD STACK */

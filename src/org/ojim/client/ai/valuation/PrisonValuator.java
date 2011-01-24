@@ -32,7 +32,7 @@ public final class PrisonValuator extends ValuationFunction {
 	 * 
 	 * @return An instance
 	 */
-	public static ValuationFunction getInstance() {
+	public static PrisonValuator getInstance() {
 		return ValuationFunction.getInstance(false, PrisonValuator.class);
 	}
 
