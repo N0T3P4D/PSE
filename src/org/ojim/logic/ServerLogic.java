@@ -300,8 +300,9 @@ public class ServerLogic extends Logic {
 	public void buyStreet() {
 		Player player = this.getGameState().getActivePlayer();
 		int position = player.getPosition();
-		this.exchangeMoney(player, this.getGameState().getBank(), amount)
-		changeFieldOwner(null, player, (BuyableField)this.getGameState().getFieldAt(position));
+		BuyableField field = (BuyableField)this.getGameState().getFieldAt(position);
+		this.exchangeMoney(player, this.getGameState().getBank(), field.getPrice());
+		changeFieldOwner(null, player, field);
 	}
 	
 	public void changeFieldOwner(Player oldOwner, Player newOwner,
@@ -323,6 +324,11 @@ public class ServerLogic extends Logic {
 						field.getPosition());
 			}
 		}
+	}
+
+	public void endGame() {
+		// TODO Free Stack here
+		
 	}
 
 }
