@@ -24,12 +24,47 @@ public class ServerDetails {
 	private int connectedPlayers;
 	private int maxPlayers;
 	private boolean open;
-	private int port;
+	private int portReg;
+	private int portStub;
 	
-	public ServerDetails(String name,String ip,int ConnectedPlayers,int MaxPlayers,boolean open){
+	public ServerDetails(String name,String ip,int connectedPlayers,int maxPlayers,boolean open,
+			int portReg, int portStub){
+		this.connectedPlayers=connectedPlayers;
+		this.name=name;
+		this.ip=ip;
+		this.maxPlayers=maxPlayers;
+		this.open=open;
+		this.portReg=portReg;
+		this.portStub=portStub;
+	}
+	
+	public String getName(){
+		return this.name;
+	}
+	
+	public String getIp (){
+		return this.ip;
+	}
+	
+	public int getConnectedPlayers(){
+		return this.connectedPlayers;
 		
 	}
 	
+	public int getMaxPlayers(){
+		return this.maxPlayers;
+	}
 	
+	public boolean getOpen(){
+		return this.open;
+	}
+	
+	public int getPortReg(){
+		return this.portReg;
+	}
+	
+	public int getPortStub(){
+		 return this.portStub;
+	}
 
-}
+}	

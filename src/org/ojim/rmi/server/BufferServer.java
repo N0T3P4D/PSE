@@ -42,30 +42,9 @@ public class BufferServer {
  */
 public void createBufferServer(){
 	
-	System.setProperty("java.security.policy", "client.policy"); 
-	if (System.getSecurityManager() == null) {
-		System.setSecurityManager(new RMISecurityManager());
-	}
-	
-	
-	System.out.println("Server wird eingerichtet...");
+System.out.println("Server wird eingerichtet...");
 	   
-	    try {
-	      java.rmi.registry.LocateRegistry.createRegistry(1099);
-	      ImplBuffer myBuffer = new ImplBuffer();
-	      String serverName = "rmi://" + InetAddress.getLocalHost().getHostAddress() + ":1099/ServerInter";
-	      Naming.rebind(serverName, myBuffer);
-	      System.out.println("Server eingerichtet");
-	      
-	      System.out.println("RMI Wurde gestartet");
-	      
-	     
-
-	    } catch (Exception e) {
-	      System.out.println("Fehler beim Einrichten des Servers " + 
-	e.getMessage());
-	    }
-
+	    
 	
 	
 }

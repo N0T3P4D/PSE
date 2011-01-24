@@ -28,4 +28,12 @@ public class ClientDetails {
 		this.username = username;
 	}
 
+	public String getIp(){
+		return this.ip;
+	}
+	
+	
+	public String getUsername(){
+		return this.username;
+	}
 }

@@ -17,22 +17,26 @@
 
 package org.ojim.network;
 
-import java.net.Socket;
-import java.nio.Buffer;
-import java.rmi.Naming;
-import java.rmi.RMISecurityManager;
 
-import edu.kit.iti.pse.iface.IServer;
+
+
+
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+
+import org.ojim.rmi.server.ImplBuffer;
+
+
 
 /**
- * Der Client baut eine aktive Verbindung zum Server aufgebaut
+ * Klasse verwaltet den Verbindungsaufbau vom Client zum Server.
  * 
  * @author Usman Ghani Ahmed
  * 
  */
 public class ClientConnection {
 
-	private Socket clientSoket;
+	//private Socket clientSoket;
 
 	public ClientConnection() {
 
@@ -43,19 +47,29 @@ public class ClientConnection {
 		return false;
 
 	}
-
-	public IServer connect(String ip, String name) {
-
-		Buffer b1 = null;
-		System.setSecurityManager(new RMISecurityManager());
-		String url = "rmi://" + ip + "/";
+	
+	/**
+	 * Meldet einen Client beim Server an
+	 * 
+	 * @param ip ip Adresse des Servers
+	 * @param port port der Registry , die auf dem Server läuft
+	 * @return Remote Objekt 
+	 */
+	public ImplBuffer connect(String ip, int port) {
+		
+		ImplBuffer iServer = null;
+		
 		try {
-			b1 = (Buffer) Naming.lookup(url + name);
-
+		    Registry registry = LocateRegistry.getRegistry(ip,port);
+		    iServer = (ImplBuffer) registry.lookup("myServer");
+		    System.out.print("Client wurde erfolgreich beim Server angemeldet!");
 		} catch (Exception e) {
-			System.out.println("Fehler: " + e);
+		    System.err.println("Client exception: " + e.toString());
+		    e.printStackTrace();
 		}
-
-		return (IServer) b1;
+		
+		return iServer;
+		
+		
 	}
 }

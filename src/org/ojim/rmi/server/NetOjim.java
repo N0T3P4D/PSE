@@ -21,11 +21,17 @@ import java.rmi.Remote;
 import java.rmi.RemoteException;
 
 import edu.kit.iti.pse.iface.IServer;
-
-public interface NetOjim extends Remote , IServer {
+/**
+ * Interface stellt zusätzlich zum IServer Interface Methoden bereit 
+ * die über das Netzwerk mit Hilfe von RMI, lokal oder über das Internet 
+ * vom Client auf einer anderen JVM aufgerufen werden können.  
+ * 
+ * @author Usman Ghani Ahmed
+ *
+ */
+public interface NetOjim extends Remote ,IServer {
 	
-	public void setName(String name) throws RemoteException;
-	public String getName()throws RemoteException;
+	
 		
 		
 	

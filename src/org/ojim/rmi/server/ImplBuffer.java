@@ -17,38 +17,111 @@
 
 package org.ojim.rmi.server;
 
-import java.io.Serializable;
+
+import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
+import org.ojim.network.ServerDetails;
 
 /**
  * Klasse verwaltet alle Methoden die ueber das Netzwerk aufgerufen werden koennen
+ * 
  * @author Usman Ghani Ahmed
  *
  */
-public class ImplBuffer extends UnicastRemoteObject implements NetOjim {
-
+public class ImplBuffer implements NetOjim {
+	
+	private Registry reg;
+	
+	private ServerDetails serverDetails;
 	
 	
-	protected ImplBuffer() throws RemoteException {
-		super();
-		// TODO Auto-generated constructor stub
-	}
-
-	@Override
-	public void setName(String name) {
-		// TODO Auto-generated method stub
+	
+	public ImplBuffer(Registry reg, ServerDetails serverDetails){
+		this.reg = reg;
+		this.serverDetails = serverDetails;
 		
 	}
+	
+	
+	
 
-	@Override
-	public String getName() throws RemoteException {
-		// TODO Auto-generated method stub
-		return null;
+	/**
+	 * Netzwerk Objekt wird bei dem lokalen Namendienst registriert, portReg und
+	 * portStub müssen von der lokalen Firewall und der Hardware Firewall
+	 * (Router) freigegeben werden. Bitte Achten Sie auch darauf, dass
+	 * Ports die schon von ihrem Betriebssystem benutzt werden, nicht für ihren Server 
+	 * benutzt werden können. Eine Liste mit den Standardports die von ihrem Betriebssystem
+	 * verwendet werden, entnehmen Sie der Readme Datei. 
+	 *  
+	 * 
+	 * @param portReg Port für die lokale Registry
+	 * 
+	 * @param portStub Port für das exportieren des Objekts
+	 */
+	public void createBufferServer(int portReg, int portStub){
+		
+	System.out.println("Server wird eingerichtet...");
+	
+	try {
+	    
+	    NetOjim stub = (NetOjim) UnicastRemoteObject.exportObject(this,portStub );
+	    reg = LocateRegistry.createRegistry(portReg);
+	    // Bind the remote object's stub in the registry
+	    //Registry registry = LocateRegistry.getRegistry();
+	    reg.bind("myServer", stub);
+	    
+	  
+
+	    System.err.println("Server ist bereit");
+	} catch (Exception e) {
+	    System.err.println("Server exception: " + e.toString());
+	    e.printStackTrace();
 	}
+	
+	}
+	
+	/**
+	 * Beendet die gestartete Registry
+	 */
+    public void endRegistry(){
+		
+    	
+    	try {
+			//Registry registry = LocateRegistry.getRegistry();
+			this.reg.unbind("myServer");
+			UnicastRemoteObject.unexportObject(this, true);
+			//this.shutdown(true);
+			UnicastRemoteObject.unexportObject(this.reg, true);
+			this.reg = null;
+			
+			
+		} catch (RemoteException e) {
+			
+			System.out.println("Es wurde keine Registry gestartet!");
+		} catch (NotBoundException e) {
+			System.out.println("Es ist kein Objekt in der Registry registriert,"+"\n"+
+					"somit kann auch kein Remote von der Registry abgemeldet werden!");
+			
+		}
+    	
+    	
+    	
+    	
+    	
+    	
+		
+		
+		
+		
+		
+	}
+	
 
 	@Override
 	public int getPlayerPiecePosition(int playerID) {
