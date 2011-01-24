@@ -67,6 +67,7 @@ public class GUIClient extends ClientBase {
 
 		// Nur zu Debugzwecken auf game
 		setMenuState(MenuState.mainMenu);
+		//setMenuState(MenuState.game);
 
 
 		language = new Localizer();
@@ -80,7 +81,7 @@ public class GUIClient extends ClientBase {
 			language.setLanguage(langs[0]);
 		
 		
-		createGameFrame = new CreateGameFrame(language);
+		createGameFrame = new CreateGameFrame(language,this);
 		joinGameFrame = new JoinGameFrame(language);
 		settingsFrame = new SettingsFrame(language);
 		helpFrame = new HelpFrame(language);
@@ -169,6 +170,9 @@ public class GUIClient extends ClientBase {
 
 		case game:
 
+			connect("127.0.0.1", "60");
+			
+			
 			gameField = new GameField();
 
 			gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
@@ -413,6 +417,13 @@ public class GUIClient extends ClientBase {
 	public void openSettingsWindow() {
 		settingsFrame.draw();
 		settingsFrame.setVisible(true);
+		
+	}
+
+	public void startServer() {
+		menuState = MenuState.game;
+		createGameFrame.setVisible(false);
+		draw();
 		
 	}
 

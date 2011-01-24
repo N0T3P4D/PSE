@@ -18,22 +18,72 @@
 package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.language.Localizer;
 
 public class CreateGameFrame extends JFrame {
 	
-	public CreateGameFrame(Localizer language) {
+	private JPanel panel;
+	private JButton startButton;
+	private Localizer language;
+	private ActionListener serverStartListener;
+	private GUIClient gui;
+	
+	public CreateGameFrame(Localizer language, final GUIClient gui) {
 		setMinimumSize(new Dimension(200, 50));
+		
+		this.gui = gui;
+		
+		serverStartListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gui.startServer();
+				
+			}
+		};
+		
+		
+		panel = new JPanel();
+		startButton = new JButton();
+		startButton.add(new JLabel(language.getText("start server")));
+		startButton.addActionListener(serverStartListener);
+		
+		panel.add(startButton);
+		this.add(panel);
 
 		this.pack();
 	}
+	
+	public void draw(){
+
+		remove(panel);
+		
+		panel = new JPanel();
+		startButton = new JButton();
+		startButton.add(new JLabel(language.getText("start server")));
+		startButton.addActionListener(serverStartListener);
+		
+		panel.add(startButton);
+		
+		this.add(panel);
+		this.repaint();
+		setVisible(true);
+	}
 
 	public void setLanguage(Localizer language) {
-		// TODO Auto-generated method stub
+		this.language = language;
+		if(isVisible()){
+			draw();
+		}
 		
 	}
-	
 }

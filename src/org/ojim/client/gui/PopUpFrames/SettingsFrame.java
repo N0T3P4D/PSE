@@ -38,18 +38,21 @@ public class SettingsFrame extends JFrame {
 	public SettingsFrame(Localizer language) {
 		this.language = language;
 		setMinimumSize(new Dimension(400, 100));
+		
 		name = new JLabel(this.language.getText("player name"));
 		nameField = new JTextField();
 		saveButton = new JButton();
 		saveButton.add(new JLabel(this.language.getText("save")));
 		nameField.setColumns(20);
 		panel = new JPanel();
+		
 		this.pack();
 	}
 	
 	public void draw(){
 
 		remove(panel);
+		
 		panel = new JPanel();
 		name = new JLabel(this.language.getText("player name"));
 		saveButton = new JButton();
@@ -57,6 +60,7 @@ public class SettingsFrame extends JFrame {
 		panel.add(name);
 		panel.add(nameField);
 		panel.add(saveButton);
+		
 		this.add(panel);
 		this.repaint();
 		setVisible(true);
