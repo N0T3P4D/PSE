@@ -43,6 +43,7 @@ public class AIClient extends ClientBase {
 
 	private Logger logger;
 	private Valuator valuator;
+	private int count;
 
 	/**
 	 * 
@@ -60,7 +61,8 @@ public class AIClient extends ClientBase {
 		connect(server);
 		logger.log(Level.INFO, "Hello! AI client with ID " + this.getPlayerId()
 				+ " created.");
-		 valuator = new Valuator(getLogic(), server, getPlayerId());
+		valuator = new Valuator(getLogic(), server, getPlayerId());
+		count = 0;
 	}
 
 	public void setReady() {
@@ -95,22 +97,22 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onMove(Player player, int position) {
-		logger.log(Level.INFO, "New position is " + position + " with name "
-				+ getLogic().getGameState().getFieldAt(position).getName());
-		if (getLogic().getGameState().getFieldAt(position) instanceof BuyableField) {
+		count++;
+		logger.log(Level.INFO, "Move " + count + " New position is " + position + " with name "
+				+ getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
+		if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
 			logger.log(Level.INFO, "On buyable field");
-			 valuator.returnBestCommand(position);
+//			valuator.returnBestCommand(position);
 		}
-//		if (isPrison(position)) {
-//			getGameState().getActivePlayer().waitInJail();
-//		}
+		// if (isPrison(position)) {
+		// getGameState().getActivePlayer().waitInJail();
+		// }
 		if (position == 11) {
 			// blub("lol");
 			// decline();
 			// accept();
 			decline();
 		}
-
 
 		// rollDice();
 		endTurn();
