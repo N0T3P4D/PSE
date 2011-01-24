@@ -154,8 +154,8 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	 * ACTION METHODS
 	 */
 
-	protected final boolean connect(String host, String name) {
-		IServer server = this.connection.connect(host, name);
+	protected final boolean connect(String host, int port) {
+		IServer server = this.connection.connect(host, port);
 		if (server == null) {
 			return false;
 		}

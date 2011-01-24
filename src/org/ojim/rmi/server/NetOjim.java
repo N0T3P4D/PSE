@@ -53,6 +53,12 @@ public interface NetOjim extends Remote ,IServer {
 	 * @throws RemoteException
 	 */
 	public void abmeldenClient(NetClient netClient)throws RemoteException;
+
+
+	public int getRoundsToWait(int position);
+
+
+	public int getMoneyToPay(int position);
 			
 
 

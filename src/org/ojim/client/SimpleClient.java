@@ -23,6 +23,7 @@ import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.rmi.server.NetOjim;
 import org.ojim.server.OjimServer;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -157,8 +158,8 @@ public class SimpleClient {
 	 *         is undefined;.
 	 */
 	public int getMoneyToPay(int position) {
-		if (this.server instanceof OjimServer) {
-			return ((OjimServer) this.server).getMoneyToPay(position);
+		if (this.server instanceof NetOjim) {
+			return ((NetOjim) this.server).getMoneyToPay(position);
 		} else {
 			return 1000; // TODO: (xZise) Is this the correct value?
 		}
@@ -174,8 +175,8 @@ public class SimpleClient {
 	 *         it return is undefined.
 	 */
 	public int getRoundsToWait(int position) {
-		if (this.server instanceof OjimServer) {
-			return ((OjimServer) this.server).getRoundsToWait(position);
+		if (this.server instanceof NetOjim) {
+			return ((NetOjim) this.server).getRoundsToWait(position);
 		} else {
 			return 3; // TODO: (xZise) Is this the correct value?
 		}

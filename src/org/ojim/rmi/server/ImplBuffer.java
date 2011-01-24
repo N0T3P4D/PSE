@@ -370,4 +370,22 @@ public class ImplBuffer  extends UnicastRemoteObject implements NetOjim {
 	}
 
 
+
+
+	@Override
+	public int getRoundsToWait(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
+
+
+	@Override
+	public int getMoneyToPay(int position) {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+
 }
