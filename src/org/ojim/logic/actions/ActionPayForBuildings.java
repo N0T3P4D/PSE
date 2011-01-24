@@ -17,8 +17,6 @@
 
 package org.ojim.logic.actions;
 
-import java.util.List;
-
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.state.Player;
