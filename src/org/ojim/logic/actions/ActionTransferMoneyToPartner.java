@@ -52,7 +52,6 @@ public class ActionTransferMoneyToPartner implements Action {
 
 	@Override
 	public void execute() {
-		this.logic.exchangeMoney(logic.getGameState().getActivePlayer(), partner,
-				amount);
+		this.logic.exchangeMoney(this.logic.getGameState().getActivePlayer(), this.partner, this.amount);
 	}
 }

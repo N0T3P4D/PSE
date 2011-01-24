@@ -46,7 +46,7 @@ public class ActionPayForBuildings implements Action {
 		int costs = 0;
 		
 		// Gehe jede Straße des Spielers durch
-		List<BuyableField> field = active.getFields();
+		BuyableField[] field = active.getFields();
 
 		// In jeder Straße gucke wie viele Häuse/Hotels es gibt
 		for (BuyableField buyableField : field) {
