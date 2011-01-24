@@ -19,14 +19,55 @@ package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
+
+import org.ojim.language.Localizer;
 
 public class SettingsFrame extends JFrame {
 
-	public SettingsFrame() {
-
-		setMinimumSize(new Dimension(200, 50));
+	JLabel name;
+	JTextField nameField;
+	JPanel panel;
+	JButton saveButton;
+	Localizer language;
+	
+	public SettingsFrame(Localizer language) {
+		this.language = language;
+		setMinimumSize(new Dimension(400, 100));
+		name = new JLabel(this.language.getText("player name"));
+		nameField = new JTextField();
+		saveButton = new JButton();
+		saveButton.add(new JLabel(this.language.getText("save")));
+		nameField.setColumns(20);
+		panel = new JPanel();
 		this.pack();
+	}
+	
+	public void draw(){
+
+		remove(panel);
+		panel = new JPanel();
+		name = new JLabel(this.language.getText("player name"));
+		saveButton = new JButton();
+		saveButton.add(new JLabel(this.language.getText("save")));
+		panel.add(name);
+		panel.add(nameField);
+		panel.add(saveButton);
+		this.add(panel);
+		this.repaint();
+		setVisible(true);
+	}
+
+	public void setLanguage(Localizer language) {
+		this.language = language;
+		if(isVisible()){
+			draw();
+		}
+		
 	}
 
 }

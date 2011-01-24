@@ -21,12 +21,24 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import org.ojim.language.Localizer;
+
 public class HelpFrame extends JFrame {
 	
-	public HelpFrame() {
+	public HelpFrame(Localizer language) {
 
 		setMinimumSize(new Dimension(200, 50));
 		this.pack();
+	}
+
+	public void setLanguage(Localizer language) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void draw() {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

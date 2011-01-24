@@ -21,12 +21,19 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import org.ojim.language.Localizer;
+
 public class CreateGameFrame extends JFrame {
 	
-	public CreateGameFrame() {
+	public CreateGameFrame(Localizer language) {
 		setMinimumSize(new Dimension(200, 50));
 
 		this.pack();
+	}
+
+	public void setLanguage(Localizer language) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

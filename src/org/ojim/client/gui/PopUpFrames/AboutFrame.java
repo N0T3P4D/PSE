@@ -20,13 +20,40 @@ package org.ojim.client.gui.PopUpFrames;
 import java.awt.Dimension;
 
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
+import org.ojim.language.Localizer;
 
 public class AboutFrame extends JFrame {
-	
-	public AboutFrame() {
-		setMinimumSize(new Dimension(200, 50));
 
-		this.pack();
+	JLabel aboutText;
+	Localizer language;
+	
+	public AboutFrame(Localizer language) {
+		this.language = language;
+		setMinimumSize(new Dimension(200, 50));
+		setSize(new Dimension(400, 200));
+		aboutText = new JLabel(this.language.getText("aboutText"));
+	}
+	
+	public void draw(){
+
+		remove(aboutText);
+
+		aboutText = new JLabel(this.language.getText("aboutText"));
+		this.add(aboutText);
+		this.repaint();
+		setVisible(true);
+	}
+
+	public void setLanguage(Localizer language) {
+		this.language = language;
+		if(isVisible()){
+			draw();
+		}
+		
 	}
 	
 }

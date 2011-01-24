@@ -68,11 +68,6 @@ public class GUIClient extends ClientBase {
 		// Nur zu Debugzwecken auf game
 		setMenuState(MenuState.mainMenu);
 
-		createGameFrame = new CreateGameFrame();
-		joinGameFrame = new JoinGameFrame();
-		settingsFrame = new SettingsFrame();
-		helpFrame = new HelpFrame();
-		aboutFrame = new AboutFrame();
 
 		language = new Localizer();
 
@@ -83,12 +78,20 @@ public class GUIClient extends ClientBase {
 
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
+		
+		
+		createGameFrame = new CreateGameFrame(language);
+		joinGameFrame = new JoinGameFrame(language);
+		settingsFrame = new SettingsFrame(language);
+		helpFrame = new HelpFrame(language);
+		aboutFrame = new AboutFrame(language);
 
 		createGameFrame.setTitle(language.getText("create game"));
 		joinGameFrame.setTitle(language.getText("join game"));
 		settingsFrame.setTitle(language.getText("settings"));
 		helpFrame.setTitle(language.getText("help"));
 		aboutFrame.setTitle(language.getText("about"));
+		
 
 		GUIFrame = new JFrame(language.getText("ojim"));
 
@@ -364,11 +367,13 @@ public class GUIClient extends ClientBase {
 	}
 
 	public void openAboutWindow() {
+		aboutFrame.draw();
 		aboutFrame.setVisible(true);
 
 	}
 
 	public void openHelpWindow() {
+		helpFrame.draw();
 		helpFrame.setVisible(true);
 
 	}
@@ -386,10 +391,15 @@ public class GUIClient extends ClientBase {
 	private void resetLanguage() {
 		GUIFrame.setTitle(language.getText("ojim"));
 		createGameFrame.setTitle(language.getText("create game"));
+		createGameFrame.setLanguage(language);
 		joinGameFrame.setTitle(language.getText("join game"));
+		joinGameFrame.setLanguage(language);
 		settingsFrame.setTitle(language.getText("settings"));
+		settingsFrame.setLanguage(language);
 		helpFrame.setTitle(language.getText("help"));
+		helpFrame.setLanguage(language);
 		aboutFrame.setTitle(language.getText("about"));
+		aboutFrame.setLanguage(language);
 		menubar.language(language);
 
 	}
@@ -397,6 +407,12 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onAuction(int auctionState) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void openSettingsWindow() {
+		settingsFrame.draw();
+		settingsFrame.setVisible(true);
 		
 	}
 

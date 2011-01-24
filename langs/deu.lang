@@ -34,3 +34,6 @@ ready=Bereit?
 send=Senden
 currency=€
 languages=Sprachen
+player name=Spielername
+aboutText=<html>Offene Javaimplementation von M. ist ein quelloffenes, Multiplayerspiel welches in Java geschrieben wurde und auf den Regeln eines weitverbeiteten Spiels beruht. Es wurde geplant und umgesetzt von Fabian Neundorf, Philip Caroli, Maximilian Madlung, Usman Ghani Ahmed und Jeremias Mechler. Dieses Projekt wurde während des Praxis der Softwareentwicklung Projekts am KIT entwickelt.
+save=Speichern

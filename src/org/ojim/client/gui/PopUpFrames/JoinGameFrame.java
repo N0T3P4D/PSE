@@ -21,9 +21,11 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 
+import org.ojim.language.Localizer;
+
 public class JoinGameFrame extends JFrame {
 
-	public JoinGameFrame() {
+	public JoinGameFrame(Localizer language) {
 
 		setMinimumSize(new Dimension(200, 50));
 		this.pack();
@@ -42,6 +44,11 @@ public class JoinGameFrame extends JFrame {
 	public void showJoin() {
 		// TODO Auto-generated method stub
 
+	}
+
+	public void setLanguage(Localizer language) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

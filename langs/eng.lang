@@ -34,3 +34,6 @@ ready=Ready?
 send=Send
 currency=£
 languages=Languages
+player name=Player Name
+aboutText=<html>Open Java Implementation of M. is a free multiplayer Java based game basing on the rules of a widely common game. It was planed and created from Fabian Neundorf, Philip Caroli, Maximilian Madlung, Usman Ghani Ahmed and Jeremias Mechler. This project was developed during the practical software developing time at KIT.
+save=Save

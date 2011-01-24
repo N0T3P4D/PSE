@@ -175,6 +175,16 @@ public class MenuBar extends JMenuBar {
 		};
 
 		leaveGame.addActionListener(leaveGameListener);
+		
+		ActionListener settingsListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				gui.openSettingsWindow();
+			}
+		};
+
+		settings.addActionListener(settingsListener);
 
 		ActionListener exitListener = new ActionListener() {
 
