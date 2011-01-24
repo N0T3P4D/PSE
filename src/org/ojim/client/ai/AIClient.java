@@ -29,6 +29,8 @@ import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
 
 import org.ojim.client.ClientBase;
+import org.ojim.client.ai.valuation.Valuator;
+
 import edu.kit.iti.pse.iface.IServer;
 
 /**
@@ -40,13 +42,15 @@ import edu.kit.iti.pse.iface.IServer;
 public class AIClient extends ClientBase {
 
 	private Logger logger;
+	private Valuator valuator;
+	private int count;
 
 	/**
 	 * 
 	 * Constructor
 	 * 
 	 * @param server
-	 * Reference to the server
+	 *            Reference to the server
 	 */
 	public AIClient(IServer server) {
 		super();
@@ -55,21 +59,26 @@ public class AIClient extends ClientBase {
 			throw new IllegalArgumentException("Server == null");
 		}
 		connect(server);
-		logger.log(Level.INFO, "Hello! AI client with ID " + this.getPlayerId() + " created.");
+		logger.log(Level.INFO, "Hello! AI client with ID " + this.getPlayerId()
+				+ " created.");
+		valuator = new Valuator(getLogic(), server, getPlayerId());
+		count = 0;
 	}
-	
+
 	public void setReady() {
 		ready();
 	}
-	
+
 	@Override
 	public void onTurn(Player player) {
-//		assert (player == super)
-		logger.log(Level.INFO, "Inform turn for client " + player.getName() + " (id: " + player.getId() + ")");
-		logger.log(Level.INFO, "Position is " + this.getGameState().getActivePlayer().getPosition());
+		// assert (player == super)
+		logger.log(Level.INFO, "Inform turn for client " + player.getName()
+				+ " (id: " + player.getId() + ")");
+		logger.log(Level.INFO, "Position is "
+				+ this.getGameState().getActivePlayer().getPosition());
 		this.rollDice();
 	}
-	
+
 	@Override
 	public void onCashChange(Player player, int cashChange) {
 		logger.log(Level.INFO, "Call onCashChange!");
@@ -88,71 +97,83 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onMove(Player player, int position) {
-		logger.log(Level.INFO, "New position is " + position + " with name " + getLogic().getGameState().getFieldAt(position).getName());
-		isPrison(position);
-		if (position == 11) {
-			blub("lol");
-			decline();
-			accept();
+		count++;
+		logger.log(Level.INFO, "Move " + count + " New position is " + position + " with name "
+				+ getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
+		if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
+			logger.log(Level.INFO, "On buyable field");
+//			valuator.returnBestCommand(position);
 		}
-		rollDice();
+		// if (isPrison(position)) {
+		// getGameState().getActivePlayer().waitInJail();
+		// }
+		if (position == 11) {
+			// blub("lol");
+			// decline();
+			// accept();
+			decline();
+		}
+
+		// rollDice();
 		endTurn();
-		rollDice();
-//		rollDice();
+		// rollDice();
+		// rollDice();
 	}
 
 	@Override
 	public void onBuy(Player player, BuyableField position) {
 		logger.log(Level.INFO, "Call onBuy!");
 	}
-	
-	private void isPrison(int position) {
+
+	private boolean isPrison(int position) {
 		if (getLogic().getGameState().getFieldAt(position) instanceof Jail) {
-		logger.log(Level.INFO, "In prison!");
+			logger.log(Level.INFO, "In prison!");
+			return true;
 		}
+		return false;
 	}
-	
+
 	public void blub(String message) {
 		System.out.println(message);
 	}
 
 	@Override
 	public void onBankruptcy() {
-		logger.log(Level.INFO, "Call onBankruptcy!");		
+		logger.log(Level.INFO, "Call onBankruptcy!");
 	}
 
 	@Override
 	public void onCardPull(String text, boolean communityCard) {
-		logger.log(Level.INFO, "Call onCardPull!");		
+		logger.log(Level.INFO, "Call onCardPull!");
 	}
 
 	@Override
 	public void onConstruct(Street street) {
-		logger.log(Level.INFO, "Call onConstruct!");		
+		logger.log(Level.INFO, "Call onConstruct!");
 	}
 
 	@Override
 	public void onDestruct(Street street) {
-		logger.log(Level.INFO, "Call onDestruct!");		
+		logger.log(Level.INFO, "Call onDestruct!");
 	}
 
 	@Override
 	public void onDiceValues(int[] diceValues) {
-		logger.log(Level.INFO, "Call onDiceValues!");		
+		logger.log(Level.INFO, "Call onDiceValues!");
 	}
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
-		logger.log(Level.INFO, "Call onMortgageToogle!");		
+		logger.log(Level.INFO, "Call onMortgageToogle!");
 	}
 
 	@Override
 	public void onStartGame(Player[] players) {
-		logger.log(Level.INFO, "Call onStartGame!");		
+		logger.log(Level.INFO, "Call onStartGame!");
 	}
 
 	@Override
 	public void onAuction(int auctionState) {
-		logger.log(Level.INFO, "Call onAuction!");		
+		logger.log(Level.INFO, "Call onAuction!");
 	}
 }

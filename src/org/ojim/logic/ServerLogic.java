@@ -90,6 +90,7 @@ public class ServerLogic extends Logic {
 		for (Player player : this.getGameState().getPlayers()) {
 			((ServerPlayer) player).getClient().informTurn(id);
 		}
+		this.getGameState().setActivePlayerNeedsToRoll(true);
 	}
 
 	/**
@@ -115,7 +116,7 @@ public class ServerLogic extends Logic {
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if (onePlayer instanceof ServerPlayer) {
 				((ServerPlayer) onePlayer).getClient().informMove(
-						-jail.getPosition(), player.getId());
+						player.getId(), -jail.getPosition());
 				// TODO Inform Players that this one is in Prison?
 			}
 		}
