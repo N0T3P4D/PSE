@@ -52,24 +52,7 @@ public class ActionTransferMoneyToPartner implements Action {
 
 	@Override
 	public void execute() {
-		ActionTransferMoneyToPartner.execute(this.logic, this.partner,
-				this.amount);
-	}
-
-	/**
-	 * Exchanges the money to/from a trading partner.
-	 * 
-	 * @param state
-	 *            The GameState.
-	 * @param amount
-	 *            The amount of money which will be transfered. If negative the
-	 *            player will get the money from the partner.
-	 * @param partner
-	 *            The partner of this money exchange.
-	 */
-	public static void execute(ServerLogic logic, IMoneyPartner partner,
-			int amount) {
-		logic.exchangeMoney(logic.getGameState().getActivePlayer(), partner,
+		this.logic.exchangeMoney(logic.getGameState().getActivePlayer(), partner,
 				amount);
 	}
 }

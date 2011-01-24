@@ -38,12 +38,7 @@ public class ActionPayFieldRent implements Action {
 	
 	@Override
 	public void execute() {
-		ActionPayFieldRent.execute(logic, field);
-	}
-	
-	public static void execute(ServerLogic logic, BuyableField field) {
 		//TODO: (xZise) Inform other player -> payRent(Player) gets logic? Or has a field a reference to logic?
-		field.payRent(logic.getGameState().getActivePlayer());
+		this.field.payRent(logic.getGameState().getActivePlayer());
 	}
-
 }
