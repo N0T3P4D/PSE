@@ -123,6 +123,9 @@ public class Player implements IMoneyPartner {
 	
 	public void waitInJail() {
 		this.roundsInJail--;
+		if(this.roundsInJail < 1) {
+			this.jail = null;
+		}
 	}
 
 	public void sendToJail(Jail jail) {
