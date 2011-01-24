@@ -19,25 +19,48 @@ package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.ojim.language.Localizer;
 
 public class HelpFrame extends JFrame {
 	
+	Localizer language;
+	JLabel helpText;
+	
 	public HelpFrame(Localizer language) {
 
+		this.language = language;
+		
 		setMinimumSize(new Dimension(200, 50));
+		helpText = new JLabel(this.language.getText("helpText"));
+		
+		this.add(helpText);
+		
 		this.pack();
 	}
 
 	public void setLanguage(Localizer language) {
-		// TODO Auto-generated method stub
+		this.language = language;
+		if(isVisible()){
+			draw();
+		}
 		
 	}
 
 	public void draw() {
-		// TODO Auto-generated method stub
+		remove(helpText);
+		helpText = new JLabel(this.language.getText("helpText"));
+		
+		this.add(helpText);
+		
+		this.repaint();
+		setVisible(true);
+		this.pack();
 		
 	}
 	
