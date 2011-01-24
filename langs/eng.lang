@@ -39,3 +39,6 @@ aboutText=<html>Open Java Implementation of M. is a free multiplayer Java based 
 save=Save
 start server=Start Server
 helpText=One day there might be something useful here.
+join=Join
+ip=IP
+serverListText=Please use Join Game.

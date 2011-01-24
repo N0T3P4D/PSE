@@ -39,3 +39,6 @@ aboutText=<html>Offene Javaimplementation von M. ist ein quelloffenes, Multiplay
 save=Speichern
 start server=Server starten
 helpText=Eines Tages steht hier bestimmt etwas Nützliches.
+join=Beitreten
+ip=IP
+serverListText=Bitte benutzen sie Spiel beitreten.

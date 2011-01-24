@@ -26,10 +26,12 @@ import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.Vector;
 
+import org.ojim.client.SimpleClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
 import org.ojim.network.ServerDetails;
 import org.ojim.rmi.client.NetClient;
+import org.ojim.server.OjimServer;
 
 /**
  * Klasse verwaltet alle Methoden die ueber das Netzwerk aufgerufen werden koennen
@@ -37,7 +39,7 @@ import org.ojim.rmi.client.NetClient;
  * @author Usman Ghani Ahmed
  *
  */
-public class ImplBuffer  extends UnicastRemoteObject implements NetOjim {
+public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	
 	private Registry reg;
 	
@@ -46,7 +48,7 @@ public class ImplBuffer  extends UnicastRemoteObject implements NetOjim {
 	//Speichert alle Clients
 	private Vector clientList;
 
-	public ImplBuffer(Registry reg, ServerDetails serverDetails) throws RemoteException {
+	public ImplNetOjim(Registry reg, ServerDetails serverDetails) throws RemoteException {
 		super();
 		this.reg = reg;
 		this.serverDetails = serverDetails;
@@ -367,6 +369,26 @@ public class ImplBuffer  extends UnicastRemoteObject implements NetOjim {
 		    }
 
 		
+	}
+
+
+
+
+	@Override
+	public int getRoundsToWait(SimpleClient sClient, int position) throws RemoteException {
+		
+		return sClient.getRoundsToWait(position);
+		
+		
+	}
+
+
+
+
+	@Override
+	public int getMoneyToPay(SimpleClient sClient, int position) throws RemoteException {
+		
+		return sClient.getMoneyToPay(position);
 	}
 
 

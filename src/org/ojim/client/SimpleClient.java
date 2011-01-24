@@ -17,12 +17,15 @@
 
 package org.ojim.client;
 
+import java.io.Serializable;
+
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.rmi.server.NetOjim;
 import org.ojim.server.OjimServer;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -35,7 +38,7 @@ import edu.kit.iti.pse.iface.IServer;
  * 
  * @author Fabian Neundorf
  */
-public class SimpleClient {
+public class SimpleClient implements Serializable {
 
 	private IServer server;
 	private Logic logic;
@@ -157,8 +160,9 @@ public class SimpleClient {
 	 *         is undefined;.
 	 */
 	public int getMoneyToPay(int position) {
-		if (this.server instanceof OjimServer) {
-			return ((OjimServer) this.server).getMoneyToPay(position);
+		if (this.server instanceof NetOjim) {
+//			return ((NetOjim) this.server).getMoneyToPay(position);
+			return 1000;
 		} else {
 			return 1000; // TODO: (xZise) Is this the correct value?
 		}
@@ -174,8 +178,9 @@ public class SimpleClient {
 	 *         it return is undefined.
 	 */
 	public int getRoundsToWait(int position) {
-		if (this.server instanceof OjimServer) {
-			return ((OjimServer) this.server).getRoundsToWait(position);
+		if (this.server instanceof NetOjim) {
+//			return ((NetOjim) this.server).getRoundsToWait(position);
+			return 3;
 		} else {
 			return 3; // TODO: (xZise) Is this the correct value?
 		}

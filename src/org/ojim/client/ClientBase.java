@@ -154,8 +154,8 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	 * ACTION METHODS
 	 */
 
-	protected final boolean connect(String host, String name) {
-		IServer server = this.connection.connect(host, 80);
+	protected final boolean connect(String host, int port) {
+		IServer server = this.connection.connect(host, port);
 		if (server == null) {
 			return false;
 		}
@@ -243,11 +243,11 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informMessage(String text, int sender, boolean privateMessage) {
-		Player player = this.getGameState().getPlayerByID(sender);
-		if (player != null) {
+		Player player = null;
+		if ((sender == -1) || (player = this.getGameState().getPlayerByID(sender)) != null) {
 			this.onMessage(text, player, privateMessage);
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid player.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid player (" + sender + ").");
 		}
 	}
 	
@@ -329,6 +329,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public final void informMove(int playerId, int position) {
 		Player player = this.getGameState().getPlayerByID(playerId);
 		if (player != null) {
+			player.setPosition(position);
 			this.onMove(player, position);
 		} else {
 			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMove with invalid player, ID = " + playerId);
