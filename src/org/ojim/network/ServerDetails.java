@@ -16,7 +16,12 @@
  */
 
 package org.ojim.network;
-
+/**
+ * Klasse verwaltet alle Informationen die ein Server beinhaltet
+ * 
+ * @author Usman Ghani Ahmed
+ *
+ */
 public class ServerDetails {
 	
 	private String name;

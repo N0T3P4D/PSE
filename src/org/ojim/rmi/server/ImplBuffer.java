@@ -18,15 +18,18 @@
 package org.ojim.rmi.server;
 
 
+import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.Vector;
 
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
 import org.ojim.network.ServerDetails;
+import org.ojim.rmi.client.NetClient;
 
 /**
  * Klasse verwaltet alle Methoden die ueber das Netzwerk aufgerufen werden koennen
@@ -34,17 +37,21 @@ import org.ojim.network.ServerDetails;
  * @author Usman Ghani Ahmed
  *
  */
-public class ImplBuffer implements NetOjim {
+public class ImplBuffer  extends UnicastRemoteObject implements NetOjim {
 	
 	private Registry reg;
 	
 	private ServerDetails serverDetails;
 	
-	
-	
-	public ImplBuffer(Registry reg, ServerDetails serverDetails){
+	//Speichert alle Clients
+	private Vector clientList;
+
+	public ImplBuffer(Registry reg, ServerDetails serverDetails) throws RemoteException {
+		super();
 		this.reg = reg;
 		this.serverDetails = serverDetails;
+		clientList = new Vector();
+
 		
 	}
 	
@@ -52,32 +59,41 @@ public class ImplBuffer implements NetOjim {
 	
 
 	/**
+	 * Klasse verwaltet eine Instanz des Remote Objektes , welches unter einem 
+     * festgelegten Namen Ã¼ber das Netzwerk erreichbar ist
 	 * Netzwerk Objekt wird bei dem lokalen Namendienst registriert, portReg und
-	 * portStub müssen von der lokalen Firewall und der Hardware Firewall
+	 * portStub mÃ¼ssen von der lokalen Firewall und der Hardware Firewall
 	 * (Router) freigegeben werden. Bitte Achten Sie auch darauf, dass
-	 * Ports die schon von ihrem Betriebssystem benutzt werden, nicht für ihren Server 
-	 * benutzt werden können. Eine Liste mit den Standardports die von ihrem Betriebssystem
-	 * verwendet werden, entnehmen Sie der Readme Datei. 
+	 * Ports die schon von ihrem Betriebssystem benutzt werden, nicht fÃ¼r ihren Server 
+	 * benutzt werden kÃ¶nnen. Eine Liste mit den Standardports die von ihrem Betriebssystem
+	 * verwendet werden, finden Sie auf http://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers. 
 	 *  
 	 * 
-	 * @param portReg Port für die lokale Registry
+	 * @param portReg Port fÃ¼r die lokale Registry
 	 * 
-	 * @param portStub Port für das exportieren des Objekts
+	 * @param portStub Port fÃ¼r das exportieren des Objekts
+	 * 
+	 * @param ip ip Adresse unter welcher der Namendienst erreichbar ist
 	 */
-	public void createBufferServer(int portReg, int portStub){
+	public void createBufferServer(int portReg, int portStub, int ip){
 		
 	System.out.println("Server wird eingerichtet...");
 	
 	try {
 	    
-	    NetOjim stub = (NetOjim) UnicastRemoteObject.exportObject(this,portStub );
-	    reg = LocateRegistry.createRegistry(portReg);
+		
+	    //NetOjim stub = (NetOjim) UnicastRemoteObject.exportObject(this,portStub );
+	    //*reg = LocateRegistry.createRegistry(portReg);
 	    // Bind the remote object's stub in the registry
 	    //Registry registry = LocateRegistry.getRegistry();
-	    reg.bind("myServer", stub);
+	    //reg.bind("myServer", stub);
+	    //*reg.bind("myServer", this);
+		 Registry registry = LocateRegistry.createRegistry(portReg);
+		 registry.list( );  
+		
+		String registryURL = "rmi://"+ip+":" + portReg + "/myServer";
+	    Naming.rebind(registryURL, this);
 	    
-	  
-
 	    System.err.println("Server ist bereit");
 	} catch (Exception e) {
 	    System.err.println("Server exception: " + e.toString());
@@ -101,26 +117,19 @@ public class ImplBuffer implements NetOjim {
 			this.reg = null;
 			
 			
+			
+			
 		} catch (RemoteException e) {
 			
 			System.out.println("Es wurde keine Registry gestartet!");
 		} catch (NotBoundException e) {
 			System.out.println("Es ist kein Objekt in der Registry registriert,"+"\n"+
-					"somit kann auch kein Remote von der Registry abgemeldet werden!");
+					"somit kann auch kein Remote Objekt von der Registry abgemeldet werden!");
 			
 		}
     	
     	
-    	
-    	
-    	
-    	
-		
-		
-		
-		
-		
-	}
+    }
 	
 
 	@Override
@@ -288,6 +297,7 @@ public class ImplBuffer implements NetOjim {
 	@Override
 	public Rules getRules() {
 		// TODO Auto-generated method stub
+		
 		return null;
 	}
 
@@ -331,6 +341,32 @@ public class ImplBuffer implements NetOjim {
 	public boolean useGetOutOfJailCard(int playerID) {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+
+	@Override
+	public synchronized void registerClient(NetClient netClient) throws RemoteException {
+		 if (!(clientList.contains(netClient))) {
+	         clientList.addElement(netClient);
+	         }
+	      System.out.println("Client wurde dem Server hinzugefÃ¼gt");
+
+		
+	}
+
+
+
+
+	@Override
+	public synchronized void abmeldenClient(NetClient netClient) throws RemoteException {
+		 
+		    if (clientList.removeElement(netClient)) {
+		      System.out.println("Client wurde erfolgreich beim Server abgemeldet");
+		    } else {
+		       System.out.println("Client war bereits nicht beim Server angemeldet");
+		    }
+
+		
 	}
 
 

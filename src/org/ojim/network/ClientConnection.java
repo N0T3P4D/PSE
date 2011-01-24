@@ -37,8 +37,14 @@ import org.ojim.rmi.server.ImplBuffer;
 public class ClientConnection {
 
 	//private Socket clientSoket;
+	
+	//Speichert die Verbindungsart
+	//0 für eine Verbindung im Local Area Network
+	//1 für eine Verbindung über das internet
+	private int connectionType;
 
-	public ClientConnection() {
+	public ClientConnection(int connectionType) {
+		this.connectionType=connectionType;
 
 	}
 
@@ -52,12 +58,16 @@ public class ClientConnection {
 	 * Meldet einen Client beim Server an
 	 * 
 	 * @param ip ip Adresse des Servers
-	 * @param port port der Registry , die auf dem Server l�uft
+	 * @param port port der Registry , die auf dem Server l�uft
 	 * @return Remote Objekt 
 	 */
 	public ImplBuffer connect(String ip, int port) {
 		
 		ImplBuffer iServer = null;
+		
+		if(this.connectionType == 0){
+			ip="localhost";
+		} 
 		
 		try {
 		    Registry registry = LocateRegistry.getRegistry(ip,port);
