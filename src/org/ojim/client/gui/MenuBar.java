@@ -60,8 +60,9 @@ public class MenuBar extends JMenuBar {
 		menuBarState = MenuState.mainMenu;
 
 		this.gui = gui;
-
+		
 		language(language);
+		
 
 	}
 
@@ -72,7 +73,8 @@ public class MenuBar extends JMenuBar {
 
 	public void language(Localizer language) {
 
-		System.out.println(language.getText("Übersetzt:"+language.getText("file")));
+		removeAll();
+		revalidate();
 
 		fileMenu = new JMenu(language.getText("file"));
 		langMenu = new JMenu(language.getText("languages"));
@@ -95,6 +97,7 @@ public class MenuBar extends JMenuBar {
 			languageName = language.getLanguages()[i].name;
 
 			JMenuItem langItem = new JMenuItem(languageName);
+			langItem.setName(languageName);
 
 			ActionListener languageListener = new ActionListener() {
 
