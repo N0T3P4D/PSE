@@ -27,7 +27,7 @@ import org.ojim.logic.state.Player;
  */
 public final class CapitalValuator extends ValuationFunction {
 
-	private CapitalValuator() {
+	protected CapitalValuator() {
 	}
 
 	/**

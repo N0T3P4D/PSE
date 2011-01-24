@@ -1013,10 +1013,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[0] = new GoField("Los", 0, this.logic);
 		fields[1] = streets[0].addField(new Street("Dagobah - Sumpf", 1,
 				new int[] { 40, 200, 600, 1800, 3200, 5000 }, 0, 1200, logic));
-		fields[2] = this.newEventCardField(2);// new CardField("Ereigniskarte",
-												// 2,
-												// this.state.getEventCards(),
-												// this.logic);
+		fields[2] = this.newEventCardField(2);
 		fields[3] = streets[0].addField(new Street("Dagobah - Jodas Hütte", 3,
 				new int[] { 80, 400, 1200, 3600, 6400, 9000 }, 0, 1200, logic));
 		fields[4] = new TaxField("Landungssteuer", 4, 4000, this.logic);
@@ -1024,11 +1021,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[6] = streets[1]
 				.addField(new Street("Hoth - EchoBasis", 6, new int[] { 120,
 						600, 1800, 5400, 8000, 11000 }, 0, 2000, logic));
-		fields[7] = this.newCommunityCardField(7); // new
-													// CardField("Gemeinschaftskarte",
-													// 7,
-													// this.state.getCommunityCards(),
-													// this.logic);
+		fields[7] = this.newCommunityCardField(7);
 		fields[8] = streets[1]
 				.addField(new Street("Hoth - EisSteppen", 8, new int[] { 120,
 						600, 1800, 5400, 8000, 11000 }, 0, 2000, logic));
@@ -1052,11 +1045,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[16] = streets[3].addField(new Street(
 				"Yavin 4 - Kommandozentrale", 16, new int[] { 280, 1400, 4000,
 						11000, 15000, 19000 }, 0, 3600, logic));
-		fields[17] = this.newEventCardField(17); // new
-													// CardField("Ereigniskarte",
-													// 17,
-													// this.state.getEventCards(),
-													// this.logic);
+		fields[17] = this.newEventCardField(17);
 		fields[18] = streets[3].addField(new Street(
 				"Yavin 4 - Massassi Tempel", 18, new int[] { 280, 1400, 4000,
 						11000, 15000, 19000 }, 0, 3600, logic));
@@ -1087,7 +1076,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[29] = streets[5].addField(new Street(
 				"Todesstern - Hauptreaktor", 29, new int[] { 480, 2400, 7200,
 						17000, 20500, 24000 }, 0, 5600, logic));
-		fields[30] = new GoToJail("Gehe ins Gefängnis", 30, this.logic);
+		fields[30] = new GoToJail("Gehe ins Gefängnis", 30, this.logic, (Jail) fields[10]);
 		fields[31] = streets[6].addField(new Street("Endor - Wald", 31,
 				new int[] { 520, 2600, 7800, 18000, 22000, 25500 }, 0, 6000,
 				logic));
