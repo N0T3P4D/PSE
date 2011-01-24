@@ -30,6 +30,15 @@ public class AcceptCommand extends SimpleClient implements Command {
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = 5107314051420108256L;
+
+	/**
+	 * 
+	 */
+
+	/**
+	 * 
 	 * Constructor
 	 * 
 	 * @param server

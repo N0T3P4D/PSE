@@ -44,25 +44,33 @@ public final class PropertyValuator extends ValuationFunction {
 	@Override
 	public double returnValuation() {
 		int position = this.getGameState().getActivePlayer().getPosition();
-		BuyableField field = (BuyableField) this.getGameState().getFieldAt(position);
+		assert (this.getGameState().getActivePlayer().getId() == 0);
+		assert (position != 0);
+		BuyableField field = (BuyableField) this.getGameState().getFieldAt(
+				position);
 		getLogger();
 		int price = field.getPrice();
-		logger.log(Level.INFO,"Name = " + field.getName() + "Price = " + price);
+		logger.log(Level.INFO, "Name = " + field.getName() + " Price = "
+				+ price);
 
-		
 		boolean isMortgaged = field.isMortgaged();
 
 		// Position or id?
 		if (price > ValuationParameters.getStreetValue(position)) {
+			logger.log(Level.INFO, "Denied");
 			return -1;
 		} else {
 			if (isMortgaged) {
-				if (price > ValuationParameters.getStreetValue(position) * ValuationParameters.mortgageFactor) {
+				if (price > ValuationParameters.getStreetValue(position)
+						* ValuationParameters.mortgageFactor) {
+					logger.log(Level.INFO, "Granted");
 					return 1;
 				} else {
+					logger.log(Level.INFO, "Denied");
 					return -1;
 				}
 			} else {
+				logger.log(Level.INFO, "Granted");
 				return 1;
 			}
 		}
