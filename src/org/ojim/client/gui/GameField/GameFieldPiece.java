@@ -20,6 +20,7 @@ package org.ojim.client.gui.GameField;
 import java.awt.Graphics;
 import java.awt.Image;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
@@ -35,7 +36,9 @@ public class GameFieldPiece extends JPanel {
 	}
 	
 	public GameFieldPiece(Field field) {
-		this.drawer = FieldDrawer.getDrawer(field); 
+		//this.drawer = FieldDrawer.getDrawer(field); 
+		this.field = field;
+		this.add(new JLabel(field.getName()));
 	}
 	
 	public void setField(Field field){
