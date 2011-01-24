@@ -32,11 +32,6 @@ public class ActionGiveMoneyFromFreeParking implements Action {
 
 	@Override
 	public void execute() {
-		ActionGiveMoneyFromFreeParking.execute(this.logic, this.field);
+		this.logic.getFreeParkingMoney(this.field);
 	}
-
-	public static void execute(ServerLogic logic, FreeParking field) {
-		logic.getFreeParkingMoney(field);
-	}
-
 }

@@ -18,6 +18,7 @@
 package org.ojim.logic.actions;
 
 import org.ojim.logic.ServerLogic;
+import org.ojim.logic.state.Player;
 
 /**
  * Führt die „Komme aus den Gefängnis frei“-Karte aus.
@@ -34,11 +35,7 @@ public class ActionGetOutOfJailCard implements Action {
 
 	@Override
 	public void execute() {
-		ActionGetOutOfJailCard.execute(this.logic);
+		Player active = this.logic.getGameState().getActivePlayer();
+		this.logic.sendPlayerOutOfJail(active);
 	}
-
-	public static void execute(ServerLogic logic) {
-		// TODO: (xZise) Implement action!
-	}
-
 }

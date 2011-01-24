@@ -41,5 +41,4 @@ public class Station extends BuyableField {
 		
 		return ((StationFieldGroup) this.getFieldGroup()).getRent(ownerOwns);
 	}
-
 }

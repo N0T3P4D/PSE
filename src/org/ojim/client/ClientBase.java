@@ -21,6 +21,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.ojim.iface.IClient;
+import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -47,7 +48,7 @@ import edu.kit.iti.pse.iface.IServer;
  * 
  * @author Fabian Neundorf
  */
-public class ClientBase extends SimpleClient implements IClient {
+public abstract class ClientBase extends SimpleClient implements IClient {
 
 	private ClientConnection connection;
 
@@ -114,10 +115,10 @@ public class ClientBase extends SimpleClient implements IClient {
 					field = new GoToJail(name, position);
 					break;
 				case FieldGroup.EVENT:
-					field = new CardField(name, position);
+					field = new CardField(name, position, false);
 					break;
 				case FieldGroup.COMMUNITY:
-					field = new CardField(name, position);
+					field = new CardField(name, position, true);
 					break;
 				case FieldGroup.STATIONS:
 					field = stations
@@ -185,66 +186,96 @@ public class ClientBase extends SimpleClient implements IClient {
 	}
 
 	@Override
-	public void informBankruptcy() {
-		// TODO Auto-generated method stub
-
+	public final void informBankruptcy() {
+		this.onBankruptcy();
 	}
+	
+	public abstract void onBankruptcy();
 
 	@Override
-	public void informCardPull(String text, boolean communityCard) {
-		// TODO Auto-generated method stub
-
+	public final void informCardPull(String text, boolean communityCard) {
+		Player active = this.getGameState().getActivePlayer();
+		active.setNumberOfGetOutOfJailCards(this.getNumberOfGetOutOfJailCards(active.getId()));
+		this.onCardPull(text, communityCard);
 	}
+	
+	public abstract void onCardPull(String text, boolean communityCard);
 
 	@Override
-	public void informCashChange(int player, int cashChange) {
-		// TODO Auto-generated method stub
-
+	public final void informCashChange(int player, int cashChange) {
+		this.onCashChange(this.getGameState().getPlayerByID(player), cashChange);
 	}
+	
+	public abstract void onCashChange(Player player, int cashChange);
 
 	@Override
-	public void informConstruct(int street) {
+	public final void informConstruct(int street) {
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof Street) {
 			this.getLogic().upgrade((Street) field, +1);
+			this.onConstruct((Street) field);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informConstruct with invalid street.");
 		}
 	}
+	
+	public abstract void onConstruct(Street street);
 
 	@Override
-	public void informDestruct(int street) {
+	public final void informDestruct(int street) {
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof Street) {
 			this.getLogic().upgrade((Street) field, -1);
+			this.onDestruct((Street) field);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informDestruct with invalid street.");
 		}
 	}
+	
+	public abstract void onDestruct(Street street);
 
 	@Override
-	public void informDiceValues(int[] diceValues) {
-		// TODO Auto-generated method stub
-
+	public final void informDiceValues(int[] diceValues) {
+		this.onDiceValues(diceValues);
 	}
+	
+	public abstract void onDiceValues(int[] diceValues);
 
 	@Override
-	public void informMessage(String text, int sender, boolean privateMessage) {
-		// TODO Auto-generated method stub
-
+	public final void informMessage(String text, int sender, boolean privateMessage) {
+		Player player = this.getGameState().getPlayerByID(sender);
+		if (player != null) {
+			this.onMessage(text, player, privateMessage);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid player.");
+		}
 	}
+	
+	public abstract void onMessage(String text, Player sender, boolean privateMessage);
 
 	@Override
-	public void informMortgageToogle(int street) {
+	public final void informMortgageToogle(int street) {
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof BuyableField) {
 			this.getLogic().toggleMortgage((BuyableField) field);
+			this.onMortgageToogle((BuyableField) field);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMortgageToogle with invalid buyable field.");
 		}
 	}
+	
+	public abstract void onMortgageToogle(BuyableField street);
 
 	@Override
-	public void informStartGame(int[] ids) {
+	public final void informStartGame(int[] ids) {
 		for (int id : ids) {
 			Player player = new Player(this.getPlayerName(id),
 					this.getPlayerPiecePosition(id), this.getPlayerCash(id),
 					id, this.getPlayerColor(id));
 			this.getGameState().setPlayer(id, player);
+			if (id == this.getPlayerId()) {
+				this.setMyPlayer(player);
+			}
 		}
 
 		// Load all owners
@@ -258,38 +289,79 @@ public class ClientBase extends SimpleClient implements IClient {
 				}
 			}
 		}
+		this.onStartGame(this.getGameState().getPlayers());
 	}
+	
+	public abstract void onStartGame(Player[] players);
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer) {
-		// TODO Auto-generated method stub
-
+	public final void informTrade(int actingPlayer, int partnerPlayer) {
+		Player acting = this.getGameState().getPlayerByID(actingPlayer);
+		if (acting != null) {
+			Player partner = this.getGameState().getPlayerByID(partnerPlayer);
+			if (partner != null) {
+				this.onTrade(acting, partner);
+			} else {
+				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTrade with invalid partner player.");
+			}
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTrade with invalid acting player.");
+		}
 	}
+	
+	public abstract void onTrade(Player actingPlayer, Player partnerPlayer);
 
 	@Override
-	public void informTurn(int player) {
+	public final void informTurn(int player) {
+		Player newPlayer = this.getGameState().getPlayerByID(player);
+		if (newPlayer != null) {
+			this.onTurn(newPlayer);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTurn with invalid player.");
+		}
 
-		// TODO Auto-generated method stub
-
-		// GameState bescheid sagen, wer jetzt dran ist
+		//TODO GameState bescheid sagen, wer jetzt dran ist
 	}
+	
+	public abstract void onTurn(Player player);
 
 	@Override
-	public void informMove(int position, int playerId) {
-		// TODO Auto-generated method stub
-
+	public final void informMove(int playerId, int position) {
+		Player player = this.getGameState().getPlayerByID(playerId);
+		if (player != null) {
+			this.onMove(player, position);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMove with invalid player, ID = " + playerId);
+			assert(false);
+		}
 	}
+	
+	public abstract void onMove(Player player, int position);
 
 	@Override
-	public void informBuy(int player, int position) {
-		// TODO Auto-generated method stub
-
+	public final void informBuy(int playerId, int position) {
+		Player player = this.getGameState().getPlayerByID(playerId);
+		if (player != null) {
+			Field field = this.getGameState().getFieldAt(position);
+			if (field instanceof BuyableField) {
+				this.onBuy(player, (BuyableField) field);
+			} else {
+				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informBuy with invalid position.");
+			}
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informBuy with invalid player.");
+		}
 	}
+	
+	public abstract void onBuy(Player player, BuyableField field);
 
 	@Override
-	public void informAuction(int auctionState) {
+	public final void informAuction(int auctionState) {
 		// TODO Auto-generated method stub
 
+		this.onAuction(auctionState);
 	}
 
+	public abstract void onAuction(int auctionState);
+	
 }

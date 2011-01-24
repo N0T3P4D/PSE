@@ -1,12 +1,12 @@
-     100 files     117 text files.
-classified 116 filesDuplicate file check 116 files (113 known unique)Unique:      100 files                                               115 unique files.                              
-Counting:  100      12 files ignored.
+     100 files     104 text files.
+classified 103 filesDuplicate file check 103 files (103 known unique)Unique:      100 files                                               103 unique files.                              
+Counting:  100       8 files ignored.
 
-http://cloc.sourceforge.net v 1.50  T=0.5 s (210.0 files/s, 16902.0 lines/s)
+http://cloc.sourceforge.net v 1.50  T=0.5 s (192.0 files/s, 17560.0 lines/s)
 -------------------------------------------------------------------------------
 Language                     files          blank        comment           code
 -------------------------------------------------------------------------------
-Java                           105           1460           2915           4076
+Java                            96           1480           2897           4403
 -------------------------------------------------------------------------------
-SUM:                           105           1460           2915           4076
+SUM:                            96           1480           2897           4403
 -------------------------------------------------------------------------------

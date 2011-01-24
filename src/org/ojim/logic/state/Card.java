@@ -23,22 +23,26 @@ public class Card {
 
 	public final String text;
 	private final Action[] preActions, acceptActions, declineActions, holdingActions;
-	private final GameState state;
+	private final CardStack stack;
+	private ServerPlayer fetcher;
 	
-	public Card(String text, GameState state, Action[] preActions, Action[] acceptActions, Action[] declineActions, Action[] holdingActions) {
+	public Card(String text, CardStack stack, Action[] preActions, Action[] acceptActions, Action[] declineActions, Action[] holdingActions) {
 		this.text = text;
 		this.preActions = preActions;
 		this.acceptActions = acceptActions;
 		this.declineActions = declineActions;
 		this.holdingActions = holdingActions;
-		this.state = state;
+		this.stack = stack;
 	}
 
 	/**
 	 * Zieht eine Karte aus den Kartenstapel. Wenn die Karte in dein eigenen
 	 * Stapel aufgenommen werden soll, wird diese Karte aufgenommen.
+	 * 
+	 * @param player Lässt den Spieler
 	 */
-	public void fetch() {
+	public void fetch(ServerPlayer player) {
+		this.fetcher = player;
 		executeActions(this.preActions);
 		if (this.acceptActions.length > 0) {
 			//TODO: (xZise) servergamestate informieren
@@ -49,10 +53,8 @@ public class Card {
 	
 	private void postFetch() {
 		if (this.holdingActions.length > 0) {
-			//TODO: Remove card from active stack.
-			
-			// Add this card to the players card stack:
-			this.state.getActivePlayer().addCard(this);			
+			this.stack.remove();
+			this.fetcher.addCard(this);			
 		}
 	}
 	

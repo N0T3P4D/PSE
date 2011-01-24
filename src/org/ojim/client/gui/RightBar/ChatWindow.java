@@ -15,23 +15,19 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.gui;
+package org.ojim.client.gui.RightBar;
 
-import java.awt.Color;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
-import java.awt.TextArea;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import javax.swing.JTextPane;
 
 import org.ojim.language.Localizer;
 
@@ -85,9 +81,13 @@ public class ChatWindow extends JPanel {
 
 	}
 
-	public void write(ChatMessage message) {
-		messages.add(message);
-		textArea.append(message.getDate()+" <"+message.getPlayer()+"> "+message.getMessage()+"\n");
+	public void write(ChatMessage chatMessage) {
+		messages.add(chatMessage);
+		if(chatMessage.getPrivate()){
+			textArea.append(language.getText("private")+": ");
+			
+		}
+		textArea.append(" <"+chatMessage.getPlayer()+"> "+chatMessage.getMessage()+"\n");
 	}
 
 }

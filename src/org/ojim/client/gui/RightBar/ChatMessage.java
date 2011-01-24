@@ -15,40 +15,33 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.gui.Card;
+package org.ojim.client.gui.RightBar;
 
-import javax.swing.JLabel;
-import javax.swing.JPanel;
+import java.util.Date;
 
-import org.ojim.language.Localizer;
+import org.ojim.logic.state.Player;
 
-// xZise: Als Info: Es gibt bereits eine Klasse CardStack? Könnte die für dich interessant sein?
-// Card Stack ist in diesem Fall ein Kartenstapel unten im Card Window
+public class ChatMessage {
 
-public class CardStack extends JPanel {
-
-	// Hält Cards
-
-	public CardStack() {
-		super();
-		this.add(new JPanel().add(new JLabel("CStack")));
-		// TODO Auto-generated constructor stub
+	public ChatMessage(Player player, boolean isPrivate, String message) {
+		this.player = player;
+		this.isPrivate = isPrivate;
+		this.message = message;
 	}
 
-	// FIXME: INT
-	// TODO: (xZise) Klassen statt untypisierte Zahlen!
-	public void addCard(int cardId) {
+	private Player player;
+	private boolean isPrivate;
+	private String message;
 
+	public Player getPlayer() {
+		return player;
 	}
 
-	// TODO: (xZise) Klassen statt untypisierte Zahlen!
-	public void removeCard(int cardId) {
-
+	public boolean getPrivate() {
+		return isPrivate;
 	}
 
-	public void setLanguage(Localizer language) {
-		// TODO Auto-generated method stub
-		
+	public String getMessage() {
+		return message;
 	}
-
 }

@@ -43,11 +43,15 @@ public class OJIMFormatter extends Formatter {
 
 	@Override
 	public String format(LogRecord record) {
+		if (record == null) {
+			throw new IllegalArgumentException("record == null");
+		}
 		return (formatDate(record) + ": [" + record.getLevel() + "] " + record.getSourceClassName() + "."
 				+ record.getSourceMethodName() + "(): " + record.getMessage() + '\n');
 	}
 
 	private String formatDate(LogRecord record) {
+		assert (record != null);
 		return dateFormatter.format(new Date(record.getMillis()));
 	}
 

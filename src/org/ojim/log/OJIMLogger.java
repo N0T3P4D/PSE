@@ -28,7 +28,7 @@ import java.util.logging.Logger;
  * @author Jeremias Mechler
  * 
  */
-final class OJIMLogger {
+public final class OJIMLogger {
 
 	private static ConsoleHandler consoleHandler;
 	private static OJIMFormatter formatter;
@@ -37,6 +37,7 @@ final class OJIMLogger {
 	}
 
 	private static void setupLogger(Logger logger) {
+		assert (logger != null);
 		logger.setLevel(Level.CONFIG);
 		logger.setUseParentHandlers(false);
 		if (consoleHandler == null) {
@@ -46,6 +47,7 @@ final class OJIMLogger {
 			formatter = new OJIMFormatter();
 		}
 		consoleHandler.setFormatter(formatter);
+		consoleHandler.setLevel(Level.CONFIG);
 		logger.addHandler(consoleHandler);
 	}
 
@@ -58,7 +60,11 @@ final class OJIMLogger {
 	 * @return A new logger for OJIM
 	 */
 	public static Logger getLogger(String name) {
+		if (name == null) {
+			throw new IllegalArgumentException("name == null");
+		}
 		Logger result = Logger.getLogger(name);
+		assert (result != null);
 		setupLogger(result);
 		return result;
 	}

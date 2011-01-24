@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 
 package org.ojim.server;
 
-import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -38,6 +37,7 @@ public class TestClient implements IClient {
 	private int id = -1;
 	private final JTextField var1, var2;
 	private final JLabel res;
+	private final JFrame frame;
 	private TestClient client = this; 
 	
 	public TestClient(final IServer server) {
@@ -50,7 +50,7 @@ public class TestClient implements IClient {
 		panel.setLayout(new GridLayout(5,5));
 		
 		pane.setLayout(experimentLayout);
-		JFrame frame = new JFrame("TestClient");
+		frame = new JFrame("TestClient");
 		var1 = new JTextField();
 		pane.add(var1);
 		var2 = new JTextField();
@@ -60,7 +60,7 @@ public class TestClient implements IClient {
 		JButton bt1 = new JButton("getNumberOfHousesLeft()");
 		bt1.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				res.setText("" + server.getNumberOfHousesLeft());
+				TestClient.this.setText("" + server.getNumberOfHousesLeft());
 			}
 		});
 		panel.add(bt1);
@@ -68,7 +68,7 @@ public class TestClient implements IClient {
 		JButton bt2 = new JButton("getPlayerOnTurn()");
 		bt2.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				res.setText("" + server.getPlayerOnTurn());
+				TestClient.this.setText("" + server.getPlayerOnTurn());
 			}
 		});
 		panel.add(bt2);
@@ -76,7 +76,7 @@ public class TestClient implements IClient {
 		JButton bt3 = new JButton("getNumberOfHotelsLeft()");
 		bt3.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				res.setText("" + server.getNumberOfHotelsLeft());
+				TestClient.this.setText("" + server.getNumberOfHotelsLeft());
 			}
 		});
 		panel.add(bt3);
@@ -85,8 +85,8 @@ public class TestClient implements IClient {
 		bt4.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(id != -1) {
+					TestClient.this.setText("Set ready!");
 					server.setPlayerReady(id);
-					res.setText("Set ready!");
 				}
 			}
 		});
@@ -96,8 +96,8 @@ public class TestClient implements IClient {
 		bt5.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(id != -1) {
+					TestClient.this.setText("Rolled Dice!");
 					server.rollDice(id);
-					res.setText("Rolled Dice!");
 				}
 			}
 		});
@@ -108,7 +108,8 @@ public class TestClient implements IClient {
 			public void actionPerformed(ActionEvent e) {
 				if(id == -1) {
 					id = server.addPlayer(client);
-					res.setText("Added Player, Id:" + id);
+					TestClient.this.setText("Added Player, Id:" + id);
+					TestClient.this.frame.setTitle("TestClient [id " + id + "]");
 				}
 			}
 		});
@@ -117,10 +118,46 @@ public class TestClient implements IClient {
 		JButton bt7 = new JButton("getPlayerPiecePosition");
 		bt7.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				res.setText("Position:" + server.getPlayerPiecePosition(id));
+				TestClient.this.setText("Position:" + server.getPlayerPiecePosition(id));
 			}
 		});
 		panel.add(bt7);
+		
+		JButton bt8 = new JButton("endTurn()");
+		bt8.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TestClient.this.setText("Turn ended");
+				print("result = " +server.endTurn(id));
+			}
+		});
+		panel.add(bt8);
+		
+		JButton bt9 = new JButton("accept()");
+		bt9.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TestClient.this.setText("Accepted:" + server.accept(id));
+			}
+		});
+		panel.add(bt9);
+		
+		JButton bt10 = new JButton("decline()");
+		bt10.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				TestClient.this.setText("Declined:" + server.decline(id));
+			}
+		});
+		panel.add(bt10);
+		
+		JButton bt11 = new JButton("inf. roll");
+		bt11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while(true) {
+					server.rollDice(id);
+					server.endTurn(id);
+				}
+			}
+		});
+		panel.add(bt11);
 		
 		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		
@@ -142,8 +179,17 @@ public class TestClient implements IClient {
 		return "error";
 	}
 	
+	private String lbl;
+	
+	private void setText(String str) {
+		lbl = str;
+		res.setText("<html>" + lbl + "</html>");
+	}
+	
 	private void print(String out) {
-		this.res.setText("out");
+		//lbl += "<br>" + out;
+		//this.setText(lbl);
+		//System.out.println(out);
 	}
 
 	@Override
@@ -154,7 +200,7 @@ public class TestClient implements IClient {
 
 	@Override
 	public void informTurn(int player) {
-		print("informed: Turn");
+		print("informed: Turn" + (player == id ? " YOU!" : ""));
 
 	}
 
@@ -205,7 +251,7 @@ public class TestClient implements IClient {
 	}
 
 	@Override
-	public void informMove(int position, int playerId) {
+	public void informMove(int playerId, int position) {
 		print("informed: Move Pos:" + position + " Player:" + playerId);
 		
 	}

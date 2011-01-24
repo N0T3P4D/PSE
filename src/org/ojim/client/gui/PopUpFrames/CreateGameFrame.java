@@ -15,22 +15,18 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.client.ai;
+package org.ojim.client.gui.PopUpFrames;
 
-import org.ojim.client.SimpleClient;
-import org.ojim.logic.Logic;
+import java.awt.Dimension;
 
-import edu.kit.iti.pse.iface.IServer;
+import javax.swing.JFrame;
 
-public class AcceptCommand extends SimpleClient implements Command {
+public class CreateGameFrame extends JFrame {
+	
+	public CreateGameFrame() {
+		setMinimumSize(new Dimension(200, 50));
 
-	public AcceptCommand(Logic logic, IServer server, int playerId) {
-		super(logic, playerId, server);
+		this.pack();
 	}
 	
-	@Override
-	public void execute() {
-		this.accept();		
-	}
-
 }

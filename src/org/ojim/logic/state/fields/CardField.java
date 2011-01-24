@@ -23,13 +23,28 @@ import org.ojim.logic.state.CardStack;
 
 public class CardField extends Field {
 	
-	public CardField(String name, int position) {
+	private final boolean community;
+	
+	public CardField(String name, int position, boolean community) {
 		super(name, position);
+		this.community = community;
 	}
 
-	public CardField(String name, int position, CardStack stack, ServerLogic logic) {
-		this(name, position);
+	public CardField(String name, int position, boolean community, CardStack stack, ServerLogic logic) {
+		this(name, position, community);
 		this.setExecuteActions(new ActionFetchCard(logic, stack));
 	}
+	
+	public boolean isCommunityField() {
+		return this.community;
+	}
 
+	@Override
+	public int getColorGroup() {
+		if(this.community) {
+			return FieldGroup.COMMUNITY;
+		} else {
+			return FieldGroup.EVENT;
+		}
+	}
 }

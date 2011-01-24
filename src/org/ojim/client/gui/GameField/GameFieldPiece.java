@@ -28,14 +28,18 @@ import org.ojim.logic.state.fields.Field;
 public class GameFieldPiece extends JPanel {
 	
 	private FieldDrawer drawer;
+	private Field field;
 
-	// FIXME: cardID statt ID Objekt!
-	public GameFieldPiece(int cardId, String name, int position, Image image) {
+	public GameFieldPiece(Field field, String name, int position, Image image) {
 		
 	}
 	
 	public GameFieldPiece(Field field) {
 		this.drawer = FieldDrawer.getDrawer(field); 
+	}
+	
+	public void setField(Field field){
+		this.field = field;
 	}
 
 	@Override

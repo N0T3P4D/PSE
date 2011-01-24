@@ -52,6 +52,10 @@ public class SimpleClient {
 		this.me = this.getGameState().getPlayerByID(playerId);
 	}
 
+	protected void setMyPlayer(Player player) {
+		this.me = player;
+	}
+	
 	protected Logic getLogic() {
 		return this.logic;
 	}
@@ -136,6 +140,10 @@ public class SimpleClient {
 		return this.server.getEstateHousePrice(position);
 	}
 
+	public int getNumberOfGetOutOfJailCards(int playerID) {
+		return this.server.getNumberOfGetOutOfJailCards(playerID);
+	}
+	
 	/*
 	 * ADITIONAL GETTER
 	 */
@@ -201,6 +209,8 @@ public class SimpleClient {
 	protected final void rollDice() {
 		if (this.getGameRules().isPlayerOnTurn(this.me)) {
 			this.server.rollDice(this.playerId);
+		} else {
+			System.out.println("not on turn");
 		}
 	}
 
@@ -238,5 +248,17 @@ public class SimpleClient {
 
 	protected final void sendPrivateMessage(String text, int reciever) {
 		this.server.sendPrivateMessage(text, this.playerId, reciever);
+	}
+	
+	protected final void payFine() {
+		this.server.payFine(this.playerId);
+	}
+	
+	/*
+	 * RULES
+	 */
+	
+	public final boolean isMyTurn() {
+		return this.getGameRules().isPlayerOnTurn(this.me);
 	}
 }

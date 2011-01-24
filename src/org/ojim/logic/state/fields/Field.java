@@ -82,6 +82,10 @@ public abstract class Field {
 		}
 	}
 	
+	public int getColorGroup() {
+		return this.fieldGroup.getColor();
+	}
+	
 	public void passThrough() {
 		for (int i = 0; i < this.passThroughActions.length; i++) {
 			this.passThroughActions[i].execute();

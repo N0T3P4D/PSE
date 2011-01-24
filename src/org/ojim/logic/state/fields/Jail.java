@@ -35,7 +35,9 @@ public class Jail extends Field {
 	public int getRoundsToWait() {
 		return roundsToWait;
 	}
-	
-	
 
+	@Override
+	public int getColorGroup() {
+		return FieldGroup.JAIL;
+	}
 }

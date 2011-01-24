@@ -20,24 +20,9 @@ package org.ojim.logic.actions;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.state.fields.Jail;
 
-public class ActionMoveToJail implements Action {
+public class ActionMoveToJail extends ActionMoveToField {
 
-	private final ServerLogic logic;
-	private final Jail[] jails;
-	
 	public ActionMoveToJail(ServerLogic logic, Jail... jails) {
-		this.logic = logic;
-		this.jails = jails;
-	}
-	
-	@Override
-	public void execute() {
-		ActionMoveToJail.execute(logic, jails);
-	}
-	
-	public static void execute(ServerLogic logic, Jail... jails) {
-		ActionMoveToField.execute(logic, false, jails);
-		
-		//TODO: (xZise) Extra jail stuff?
+		super(logic, false, true, jails);
 	}
 }

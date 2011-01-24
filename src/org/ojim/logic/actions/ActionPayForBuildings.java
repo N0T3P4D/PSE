@@ -17,8 +17,6 @@
 
 package org.ojim.logic.actions;
 
-import java.util.List;
-
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.state.Player;
@@ -42,29 +40,22 @@ public class ActionPayForBuildings implements Action {
 
 	@Override
 	public void execute() {
-		ActionPayForBuildings.execute(this.logic, this.costForEachHouse,
-				this.costForEachHotel, this.payee);
-	}
-
-	public static void execute(ServerLogic logic, int costForEachHouse,
-			int costForEachHotel, IMoneyPartner payee) {
-		Player active = logic.getGameState().getActivePlayer();
+		Player active = this.logic.getGameState().getActivePlayer();
 		int costs = 0;
 		
 		// Gehe jede Straße des Spielers durch
-		List<BuyableField> field = active.getFields();
+		BuyableField[] field = active.getFields();
 
 		// In jeder Straße gucke wie viele Häuse/Hotels es gibt
 		for (BuyableField buyableField : field) {
 			if (buyableField instanceof Street) {
 				Street street = (Street) buyableField;
-				costs += street.getNumberOfHouse() * costForEachHouse
-						+ street.getNumberOfHotels() * costForEachHotel;
+				costs += street.getNumberOfHouse() * this.costForEachHouse
+						+ street.getNumberOfHotels() * this.costForEachHotel;
 			}
 		}
 
 		// Danach dann abrechnen:	
-		logic.exchangeMoney(active, payee, costs);
+		this.logic.exchangeMoney(active, this.payee, costs);
 	}
-
 }

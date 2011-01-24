@@ -18,8 +18,6 @@
 package org.ojim.logic.state;
 
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.actions.Action;
-import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Jail;
 
@@ -52,35 +50,16 @@ public class Player implements IMoneyPartner {
 	 * Number of Rounds the Player has to stay in Jail
 	 */
 	private int roundsInJail;
-	
-	private List<Card> cards;
 
 	/** Contains all fields which this player owns. */
 	private List<BuyableField> fields;
 	
 	public Player() {
-		this.cards = new ArrayList<Card>(2);
 		this.fields = new ArrayList<BuyableField>();
 	}
 	
 	public int getRoundsInJail() {
 		return this.roundsInJail;
-	}
-	
-	public List<Card> getCards() {
-		return this.cards;
-	}
-	
-	public int getNumberOfGetOutOfJailCards() {
-		int counter = 0;
-		for(Card card : this.cards) {
-			for(Action action : card.getActions()) {
-				if(action instanceof ActionGetOutOfJailCard) {
-					counter++;
-				}
-			}
-		}
-		return counter;
 	}
 	
 	/**
@@ -94,6 +73,8 @@ public class Player implements IMoneyPartner {
 	private Jail jail;
 	
 	private boolean isBankrupt;
+
+	private int numberOfGetOutOfJailCards;
 
 	/**
 	 * Creates a new player object.
@@ -110,7 +91,6 @@ public class Player implements IMoneyPartner {
 	 *            The color of the player.
 	 */
 	public Player(String name, int position, int balance, int id, int color) {
-		this.cards = new ArrayList<Card>(2);
 		this.fields = new ArrayList<BuyableField>();
 		
 		this.name = name;
@@ -143,11 +123,22 @@ public class Player implements IMoneyPartner {
 	
 	public void waitInJail() {
 		this.roundsInJail--;
+		if(this.roundsInJail < 1) {
+			this.jail = null;
+		}
 	}
 
 	public void sendToJail(Jail jail) {
 		this.jail = jail;
 		this.roundsInJail = jail.getRoundsToWait();
+	}
+	
+	public int getSignedPosition() {
+		if(this.jail == null) {
+			return this.position;
+		} else {
+			return -this.position;
+		}
 	}
 	
 	public int getColor() {
@@ -178,31 +169,8 @@ public class Player implements IMoneyPartner {
 		return this.balance;
 	}
 
-	/* TODO: Make immutable? */
-	public List<BuyableField> getFields() {
-		return this.fields;
-	}
-
-	/* CARD STACK */
-
-	/**
-	 * Inserts a card in the players card stack.
-	 * 
-	 * @param card
-	 *            New card in the stack.
-	 */
-	public void addCard(Card card) {
-		this.cards.add(card);
-	}
-
-	/**
-	 * Removes the card from the players card stack.
-	 * 
-	 * @param card
-	 *            The card which will be removed.
-	 */
-	public void removeCard(Card card) {
-		this.cards.remove(card);
+	public BuyableField[] getFields() {
+		return this.fields.toArray(new BuyableField[0]);
 	}
 
 	/* FIELD STACK */
@@ -230,6 +198,14 @@ public class Player implements IMoneyPartner {
 
 	public void setPosition(int position) {
 		this.position = position;
+	}
+
+	public void setNumberOfGetOutOfJailCards(int numberOfGetOutOfJailCards) {
+		this.numberOfGetOutOfJailCards = numberOfGetOutOfJailCards;
+	}
+	
+	public int getNumberOfGetOutOfJailCards() {
+		return this.numberOfGetOutOfJailCards;
 	}
 	
 }
