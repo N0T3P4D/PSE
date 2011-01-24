@@ -17,6 +17,8 @@
 
 package org.ojim.client;
 
+import java.io.Serializable;
+
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.GameState;
@@ -36,7 +38,7 @@ import edu.kit.iti.pse.iface.IServer;
  * 
  * @author Fabian Neundorf
  */
-public class SimpleClient {
+public class SimpleClient implements Serializable {
 
 	private IServer server;
 	private Logic logic;
