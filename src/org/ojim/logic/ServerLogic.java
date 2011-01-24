@@ -81,12 +81,14 @@ public class ServerLogic extends Logic {
 	public void startNewTurn() {
 		// AI
 		number++;
-		if((number % 10000) == 0)logger.log(Level.INFO, "Starting new turn " + number++);
+		if((number % 1000000) == 0)logger.log(Level.INFO, "Starting new turn " + number++);
 		// Get a new Player On Turn
 		this.getNewPlayerOnTurn();
 		this.getGameState().setActivePlayerNeedsToRoll(true);
 		int id = this.getGameState().getActivePlayer().getId();
 		// Inform All Player that a new Turn has come
+		
+		
 		for (Player player : this.getGameState().getPlayers()) {
 			((ServerPlayer) player).getClient().informTurn(id);
 		}
@@ -298,12 +300,9 @@ public class ServerLogic extends Logic {
 	public void buyStreet() {
 		Player player = this.getGameState().getActivePlayer();
 		int position = player.getPosition();
-		changeFieldOwner(null, player, (BuyableField)this.getGameState().getFieldAt(position));
-		for(Player onePlayer : this.getGameState().getPlayers()) {
-			if(onePlayer instanceof ServerPlayer) {
-				((ServerPlayer)onePlayer).getClient().informBuy(player.getId(), position);
-			}
-		}
+		BuyableField field = (BuyableField)this.getGameState().getFieldAt(position);
+		this.exchangeMoney(player, this.getGameState().getBank(), field.getPrice());
+		changeFieldOwner(null, player, field);
 	}
 	
 	public void changeFieldOwner(Player oldOwner, Player newOwner,
@@ -325,6 +324,11 @@ public class ServerLogic extends Logic {
 						field.getPosition());
 			}
 		}
+	}
+
+	public void endGame() {
+		// TODO Free Stack here
+		
 	}
 
 }
