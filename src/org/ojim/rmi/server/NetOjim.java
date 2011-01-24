@@ -20,6 +20,7 @@ package org.ojim.rmi.server;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
+import org.ojim.client.SimpleClient;
 import org.ojim.rmi.client.NetClient;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -54,11 +55,11 @@ public interface NetOjim extends Remote ,IServer {
 	 */
 	public void abmeldenClient(NetClient netClient)throws RemoteException;
 
+	
+	public int getRoundsToWait(SimpleClient sClient, int position)throws RemoteException;
 
-	public int getRoundsToWait(int position);
 
-
-	public int getMoneyToPay(int position);
+	public int getMoneyToPay(SimpleClient sClient, int position) throws RemoteException;
 			
 
 
