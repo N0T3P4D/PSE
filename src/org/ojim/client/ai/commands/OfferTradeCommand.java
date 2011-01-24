@@ -46,4 +46,7 @@ public class OfferTradeCommand extends TradeCommand {
 		// TODO Auto-generated constructor stub
 	}
 
+	@Override
+	public void execute() {
+	}
 }

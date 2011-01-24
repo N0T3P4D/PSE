@@ -17,6 +17,12 @@
 
 package org.ojim.client.ai.valuation;
 
+import java.util.ArrayList;
+
+import org.ojim.logic.Logic;
+import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.fields.BuyableField;
+
 /**
  * Valuation parameters for the AI client
  * 
@@ -24,9 +30,6 @@ package org.ojim.client.ai.valuation;
  * 
  */
 public final class ValuationParameters {
-
-	private ValuationParameters() {
-	}
 
 	/**
 	 * Minimum limit of cash
@@ -37,13 +40,14 @@ public final class ValuationParameters {
 	 */
 	public final static double averageCashPercentage = 0.01;
 	/**
-	 * How many percents of the cash of the opponent with the most money we should keep
+	 * How many percents of the cash of the opponent with the most money we
+	 * should keep
 	 */
 	public final static double maxCashPercentage = 0.05;
 	/**
 	 * Contains the value of each buyable field
 	 */
-	public final static int[] FieldValue = { 1, 1, 1 };
+	public final static int[] FieldValue = new int[40];
 	/**
 	 * Valuation penalty for mortgage
 	 */
@@ -57,8 +61,17 @@ public final class ValuationParameters {
 	 * @return Value
 	 */
 	public static int getStreetValue(int id) {
-		// to be changed!
-		return 1;
+		return FieldValue[id];
 	}
 
+	public static void init(Logic logic) {
+		GameState state = logic.getGameState();
+		for (int i = 0; i < 40; i++) {
+			if (state.getFieldAt(i) instanceof BuyableField) {
+				FieldValue[i] = ((BuyableField) state.getFieldAt(i)).getPrice();
+			} else {
+				FieldValue[i] = -1;
+			}
+		}
+	}
 }

@@ -38,7 +38,6 @@ import org.ojim.logic.state.Trade;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.CardField;
 import org.ojim.logic.state.fields.Field;
-import org.ojim.logic.state.fields.FieldGroup;
 import org.ojim.logic.state.fields.FreeParking;
 import org.ojim.logic.state.fields.GoField;
 import org.ojim.logic.state.fields.GoToJail;
@@ -57,25 +56,81 @@ import edu.kit.iti.pse.iface.IServerTrade;
 
 public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
+	/**
+	 * The name of the Server
+	 */
 	private String name;
+	
+	/**
+	 * Can Clients connect to the server?
+	 */
 	private boolean isOpen = false;
+	
+	/**
+	 * Is the Game started?
+	 */
 	private boolean gameStarted;
+	
+	/**
+	 * The amount of connected Clients
+	 */
 	private int connectedClients;
+	
+	/**
+	 * The amount of Clients that can be connected
+	 */
 	private int maxClients;
+	
+	/**
+	 * All connected Clients
+	 */
 	private List<IClient> clients;
 
+	/**
+	 * The GameState
+	 */
 	private ServerGameState state;
+	
+	/**
+	 * The Logic
+	 */
 	private ServerLogic logic;
+	
+	/**
+	 * The Rules
+	 */
 	private GameRules rules;
+	
+	/**
+	 * GameCards that need to be accepted/declined
+	 */
 	private List<Card> currentCards;
+	
+	/**
+	 * current Auction, if null => no Auction
+	 */
 	private Auction auction;
+	
+	/**
+	 * current Trade, if null => no Trade
+	 */
 	private Trade trade;
 
-	// AI added
+	/**
+	 * List of all AI-Clients
+	 */
 	private AIClient aiClients[];
 
+	/**
+	 * the Logger
+	 * TODO private?
+	 */
 	Logger logger;
 
+	/**
+	 * Creates a new Server. Has to be opened by initGame(int,int)
+	 * @param name The name of the Server
+	 */
 	public OjimServer(String name) {
 		this.name = name;
 		this.gameStarted = false;
@@ -87,7 +142,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.logger = OJIMLogger.getLogger(this.getClass().toString());
 	}
 
-	boolean initGame(int playerCount, int aiCount) {
+	/**
+	 * Initializes the Server and opens it
+	 * @param playerCount maximum Player (AI and GUI) count
+	 * @param aiCount Amount of AI-Players
+	 * @return successful?
+	 */
+	public boolean initGame(int playerCount, int aiCount) {
 
 		if (isOpen) {
 			return false;
@@ -125,15 +186,22 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return true;
 	}
 
-	boolean endGame() {
+	/**
+	 * Ends a Game and prepares the Server for the next Game
+	 * @return successful?
+	 */
+	public boolean endGame() {
 
+		//Stops the Game
 		this.gameStarted = false;
 		if (!isOpen) {
 			return true;
 		}
+		
 		// Closing the Game
 		isOpen = false;
-
+		this.logic.endGame();
+		
 		// Disconnecting all Clients
 		for (IClient client : clients) {
 			if (client instanceof AIClient) {
@@ -432,10 +500,18 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return player.getPosition();
 	}
 
+	/**
+	 * Adds a GameCard that needs accepting/declining
+	 * @param card the Card to add
+	 */
 	public void addCurrentCard(Card card) {
 		this.currentCards.add(card);
 	}
 
+	/**
+	 * Gets all GameCards that need accepting/declining
+	 * @return List of Cards that need accept()/decline()
+	 */
 	public List<Card> getCurrentCards() {
 		return this.currentCards;
 	}
@@ -496,6 +572,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		 */
 	}
 
+	/**
+	 * Starts a Game
+	 */
 	private void startGame() {
 		// AI moved logic and rules
 
@@ -717,17 +796,23 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 					return true;
 				}
 			}
-			informMoveAll(player);
 		}
 		return true;
 	}
-
+	
+	/**
+	 * Informs all Clients that the Dice has been rolled
+	 */
 	private void informDiceAll() {
 		for (IClient client : clients) {
 			client.informDiceValues(state.getDices().getResult());
 		}
 	}
 
+	/**
+	 * Inform all Clients that a move has occured
+	 * @param player the moving Player
+	 */
 	private void informMoveAll(Player player) {
 		for (IClient client : clients) {
 			client.informMove(player.getId(), player.getSignedPosition());
@@ -759,7 +844,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		Field field = state.getFieldAt(player.getPosition());
 		if (field instanceof BuyableField
-				&& ((BuyableField) field).getOwner() == null) {
+				&& ((BuyableField) field).getOwner() == null || player.getBalance() > ((BuyableField)field).getPrice()) {
 			display("accept: buy field");
 			logic.buyStreet();
 			return true;
@@ -804,6 +889,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 
 				logic.startNewTurn();
+				if(this.state.getGameIsWon()) {
+					this.endGame();
+				}
 				return true;
 			}
 		}
@@ -825,6 +913,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return changeLevel(playerID, position, 1);
 	}
 
+	/**
+	 * Changes the BuiltLevel of a Field
+	 * @param playerID the Player that want to change
+	 * @param position The Position of the Field
+	 * @param levelChange the levelChange
+	 * @return
+	 */
 	private boolean changeLevel(int playerID, int position, int levelChange) {
 		Player player = state.getPlayerByID(playerID);
 		Field field = state.getFieldAt(position);
@@ -877,10 +972,18 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 	}
 
+	/**
+	 * Gets the Name of the Server
+	 * @return Servername
+	 */
 	public String getName() {
 		return this.name;
 	}
 
+	/**
+	 * Gets the number of Clients that can connect 
+	 * @return maximum Clientconnections
+	 */
 	public int getMaxClients() {
 		return this.maxClients;
 	}
