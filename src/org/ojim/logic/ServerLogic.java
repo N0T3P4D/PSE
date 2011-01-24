@@ -87,6 +87,7 @@ public class ServerLogic extends Logic {
 		for (Player player : this.getGameState().getPlayers()) {
 			((ServerPlayer) player).getClient().informTurn(id);
 		}
+		this.getGameState().setActivePlayerNeedsToRoll(true);
 	}
 
 	/**
