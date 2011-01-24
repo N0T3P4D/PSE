@@ -258,6 +258,18 @@ public class ServerLogic extends Logic {
 			}
 		}
 	}
+	
+	public void payRent(Player player) {
+		Field field = this.getGameState().getFieldAt(player.getPosition());
+		payRent(player, (BuyableField) field);
+	}
+	
+	public void payRent(Player player, BuyableField field) {
+		Player owner = field.getOwner();
+		if(owner != null) {
+			this.exchangeMoney(player, owner, field.getRent());
+		}
+	}
 
 	public void movePlayerForDice(Player player, int result) {
 		// Do the passthrough-Action for all Fields the Player steps on
