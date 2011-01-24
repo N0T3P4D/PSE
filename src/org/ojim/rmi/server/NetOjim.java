@@ -56,9 +56,27 @@ public interface NetOjim extends Remote ,IServer {
 	public void abmeldenClient(NetClient netClient)throws RemoteException;
 
 	
+	/**
+	 * Gibt Auskunft über die Anzahl der Runden die ein Spieler im Gefängnis sitzt beziehungsweise
+	 * beim Würfeln aussetzt 
+	 * 
+	 * @param sClient Client Objekt
+	 * @param position Position
+	 * @return Anzahl der Runden
+	 * @throws RemoteException
+	 */
 	public int getRoundsToWait(SimpleClient sClient, int position)throws RemoteException;
 
-
+	
+	/**
+	 * Gibt den Geldbetrag zurück ,
+	 * mit welchem sich der Spieler aus dem Gefängnis frei kaufen kann
+	 * 
+	 * @param sClient Client Objekt
+	 * @param position Position
+	 * @return Geldbetrag
+	 * @throws RemoteException
+	 */
 	public int getMoneyToPay(SimpleClient sClient, int position) throws RemoteException;
 			
 
