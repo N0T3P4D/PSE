@@ -28,6 +28,7 @@ public class GameField extends JPanel {
 
 	
 	GameFieldPiece[] fields;
+	int fieldsAmount;
 	
 	public GameField() {
 		
@@ -63,6 +64,7 @@ public class GameField extends JPanel {
 	}
 	
 	public void init(int fieldsAmount, GameState gameState){
+		this.fieldsAmount = fieldsAmount;
 		fields = new GameFieldPiece[fieldsAmount];
 		for(int i = 0; i < fieldsAmount; i++){
 			fields[i] = new GameFieldPiece(gameState.getFieldAt(i));
@@ -82,13 +84,14 @@ public class GameField extends JPanel {
 		actualLabel.setName(-1+"");
 		this.add(actualLabel);
 		
-		for(int i = 0; i<41; i++){
-			actualLabel = new JPanel();
+		for(int i = 0; i<fieldsAmount; i++){
+			actualLabel = fields[i];
+			/*
 			if(i%2 == 0){
 				actualLabel.setBackground(StreetColor.getBackGroundColor(0));
 			} else {
 				actualLabel.setBackground(StreetColor.getBackGroundColor(1));				
-			}
+			}*/
 			actualLabel.setName(i+"");
 			this.add(actualLabel);
 		}

@@ -67,8 +67,8 @@ public class GUIClient extends ClientBase {
 	public GUIClient() {
 
 		// Nur zu Debugzwecken auf game
-		setMenuState(MenuState.mainMenu);
-		//setMenuState(MenuState.game);
+		//setMenuState(MenuState.mainMenu);
+		setMenuState(MenuState.game);
 
 
 		language = new Localizer();
