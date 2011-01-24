@@ -73,12 +73,15 @@ public class ServerLogic extends Logic {
 		}
 	}
 
+	int number = 0;
+	
 	/**
 	 * Start a new Turn in the Game
 	 */
 	public void startNewTurn() {
 		// AI
-		logger.log(Level.INFO, "Starting new turn");
+		number++;
+		if((number % 10000) == 0)logger.log(Level.INFO, "Starting new turn " + number++);
 		// Get a new Player On Turn
 		this.getNewPlayerOnTurn();
 		this.getGameState().setActivePlayerNeedsToRoll(true);
@@ -246,13 +249,12 @@ public class ServerLogic extends Logic {
 			}
 		}
 		
-		player.setPosition((secondary ? 1 : -1) *fieldPos);
 		if(field instanceof Jail && secondary) {
 			player.sendToJail((Jail)field);
 		}
 		for(Player onePlayer : this.getGameState().getPlayers()) {
 			if(onePlayer instanceof ServerPlayer) {
-				((ServerPlayer)onePlayer).getClient().informMove(player.getId(), player.getPosition());
+				((ServerPlayer)onePlayer).getClient().informMove(player.getId(), player.getSignedPosition());
 			}
 		}
 	}
@@ -280,8 +282,13 @@ public class ServerLogic extends Logic {
 			this.getGameState().getFieldAt((position + i) % this.getGameState().FIELDS_AMOUNT).passThrough();
 		}
 		player.setPosition((position + result) % this.getGameState().FIELDS_AMOUNT);
-		System.out.println("Moved Player from " + position + " to "
-				+ player.getPosition() + ", roll was " + result);
+		
+		//Inform everyone that the Player has moved
+		for(Player onePlayer : this.getGameState().getPlayers()) {
+			if(player instanceof ServerPlayer) {
+				((ServerPlayer) player).getClient().informMove(player.getId(), player.getSignedPosition());
+			}
+		}
 		// Do the Execute for the Field the Player is standing on
 		this.getGameState().getFieldAt((position + result) % this.getGameState().FIELDS_AMOUNT).execute();
 

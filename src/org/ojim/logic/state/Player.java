@@ -133,6 +133,14 @@ public class Player implements IMoneyPartner {
 		this.roundsInJail = jail.getRoundsToWait();
 	}
 	
+	public int getSignedPosition() {
+		if(this.jail == null) {
+			return this.position;
+		} else {
+			return -this.position;
+		}
+	}
+	
 	public int getColor() {
 		return this.color;
 	}

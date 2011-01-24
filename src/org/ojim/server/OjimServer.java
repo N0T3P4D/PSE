@@ -656,22 +656,19 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean rollDice(int playerID) {
-		display("start rolling dices");
 		ServerPlayer player = this.state.getPlayerByID(playerID);
-
-		display("Starting Roll");
 
 		if (player == null || !rules.isPlayerOnTurn(player)
 				|| this.gameStarted == false
 				|| !this.rules.isRollRequiredByActivePlayer()) {
-			display("cant roll dices");
-			if (!rules.isPlayerOnTurn(player))
-				display("not on turn");
-			if (player == null)
-				display("player == null");
-			if (!rules.isRollRequiredByActivePlayer()) {
-				display("no roll required");
-			}
+//			display("cant roll dices");
+//			if (!rules.isPlayerOnTurn(player))
+//				display("not on turn");
+//			if (player == null)
+//				display("player == null");
+//			if (!rules.isRollRequiredByActivePlayer()) {
+//				display("no roll required");
+//			}
 
 			return false;
 		}
@@ -680,7 +677,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 			// Still need to wait
 			if (player.getJail().getRoundsToWait() > 0) {
-				display("rollDices: jail");
+
 				// Roll and Inform everyone
 				state.getDices().roll();
 				informDiceAll();
@@ -702,7 +699,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		int doubles = 0;
 		while (state.getActivePlayerNeedsToRoll()) {
 
-			display("rollDices: starting loop");
 			// Roll the Dices and inform everyone about it
 			state.getDices().roll();
 			informDiceAll();
@@ -722,7 +718,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 			}
 			informMoveAll(player);
-			display("rollDices: end loop");
 		}
 		return true;
 	}
@@ -735,14 +730,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	private void informMoveAll(Player player) {
 		for (IClient client : clients) {
-			client.informMove(player.getId(), player.getPosition());
+			client.informMove(player.getId(), player.getSignedPosition());
 		}
 	}
 
 	@Override
 	public boolean accept(int playerID) {
 		ServerPlayer player = state.getPlayerByID(playerID);
-		display("accepting");
 		// Does a Trade need Confirmation?
 		if (trade != null && player != null && trade.getTradeState() == 1
 				&& player.equals(trade.getPartner())) {
@@ -792,7 +786,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public boolean endTurn(int playerID) {
 		Player player = state.getPlayerByID(playerID);
-		display("turn end");
 		if (player == null) {
 			display("player == null");
 		}
