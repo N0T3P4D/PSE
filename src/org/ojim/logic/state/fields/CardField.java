@@ -42,9 +42,9 @@ public class CardField extends Field {
 	@Override
 	public int getColorGroup() {
 		if(this.community) {
-			return -6;
+			return FieldGroup.COMMUNITY;
 		} else {
-			return -5;
+			return FieldGroup.EVENT;
 		}
 	}
 }

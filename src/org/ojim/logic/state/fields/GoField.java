@@ -38,7 +38,7 @@ public class GoField extends Field {
 
 	@Override
 	public int getColorGroup() {
-		return -1;
+		return FieldGroup.GO;
 	}
 
 }

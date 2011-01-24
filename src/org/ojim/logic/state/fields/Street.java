@@ -126,13 +126,4 @@ public class Street extends BuyableField {
 	public StreetFieldGroup getFieldGroup() {
 		return (StreetFieldGroup) super.getFieldGroup();
 	}
-
-	@Override
-	public int getColorGroup() {
-		if(this.getFieldGroup() == null) {
-			return 0;
-		} else {
-			return this.getFieldGroup().getColor();
-		}
-	}
 }
