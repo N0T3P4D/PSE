@@ -562,7 +562,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public int getEstatePrice(int position) {
 		Field field = state.getFieldByID(position);
 		if (field != null && field instanceof BuyableField) {
-			((BuyableField) field).getPrice();
+			return ((BuyableField) field).getPrice();
 		}
 		return -1;
 	}
@@ -571,7 +571,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public int getEstateRent(int position, int houses) {
 		Field field = state.getFieldByID(position);
 		if (field != null && field instanceof Street) {
-			((Street) field).getRent(houses);
+			return ((Street) field).getRent(houses);
+		} else if(field != null && field instanceof BuyableField) {
+			return ((BuyableField)field).getRent();
 		}
 		return -1;
 	}
