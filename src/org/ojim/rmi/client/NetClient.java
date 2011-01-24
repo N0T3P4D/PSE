@@ -15,51 +15,23 @@
  *  along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
-package org.ojim.rmi.server;
+package org.ojim.rmi.client;
 
 import java.rmi.Remote;
-import java.rmi.RemoteException;
 
-import org.ojim.rmi.client.NetClient;
-
-import edu.kit.iti.pse.iface.IServer;
+import org.ojim.iface.IClient;
 /**
- * Interface stellt zusätzlich zum IServer Interface Methoden bereit 
+ * 
+ * Interface stellt zusätzlich zum IClient Interface Methoden bereit 
  * die über das Netzwerk mit Hilfe von RMI, lokal oder über das Internet 
- * vom Client auf einer anderen JVM, in diesem Fall auf unserem Server aufgerufen werden können.  
+ * vom Server auf einer anderen JVM, in diesem Fall auf unserem Client aufgerufen werden können.  
+ * 
  * 
  * @author Usman Ghani Ahmed
  *
  */
-public interface NetOjim extends Remote ,IServer {
+public interface NetClient extends Remote,IClient {
 	
-	/**
-	 * Meldet einen Client beim Server an, damit der Server Methoden des Client über
-	 * RMI aufrufen kann
-	 * 
-	 * @param netClient Client Remote Objekt
-	 * 
-	 * @throws RemoteException
-	 */
-	public void registerClient(NetClient netClient) throws RemoteException;
-	
-	
-	/**
-	 * Meldet einen Client beim Server ab,zum Beispiel bei frühzeitiger Spielbeendigung
-	 * eines Client  
-	 * 
-	 * @param netClient Client Remote Objekt
-	 * 
-	 * @throws RemoteException
-	 */
-	public void abmeldenClient(NetClient netClient)throws RemoteException;
-			
-
-
-	
-	
-		
-		
 	
 
 }

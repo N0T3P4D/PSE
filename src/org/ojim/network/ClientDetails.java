@@ -17,7 +17,21 @@
 
 package org.ojim.network;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+
+
+/**
+ * Klasse verwaltet Client spezifische Informationen
+ * 
+ * @author Usman Ghani Ahmed
+ *
+ */
 public class ClientDetails {
+	
 	
 	private String ip;
 	
@@ -27,9 +41,30 @@ public class ClientDetails {
 		this.ip = ip;
 		this.username = username;
 	}
-
+	
+	/**
+	 * Ermittelt die eigene öffentliche ip Adresse
+	 * 
+	 * @return öffentliche ip Adresse
+	 */
 	public String getIp(){
-		return this.ip;
+		
+		
+		try{
+	    URL url = new URL("http://www.whatismyip.com/automation/n09230945.asp");
+	    HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+	    connection.setReadTimeout(2000);
+	    InputStream InStream = connection.getInputStream();
+	    InputStreamReader Isr = new InputStreamReader(InStream);
+	    BufferedReader Br = new BufferedReader(Isr);
+	    this.ip = Br.readLine();
+		
+		} catch(Exception e){
+			e.printStackTrace();
+		}
+	
+		 return this.ip;
+		
 	}
 	
 	
