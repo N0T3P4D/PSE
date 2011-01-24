@@ -32,6 +32,10 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class MortgageCommand extends SimpleClient implements Command {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8228252721669010341L;
 	private int position;
 
 	/**

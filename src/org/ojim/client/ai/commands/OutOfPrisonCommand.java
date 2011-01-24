@@ -33,6 +33,7 @@ import edu.kit.iti.pse.iface.IServer;
 public class OutOfPrisonCommand extends SimpleClient implements Command {
 
 	AIClient client;
+	int playerID;
 
 	/**
 	 * 
@@ -47,12 +48,19 @@ public class OutOfPrisonCommand extends SimpleClient implements Command {
 	 */
 	public OutOfPrisonCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
+		this.playerID = playerId;
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
+		if (this.getNumberOfGetOutOfJailCards(playerID) > 0) {
+//			this.
+		}
+		else {
+			
+		}
 
+		
 	}
 
 }

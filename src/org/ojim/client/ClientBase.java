@@ -202,8 +202,10 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public abstract void onCardPull(String text, boolean communityCard);
 
 	@Override
-	public final void informCashChange(int player, int cashChange) {
-		this.onCashChange(this.getGameState().getPlayerByID(player), cashChange);
+	public final void informCashChange(int playerId, int cashChange) {
+		Player player = this.getGameState().getPlayerByID(playerId);
+		player.transferMoney(cashChange);
+		this.onCashChange(player, cashChange);
 	}
 	
 	public abstract void onCashChange(Player player, int cashChange);
