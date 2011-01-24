@@ -20,9 +20,11 @@ package org.ojim.client.ai.valuation;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.ojim.client.SimpleClient;
 import org.ojim.client.ai.commands.AcceptCommand;
 import org.ojim.client.ai.commands.Command;
 import org.ojim.client.ai.commands.DeclineCommand;
+import org.ojim.client.ai.commands.NullCommand;
 import org.ojim.client.ai.commands.OutOfPrisonCommand;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
@@ -40,7 +42,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class Valuator {
+public class Valuator extends SimpleClient {
 
 	double[] weights;
 	GameState state;
@@ -67,23 +69,27 @@ public class Valuator {
 	 *            The player's ID
 	 */
 	public Valuator(Logic logic, IServer server, int playerID) {
+		assert (logic != null);
+		assert (server != null);
 		weights = new double[ValuationFunction.COUNT];
 
 		for (int i = 0; i < weights.length; i++) {
 			weights[i] = 1;
 		}
 		valuationFunctions = new ValuationFunction[6];
+		this.logic = logic;
 		this.state = logic.getGameState();
 		this.server = server;
 		this.playerID = playerID;
 		capitalValuator = CapitalValuator.getInstance();
-		assert(capitalValuator != null);
+		assert (capitalValuator != null);
 		capitalValuator.setParameters(logic);
 		propertyValuator = PropertyValuator.getInstance();
-		assert(propertyValuator != null);
+		assert (propertyValuator != null);
 		propertyValuator.setParameters(logic);
 		this.logger = OJIMLogger.getLogger(this.getClass().toString());
-//		this.logic = logic;
+		ValuationParameters.init(logic);
+		// this.logic = logic;
 	}
 
 	/**
@@ -95,28 +101,33 @@ public class Valuator {
 	 */
 	public Command returnBestCommand(int pos) {
 		Field field = state.getFieldAt(pos);
-		// Jail?
-//		if (field.getClass().isInstance(Jail.class)) {
-//			if (prisonValuator.returnValuation() > 0) {
-//				return new OutOfPrisonCommand(logic, server, playerID);
-//			}
-//		}
 
-		// Buy House
-		if (field instanceof BuyableField) {
-			logger.log(Level.INFO, "BuyableField!");
-			double valuation = weights[0] * propertyValuator.returnValuation() + weights[1]
-					* capitalValuator.returnValuation(((BuyableField) field).getPrice());
+		// prison?
+		if (pos == -10) {
+			// prison valuator
+		} else if (field instanceof BuyableField) {
+			if (((BuyableField) field).getOwner() != logic.getGameState()
+					.getActivePlayer()) {
+				logger.log(Level.INFO, "BuyableField!");
+				double valuation = weights[0]
+						* propertyValuator.returnValuation()
+						+ weights[1]
+						* capitalValuator
+								.returnValuation(((BuyableField) field)
+										.getPrice());
 
-			if (valuation > 0) {
-				assert(false);
-				return new DeclineCommand(logic, server, playerID);
-			} else {
-				assert(false);
-				return new AcceptCommand(logic, server, playerID);
+				if (valuation > 0) {
+					logger.log(Level.INFO, "Granted");
+					assert (logic != null);
+					assert (server != null);
+					return new AcceptCommand(logic, server, playerID);
+				} else {
+					logger.log(Level.INFO, "Denied");
+					return new DeclineCommand(logic, server, playerID);
+				}
 			}
 		}
-		return null;
-	}
 
+		return new NullCommand(logic, server, playerID);
+	}
 }

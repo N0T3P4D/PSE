@@ -81,8 +81,9 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		logger.log(Level.INFO, "Call onCashChange!");
-
+		logger.log(Level.INFO, "Call onCashChange! Amount = " + cashChange
+				+ " New cash = "
+				+ getGameState().getActivePlayer().getBalance());
 	}
 
 	@Override
@@ -98,30 +99,25 @@ public class AIClient extends ClientBase {
 	@Override
 	public void onMove(Player player, int position) {
 		count++;
-		logger.log(Level.INFO, "Move " + count + " New position is " + position + " with name "
-				+ getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
+		logger.log(
+				Level.INFO,
+				"Move "
+						+ count
+						+ " New position is "
+						+ position
+						+ " with name "
+						+ getLogic().getGameState()
+								.getFieldAt(Math.abs(position)).getName());
 		if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
 			logger.log(Level.INFO, "On buyable field");
-//			valuator.returnBestCommand(position);
+			valuator.returnBestCommand(position).execute();
 		}
-		// if (isPrison(position)) {
-		// getGameState().getActivePlayer().waitInJail();
-		// }
-		if (position == 11) {
-			// blub("lol");
-			// decline();
-			// accept();
-			decline();
-		}
-
-		// rollDice();
 		endTurn();
-		// rollDice();
-		// rollDice();
 	}
 
 	@Override
 	public void onBuy(Player player, BuyableField position) {
+		// assert (position.getOwner() != null);
 		logger.log(Level.INFO, "Call onBuy!");
 	}
 
