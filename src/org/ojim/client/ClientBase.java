@@ -243,11 +243,11 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informMessage(String text, int sender, boolean privateMessage) {
-		Player player = this.getGameState().getPlayerByID(sender);
-		if (player != null) {
+		Player player = null;
+		if ((sender == -1) || (player = this.getGameState().getPlayerByID(sender)) != null) {
 			this.onMessage(text, player, privateMessage);
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid player.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid player (" + sender + ").");
 		}
 	}
 	
