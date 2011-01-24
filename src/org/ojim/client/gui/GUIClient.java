@@ -39,6 +39,7 @@ import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.server.OjimServer;
 
 public class GUIClient extends ClientBase {
 
@@ -170,7 +171,12 @@ public class GUIClient extends ClientBase {
 
 		case game:
 
-			//connect("127.0.0.1", "60");
+			OjimServer server = new OjimServer("Philip");
+			
+			server.initGame(1, 0);
+			
+			
+			connect(server);
 			
 			
 			gameField = new GameField();
