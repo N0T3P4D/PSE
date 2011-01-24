@@ -34,7 +34,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Usman Ghani Ahmed
  *
  */
-public interface NetOjim extends Remote {
+public interface NetOjim extends Remote ,IServer {
 	
 	/**
 	 * Meldet einen Client beim Server an, damit der Server Methoden des Client über
@@ -83,9 +83,7 @@ public interface NetOjim extends Remote {
 	
 	
 	
-	public Rules getRules() throws RemoteException ;
 	
-	public int addPlayer(IClient client) throws RemoteException ;
 		
 	
 			
