@@ -25,10 +25,9 @@ import org.ojim.iface.IClient;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.accounting.IMoneyPartner;
-import org.ojim.logic.actions.Action;
-import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.Card;
+import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.GetOutOfJailCard;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
@@ -36,7 +35,6 @@ import org.ojim.logic.state.ServerPlayer;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FreeParking;
-import org.ojim.logic.state.fields.GoField;
 import org.ojim.logic.state.fields.Jail;
 
 /**
@@ -236,14 +234,14 @@ public class ServerLogic extends Logic {
 
 	}
 	
-	public void movePlayerTo(Field field, Player player, boolean secondary, boolean goOverGo) {
+	public void movePlayerTo(Field field, Player player, boolean secondary, boolean executePasses) {
 		int fieldPos = field.getPosition();
 		int playerPos = player.getPosition();
 		while(playerPos != fieldPos) {
-			playerPos++;
+			playerPos = ++playerPos % GameState.FIELDS_AMOUNT;
 			player.setPosition(playerPos);
 			Field currentField = this.getGameState().getFieldAt(playerPos);
-			if(!(currentField instanceof GoField) || goOverGo) {
+			if(executePasses) {
 				currentField.passThrough();
 			}
 		}
