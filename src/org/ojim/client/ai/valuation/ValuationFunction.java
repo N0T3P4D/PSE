@@ -19,7 +19,10 @@ package org.ojim.client.ai.valuation;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
+import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.GameState;
@@ -32,6 +35,7 @@ import org.ojim.logic.state.GameState;
 public abstract class ValuationFunction {
 
 	private Logic logic;
+	protected Logger logger;
 
 	// xZise: Implicit set by logic (logic.getGame{State,Rules})
 	// private GameRules rules;
@@ -141,5 +145,12 @@ public abstract class ValuationFunction {
 	 * @return Valuation as double
 	 */
 	public abstract double returnValuation();
+	
+	protected final void getLogger() {
+		if (logger == null) {
+			logger = OJIMLogger.getLogger(this.getClass().toString());
+		}
+//		return logger;
+	}
 
 }

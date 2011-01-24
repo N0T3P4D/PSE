@@ -66,20 +66,22 @@ public class Valuator {
 	 * @param playerID
 	 *            The player's ID
 	 */
-	public Valuator(GameState state, Logic logic, IServer server, int playerID) {
+	public Valuator(Logic logic, IServer server, int playerID) {
 		weights = new double[ValuationFunction.COUNT];
 
 		for (int i = 0; i < weights.length; i++) {
 			weights[i] = 1;
 		}
 		valuationFunctions = new ValuationFunction[6];
-		this.state = state;
+		this.state = logic.getGameState();
 		this.server = server;
 		this.playerID = playerID;
-		capitalValuator = (CapitalValuator) CapitalValuator.getInstance();
-		capitalValuator.setState(state);
-		propertyValuator = (PropertyValuator) PropertyValuator.getInstance();
-		propertyValuator.setState(state);
+		capitalValuator = CapitalValuator.getInstance();
+		assert(capitalValuator != null);
+		capitalValuator.setParameters(logic);
+		propertyValuator = PropertyValuator.getInstance();
+		assert(propertyValuator != null);
+		propertyValuator.setParameters(logic);
 		this.logger = OJIMLogger.getLogger(this.getClass().toString());
 //		this.logic = logic;
 	}

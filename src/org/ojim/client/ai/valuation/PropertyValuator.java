@@ -17,6 +17,8 @@
 
 package org.ojim.client.ai.valuation;
 
+import java.util.logging.Level;
+
 import org.ojim.logic.state.fields.BuyableField;
 
 /**
@@ -35,7 +37,7 @@ public final class PropertyValuator extends ValuationFunction {
 	 * 
 	 * @return An instance
 	 */
-	public static ValuationFunction getInstance() {
+	public static PropertyValuator getInstance() {
 		return PropertyValuator.getInstance(false, PropertyValuator.class);
 	}
 
@@ -43,7 +45,11 @@ public final class PropertyValuator extends ValuationFunction {
 	public double returnValuation() {
 		int position = this.getGameState().getActivePlayer().getPosition();
 		BuyableField field = (BuyableField) this.getGameState().getFieldAt(position);
+		getLogger();
 		int price = field.getPrice();
+		logger.log(Level.INFO,"Name = " + field.getName() + "Price = " + price);
+
+		
 		boolean isMortgaged = field.isMortgaged();
 
 		// Position or id?
