@@ -148,6 +148,17 @@ public class TestClient implements IClient {
 		});
 		panel.add(bt10);
 		
+		JButton bt11 = new JButton("inf. roll");
+		bt11.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				while(true) {
+					server.rollDice(id);
+					server.endTurn(id);
+				}
+			}
+		});
+		panel.add(bt11);
+		
 		frame.setLayout(new GridLayout(2,1));
 		frame.add(pane);		
 		frame.add(panel);

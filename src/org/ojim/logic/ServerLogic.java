@@ -34,7 +34,9 @@ import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FreeParking;
+import org.ojim.logic.state.fields.GoField;
 import org.ojim.logic.state.fields.Jail;
 
 /**
@@ -232,6 +234,29 @@ public class ServerLogic extends Logic {
 	
 	public void playerRolledOutOfJail(Player player) {
 
+	}
+	
+	public void movePlayerTo(Field field, Player player, boolean secondary, boolean goOverGo) {
+		int fieldPos = field.getPosition();
+		int playerPos = player.getPosition();
+		while(playerPos != fieldPos) {
+			playerPos++;
+			player.setPosition(playerPos);
+			Field currentField = this.getGameState().getFieldAt(playerPos);
+			if(!(currentField instanceof GoField) || goOverGo) {
+				currentField.passThrough();
+			}
+		}
+		
+		player.setPosition((secondary ? 1 : -1) *fieldPos);
+		if(field instanceof Jail && secondary) {
+			player.sendToJail((Jail)field);
+		}
+		for(Player onePlayer : this.getGameState().getPlayers()) {
+			if(onePlayer instanceof ServerPlayer) {
+				((ServerPlayer)onePlayer).getClient().informMove(player.getId(), player.getPosition());
+			}
+		}
 	}
 
 	public void movePlayerForDice(Player player, int result) {
