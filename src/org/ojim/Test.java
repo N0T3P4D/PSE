@@ -20,6 +20,9 @@ package org.ojim;
 import java.lang.reflect.InvocationTargetException;
 
 import org.ojim.client.ai.AIClient;
+import org.ojim.client.ai.valuation.CapitalValuator;
+import org.ojim.client.ai.valuation.PropertyValuator;
+import org.ojim.client.ai.valuation.ValuationFunction;
 import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
 import org.ojim.logic.actions.Action;
@@ -43,6 +46,15 @@ public class Test {
 	// -s --server == ojim server
 	// -a --ai == AI Client
 	public static void main(String args[]) {
+		
+		ValuationFunction f = PropertyValuator.getInstance();
+		PropertyValuator x = (PropertyValuator) f;
+		
+		CapitalValuator y = ValuationFunction.getInstance(CapitalValuator.class);
+		
+		System.out.println("foo");
+		
+		System.exit(0);
 		
 		FieldDrawer d = FieldDrawer.getDrawer(new Jail("foo", 2, 1, 2));
 		d.drawTo(null);

@@ -34,7 +34,9 @@ import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FreeParking;
+import org.ojim.logic.state.fields.GoField;
 import org.ojim.logic.state.fields.Jail;
 
 /**
@@ -195,6 +197,10 @@ public class ServerLogic extends Logic {
 		// Lets a Player pay money to get out of Jail
 		this.exchangeMoney(player, this.getGameState().getBank(), player
 				.getJail().getMoneyToPay());
+		this.sendPlayerOutOfJail(player);
+	}
+	
+	public void sendPlayerOutOfJail(Player player) {
 		player.sendToJail(null);
 
 		// Inform all Player that the current Player is now out of Jail
@@ -202,9 +208,10 @@ public class ServerLogic extends Logic {
 			if (onePlayer instanceof ServerPlayer) {
 				// TODO Add Language
 				((ServerPlayer) onePlayer).getClient().informMessage(
-						"Current Player is now out of Jail!", 0, false);
+						"Current Player is now out of Jail!", -1, false);
 			}
 		}
+		
 	}
 
 	public void getNewPlayerOnTurn() {
@@ -227,6 +234,41 @@ public class ServerLogic extends Logic {
 	
 	public void playerRolledOutOfJail(Player player) {
 
+	}
+	
+	public void movePlayerTo(Field field, Player player, boolean secondary, boolean goOverGo) {
+		int fieldPos = field.getPosition();
+		int playerPos = player.getPosition();
+		while(playerPos != fieldPos) {
+			playerPos++;
+			player.setPosition(playerPos);
+			Field currentField = this.getGameState().getFieldAt(playerPos);
+			if(!(currentField instanceof GoField) || goOverGo) {
+				currentField.passThrough();
+			}
+		}
+		
+		player.setPosition((secondary ? 1 : -1) *fieldPos);
+		if(field instanceof Jail && secondary) {
+			player.sendToJail((Jail)field);
+		}
+		for(Player onePlayer : this.getGameState().getPlayers()) {
+			if(onePlayer instanceof ServerPlayer) {
+				((ServerPlayer)onePlayer).getClient().informMove(player.getId(), player.getPosition());
+			}
+		}
+	}
+	
+	public void payRent(Player player) {
+		Field field = this.getGameState().getFieldAt(player.getPosition());
+		payRent(player, (BuyableField) field);
+	}
+	
+	public void payRent(Player player, BuyableField field) {
+		Player owner = field.getOwner();
+		if(owner != null) {
+			this.exchangeMoney(player, owner, field.getRent());
+		}
 	}
 
 	public void movePlayerForDice(Player player, int result) {

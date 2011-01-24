@@ -35,12 +35,7 @@ public class ActionPayForDiceValues implements Action {
 
 	@Override
 	public void execute() {
-		ActionPayForDiceValues.execute(this.logic, this.payee, this.factor);
-	}
-
-	public static void execute(ServerLogic logic, IMoneyPartner payee, int factor) {
-		logic.exchangeMoney(logic.getGameState().getActivePlayer(), payee, factor
+		this.logic.exchangeMoney(logic.getGameState().getActivePlayer(), payee, factor
 				* logic.getGameState().getDices().getResultSum());
 	}
-
 }

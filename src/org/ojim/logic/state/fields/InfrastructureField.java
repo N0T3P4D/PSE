@@ -23,7 +23,6 @@ import org.ojim.logic.state.DiceSet;
 public class InfrastructureField extends BuyableField {
 
 	private DiceSet dices;
-	private final int[] RENT = new int[] {80,200};
 	
 	public InfrastructureField(String name, int position, int price) {
 		super(name, position, price);
@@ -33,7 +32,7 @@ public class InfrastructureField extends BuyableField {
 		super(name, position, price, logic);
 		this.dices = logic.getGameState().getDices();
 	}
-
+	
 	@Override
 	public int getRent() {
 		// Calculate here
@@ -44,18 +43,8 @@ public class InfrastructureField extends BuyableField {
 						this.getOwner())) {
 				ownerOwns++;
 			}
-		}
+		}	
 		
-		if(ownerOwns >= RENT.length) {
-			ownerOwns = RENT.length - 1;
-		}
-		
-		return RENT[ownerOwns] * dices.getResultSum();
+		return ((InfrastructureFieldGroup) this.getFieldGroup()).getFactor(ownerOwns) * dices.getResultSum();
 	}
-
-	@Override
-	public int getColorGroup() {
-		return -8;
-	}
-
 }

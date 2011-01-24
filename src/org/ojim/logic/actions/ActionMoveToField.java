@@ -26,7 +26,8 @@ public class ActionMoveToField implements Action {
 	private final Field[] fields;
 	private final ServerLogic logic;
 	private final boolean executePasses;
-
+	private final boolean special;
+	
 	/**
 	 * Erstellt eine Aktion die bei Ausführungs sich zum nächsten Feld.
 	 * 
@@ -38,41 +39,37 @@ public class ActionMoveToField implements Action {
 	 * @param fields
 	 *            Die Zielfelder.
 	 */
-	public ActionMoveToField(ServerLogic logic, boolean executePasses,
+	public ActionMoveToField(ServerLogic logic, boolean executePasses, boolean special,
 			Field... fields) {
+		if (fields.length == 0) {
+			throw new IllegalArgumentException("There has to be at least one field.");
+		}
+		this.special = special;
 		this.logic = logic;
 		this.fields = fields;
 		this.executePasses = executePasses;
 	}
 
 	@Override
-	public void execute() {
-		ActionMoveToField.execute(this.logic, this.executePasses, this.fields);
-	}
-
-	public static void execute(ServerLogic logic, boolean executePasses,
-			Field... fields) {
+	public void execute() {		
 		// Das Field suchen, was am nächsten ist
-		int playerPos = logic.getGameState().getActivePlayer().getPosition();
+		int playerPos = this.logic.getGameState().getActivePlayer().getPosition();
 
-		Field next = fields[0];
-		for (int i = 1; i < fields.length; i++) {
+		Field next = this.fields[0];
+		for (int i = 1; i < this.fields.length; i++) {
 			/*
 			 * Checks if the distance to the selected field is lower than this
 			 * to the previous determined field.
 			 */
-			if ((fields[i].getPosition() - playerPos + GameState.FIELDS_AMOUNT)
+			if ((this.fields[i].getPosition() - playerPos + GameState.FIELDS_AMOUNT)
 					% GameState.FIELDS_AMOUNT < (next
 					.getPosition() - playerPos + GameState.FIELDS_AMOUNT)
 					% GameState.FIELDS_AMOUNT) {
-				next = fields[i];
+				next = this.fields[i];
 			}
 		}
 
 		// Zu diesem Feld dann gehen
-		/*
-		 * movetofield(nächtesfeld)
-		 */
+		this.logic.movePlayerTo(next, this.logic.getGameState().getActivePlayer(), this.special, this.executePasses);
 	}
-
 }

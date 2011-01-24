@@ -35,7 +35,7 @@ public final class CapitalValuator extends ValuationFunction {
 	 * 
 	 * @return An instance
 	 */
-	public static ValuationFunction getInstance() {
+	public static CapitalValuator getInstance() {
 		return ValuationFunction.getInstance(false, CapitalValuator.class);
 	}
 

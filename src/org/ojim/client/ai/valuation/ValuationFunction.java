@@ -17,6 +17,9 @@
 
 package org.ojim.client.ai.valuation;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.GameState;
@@ -29,21 +32,21 @@ import org.ojim.logic.state.GameState;
 public abstract class ValuationFunction {
 
 	private Logic logic;
-	private GameRules rules;
 
-	// xZise: Implicit set by logic (logic.getGameState)
+	// xZise: Implicit set by logic (logic.getGame{State,Rules})
+	// private GameRules rules;
 	// protected GameState state;
 
+	public static final int COUNT = 6;
+	
 	/**
 	 * Constructor
 	 */
 	protected ValuationFunction() {
 	}
 
-	private static ValuationFunction instance;
-
-	// xZise: Falls du das brauchst ;) Eine Möglichkeit
-
+	private static Map<Class<? extends ValuationFunction>, ValuationFunction> instances = new HashMap<Class<? extends ValuationFunction>, ValuationFunction>(
+			ValuationFunction.COUNT);
 	/**
 	 * 
 	 * Gets you an instance of clazz
@@ -53,8 +56,12 @@ public abstract class ValuationFunction {
 	 * @return Instance
 	 * 
 	 */
-	public static ValuationFunction getInstance(Class<? extends ValuationFunction> clazz) {
-		return CapitalValuator.getInstance(false, clazz);
+//	public static ValuationFunction getInstance(Class<? extends ValuationFunction> clazz) {
+//		return ValuationFunction.getInstance(false, clazz);
+//	}
+	
+	public static <T extends ValuationFunction> T getInstance(Class<T> clazz) {
+		return ValuationFunction.getInstance(false, clazz);
 	}
 
 	/**
@@ -66,10 +73,12 @@ public abstract class ValuationFunction {
 	 *            Class
 	 * @return Instance
 	 */
-	public static ValuationFunction getInstance(boolean forceNew, Class<? extends ValuationFunction> clazz) {
+	@SuppressWarnings("unchecked")
+	public static <T extends ValuationFunction> T getInstance(boolean forceNew, Class<T> clazz) {
+		ValuationFunction instance = ValuationFunction.instances.get(clazz);
 		if (instance == null) {
 			try {
-				instance = clazz.newInstance();
+				return (T) ValuationFunction.instances.put(clazz, clazz.newInstance());
 			} catch (InstantiationException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -78,7 +87,7 @@ public abstract class ValuationFunction {
 				e.printStackTrace();
 			}
 		}
-		return instance;
+		return (T) instance;
 	}
 
 	/**
@@ -89,9 +98,8 @@ public abstract class ValuationFunction {
 	 * @param rules
 	 *            rules
 	 */
-	public void setParameters(Logic logic, GameRules rules) {
+	public void setParameters(Logic logic) {
 		this.logic = logic;
-		this.rules = rules;
 	}
 
 	/**
@@ -109,7 +117,7 @@ public abstract class ValuationFunction {
 	 * @return reference to rules
 	 */
 	protected final GameRules getGameRules() {
-		return this.rules;
+		return this.logic.getGameRules();
 	}
 
 	/**
