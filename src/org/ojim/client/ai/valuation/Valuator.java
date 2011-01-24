@@ -62,7 +62,7 @@ public class Valuator {
 	 *            The player's ID
 	 */
 	public Valuator(GameState state, Logic logic, IServer server, int playerID) {
-		weights = new double[6];
+		weights = new double[ValuationFunction.COUNT];
 		for (int i = 0; i < weights.length; i++) {
 			weights[i] = 1;
 		}

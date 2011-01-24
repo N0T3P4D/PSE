@@ -34,9 +34,8 @@ public final class PropertyGroupValuator extends ValuationFunction {
 	 * 
 	 * @return An instance
 	 */
-	public static ValuationFunction getInstance() {
-		return ValuationFunction
-				.getInstance(false, PropertyGroupValuator.class);
+	public static PropertyGroupValuator getInstance() {
+		return ValuationFunction.getInstance(false, PropertyGroupValuator.class);
 	}
 
 	@Override
