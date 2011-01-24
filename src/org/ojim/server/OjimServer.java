@@ -983,21 +983,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[0] = new GoField("Los", 0, this.logic);
 		fields[1] = streets[0].addField(new Street("Dagobah - Sumpf", 1, new int[] { 40, 200, 600, 1800, 3200, 5000 },
 				0, 1200, logic));
-		fields[2] = this.newEventCardField(2);// new CardField("Ereigniskarte",
-												// 2,
-												// this.state.getEventCards(),
-												// this.logic);
+		fields[2] = this.newEventCardField(2);
 		fields[3] = streets[0].addField(new Street("Dagobah - Jodas Hütte", 3, new int[] { 80, 400, 1200, 3600, 6400,
 				9000 }, 0, 1200, logic));
 		fields[4] = new TaxField("Landungssteuer", 4, 4000, this.logic);
 		fields[5] = stations.addField(new Station("TIE-Fighter", 5, 4000));
 		fields[6] = streets[1].addField(new Street("Hoth - EchoBasis", 6,
 				new int[] { 120, 600, 1800, 5400, 8000, 11000 }, 0, 2000, logic));
-		fields[7] = this.newCommunityCardField(7); // new
-													// CardField("Gemeinschaftskarte",
-													// 7,
-													// this.state.getCommunityCards(),
-													// this.logic);
+		fields[7] = this.newCommunityCardField(7);
 		fields[8] = streets[1].addField(new Street("Hoth - EisSteppen", 8, new int[] { 120, 600, 1800, 5400, 8000,
 				11000 }, 0, 2000, logic));
 		fields[9] = streets[1].addField(new Street("Hoth - Nordgebirge", 9, new int[] { 160, 800, 2000, 6000, 9000,
@@ -1013,11 +1006,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[15] = stations.addField(new Station("Millenium Falke", 15, 4000, this.logic));
 		fields[16] = streets[3].addField(new Street("Yavin 4 - Kommandozentrale", 16, new int[] { 280, 1400, 4000,
 				11000, 15000, 19000 }, 0, 3600, logic));
-		fields[17] = this.newEventCardField(17); // new
-													// CardField("Ereigniskarte",
-													// 17,
-													// this.state.getEventCards(),
-													// this.logic);
+		fields[17] = this.newEventCardField(17);
 		fields[18] = streets[3].addField(new Street("Yavin 4 - Massassi Tempel", 18, new int[] { 280, 1400, 4000,
 				11000, 15000, 19000 }, 0, 3600, logic));
 		fields[19] = streets[3].addField(new Street("Yavin 4 - TempelThronsaal", 19, new int[] { 320, 1600, 4400,
