@@ -25,31 +25,40 @@ import javax.swing.JPanel;
 
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
+import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.logic.state.fields.Field;
 
 public class GameFieldPiece extends JPanel {
-	
+
 	private FieldDrawer drawer;
 	private Field field;
 	private JPanel colorTop;
+	private JLabel text;
 
 	public GameFieldPiece(Field field, String name, int position, Image image) {
-		
 	}
-	
+
 	public GameFieldPiece(Field field) {
-		//this.drawer = FieldDrawer.getDrawer(field); 
-		this.setLayout(new GameFieldPieceLayout());
+		if (this.getComponentCount()>0) {
+			remove(text);
+			remove(colorTop);
+		}
+		// this.drawer = FieldDrawer.getDrawer(field);
 		this.field = field;
 		colorTop = new JPanel();
-		if(!(this.field.getColorGroup()<0)){
-			colorTop.setBackground(StreetColor.getBackGroundColor(this.field.getColorGroup()));
+		if (!(this.field.getColorGroup() < 0)) {
+			colorTop.setBackground(StreetColor.getBackGroundColor(this.field
+					.getColorGroup()));
 			this.add(colorTop);
 		}
-		this.add(new JLabel(field.getName()));
+		text = new JLabel("<html>" + field.getName());
+		//text = new JLabel("<html>" + "test");
+		text.setLayout(new FontLayout());
+		this.add(text);
+		this.setLayout(new GameFieldPieceLayout());
 	}
-	
-	public void setField(Field field){
+
+	public void setField(Field field) {
 		this.field = field;
 	}
 
