@@ -18,7 +18,6 @@
 package org.ojim.client.ai.commands;
 
 import org.ojim.client.SimpleClient;
-import org.ojim.client.ai.AIClient;
 import org.ojim.logic.Logic;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -32,8 +31,7 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class OutOfPrisonCommand extends SimpleClient implements Command {
 
-	AIClient client;
-	int playerID;
+	private boolean useCard;
 
 	/**
 	 * 
@@ -46,21 +44,18 @@ public class OutOfPrisonCommand extends SimpleClient implements Command {
 	 * @param playerId
 	 *            The client's ID
 	 */
-	public OutOfPrisonCommand(Logic logic, IServer server, int playerId) {
+	public OutOfPrisonCommand(Logic logic, IServer server, int playerId,
+			boolean useCard) {
 		super(logic, playerId, server);
-		this.playerID = playerId;
 	}
 
 	@Override
 	public void execute() {
-		if (this.getNumberOfGetOutOfJailCards(playerID) > 0) {
-//			this.
+		if (useCard && this.getNumberOfGetOutOfJailCards(getPlayerId()) > 0) {
+			useGetOutOfJailCard();
+		} else {
+			payFine();
 		}
-		else {
-			
-		}
-
-		
 	}
 
 }

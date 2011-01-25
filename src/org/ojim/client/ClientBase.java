@@ -25,6 +25,7 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
 import org.ojim.client.triggers.OnBuy;
+import org.ojim.client.triggers.OnAuction;
 import org.ojim.client.triggers.OnCardPull;
 import org.ojim.client.triggers.OnCashChange;
 import org.ojim.client.triggers.OnConstruct;
@@ -34,8 +35,10 @@ import org.ojim.client.triggers.OnMessage;
 import org.ojim.client.triggers.OnMortgageToogle;
 import org.ojim.client.triggers.OnMove;
 import org.ojim.client.triggers.OnStartGame;
+import org.ojim.client.triggers.OnNewPlayer;
 import org.ojim.client.triggers.OnTrade;
 import org.ojim.client.triggers.OnTurn;
+import org.ojim.client.triggers.OnPlayerLeft;
 import org.ojim.iface.IClient;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
@@ -387,9 +390,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informAuction(int auctionState) {
-		// TODO Auto-generated method stub
-
-		this.onAuction(auctionState);
+		this.executor.execute(new OnAuction(this, auctionState));
 	}
 
 	public abstract void onAuction(int auctionState);
@@ -402,7 +403,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		if (this.getPlayerId() == player.getId()) {
 			this.setMyPlayer(player);
 		}
-		this.onNewPlayer(player);
+		this.executor.execute(new OnNewPlayer(this, player));
 	}
 
 	public abstract void onNewPlayer(Player player);
@@ -410,7 +411,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public final void informPlayerLeft(int playerId) {
 		Player old = this.getGameState().getPlayerByID(playerId);
 		this.getGameState().removePlayer(old);
-		this.onPlayerLeft(old);
+		this.executor.execute(new OnPlayerLeft(this, old));
 	}
 	
 	public abstract void onPlayerLeft(Player player);

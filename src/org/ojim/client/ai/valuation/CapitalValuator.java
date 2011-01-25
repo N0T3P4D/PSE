@@ -83,7 +83,7 @@ public final class CapitalValuator extends ValuationFunction {
 
 		if (currentPlayer.getBalance() - amount >= required) {
 			logger.log(Level.INFO, "Granted");
-			return 1;
+			return 0;
 		} else {
 			logger.log(Level.INFO, "Denied");
 			return -1;

@@ -52,14 +52,16 @@ public class MortgageCommand extends SimpleClient implements Command {
 	 *            Position to toggle
 	 */
 
-	public MortgageCommand(Logic logic, IServer server, int playerId, int position) {
+	public MortgageCommand(Logic logic, IServer server, int playerId,
+			int position) {
 		super(logic, playerId, server);
 		this.position = position;
 	}
 
 	@Override
 	public void execute() {
-		BuyableField field = (BuyableField) this.getLogic().getGameState().getFieldAt(position);
+		BuyableField field = (BuyableField) getLogic().getGameState()
+				.getFieldAt(position);
 		if (field.isMortgaged()) {
 			field.setMortgaged(true);
 		} else {
