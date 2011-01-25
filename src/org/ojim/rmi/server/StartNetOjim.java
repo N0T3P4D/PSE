@@ -17,8 +17,11 @@
 package org.ojim.rmi.server;
 
 import java.rmi.Naming;
+import java.rmi.NotBoundException;
+import java.rmi.RemoteException;
 import java.rmi.registry.LocateRegistry;
 import java.rmi.registry.Registry;
+import java.rmi.server.UnicastRemoteObject;
 
 public class StartNetOjim {
 	
@@ -74,22 +77,20 @@ public class StartNetOjim {
 	/**
 	 * Beendet die gestartete Registry
 	 */
-    /*
-	public void endRegistry(){
+    
+	public void endRegistry(ImplNetOjim ojimServer){
 		
     	
     	try {
-			//Registry registry = LocateRegistry.getRegistry();
-			this.reg.unbind("myServer");
-			UnicastRemoteObject.unexportObject(this, true);
+			Registry registry = LocateRegistry.getRegistry();
+			registry.unbind("myServer");
+			UnicastRemoteObject.unexportObject(ojimServer, true);
 			//this.shutdown(true);
-			UnicastRemoteObject.unexportObject(this.reg, true);
-			this.reg = null;
+			UnicastRemoteObject.unexportObject(registry, true);
+			registry = null;
 			
 			
-			
-			
-		} catch (RemoteException e) {
+			} catch (RemoteException e) {
 			
 			System.out.println("Es wurde keine Registry gestartet!");
 		} catch (NotBoundException e) {
@@ -99,7 +100,7 @@ public class StartNetOjim {
 		}
     	
     	
-    }*/
+    }
 	
 
 }
