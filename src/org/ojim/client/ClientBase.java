@@ -393,4 +393,9 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	}
 	
 	public abstract void onPlayerLeft(Player player);
+	
+	@Override
+	public void setPlayerId(int newId) {
+		this.setPlayerId(newId);
+	}
 }

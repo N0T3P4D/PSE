@@ -67,6 +67,10 @@ public class SimpleClient {
 	protected Logic getLogic() {
 		return this.logic;
 	}
+	
+	protected void setPlayerId(int id) {
+		this.playerId = id;
+	}
 
 	protected GameState getGameState() {
 		return this.logic.getGameState();

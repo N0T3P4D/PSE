@@ -580,6 +580,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 						state.getRules().startMoney, i, i, client);
 				state.setPlayer(newPlayer);
 				this.connectedClients++;
+				client.setPlayerId(newPlayer.getId());
 				display("Player with id:" + i + " added!");
 				
 				//Inform all Players except the new one that a new Player is there
