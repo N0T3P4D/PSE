@@ -1,4 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -18,14 +19,15 @@ package org.ojim.iface;
 
 /**
  * Minimales Regelset.
- * @author Fabian Neundorf
  */
-public final class Rules {
-
+public class Rules {
+	
 	/** Das verfügbare Startgeld. */
 	public final int startMoney;
 	/** Wie viel Geld man beim ziehen über Los bekommt. */
 	public final int goMoney;
+	/**Maximale Anzahl von Häusern auf einer Strasse. Der Maximalwert ist dann gleichzeitig ein Hotel */
+	public final int maxNumOfHouses;
 	/** Wenn wahr, bekommt man doppelt so viel Geld, wenn man auf Los zum stehen kommt. */
 	public final boolean doubleMoneyOnGo;
 	/** Wenn wahr, erlaubt das Handeln mit Geld. */
@@ -34,13 +36,16 @@ public final class Rules {
 	public final boolean auctionActive;
 	/** Wenn wahr, bekommt man auf den Feld Frei-Parken das Geld aus der Mitte. */
 	public final boolean moneyOnFreeParking;
-
+	
+	
+	
 	/**
 	 * Erstellt ein Regelsatz nach den Parametern.
 	 * @param startMoney 
 	 *            Das verfügbare Startgeld.
 	 * @param goMoney
-	 *            Die Menge des Geldes die man über Los bekommt.
+	 *            Die Menge des Geldes die man �ber Los bekommt.
+	 * @param maxNumOfHouses Maximale Bebaungsstufe auf einem Feld.
 	 * @param doubleMoneyOnGo
 	 *            Wenn wahr, bekommt man doppelt so viel Geld, wenn man auf Los zum stehen kommt.
 	 * @param tradesWithMoney
@@ -50,9 +55,10 @@ public final class Rules {
 	 * @param moneyOnFreeParking
 	 *            Wenn wahr, bekommt man auf den Feld Frei-Parken das Geld aus der Mitte.
 	 */
-	public Rules(int startMoney, int goMoney, boolean doubleMoneyOnGo, boolean tradesWithMoney, boolean auctionActive, boolean moneyOnFreeParking) {
+	public Rules(int startMoney, int goMoney, int maxNumOfHouses, boolean doubleMoneyOnGo, boolean tradesWithMoney, boolean auctionActive, boolean moneyOnFreeParking) {
 		this.startMoney = startMoney;
 		this.goMoney = goMoney;
+		this.maxNumOfHouses = maxNumOfHouses;
 		this.doubleMoneyOnGo = doubleMoneyOnGo;
 		this.tradesWithMoney = tradesWithMoney;
 		this.auctionActive = auctionActive;
@@ -63,6 +69,6 @@ public final class Rules {
 	 * Standardregeln nach den Regelwerk eines offiziellen Spiels.
 	 */
 	public Rules() {
-		this(30000, 4000, false, true, true, false);
+		this(30000, 4000, 5, false, true, true, false);
 	}
 }

@@ -143,7 +143,8 @@ public interface IClient {
 	 * @param text
 	 *            Der Text der Chat Nachricht.
 	 * @param sender
-	 *            Der Sender der Nachricht. Ist -1, wenn der Server der Sender ist.
+	 *            Der Sender der Nachricht. Ist -1, wenn der Server der Sender
+	 *            ist.
 	 * @param privateMessage
 	 *            Ist wahr, wenn es sich um eine private Nachricht handelt.
 	 */
@@ -182,4 +183,22 @@ public interface IClient {
 	 * @since SVN revision 13.
 	 */
 	void informMove(int playerId, int position);
+
+	/**
+	 * Informiert den Spieler, dass ein neuer Spieler sich verbunden hat.
+	 * 
+	 * @param playerId
+	 *            Der neue Spieler.
+	 * @since SVN revision 16.
+	 */
+	void informNewPlayer(int playerId);
+
+	/**
+	 * Informiert den Spieler, dass sich ein Spieler getrennt hat.
+	 * 
+	 * @param playerId
+	 *            Der ehemalige Spieler.
+	 * @since SVN revision 16.
+	 */
+	void informPlayerLeft(int playerId);
 }
