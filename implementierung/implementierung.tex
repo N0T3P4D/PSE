@@ -84,7 +84,7 @@ Feature X ist wegen ... noch nicht voll funktionsfÃ¤hig
 \begin{itemize}
 \item interface NetClient extends Remote : spezifiziert alle Methoden die über das Netzwerk vom Server aufgerufen werden können 
 \item ImplNetClient extends UnicastRemoteObject implements NetOjim: implementiert die Methoden des Interfaces
-\item StartNetClient 
+\item StartNetClient Startet einen neuen Client und holt sich eine Referenz vom Namendienst der im Server gestartet wurde
 \end{itemize}
 
 
