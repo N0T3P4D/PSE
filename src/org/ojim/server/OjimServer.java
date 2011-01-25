@@ -126,6 +126,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * TODO private?
 	 */
 	Logger logger;
+	
+	private boolean initComplete = false;
 
 	/**
 	 * Creates a new Server. Has to be opened by initGame(int,int)
@@ -150,6 +152,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 */
 	public boolean initGame(int playerCount, int aiCount) {
 
+		this.initComplete = false;
 		if (isOpen) {
 			return false;
 		}
@@ -183,6 +186,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		logger.log(Level.CONFIG, "All AI clients added");
 		// Open the Game
 		isOpen = true;
+		initComplete = true;
+		if(checkAllPlayersReady()) {
+			this.startGame();
+		}
 		return true;
 	}
 
@@ -547,20 +554,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				+ connectedClients);
 		// Are all players Ready? then start the game
 		// AI "test" client doesn't set itself ready, ignore it
-		if (this.connectedClients == this.maxClients) {
-			for (Player player : state.getPlayers()) {
-				// Check if the Player is ready
-				if (!player.getIsReady()) {
-					// AI Clients don't need to be set to ready
-					if (player instanceof ServerPlayer
-							&& !(((ServerPlayer) player).getClient() instanceof AIClient)) {
-						return;
-					}
-				}
-			}
-		}
+		if(checkAllPlayersReady()) {
 		// If all (non-AI) Players are ready, start the Game
 		startGame();
+		}
 		/*
 		 * if (this.connectedClients == aiClients.length) { for (int i = 0; i <
 		 * connectedClients; i++) {
@@ -570,6 +567,23 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		 * " is not ready!"); return; } } display("Starting Game!"); // All
 		 * Players are ready, the Game can be started now startGame(); }
 		 */
+	}
+	
+	private boolean checkAllPlayersReady() {
+		if (this.connectedClients == this.maxClients && initComplete) {
+			for (Player player : state.getPlayers()) {
+				// Check if the Player is ready
+				if (!player.getIsReady()) {
+					// AI Clients don't need to be set to ready
+					if (player instanceof ServerPlayer
+							&& !(((ServerPlayer) player).getClient() instanceof AIClient)) {
+						return false;
+					}
+				}
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/**
