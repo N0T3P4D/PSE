@@ -40,7 +40,7 @@ public final class OJIMLogger {
 		assert (logger != null);
 		logger.setLevel(Level.CONFIG);
 		logger.setUseParentHandlers(false);
-		if (consoleHandler == null) {
+		/*if (consoleHandler == null) {
 			consoleHandler = new ConsoleHandler();
 		}
 		if (formatter == null) {
@@ -50,7 +50,7 @@ public final class OJIMLogger {
 		consoleHandler.setLevel(Level.CONFIG);
 		if (logger.getHandlers().length == 0) {
 			logger.addHandler(consoleHandler);
-		}
+		}*/
 	}
 
 	/**
