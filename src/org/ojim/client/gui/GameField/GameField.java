@@ -18,6 +18,8 @@
 package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -32,6 +34,41 @@ public class GameField extends JPanel {
 	
 	GameFieldPiece[] fields;
 	int fieldsAmount;
+	String selectedField;
+	
+	MouseListener mouseListener = new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			selectedField = e.getComponent().getName();
+			System.out.println(selectedField);
+			
+		}
+	};
 	
 	public GameField() {
 		
@@ -105,6 +142,7 @@ public class GameField extends JPanel {
 			}*/
 			actualLabel.setName(i+"");
 			actualLabel.setBorder(new LineBorder(Color.black,1));
+			actualLabel.addMouseListener(mouseListener);
 			this.add(actualLabel);
 		}
 	}
