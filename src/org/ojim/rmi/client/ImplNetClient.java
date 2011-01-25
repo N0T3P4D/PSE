@@ -33,7 +33,14 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 		super();
 		this.clientBase = clientBase;
 		this.details = details;
-		
+	}
+	
+	public ImplNetClient(ClientBase clientBase) {
+		try {
+			this(clientBase, details);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 	
 	public void createClientRMIConnection(int portNum,String ip){
