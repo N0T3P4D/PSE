@@ -566,4 +566,10 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 		
 	}
 
+	@Override
+	public void setPlayerId(int newId) throws RemoteException {
+		this.clientBase.setPlayerId(newId);
+		
+	}
+
 }

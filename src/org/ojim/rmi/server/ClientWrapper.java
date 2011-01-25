@@ -30,104 +30,217 @@ public class ClientWrapper implements IClient {
 
 	@Override
 	public String getLanguage() {
-		// TODO Auto-generated method stub
-		return null;
+		String temp = "";
+		try {
+			return this.sink.getLanguage();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public void informStartGame(int[] ids) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informStartGame(ids);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	
 
 	}
 
 	@Override
 	public void informTurn(int player) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informTurn(player);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informDiceValues(int[] diceValues) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informDiceValues(diceValues);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informCashChange(int player, int cashChange) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informCashChange(player, cashChange);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informBuy(int player, int position) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informBuy(player, position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informConstruct(int street) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informConstruct(street);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informDestruct(int street) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informDestruct(street);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informMortgageToogle(int street) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informMortgageToogle(street);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	
 
 	}
 
 	@Override
 	public void informCardPull(String text, boolean communityCard) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informCardPull(text, communityCard);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informBankruptcy() {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informBankruptcy();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informMessage(String text, int sender, boolean privateMessage) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informMessage(text, sender, privateMessage);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informTrade(int actingPlayer, int partnerPlayer) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informTrade(actingPlayer, partnerPlayer);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informAuction(int auctionState) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informAuction(auctionState);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informMove(int playerId, int position) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informMove(playerId, position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informNewPlayer(int playerId) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informNewPlayer(playerId);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
 	}
 
 	@Override
 	public void informPlayerLeft(int playerId) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.sink.informPlayerLeft(playerId);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 
+	}
+
+	@Override
+	public void setPlayerId(int newId) {
+		
+		try {
+			this.sink.setPlayerId(newId);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
+		
 	}
 
 }
