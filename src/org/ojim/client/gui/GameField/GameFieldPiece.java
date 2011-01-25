@@ -29,7 +29,9 @@ import javax.swing.border.LineBorder;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
 import org.ojim.client.gui.OLabel.FontLayout;
+import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Street;
 
 public class GameFieldPiece extends JPanel {
 
@@ -45,11 +47,11 @@ public class GameFieldPiece extends JPanel {
 	}
 
 	public GameFieldPiece(Field field) {
-		if (this.getComponentCount()>0) {
+		if (this.getComponentCount() > 0) {
 			remove(textPanel);
 			remove(colorTop);
 		}
-		
+
 		textPanel = new JPanel();
 		// this.drawer = FieldDrawer.getDrawer(field);
 		this.field = field;
@@ -59,12 +61,29 @@ public class GameFieldPiece extends JPanel {
 					.getColorGroup()));
 			this.add(colorTop);
 		}
-		name = new JLabel("<html>" + field.getName());
 
+		try {
+			group = new JLabel("<html>" + ((Street) field).getFieldGroup().getName());
+
+			group.setLayout(new FontLayout());
+			textPanel.add(group);
+		} catch (ClassCastException e) {
+
+		}
+		
+		name = new JLabel("<html>" + field.getName());
 		name.setLayout(new FontLayout());
 		textPanel.add(name);
-		//text = new JLabel("<html>" + "test");
-		textPanel.setLayout(new GridLayout(0,1));
+		try {
+			price = new JLabel("<html>" + ((BuyableField) field).getPrice());
+
+			price.setLayout(new FontLayout());
+			textPanel.add(price);
+		} catch (ClassCastException e) {
+
+		}
+		// text = new JLabel("<html>" + "test");
+		textPanel.setLayout(new GridLayout(0, 1));
 		this.add(textPanel);
 		this.setLayout(new GameFieldPieceLayout());
 		this.setBackground(Color.white);

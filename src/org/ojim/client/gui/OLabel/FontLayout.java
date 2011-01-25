@@ -57,11 +57,11 @@ public class FontLayout implements LayoutManager {
 		int totalWidth = parent.getWidth();
 		int totalHeight = parent.getHeight();
 		
-		int maxSize = totalWidth < totalHeight ? totalWidth : totalHeight;
+		int maxSize = totalWidth < totalHeight ? totalWidth : (int)(totalWidth-(totalWidth-totalHeight)/2);
 		
 		JLabel label = (JLabel) parent;
 		
-		int fontSize = (int)(maxSize/5.0f);
+		int fontSize = (int)(maxSize/6.0f);
 		
 		label.setFont(new Font(null, nComps, fontSize));
 		
