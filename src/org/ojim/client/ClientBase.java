@@ -27,6 +27,7 @@ import java.util.concurrent.Executors;
 import org.ojim.client.triggers.OnBuy;
 import org.ojim.client.triggers.OnAuction;
 import org.ojim.client.triggers.OnCardPull;
+import org.ojim.client.triggers.OnBankruptcy;
 import org.ojim.client.triggers.OnCashChange;
 import org.ojim.client.triggers.OnConstruct;
 import org.ojim.client.triggers.OnDestruct;
@@ -217,7 +218,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informBankruptcy() {
-		this.onBankruptcy();
+		this.executor.execute(new OnBankruptcy(this));
 	}
 	
 	public abstract void onBankruptcy();
