@@ -246,7 +246,7 @@ public class SimpleClient implements Serializable {
 			this.server.toggleMortgage(this.playerId, street.getPosition());
 		}
 	}
-
+	
 	protected final void sendMessage(String text) {
 		this.server.sendMessage(text, this.playerId);
 	}
@@ -257,6 +257,10 @@ public class SimpleClient implements Serializable {
 	
 	protected final void payFine() {
 		this.server.payFine(this.playerId);
+	}
+	
+	protected final void useGetOutOfJailCard() {
+		this.server.useGetOutOfJailCard(this.playerId);
 	}
 	
 	/*
