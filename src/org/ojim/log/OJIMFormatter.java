@@ -48,6 +48,9 @@ public class OJIMFormatter extends Formatter {
 		}
 		return (formatDate(record) + ": [" + record.getLevel() + "] " + record.getSourceClassName() + "."
 				+ record.getSourceMethodName() + "(): " + record.getMessage() + '\n');
+//		return (formatDate(record) + ": [" + record.getLevel() + "] " + record.getLoggerName() + "."
+//		+ record.getSourceMethodName() + "(): " + record.getMessage() + '\n');
+		
 	}
 
 	private String formatDate(LogRecord record) {
