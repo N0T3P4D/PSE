@@ -17,14 +17,18 @@
 
 package org.ojim.client.ai.valuation;
 
+import java.util.logging.Level;
+
+import org.ojim.logic.state.fields.Jail;
+
 /**
  * 
  * @author Jeremias
- *
+ * 
  */
 public final class PrisonValuator extends ValuationFunction {
 
-	private PrisonValuator() {
+	protected PrisonValuator() {
 	}
 
 	/**
@@ -38,8 +42,14 @@ public final class PrisonValuator extends ValuationFunction {
 
 	@Override
 	public double returnValuation() {
-		// TODO Auto-generated method stub
-		return 0;
+		getLogger();
+		logger.log(Level.INFO, "");
+		if (getGameState().getFieldAt(
+				getGameState().getActivePlayer().getPosition()) instanceof Jail) {
+			return 1;
+		} else {
+			return 0;
+		}
 	}
 
 }
