@@ -41,103 +41,18 @@ import org.ojim.server.OjimServer;
  */
 public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	
-	private Registry reg;
-	
-	private ServerDetails serverDetails;
 	
 	private NetClient netClient;
 	
 	private OjimServer server;
 	
-	//Speichert alle Clients
-	private Vector <ClientWrapper> clientList;
-
-	public ImplNetOjim(Registry reg, ServerDetails serverDetails, OjimServer server, NetClient netClient) throws RemoteException {
+	public ImplNetOjim(OjimServer server, NetClient netClient) throws RemoteException {
 		super();
-		this.reg = reg;
-		this.serverDetails = serverDetails;
-		//clientList = new Vector();
+	
 		this.server = server;
 		this.netClient = netClient;
 	}
 	
-	
-	
-
-	/**
-	 * Klasse verwaltet eine Instanz des Remote Objektes , welches unter einem 
-     * festgelegten Namen über das Netzwerk erreichbar ist
-	 * Netzwerk Objekt wird bei dem lokalen Namendienst registriert, portReg und
-	 * portStub müssen von der lokalen Firewall und der Hardware Firewall
-	 * (Router) freigegeben werden. Bitte Achten Sie auch darauf, dass
-	 * Ports die schon von ihrem Betriebssystem benutzt werden, nicht für ihren Server 
-	 * benutzt werden können. Eine Liste mit den Standardports die von ihrem Betriebssystem
-	 * verwendet werden, finden Sie auf http://en.wikipedia.org/wiki/List_of_TCP_and_UDP_port_numbers. 
-	 *  
-	 * 
-	 * @param portReg Port für die lokale Registry
-	 * 
-	 * @param portStub Port für das exportieren des Objekts
-	 * 
-	 * @param ip ip Adresse unter welcher der Namendienst erreichbar ist
-	 */
-	public void createBufferServer(int portReg,int ip){
-		
-	System.out.println("Server wird eingerichtet...");
-	
-	try {
-	    
-		
-	    //NetOjim stub = (NetOjim) UnicastRemoteObject.exportObject(this,portStub );
-	    //*reg = LocateRegistry.createRegistry(portReg);
-	    // Bind the remote object's stub in the registry
-	    //Registry registry = LocateRegistry.getRegistry();
-	    //reg.bind("myServer", stub);
-	    //*reg.bind("myServer", this);
-		 Registry registry = LocateRegistry.createRegistry(portReg);
-		 registry.list( );  
-		
-		String registryURL = "rmi://"+ip+":" + portReg + "/myServer";
-	    Naming.rebind(registryURL, this);
-	    
-	    System.err.println("Server ist bereit");
-	} catch (Exception e) {
-	    System.err.println("Server exception: " + e.toString());
-	    e.printStackTrace();
-	}
-	
-	}
-	
-	/**
-	 * Beendet die gestartete Registry
-	 */
-    public void endRegistry(){
-		
-    	
-    	try {
-			//Registry registry = LocateRegistry.getRegistry();
-			this.reg.unbind("myServer");
-			UnicastRemoteObject.unexportObject(this, true);
-			//this.shutdown(true);
-			UnicastRemoteObject.unexportObject(this.reg, true);
-			this.reg = null;
-			
-			
-			
-			
-		} catch (RemoteException e) {
-			
-			System.out.println("Es wurde keine Registry gestartet!");
-		} catch (NotBoundException e) {
-			System.out.println("Es ist kein Objekt in der Registry registriert,"+"\n"+
-					"somit kann auch kein Remote Objekt von der Registry abgemeldet werden!");
-			
-		}
-    	
-    	
-    }
-	
-
 	
 	public int getPlayerPiecePosition(int playerID) {
 		return this.server.getPlayerPiecePosition(playerID);

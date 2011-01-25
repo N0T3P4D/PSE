@@ -34,26 +34,7 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 		
 	}
 	
-	public void createClientRMIConnection(int portNum,String ip){
-		 
-		String registryURL = "rmi://"+ip+":" + portNum + "/myServer"; 
-		 try {
-			this.server =(NetOjim)Naming.lookup(registryURL);
-			NetClient clientInter = this;
-			this.server.registerClient(clientInter);
-			System.out.println("Client wurde beim Server angemeldet");
-			
-		} catch (MalformedURLException e) {
-			e.printStackTrace();
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		} catch (NotBoundException e) {
-			e.printStackTrace();
-		}
-	}
 	
-	
-
 	@Override
 	public int getPlayerPiecePosition(int playerID) {
 		int temp=0;
