@@ -82,12 +82,12 @@ public class OJIMLayout implements LayoutManager {
 				parent.setSize(parent.getHeight(), parent.getHeight());
 			} else if (restWidth > parent.getHeight() * 1.5) {
 				System.out.println("Seitenverhältnis korrigiert.");
-				parent.getFocusCycleRootAncestor().setSize((int)(1.5*parent.getHeight()),
-						parent.getHeight());
+				parent.getFocusCycleRootAncestor().setSize(
+						(int) (1.5 * parent.getHeight()), parent.getHeight());
 				parent.setSize(parent.getHeight(), parent.getHeight());
 			} else {
 				if (c.isVisible()) {
-					//Dimension d = c.getPreferredSize();
+					// Dimension d = c.getPreferredSize();
 
 					switch (i) {
 					case 0:

@@ -72,7 +72,6 @@ public class PlayerInfoWindow extends JPanel {
 
 	public void addPlayer(Player player, int cash) {
 		//System.out.println("addPlayer");
-		System.out.println(""+findPlayer(player));
 		if (findPlayer(player) == -1) {
 			//System.out.println(player.getId()+" nicht gefunden");
 			for (int i = 0; i < MAX_PLAYERS; i++) {
@@ -95,7 +94,7 @@ public class PlayerInfoWindow extends JPanel {
 			if(playerInfoFields[i] != null){
 				this.add(playerInfoFields[i]);
 			}
-			System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
+			//System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
 		}
 	}
 

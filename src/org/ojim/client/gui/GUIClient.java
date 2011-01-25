@@ -180,7 +180,7 @@ public class GUIClient extends ClientBase {
 			
 			OjimServer server = new OjimServer("Philip");
 			
-			server.initGame(1, 0);
+			server.initGame(8, 7);
 			
 			connect(server);
 			
@@ -233,7 +233,7 @@ public class GUIClient extends ClientBase {
 			
 			//System.out.println("Es gibt "+this.getGameState().getPlayers().length+" Spieler.");
 			for(int i = 0; this.getGameState().getPlayers().length > i; i++){
-				System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
+				//System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
 				this.playerInfoWindow.addPlayer(this.getGameState().getPlayers()[i], this.getGameState().getPlayers()[i].getBalance());
 			}
 

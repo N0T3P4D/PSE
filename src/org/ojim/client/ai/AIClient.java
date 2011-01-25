@@ -17,6 +17,7 @@
 
 package org.ojim.client.ai;
 
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ojim.log.OJIMLogger;
@@ -76,56 +77,70 @@ public class AIClient extends ClientBase {
 	@Override
 	public void onTurn(Player player) {
 		// assert (player == super)
-		logger.log(Level.INFO, "Inform turn for client " + player.getName()
-				+ " (id: " + player.getId() + ")");
-		logger.log(Level.INFO, "ID " + getPlayerId() + " Position is "
-				+ this.getGameState().getActivePlayer().getPosition());
-		this.rollDice();
-		int position = getGameState().getActivePlayer().getPosition();
-		count++;
-		logger.log(
-				Level.INFO,
-				"ID " + getPlayerId() + " Move "
-						+ count
-						+ " New position is "
-						+ position
-						+ " with name "
-						+ getLogic().getGameState()
-								.getFieldAt(Math.abs(position)).getName());
-		if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
-			logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
-			assert(getGameState().getActivePlayer().getId() == getPlayerId());
-			valuator.returnBestCommand(position).execute();
+		logger.log(Level.INFO, this.log("onTurn(" + this.getPlayerInfo(player) + ")"));
+		// My turn
+		if (player.equals(this.getMe())) {
+			logger.log(Level.INFO, "ID " + getPlayerId() + " Position is "
+					+ this.getGameState().getActivePlayer().getPosition());
+			this.rollDice();
+			int position = getGameState().getActivePlayer().getPosition();
+			count++;
+			logger.log(
+					Level.INFO,
+					"ID " + getPlayerId() + " Move "
+							+ count
+							+ " New position is "
+							+ position
+							+ " with name "
+							+ getLogic().getGameState()
+									.getFieldAt(Math.abs(position)).getName());
+			if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
+				logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
+				assert(getGameState().getActivePlayer().getId() == getPlayerId());
+				valuator.returnBestCommand(position).execute();
+			}
+			endTurn();
 		}
-		endTurn();
+	}
+	
+	private String log(String call) {
+		return "Call (@" + this.getPlayerId() + ") " + call;
+	}
+	
+	private String getPlayerInfo(Player player) {
+		return player.getName() + " [id: " + player.getId() + "]"; 
 	}
 
+	private String getStreetInfo(Field field) {
+		return field.getName() + " [@: " + field.getPosition() + "]";
+	}
+	
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		logger.log(Level.INFO, "Call onCashChange! Amount = " + cashChange
+		this.log("onCashChange! Amount = " + cashChange
 				+ " New cash = "
 				+ getGameState().getActivePlayer().getBalance());
 	}
 
 	@Override
 	public void onMessage(String text, Player sender, boolean privateMessage) {
-		logger.log(Level.INFO, "Call onMessage!");
+		logger.log(Level.INFO, this.log("onMessage(From: " + this.getPlayerInfo(sender) + " Message: " + text + " Private: " + privateMessage + "!"));
 	}
 
 	@Override
 	public void onTrade(Player actingPlayer, Player partnerPlayer) {
-		logger.log(Level.INFO, "Call onTrade!");
+		logger.log(Level.INFO, this.log("onTrade(" + this.getPlayerInfo(actingPlayer) + " -> " + this.getPlayerInfo(partnerPlayer) + ")!"));
 	}
 
 	@Override
 	public void onMove(Player player, int position) {
-
+		logger.log(Level.INFO, this.log("onMove(" + this.getPlayerInfo(player) + ", " + position + ")!"));
 	}
 
 	@Override
 	public void onBuy(Player player, BuyableField position) {
 		// assert (position.getOwner() != null);
-		logger.log(Level.INFO, "Call onBuy!");
+		logger.log(Level.INFO, this.log("onBuy(" + this.getPlayerInfo(player) + ", " + this.getStreetInfo(position) + ")!"));
 	}
 
 	private boolean isPrison(int position) {
@@ -142,41 +157,45 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onBankruptcy() {
-		logger.log(Level.INFO, "Call onBankruptcy!");
+		logger.log(Level.INFO, this.log("onBankruptcy()!"));
 	}
 
 	@Override
 	public void onCardPull(String text, boolean communityCard) {
-		logger.log(Level.INFO, "Call onCardPull!");
+		logger.log(Level.INFO, this.log("onCardPull(" + text + ", " + (communityCard ? "comm" : "event") + "!"));
 	}
 
 	@Override
 	public void onConstruct(Street street) {
-		logger.log(Level.INFO, "Call onConstruct!");
+		logger.log(Level.INFO, this.log("onConstruct(" + this.getStreetInfo(street) + ")!"));
 	}
 
 	@Override
 	public void onDestruct(Street street) {
-		logger.log(Level.INFO, "Call onDestruct!");
+		logger.log(Level.INFO, this.log("onDestruct(" + this.getStreetInfo(street) + ")!"));
 	}
 
 	@Override
 	public void onDiceValues(int[] diceValues) {
-		logger.log(Level.INFO, "Call onDiceValues!");
+		logger.log(Level.INFO, this.log("onDiceValues(" + Arrays.toString(diceValues) + ")!"));
 	}
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
-		logger.log(Level.INFO, "Call onMortgageToogle!");
+		logger.log(Level.INFO, this.log("onMortgageToogle(" + this.getStreetInfo(street) + ")!"));
 	}
 
 	@Override
 	public void onStartGame(Player[] players) {
-		logger.log(Level.INFO, "ID " + getPlayerId() + " Call onStartGame!");
+		String[] names = new String[players.length];
+		for (int i = 0; i < players.length; i++) {
+			names[i] = this.getPlayerInfo(players[i]);
+		}
+		logger.log(Level.INFO, this.log("onStartGame(" + Arrays.toString(names) + ")!"));
 	}
 
 	@Override
 	public void onAuction(int auctionState) {
-		logger.log(Level.INFO, "Call onAuction!");
+		logger.log(Level.INFO, this.log("onAuction(" + auctionState + ")!"));
 	}
 }

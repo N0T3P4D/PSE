@@ -59,6 +59,10 @@ public class SimpleClient implements Serializable {
 		this.me = player;
 	}
 	
+	protected Player getMe() {
+		return this.me;
+	}
+	
 	protected Logic getLogic() {
 		return this.logic;
 	}
