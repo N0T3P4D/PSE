@@ -66,6 +66,7 @@ public class ChatWindow extends JPanel {
 		textPanel.setLayout(new GridLayout(1,0));
 		
 		JTextField textField = new JTextField("");
+		textField.setLayout(new FontLayout());
 
 		this.add(textPanel, new GridBagConstraints(0, 1, 2, 1, 1.0, 0.0,
 				GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,

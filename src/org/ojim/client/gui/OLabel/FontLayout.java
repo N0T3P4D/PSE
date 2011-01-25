@@ -8,6 +8,7 @@ import java.awt.LayoutManager;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.JTextField;
 
 public class FontLayout implements LayoutManager {
 
@@ -66,9 +67,15 @@ public class FontLayout implements LayoutManager {
 			int fontSize = (int) (maxSize / 6.0f);
 			label.setFont(new Font(null, nComps, fontSize));
 		} catch (ClassCastException e) {
+			try {
 			JButton label = (JButton) parent;
 			int fontSize = (int) (maxSize / 6.0f);
 			label.setFont(new Font(null, nComps, fontSize));
+			} catch (ClassCastException e2){
+				JTextField label = (JTextField) parent;
+				int fontSize = (int) (maxSize / 6.0f);
+				label.setFont(new Font(null, nComps, fontSize));				
+			}
 		}
 
 		/*
