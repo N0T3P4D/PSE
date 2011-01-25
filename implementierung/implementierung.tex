@@ -63,7 +63,7 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \subsection{Änderungen gegenüber dem Entwurf}
 \subsection{Entwurfsentscheidungen}
 
-\section OjimServer
+\section {OjimServer}
 \subsection{Allgemeines}
 \subsection {Änderungen gegenüber dem Entwurf}
 \begin{itemize}
@@ -73,6 +73,13 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \item Der Übersichtlichkeit halber wurden einige privaten Methoden eingefügt, beispielsweise
 \begin{itemize}
 \item private boolean checkAllPlayersReady()
+\item private boolean changeLevel(int playerId, int position, int levelChange)
 \end{itemize}
+\item Handel und Auktionen werden über eigene Klassen verwaltet
+\begin{itemize}
+\item Trade \\ Beinhaltet alle relevanten Handelsobjekte und kann einen Handel ausführen
+\item Auction \\ Beinhaltet alle relevanten Objekte für eine Auktion und kann eine Auktion selbstständig ausführen
+\end{itemize}
+\item Der Server beinhaltet nun Erweiterungen von GameState (ServerGameState) und Logic (ServerLogic), die Methoden beinhalten, welche Clienten nicht benötigen
 \end{itemize}
 \end{document}
