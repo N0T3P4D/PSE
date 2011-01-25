@@ -38,7 +38,9 @@ public class StreetColor {
 			// Straße 7
 			{ Color.green, Color.white },
 			// Straße 8
-			{ Color.blue, Color.white } };
+			{ Color.blue, Color.white } ,
+			// Mittelfeld
+			{ Color.black, Color.white } };
 
 	public static Color getBackGroundColor(int color) {
 		return colors[color][0];
