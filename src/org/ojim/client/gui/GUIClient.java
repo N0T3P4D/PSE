@@ -442,6 +442,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
+		System.out.println("Player has changed to "+player.getName());
 	}
 
 	@Override
