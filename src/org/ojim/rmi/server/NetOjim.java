@@ -81,18 +81,4 @@ public interface NetOjim extends Remote ,IServer {
 	 */
 	public int getMoneyToPay(int position) throws RemoteException;
 	
-	
-	
-	
-		
-	
-			
-
-
-	
-	
-		
-		
-	
-
 }
