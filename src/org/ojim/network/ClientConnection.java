@@ -22,6 +22,8 @@ package org.ojim.network;
 
 
 import java.rmi.RemoteException;
+
+import org.ojim.client.ClientBase;
 import org.ojim.rmi.client.ImplNetClient;
 import org.ojim.rmi.server.NetOjim;
 
@@ -35,7 +37,8 @@ import org.ojim.rmi.server.NetOjim;
  */
 public class ClientConnection {
 
-
+	
+	
 	public ClientConnection() {
 
 
@@ -52,18 +55,20 @@ public class ClientConnection {
 	 * 
 	 * @param ip ip Adresse des Servers
 	 * @param port port der Registry , die auf dem Server läuft
+	 * @param ClientBase Objekt
+	 * 
 	 * @return Remote Objekt 
 	 */
-	public NetOjim connect(String ip, int port) {
+	public NetOjim connect(String ip, int port, ClientBase clientBase) {
 		
 		NetOjim iServer = null;
 		
 		try {
-			ImplNetClient client = new ImplNetClient();
+			ImplNetClient client = new ImplNetClient(clientBase);
 			iServer = client.createClientRMIConnection(port,ip);
 		
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
+			
 			e.printStackTrace();
 		}
 
