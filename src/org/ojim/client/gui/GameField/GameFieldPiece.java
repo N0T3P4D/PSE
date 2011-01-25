@@ -81,8 +81,14 @@ public class GameFieldPiece extends JPanel {
 		textPanel.add(name);
 		try {
 			if(((BuyableField) field).getOwner()!=null){
-				/*
+				
+				price = new JLabel("<html>" + ((BuyableField) field).getOwner().getName());
+				//System.out.println("SOLD: "+field.getName());
+				//System.out.println(((BuyableField) field).getOwner().getId()+" - ID - "+field.getName());
 				textPanel.setBackground(PlayerColor
+						.getBackGroundColor(((BuyableField) field).getOwner()
+								.getColor()));
+				group.setBackground(PlayerColor
 						.getBackGroundColor(((BuyableField) field).getOwner()
 								.getColor()));
 				price.setBackground(PlayerColor
@@ -90,10 +96,18 @@ public class GameFieldPiece extends JPanel {
 								.getColor()));
 				name.setBackground(PlayerColor
 						.getBackGroundColor(((BuyableField) field).getOwner()
-								.getColor()));*/
-				price = new JLabel("<html> SOLD" + ((BuyableField) field).getOwner().getName());
-				System.out.println("SOLD: "+field.getName());
-				//System.out.println(((BuyableField) field).getOwner().getId()+" - ID - "+field.getName());
+								.getColor()));
+
+				group.setForeground(PlayerColor
+						.getFontColor(((BuyableField) field).getOwner()
+								.getColor()));
+				price.setForeground(PlayerColor
+						.getFontColor(((BuyableField) field).getOwner()
+								.getColor()));
+				name.setForeground(PlayerColor
+						.getFontColor(((BuyableField) field).getOwner()
+								.getColor()));
+				
 			} else {
 				//System.out.println("NOT SOLD: "+field.getName());
 				price = new JLabel("<html>" + ((BuyableField) field).getPrice());

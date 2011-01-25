@@ -24,10 +24,10 @@ import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.ojim.client.triggers.OnBuy;
 import org.ojim.client.triggers.OnAuction;
-import org.ojim.client.triggers.OnCardPull;
 import org.ojim.client.triggers.OnBankruptcy;
+import org.ojim.client.triggers.OnBuy;
+import org.ojim.client.triggers.OnCardPull;
 import org.ojim.client.triggers.OnCashChange;
 import org.ojim.client.triggers.OnConstruct;
 import org.ojim.client.triggers.OnDestruct;
@@ -35,11 +35,11 @@ import org.ojim.client.triggers.OnDiceValues;
 import org.ojim.client.triggers.OnMessage;
 import org.ojim.client.triggers.OnMortgageToogle;
 import org.ojim.client.triggers.OnMove;
-import org.ojim.client.triggers.OnStartGame;
 import org.ojim.client.triggers.OnNewPlayer;
+import org.ojim.client.triggers.OnPlayerLeft;
+import org.ojim.client.triggers.OnStartGame;
 import org.ojim.client.triggers.OnTrade;
 import org.ojim.client.triggers.OnTurn;
-import org.ojim.client.triggers.OnPlayerLeft;
 import org.ojim.iface.IClient;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
@@ -60,6 +60,8 @@ import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.logic.state.fields.TaxField;
 import org.ojim.rmi.client.ImplNetClient;
+import org.ojim.rmi.client.NetClient;
+import org.ojim.rmi.client.StartNetClient;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -182,11 +184,10 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	 */
 
 	protected final boolean connect(String host, int port) {
-//		IServer server = this.connection.connect(host, port);
-		ImplNetClient server;
 		try {
-			server = new ImplNetClient(this, null);
-			server.createClientRMIConnection(port, host);
+			ImplNetClient server = new ImplNetClient(this);
+			StartNetClient creator = new StartNetClient();
+			creator.createClientRMIConnection(port, host, server);
 			this.setParameters(server, this);		
 			this.loadGameBoard();
 		} catch (RemoteException e) {
@@ -378,6 +379,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		if (player != null) {
 			Field field = this.getGameState().getFieldAt(position);
 			if (field instanceof BuyableField) {
+				((BuyableField) field).buy(player);
 				this.executor.execute(new OnBuy(this, player, (BuyableField) field));
 			} else {
 				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informBuy with invalid position.");

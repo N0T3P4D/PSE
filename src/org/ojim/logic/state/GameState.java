@@ -94,14 +94,6 @@ public class GameState {
 		return this.players.get(playerID);
 	}
 	
-	//xZise: Klingt nach dem was es macht (siehe getFieldAt). Entweder jedes Feld durchgehen und ID checken oder entfernen.
-	public Field getFieldByID(int fieldID) {
-		if(fieldID >= FIELDS_AMOUNT) {
-			return null;
-		}
-		return fields[fieldID];
-	}
-	
 	public Field getFieldAt(int position) {
 		if(position >= FIELDS_AMOUNT) {
 			return null;

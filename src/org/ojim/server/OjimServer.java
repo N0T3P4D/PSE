@@ -706,7 +706,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getEstateHouses(int position) {
-		Field field = state.getFieldByID(position);
+		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof Street) {
 			return ((Street) field).getBuiltLevel();
 		}
@@ -715,7 +715,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getEstatePrice(int position) {
-		Field field = state.getFieldByID(position);
+		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof BuyableField) {
 			return ((BuyableField) field).getPrice();
 		}
@@ -724,7 +724,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getEstateRent(int position, int houses) {
-		Field field = state.getFieldByID(position);
+		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof Street) {
 			return ((Street) field).getRent(houses);
 		} else if (field != null && field instanceof BuyableField) {
@@ -744,7 +744,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public boolean isMortgaged(int position) {
-		Field field = state.getFieldByID(position);
+		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof BuyableField) {
 			return ((BuyableField) field).isMortgaged();
 		}
@@ -753,7 +753,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getOwner(int position) {
-		Field field = state.getFieldByID(position);
+		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof BuyableField) {
 			Player owner = ((BuyableField) field).getOwner();
 			if (owner != null) {

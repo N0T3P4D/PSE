@@ -73,7 +73,7 @@ public class GUIClient extends ClientBase {
 
 	JPanel pane = new JPanel(new OJIMLayout());
 	Localizer language;
-	
+
 	boolean haveIalreadyRolled = false;
 
 	private MenuState menuState;
@@ -202,6 +202,13 @@ public class GUIClient extends ClientBase {
 
 			rightWindow.add(button);
 
+			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
+				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
+				this.playerInfoWindow.addPlayer(this.getGameState()
+						.getPlayers()[i], this.getGameState().getPlayers()[i]
+						.getBalance());
+			}
+			
 			window.add(leftWindow);
 			window.add(rightWindow);
 
@@ -209,7 +216,7 @@ public class GUIClient extends ClientBase {
 			break;
 
 		case game:
-			System.out.println("Male das Spielfeld");
+			//System.out.println("Male das Spielfeld");
 
 			GUIFrame.remove(window);
 			GUIFrame.remove(pane);
@@ -238,8 +245,8 @@ public class GUIClient extends ClientBase {
 			playerInfoWindow = new PlayerInfoWindow(language);
 			chatWindow = new ChatWindow(language);
 
-			System.out.println("Es gibt "
-					+ this.getGameState().getPlayers().length + " Spieler.");
+			//System.out.println("Es gibt "
+			//		+ this.getGameState().getPlayers().length + " Spieler.");
 			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
 				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
 				this.playerInfoWindow.addPlayer(this.getGameState()
@@ -285,13 +292,13 @@ public class GUIClient extends ClientBase {
 					downRight.add(buyButton);
 				}
 			} catch (Exception e) {
-				System.out.println("Kein buyablefield");
+				//System.out.println("Kein buyablefield");
 			}
 
 			downRight.remove(rollButton);
 			try {
 				if (!haveIalreadyRolled &&
-						//getGameState().getActivePlayer().equals(getMe()) && 
+				// getGameState().getActivePlayer().equals(getMe()) &&
 						this.getGameState().getActivePlayerNeedsToRoll()) {
 
 					ActionListener rollListener = new ActionListener() {
@@ -328,7 +335,8 @@ public class GUIClient extends ClientBase {
 					downRight.add(rollButton);
 				}
 			} catch (NullPointerException e) {
-				System.out.println("Jemand anderes verschwendet unsere Zeit, Meister.");
+				System.out
+						.println("Jemand anderes verschwendet unsere Zeit, Meister.");
 			}
 			rollButton.setLayout(new FontLayout());
 
@@ -337,7 +345,7 @@ public class GUIClient extends ClientBase {
 			GUIFrame.add(pane);
 			GUIFrame.repaint();
 			GUIFrame.setVisible(true);
-			System.out.println("Spielfeld gemalt.");
+			//System.out.println("Spielfeld gemalt.");
 			break;
 
 		}
@@ -358,6 +366,10 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onBuy(Player player, BuyableField field) {
 		gameField.playerBuysField(player, field);
+
+
+		//System.out.println("Meista, da hat wer was gekauft!");
+		//draw();
 
 		// TODO if player = gui player => feld and cardBar schicken zum
 		// aufnehmen
@@ -396,7 +408,6 @@ public class GUIClient extends ClientBase {
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
 		gameField.playerMoves(this.getGameState().getFieldAt(position), player);
-		System.out.println("MOVE!");
 	}
 
 	@Override
@@ -431,6 +442,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
+		System.out.println("Player has changed to "+player.getName());
 	}
 
 	@Override
