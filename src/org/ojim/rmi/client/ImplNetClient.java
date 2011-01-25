@@ -10,7 +10,6 @@ import org.ojim.client.ClientBase;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
 import org.ojim.network.ClientDetails;
-import org.ojim.rmi.server.ImplNetOjim;
 import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -68,216 +67,391 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 
 	@Override
 	public int getPlayerPiecePosition(int playerID) {
+		int temp=0;
 		try {
-			return this.server.getPlayerPiecePosition(playerID);
+			temp = this.server.getPlayerPiecePosition(playerID);
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return 0;
+		return temp;
 	}
 
 	@Override
 	public int addPlayer(IClient client) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.addPlayer(client);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public void setPlayerReady(int player) {
-		// TODO Auto-generated method stub
+		try {
+			this.server.setPlayerReady(player);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public String getPlayerName(int player) {
-		// TODO Auto-generated method stub
-		return null;
+		String temp="";
+		
+		try {
+			temp = this.server.getPlayerName(player);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
+		
+		
 	}
 
 	@Override
 	public int getPlayerColor(int player) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getPlayerColor(player);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getTurnsInPrison(int playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getTurnsInPrison(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public Rules getRules() {
-		// TODO Auto-generated method stub
-		return null;
+		Rules temp=null;
+		try {
+			temp = this.server.getRules();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public String getEstateName(int position) {
-		// TODO Auto-generated method stub
-		return null;
+		String temp="";
+		try {
+			temp = this.server.getEstateName(position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getEstateColorGroup(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getEstateColorGroup(position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getEstateHouses(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getEstateHouses(position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getEstatePrice(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getEstatePrice(position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getEstateHousePrice(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getEstateHousePrice(position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getEstateRent(int position, int houses) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getEstateRent(position, houses);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public String getGameStatusMessage(int playerID) {
-		// TODO Auto-generated method stub
-		return null;
+		String temp="";
+		try {
+			temp = this.server.getGameStatusMessage(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean isMortgaged(int position) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.isMortgaged(position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getOwner(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getOwner(position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getDiceValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getDiceValue();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int[] getDiceValues() {
-		// TODO Auto-generated method stub
-		return null;
+		int[] temp = null;
+		try {
+			temp = this.server.getDiceValues();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getPlayerCash(int playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getPlayerCash(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getPlayerOnTurn() {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getPlayerOnTurn();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getNumberOfGetOutOfJailCards(int playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getNumberOfGetOutOfJailCards(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getNumberOfHousesLeft() {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getNumberOfHousesLeft();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public int getNumberOfHotelsLeft() {
-		// TODO Auto-generated method stub
-		return 0;
+		int temp=0;
+		try {
+			temp = this.server.getNumberOfHotelsLeft();
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean rollDice(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.rollDice(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean accept(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.accept(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean decline(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.decline(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean endTurn(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.endTurn(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean useGetOutOfJailCard(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.useGetOutOfJailCard(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean payFine(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.payFine(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean declareBankruptcy(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.declareBankruptcy(playerID);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean construct(int playerID, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.construct(playerID, position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
+		
 	}
 
 	@Override
 	public boolean deconstruct(int playerID, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.deconstruct(playerID, position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public boolean toggleMortgage(int playerID, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		boolean temp=false;
+		try {
+			temp = this.server.toggleMortgage(playerID, position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 	@Override
 	public void sendMessage(String text, int sender) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.server.sendMessage(text, sender);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		
 		
 	}
 
 	@Override
 	public void sendPrivateMessage(String text, int sender, int reciever) {
-		// TODO Auto-generated method stub
+		
+		try {
+			this.server.sendPrivateMessage(text, sender, reciever);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	
 		
 	}
 
