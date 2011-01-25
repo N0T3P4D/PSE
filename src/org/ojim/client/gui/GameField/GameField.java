@@ -34,6 +34,8 @@ public class GameField extends JPanel {
 	
 	GameFieldPiece[] fields;
 	int fieldsAmount;
+	
+	// Das Feld auf das zuletzt mit der Maus geklickt wurde
 	String selectedField;
 	
 	MouseListener mouseListener = new MouseListener() {
@@ -59,7 +61,6 @@ public class GameField extends JPanel {
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
 		}
 		
 		@Override
