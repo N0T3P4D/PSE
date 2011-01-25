@@ -1,0 +1,44 @@
+# Translation file for german
+# Übersetzungsdatei für die Sprache deutsch
+# Sharp acts as comment
+# Semicolon (at the first sign) acts as file definition
+# File definition fields:
+#	- author
+#	- name
+#	- english name
+#	- code (ISO 639-3)
+
+# Copyright (C) 2010 Licensed under GNU GPL version 3.
+
+;author=Fabian & Jeremias
+;name=1337
+;english name=Leet
+;code=133
+
+ojim=0_|][|11
+file=D4t3i
+missing text=F3hl3nd3r T3xt
+?=?
+create game=Spiel erstellen
+join game=Spiel beitreten
+leave game=Spiel verl@ssen
+settings=Einstellungen
+direct connection=Direkte Verbindung
+list of servers=Serverliste
+exit=Beenden
+about=Über OJIM
+help=Hilfe
+roll=Würfeln
+buy=Kaufen
+ready=Bereit?
+send=Senden
+currency=¤
+languages=Sprachen
+player name=Spielername
+aboutText=<html>0ff3|\/3 Javaimplementation von M. ist ein quelloffenes, Multiplayerspiel welches in Java geschrieben wurde und auf den Regeln eines weitverbeiteten Spiels beruht. Es wurde geplant und umgesetzt von Fabian Neundorf, Philip Caroli, Maximilian Madlung, Usman Ghani Ahmed und Jeremias Mechler. Dieses Projekt wurde während des Praxis der Softwareentwicklung Projekts am KIT entwickelt.
+save=Speichern
+start server=Server starten
+helpText=Eines Tages steht hier bestimmt etwas Nützliches.
+join=Beitreten
+ip=!|*
+serverListText=Bitte benutzen sie Spiel beitreten.
