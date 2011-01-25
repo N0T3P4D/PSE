@@ -86,7 +86,7 @@ public final class CapitalValuator extends ValuationFunction {
 			return 1;
 		} else {
 			logger.log(Level.INFO, "Denied");
-			return 0;
+			return -1;
 		}
 	}
 

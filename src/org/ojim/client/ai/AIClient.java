@@ -41,6 +41,10 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class AIClient extends ClientBase {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -5243314726829706243L;
 	private Logger logger;
 	private Valuator valuator;
 	private int count;
@@ -77,6 +81,22 @@ public class AIClient extends ClientBase {
 		logger.log(Level.INFO, "Position is "
 				+ this.getGameState().getActivePlayer().getPosition());
 		this.rollDice();
+		int position = getGameState().getActivePlayer().getPosition();
+		count++;
+		logger.log(
+				Level.INFO,
+				"Move "
+						+ count
+						+ " New position is "
+						+ position
+						+ " with name "
+						+ getLogic().getGameState()
+								.getFieldAt(Math.abs(position)).getName());
+		if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
+			logger.log(Level.INFO, "On buyable field");
+			valuator.returnBestCommand(position).execute();
+		}
+		endTurn();
 	}
 
 	@Override
@@ -98,21 +118,7 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onMove(Player player, int position) {
-		count++;
-		logger.log(
-				Level.INFO,
-				"Move "
-						+ count
-						+ " New position is "
-						+ position
-						+ " with name "
-						+ getLogic().getGameState()
-								.getFieldAt(Math.abs(position)).getName());
-		if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
-			logger.log(Level.INFO, "On buyable field");
-			valuator.returnBestCommand(position).execute();
-		}
-		endTurn();
+
 	}
 
 	@Override
