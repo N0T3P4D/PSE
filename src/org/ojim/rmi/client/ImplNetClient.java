@@ -35,13 +35,16 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 		this.details = details;
 	}
 	
+	/*
 	public ImplNetClient(ClientBase clientBase) {
-		try {
+		
 			this(clientBase, details);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
 	}
+	
+	*/
 	
 	public void createClientRMIConnection(int portNum,String ip){
 		 
@@ -275,6 +278,117 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 	@Override
 	public void sendPrivateMessage(String text, int sender, int reciever) {
 		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public String getName() throws RemoteException {
+		
+		return this.clientBase.getName();
+	}
+
+	@Override
+	public String getLanguage() throws RemoteException {
+		return this.clientBase.getLanguage();
+	}
+
+	@Override
+	public void informStartGame(int[] ids) throws RemoteException {
+		this.clientBase.informStartGame(ids);
+		
+	}
+
+	@Override
+	public void informTurn(int player) throws RemoteException {
+		this.clientBase.informTurn(player);
+		
+	}
+
+	@Override
+	public void informDiceValues(int[] diceValues) throws RemoteException {
+		this.clientBase.informDiceValues(diceValues);
+		
+	}
+
+	@Override
+	public void informCashChange(int player, int cashChange)
+			throws RemoteException {
+		this.clientBase.informCashChange(player, cashChange);
+		
+	}
+
+	@Override
+	public void informBuy(int player, int position) throws RemoteException {
+		this.clientBase.informBuy(player, position);
+		
+	}
+
+	@Override
+	public void informConstruct(int street) throws RemoteException {
+		this.clientBase.informConstruct(street);
+		
+	}
+
+	@Override
+	public void informDestruct(int street) throws RemoteException {
+		this.clientBase.informDestruct(street);
+		
+	}
+
+	@Override
+	public void informMortgageToogle(int street) throws RemoteException {
+		this.clientBase.informMortgageToogle(street);
+		
+	}
+
+	@Override
+	public void informCardPull(String text, boolean communityCard)
+			throws RemoteException {
+		this.clientBase.informCardPull(text, communityCard);
+		
+	}
+
+	@Override
+	public void informBankruptcy() throws RemoteException {
+		this.clientBase.informBankruptcy();
+		
+	}
+
+	@Override
+	public void informMessage(String text, int sender, boolean privateMessage)
+			throws RemoteException {
+		this.clientBase.informMessage(text, sender, privateMessage);
+		
+	}
+
+	@Override
+	public void informTrade(int actingPlayer, int partnerPlayer)
+			throws RemoteException {
+		this.clientBase.informTrade(actingPlayer, partnerPlayer);
+		
+	}
+
+	@Override
+	public void informAuction(int auctionState) throws RemoteException {
+		this.clientBase.informAuction(auctionState);
+		
+	}
+
+	@Override
+	public void informMove(int playerId, int position) throws RemoteException {
+		this.clientBase.informMove(playerId, position);
+		
+	}
+
+	@Override
+	public void informNewPlayer(int playerId) throws RemoteException {
+		this.clientBase.informNewPlayer(playerId);
+		
+	}
+
+	@Override
+	public void informPlayerLeft(int playerId) throws RemoteException {
+		this.clientBase.informPlayerLeft(playerId);
 		
 	}
 
