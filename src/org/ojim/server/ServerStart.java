@@ -19,6 +19,7 @@ package org.ojim.server;
 
 //import com.sun.java_cup.internal.runtime.Scanner;
 import java.util.NoSuchElementException;
+import java.util.Random;
 import java.util.Scanner;
 
 public class ServerStart {
@@ -80,8 +81,14 @@ public class ServerStart {
 					System.out.println("There is already a Game running, end it first before starting a new one!");
 				} else {
 					System.out.println("Initializing Game");
-					server.initGame(1,1);
+					server.initGame(2,2);
 					System.out.println("Game initialized!");
+				}
+			} else if(input.equals("aitest")) {
+				Random rnd = new Random(42);
+				for(int i = 0; i < 100; i++) {
+					int count = rnd.nextInt(8) + 1;
+					server.initGame(count, count);
 				}
 			} else if(input.equals("end")) {
 				if(!isOpen) {
