@@ -268,4 +268,16 @@ public class TestClient implements IClient {
 		
 	}
 
+	@Override
+	public void informNewPlayer(int playerId) {
+		print("informed: new Player:" + playerId);
+		
+	}
+
+	@Override
+	public void informPlayerLeft(int playerId) {
+		print("informed: Player left:" + playerId);
+		
+	}
+
 }
