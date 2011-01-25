@@ -17,7 +17,10 @@
 
 package org.ojim.client.gui.GameField;
 
+import java.awt.Color;
+
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import org.ojim.client.gui.StreetColor;
 import org.ojim.logic.state.GameState;
@@ -65,12 +68,11 @@ public class GameField extends JPanel {
 	
 	public void init(int fieldsAmount, GameState gameState){
 		this.fieldsAmount = fieldsAmount;
-		fields = new GameFieldPiece[fieldsAmount+1];
+		fields = new GameFieldPiece[fieldsAmount];
 		for(int i = 0; i < fieldsAmount; i++){
 			fields[i] = new GameFieldPiece(gameState.getFieldAt(i));
 			//fields[i].setField(gameState.getFieldAt(i));
 		}
-		fields[fieldsAmount] = new GameFieldPiece(gameState.getFieldAt(1));
 	}
 	
 	public void draw(){
@@ -80,7 +82,7 @@ public class GameField extends JPanel {
 
 		JPanel actualLabel = new JPanel();
 
-		actualLabel.setBackground(StreetColor.getBackGroundColor(2));
+		actualLabel.setBackground(Color.black);
 		
 		actualLabel.setName(-1+"");
 		this.add(actualLabel);
@@ -94,6 +96,7 @@ public class GameField extends JPanel {
 				actualLabel.setBackground(StreetColor.getBackGroundColor(1));				
 			}*/
 			actualLabel.setName(i+"");
+			actualLabel.setBorder(new LineBorder(Color.black,1));
 			this.add(actualLabel);
 		}
 	}

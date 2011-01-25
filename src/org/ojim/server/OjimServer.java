@@ -633,10 +633,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public String getEstateName(int position) {
 		Field field = state.getFieldAt(position);
+		String name = "";
 		if (field != null) {
-			return field.getName();
+			name = field.getName();
+			if (field instanceof Street) {
+				name = ((Street)field).getFieldGroup().getName() + ": " + name;
+			}
 		}
-		return "";
+		return name;
 	}
 
 	@Override
@@ -1103,12 +1107,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private CardField newEventCardField(int position) {
-		return new CardField("Ereigniskarte", position, false,
+		return new CardField("Ereignis- karte", position, false,
 				this.state.getEventCards(), this.logic);
 	}
 
 	private CardField newCommunityCardField(int position) {
-		return new CardField("Gemeinschaftskarte", position, true,
+		return new CardField("Gemein- schafts- karte", position, true,
 				this.state.getCommunityCards(), this.logic);
 	}
 
@@ -1117,103 +1121,103 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// Initialise field groups
 		StationFieldGroup stations = new StationFieldGroup();
 		StreetFieldGroup[] streets = new StreetFieldGroup[8];
-		streets[0] = new StreetFieldGroup(0, 1000);
-		streets[1] = new StreetFieldGroup(1, 1000);
-		streets[2] = new StreetFieldGroup(2, 2000);
-		streets[3] = new StreetFieldGroup(3, 2000);
-		streets[4] = new StreetFieldGroup(4, 3000);
-		streets[5] = new StreetFieldGroup(5, 3000);
-		streets[6] = new StreetFieldGroup(6, 4000);
-		streets[7] = new StreetFieldGroup(7, 4000);
+		streets[0] = new StreetFieldGroup(0, "Dagobah", 1000);
+		streets[1] = new StreetFieldGroup(1, "Hoth", 1000);
+		streets[2] = new StreetFieldGroup(2, "Tatooine", 2000);
+		streets[3] = new StreetFieldGroup(3, "Yavin&nbsp;Vier", 2000);
+		streets[4] = new StreetFieldGroup(4, "Wolkenstadt", 3000);
+		streets[5] = new StreetFieldGroup(5, "Todesstern", 3000);
+		streets[6] = new StreetFieldGroup(6, "Endor", 4000);
+		streets[7] = new StreetFieldGroup(7, "Coruscant", 4000);
 		InfrastructureFieldGroup infrastructures = new InfrastructureFieldGroup();
 
 		// Add Streets
 		fields[0] = new GoField("Los", 0, this.logic);
-		fields[1] = streets[0].addField(new Street("Dagobah - Sumpf", 1,
+		fields[1] = streets[0].addField(new Street("Sumpf", 1,
 				new int[] { 40, 200, 600, 1800, 3200, 5000 }, 0, 1200, logic));
 		fields[2] = this.newEventCardField(2);
-		fields[3] = streets[0].addField(new Street("Dagobah - Jodas Hütte", 3,
+		fields[3] = streets[0].addField(new Street("Jodas Hütte", 3,
 				new int[] { 80, 400, 1200, 3600, 6400, 9000 }, 0, 1200, logic));
-		fields[4] = new TaxField("Landungssteuer", 4, 4000, this.logic);
+		fields[4] = new TaxField("Landungs- steuer", 4, 4000, this.logic);
 		fields[5] = stations.addField(new Station("TIE-Fighter", 5, 4000));
 		fields[6] = streets[1]
-				.addField(new Street("Hoth - EchoBasis", 6, new int[] { 120,
+				.addField(new Street("Echo-Basis", 6, new int[] { 120,
 						600, 1800, 5400, 8000, 11000 }, 0, 2000, logic));
 		fields[7] = this.newCommunityCardField(7);
 		fields[8] = streets[1]
-				.addField(new Street("Hoth - EisSteppen", 8, new int[] { 120,
+				.addField(new Street("Eis-Steppen", 8, new int[] { 120,
 						600, 1800, 5400, 8000, 11000 }, 0, 2000, logic));
 		fields[9] = streets[1]
-				.addField(new Street("Hoth - Nordgebirge", 9, new int[] { 160,
+				.addField(new Street("Nordgebirge", 9, new int[] { 160,
 						800, 2000, 6000, 9000, 12000 }, 0, 2400, logic));
 		fields[10] = new Jail("Gefängnis", 10, 1000, 3);
 		fields[11] = streets[2].addField(new Street(
-				"Tatooine - Lars Heimstatt", 11, new int[] { 200, 1000, 3000,
+				"Lars Heimstatt", 11, new int[] { 200, 1000, 3000,
 						9000, 12500, 15000 }, 0, 2800, logic));
 		fields[12] = infrastructures.addField(new InfrastructureField(
 				"Kern-Reaktor", 12, 3000, this.logic));
-		fields[13] = streets[2].addField(new Street("Tatooine - Mos Eisley",
+		fields[13] = streets[2].addField(new Street("Mos Eisley",
 				13, new int[] { 200, 1000, 3000, 9000, 12500, 15000 }, 0, 2800,
 				logic));
-		fields[14] = streets[2].addField(new Street("Tatooine - Jabbas Palast",
+		fields[14] = streets[2].addField(new Street("Jabbas Palast",
 				14, new int[] { 240, 1200, 3600, 10000, 14000, 18000 }, 0,
 				3200, logic));
 		fields[15] = stations.addField(new Station("Millenium Falke", 15, 4000,
 				this.logic));
 		fields[16] = streets[3].addField(new Street(
-				"Yavin 4 - Kommandozentrale", 16, new int[] { 280, 1400, 4000,
+				"Kommandozentrale", 16, new int[] { 280, 1400, 4000,
 						11000, 15000, 19000 }, 0, 3600, logic));
 		fields[17] = this.newEventCardField(17);
 		fields[18] = streets[3].addField(new Street(
-				"Yavin 4 - Massassi Tempel", 18, new int[] { 280, 1400, 4000,
+				"Massassi Tempel", 18, new int[] { 280, 1400, 4000,
 						11000, 15000, 19000 }, 0, 3600, logic));
 		fields[19] = streets[3].addField(new Street(
-				"Yavin 4 - TempelThronsaal", 19, new int[] { 320, 1600, 4400,
+				"Tempel-Thronsaal", 19, new int[] { 320, 1600, 4400,
 						12000, 16000, 20000 }, 0, 4000, logic));
 		fields[20] = new FreeParking("Frei Parken", 20, this.logic);
 		fields[21] = streets[4].addField(new Street(
-				"Wolkenstadt - Andockbucht", 21, new int[] { 360, 1800, 5000,
+				"Andockbucht", 21, new int[] { 360, 1800, 5000,
 						14000, 17500, 21000 }, 0, 4400, logic));
 		fields[22] = this.newCommunityCardField(22);
 		fields[23] = streets[4].addField(new Street(
-				"Wolkenstadt - KarbonGefrierkammer", 23, new int[] { 360, 1800,
+				"Karbon- Gefrierkammer", 23, new int[] { 360, 1800,
 						5000, 14000, 17500, 21000 }, 0, 4400, logic));
 		fields[24] = streets[4].addField(new Street(
-				"Wolkenstadt - ReaktorKontrollraum", 24, new int[] { 400, 2000,
+				"Reaktor- Kontrollraum", 24, new int[] { 400, 2000,
 						6000, 15000, 18500, 22000 }, 0, 4800, logic));
 		fields[25] = stations.addField(new Station("X-Wing Fighter", 25, 4000,
 				this.logic));
-		fields[26] = streets[5].addField(new Street("Todesstern - LandeDeck",
+		fields[26] = streets[5].addField(new Street("Lande-Deck",
 				26, new int[] { 440, 2200, 6600, 16000, 19500, 23000 }, 0,
 				5200, logic));
-		fields[27] = streets[5].addField(new Street("Todesstern - Thronsaal",
+		fields[27] = streets[5].addField(new Street("Thronsaal",
 				27, new int[] { 440, 2200, 6600, 16000, 19500, 23000 }, 0,
 				5200, logic));
 		fields[28] = infrastructures.addField(new InfrastructureField(
-				"Wasser-Farm", 28, 3000, this.logic));
+				"Wasser- Farm", 28, 3000, this.logic));
 		fields[29] = streets[5].addField(new Street(
-				"Todesstern - Hauptreaktor", 29, new int[] { 480, 2400, 7200,
+				"Hauptreaktor", 29, new int[] { 480, 2400, 7200,
 						17000, 20500, 24000 }, 0, 5600, logic));
 		fields[30] = new GoToJail("Gehe ins Gefängnis", 30, this.logic, (Jail) fields[10]);
-		fields[31] = streets[6].addField(new Street("Endor - Wald", 31,
+		fields[31] = streets[6].addField(new Street("Wald", 31,
 				new int[] { 520, 2600, 7800, 18000, 22000, 25500 }, 0, 6000,
 				logic));
-		fields[32] = streets[6].addField(new Street("Endor - Schildgenerator",
+		fields[32] = streets[6].addField(new Street("Schildgenerator",
 				32, new int[] { 520, 2600, 7800, 18000, 22000, 25500 }, 0,
 				6000, logic));
 		fields[33] = this.newEventCardField(33);
-		fields[34] = streets[6].addField(new Street("Endor - EwokDorf", 34,
+		fields[34] = streets[6].addField(new Street("Ewok-Dorf", 34,
 				new int[] { 560, 3000, 9000, 20000, 24000, 28000 }, 0, 6400,
 				logic));
 		fields[35] = stations
 				.addField(new Station("Stern-Zerstörer", 35, 4000));
 		fields[36] = this.newCommunityCardField(36);
 		fields[37] = streets[7].addField(new Street(
-				"Coruscant - Platz des Volkes", 37, new int[] { 700, 3500,
+				"Platz des Volkes", 37, new int[] { 700, 3500,
 						10000, 22000, 16000, 30000 }, 0, 7000, logic));
 		fields[38] = new TaxField("Kopf-Geld Prämie", 38, 2000);
 		fields[39] = streets[7].addField(new Street(
-				"Coruscant - Imperialer Palast", 39, new int[] { 1000, 4000,
+				"Imperialer Palast", 39, new int[] { 1000, 4000,
 						12000, 28000, 34000, 40000 }, 0, 8000, logic));
 
 		stations.setRent(new int[] { 500, 1000, 2000, 4000 });

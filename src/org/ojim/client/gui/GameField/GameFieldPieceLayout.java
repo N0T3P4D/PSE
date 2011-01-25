@@ -72,7 +72,7 @@ public class GameFieldPieceLayout implements LayoutManager {
 			int field = Integer.parseInt(parent.getName());
 			try {
 			if (totalWidth == totalHeight) {
-				c.setBounds(0, 0, totalWidth, totalHeight);
+				c.setBounds(1, 1, totalWidth-2, totalHeight-2);
 			}
 			else if (parent.getComponent(1) == null){
 				
@@ -98,7 +98,7 @@ public class GameFieldPieceLayout implements LayoutManager {
 					c.setBounds(1, twentyHeight, totalWidth-2, eightyHeight-1);
 					// Felder links
 				} else if (field < 20) {
-					c.setBounds(twentyWidth+1, 1, eightyWidth-1, totalHeight-2);
+					c.setBounds(1, 1, eightyWidth-1, totalHeight-2);
 					// Felder oben
 				} else if (field < 30) {
 					c.setBounds(1, 1, totalWidth-2, eightyHeight-1);
@@ -108,7 +108,7 @@ public class GameFieldPieceLayout implements LayoutManager {
 				}
 			}
 			} catch (ArrayIndexOutOfBoundsException e){
-				c.setBounds(1, 0, totalWidth-2, totalHeight-2);
+				c.setBounds(1, 1, totalWidth-2, totalHeight-2);
 				
 			}
 		}

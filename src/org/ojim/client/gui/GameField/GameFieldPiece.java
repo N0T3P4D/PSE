@@ -19,6 +19,7 @@ package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 
 import javax.swing.JLabel;
@@ -28,23 +29,30 @@ import javax.swing.border.LineBorder;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
 import org.ojim.client.gui.OLabel.FontLayout;
+import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Street;
 
 public class GameFieldPiece extends JPanel {
 
 	private FieldDrawer drawer;
 	private Field field;
 	private JPanel colorTop;
-	private JLabel text;
+	private JLabel group;
+	private JLabel name;
+	private JLabel price;
+	private JPanel textPanel;
 
 	public GameFieldPiece(Field field, String name, int position, Image image) {
 	}
 
 	public GameFieldPiece(Field field) {
-		if (this.getComponentCount()>0) {
-			remove(text);
+		if (this.getComponentCount() > 0) {
+			remove(textPanel);
 			remove(colorTop);
 		}
+
+		textPanel = new JPanel();
 		// this.drawer = FieldDrawer.getDrawer(field);
 		this.field = field;
 		colorTop = new JPanel();
@@ -53,12 +61,35 @@ public class GameFieldPiece extends JPanel {
 					.getColorGroup()));
 			this.add(colorTop);
 		}
-		text = new JLabel("<html>" + field.getName());
-		//text = new JLabel("<html>" + "test");
-		text.setLayout(new FontLayout());
-		this.add(text);
+
+		try {
+			group = new JLabel("<html>" + ((Street) field).getFieldGroup().getName());
+
+			group.setLayout(new FontLayout());
+			group.setHorizontalTextPosition(JLabel.CENTER);
+			textPanel.add(group);
+		} catch (ClassCastException e) {
+
+		}
+		
+		name = new JLabel("<html>" + field.getName());
+		name.setHorizontalTextPosition(JLabel.CENTER);
+		name.setLayout(new FontLayout());
+		textPanel.add(name);
+		try {
+			price = new JLabel("<html>" + ((BuyableField) field).getPrice());
+
+			price.setHorizontalTextPosition(JLabel.CENTER);
+			price.setVerticalTextPosition(JLabel.BOTTOM);
+			price.setLayout(new FontLayout());
+			textPanel.add(price);
+		} catch (ClassCastException e) {
+
+		}
+		// text = new JLabel("<html>" + "test");
+		textPanel.setLayout(new GridLayout(0, 1));
+		this.add(textPanel);
 		this.setLayout(new GameFieldPieceLayout());
-		this.setBorder(new LineBorder(Color.black,1));
 		this.setBackground(Color.white);
 	}
 
