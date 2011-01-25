@@ -244,11 +244,12 @@ public class ServerLogic extends Logic {
 						return;
 					}
 				}
-				// TODO remove
-				if (this.getGameState().getPlayers().length < 2) {
+				
+				// When only 1 Player is there and he is not bankrupt, he has not won
+				if(players.length == 1 && !players[0].getIsBankrupt()) {
 					return;
 				}
-				// Only 1 Player is left, he has won
+				
 				System.out.println("Player has won!");
 				for (Player player : this.getGameState().getPlayers()) {
 					if (player instanceof ServerPlayer) {

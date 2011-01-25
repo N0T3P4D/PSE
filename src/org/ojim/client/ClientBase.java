@@ -166,8 +166,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		try {
 			server = new ImplNetClient(this, null);
 			server.createClientRMIConnection(port, host);
-			this.setParameters(new Logic(server.getRules()),
-					server.addPlayer(this), server);		
+			this.setParameters(server, this);		
 			this.loadGameBoard();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -394,4 +393,9 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	}
 	
 	public abstract void onPlayerLeft(Player player);
+	
+	@Override
+	public void setPlayerId(int newId) {
+		super.setPlayerId(newId);
+	}
 }
