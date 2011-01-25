@@ -17,11 +17,13 @@
 
 package org.ojim.client.gui.GameField;
 
+import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
@@ -56,6 +58,8 @@ public class GameFieldPiece extends JPanel {
 		text.setLayout(new FontLayout());
 		this.add(text);
 		this.setLayout(new GameFieldPieceLayout());
+		this.setBorder(new LineBorder(Color.black,1));
+		this.setBackground(Color.white);
 	}
 
 	public void setField(Field field) {

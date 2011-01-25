@@ -65,11 +65,12 @@ public class GameField extends JPanel {
 	
 	public void init(int fieldsAmount, GameState gameState){
 		this.fieldsAmount = fieldsAmount;
-		fields = new GameFieldPiece[fieldsAmount];
+		fields = new GameFieldPiece[fieldsAmount+1];
 		for(int i = 0; i < fieldsAmount; i++){
 			fields[i] = new GameFieldPiece(gameState.getFieldAt(i));
 			//fields[i].setField(gameState.getFieldAt(i));
 		}
+		fields[fieldsAmount] = new GameFieldPiece(gameState.getFieldAt(1));
 	}
 	
 	public void draw(){

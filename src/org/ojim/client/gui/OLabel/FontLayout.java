@@ -61,9 +61,10 @@ public class FontLayout implements LayoutManager {
 		
 		JLabel label = (JLabel) parent;
 		
-		int fontSize = (int)(maxSize/4.0f);
+		int fontSize = (int)(maxSize/5.0f);
 		
 		label.setFont(new Font(null, nComps, fontSize));
+		
 /*
 		for (int i = 0; i < nComps; i++) {
 			Component c = parent.getComponent(i);
