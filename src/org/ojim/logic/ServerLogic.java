@@ -63,7 +63,13 @@ public class ServerLogic extends Logic {
 	public void setPlayerBankrupt(Player player) {
 		player.transferMoney(-(player.getBalance() + 1));
 		player.setBankrupt();
-
+		Field field;
+		for(int i = 0; i < this.getGameState().FIELDS_AMOUNT;i++) {
+			field = this.getGameState().getFieldAt(i);
+			if(field instanceof BuyableField && ((BuyableField)field).getOwner() == player) {
+				((BuyableField)field).buy(null);
+			}
+		}
 		if(player instanceof ServerPlayer) {
 			((ServerPlayer)player).getClient().informBankruptcy();
 		}
