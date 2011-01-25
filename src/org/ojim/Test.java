@@ -47,14 +47,14 @@ public class Test {
 	// -a --ai == AI Client
 	public static void main(String args[]) {
 		
-		ValuationFunction f = PropertyValuator.getInstance();
-		PropertyValuator x = (PropertyValuator) f;
-		
-		CapitalValuator y = ValuationFunction.getInstance(CapitalValuator.class);
-		
-		System.out.println("foo");
-		
-		System.exit(0);
+//		ValuationFunction f = PropertyValuator.getInstance();
+//		PropertyValuator x = (PropertyValuator) f;
+//		
+//		CapitalValuator y = ValuationFunction.getInstance(CapitalValuator.class);
+//		
+//		System.out.println("foo");
+//		
+//		System.exit(0);
 		
 		FieldDrawer d = FieldDrawer.getDrawer(new Jail("foo", 2, 1, 2));
 		d.drawTo(null);
