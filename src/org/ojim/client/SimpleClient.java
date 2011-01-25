@@ -19,6 +19,7 @@ package org.ojim.client;
 
 
 
+import org.ojim.iface.IClient;
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.GameState;
@@ -79,6 +80,12 @@ public class SimpleClient {
 		this.logic = logic;
 		this.playerId = playerId;
 		this.server = server;
+	}
+	
+	protected void setParameters(IServer server, IClient client) {
+		this.server = server;
+		this.logic = new Logic(server.getRules());
+		this.playerId = server.addPlayer(client);
 	}
 
 	public final int getPlayerId() {

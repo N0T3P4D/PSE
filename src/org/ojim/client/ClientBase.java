@@ -179,8 +179,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	}
 
 	protected final void connect(IServer server) {
-		this.setParameters(new Logic(server.getRules()),
-				server.addPlayer(this), server);
+		this.setParameters(server, this);
 		this.loadGameBoard();
 	}
 
