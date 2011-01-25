@@ -108,6 +108,9 @@ public class AIClient extends ClientBase {
 	}
 	
 	private String getPlayerInfo(Player player) {
+		if (player == null) {
+			return "Server";
+		}
 		return player.getName() + " [id: " + player.getId() + "]"; 
 	}
 
@@ -158,6 +161,7 @@ public class AIClient extends ClientBase {
 	@Override
 	public void onBankruptcy() {
 		logger.log(Level.INFO, this.log("onBankruptcy()!"));
+//		declareBankruptcy();
 	}
 
 	@Override
