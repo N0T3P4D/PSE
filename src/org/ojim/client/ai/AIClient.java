@@ -59,14 +59,15 @@ public class AIClient extends ClientBase {
 	 */
 	public AIClient(IServer server) {
 		super();
-		logger = OJIMLogger.getLogger("AI_"+getPlayerId());
 		if (server == null) {
 			throw new IllegalArgumentException("Server == null");
 		}
+		logger = OJIMLogger.getLogger(getClass().toString());
 		connect(server);
 		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId()
 				+ " created.");
 		valuator = new Valuator(getLogic(), server, getPlayerId());
+		setName("AI_" + getPlayerId());
 		count = 0;
 	}
 
@@ -99,7 +100,14 @@ public class AIClient extends ClientBase {
 				assert(getGameState().getActivePlayer().getId() == getPlayerId());
 				valuator.returnBestCommand(position).execute();
 			}
+			if (position == 10) {
+				logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
+				valuator.returnBestCommand(position).execute();
+			}
 			endTurn();
+		}
+		else {
+			logger.log(Level.INFO, log("Not my turn"));
 		}
 	}
 	
@@ -120,9 +128,10 @@ public class AIClient extends ClientBase {
 	
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		this.log("onCashChange! Amount = " + cashChange
-				+ " New cash = "
-				+ getGameState().getActivePlayer().getBalance());
+		logger.log(Level.INFO, this.log("onCashChange(" + this.getPlayerInfo(player) + ")! Amount = " + cashChange
+				+ " New cash = " + player.getBalance()));
+		
+		assert(this.getGameState().getActivePlayer() != null);
 	}
 
 	@Override
@@ -160,6 +169,7 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onBankruptcy() {
+//		assert(false);
 		logger.log(Level.INFO, this.log("onBankruptcy()!"));
 //		declareBankruptcy();
 	}
