@@ -33,5 +33,8 @@ import org.ojim.iface.IClient;
 public interface NetClient extends Remote,IClient {
 	
 	
+	
+	
+	
 
 }

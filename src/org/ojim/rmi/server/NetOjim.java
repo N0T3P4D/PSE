@@ -34,7 +34,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Usman Ghani Ahmed
  *
  */
-public interface NetOjim extends Remote ,IServer {
+public interface NetOjim extends Remote {
 	
 	/**
 	 * Meldet einen Client beim Server an, damit der Server Methoden des Client über
@@ -80,5 +80,114 @@ public interface NetOjim extends Remote ,IServer {
 	 * @throws RemoteException
 	 */
 	public int getMoneyToPay(int position) throws RemoteException;
+	
+	
+	public int getPlayerPiecePosition(int playerID)throws RemoteException;
+
+
+	public int addPlayer(IClient client)throws RemoteException;
+
+	
+	public void setPlayerReady(int player)throws RemoteException;
+
+
+	public String getPlayerName(int player)throws RemoteException;
+
+	
+	public int getPlayerColor(int player)throws RemoteException;
+
+	
+	public int getTurnsInPrison(int playerID)throws RemoteException;
+
+	
+	public Rules getRules()throws RemoteException;
+
+	
+	public String getEstateName(int position)throws RemoteException;
+
+	
+	public int getEstateColorGroup(int position)throws RemoteException;
+
+	
+	public int getEstateHouses(int position)throws RemoteException;
+
+	
+	public int getEstatePrice(int position)throws RemoteException;
+
+	
+	public int getEstateHousePrice(int position)throws RemoteException;
+
+	
+	public int getEstateRent(int position, int houses)throws RemoteException;
+
+	
+	public String getGameStatusMessage(int playerID)throws RemoteException;
+
+	
+	public boolean isMortgaged(int position)throws RemoteException;
+
+	
+	public int getOwner(int position)throws RemoteException;
+
+	
+	public int getDiceValue()throws RemoteException;
+
+	
+	public int[] getDiceValues()throws RemoteException;
+
+	
+	public int getPlayerCash(int playerID)throws RemoteException;
+
+	
+	public int getPlayerOnTurn()throws RemoteException;
+
+	
+	public int getNumberOfGetOutOfJailCards(int playerID)throws RemoteException;
+
+	
+	public int getNumberOfHousesLeft()throws RemoteException;
+
+	
+	public int getNumberOfHotelsLeft()throws RemoteException;
+
+	
+	public boolean rollDice(int playerID)throws RemoteException;
+
+
+	public boolean accept(int playerID)throws RemoteException;
+
+	
+	public boolean decline(int playerID)throws RemoteException;
+
+	
+	public boolean endTurn(int playerID)throws RemoteException;
+
+	
+	public boolean useGetOutOfJailCard(int playerID)throws RemoteException;
+
+
+	public boolean payFine(int playerID)throws RemoteException;
+
+	
+	public boolean declareBankruptcy(int playerID)throws RemoteException;
+
+
+	public boolean construct(int playerID, int position)throws RemoteException;
+
+	
+	public boolean deconstruct(int playerID, int position)throws RemoteException;
+
+	
+	public boolean toggleMortgage(int playerID, int position)throws RemoteException;
+
+	
+	public void sendMessage(String text, int sender)throws RemoteException;
+
+	
+	public void sendPrivateMessage(String text, int sender, int reciever)throws RemoteException;
+
+	
+	
+	
 	
 }
