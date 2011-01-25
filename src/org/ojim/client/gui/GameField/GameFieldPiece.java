@@ -95,7 +95,7 @@ public class GameFieldPiece extends JPanel {
 				System.out.println("SOLD: "+field.getName());
 				//System.out.println(((BuyableField) field).getOwner().getId()+" - ID - "+field.getName());
 			} else {
-				System.out.println("NOT SOLD: "+field.getName());
+				//System.out.println("NOT SOLD: "+field.getName());
 				price = new JLabel("<html>" + ((BuyableField) field).getPrice());
 			}
 			price.setHorizontalTextPosition(JLabel.CENTER);

@@ -177,6 +177,8 @@ public class GUIClient extends ClientBase {
 			window.setLayout(new GridLayout(1, 0));
 			rightWindow.setLayout(new GridLayout(0, 1));
 
+			playerInfoWindow = new PlayerInfoWindow(language);
+			
 			rightWindow.add(playerInfoWindow);
 			leftWindow.add(chatWindow);
 
@@ -200,14 +202,6 @@ public class GUIClient extends ClientBase {
 
 			window.add(leftWindow);
 			window.add(rightWindow);
-
-			// System.out.println("Es gibt "+this.getGameState().getPlayers().length+" Spieler.");
-			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
-				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
-				this.playerInfoWindow.addPlayer(this.getGameState()
-						.getPlayers()[i], this.getGameState().getPlayers()[i]
-						.getBalance());
-			}
 
 			GUIFrame.add(window);
 			break;
@@ -244,7 +238,8 @@ public class GUIClient extends ClientBase {
 			playerInfoWindow = new PlayerInfoWindow(language);
 			chatWindow = new ChatWindow(language);
 
-			// System.out.println("Es gibt "+this.getGameState().getPlayers().length+" Spieler.");
+
+			System.out.println("Es gibt "+this.getGameState().getPlayers().length+" Spieler.");
 			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
 				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
 				this.playerInfoWindow.addPlayer(this.getGameState()
@@ -498,6 +493,18 @@ public class GUIClient extends ClientBase {
 		createGameFrame.setVisible(false);
 		draw();
 
+	}
+
+	@Override
+	public void onNewPlayer(Player player) {
+		//draw();
+		
+	}
+
+	@Override
+	public void onPlayerLeft(Player player) {
+		//draw();
+		
 	}
 
 }

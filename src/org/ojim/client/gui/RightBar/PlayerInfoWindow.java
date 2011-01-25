@@ -22,11 +22,11 @@ import java.awt.GridLayout;
 import javax.swing.JPanel;
 
 import org.ojim.language.Localizer;
+import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 
 public class PlayerInfoWindow extends JPanel {
 
-	private static final int MAX_PLAYERS = 8;
 	// hält PlayerInfoField playerInfoField;
 	private PlayerInfoField[] playerInfoFields;
 	private Localizer language;
@@ -34,8 +34,9 @@ public class PlayerInfoWindow extends JPanel {
 	public PlayerInfoWindow(Localizer language) {
 
 		this.language = language;
+		
 
-		playerInfoFields = new PlayerInfoField[MAX_PLAYERS];
+		playerInfoFields = new PlayerInfoField[GameState.MAXIMUM_PLAYER_COUNT];
 		/*
 		 * for(int i = 0; i < MAX_PLAYERS; i++){ playerInfoFields[i] = new
 		 * PlayerInfoField(null, 0, language); }
@@ -59,7 +60,7 @@ public class PlayerInfoWindow extends JPanel {
 	public void setLanguage(Localizer language) {
 		this.language = language;
 
-		for (int i = 0; i < MAX_PLAYERS; i++) {
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			if (!playerInfoFields[i].isNull()) {
 				playerInfoFields[i].setLanguage(language);
 			}
@@ -69,12 +70,12 @@ public class PlayerInfoWindow extends JPanel {
 	}
 
 	public void addPlayer(Player player, int cash) {
-		// System.out.println("addPlayer");
+		System.out.println("addPlayer");
 		if (findPlayer(player) == -1) {
 			// System.out.println(player.getId()+" nicht gefunden");
-			for (int i = 0; i < MAX_PLAYERS; i++) {
+			for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 				if (playerInfoFields[i] == null) {
-					// System.out.println(player.getId()+" mit id "+i+" hinzugefügt");
+					System.out.println(player.getId()+" mit id "+i+" hinzugefügt");
 					playerInfoFields[i] = new PlayerInfoField(player, cash,
 							language);
 					break;
@@ -87,27 +88,27 @@ public class PlayerInfoWindow extends JPanel {
 	private void draw() {
 		this.removeAll();
 
-		this.setLayout(new GridLayout(MAX_PLAYERS, 0));
+		this.setLayout(new GridLayout(GameState.MAXIMUM_PLAYER_COUNT, 0));
 
-		for (int i = 0; i < MAX_PLAYERS; i++) {
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			if (playerInfoFields[i] != null) {
 				this.add(playerInfoFields[i]);
 			}
-			// System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
+			System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
 		}
 	}
 
 	public void removePlayer(Player player) {
 		int i = findPlayer(player);
-		for (int j = i; j <= MAX_PLAYERS; j++) {
+		for (int j = i; j <= GameState.MAXIMUM_PLAYER_COUNT; j++) {
 			playerInfoFields[j] = playerInfoFields[j + 1];
 		}
-		playerInfoFields[MAX_PLAYERS] = null;
+		playerInfoFields[GameState.MAXIMUM_PLAYER_COUNT] = null;
 		draw();
 	}
 
 	public void turnOn(Player player) {
-		for (int i = 0; i < MAX_PLAYERS; i++) {
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			if (playerInfoFields[i] != null && playerInfoFields[i].isOn()) {
 				playerInfoFields[i].turnOff();
 				break;
@@ -129,7 +130,7 @@ public class PlayerInfoWindow extends JPanel {
 	}
 
 	private int findPlayer(Player player) {
-		for (int i = 0; i < MAX_PLAYERS; i++) {
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			if (playerInfoFields[i] != null
 					&& playerInfoFields[i].isPlayer(player)) {
 				return i;
