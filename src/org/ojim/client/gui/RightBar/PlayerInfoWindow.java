@@ -42,6 +42,8 @@ public class PlayerInfoWindow extends JPanel {
 			playerInfoFields[i] = new PlayerInfoField(Player.NullPlayer, 0, language);
 		}
 		
+		/*
+		
 		Player player = new Player("Test 1", 5, 5, 1, 0);
 		Player playerTwo = new Player("Test 2", 5, 5, 2, 1);
 		Player playerThree = new Player("Test 3", 5, 5, 3, 2);
@@ -50,7 +52,7 @@ public class PlayerInfoWindow extends JPanel {
 		addPlayer(player, 500);
 		addPlayer(playerTwo, 501);
 		addPlayer(playerThree, 399);
-		addPlayer(playerFour, 222);
+		addPlayer(playerFour, 222);*/
 
 		//System.out.println("Alles müsste da sein.");
 		
@@ -70,9 +72,11 @@ public class PlayerInfoWindow extends JPanel {
 
 	public void addPlayer(Player player, int cash) {
 		//System.out.println("addPlayer");
+		System.out.println(""+findPlayer(player));
 		if (findPlayer(player) == -1) {
 			//System.out.println(player.getId()+" nicht gefunden");
 			for (int i = 0; i < MAX_PLAYERS; i++) {
+				System.out.println("ZZZ");
 				if (playerInfoFields[i].isNull()) {
 					//System.out.println(player.getId()+" mit id "+i+" hinzugefügt");
 					playerInfoFields[i] = new PlayerInfoField(player, cash, language);
@@ -113,7 +117,9 @@ public class PlayerInfoWindow extends JPanel {
 			}
 		}
 		int i = findPlayer(player);
-		playerInfoFields[i].turnOn();
+		if(i!=-1){
+			playerInfoFields[i].turnOn();
+		}
 		draw();
 	}
 

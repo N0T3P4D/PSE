@@ -54,6 +54,8 @@ public class GUIClient extends ClientBase {
 	SettingsFrame settingsFrame;
 	HelpFrame helpFrame;
 	AboutFrame aboutFrame;
+	
+	String name;
 
 	MenuBar menubar;
 
@@ -96,6 +98,11 @@ public class GUIClient extends ClientBase {
 		
 
 		GUIFrame = new JFrame(language.getText("ojim"));
+		
+
+		playerInfoWindow = new PlayerInfoWindow(language);
+		chatWindow = new ChatWindow(language);
+		
 
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
@@ -153,9 +160,6 @@ public class GUIClient extends ClientBase {
 			window.setLayout(new GridLayout(1, 0));
 			rightWindow.setLayout(new GridLayout(0, 1));
 
-			playerInfoWindow = new PlayerInfoWindow(language);
-			chatWindow = new ChatWindow(language);
-
 			rightWindow.add(playerInfoWindow);
 			leftWindow.add(chatWindow);
 
@@ -171,12 +175,21 @@ public class GUIClient extends ClientBase {
 
 		case game:
 
+			setName("Max");
+			
 			OjimServer server = new OjimServer("Philip");
 			
 			server.initGame(1, 0);
 			
-			
 			connect(server);
+			
+			this.ready();
+			
+			//System.out.println("Es gibt "+this.getGameState().getPlayers().length+" Spieler.");
+			for(int i = 0; this.getGameState().getPlayers().length > i; i++){
+				System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
+				this.playerInfoWindow.addPlayer(this.getGameState().getPlayers()[i], this.getGameState().getPlayers()[i].getBalance());
+			}
 			
 			
 			gameField = new GameField();
@@ -322,7 +335,6 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void setName(String name) {
-		// TODO Auto-generated method stub
 		super.setName(name);
 	}
 

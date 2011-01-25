@@ -93,7 +93,7 @@ public class PlayerInfoField extends JPanel {
 
 	public boolean isPlayer(Player player) {
 		// TODO: Player Objekt eine richtige Equalsmethode übergeben?
-		if (this.player.getId() == player.getId()) {
+		if (this.player.equals(player)) {
 			return true;
 		} else {
 			return false;
