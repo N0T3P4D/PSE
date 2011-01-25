@@ -193,6 +193,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (checkAllPlayersReady()) {
 			this.startGame();
 		}
+		if(playerCount == aiCount) {
 		while(!state.getGameIsWon()) {
 			try {
 				wait(300);
@@ -200,6 +201,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
+		}
 		}
 		return true;
 	}
