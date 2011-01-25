@@ -202,4 +202,15 @@ public class AIClient extends ClientBase {
 	public void onAuction(int auctionState) {
 		logger.log(Level.INFO, this.log("onAuction(" + auctionState + ")!"));
 	}
+
+	@Override
+	public void onNewPlayer(Player player) {
+		logger.log(Level.INFO, this.log("onNewPlayer(" + this.getPlayerInfo(player) + ")!"));		
+	}
+
+	@Override
+	public void onPlayerLeft(Player player) {
+		logger.log(Level.INFO, this.log("onPlayerLeft(" + this.getPlayerInfo(player) + ")!"));		
+	
+	}
 }

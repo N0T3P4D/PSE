@@ -130,7 +130,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	private boolean initComplete = false;
 
 	/**
-	 * Creates a new Server. Has to be opened by initGame(int,int)
+	 * Creates a new Server. Has to be opened by initGame
 	 * @param name The name of the Server
 	 */
 	public OjimServer(String name) {
@@ -199,13 +199,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 */
 	public boolean endGame() {
 
-		display("ending the game!");
 		//Stops the Game
 		this.gameStarted = false;
 		if (!this.isOpen) {
 			return true;
 		}
-		
 		
 		// Closing the Game
 		isOpen = false;
@@ -584,8 +582,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 					informClient.informNewPlayer(i);
 				}
 				this.clients.add(client);
-				state.setPlayer(i,
-						new ServerPlayer(client.getName(), 0,
+				state.setPlayer(new ServerPlayer(client.getName(), 0,
 								state.getRules().startMoney, i, i, client));
 				this.connectedClients++;
 				display("Player with id:" + i + " added!");
@@ -950,9 +947,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public boolean endTurn(int playerID) {
 		Player player = state.getPlayerByID(playerID);
 		
-		if(this.state.getGameIsWon()) {
-			return false;
-		}
+//		if(this.state.getGameIsWon()) {
+//			return false;
+//		}
 
 		if (player != null && rules.isPlayerOnTurn(player) && !state.getGameIsWon()) {
 			if (player.getJail() != null) {
