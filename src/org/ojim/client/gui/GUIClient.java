@@ -259,51 +259,67 @@ public class GUIClient extends ClientBase {
 			pane.add(downWindow);
 
 			downRight.setLayout(new GridLayout(1, 0));
-
-			buyButton = new JButton(language.getText("buy"));
-			buyButton.setLayout(new FontLayout());
-			downRight.add(buyButton);
 			try {
-			if (getGameState().getActivePlayer()
-					.equals(getMe())
-					&& this.getGameState().getDices() != null) {
-				
-				ActionListener rollListener = new ActionListener() {
-					
+			if (((BuyableField) (getGameState().getFieldAt(getMe()
+					.getPosition()))).getPrice() <= getMe().getBalance()) {
+				buyButton = new JButton(language.getText("buy"));
+
+				ActionListener buyListener = new ActionListener() {
+
 					@Override
-					public void actionPerformed(ActionEvent arg0) {
-						rollDice();
-						System.out.println("Rolly Rolly");
-						
+					public void actionPerformed(ActionEvent e) {
+						accept();
+						System.out
+								.println("BUYYYYYYYY THISSSSSS!!!! I NEEEED IT SOOOO MUCH");
+
 					}
 				};
-				
-				rollButton = new JButton(language.getText("roll"));
-				rollButton.addActionListener(rollListener);
-				
-				} else {
+
+				buyButton.addActionListener(buyListener);
+
+				buyButton.setLayout(new FontLayout());
+				downRight.add(buyButton);
+			}
+			} catch (Exception e){
+				System.out.println("Kein buyablefield");
+			}
+			try {
+				if (getGameState().getActivePlayer().equals(getMe())
+						&& this.getGameState().getDices() != null) {
+
+					ActionListener rollListener = new ActionListener() {
+
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							rollDice();
+							System.out.println("Rolly Rolly");
+
+						}
+					};
+
+					rollButton = new JButton(language.getText("roll"));
+					rollButton.addActionListener(rollListener);
+					downRight.add(rollButton);
+
+				} else if (getGameState().getActivePlayer().equals(getMe())) {
 					ActionListener endTurnListener = new ActionListener() {
-						
+
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
 							endTurn();
 							System.out.println("Turn is ENDED!!!");
-							
+
 						}
 					};
-					
-					
-				rollButton = new JButton(language.getText("endturn"));		
-				rollButton.addActionListener(endTurnListener);		
-			}
-			
-			}
-			catch (NullPointerException e) {
-				
+
+					rollButton = new JButton(language.getText("endturn"));
+					rollButton.addActionListener(endTurnListener);
+					downRight.add(rollButton);
+				}
+			} catch (NullPointerException e) {
+
 			}
 			rollButton.setLayout(new FontLayout());
-
-			downRight.add(rollButton);
 
 			pane.add(downRight);
 
