@@ -7,16 +7,26 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
 import org.ojim.client.ClientBase;
+import org.ojim.network.ClientDetails;
 import org.ojim.rmi.server.ImplNetOjim;
 import org.ojim.rmi.server.NetOjim;
 
+/**
+ * Klasse verwaltet den Verbindungsaufbau vom Client zum Server.
+ * 
+ * @author Usman Ghani Ahmed
+ *
+ */
 public class ImplNetClient extends UnicastRemoteObject implements NetClient {
 	
 	ClientBase clientBase;
 	
-	public ImplNetClient(ClientBase clientBase) throws RemoteException {
+	ClientDetails details;
+	
+	public ImplNetClient(ClientBase clientBase, ClientDetails details) throws RemoteException {
 		super();
 		this.clientBase = clientBase;
+		this.details = details;
 		
 	}
 	
