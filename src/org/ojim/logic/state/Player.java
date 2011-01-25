@@ -119,9 +119,6 @@ public class Player implements IMoneyPartner {
 	
 	public void setBankrupt() {
 		this.isBankrupt = true;
-		for(BuyableField field : this.fields) {
-			field.buy(null);
-		}
 	}
 	
 	public void waitInJail() {

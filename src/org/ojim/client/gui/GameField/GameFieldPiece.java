@@ -17,11 +17,14 @@
 
 package org.ojim.client.gui.GameField;
 
+import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridLayout;
 import java.awt.Image;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.border.LineBorder;
 
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
@@ -33,16 +36,21 @@ public class GameFieldPiece extends JPanel {
 	private FieldDrawer drawer;
 	private Field field;
 	private JPanel colorTop;
-	private JLabel text;
+	private JLabel group;
+	private JLabel name;
+	private JLabel price;
+	private JPanel textPanel;
 
 	public GameFieldPiece(Field field, String name, int position, Image image) {
 	}
 
 	public GameFieldPiece(Field field) {
 		if (this.getComponentCount()>0) {
-			remove(text);
+			remove(textPanel);
 			remove(colorTop);
 		}
+		
+		textPanel = new JPanel();
 		// this.drawer = FieldDrawer.getDrawer(field);
 		this.field = field;
 		colorTop = new JPanel();
@@ -51,11 +59,15 @@ public class GameFieldPiece extends JPanel {
 					.getColorGroup()));
 			this.add(colorTop);
 		}
-		text = new JLabel("<html>" + field.getName());
+		name = new JLabel("<html>" + field.getName());
+
+		name.setLayout(new FontLayout());
+		textPanel.add(name);
 		//text = new JLabel("<html>" + "test");
-		text.setLayout(new FontLayout());
-		this.add(text);
+		textPanel.setLayout(new GridLayout(0,1));
+		this.add(textPanel);
 		this.setLayout(new GameFieldPieceLayout());
+		this.setBackground(Color.white);
 	}
 
 	public void setField(Field field) {

@@ -171,7 +171,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 
 		this.connectedClients = 0;
-		this.maxClients = playerCount + aiCount;
+		this.maxClients = playerCount;
 		clients = new LinkedList<IClient>();
 
 		aiClients = new AIClient[aiCount];
@@ -570,10 +570,15 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 	
 	private boolean checkAllPlayersReady() {
+		display("checking players");
+		if(this.connectedClients != this.maxClients) {
+			display("maxClients: " + this.maxClients + " connectedClients:" + this.connectedClients);
+		}
 		if (this.connectedClients == this.maxClients && initComplete) {
 			for (Player player : state.getPlayers()) {
 				// Check if the Player is ready
 				if (!player.getIsReady()) {
+					
 					// AI Clients don't need to be set to ready
 					if (player instanceof ServerPlayer
 							&& !(((ServerPlayer) player).getClient() instanceof AIClient)) {
@@ -582,8 +587,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 			}
 			return true;
+		} else {
+			return false;
 		}
-		return false;
 	}
 
 	/**
