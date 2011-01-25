@@ -10,9 +10,9 @@ public class ClientWrapper implements IClient {
 	private NetClient sink;
 	
 	
-	
 	public ClientWrapper(NetClient sink) {
 		this.sink = sink;
+		
 		
 	}
 	
