@@ -311,8 +311,8 @@ public class ServerLogic extends Logic {
 		
 		//Inform everyone that the Player has moved
 		for(Player onePlayer : this.getGameState().getPlayers()) {
-			if(player instanceof ServerPlayer) {
-				((ServerPlayer) player).getClient().informMove(player.getId(), player.getSignedPosition());
+			if(onePlayer instanceof ServerPlayer) {
+				((ServerPlayer) onePlayer).getClient().informMove(player.getId(), player.getSignedPosition());
 			}
 		}
 		// Do the Execute for the Field the Player is standing on
