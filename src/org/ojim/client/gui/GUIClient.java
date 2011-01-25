@@ -297,7 +297,7 @@ public class GUIClient extends ClientBase {
 
 			downRight.remove(rollButton);
 			try {
-				if (!haveIalreadyRolled &&
+				if (!haveIalreadyRolled && getGameState().getActivePlayer().getId() == getPlayerId() &&
 				// getGameState().getActivePlayer().equals(getMe()) &&
 						this.getGameState().getActivePlayerNeedsToRoll()) {
 
@@ -309,7 +309,6 @@ public class GUIClient extends ClientBase {
 							System.out.println("Rolly Rolly");
 							haveIalreadyRolled = true;
 							draw();
-
 						}
 					};
 
@@ -317,7 +316,7 @@ public class GUIClient extends ClientBase {
 					rollButton.addActionListener(rollListener);
 					downRight.add(rollButton);
 
-				} else // if (getGameState().getActivePlayer().equals(getMe()))
+				} else if (getGameState().getActivePlayer().getId() == getPlayerId())
 				{
 					ActionListener endTurnListener = new ActionListener() {
 
@@ -326,13 +325,15 @@ public class GUIClient extends ClientBase {
 							System.out.println("Turn is ENDED!!!");
 							haveIalreadyRolled = false;
 							endTurn();
-
 						}
 					};
 
 					rollButton = new JButton(language.getText("endturn"));
 					rollButton.addActionListener(endTurnListener);
 					downRight.add(rollButton);
+				} else {
+
+					downRight.setToolTipText("Wait for other Players");
 				}
 			} catch (NullPointerException e) {
 				System.out
@@ -442,6 +443,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
+		System.out.println("Player has changed to "+player.getName());
 	}
 
 	@Override

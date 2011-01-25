@@ -75,6 +75,8 @@ public class PlayerInfoField extends JPanel {
 
 		// TODO Schriftfarbe, Schriftgröße
 		
+		this.remove(activeLabel);
+		
 		if(isTurnedOn){
 			activeLabel = new JLabel("On");
 		} else {
