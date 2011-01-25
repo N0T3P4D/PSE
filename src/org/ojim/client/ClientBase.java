@@ -378,6 +378,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		if (player != null) {
 			Field field = this.getGameState().getFieldAt(position);
 			if (field instanceof BuyableField) {
+				((BuyableField) field).buy(player);
 				this.executor.execute(new OnBuy(this, player, (BuyableField) field));
 			} else {
 				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informBuy with invalid position.");
