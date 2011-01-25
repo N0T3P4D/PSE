@@ -6,6 +6,7 @@ import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.LayoutManager;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 
 public class FontLayout implements LayoutManager {
@@ -56,25 +57,31 @@ public class FontLayout implements LayoutManager {
 
 		int totalWidth = parent.getWidth();
 		int totalHeight = parent.getHeight();
-		
-		int maxSize = totalWidth < totalHeight ? totalWidth : (int)(totalWidth-(totalWidth-totalHeight)/2);
-		
-		JLabel label = (JLabel) parent;
-		
-		int fontSize = (int)(maxSize/6.0f);
-		
-		label.setFont(new Font(null, nComps, fontSize));
-		
-/*
-		for (int i = 0; i < nComps; i++) {
-			Component c = parent.getComponent(i);
 
-			int totalWidth = parent.getWidth();
-			int totalHeight = parent.getHeight();
-			
-			
-			
-		}*/
+		int maxSize = totalWidth < totalHeight ? totalWidth
+				: (int) (totalWidth - (totalWidth - totalHeight) / 2);
+
+		try {
+			JLabel label = (JLabel) parent;
+			int fontSize = (int) (maxSize / 6.0f);
+			label.setFont(new Font(null, nComps, fontSize));
+		} catch (ClassCastException e) {
+			JButton label = (JButton) parent;
+			int fontSize = (int) (maxSize / 6.0f);
+			label.setFont(new Font(null, nComps, fontSize));
+		}
+
+		/*
+		 * for (int i = 0; i < nComps; i++) { Component c =
+		 * parent.getComponent(i);
+		 * 
+		 * int totalWidth = parent.getWidth(); int totalHeight =
+		 * parent.getHeight();
+		 * 
+		 * 
+		 * 
+		 * }
+		 */
 	}
 
 	@Override

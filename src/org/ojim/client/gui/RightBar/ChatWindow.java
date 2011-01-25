@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.language.Localizer;
 
 public class ChatWindow extends JPanel {
@@ -71,6 +72,7 @@ public class ChatWindow extends JPanel {
 				new Insets(0, 0, 0, 0), 0, 0));
 
 		JButton sendButton = new JButton(language.getText("send"));
+		sendButton.setLayout(new FontLayout());
 
 		textPanel.add(textField);
 		
