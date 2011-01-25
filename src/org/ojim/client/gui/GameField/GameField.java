@@ -44,35 +44,42 @@ public class GameField extends JPanel {
 
 	public void buildOnStreet(Field field) {
 		// TODO Auto-generated method stub
+		draw();
 		
 	}
 
 	public void playerBuysField(Player player, Field field) {
 		// TODO Auto-generated method stub
+		draw();
 		
 	}
 
 	public void destroyOnStreet(Field field) {
 		// TODO Auto-generated method stub
+		draw();
 		
 	}
 
 	public void switchFieldStatus(Field field) {
 		// TODO Auto-generated method stub
+		draw();
 		
 	}
 
 	public void playerMoves(Field field, Player player) {
 		// TODO Auto-generated method stub
+		draw();
 	}
 	
 	public void init(int fieldsAmount, GameState gameState){
+		System.out.println("GAMEFIELD UPDATE");
 		this.fieldsAmount = fieldsAmount;
 		fields = new GameFieldPiece[fieldsAmount];
 		for(int i = 0; i < fieldsAmount; i++){
 			fields[i] = new GameFieldPiece(gameState.getFieldAt(i));
 			//fields[i].setField(gameState.getFieldAt(i));
 		}
+		draw();
 	}
 	
 	public void draw(){
@@ -86,6 +93,7 @@ public class GameField extends JPanel {
 		
 		actualLabel.setName(-1+"");
 		this.add(actualLabel);
+		
 		
 		for(int i = 0; i<fieldsAmount; i++){
 			actualLabel = fields[i];
