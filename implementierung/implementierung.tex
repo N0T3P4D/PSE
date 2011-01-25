@@ -63,4 +63,16 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \subsection{Änderungen gegenüber dem Entwurf}
 \subsection{Entwurfsentscheidungen}
 
+\section OjimServer
+\subsection{Allgemeines}
+\subsection {Änderungen gegenüber dem Entwurf}
+\begin{itemize}
+\item Der Server beinhaltet nun eine Möglichkeit ihn über die Kommandozeile zu starten und zu beenden
+\item Der Server bekommt am Anfang die maximale Spielerzahl und die Computerspielerzahl übergeben
+\item Die Funktionalität der Methoden aus IServer, IServerTrade und IServerAuction werden wie im Entwurf vorgesehen implementiert, einzelne Abläufe und Folgeaktionen waren im Entwurf aber nicht genau vorgeschrieben.
+\item Der Übersichtlichkeit halber wurden einige privaten Methoden eingefügt, beispielsweise
+\begin{itemize}
+\item private boolean checkAllPlayersReady()
+\end{itemize}
+\end{itemize}
 \end{document}
