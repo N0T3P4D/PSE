@@ -89,6 +89,8 @@ public interface NetClient extends Remote {
 	
 	void informPlayerLeft(int playerId)throws RemoteException;
 	
+	public void setPlayerId(int newId) throws RemoteException;
+	
 	
 	
 	

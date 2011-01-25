@@ -17,6 +17,9 @@
 
 package org.ojim.client.ai.valuation;
 
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
+
 /**
  * 
  * @author Jeremias Mechler
@@ -36,10 +39,24 @@ public final class MortgageValuator extends ValuationFunction {
 		return MortgageValuator.getInstance(false, MortgageValuator.class);
 	}
 
+	public double returnValuation(int position) {
+		if (position == -1) {
+			position = getGameState().getActivePlayer().getPosition();
+		}
+		assert (position != -1);
+		Field field = getGameState().getFieldAt(position);
+		if (field instanceof BuyableField)
+			return -ValuationParameters.mortgageFactor
+					* ((BuyableField) field).getPrice();
+		else {
+			return 0;
+		}
+	}
+
 	@Override
 	public double returnValuation() {
 		// TODO Auto-generated method stub
-		return 0;
+		return returnValuation(-1);
 	}
 
 }

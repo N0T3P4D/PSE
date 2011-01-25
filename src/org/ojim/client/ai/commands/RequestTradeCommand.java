@@ -31,6 +31,11 @@ public class RequestTradeCommand extends TradeCommand {
 
 	/**
 	 * 
+	 */
+	private static final long serialVersionUID = -6017997621740181166L;
+
+	/**
+	 * 
 	 * Constructor
 	 * 
 	 * @param server
