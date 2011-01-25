@@ -128,11 +128,10 @@ public class AIClient extends ClientBase {
 	
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		assert(player != null);
-		logger.log(Level.INFO, this.log("ID = " + getPlayerId()));
-		this.log("ID = " + getPlayerId() + " onCashChange! Amount = " + cashChange
-				+ " New cash = "
-				+ getGameState().getActivePlayer().getBalance());
+		logger.log(Level.INFO, this.log("onCashChange(" + this.getPlayerInfo(player) + ")! Amount = " + cashChange
+				+ " New cash = " + player.getBalance()));
+		
+		assert(this.getGameState().getActivePlayer() != null);
 	}
 
 	@Override
