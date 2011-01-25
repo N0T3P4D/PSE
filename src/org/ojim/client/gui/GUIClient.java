@@ -73,6 +73,8 @@ public class GUIClient extends ClientBase {
 
 	JPanel pane = new JPanel(new OJIMLayout());
 	Localizer language;
+	
+	boolean haveIalreadyRolled = false;
 
 	private MenuState menuState;
 
@@ -259,38 +261,38 @@ public class GUIClient extends ClientBase {
 			pane.add(downWindow);
 
 			downRight.remove(buyButton);
-			
+
 			downRight.setLayout(new GridLayout(1, 0));
 			try {
-			if (((BuyableField) (getGameState().getFieldAt(getMe()
-					.getPosition()))).getPrice() <= getMe().getBalance()) {
-				buyButton = new JButton(language.getText("buy"));
+				if (((BuyableField) (getGameState().getFieldAt(getMe()
+						.getPosition()))).getPrice() <= getMe().getBalance()) {
+					buyButton = new JButton(language.getText("buy"));
 
-				ActionListener buyListener = new ActionListener() {
+					ActionListener buyListener = new ActionListener() {
 
-					@Override
-					public void actionPerformed(ActionEvent e) {
-						accept();
-						System.out
-								.println("BUYYYYYYYY THISSSSSS!!!! I NEEEED IT SOOOO MUCH");
+						@Override
+						public void actionPerformed(ActionEvent e) {
+							accept();
+							System.out
+									.println("BUYYYYYYYY THISSSSSS!!!! I NEEEED IT SOOOO MUCH");
 
-					}
-				};
+						}
+					};
 
-				buyButton.addActionListener(buyListener);
+					buyButton.addActionListener(buyListener);
 
-				buyButton.setLayout(new FontLayout());
-				downRight.add(buyButton);
-			}
-			} catch (Exception e){
+					buyButton.setLayout(new FontLayout());
+					downRight.add(buyButton);
+				}
+			} catch (Exception e) {
 				System.out.println("Kein buyablefield");
 			}
 
 			downRight.remove(rollButton);
-			
 			try {
-				if (getGameState().getActivePlayer().equals(getMe())
-					&& this.getGameState().getActivePlayerNeedsToRoll()) {
+				if (!haveIalreadyRolled &&
+						//getGameState().getActivePlayer().equals(getMe()) && 
+						this.getGameState().getActivePlayerNeedsToRoll()) {
 
 					ActionListener rollListener = new ActionListener() {
 
@@ -298,6 +300,8 @@ public class GUIClient extends ClientBase {
 						public void actionPerformed(ActionEvent arg0) {
 							rollDice();
 							System.out.println("Rolly Rolly");
+							haveIalreadyRolled = true;
+							draw();
 
 						}
 					};
@@ -306,14 +310,15 @@ public class GUIClient extends ClientBase {
 					rollButton.addActionListener(rollListener);
 					downRight.add(rollButton);
 
-				} else //if (getGameState().getActivePlayer().equals(getMe())) 
-					{
+				} else // if (getGameState().getActivePlayer().equals(getMe()))
+				{
 					ActionListener endTurnListener = new ActionListener() {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
 							endTurn();
 							System.out.println("Turn is ENDED!!!");
+							haveIalreadyRolled = false;
 
 						}
 					};
@@ -323,7 +328,7 @@ public class GUIClient extends ClientBase {
 					downRight.add(rollButton);
 				}
 			} catch (NullPointerException e) {
-
+				System.out.println("Jemand anderes verschwendet unsere Zeit, Meister.");
 			}
 			rollButton.setLayout(new FontLayout());
 
@@ -353,7 +358,6 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onBuy(Player player, BuyableField field) {
 		gameField.playerBuysField(player, field);
-		draw();
 
 		// TODO if player = gui player => feld and cardBar schicken zum
 		// aufnehmen
@@ -364,32 +368,27 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onCashChange(Player player, int cashChange) {
 		playerInfoWindow.changeCash(player, cashChange);
-		draw();
 	}
 
 	@Override
 	public void onConstruct(Street street) {
 		gameField.buildOnStreet(street);
-		draw();
 	}
 
 	@Override
 	public void onDestruct(Street street) {
 		gameField.destroyOnStreet(street);
-		draw();
 	}
 
 	@Override
 	public void onMessage(String text, Player sender, boolean privateMessage) {
 		chatWindow.write(new ChatMessage(sender, privateMessage, text));
-		draw();
 	}
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
 		cardWindow.switchCardStatus(street);
 		gameField.switchFieldStatus(street);
-		draw();
 	}
 
 	@Override
@@ -398,19 +397,16 @@ public class GUIClient extends ClientBase {
 		// this.menuState = MenuState.game;
 		gameField.playerMoves(this.getGameState().getFieldAt(position), player);
 		System.out.println("MOVE!");
-		draw();
 	}
 
 	@Override
 	public void onTrade(Player actingPlayer, Player partnerPlayer) {
 		// TODO Auto-generated method stub
-		draw();
 	}
 
 	@Override
 	public void onBankruptcy() {
 		// TODO Auto-generated method stub
-		draw();
 
 	}
 
@@ -418,13 +414,11 @@ public class GUIClient extends ClientBase {
 	public void onCardPull(String text, boolean communityCard) {
 		// TODO Auto-generated method stub
 		// Mittelfeld
-		draw();
 	}
 
 	@Override
 	public void onDiceValues(int[] diceValues) {
 		// TODO Auto-generated method stub
-		draw();
 
 	}
 
@@ -437,7 +431,6 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
-		draw();
 	}
 
 	@Override
