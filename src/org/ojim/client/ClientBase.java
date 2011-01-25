@@ -41,7 +41,6 @@ import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.logic.state.fields.TaxField;
 import org.ojim.rmi.client.ImplNetClient;
-import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -179,8 +178,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	}
 
 	protected final void connect(IServer server) {
-		this.setParameters(new Logic(server.getRules()),
-				server.addPlayer(this), server);
+		this.setParameters(server, this);
 		this.loadGameBoard();
 	}
 
@@ -381,6 +379,9 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 				this.getPlayerPiecePosition(playerId), this.getPlayerCash(playerId),
 				playerId, this.getPlayerColor(playerId));
 		this.getGameState().setPlayer(player);
+		if (this.getPlayerId() == player.getId()) {
+			this.setMyPlayer(player);
+		}
 		this.onNewPlayer(player);
 	}
 
@@ -389,7 +390,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public final void informPlayerLeft(int playerId) {
 		Player old = this.getGameState().getPlayerByID(playerId);
 		this.getGameState().removePlayer(old);
-		this.onNewPlayer(old);
+		this.onPlayerLeft(old);
 	}
 	
 	public abstract void onPlayerLeft(Player player);

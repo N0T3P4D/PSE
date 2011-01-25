@@ -126,6 +126,7 @@ public class ServerLogic extends Logic {
 	 */
 	public void sendPlayerToJail(ServerPlayer player, Jail jail) {
 		player.sendToJail(jail);
+		this.getGameState().setActivePlayerNeedsToRoll(false);
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if (onePlayer instanceof ServerPlayer) {
 				((ServerPlayer) onePlayer).getClient().informMove(

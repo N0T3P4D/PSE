@@ -586,6 +586,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 								state.getRules().startMoney, i, i, client));
 				this.connectedClients++;
 				display("Player with id:" + i + " added!");
+				
+				
+				for(Player player : state.getPlayers()) {
+					if(!(player instanceof ServerPlayer) || ((ServerPlayer)player).getClient().equals(client)) {
+						client.informNewPlayer(player.getId());
+					}
+				}
+				
 				return i;
 			}
 		}
@@ -861,6 +869,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				doubles++;
 				if (doubles >= GameRules.MAX_DOUBLES_ALLOWED) {
 					// Player has to get to jail
+					display("Player has to move to jail");
 					logic.sendPlayerToJail(player, state.getDefaultJail());
 					return true;
 				}
