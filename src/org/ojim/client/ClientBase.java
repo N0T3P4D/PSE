@@ -84,11 +84,19 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			int groupColor = this.getEstateColorGroup(position);
 			// Street
 			if (groupColor >= 0) {
+				
 				StreetFieldGroup group = colorGroups.get(groupColor);
 				if (group == null) {
-					group = new StreetFieldGroup(groupColor, this.getEstateHousePrice(position));
+					int delim = name.indexOf(":");
+					String groupName = "";
+					if (delim > 0) {
+						groupName = name.substring(0, delim - 1);
+					}
+					group = new StreetFieldGroup(groupColor, groupName, this.getEstateHousePrice(position));
 				}
 
+				name = name.substring(name.indexOf(":") + 1).trim();
+				
 				int[] rentByLevel = new int[Street.MAXMIMUM_BUILT_LEVEL];
 				for (int builtLevel = 0; builtLevel < rentByLevel.length; builtLevel++) {
 					rentByLevel[builtLevel] = this.getEstateRent(position,
