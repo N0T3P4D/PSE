@@ -759,7 +759,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		if (player == null || !rules.isPlayerOnTurn(player)
 				|| this.gameStarted == false
-				|| !this.rules.isRollRequiredByActivePlayer()) {
+				|| !this.rules.isRollRequiredByActivePlayer()  || this.state.getGameIsWon()) {
 //			display("cant roll dices");
 //			if (!rules.isPlayerOnTurn(player))
 //				display("not on turn");
@@ -772,10 +772,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return false;
 		}
 
-		if (this.rules.isPlayerInPrison(player)) {
-
-			// Still need to wait
-			if (player.getJail().getRoundsToWait() > 0) {
+		if (player.getJail() == null) {
 
 				// Roll and Inform everyone
 				state.getDices().roll();
@@ -793,8 +790,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 					informMoveAll(player);
 				}
 			}
-		}
-
+		
 		int doubles = 0;
 		while (state.getActivePlayerNeedsToRoll()) {
 

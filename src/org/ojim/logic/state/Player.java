@@ -197,7 +197,11 @@ public class Player implements IMoneyPartner {
 	}
 
 	public void setPosition(int position) {
-		this.position = position;
+		if(position < 0) {
+			this.position = -position;
+		} else {
+			this.position = position;
+		}
 	}
 
 	public void setNumberOfGetOutOfJailCards(int numberOfGetOutOfJailCards) {
