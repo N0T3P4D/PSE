@@ -180,7 +180,7 @@ public class GUIClient extends ClientBase {
 			
 			OjimServer server = new OjimServer("Philip");
 			
-			server.initGame(1, 0);
+			server.initGame(8, 7);
 			
 			connect(server);
 			

@@ -94,7 +94,7 @@ public class PlayerInfoWindow extends JPanel {
 			if(playerInfoFields[i] != null){
 				this.add(playerInfoFields[i]);
 			}
-			System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
+			//System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
 		}
 	}
 
