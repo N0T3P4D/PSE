@@ -577,21 +577,22 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		for (int i = 0; i < maxClients; i++) {
 			if (state.getPlayerByID(i) == null) {
 				
-				//Inform all Players except the new one that a new Player is there
-				for(IClient informClient : this.clients) {
-					informClient.informNewPlayer(i);
-				}
 				this.clients.add(client);
-				state.setPlayer(new ServerPlayer(client.getName(), 0,
-								state.getRules().startMoney, i, i, client));
+				Player newPlayer = new ServerPlayer(client.getName(), 0,
+						state.getRules().startMoney, i, i, client);
+				state.setPlayer(newPlayer);
 				this.connectedClients++;
 				display("Player with id:" + i + " added!");
 				
+				//Inform all Players except the new one that a new Player is there
+				for(Player player : state.getPlayers()) {
+					if (!player.equals(newPlayer)) {
+						((ServerPlayer) player).getClient().informNewPlayer(i);
+					}
+				}
 				
 				for(Player player : state.getPlayers()) {
-					if(!(player instanceof ServerPlayer) || ((ServerPlayer)player).getClient().equals(client)) {
-						client.informNewPlayer(player.getId());
-					}
+					client.informNewPlayer(player.getId());
 				}
 				
 				return i;
