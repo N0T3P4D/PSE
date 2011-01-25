@@ -132,7 +132,7 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onMove(Player player, int position) {
-		this.log("onBuy(" + this.getPlayerInfo(player) + ", " + position + ")!");
+		this.log("onMove(" + this.getPlayerInfo(player) + ", " + position + ")!");
 	}
 
 	@Override

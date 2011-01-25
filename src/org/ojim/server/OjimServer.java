@@ -776,24 +776,24 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return false;
 		}
 
-		if (player.getJail() == null) {
+		if (player.getJail() != null) {
 
-				// Roll and Inform everyone
-				state.getDices().roll();
-				informDiceAll();
+			// Roll and Inform everyone
+			state.getDices().roll();
+			informDiceAll();
 
-				// Player has not rolled a Double and stays in jail
-				if (!state.getDices().isDouble()) {
-					state.setActivePlayerNeedsToRoll(false);
-					return true;
-				} else {
-					// Get the Player out of Jail
-					logic.playerRolledOutOfJail(player);
-					// Inform all that the Player is now out of Prison (position
-					// > -1)
-					informMoveAll(player);
-				}
+			// Player has not rolled a Double and stays in jail
+			if (!state.getDices().isDouble()) {
+				state.setActivePlayerNeedsToRoll(false);
+				return true;
+			} else {
+				// Get the Player out of Jail
+				logic.playerRolledOutOfJail(player);
+				// Inform all that the Player is now out of Prison (position
+				// > -1)
+				informMoveAll(player);
 			}
+		}
 		
 		int doubles = 0;
 		while (state.getActivePlayerNeedsToRoll()) {
@@ -1194,7 +1194,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[29] = streets[5].addField(new Street(
 				"Hauptreaktor", 29, new int[] { 480, 2400, 7200,
 						17000, 20500, 24000 }, 0, 5600, logic));
-		fields[30] = new GoToJail("Gehe ins Gefängnis", 30, this.logic, (Jail) fields[10]);
+//		fields[30] = new GoToJail("Gehe ins Gefängnis", 30, this.logic, (Jail) fields[10]);
+		fields[30] = streets[5].addField(new Street("foobar", 30, new int[] { 480, 2400, 7200,
+						17000, 20500, 24000 }, 0, 5600, logic));
 		fields[31] = streets[6].addField(new Street("Wald", 31,
 				new int[] { 520, 2600, 7800, 18000, 22000, 25500 }, 0, 6000,
 				logic));
