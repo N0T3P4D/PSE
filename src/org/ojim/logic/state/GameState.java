@@ -48,7 +48,7 @@ public class GameState {
 	private DiceSet dices;
 	private Player activePlayer;
 	private boolean activePlayerNeedsToRoll;
-	private boolean gameIsWon;
+	private boolean gameIsWon = false;;
 	
 	public GameState() {
 		this.players = new HashMap<Integer, Player>(MAXIMUM_PLAYER_COUNT);

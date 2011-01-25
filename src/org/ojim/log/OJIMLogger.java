@@ -48,12 +48,15 @@ public final class OJIMLogger {
 		}
 		consoleHandler.setFormatter(formatter);
 		consoleHandler.setLevel(Level.CONFIG);
-		logger.addHandler(consoleHandler);
+		if (logger.getHandlers().length == 0) {
+			logger.addHandler(consoleHandler);
+		}
 	}
 
 	/**
 	 * 
-	 * To be called from outside - creates a new Logger, set up for OJIM purposes
+	 * To be called from outside - creates a new Logger, set up for OJIM
+	 * purposes
 	 * 
 	 * @param name
 	 *            The logger's name
