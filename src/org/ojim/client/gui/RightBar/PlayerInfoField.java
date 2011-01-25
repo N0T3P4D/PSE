@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.ojim.client.gui.PlayerColor;
+import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.Player;
 
@@ -48,11 +49,13 @@ public class PlayerInfoField extends JPanel {
 		
 
 		activeLabel = new JLabel();
+		if(this.player != null){
 		nameLabel = new JLabel(this.player.getName());
 		cashLabel = new JLabel(this.cash + " " + 
 				language.getText("currency"));
 		
 		draw();
+		}
 	}
 
 	public void setLanguage(Localizer language) {
@@ -79,8 +82,11 @@ public class PlayerInfoField extends JPanel {
 		}
 		
 		this.activeLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
+		activeLabel.setLayout(new FontLayout());
 		this.nameLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
+		nameLabel.setLayout(new FontLayout());
 		this.cashLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
+		cashLabel.setLayout(new FontLayout());
 		
 		// Eigener Layouter?
 		this.setLayout(new GridLayout(0,3));
@@ -93,7 +99,7 @@ public class PlayerInfoField extends JPanel {
 
 	public boolean isPlayer(Player player) {
 		// TODO: Player Objekt eine richtige Equalsmethode übergeben?
-		if (this.player.getId() == player.getId()) {
+		if (this.player != null && this.player.equals(player)) {
 			return true;
 		} else {
 			return false;
@@ -123,7 +129,7 @@ public class PlayerInfoField extends JPanel {
 	}
 
 	public boolean isNull() {
-		if (player == Player.NullPlayer) {
+		if (player == null) {
 			return true;
 		}
 		return false;
