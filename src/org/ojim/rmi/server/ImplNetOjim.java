@@ -45,19 +45,20 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	
 	private ServerDetails serverDetails;
 	
-	//private NetClient netClient;
+	private NetClient netClient;
 	
 	private OjimServer server;
 	
 	//Speichert alle Clients
-	private Vector <NetClient> clientList;
+	private Vector <ClientWrapper> clientList;
 
-	public ImplNetOjim(Registry reg, ServerDetails serverDetails, OjimServer server) throws RemoteException {
+	public ImplNetOjim(Registry reg, ServerDetails serverDetails, OjimServer server, NetClient netClient) throws RemoteException {
 		super();
 		this.reg = reg;
 		this.serverDetails = serverDetails;
 		//clientList = new Vector();
 		this.server = server;
+		this.netClient = netClient;
 	}
 	
 	
@@ -254,6 +255,7 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 
 	
 	public int addPlayer(IClient client) {
+		
 		return this.server.addPlayer(client);
 	}
 
@@ -319,6 +321,10 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	@Override
 	public synchronized void registerClient(NetClient netClient) throws RemoteException {
 		 
+		ClientWrapper clientWrap = new ClientWrapper(netClient);
+		addPlayer(clientWrap);
+		
+		/*
 		if (!(clientList.contains(netClient)) && this.serverDetails.getOpen()) {
 	         clientList.addElement(netClient);
 	         this.serverDetails.connectPlayer();
@@ -332,7 +338,9 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 			
 		}
 	      
-
+*/
+		
+		this.netClient = netClient;
 		
 	}
 
@@ -341,13 +349,18 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 
 	@Override
 	public synchronized void abmeldenClient(NetClient netClient) throws RemoteException {
-		 
+		 	
+			/*
 		    if (clientList.removeElement(netClient)) {
 		      System.out.println("Client wurde erfolgreich beim Server abgemeldet");
 		    } else {
 		       System.out.println("Client war bereits nicht beim Server angemeldet");
 		    }
 
+			*/
+		
+		this.netClient = null;
+		
 		
 	}
 
@@ -369,6 +382,10 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	public int getMoneyToPay(int position) throws RemoteException {
 		
 		return this.server.getMoneyToPay(position);
+	}
+	
+	public NetClient getNetClient(){
+		return this.netClient;
 	}
 
 
