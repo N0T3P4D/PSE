@@ -864,7 +864,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		Field field = state.getFieldAt(player.getPosition());
 		if (field instanceof BuyableField
-				&& ((BuyableField) field).getOwner() == null || player.getBalance() > ((BuyableField)field).getPrice()) {
+				&& ((BuyableField) field).getOwner() == null && player.getBalance() > ((BuyableField)field).getPrice()) {
 			display("accept: buy field");
 			logic.buyStreet();
 			return true;
