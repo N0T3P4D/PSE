@@ -70,12 +70,12 @@ public class PlayerInfoWindow extends JPanel {
 	}
 
 	public void addPlayer(Player player, int cash) {
-		System.out.println("addPlayer");
+		//System.out.println("addPlayer");
 		if (findPlayer(player) == -1) {
 			// System.out.println(player.getId()+" nicht gefunden");
 			for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 				if (playerInfoFields[i] == null) {
-					System.out.println(player.getId()+" mit id "+i+" hinzugefügt");
+					//System.out.println(player.getId()+" mit id "+i+" hinzugefügt");
 					playerInfoFields[i] = new PlayerInfoField(player, cash,
 							language);
 					break;
