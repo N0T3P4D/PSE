@@ -1281,10 +1281,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[29] = streets[5].addField(new Street("Hauptreaktor", 29,
 				new int[] { 480, 2400, 7200, 17000, 20500, 24000 }, 0, 5600,
 				logic));
-		// fields[30] = new GoToJail("Gehe ins Gefängnis", 30, this.logic,
-		// (Jail) fields[10]);
-		fields[30] = streets[5].addField(new Street("foobar", 30, new int[] {
-				480, 2400, 7200, 17000, 20500, 24000 }, 0, 5600, logic));
+		fields[30] = new GoToJail("Gehe ins Gefängnis", 30, this.logic,
+		(Jail) fields[10]);
+		// Fabians Strange gelbe Karte wurde hiermit hoch offiziell von Max entfernt!
+		//fields[30] = streets[5].addField(new Street("foobar", 30, new int[] {
+		//		480, 2400, 7200, 17000, 20500, 24000 }, 0, 5600, logic));
 		fields[31] = streets[6].addField(new Street("Wald", 31, new int[] {
 				520, 2600, 7800, 18000, 22000, 25500 }, 0, 6000, logic));
 		fields[32] = streets[6].addField(new Street("Schildgenerator", 32,
