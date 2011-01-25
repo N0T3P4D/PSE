@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.border.Border;
 
 import org.ojim.client.gui.PlayerColor;
+import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.Player;
 
@@ -81,8 +82,11 @@ public class PlayerInfoField extends JPanel {
 		}
 		
 		this.activeLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
+		activeLabel.setLayout(new FontLayout());
 		this.nameLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
+		nameLabel.setLayout(new FontLayout());
 		this.cashLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
+		cashLabel.setLayout(new FontLayout());
 		
 		// Eigener Layouter?
 		this.setLayout(new GridLayout(0,3));

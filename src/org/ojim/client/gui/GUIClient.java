@@ -29,6 +29,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.CardBar.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
+import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.client.gui.PopUpFrames.*;
 import org.ojim.client.gui.RightBar.ChatMessage;
 import org.ojim.client.gui.RightBar.ChatWindow;
@@ -222,8 +223,10 @@ public class GUIClient extends ClientBase {
 			JButton button1;
 
 			button1 = new JButton(language.getText("buy"));
+			button1.setLayout(new FontLayout());
 			downRight.add(button1);
 			button1 = new JButton(language.getText("roll"));
+			button1.setLayout(new FontLayout());
 			downRight.add(button1);
 
 			pane.add(downRight);
