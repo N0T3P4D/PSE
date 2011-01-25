@@ -66,17 +66,21 @@ public class GameFieldPiece extends JPanel {
 			group = new JLabel("<html>" + ((Street) field).getFieldGroup().getName());
 
 			group.setLayout(new FontLayout());
+			group.setHorizontalTextPosition(JLabel.CENTER);
 			textPanel.add(group);
 		} catch (ClassCastException e) {
 
 		}
 		
 		name = new JLabel("<html>" + field.getName());
+		name.setHorizontalTextPosition(JLabel.CENTER);
 		name.setLayout(new FontLayout());
 		textPanel.add(name);
 		try {
 			price = new JLabel("<html>" + ((BuyableField) field).getPrice());
 
+			price.setHorizontalTextPosition(JLabel.CENTER);
+			price.setVerticalTextPosition(JLabel.BOTTOM);
 			price.setLayout(new FontLayout());
 			textPanel.add(price);
 		} catch (ClassCastException e) {

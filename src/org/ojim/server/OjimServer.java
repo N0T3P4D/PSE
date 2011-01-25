@@ -1107,12 +1107,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private CardField newEventCardField(int position) {
-		return new CardField("Ereigniskarte", position, false,
+		return new CardField("Ereignis- karte", position, false,
 				this.state.getEventCards(), this.logic);
 	}
 
 	private CardField newCommunityCardField(int position) {
-		return new CardField("Gemeinschaftskarte", position, true,
+		return new CardField("Gemein- schafts- karte", position, true,
 				this.state.getCommunityCards(), this.logic);
 	}
 
@@ -1124,7 +1124,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		streets[0] = new StreetFieldGroup(0, "Dagobah", 1000);
 		streets[1] = new StreetFieldGroup(1, "Hoth", 1000);
 		streets[2] = new StreetFieldGroup(2, "Tatooine", 2000);
-		streets[3] = new StreetFieldGroup(3, "Yavin 4", 2000);
+		streets[3] = new StreetFieldGroup(3, "Yavin&nbsp;Vier", 2000);
 		streets[4] = new StreetFieldGroup(4, "Wolkenstadt", 3000);
 		streets[5] = new StreetFieldGroup(5, "Todesstern", 3000);
 		streets[6] = new StreetFieldGroup(6, "Endor", 4000);
@@ -1138,7 +1138,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		fields[2] = this.newEventCardField(2);
 		fields[3] = streets[0].addField(new Street("Jodas Hütte", 3,
 				new int[] { 80, 400, 1200, 3600, 6400, 9000 }, 0, 1200, logic));
-		fields[4] = new TaxField("Landungssteuer", 4, 4000, this.logic);
+		fields[4] = new TaxField("Landungs- steuer", 4, 4000, this.logic);
 		fields[5] = stations.addField(new Station("TIE-Fighter", 5, 4000));
 		fields[6] = streets[1]
 				.addField(new Street("Echo-Basis", 6, new int[] { 120,
@@ -1180,10 +1180,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 						14000, 17500, 21000 }, 0, 4400, logic));
 		fields[22] = this.newCommunityCardField(22);
 		fields[23] = streets[4].addField(new Street(
-				"Karbon-Gefrierkammer", 23, new int[] { 360, 1800,
+				"Karbon- Gefrierkammer", 23, new int[] { 360, 1800,
 						5000, 14000, 17500, 21000 }, 0, 4400, logic));
 		fields[24] = streets[4].addField(new Street(
-				"Reaktor-Kontrollraum", 24, new int[] { 400, 2000,
+				"Reaktor- Kontrollraum", 24, new int[] { 400, 2000,
 						6000, 15000, 18500, 22000 }, 0, 4800, logic));
 		fields[25] = stations.addField(new Station("X-Wing Fighter", 25, 4000,
 				this.logic));
@@ -1194,7 +1194,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				27, new int[] { 440, 2200, 6600, 16000, 19500, 23000 }, 0,
 				5200, logic));
 		fields[28] = infrastructures.addField(new InfrastructureField(
-				"Wasser-Farm", 28, 3000, this.logic));
+				"Wasser- Farm", 28, 3000, this.logic));
 		fields[29] = streets[5].addField(new Street(
 				"Hauptreaktor", 29, new int[] { 480, 2400, 7200,
 						17000, 20500, 24000 }, 0, 5600, logic));
