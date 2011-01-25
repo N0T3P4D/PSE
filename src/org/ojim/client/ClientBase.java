@@ -380,6 +380,9 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 				this.getPlayerPiecePosition(playerId), this.getPlayerCash(playerId),
 				playerId, this.getPlayerColor(playerId));
 		this.getGameState().setPlayer(player);
+		if (this.getPlayerId() == player.getId()) {
+			this.setMyPlayer(player);
+		}
 		this.onNewPlayer(player);
 	}
 
