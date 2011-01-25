@@ -32,52 +32,51 @@ public class PlayerInfoWindow extends JPanel {
 	private Localizer language;
 
 	public PlayerInfoWindow(Localizer language) {
-		
+
 		this.language = language;
-		
-		
+
 		playerInfoFields = new PlayerInfoField[MAX_PLAYERS];
 		/*
-		for(int i = 0; i < MAX_PLAYERS; i++){
-			playerInfoFields[i] = new PlayerInfoField(null, 0, language);
-		}*/
-		
+		 * for(int i = 0; i < MAX_PLAYERS; i++){ playerInfoFields[i] = new
+		 * PlayerInfoField(null, 0, language); }
+		 */
+
 		/*
-		
-		Player player = new Player("Test 1", 5, 5, 1, 0);
-		Player playerTwo = new Player("Test 2", 5, 5, 2, 1);
-		Player playerThree = new Player("Test 3", 5, 5, 3, 2);
-		Player playerFour = new Player("Test 4", 5, 5, 4, 3);
+		 * 
+		 * Player player = new Player("Test 1", 5, 5, 1, 0); Player playerTwo =
+		 * new Player("Test 2", 5, 5, 2, 1); Player playerThree = new
+		 * Player("Test 3", 5, 5, 3, 2); Player playerFour = new
+		 * Player("Test 4", 5, 5, 4, 3);
+		 * 
+		 * addPlayer(player, 500); addPlayer(playerTwo, 501);
+		 * addPlayer(playerThree, 399); addPlayer(playerFour, 222);
+		 */
 
-		addPlayer(player, 500);
-		addPlayer(playerTwo, 501);
-		addPlayer(playerThree, 399);
-		addPlayer(playerFour, 222);*/
+		// System.out.println("Alles müsste da sein.");
 
-		//System.out.println("Alles müsste da sein.");
-		
 	}
-	
+
 	public void setLanguage(Localizer language) {
 		this.language = language;
-		
+
 		for (int i = 0; i < MAX_PLAYERS; i++) {
 			if (!playerInfoFields[i].isNull()) {
 				playerInfoFields[i].setLanguage(language);
 			}
 		}
-		
+
 		draw();
 	}
 
 	public void addPlayer(Player player, int cash) {
-		//System.out.println("addPlayer");
+		// System.out.println("addPlayer");
 		if (findPlayer(player) == -1) {
-			//System.out.println(player.getId()+" nicht gefunden");
+			// System.out.println(player.getId()+" nicht gefunden");
 			for (int i = 0; i < MAX_PLAYERS; i++) {
-				if (playerInfoFields[i]==null) {
-					//System.out.println(player.getId()+" mit id "+i+" hinzugefügt");
-					playerInfoFields[i] = new PlayerInfoField(player, cash, language);
+				if (playerInfoFields[i] == null) {
+					// System.out.println(player.getId()+" mit id "+i+" hinzugefügt");
+					playerInfoFields[i] = new PlayerInfoField(player, cash,
+							language);
 					break;
 				}
 			}
@@ -87,14 +86,14 @@ public class PlayerInfoWindow extends JPanel {
 
 	private void draw() {
 		this.removeAll();
-		
-		this.setLayout(new GridLayout(MAX_PLAYERS,0));
-		
+
+		this.setLayout(new GridLayout(MAX_PLAYERS, 0));
+
 		for (int i = 0; i < MAX_PLAYERS; i++) {
-			if(playerInfoFields[i] != null){
+			if (playerInfoFields[i] != null) {
 				this.add(playerInfoFields[i]);
 			}
-			//System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
+			// System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
 		}
 	}
 
@@ -115,7 +114,7 @@ public class PlayerInfoWindow extends JPanel {
 			}
 		}
 		int i = findPlayer(player);
-		if(i!=-1){
+		if (i != -1) {
 			playerInfoFields[i].turnOn();
 		}
 		draw();
@@ -123,14 +122,16 @@ public class PlayerInfoWindow extends JPanel {
 
 	public void changeCash(Player player, int newCashValue) {
 		int i = findPlayer(player);
-		playerInfoFields[i].changeCash(newCashValue);
+		if (i != -1) {
+			playerInfoFields[i].changeCash(newCashValue);
+		}
 		draw();
 	}
-	
 
 	private int findPlayer(Player player) {
 		for (int i = 0; i < MAX_PLAYERS; i++) {
-			if (playerInfoFields[i] != null && playerInfoFields[i].isPlayer(player)) {
+			if (playerInfoFields[i] != null
+					&& playerInfoFields[i].isPlayer(player)) {
 				return i;
 			}
 		}
