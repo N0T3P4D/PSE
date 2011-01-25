@@ -74,5 +74,21 @@ Feature X ist wegen ... noch nicht voll funktionsfÃ¤hig
 \begin{itemize}
 \item private boolean checkAllPlayersReady()
 \end{itemize}
+\item Es gab ein paar Namensänderungen im package org.ojim.rmi.server 
+\begin{itemize}
+\item BufferServer wurde geändert in StartNetOjim
+\item ImplBuffer wurde geändert in ImplNetOjim
+\end{itemize}
+\item Network Klasse wurde weggelassen, da die RMI die Verbingsschicht überdeckt und die Sockets selber managt
+\item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen , die für den Server Methoden zur Verfügung stellen welche aus einer anderen JVM aufgerufen werden können
+\begin{itemize}
+\item interface NetClient extends Remote : spezifiziert alle Methoden die über das Netzwerk vom Server aufgerufen werden können 
+\item ImplNetClient extends UnicastRemoteObject implements NetOjim: implementiert die Methoden des Interfaces
+\item StartNetClient 
+\end{itemize}
+
+
+
+
 \end{itemize}
 \end{document}
