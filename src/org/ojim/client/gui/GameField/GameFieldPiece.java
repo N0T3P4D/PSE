@@ -26,9 +26,11 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
 import org.ojim.client.gui.OLabel.FontLayout;
+import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
@@ -63,7 +65,8 @@ public class GameFieldPiece extends JPanel {
 		}
 
 		try {
-			group = new JLabel("<html>" + ((Street) field).getFieldGroup().getName());
+			group = new JLabel("<html>"
+					+ ((Street) field).getFieldGroup().getName());
 
 			group.setLayout(new FontLayout());
 			group.setHorizontalTextPosition(JLabel.CENTER);
@@ -71,14 +74,30 @@ public class GameFieldPiece extends JPanel {
 		} catch (ClassCastException e) {
 
 		}
-		
+
 		name = new JLabel("<html>" + field.getName());
 		name.setHorizontalTextPosition(JLabel.CENTER);
 		name.setLayout(new FontLayout());
 		textPanel.add(name);
 		try {
-			price = new JLabel("<html>" + ((BuyableField) field).getPrice());
-
+			if(((BuyableField) field).getOwner()!=null){
+				/*
+				textPanel.setBackground(PlayerColor
+						.getBackGroundColor(((BuyableField) field).getOwner()
+								.getColor()));
+				price.setBackground(PlayerColor
+						.getBackGroundColor(((BuyableField) field).getOwner()
+								.getColor()));
+				name.setBackground(PlayerColor
+						.getBackGroundColor(((BuyableField) field).getOwner()
+								.getColor()));*/
+				price = new JLabel("<html> SOLD" + ((BuyableField) field).getOwner().getName());
+				System.out.println("SOLD: "+field.getName());
+				//System.out.println(((BuyableField) field).getOwner().getId()+" - ID - "+field.getName());
+			} else {
+				System.out.println("NOT SOLD: "+field.getName());
+				price = new JLabel("<html>" + ((BuyableField) field).getPrice());
+			}
 			price.setHorizontalTextPosition(JLabel.CENTER);
 			price.setVerticalTextPosition(JLabel.BOTTOM);
 			price.setLayout(new FontLayout());
@@ -88,9 +107,10 @@ public class GameFieldPiece extends JPanel {
 		}
 		// text = new JLabel("<html>" + "test");
 		textPanel.setLayout(new GridLayout(0, 1));
+
 		this.add(textPanel);
 		this.setLayout(new GameFieldPieceLayout());
-		this.setBackground(Color.white);
+		//this.setBackground(Color.white);
 	}
 
 	public void setField(Field field) {
