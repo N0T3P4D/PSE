@@ -39,7 +39,7 @@ import org.ojim.server.OjimServer;
  * @author Usman Ghani Ahmed
  *
  */
-public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim,IClient {
+public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim, IClient {
 	
 	private Registry reg;
 	
@@ -50,7 +50,7 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim,IClient
 	private OjimServer server;
 	
 	//Speichert alle Clients
-	private Vector clientList;
+	private Vector <NetClient> clientList;
 
 	public ImplNetOjim(Registry reg, ServerDetails serverDetails, OjimServer server) throws RemoteException {
 		super();
@@ -80,7 +80,7 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim,IClient
 	 * 
 	 * @param ip ip Adresse unter welcher der Namendienst erreichbar ist
 	 */
-	public void createBufferServer(int portReg, int portStub, int ip){
+	public void createBufferServer(int portReg,int ip){
 		
 	System.out.println("Server wird eingerichtet...");
 	
@@ -254,6 +254,17 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim,IClient
 
 	
 	public int addPlayer(IClient client) {
+		
+		if (!(clientList.contains(client)) && this.serverDetails.getOpen()) {
+	         clientList.addElement(client);
+	         this.serverDetails.connectPlayer();
+	       System.out.println("Client wurde dem Server hinzugefügt");  
+		} else {
+			System.out.print("Error: Client ist schon beim Server angemeldet");
+			
+		}
+		
+		
 		return this.server.addPlayer(client);
 	}
 
@@ -376,8 +387,17 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim,IClient
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		String temp = "";
+		try {
+			temp =  this.clientList.elementAt(?).getName();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return temp;
+		
 	}
 
 
