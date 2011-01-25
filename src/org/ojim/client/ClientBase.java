@@ -39,7 +39,7 @@ import org.ojim.logic.state.fields.StationFieldGroup;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.logic.state.fields.TaxField;
-import org.ojim.network.ClientConnection;
+import org.ojim.rmi.client.ImplNetClient;
 import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -51,13 +51,10 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public abstract class ClientBase extends SimpleClient implements IClient {
 
-	private ClientConnection connection;
-
 	private String name;
 
 	public ClientBase() {
 		super();
-		this.connection = new ClientConnection();
 	}
 	
 	/*
@@ -164,14 +161,11 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	 */
 
 	protected final boolean connect(String host, int port) {
-		IServer server = this.connection.connect(host, port);
-		if (server == null) {
-			return false;
-		}
+//		IServer server = this.connection.connect(host, port);
+		ImplNetClient server = new ImplNetClient(this);
+		server.createClientRMIConnection(port, host);
 		this.setParameters(new Logic(server.getRules()),
-				server.addPlayer(this), server);
-		
-		
+				server.addPlayer(this), server);		
 		this.loadGameBoard();
 		return true;
 	}
@@ -377,4 +371,15 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	public abstract void onAuction(int auctionState);
 	
+	public final void informNewPlayer(int playerId) {
+		
+	}
+
+	public abstract void onNewPlayer(Player player);
+	
+	public final void informPlayerLeft(int playerId) {
+		
+	}
+	
+	public abstract void onPlayerLeft(Player player);
 }

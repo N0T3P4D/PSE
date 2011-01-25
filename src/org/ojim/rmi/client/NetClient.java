@@ -30,7 +30,7 @@ import org.ojim.iface.IClient;
  * @author Usman Ghani Ahmed
  *
  */
-public interface NetClient extends Remote,IClient {
+public interface NetClient extends Remote {
 	
 	
 	
