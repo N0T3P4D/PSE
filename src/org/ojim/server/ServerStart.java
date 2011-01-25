@@ -18,6 +18,7 @@
 package org.ojim.server;
 
 //import com.sun.java_cup.internal.runtime.Scanner;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public class ServerStart {
@@ -36,12 +37,17 @@ public class ServerStart {
 		
 		System.out.println("\nAdministrative Functions can be executed here, type help for an overview of existing calls");
 		
-		String input;
+		String input = "";
 		Scanner in = new Scanner(System.in);
 		while(running)
 		{
 			//read input
+			try {
 			input = in.nextLine();
+			} catch(NoSuchElementException e) {
+				//The Server has been terminated directly, so try to end the game if there is one
+				server.endGame();
+			}
 			
 			if(input.equals("help")) {
 				System.out.println("help            shows this dialog");

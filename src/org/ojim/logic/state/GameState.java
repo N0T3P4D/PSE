@@ -41,7 +41,7 @@ public class GameState {
 	public final static int FIELDS_AMOUNT = 40;
 	
 	private Map<Integer, Player> players;
-	private List<Integer> playerIds;
+	private List<Player> playerOrder;
 	private Bank bank;
 	private Field[] fields;
 	private Rules rules;
@@ -52,7 +52,7 @@ public class GameState {
 	
 	public GameState() {
 		this.players = new HashMap<Integer, Player>(MAXIMUM_PLAYER_COUNT);
-		this.playerIds = new ArrayList<Integer>(MAXIMUM_PLAYER_COUNT);
+		this.playerOrder = new ArrayList<Player>(MAXIMUM_PLAYER_COUNT);
 		this.fields = new Field[FIELDS_AMOUNT];
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
@@ -71,10 +71,22 @@ public class GameState {
 		return rules;
 	}
 	
-	public void setPlayer(int id, Player player) {
-		this.players.put(id, player);
-		if (!this.playerIds.contains(id)) {
-			this.playerIds.add(id);
+	public void setPlayer(Player player) {
+		this.players.put(player.getId(), player);
+		this.playerOrder.add(player);
+	}
+	
+	public void removePlayer(Player player) {
+		this.players.remove(player);
+		this.playerOrder.remove(player);
+	}
+	
+	public void setPlayerOrder(Player... player) {
+		if (player.length != this.players.size()) {
+			this.playerOrder.clear();
+			for (int i = 0; i < player.length; i++) {
+				this.playerOrder.add(player[i]);
+			}
 		}
 	}
 	

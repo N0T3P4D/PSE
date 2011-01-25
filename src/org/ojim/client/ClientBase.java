@@ -275,15 +275,12 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informStartGame(int[] ids) {
-		for (int id : ids) {
-			Player player = new Player(this.getPlayerName(id),
-					this.getPlayerPiecePosition(id), this.getPlayerCash(id),
-					id, this.getPlayerColor(id));
-			this.getGameState().setPlayer(id, player);
-			if (id == this.getPlayerId()) {
-				this.setMyPlayer(player);
-			}
+		GameState state = this.getGameState();
+		Player[] order = new Player[ids.length];
+		for (int i = 0; i < ids.length; i++) {
+			order[i] = state.getPlayerByID(ids[i]);
 		}
+		state.setPlayerOrder(order);
 
 		// Load all owners
 		for (int position = 0; position < GameState.FIELDS_AMOUNT; position++) {
@@ -372,13 +369,19 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public abstract void onAuction(int auctionState);
 	
 	public final void informNewPlayer(int playerId) {
-		
+		Player player = new Player(this.getPlayerName(playerId),
+				this.getPlayerPiecePosition(playerId), this.getPlayerCash(playerId),
+				playerId, this.getPlayerColor(playerId));
+		this.getGameState().setPlayer(player);
+		this.onNewPlayer(player);
 	}
 
 	public abstract void onNewPlayer(Player player);
 	
 	public final void informPlayerLeft(int playerId) {
-		
+		Player old = this.getGameState().getPlayerByID(playerId);
+		this.getGameState().removePlayer(old);
+		this.onNewPlayer(old);
 	}
 	
 	public abstract void onPlayerLeft(Player player);
