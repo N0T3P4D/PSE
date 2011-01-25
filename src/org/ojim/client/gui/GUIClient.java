@@ -258,6 +258,8 @@ public class GUIClient extends ClientBase {
 
 			pane.add(downWindow);
 
+			downRight.remove(buyButton);
+			
 			downRight.setLayout(new GridLayout(1, 0));
 			try {
 			if (((BuyableField) (getGameState().getFieldAt(getMe()
@@ -283,9 +285,12 @@ public class GUIClient extends ClientBase {
 			} catch (Exception e){
 				System.out.println("Kein buyablefield");
 			}
+
+			downRight.remove(rollButton);
+			
 			try {
 				if (getGameState().getActivePlayer().equals(getMe())
-						&& this.getGameState().getDices() != null) {
+					&& this.getGameState().getActivePlayerNeedsToRoll()) {
 
 					ActionListener rollListener = new ActionListener() {
 
@@ -301,7 +306,8 @@ public class GUIClient extends ClientBase {
 					rollButton.addActionListener(rollListener);
 					downRight.add(rollButton);
 
-				} else if (getGameState().getActivePlayer().equals(getMe())) {
+				} else //if (getGameState().getActivePlayer().equals(getMe())) 
+					{
 					ActionListener endTurnListener = new ActionListener() {
 
 						@Override
