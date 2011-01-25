@@ -74,7 +74,7 @@ public class ServerStart {
 					System.out.println("There is already a Game running, end it first before starting a new one!");
 				} else {
 					System.out.println("Initializing Game");
-					server.initGame(2,1);
+					server.initGame(1,1);
 					System.out.println("Game initialized!");
 				}
 			} else if(input.equals("end")) {
