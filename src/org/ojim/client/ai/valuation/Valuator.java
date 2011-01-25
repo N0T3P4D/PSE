@@ -101,6 +101,9 @@ public class Valuator extends SimpleClient {
 	 */
 	public Command returnBestCommand(int pos) {
 		Field field = state.getFieldAt(Math.abs(pos));
+		capitalValuator.setParameters(logic);
+		propertyValuator.setParameters(logic);
+
 
 		// prison?
 		if (pos == -10) {
