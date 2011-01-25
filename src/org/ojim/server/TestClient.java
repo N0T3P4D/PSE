@@ -280,4 +280,10 @@ public class TestClient implements IClient {
 		
 	}
 
+	@Override
+	public void setPlayerId(int newId) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
