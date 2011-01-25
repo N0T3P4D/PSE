@@ -41,7 +41,6 @@ import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.logic.state.fields.TaxField;
 import org.ojim.rmi.client.ImplNetClient;
-import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -391,7 +390,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public final void informPlayerLeft(int playerId) {
 		Player old = this.getGameState().getPlayerByID(playerId);
 		this.getGameState().removePlayer(old);
-		this.onNewPlayer(old);
+		this.onPlayerLeft(old);
 	}
 	
 	public abstract void onPlayerLeft(Player player);
