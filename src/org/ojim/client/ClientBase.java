@@ -90,7 +90,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 					int delim = name.indexOf(":");
 					String groupName = "";
 					if (delim > 0) {
-						groupName = name.substring(0, delim - 1);
+						groupName = name.substring(0, delim);
 					}
 					group = new StreetFieldGroup(groupColor, groupName, this.getEstateHousePrice(position));
 				}
