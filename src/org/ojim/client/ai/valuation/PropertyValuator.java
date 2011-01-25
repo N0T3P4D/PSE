@@ -21,6 +21,7 @@ import java.util.logging.Level;
 
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 
 /**
  * Property valuator
@@ -45,37 +46,40 @@ public final class PropertyValuator extends ValuationFunction {
 	@Override
 	public double returnValuation() {
 		getLogger();
-		GameState state = getGameState();
 		int position = this.getGameState().getActivePlayer().getPosition();
-//		assert (this.getGameState().getActivePlayer().getId() == 0);
-		logger.log(Level.INFO, "ID = " + this.getGameState().getActivePlayer().getId());
-		assert (position != 0);
-		BuyableField field = (BuyableField) this.getGameState().getFieldAt(
-				position);
-		int price = field.getPrice();
-		logger.log(Level.INFO, "Name = " + field.getName() + " Price = "
-				+ price);
+		if (this.getGameState().getFieldAt(position) instanceof BuyableField) {
+			logger.log(Level.INFO, "ID = "
+					+ this.getGameState().getActivePlayer().getId());
+			assert (position != 0);
+			BuyableField field = (BuyableField) this.getGameState().getFieldAt(
+					position);
+			int price = field.getPrice();
+			logger.log(Level.INFO, "Name = " + field.getName() + " Price = "
+					+ price);
 
-		boolean isMortgaged = field.isMortgaged();
+			boolean isMortgaged = field.isMortgaged();
 
-		// Position or id?
-		if (price > ValuationParameters.getStreetValue(position)) {
-			logger.log(Level.INFO, "Denied");
-			return -1;
-		} else {
-			if (isMortgaged) {
-				if (price > ValuationParameters.getStreetValue(position)
-						* ValuationParameters.mortgageFactor) {
+			// Position or id?
+			if (price > ValuationParameters.getStreetValue(position)) {
+				logger.log(Level.INFO, "Denied");
+				return -1;
+			} else {
+				if (isMortgaged) {
+					if (price > ValuationParameters.getStreetValue(position)
+							* ValuationParameters.mortgageFactor) {
+						logger.log(Level.INFO, "Granted");
+						return 1;
+					} else {
+						logger.log(Level.INFO, "Denied");
+						return -1;
+					}
+				} else {
 					logger.log(Level.INFO, "Granted");
 					return 1;
-				} else {
-					logger.log(Level.INFO, "Denied");
-					return -1;
 				}
-			} else {
-				logger.log(Level.INFO, "Granted");
-				return 1;
 			}
+		} else {
+			return 0;
 		}
 	}
 

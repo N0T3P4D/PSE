@@ -20,7 +20,12 @@ package org.ojim.client;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Queue;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
+import org.ojim.client.triggers.OnMove;
+import org.ojim.client.triggers.OnTurn;
 import org.ojim.iface.IClient;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
@@ -52,9 +57,11 @@ import edu.kit.iti.pse.iface.IServer;
 public abstract class ClientBase extends SimpleClient implements IClient {
 
 	private String name;
+	private ExecutorService executor;
 
 	public ClientBase() {
 		super();
+		this.executor = Executors.newFixedThreadPool(1);
 	}
 	
 	/*
@@ -325,7 +332,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		Player newPlayer = this.getGameState().getPlayerByID(player);
 		if (newPlayer != null) {
 			this.getGameState().setActivePlayer(newPlayer);
-			this.onTurn(newPlayer);
+			this.executor.execute(new OnTurn(this, newPlayer));
 		} else {
 			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTurn with invalid player.");
 		}
@@ -338,7 +345,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		Player player = this.getGameState().getPlayerByID(playerId);
 		if (player != null) {
 			player.setPosition(position);
-			this.onMove(player, position);
+			this.executor.execute(new OnMove(this, player, position));
 		} else {
 			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMove with invalid player, ID = " + playerId);
 			assert(false);

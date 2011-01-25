@@ -60,8 +60,18 @@ public final class ValuationParameters {
 	 *            The field's ID
 	 * @return Value
 	 */
+	public final static double fieldGroupFactor = 1.5;
+
 	public static int getStreetValue(int id) {
 		return FieldValue[id];
+	}
+
+	public static double getFieldGroupFactor(int alreadyOwned, int max) {
+		if (alreadyOwned == 0) {
+			return 1;
+		} else {
+			return (alreadyOwned * fieldGroupFactor);
+		}
 	}
 
 	public static void init(Logic logic) {
