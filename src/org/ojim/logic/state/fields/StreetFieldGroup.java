@@ -19,14 +19,20 @@ package org.ojim.logic.state.fields;
 
 public class StreetFieldGroup extends FieldGroup {
 	
-	private int housePrice;
+	private final int housePrice;
+	private final String name;	
 	
-	public StreetFieldGroup(int color, int housePrice) {
+	public StreetFieldGroup(int color, String name, int housePrice) {
 		super(color);
 		this.housePrice = housePrice;
+		this.name = name;
 	}
 	
 	public int getHousePrice() {
 		return this.housePrice;
+	}
+
+	public String getName() {
+		return this.name;
 	}
 }

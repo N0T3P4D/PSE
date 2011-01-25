@@ -58,12 +58,12 @@ public class AIClient extends ClientBase {
 	 */
 	public AIClient(IServer server) {
 		super();
-		logger = OJIMLogger.getLogger(this.getClass().toString());
+		logger = OJIMLogger.getLogger("AI_"+getPlayerId());
 		if (server == null) {
 			throw new IllegalArgumentException("Server == null");
 		}
 		connect(server);
-		logger.log(Level.INFO, "Hello! AI client with ID " + this.getPlayerId()
+		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId()
 				+ " created.");
 		valuator = new Valuator(getLogic(), server, getPlayerId());
 		count = 0;
@@ -78,14 +78,14 @@ public class AIClient extends ClientBase {
 		// assert (player == super)
 		logger.log(Level.INFO, "Inform turn for client " + player.getName()
 				+ " (id: " + player.getId() + ")");
-		logger.log(Level.INFO, "Position is "
+		logger.log(Level.INFO, "ID " + getPlayerId() + " Position is "
 				+ this.getGameState().getActivePlayer().getPosition());
 		this.rollDice();
 		int position = getGameState().getActivePlayer().getPosition();
 		count++;
 		logger.log(
 				Level.INFO,
-				"Move "
+				"ID " + getPlayerId() + " Move "
 						+ count
 						+ " New position is "
 						+ position
@@ -93,7 +93,8 @@ public class AIClient extends ClientBase {
 						+ getLogic().getGameState()
 								.getFieldAt(Math.abs(position)).getName());
 		if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
-			logger.log(Level.INFO, "On buyable field");
+			logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
+			assert(getGameState().getActivePlayer().getId() == getPlayerId());
 			valuator.returnBestCommand(position).execute();
 		}
 		endTurn();
@@ -171,7 +172,7 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onStartGame(Player[] players) {
-		logger.log(Level.INFO, "Call onStartGame!");
+		logger.log(Level.INFO, "ID " + getPlayerId() + " Call onStartGame!");
 	}
 
 	@Override
