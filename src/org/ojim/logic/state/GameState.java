@@ -129,7 +129,7 @@ public class GameState {
 	//TODO: Does this class support this? If so: finish!
 	public Player getActivePlayer() {
 		if(this.activePlayer == null) {
-			this.activePlayer = this.players.get(this.playerIds.get(0));
+			this.activePlayer = this.playerOrder.get(0);
 		}
 		return this.activePlayer;
 	}
