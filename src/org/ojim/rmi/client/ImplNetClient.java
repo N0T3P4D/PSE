@@ -26,9 +26,10 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 	
 	NetOjim server;
 	
-	public ImplNetClient(ClientBase clientBase) throws RemoteException {
+	public ImplNetClient(ClientBase clientBase, NetOjim server) throws RemoteException {
 		super();
 		this.clientBase = clientBase;
+		this.server = server;
 		
 	}
 	
