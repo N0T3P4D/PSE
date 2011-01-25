@@ -143,7 +143,8 @@ public class ServerLogic extends Logic {
 	public void startGame() {
 		// Set a random Player to be the StartPlayer
 		int playerCount = this.getGameState().getPlayers().length;
-		int start = new Random().nextInt(playerCount);
+		int start = 1;
+		//int start = new Random().nextInt(playerCount);
 		this.getGameState().startGame(start);
 
 		int[] ids = new int[playerCount];
