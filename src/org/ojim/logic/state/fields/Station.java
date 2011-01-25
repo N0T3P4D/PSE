@@ -18,6 +18,7 @@
 package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
+import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 
 public class Station extends BuyableField {
@@ -34,7 +35,8 @@ public class Station extends BuyableField {
 	public int getRent() {
 		int ownerOwns = 0;
 		for (Field field : this.getFieldGroup().getFields()) {
-			if (field instanceof Station && ((Station) field).getOwner().equals(this.getOwner())) {
+			Player otherOwner = ((Station) field).getOwner();
+			if (field instanceof Station && (otherOwner != null) && ((Station) field).getOwner().equals(this.getOwner())) {
 				ownerOwns++;	
 			}
 		}
