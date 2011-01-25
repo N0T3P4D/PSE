@@ -1,14 +1,17 @@
-package org.ojim.client.gui.GameField;
+package org.ojim.client.gui.OLabel;
 
 import java.awt.Component;
 import java.awt.Container;
 import java.awt.Dimension;
+import java.awt.Font;
 import java.awt.LayoutManager;
 
-public class GameFieldPieceLayout implements LayoutManager {
+import javax.swing.JLabel;
 
-	private int minWidth = 50, minHeight = 100;
-	private int preferredWidth = 100, preferredHeight = 400;
+public class FontLayout implements LayoutManager {
+
+	private int minWidth = 0, minHeight = 0;
+	private int preferredWidth = 50, preferredHeight = 50;
 	private boolean sizeUnknown = true;
 
 	@Override
@@ -51,61 +54,26 @@ public class GameFieldPieceLayout implements LayoutManager {
 			// System.out.println("Handlungsbedarf");
 		}
 
+		int totalWidth = parent.getWidth();
+		int totalHeight = parent.getHeight();
+		
+		int maxSize = totalWidth < totalHeight ? totalWidth : totalHeight;
+		
+		JLabel label = (JLabel) parent;
+		
+		int fontSize = (int)(maxSize/4.0f);
+		
+		label.setFont(new Font(null, nComps, fontSize));
+/*
 		for (int i = 0; i < nComps; i++) {
 			Component c = parent.getComponent(i);
 
 			int totalWidth = parent.getWidth();
 			int totalHeight = parent.getHeight();
-
-			int twentyWidth = (int) (totalWidth * 0.2);
-			int twentyHeight = (int) (totalHeight * 0.2);
-
-			int eightyWidth = 4 * twentyWidth;
-			int eightyHeight = 4 * twentyHeight;
-
-			int field = Integer.parseInt(parent.getName());
-			try {
-			if (totalWidth == totalHeight) {
-				c.setBounds(0, 0, totalWidth, totalHeight);
-			}
-			else if (parent.getComponent(1) == null){
-				
-			}
-
-			else if (i == 0) {
-				// Felder unten
-				if (field < 10) {
-					c.setBounds(0, 0, totalWidth, twentyHeight);
-					// Felder links
-				} else if (field < 20) {
-					c.setBounds(eightyWidth, 0, twentyWidth, totalHeight);
-					// Felder oben
-				} else if (field < 30) {
-					c.setBounds(0, eightyHeight, totalWidth, twentyHeight);
-					// Felder rechts
-				} else {
-					c.setBounds(0, 0, twentyWidth, totalHeight);
-				}
-			} else {
-				// Felder unten
-				if (field < 10) {
-					c.setBounds(0, twentyHeight, totalWidth, eightyHeight);
-					// Felder links
-				} else if (field < 20) {
-					c.setBounds(twentyWidth, 0, eightyWidth, totalHeight);
-					// Felder oben
-				} else if (field < 30) {
-					c.setBounds(0, 0, totalWidth, eightyHeight);
-					// Felder rechts
-				} else {
-					c.setBounds(twentyWidth, 0, eightyWidth, totalHeight);
-				}
-			}
-			} catch (ArrayIndexOutOfBoundsException e){
-				c.setBounds(0, 0, totalWidth, totalHeight);
-				
-			}
-		}
+			
+			
+			
+		}*/
 	}
 
 	@Override
