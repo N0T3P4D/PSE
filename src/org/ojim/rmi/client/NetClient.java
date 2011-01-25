@@ -18,8 +18,11 @@
 package org.ojim.rmi.client;
 
 import java.rmi.Remote;
+import java.rmi.RemoteException;
 
 import org.ojim.iface.IClient;
+
+import edu.kit.iti.pse.iface.IServer;
 /**
  * 
  * Interface stellt zusätzlich zum IClient Interface Methoden bereit 
@@ -31,6 +34,60 @@ import org.ojim.iface.IClient;
  *
  */
 public interface NetClient extends Remote {
+	
+	
+	String getName() throws RemoteException;
+
+	
+	String getLanguage() throws RemoteException;
+
+	
+	void informStartGame(int[] ids)throws RemoteException;
+
+	
+	void informTurn(int player)throws RemoteException;
+
+
+	void informDiceValues(int[] diceValues)throws RemoteException;
+
+	
+	void informCashChange(int player, int cashChange)throws RemoteException;
+
+	
+	void informBuy(int player, int position)throws RemoteException;
+
+	
+	void informConstruct(int street)throws RemoteException;
+
+	
+	void informDestruct(int street)throws RemoteException;
+
+	
+	void informMortgageToogle(int street)throws RemoteException;
+
+	
+	void informCardPull(String text, boolean communityCard)throws RemoteException;
+
+	
+	void informBankruptcy()throws RemoteException;
+
+	
+	void informMessage(String text, int sender, boolean privateMessage)throws RemoteException;
+
+	
+	void informTrade(int actingPlayer, int partnerPlayer)throws RemoteException;
+
+	
+	void informAuction(int auctionState)throws RemoteException;
+
+	
+	void informMove(int playerId, int position)throws RemoteException;
+
+	
+	void informNewPlayer(int playerId)throws RemoteException;
+
+	
+	void informPlayerLeft(int playerId)throws RemoteException;
 	
 	
 	
