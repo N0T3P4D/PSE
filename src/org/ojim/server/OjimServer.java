@@ -869,6 +869,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				doubles++;
 				if (doubles >= GameRules.MAX_DOUBLES_ALLOWED) {
 					// Player has to get to jail
+					display("Player has to move to jail");
 					logic.sendPlayerToJail(player, state.getDefaultJail());
 					return true;
 				}

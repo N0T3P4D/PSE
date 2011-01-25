@@ -126,6 +126,7 @@ public class ServerLogic extends Logic {
 	 */
 	public void sendPlayerToJail(ServerPlayer player, Jail jail) {
 		player.sendToJail(jail);
+		this.getGameState().setActivePlayerNeedsToRoll(false);
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if (onePlayer instanceof ServerPlayer) {
 				((ServerPlayer) onePlayer).getClient().informMove(
@@ -243,10 +244,7 @@ public class ServerLogic extends Logic {
 						return;
 					}
 				}
-				// TODO remove
-				if (this.getGameState().getPlayers().length < 2) {
-					return;
-				}
+				
 				// Only 1 Player is left, he has won
 				System.out.println("Player has won!");
 				for (Player player : this.getGameState().getPlayers()) {
