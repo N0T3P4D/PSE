@@ -17,6 +17,7 @@
 
 package org.ojim.client;
 
+import java.rmi.RemoteException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -162,11 +163,18 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	protected final boolean connect(String host, int port) {
 //		IServer server = this.connection.connect(host, port);
-		ImplNetClient server = new ImplNetClient(this);
-		server.createClientRMIConnection(port, host);
-		this.setParameters(new Logic(server.getRules()),
-				server.addPlayer(this), server);		
-		this.loadGameBoard();
+		ImplNetClient server;
+		try {
+			server = new ImplNetClient(this, null);
+			server.createClientRMIConnection(port, host);
+			this.setParameters(new Logic(server.getRules()),
+					server.addPlayer(this), server);		
+			this.loadGameBoard();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return false;
+		}
 		return true;
 	}
 
