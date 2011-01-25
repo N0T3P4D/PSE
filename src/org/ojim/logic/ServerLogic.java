@@ -64,16 +64,17 @@ public class ServerLogic extends Logic {
 		player.transferMoney(-(player.getBalance() + 1));
 		player.setBankrupt();
 		Field field;
-		for(int i = 0; i < this.getGameState().FIELDS_AMOUNT;i++) {
+		for (int i = 0; i < this.getGameState().FIELDS_AMOUNT; i++) {
 			field = this.getGameState().getFieldAt(i);
-			if(field instanceof BuyableField && ((BuyableField)field).getOwner() == player) {
-				((BuyableField)field).buy(null);
+			if (field instanceof BuyableField
+					&& ((BuyableField) field).getOwner() == player) {
+				((BuyableField) field).buy(null);
 			}
 		}
-		if(player instanceof ServerPlayer) {
-			((ServerPlayer)player).getClient().informBankruptcy();
+		if (player instanceof ServerPlayer) {
+			((ServerPlayer) player).getClient().informBankruptcy();
 		}
-		
+
 		// Inform All Players that this Player is bankrupt
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if (onePlayer instanceof ServerPlayer) {
@@ -84,21 +85,21 @@ public class ServerLogic extends Logic {
 	}
 
 	int number = 0;
-	
+
 	/**
 	 * Start a new Turn in the Game
 	 */
 	public void startNewTurn() {
 		// AI
 		number++;
-		if((number % 1000000) == 0)logger.log(Level.INFO, "Starting new turn " + number++);
+		if ((number % 1000000) == 0)
+			logger.log(Level.INFO, "Starting new turn " + number++);
 		// Get a new Player On Turn
 		this.getNewPlayerOnTurn();
 		this.getGameState().setActivePlayerNeedsToRoll(true);
 		int id = this.getGameState().getActivePlayer().getId();
 		// Inform All Player that a new Turn has come
-		
-		
+
 		for (Player player : this.getGameState().getPlayers()) {
 			((ServerPlayer) player).getClient().informTurn(id);
 		}
@@ -213,7 +214,7 @@ public class ServerLogic extends Logic {
 				.getJail().getMoneyToPay());
 		this.sendPlayerOutOfJail(player);
 	}
-	
+
 	public void sendPlayerOutOfJail(Player player) {
 		player.sendToJail(null);
 
@@ -225,7 +226,7 @@ public class ServerLogic extends Logic {
 						"Current Player is now out of Jail!", -1, false);
 			}
 		}
-		
+
 	}
 
 	public void getNewPlayerOnTurn() {
@@ -235,22 +236,25 @@ public class ServerLogic extends Logic {
 			if (players[i].equals(currentPlayer)) {
 				for (int j = 1; j < players.length; j++) {
 					int playerPos = (j + i) % players.length;
-					if (players[playerPos] != null && !players[playerPos].getIsBankrupt()) {
+					if (players[playerPos] != null
+							&& !players[playerPos].getIsBankrupt()) {
 						this.getGameState().setActivePlayer(players[playerPos]);
 						this.getGameState().setActivePlayerNeedsToRoll(true);
 						return;
 					}
 				}
-				//TODO remove
-				if(this.getGameState().getPlayers().length < 2) {
+				// TODO remove
+				if (this.getGameState().getPlayers().length < 2) {
 					return;
 				}
-				//Only 1 Player is left, he has won
+				// Only 1 Player is left, he has won
 				System.out.println("Player has won!");
-				for(Player player : this.getGameState().getPlayers()) {
-					if(player instanceof ServerPlayer) {
-						//TODO add language
-						((ServerPlayer)player).getClient().informMessage("Player " + currentPlayer.getName() + " has won!", -1, false);
+				for (Player player : this.getGameState().getPlayers()) {
+					if (player instanceof ServerPlayer) {
+						// TODO add language
+						((ServerPlayer) player).getClient().informMessage(
+								"Player " + currentPlayer.getName()
+										+ " has won!", -1, false);
 					}
 				}
 				this.getGameState().setGameIsWon(true);
@@ -258,41 +262,43 @@ public class ServerLogic extends Logic {
 		}
 
 	}
-	
-	public void playerRolledOutOfJail(Player player) {
 
+	public void playerRolledOutOfJail(Player player) {
+		this.sendPlayerOutOfJail(player);
 	}
-	
-	public void movePlayerTo(Field field, Player player, boolean secondary, boolean executePasses) {
+
+	public void movePlayerTo(Field field, Player player, boolean secondary,
+			boolean executePasses) {
 		int fieldPos = field.getPosition();
 		int playerPos = player.getPosition();
-		while(playerPos != fieldPos) {
+		while (playerPos != fieldPos) {
 			playerPos = ++playerPos % GameState.FIELDS_AMOUNT;
 			player.setPosition(playerPos);
 			Field currentField = this.getGameState().getFieldAt(playerPos);
-			if(executePasses) {
+			if (executePasses) {
 				currentField.passThrough();
 			}
 		}
-		
-		if(field instanceof Jail && secondary) {
-			player.sendToJail((Jail)field);
+
+		if (field instanceof Jail && secondary) {
+			player.sendToJail((Jail) field);
 		}
-		for(Player onePlayer : this.getGameState().getPlayers()) {
-			if(onePlayer instanceof ServerPlayer) {
-				((ServerPlayer)onePlayer).getClient().informMove(player.getId(), player.getSignedPosition());
+		for (Player onePlayer : this.getGameState().getPlayers()) {
+			if (onePlayer instanceof ServerPlayer) {
+				((ServerPlayer) onePlayer).getClient().informMove(
+						player.getId(), player.getSignedPosition());
 			}
 		}
 	}
-	
+
 	public void payRent(Player player) {
 		Field field = this.getGameState().getFieldAt(player.getPosition());
 		payRent(player, (BuyableField) field);
 	}
-	
+
 	public void payRent(Player player, BuyableField field) {
 		Player owner = field.getOwner();
-		if(owner != null) {
+		if (owner != null) {
 			this.exchangeMoney(player, owner, field.getRent());
 		}
 	}
@@ -302,48 +308,53 @@ public class ServerLogic extends Logic {
 		int position = player.getPosition();
 		for (int i = 1; i >= result; i++) {
 			// Move Player 1 forward
-			player.setPosition((position + i) % this.getGameState().FIELDS_AMOUNT);
+			player.setPosition((position + i)
+					% this.getGameState().FIELDS_AMOUNT);
 
 			// Do the passthrough
-			this.getGameState().getFieldAt((position + i) % this.getGameState().FIELDS_AMOUNT).passThrough();
+			this.getGameState()
+					.getFieldAt(
+							(position + i) % this.getGameState().FIELDS_AMOUNT)
+					.passThrough();
 		}
-		player.setPosition((position + result) % this.getGameState().FIELDS_AMOUNT);
-		
-		//Inform everyone that the Player has moved
-		for(Player onePlayer : this.getGameState().getPlayers()) {
-			if(onePlayer instanceof ServerPlayer) {
-				((ServerPlayer) onePlayer).getClient().informMove(player.getId(), player.getSignedPosition());
+		player.setPosition((position + result)
+				% this.getGameState().FIELDS_AMOUNT);
+
+		// Inform everyone that the Player has moved
+		for (Player onePlayer : this.getGameState().getPlayers()) {
+			if (onePlayer instanceof ServerPlayer) {
+				((ServerPlayer) onePlayer).getClient().informMove(
+						player.getId(), player.getSignedPosition());
 			}
 		}
 		// Do the Execute for the Field the Player is standing on
-		this.getGameState().getFieldAt((position + result) % this.getGameState().FIELDS_AMOUNT).execute();
+		this.getGameState()
+				.getFieldAt(
+						(position + result) % this.getGameState().FIELDS_AMOUNT)
+				.execute();
 
 	}
 
 	public void buyStreet() {
 		Player player = this.getGameState().getActivePlayer();
 		int position = player.getPosition();
-		BuyableField field = (BuyableField)this.getGameState().getFieldAt(position);
-		this.exchangeMoney(player, this.getGameState().getBank(), field.getPrice());
+		BuyableField field = (BuyableField) this.getGameState().getFieldAt(
+				position);
+		this.exchangeMoney(player, this.getGameState().getBank(),
+				field.getPrice());
 		changeFieldOwner(null, player, field);
 	}
-	
+
 	public void changeFieldOwner(Player oldOwner, Player newOwner,
 			BuyableField field) {
 		int newOwnerId = -1;
-		// Take away the Field from the old Owner
-		/*if (oldOwner != null) {
-			oldOwner.removeField(field);
-		}
 		if (newOwner != null) {
-			newOwner.addField(field);
 			newOwnerId = newOwner.getId();
-		}*/
+		}
 		field.buy(newOwner);
-
 		for (Player player : this.getGameState().getPlayers()) {
 			if (player instanceof ServerPlayer) {
-				((ServerPlayer) player).getClient().informBuy(newOwner.getId(),
+				((ServerPlayer) player).getClient().informBuy(newOwnerId,
 						field.getPosition());
 			}
 		}
@@ -351,7 +362,7 @@ public class ServerLogic extends Logic {
 
 	public void endGame() {
 		// TODO Free Stack here
-		
+
 	}
 
 }

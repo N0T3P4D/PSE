@@ -45,6 +45,19 @@ public class ServerPlayer extends Player {
 		return this.client;
 	}
 
+	@Override
+	public String getName() {
+		String out = super.getName();
+		if(out == "" || out == null) {
+			out = this.getClient().getName();
+			if(out == "" || out == null) {
+				out = "Player" + this.getId();
+			}
+			this.setName(out);
+		}
+		return out;
+	}
+	
 	public String getGameStatusMessage() {
 		return this.gameStatusMessage;
 	}

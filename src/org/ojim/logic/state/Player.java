@@ -203,6 +203,10 @@ public class Player implements IMoneyPartner {
 			this.position = position;
 		}
 	}
+	
+	public void setName(String name) {
+		this.name = name;
+	}
 
 	public void setNumberOfGetOutOfJailCards(int numberOfGetOutOfJailCards) {
 		this.numberOfGetOutOfJailCards = numberOfGetOutOfJailCards;
