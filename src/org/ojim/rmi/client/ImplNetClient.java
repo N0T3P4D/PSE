@@ -6,37 +6,39 @@ import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 
+import org.ojim.client.ClientBase;
+import org.ojim.rmi.server.ImplNetOjim;
 import org.ojim.rmi.server.NetOjim;
 
 public class ImplNetClient extends UnicastRemoteObject implements NetClient {
 	
+	ClientBase clientBase;
 	
-	
-	protected ImplNetClient() throws RemoteException {
+	public ImplNetClient(ClientBase clientBase) throws RemoteException {
 		super();
+		this.clientBase = clientBase;
 		
 	}
 	
-	public void createClientRMIConnection(int portNum, int ip){
+	public NetOjim createClientRMIConnection(int portNum,String ip){
 		 
+		NetOjim serverOjim = null;
 		String registryURL = "rmi://"+ip+":" + portNum + "/myServer"; 
 		 try {
-			NetOjim serverOjim =(NetOjim)Naming.lookup(registryURL);
+			serverOjim =(NetOjim)Naming.lookup(registryURL);
 			NetClient clientInter = this;
 			serverOjim.registerClient(clientInter);
 			System.out.println("Client wurde beim Server angemeldet");
 			
 		} catch (MalformedURLException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		} catch (NotBoundException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-
+		
+		return serverOjim;
 	}
 	
 	
@@ -45,97 +47,94 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient {
 
 	@Override
 	public String getName() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.clientBase.getName();
 	}
 
 	@Override
 	public String getLanguage() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.clientBase.getLanguage();
 	}
 
 	@Override
 	public void informStartGame(int[] ids) {
-		// TODO Auto-generated method stub
+		this.clientBase.informStartGame(ids);
 		
 	}
 
 	@Override
 	public void informTurn(int player) {
-		// TODO Auto-generated method stub
+		this.clientBase.informTurn(player);
 		
 	}
 
 	@Override
 	public void informDiceValues(int[] diceValues) {
-		// TODO Auto-generated method stub
+		this.clientBase.informDiceValues(diceValues);
 		
 	}
 
 	@Override
 	public void informCashChange(int player, int cashChange) {
-		// TODO Auto-generated method stub
-		
+		this.informCashChange(player, cashChange);		
 	}
 
 	@Override
 	public void informBuy(int player, int position) {
-		// TODO Auto-generated method stub
+		this.clientBase.informBuy(player, position);
 		
 	}
 
 	@Override
 	public void informConstruct(int street) {
-		// TODO Auto-generated method stub
+		this.clientBase.informConstruct(street);
 		
 	}
 
 	@Override
 	public void informDestruct(int street) {
-		// TODO Auto-generated method stub
+		this.clientBase.informDestruct(street);
 		
 	}
 
 	@Override
 	public void informMortgageToogle(int street) {
-		// TODO Auto-generated method stub
+		this.clientBase.informMortgageToogle(street);
 		
 	}
 
 	@Override
 	public void informCardPull(String text, boolean communityCard) {
-		// TODO Auto-generated method stub
+		this.clientBase.informCardPull(text, communityCard);
 		
 	}
 
 	@Override
 	public void informBankruptcy() {
-		// TODO Auto-generated method stub
+		this.clientBase.informBankruptcy();
 		
 	}
 
 	@Override
 	public void informMessage(String text, int sender, boolean privateMessage) {
-		// TODO Auto-generated method stub
+		this.clientBase.informMessage(text, sender, privateMessage);
 		
 	}
 
 	@Override
 	public void informTrade(int actingPlayer, int partnerPlayer) {
-		// TODO Auto-generated method stub
+		this.clientBase.informTrade(actingPlayer, partnerPlayer);
 		
 	}
 
 	@Override
 	public void informAuction(int auctionState) {
-		// TODO Auto-generated method stub
+		this.informAuction(auctionState);
 		
 	}
 
 	@Override
 	public void informMove(int playerId, int position) {
-		// TODO Auto-generated method stub
+		this.clientBase.informMove(playerId, position);
 		
 	}
 

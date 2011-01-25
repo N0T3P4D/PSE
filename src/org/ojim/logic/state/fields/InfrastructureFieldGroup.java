@@ -16,6 +16,10 @@ public class InfrastructureFieldGroup extends FieldGroup {
 	}
 
 	public int getFactor(int ownerOwns) {
-		return this.factors[ownerOwns];
+		if (ownerOwns <= 0) {
+			return 0;
+		} else {
+			return this.factors[ownerOwns - 1];
+		}
 	}
 }

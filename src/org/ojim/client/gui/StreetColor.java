@@ -21,22 +21,24 @@ import java.awt.Color;
 
 public class StreetColor {
 	private static final Color[][] colors = {
-	// Straße 1
-			{ Color.blue, Color.white },
+			// Straße 1
+			{
+					Color.getHSBColor(10.0f / 100.0f, 100.0f / 100.0f,
+							62.0f / 100.0f), Color.white },
 			// Straße 2
-			{ Color.yellow, Color.black },
+			{ Color.cyan, Color.black },
 			// Straße 3
-			{ Color.red, Color.white },
+			{ Color.magenta, Color.white },
 			// Straße 4
-			{ Color.green, Color.white },
-			// Straße 5
 			{ Color.orange, Color.white },
+			// Straße 5
+			{ Color.red, Color.white },
 			// Straße 6
-			{ Color.cyan, Color.white },
+			{ Color.yellow, Color.white },
 			// Straße 7
-			{ Color.pink, Color.white },
+			{ Color.green, Color.white },
 			// Straße 8
-			{ Color.black, Color.white } };
+			{ Color.blue, Color.white } };
 
 	public static Color getBackGroundColor(int color) {
 		return colors[color][0];

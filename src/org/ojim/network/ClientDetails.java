@@ -67,7 +67,10 @@ public class ClientDetails {
 		
 	}
 	
-	
+	/**
+	 * Gibt den Spielernamen zurück
+	 * @return Spielername
+	 */
 	public String getUsername(){
 		return this.username;
 	}

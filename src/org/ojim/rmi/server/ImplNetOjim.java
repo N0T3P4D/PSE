@@ -34,7 +34,7 @@ import org.ojim.rmi.client.NetClient;
 import org.ojim.server.OjimServer;
 
 /**
- * Klasse verwaltet alle Methoden die ueber das Netzwerk aufgerufen werden koennen
+ * Klasse verwaltet alle Methoden die ueber das Netzwerk aufgerufen werden können 
  * 
  * @author Usman Ghani Ahmed
  *
@@ -45,16 +45,17 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	
 	private ServerDetails serverDetails;
 	
+	private OjimServer server;
+	
 	//Speichert alle Clients
 	private Vector clientList;
 
-	public ImplNetOjim(Registry reg, ServerDetails serverDetails) throws RemoteException {
+	public ImplNetOjim(Registry reg, ServerDetails serverDetails, OjimServer server) throws RemoteException {
 		super();
 		this.reg = reg;
 		this.serverDetails = serverDetails;
 		clientList = new Vector();
-
-		
+		this.server = server;
 	}
 	
 	
@@ -134,224 +135,201 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
     }
 	
 
-	@Override
+	
 	public int getPlayerPiecePosition(int playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getPlayerPiecePosition(playerID);
 	}
 
-	@Override
+	
 	public int getEstateColorGroup(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getEstateColorGroup(position);
 	}
 
-	@Override
+	
 	public int getEstateHouses(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getEstateHouses(position);
 	}
 
-	@Override
+	
 	public int getEstatePrice(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getEstatePrice(position);
 	}
 
-	@Override
+	
 	public int getEstateRent(int position, int houses) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getEstateRent(position, houses);
 	}
 
-	@Override
+	
 	public String getGameStatusMessage(int playerID) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.server.getGameStatusMessage(playerID);
 	}
 
-	@Override
+	
 	public boolean isMortgaged(int position) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.isMortgaged(position);
 	}
 
-	@Override
+	
 	public int getOwner(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getOwner(position);
 	}
 
-	@Override
+	
 	public int getDiceValue() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getDiceValue();
 	}
 
-	@Override
+	
 	public int[] getDiceValues() {
-		// TODO Auto-generated method stub
-		return null;
+		return this.server.getDiceValues();
 	}
 
-	@Override
+	
 	public int getPlayerCash(int playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getPlayerCash(playerID);
 	}
 
-	@Override
+	
 	public int getPlayerOnTurn() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getPlayerOnTurn();
 	}
 
-	@Override
+	
 	public int getNumberOfGetOutOfJailCards(int playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getNumberOfGetOutOfJailCards(playerID);
 	}
 
-	@Override
+	
 	public int getNumberOfHousesLeft() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getNumberOfHousesLeft();
 	}
 
-	@Override
+	
 	public int getNumberOfHotelsLeft() {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getNumberOfHotelsLeft();
 	}
 
-	@Override
+	
 	public boolean rollDice(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.rollDice(playerID);
 	}
 
-	@Override
+	
 	public boolean accept(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.accept(playerID);
 	}
 
-	@Override
+	
 	public boolean decline(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.decline(playerID);
 	}
 
-	@Override
+	
 	public boolean endTurn(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.endTurn(playerID);
 	}
 
-	@Override
+	
 	public boolean declareBankruptcy(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.declareBankruptcy(playerID);
 	}
 
-	@Override
+	
 	public boolean construct(int playerID, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.construct(playerID, position);
 	}
 
-	@Override
+	
 	public boolean deconstruct(int playerID, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.deconstruct(playerID, position);
 	}
 
-	@Override
+	
 	public boolean toggleMortgage(int playerID, int position) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.toggleMortgage(playerID, position);
 	}
 
-	@Override
+	
 	public int addPlayer(IClient client) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.addPlayer(client);
 	}
 
-	@Override
+	
 	public String getEstateName(int position) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.server.getEstateName(position);
 	}
 
-	@Override
+	
 	public int getPlayerColor(int player) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.server.getPlayerColor(player);
 	}
 
-	@Override
+	
 	public String getPlayerName(int player) {
-		// TODO Auto-generated method stub
-		return null;
+		return this.server.getPlayerName(player);
 	}
 
-	@Override
+	
 	public Rules getRules() {
-		// TODO Auto-generated method stub
-		
-		return null;
+		return this.server.getRules();
 	}
 
-	@Override
+	
 	public void setPlayerReady(int player) {
-		// TODO Auto-generated method stub
+		this.server.setPlayerReady(player);
 		
 	}
 
-	@Override
+	
 	public int getEstateHousePrice(int position) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.getEstateHousePrice(position);
 	}
 
-	@Override
+	
 	public int getTurnsInPrison(int playerID) {
-		// TODO Auto-generated method stub
-		return 0;
+		return this.getTurnsInPrison(playerID);
 	}
 
-	@Override
+	
 	public boolean payFine(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.payFine(playerID);
 	}
 
-	@Override
+	
 	public void sendMessage(String text, int sender) {
-		// TODO Auto-generated method stub
+		this.server.sendMessage(text, sender);
 		
 	}
 
-	@Override
+	
 	public void sendPrivateMessage(String text, int sender, int reciever) {
-		// TODO Auto-generated method stub
+		this.server.sendPrivateMessage(text, sender, reciever);
 		
 	}
 
-	@Override
+	
 	public boolean useGetOutOfJailCard(int playerID) {
-		// TODO Auto-generated method stub
-		return false;
+		return this.server.useGetOutOfJailCard(playerID);
 	}
 
 
 	@Override
 	public synchronized void registerClient(NetClient netClient) throws RemoteException {
-		 if (!(clientList.contains(netClient))) {
+		 
+		if (!(clientList.contains(netClient)) && this.serverDetails.getOpen()) {
 	         clientList.addElement(netClient);
-	         }
-	      System.out.println("Client wurde dem Server hinzugefügt");
+	         this.serverDetails.connectPlayer();
+	         
+	         
+	         
+	         
+	       System.out.println("Client wurde dem Server hinzugefügt");  
+		} else {
+			System.out.print("Error: Client ist schon beim Server angemeldet");
+			
+		}
+	      
 
 		
 	}
@@ -375,9 +353,9 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 
 
 	@Override
-	public int getRoundsToWait(SimpleClient sClient, int position) throws RemoteException {
+	public int getRoundsToWait(int position) throws RemoteException {
 		
-		return sClient.getRoundsToWait(position);
+		return this.server.getRoundsToWait(position);
 		
 		
 	}
@@ -386,10 +364,11 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 
 
 	@Override
-	public int getMoneyToPay(SimpleClient sClient, int position) throws RemoteException {
+	public int getMoneyToPay(int position) throws RemoteException {
 		
-		return sClient.getMoneyToPay(position);
+		return this.server.getMoneyToPay(position);
 	}
 
+	
 
 }
