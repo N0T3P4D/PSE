@@ -328,12 +328,11 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public final void informTurn(int player) {
 		Player newPlayer = this.getGameState().getPlayerByID(player);
 		if (newPlayer != null) {
+			this.getGameState().setActivePlayer(newPlayer);
 			this.onTurn(newPlayer);
 		} else {
 			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTurn with invalid player.");
 		}
-
-		//TODO GameState bescheid sagen, wer jetzt dran ist
 	}
 	
 	public abstract void onTurn(Player player);
