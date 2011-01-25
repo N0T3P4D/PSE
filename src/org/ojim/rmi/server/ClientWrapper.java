@@ -9,18 +9,23 @@ public class ClientWrapper implements IClient {
 
 	private NetClient sink;
 	
+	
+	
 	public ClientWrapper(NetClient sink) {
 		this.sink = sink;
+		
 	}
 	
 	@Override
 	public String getName() {
+		
+		String temp = "";
 		try {
 			return this.sink.getName();
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
+		return temp;
 	}
 
 	@Override

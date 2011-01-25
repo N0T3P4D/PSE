@@ -185,6 +185,8 @@ public interface NetOjim extends Remote {
 
 	
 	public void sendPrivateMessage(String text, int sender, int reciever)throws RemoteException;
+	
+	 
 
 	
 	

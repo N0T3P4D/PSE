@@ -34,12 +34,12 @@ import org.ojim.rmi.client.NetClient;
 import org.ojim.server.OjimServer;
 
 /**
- * Klasse verwaltet alle Methoden die ueber das Netzwerk aufgerufen werden können 
+ * Klasse verwaltet alle Methoden die über das Netzwerk aufgerufen werden können 
  * 
  * @author Usman Ghani Ahmed
  *
  */
-public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim, IClient {
+public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	
 	private Registry reg;
 	
@@ -56,7 +56,7 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim, IClien
 		super();
 		this.reg = reg;
 		this.serverDetails = serverDetails;
-		clientList = new Vector();
+		//clientList = new Vector();
 		this.server = server;
 	}
 	
@@ -254,17 +254,6 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim, IClien
 
 	
 	public int addPlayer(IClient client) {
-		
-		if (!(clientList.contains(client)) && this.serverDetails.getOpen()) {
-	         clientList.addElement(client);
-	         this.serverDetails.connectPlayer();
-	       System.out.println("Client wurde dem Server hinzugefügt");  
-		} else {
-			System.out.print("Error: Client ist schon beim Server angemeldet");
-			
-		}
-		
-		
 		return this.server.addPlayer(client);
 	}
 
@@ -382,177 +371,5 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim, IClien
 		return this.server.getMoneyToPay(position);
 	}
 
-
-
-
-	@Override
-	public String getName() {
-		
-		String temp = "";
-		try {
-			temp =  this.clientList.elementAt(?).getName();
-		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return temp;
-		
-	}
-
-
-
-
-	@Override
-	public String getLanguage() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-
-
-	@Override
-	public void informStartGame(int[] ids) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informTurn(int player) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informDiceValues(int[] diceValues) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informCashChange(int player, int cashChange) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informBuy(int player, int position) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informConstruct(int street) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informDestruct(int street) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informMortgageToogle(int street) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informCardPull(String text, boolean communityCard) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informBankruptcy() {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informMessage(String text, int sender, boolean privateMessage) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informAuction(int auctionState) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informMove(int playerId, int position) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informNewPlayer(int playerId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-
-
-
-	@Override
-	public void informPlayerLeft(int playerId) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	
 
 }
