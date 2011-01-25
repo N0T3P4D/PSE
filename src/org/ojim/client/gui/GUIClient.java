@@ -178,7 +178,7 @@ public class GUIClient extends ClientBase {
 			rightWindow.setLayout(new GridLayout(0, 1));
 
 			playerInfoWindow = new PlayerInfoWindow(language);
-			
+
 			rightWindow.add(playerInfoWindow);
 			leftWindow.add(chatWindow);
 
@@ -219,27 +219,25 @@ public class GUIClient extends ClientBase {
 
 			rightWindow1.remove(playerInfoWindow);
 			rightWindow1.remove(chatWindow);
-			
+
 			downWindow.remove(cardWindow);
 
 			downRight.remove(buyButton);
 			downRight.remove(rollButton);
-			
+
 			gameField = new GameField();
 
 			gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
 
-
 			pane.add(gameField);
-
 
 			rightWindow1.setLayout(new GridLayout(0, 1));
 
 			playerInfoWindow = new PlayerInfoWindow(language);
 			chatWindow = new ChatWindow(language);
 
-
-			System.out.println("Es gibt "+this.getGameState().getPlayers().length+" Spieler.");
+			System.out.println("Es gibt "
+					+ this.getGameState().getPlayers().length + " Spieler.");
 			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
 				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
 				this.playerInfoWindow.addPlayer(this.getGameState()
@@ -251,7 +249,6 @@ public class GUIClient extends ClientBase {
 			rightWindow1.add(chatWindow);
 
 			pane.add(rightWindow1);
-
 
 			downWindow.setLayout(new GridLayout(1, 0));
 
@@ -266,8 +263,46 @@ public class GUIClient extends ClientBase {
 			buyButton = new JButton(language.getText("buy"));
 			buyButton.setLayout(new FontLayout());
 			downRight.add(buyButton);
-			rollButton = new JButton(language.getText("roll"));
+			try {
+			if (getGameState().getActivePlayer()
+					.equals(getMe())
+					&& this.getGameState().getDices() != null) {
+				
+				ActionListener rollListener = new ActionListener() {
+					
+					@Override
+					public void actionPerformed(ActionEvent arg0) {
+						rollDice();
+						System.out.println("Rolly Rolly");
+						
+					}
+				};
+				
+				rollButton = new JButton(language.getText("roll"));
+				rollButton.addActionListener(rollListener);
+				
+				} else {
+					ActionListener endTurnListener = new ActionListener() {
+						
+						@Override
+						public void actionPerformed(ActionEvent arg0) {
+							endTurn();
+							System.out.println("Turn is ENDED!!!");
+							
+						}
+					};
+					
+					
+				rollButton = new JButton(language.getText("endturn"));		
+				rollButton.addActionListener(endTurnListener);		
+			}
+			
+			}
+			catch (NullPointerException e) {
+				
+			}
 			rollButton.setLayout(new FontLayout());
+
 			downRight.add(rollButton);
 
 			pane.add(downRight);
@@ -338,7 +373,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onMove(Player player, int position) {
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
-		//this.menuState = MenuState.game;
+		// this.menuState = MenuState.game;
 		gameField.playerMoves(this.getGameState().getFieldAt(position), player);
 		System.out.println("MOVE!");
 		draw();
@@ -497,14 +532,14 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onNewPlayer(Player player) {
-		//draw();
-		
+		// draw();
+
 	}
 
 	@Override
 	public void onPlayerLeft(Player player) {
-		//draw();
-		
+		// draw();
+
 	}
 
 }
