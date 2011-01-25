@@ -168,10 +168,12 @@ public class GUIClient extends ClientBase {
 			setName("Max");
 
 			OjimServer server = new OjimServer("Philip");
-
+			System.out.println("X");
 			server.initGame(8, 7);
+			System.out.println("Y");
 
 			connect(server);
+			System.out.println("Z");
 
 			JPanel leftWindow = new JPanel();
 			JPanel rightWindow = new JPanel();
