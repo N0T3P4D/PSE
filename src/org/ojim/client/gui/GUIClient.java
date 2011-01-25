@@ -185,12 +185,6 @@ public class GUIClient extends ClientBase {
 			
 			this.ready();
 			
-			//System.out.println("Es gibt "+this.getGameState().getPlayers().length+" Spieler.");
-			for(int i = 0; this.getGameState().getPlayers().length > i; i++){
-				System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
-				this.playerInfoWindow.addPlayer(this.getGameState().getPlayers()[i], this.getGameState().getPlayers()[i].getBalance());
-			}
-			
 			
 			gameField = new GameField();
 
@@ -233,6 +227,12 @@ public class GUIClient extends ClientBase {
 			downRight.add(button1);
 
 			pane.add(downRight);
+			
+			//System.out.println("Es gibt "+this.getGameState().getPlayers().length+" Spieler.");
+			for(int i = 0; this.getGameState().getPlayers().length > i; i++){
+				System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
+				this.playerInfoWindow.addPlayer(this.getGameState().getPlayers()[i], this.getGameState().getPlayers()[i].getBalance());
+			}
 
 			GUIFrame.add(pane);
 			break;

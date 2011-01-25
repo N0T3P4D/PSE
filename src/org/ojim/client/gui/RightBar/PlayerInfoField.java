@@ -48,11 +48,13 @@ public class PlayerInfoField extends JPanel {
 		
 
 		activeLabel = new JLabel();
+		if(this.player != null){
 		nameLabel = new JLabel(this.player.getName());
 		cashLabel = new JLabel(this.cash + " " + 
 				language.getText("currency"));
 		
 		draw();
+		}
 	}
 
 	public void setLanguage(Localizer language) {
@@ -93,7 +95,7 @@ public class PlayerInfoField extends JPanel {
 
 	public boolean isPlayer(Player player) {
 		// TODO: Player Objekt eine richtige Equalsmethode übergeben?
-		if (this.player.equals(player)) {
+		if (this.player != null && this.player.equals(player)) {
 			return true;
 		} else {
 			return false;
@@ -123,7 +125,7 @@ public class PlayerInfoField extends JPanel {
 	}
 
 	public boolean isNull() {
-		if (player == Player.NullPlayer) {
+		if (player == null) {
 			return true;
 		}
 		return false;

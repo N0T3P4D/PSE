@@ -37,10 +37,10 @@ public class PlayerInfoWindow extends JPanel {
 		
 		
 		playerInfoFields = new PlayerInfoField[MAX_PLAYERS];
-		
+		/*
 		for(int i = 0; i < MAX_PLAYERS; i++){
-			playerInfoFields[i] = new PlayerInfoField(Player.NullPlayer, 0, language);
-		}
+			playerInfoFields[i] = new PlayerInfoField(null, 0, language);
+		}*/
 		
 		/*
 		
@@ -76,8 +76,7 @@ public class PlayerInfoWindow extends JPanel {
 		if (findPlayer(player) == -1) {
 			//System.out.println(player.getId()+" nicht gefunden");
 			for (int i = 0; i < MAX_PLAYERS; i++) {
-				System.out.println("ZZZ");
-				if (playerInfoFields[i].isNull()) {
+				if (playerInfoFields[i]==null) {
 					//System.out.println(player.getId()+" mit id "+i+" hinzugefügt");
 					playerInfoFields[i] = new PlayerInfoField(player, cash, language);
 					break;
@@ -93,10 +92,10 @@ public class PlayerInfoWindow extends JPanel {
 		this.setLayout(new GridLayout(MAX_PLAYERS,0));
 		
 		for (int i = 0; i < MAX_PLAYERS; i++) {
-			if(!playerInfoFields[i].isNull()){
+			if(playerInfoFields[i] != null){
 				this.add(playerInfoFields[i]);
 			}
-			//System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
+			System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
 		}
 	}
 
@@ -111,7 +110,7 @@ public class PlayerInfoWindow extends JPanel {
 
 	public void turnOn(Player player) {
 		for (int i = 0; i < MAX_PLAYERS; i++) {
-			if (playerInfoFields[i].isOn()) {
+			if (playerInfoFields[i] != null && playerInfoFields[i].isOn()) {
 				playerInfoFields[i].turnOff();
 				break;
 			}
@@ -132,7 +131,7 @@ public class PlayerInfoWindow extends JPanel {
 
 	private int findPlayer(Player player) {
 		for (int i = 0; i < MAX_PLAYERS; i++) {
-			if (playerInfoFields[i].isPlayer(player)) {
+			if (playerInfoFields[i] != null && playerInfoFields[i].isPlayer(player)) {
 				return i;
 			}
 		}
