@@ -1,0 +1,44 @@
+# Translation file for german
+# Übersetzungsdatei für die Sprache deutsch
+# Sharp acts as comment
+# Semicolon (at the first sign) acts as file definition
+# File definition fields:
+#	- author
+#	- name
+#	- english name
+#	- code (ISO 639-3)
+
+# Copyright (C) 2010 Licensed under GNU GPL version 3.
+
+;author=Fabian & Jeremias
+;name=1337
+;english name=1337
+;code=133
+
+ojim=0J1M
+file=F113
+missing text=M1551n9 T3x7
+?=?
+create game=Cr3473 64m3
+join game=J01n 64m3
+leave game=L34v3 64m3
+settings=53771n65
+direct connection=D1r3ct c0nn3ct10n
+list of servers=L157 0f 53rv3r5
+exit=3x17
+about=4b0u7 0J1M
+help=H31p
+roll=R011 D1c3
+buy=8uy
+ready=R34dy?
+send=53nd
+currency=£
+languages=L4n9u4g35
+player name=Pl4y3r N4m3
+aboutText=<html>0p3n J4v4 1mp13m3nt4710n 0f M. 15 4 fr33 mu171pl4y3r J4v4 84s3d 69m3 8451ng 0n 7h3 ru135 0f 4 w1d31y c0mm0n 94m3. 17 w45 pl4nn3d and cr34t3d fr0m F4b14n N3und0rf, Ph111p C4r0l1, M4x1m1114n M4d1un9, U5m4n 6h4n1 4hm3d and J3r3m145 M3ch13r. 7h1s pr0jc3t w45 d3v3l0p3d dur1n9 th3 pr4c71c4l s0f7w4r3 d3v3l0p1n9 71m3 at K17.
+save=54v3
+start server=754r7 53rv3r
+helpText=0n3 d4y 7h3r3 m19ht b3 s0m37h1n9 us3fu1 h3r3.
+join=J01n
+ip=1P
+serverListText=P1453 us3 J01n 64m3.
