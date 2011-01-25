@@ -316,9 +316,9 @@ public class GUIClient extends ClientBase {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							endTurn();
 							System.out.println("Turn is ENDED!!!");
 							haveIalreadyRolled = false;
+							endTurn();
 
 						}
 					};
