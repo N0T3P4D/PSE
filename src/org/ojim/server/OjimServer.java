@@ -994,7 +994,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				if (player.getBalance() < 0) {
 					this.logic.setPlayerBankrupt(player);
 				}
-				if (this.auction == null && this.auction.getAuctionState() >= 3) {
+				if (this.auction != null && this.auction.getAuctionState() >= 3) {
 					Field field = state.getFieldAt(player.getPosition());
 					if (field instanceof BuyableField
 							&& ((BuyableField) field).getOwner() == null) {
