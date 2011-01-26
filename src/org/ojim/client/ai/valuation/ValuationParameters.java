@@ -17,19 +17,22 @@
 
 package org.ojim.client.ai.valuation;
 
-import java.util.ArrayList;
-
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Street;
+import org.ojim.logic.state.fields.Field;
 
 /**
  * Valuation parameters for the AI client
+ * Yet to be finally determined!
  * 
  * @author Jeremias Mechler
  * 
  */
 public final class ValuationParameters {
+
+	public static Logic myLogic = null;
 
 	/**
 	 * Minimum limit of cash
@@ -40,8 +43,7 @@ public final class ValuationParameters {
 	 */
 	public final static double averageCashPercentage = 0.01;
 	/**
-	 * How many percents of the cash of the opponent with the most money we
-	 * should keep
+	 * How many percents of the cash of the opponent with the most money we should keep
 	 */
 	public final static double maxCashPercentage = 0.05;
 	/**
@@ -52,6 +54,10 @@ public final class ValuationParameters {
 	 * Valuation penalty for mortgage
 	 */
 	public final static double mortgageFactor = 0.5;
+
+	public final static int desiredNumberOfOutOfOjailCards = 3;
+
+	public final static double buildingFactor = 2;
 
 	/**
 	 * Get the value of a buyable field
@@ -74,7 +80,11 @@ public final class ValuationParameters {
 		}
 	}
 
+	/**
+	 * To be removed
+	 */
 	public static void init(Logic logic) {
+		myLogic = logic;
 		GameState state = logic.getGameState();
 		for (int i = 0; i < 40; i++) {
 			if (state.getFieldAt(i) instanceof BuyableField) {
@@ -84,4 +94,18 @@ public final class ValuationParameters {
 			}
 		}
 	}
+
+	/**
+	 * To be changed, independent of state
+	 * 
+	 * @param position
+	 * @param level
+	 * @return
+	 */
+	public static int getBuildingValue(int position, int level) {
+		Field field = myLogic.getGameState().getFieldAt(position);
+		assert (field instanceof Street);
+		return (int) ((((Street) field).getFieldGroup()).getHousePrice() * buildingFactor);
+	}
+
 }

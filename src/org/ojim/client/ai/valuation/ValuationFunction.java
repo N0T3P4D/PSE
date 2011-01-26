@@ -27,6 +27,8 @@ import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.GameState;
 
+import edu.kit.iti.pse.iface.IServer;
+
 /**
  * 
  * @author Jeremias Mechler
@@ -36,6 +38,7 @@ public abstract class ValuationFunction {
 
 	private Logic logic;
 	protected Logger logger;
+	protected IServer server;
 
 	// xZise: Implicit set by logic (logic.getGame{State,Rules})
 	// private GameRules rules;
@@ -151,7 +154,19 @@ public abstract class ValuationFunction {
 		if (logger == null) {
 			logger = OJIMLogger.getLogger(this.getClass().toString());
 		}
-		// return logger;
+	}
+
+	protected final Logic getLogic() {
+		return logic;
+	}
+	
+	protected final void setServer(IServer server) {
+		this.server = server;
+	}
+	
+	protected final IServer getServer() {
+		assert(server != null);
+		return server;
 	}
 
 }

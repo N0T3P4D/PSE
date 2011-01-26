@@ -40,13 +40,10 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class AIClient extends ClientBase {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -5243314726829706243L;
 	private Logger logger;
 	private Valuator valuator;
-	private int count;
+	private static int count;
 	
 	private static final String[] NAMES = { "Leopard", "Johannes", "Timo", "Vater", "Danny", "Mum", "Buckit", "Cor7", "Nutch", "Doppelkeks" };
 
@@ -65,99 +62,107 @@ public class AIClient extends ClientBase {
 		logger = OJIMLogger.getLogger(getClass().toString());
 		this.setName(NAMES[(int) (Math.random() * NAMES.length)]);
 		connect(server);
-		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId()
-				+ " created.");
+		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId() + " created.");
 		valuator = new Valuator(getLogic(), server, getPlayerId());
 		count = 0;
+		// OJIMLogger.changeLogLevel(logger, Level.WARNING);
+		ready();
 	}
 
+	/**
+	 * Für den Server: Setzt
+	 */
 	public void setReady() {
-		ready();
+		// ready();
 	}
 
 	@Override
 	public void onTurn(Player player) {
-		// assert (player == super)
 		logger.log(Level.INFO, this.log("onTurn(" + this.getPlayerInfo(player) + ")"));
 		// My turn
 		if (player.equals(this.getMe())) {
 			logger.log(Level.INFO, "ID " + getPlayerId() + " Position is "
 					+ this.getGameState().getActivePlayer().getPosition());
 			this.rollDice();
+			// get current position
 			int position = getGameState().getActivePlayer().getPosition();
+			// increment round count
 			count++;
-			logger.log(
-					Level.INFO,
-					"ID " + getPlayerId() + " Move "
-							+ count
-							+ " New position is "
-							+ position
-							+ " with name "
-							+ getLogic().getGameState()
-									.getFieldAt(Math.abs(position)).getName());
+			logger.log(Level.INFO, "ID " + getPlayerId() + " Move " + count + " New position is " + position
+					+ " with name " + getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
 			if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
 				logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
-				assert(getGameState().getActivePlayer().getId() == getPlayerId());
+				assert (getGameState().getActivePlayer().getId() == getPlayerId());
 				valuator.returnBestCommand(position).execute();
-			}
-			if (position == 10) {
+			} else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
 				logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
 				valuator.returnBestCommand(position).execute();
 			}
 			endTurn();
-		}
-		else {
-			logger.log(Level.INFO, log("Not my turn"));
+		} else {
+			logger.log(Level.FINE, log("Not my turn"));
 		}
 	}
-	
+
 	private String log(String call) {
 		return "Call (@" + this.getPlayerId() + ") " + call;
 	}
-	
+
 	private String getPlayerInfo(Player player) {
 		if (player == null) {
 			return "Server";
 		}
-		return player.getName() + " [id: " + player.getId() + "]"; 
+		return player.getName() + " [id: " + player.getId() + "]";
 	}
 
 	private String getStreetInfo(Field field) {
 		return field.getName() + " [@: " + field.getPosition() + "]";
 	}
-	
+
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		logger.log(Level.INFO, this.log("onCashChange(" + this.getPlayerInfo(player) + ")! Amount = " + cashChange
-				+ " New cash = " + player.getBalance()));
-		
-		assert(this.getGameState().getActivePlayer() != null);
+		logger.log(
+				Level.INFO,
+				this.log("onCashChange(" + this.getPlayerInfo(player) + ")! Amount = " + cashChange + " New cash = "
+						+ player.getBalance()));
+
+		assert (this.getGameState().getActivePlayer() != null);
 	}
 
 	@Override
 	public void onMessage(String text, Player sender, boolean privateMessage) {
-		logger.log(Level.INFO, this.log("onMessage(From: " + this.getPlayerInfo(sender) + " Message: " + text + " Private: " + privateMessage + "!"));
+		logger.log(
+				Level.INFO,
+				this.log("onMessage(From: " + this.getPlayerInfo(sender) + " Message: " + text + " Private: "
+						+ privateMessage + "!"));
 	}
 
 	@Override
 	public void onTrade(Player actingPlayer, Player partnerPlayer) {
-		logger.log(Level.INFO, this.log("onTrade(" + this.getPlayerInfo(actingPlayer) + " -> " + this.getPlayerInfo(partnerPlayer) + ")!"));
+		logger.log(
+				Level.INFO,
+				this.log("onTrade(" + this.getPlayerInfo(actingPlayer) + " -> " + this.getPlayerInfo(partnerPlayer)
+						+ ")!"));
+		if (partnerPlayer.getId() == getPlayerId()) {
+			valuator.actOnTradeOffer().execute();
+		}
 	}
 
 	@Override
 	public void onMove(Player player, int position) {
-		logger.log(Level.INFO, this.log("onMove(" + this.getPlayerInfo(player) + ", " + position + ")!"));
+		logger.log(Level.FINE, this.log("onMove(" + this.getPlayerInfo(player) + ", " + position + ")!"));
 	}
 
 	@Override
 	public void onBuy(Player player, BuyableField position) {
 		// assert (position.getOwner() != null);
-		logger.log(Level.INFO, this.log("onBuy(" + this.getPlayerInfo(player) + ", " + this.getStreetInfo(position) + ")!"));
+		logger.log(Level.FINE,
+				this.log("onBuy(" + this.getPlayerInfo(player) + ", " + this.getStreetInfo(position) + ")!"));
 	}
 
 	private boolean isPrison(int position) {
 		if (getLogic().getGameState().getFieldAt(position) instanceof Jail) {
-			logger.log(Level.INFO, "In prison!");
+			logger.log(Level.FINE, "In prison!");
 			return true;
 		}
 		return false;
@@ -169,34 +174,32 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onBankruptcy() {
-//		assert(false);
 		logger.log(Level.INFO, this.log("onBankruptcy()!"));
-//		declareBankruptcy();
 	}
 
 	@Override
 	public void onCardPull(String text, boolean communityCard) {
-		logger.log(Level.INFO, this.log("onCardPull(" + text + ", " + (communityCard ? "comm" : "event") + "!"));
+		logger.log(Level.FINE, this.log("onCardPull(" + text + ", " + (communityCard ? "comm" : "event") + "!"));
 	}
 
 	@Override
 	public void onConstruct(Street street) {
-		logger.log(Level.INFO, this.log("onConstruct(" + this.getStreetInfo(street) + ")!"));
+		logger.log(Level.FINE, this.log("onConstruct(" + this.getStreetInfo(street) + ")!"));
 	}
 
 	@Override
 	public void onDestruct(Street street) {
-		logger.log(Level.INFO, this.log("onDestruct(" + this.getStreetInfo(street) + ")!"));
+		logger.log(Level.FINE, this.log("onDestruct(" + this.getStreetInfo(street) + ")!"));
 	}
 
 	@Override
 	public void onDiceValues(int[] diceValues) {
-		logger.log(Level.INFO, this.log("onDiceValues(" + Arrays.toString(diceValues) + ")!"));
+		logger.log(Level.FINE, this.log("onDiceValues(" + Arrays.toString(diceValues) + ")!"));
 	}
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
-		logger.log(Level.INFO, this.log("onMortgageToogle(" + this.getStreetInfo(street) + ")!"));
+		logger.log(Level.FINE, this.log("onMortgageToogle(" + this.getStreetInfo(street) + ")!"));
 	}
 
 	@Override
@@ -205,22 +208,22 @@ public class AIClient extends ClientBase {
 		for (int i = 0; i < players.length; i++) {
 			names[i] = this.getPlayerInfo(players[i]);
 		}
-		logger.log(Level.INFO, this.log("onStartGame(" + Arrays.toString(names) + ")!"));
+		logger.log(Level.FINE, this.log("onStartGame(" + Arrays.toString(names) + ")!"));
 	}
 
 	@Override
 	public void onAuction(int auctionState) {
-		logger.log(Level.INFO, this.log("onAuction(" + auctionState + ")!"));
+		logger.log(Level.FINE, this.log("onAuction(" + auctionState + ")!"));
 	}
 
 	@Override
 	public void onNewPlayer(Player player) {
-		logger.log(Level.INFO, this.log("onNewPlayer(" + this.getPlayerInfo(player) + ")!"));		
+		logger.log(Level.FINE, this.log("onNewPlayer(" + this.getPlayerInfo(player) + ")!"));
 	}
 
 	@Override
 	public void onPlayerLeft(Player player) {
-		logger.log(Level.INFO, this.log("onPlayerLeft(" + this.getPlayerInfo(player) + ")!"));		
-	
+		logger.log(Level.FINE, this.log("onPlayerLeft(" + this.getPlayerInfo(player) + ")!"));
+
 	}
 }

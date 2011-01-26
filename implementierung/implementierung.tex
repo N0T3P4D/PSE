@@ -59,9 +59,22 @@ Version 1.1
 
 \subsection{Allgemeines}
 Feature X ist wegen ... noch nicht voll funktionsfähig
-\subsection{Bekannte Fehler / Probleme}
+\subsection{Bekannte Fehler / Probleme / noch nicht implementierte Funktionen}
+\begin{itemize}
+\item Parameter für die Bewertungsfunktionen sind noch nicht bestimmt
+\item Auktionen werden nicht unterstützt (wird noch hinzugefügt)
+\item Handel wird nur testweise unterstützt (wird noch hinzugefügt)
+\item Hypotheken
+\end{itemize}
 \subsection{Änderungen gegenüber dem Entwurf}
+\begin{itemize}
+\item Andere Commands
+\end{itemize}
+
 \subsection{Entwurfsentscheidungen}
+\begin{itemize}
+Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungsfunktionen als Singletons umgesetzt.
+\end{itemize}
 
 \section OjimServer
 \subsection{Allgemeines}
@@ -74,15 +87,15 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \begin{itemize}
 \item private boolean checkAllPlayersReady()
 \end{itemize}
-\item Es gab ein paar Namens�nderungen im package org.ojim.rmi.server 
+\item Es gab ein paar Namensänderungen im package org.ojim.rmi.server 
 \begin{itemize}
-\item BufferServer wurde ge�ndert in StartNetOjim
-\item ImplBuffer wurde ge�ndert in ImplNetOjim
+\item BufferServer wurde geändert in StartNetOjim
+\item ImplBuffer wurde geändert in ImplNetOjim
 \end{itemize}
-\item Network Klasse wurde weggelassen, da die RMI die Verbingsschicht �berdeckt und die Sockets selber managt
-\item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen , die f�r den Server Methoden zur Verf�gung stellen welche aus einer anderen JVM aufgerufen werden k�nnen
+\item Network Klasse wurde weggelassen, da die RMI die Verbingsschicht überdeckt und die Sockets selber managt
+\item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen, die für den Server Methoden zur Verfügung stellen welche aus einer anderen JVM aufgerufen werden können
 \begin{itemize}
-\item interface NetClient extends Remote : spezifiziert alle Methoden die �ber das Netzwerk vom Server aufgerufen werden k�nnen 
+\item interface NetClient extends Remote : spezifiziert alle Methoden die über das Netzwerk vom Server aufgerufen werden können 
 \item ImplNetClient extends UnicastRemoteObject implements NetOjim: implementiert die Methoden des Interfaces
 \item StartNetClient Startet einen neuen Client und holt sich eine Referenz vom Namendienst der im Server gestartet wurde
 \end{itemize}
