@@ -18,11 +18,14 @@
 package org.ojim.client;
 
 import java.rmi.RemoteException;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.ojim.client.triggers.OnAuction;
 import org.ojim.client.triggers.OnBankruptcy;
@@ -62,6 +65,7 @@ import org.ojim.logic.state.fields.TaxField;
 import org.ojim.rmi.client.ImplNetClient;
 import org.ojim.rmi.client.NetClient;
 import org.ojim.rmi.client.StartNetClient;
+import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -74,10 +78,12 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	private String name;
 	private ExecutorService executor;
+	private Logger logger;
 
 	public ClientBase() {
 		super();
 		this.executor = Executors.newFixedThreadPool(1);
+		this.logger = OJIMLogger.getLogger(this.getClass().toString());
 	}
 
 	/*
@@ -187,9 +193,9 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	protected final boolean connect(String host, int port) {
 		try {
-			ImplNetClient server = new ImplNetClient(this);
-			StartNetClient creator = new StartNetClient();
-			creator.createClientRMIConnection(port, host, server);
+			StartNetClient starter = new StartNetClient();
+			NetOjim netojim = starter.createClientRMIConnection(port, host, this);
+			ImplNetClient  server = new ImplNetClient(this, netojim);
 			this.setParameters(server, this);
 			this.loadGameBoard();
 		} catch (RemoteException e) {
@@ -221,6 +227,8 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informBankruptcy() {
+		this.logger.log(Level.INFO, "informBankruptcy()");
+		
 		this.executor.execute(new OnBankruptcy(this));
 	}
 
@@ -228,6 +236,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informCardPull(String text, boolean communityCard) {
+		this.logger.log(Level.INFO, "informCardPull(" + text + ", " + communityCard + ")");
 		Player active = this.getGameState().getActivePlayer();
 		active.setNumberOfGetOutOfJailCards(this
 				.getNumberOfGetOutOfJailCards(active.getId()));
@@ -238,6 +247,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informCashChange(int playerId, int cashChange) {
+		this.logger.log(Level.INFO, "informCashChange(" + playerId + "," + cashChange + ")");
 		Player player = this.getGameState().getPlayerByID(playerId);
 		if (player != null) {
 			player.transferMoney(cashChange);
@@ -253,6 +263,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informConstruct(int street) {
+		this.logger.log(Level.INFO, "informConstruct(" + street + ")");		
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof Street) {
 			this.getLogic().upgrade((Street) field, +1);
@@ -267,6 +278,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informDestruct(int street) {
+		this.logger.log(Level.INFO, "informDestruct(" + street + ")");		
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof Street) {
 			this.getLogic().upgrade((Street) field, -1);
@@ -281,6 +293,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informDiceValues(int[] diceValues) {
+		this.logger.log(Level.INFO, "informDiceValues(" + Arrays.toString(diceValues) + ")");	
 		this.executor.execute(new OnDiceValues(this, diceValues));
 	}
 
@@ -289,6 +302,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informMessage(String text, int sender,
 			boolean privateMessage) {
+		this.logger.log(Level.INFO, "informMessage(" + text + "," + sender + "," + privateMessage + ")");	
 		Player player = null;
 		if ((sender == -1)
 				|| (player = this.getGameState().getPlayerByID(sender)) != null) {
@@ -305,6 +319,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informMortgageToogle(int street) {
+		this.logger.log(Level.INFO, "informMortgageToogle(" + street + ")");
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof BuyableField) {
 			this.getLogic().toggleMortgage((BuyableField) field);
@@ -320,6 +335,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informStartGame(int[] ids) {
+		this.logger.log(Level.INFO, "informStartGame(" + Arrays.toString(ids) + ")");		
 		GameState state = this.getGameState();
 		Player[] order = new Player[ids.length];
 		for (int i = 0; i < ids.length; i++) {
@@ -346,6 +362,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informTrade(int actingPlayer, int partnerPlayer) {
+		this.logger.log(Level.INFO, "informTrade(" + actingPlayer + "," + partnerPlayer + ")");
 		Player acting = this.getGameState().getPlayerByID(actingPlayer);
 		if (acting != null) {
 			Player partner = this.getGameState().getPlayerByID(partnerPlayer);
@@ -365,7 +382,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informTurn(int player) {
-		System.out.println("XXX");
+		this.logger.log(Level.INFO, "informTurn(" + player + ")");
 		Player newPlayer = this.getGameState().getPlayerByID(player);
 		if (newPlayer != null) {
 			this.getGameState().setActivePlayer(newPlayer);
@@ -380,6 +397,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informMove(int playerId, int position) {
+		this.logger.log(Level.INFO, "informMove(" + playerId + ", " + position + ")");
 		Player player = this.getGameState().getPlayerByID(playerId);
 		if (player != null) {
 			player.setPosition(position);
@@ -395,6 +413,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informBuy(int playerId, int position) {
+		this.logger.log(Level.INFO, "informBuy(" + playerId + ", " + position + ")");
 		Player player = this.getGameState().getPlayerByID(playerId);
 		if (player != null) {
 			Field field = this.getGameState().getFieldAt(position);
@@ -416,12 +435,14 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informAuction(int auctionState) {
+		this.logger.log(Level.INFO, "informAuction(" + auctionState + ")");
 		this.executor.execute(new OnAuction(this, auctionState));
 	}
 
 	public abstract void onAuction(int auctionState);
 
 	public final void informNewPlayer(int playerId) {
+		this.logger.log(Level.INFO, "informNewPlayer(" + playerId + ")");
 		Player player = new Player(this.getPlayerName(playerId), this
 				.getPlayerPiecePosition(playerId),
 				this.getPlayerCash(playerId), playerId, this
@@ -436,6 +457,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public abstract void onNewPlayer(Player player);
 
 	public final void informPlayerLeft(int playerId) {
+		this.logger.log(Level.INFO, "informPlayerLeft(" + playerId + ")");
 		Player old = this.getGameState().getPlayerByID(playerId);
 		this.getGameState().removePlayer(old);
 		this.executor.execute(new OnPlayerLeft(this, old));

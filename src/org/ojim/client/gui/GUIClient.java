@@ -169,12 +169,10 @@ public class GUIClient extends ClientBase {
 			setName("Max");
 
 			OjimServer server = new OjimServer("Philip");
-			System.out.println("X");
+			
 			server.initGame(8, 7);
-			System.out.println("Y");
 
 			connect(server);
-			System.out.println("Z");
 
 			JPanel leftWindow = new JPanel();
 			JPanel rightWindow = new JPanel();
@@ -318,10 +316,9 @@ public class GUIClient extends ClientBase {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							rollDice();
 							System.out.println("Rolly Rolly");
 							haveIalreadyRolled = true;
-							draw();
+							rollDice();
 						}
 					};
 
@@ -353,6 +350,7 @@ public class GUIClient extends ClientBase {
 						.println("Jemand anderes verschwendet unsere Zeit, Meister.");
 			}
 			rollButton.setLayout(new FontLayout());
+			endTurnButton.setLayout(new FontLayout());
 
 			pane.add(downRight);
 
@@ -421,7 +419,7 @@ public class GUIClient extends ClientBase {
 	public void onMove(Player player, int position) {
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
-		gameField.playerMoves(this.getGameState().getFieldAt(position), player);
+		gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)), player);
 	}
 
 	@Override
