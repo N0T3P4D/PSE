@@ -177,7 +177,7 @@ public class GameFieldLayout implements LayoutManager {
 					// Felder links
 				} else if (field < 20) {
 					if(player){
-						c.setBounds(0, middleFieldSize + cardHeight
+						c.setBounds(0, middleFieldSize + cardWidth
 								- ((fieldNumber % 10) * cardWidth), playerSize,
 								playerSize);
 						
@@ -189,7 +189,7 @@ public class GameFieldLayout implements LayoutManager {
 					// Felder oben
 				} else if (field < 30) {
 					if(player){
-						c.setBounds(((fieldNumber % 10) * cardWidth) + cardWidth,
+						c.setBounds(((fieldNumber % 10) * cardWidth) + cardHeight,
 								0, playerSize, playerSize);
 						
 					} else {
@@ -200,7 +200,7 @@ public class GameFieldLayout implements LayoutManager {
 				} else {
 					if(player){
 						c.setBounds(middleFieldSize + cardHeight, cardHeight
-								+ ((fieldNumber % 10) * cardWidth) - cardWidth,
+								+ ((fieldNumber % 10) * cardWidth),
 								playerSize, playerSize);
 						
 					} else {

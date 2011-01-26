@@ -425,7 +425,8 @@ public class GUIClient extends ClientBase {
 	public void onMove(Player player, int position) {
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
-		gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)), player);
+		//gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)), player);
+		gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
 		draw();
 	}
 
