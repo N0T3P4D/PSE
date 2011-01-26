@@ -58,21 +58,27 @@ Version 1.1
 \section{KI-Client}
 
 \subsection{Allgemeines}
-Feature X ist wegen ... noch nicht voll funktionsfähig
-\subsection{Bekannte Fehler / Probleme / noch nicht implementierte Funktionen}
+Im aktuellen Implementierungsstand ist der KI-Client in der Lage, selbstständig über das Kaufen von Straßen zu entscheiden und die Entscheidung auch auszuführen. Abgesehen davon, dass die entsprechenden Parameter nicht bestimmt wurden, sind die Unter-Bewertungsfunktionen im Wesentlichen funktionsfähig.
+Auch wenn der vollständige Funktionsumfang noch nicht hergestellt ist, hat der KI-Client bei der Entwicklung als automatisches Testtool einen wertvollen Beitrag geleistet. Fehler konnten reproduzierbar ausgelöst und dadurch behoben werden. Das korrekte Zusammenwirken der einzelnen Komponenten konnte überprüft und Inkonsistenzen festgestellt werden.
+\subsection{Noch nicht implementierte Funktionen (werden noch hinzugefügt)}
 \begin{itemize}
 \item Parameter für die Bewertungsfunktionen sind noch nicht bestimmt
-\item Auktionen werden nicht unterstützt (wird noch hinzugefügt)
-\item Handel wird nur testweise unterstützt (wird noch hinzugefügt)
-\item Hypotheken
+\item Auktionen werden nicht unterstützt
+\item Handel wird nur testweise unterstützt
+\item Hypotheken werden nicht gesetzt
+\item Feldgruppen werden nicht in die Bewertung einbezogen
+\item Bebaubare Felder werden nicht bebaut
 \end{itemize}
 \subsection{Änderungen gegenüber dem Entwurf}
+Commands
 \begin{itemize}
-\item Andere Commands
+\item SellCommand und NullCommand wurden hinzugefügt.
+\item BuyPropertyCommand wurde entfernt, da unnötig
 \end{itemize}
+\newpage
 
 \subsection{Entwurfsentscheidungen}
-Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungsfunktionen als Singletons umgesetzt.
+Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungsfunktionen als Singletons umgesetzt. Für das Ausführen des besten Befehls wird das Entwurfsmuster ``Befehl'' verwendet. Weiterhin gibt es eine Klasse ``NullCommand'', die sich an der Idee des Entwurfsmusters ``Null-Objekt'' orientiert.
 
 \section{GUI-Client}
 
@@ -95,7 +101,7 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 
 \subsection{Entwurfsentscheidungen}
 \begin{itemize}
--
+\item -
 \end{itemize}
 
 \section OjimServer

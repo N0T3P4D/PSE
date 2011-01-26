@@ -92,7 +92,6 @@ public class ServerStart {
 					server = new OjimServer("test");
 					server.initGame(count, count);
 					
-					System.out.println("round: " + i);
 				}
 			} else if(input.equals("end")) {
 				if(!isOpen) {
