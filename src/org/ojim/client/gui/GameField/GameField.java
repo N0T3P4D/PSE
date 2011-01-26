@@ -36,6 +36,8 @@ public class GameField extends JPanel {
 	GameFieldPiece[] fields;
 	int fieldsAmount;
 	JPanel[] playerLabel;
+	Player[] player;
+	Field[] field;
 
 	// Das Feld auf das zuletzt mit der Maus geklickt wurde
 	String selectedField;
@@ -110,15 +112,28 @@ public class GameField extends JPanel {
 	}
 
 	public void playerMoves(Field field, Player player) {
-		playerLabel[player.getId()].setBackground(PlayerColor.getBackGroundColor(player.getColor()));
-		playerLabel[player.getId()].setName(field.getPosition()+"000");
+		//this.remove(playerLabel[player.getId()]);
+		this.player[player.getId()] = player;
+		this.field[player.getId()] = field;
+		playerLabel[player.getId()].setBackground(PlayerColor
+				.getBackGroundColor(player.getColor()));
+		playerLabel[player.getId()].setName(field.getPosition() + "000");
 		playerLabel[player.getId()].setBorder(new LineBorder(Color.black, 1));
 		this.add(playerLabel[player.getId()]);
-		draw();
+		//this.revalidate();
 	}
 
 	public void init(int fieldsAmount, GameState gameState) {
 		// System.out.println("GAMEFIELD UPDATE");
+		this.player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
+		this.field = new Field[GameState.MAXIMUM_PLAYER_COUNT];
+		
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
+			this.player[i] = gameState.getPlayers()[i];
+			this.field[i] = gameState.getFieldAt(gameState.getPlayers()[i].getPosition());
+		}
+		
+		
 		this.fieldsAmount = fieldsAmount;
 		fields = new GameFieldPiece[fieldsAmount];
 		for (int i = 0; i < fieldsAmount; i++) {
@@ -132,6 +147,16 @@ public class GameField extends JPanel {
 
 		this.setLayout(new GameFieldLayout());
 
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
+				//this.remove(playerLabel[i]);
+				//System.out.println("Er malt.");
+				playerLabel[i].setBackground(PlayerColor
+						.getBackGroundColor(player[i].getColor()));
+				playerLabel[i].setName(field[i].getPosition() + "000");
+				playerLabel[i].setBorder(new LineBorder(Color.black, 1));
+				this.add(playerLabel[i]);
+				//this.revalidate();
+		}
 		JPanel actualLabel = new JPanel();
 
 		actualLabel.setBackground(Color.black);
@@ -157,6 +182,8 @@ public class GameField extends JPanel {
 
 			}
 		}
+
+
 	}
 
 }
