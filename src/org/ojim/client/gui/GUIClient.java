@@ -68,6 +68,7 @@ public class GUIClient extends ClientBase {
 	JPanel downRight = new JPanel();
 	JButton buyButton = new JButton();
 	JButton rollButton = new JButton();
+	JButton endTurnButton = new JButton();
 
 	JFrame GUIFrame;
 
@@ -296,12 +297,22 @@ public class GUIClient extends ClientBase {
 			} catch (Exception e) {
 				//System.out.println("Kein buyablefield");
 			}
+			
+			if(haveIalreadyRolled){
+				System.out.println("I HAVE!!!");
+			}
+			else {
+				System.out.println("I HAVE!!! NoT!");
+				
+			}
 
 			downRight.remove(rollButton);
+			downRight.remove(endTurnButton);
 			try {
-				if (!haveIalreadyRolled && getGameState().getActivePlayer().getId() == getPlayerId() &&
+				//if (!haveIalreadyRolled && 
+				//		getGameState().getActivePlayer().getId() == getPlayerId() &&
 				// getGameState().getActivePlayer().equals(getMe()) &&
-						this.getGameState().getActivePlayerNeedsToRoll()) {
+				//		this.getGameState().getActivePlayerNeedsToRoll()) {
 
 					ActionListener rollListener = new ActionListener() {
 
@@ -318,8 +329,8 @@ public class GUIClient extends ClientBase {
 					rollButton.addActionListener(rollListener);
 					downRight.add(rollButton);
 
-				} else if (getGameState().getActivePlayer().getId() == getPlayerId())
-				{
+				//} else if (getGameState().getActivePlayer().getId() == getPlayerId())
+				//{
 					ActionListener endTurnListener = new ActionListener() {
 
 						@Override
@@ -330,13 +341,13 @@ public class GUIClient extends ClientBase {
 						}
 					};
 
-					rollButton = new JButton(language.getText("endturn"));
-					rollButton.addActionListener(endTurnListener);
-					downRight.add(rollButton);
-				} else {
+					endTurnButton = new JButton(language.getText("endturn"));
+					endTurnButton.addActionListener(endTurnListener);
+					downRight.add(endTurnButton);
+				//} else {
 
-					downRight.setToolTipText("Wait for other Players");
-				}
+				//	downRight.setToolTipText("Wait for other Players");
+				//}
 			} catch (NullPointerException e) {
 				System.out
 						.println("Jemand anderes verschwendet unsere Zeit, Meister.");

@@ -29,9 +29,9 @@ Fabian Neundorf}
 \DeclareGraphicsExtensions{.eps}
 \fi
 
-% EinrÃ¼ckung bei AbsÃ¤tzen
+% Einrückung bei Absätzen
 \setlength{\parindent}{0mm}
-% Zeilenabstand bei AbsÃ¤tzen
+% Zeilenabstand bei Absätzen
 \setlength{\parskip}{2mm}
 
 \begin{document}
@@ -42,7 +42,7 @@ Fabian Neundorf}
 \vspace{3cm}
 \huge{Praxis der Softwareentwicklung \\
 Gruppe 3 \\[0.5cm]
-Entwicklung eines "`Monopoly"'-Ã¤hnlichen Spiels \\[0.5cm]
+Entwicklung eines "`Monopoly"'-ähnlichen Spiels \\[0.5cm]
 %\includegraphics[height=2cm]{kitlogo_de_rgb}  \\[0.5cm]
 WS 2010 / 2011} \\[2cm]
 Version 1.1
@@ -58,21 +58,29 @@ Version 1.1
 \section{KI-Client}
 
 \subsection{Allgemeines}
-Feature X ist wegen ... noch nicht voll funktionsfÃ¤hig
+Feature X ist wegen ... noch nicht voll funktionsfähig
 \subsection{Bekannte Fehler / Probleme}
-\subsection{Ã„nderungen gegenÃ¼ber dem Entwurf}
+\subsection{Änderungen gegenüber dem Entwurf}
 \subsection{Entwurfsentscheidungen}
 
-\section OjimServer
+\section {OjimServer}
 \subsection{Allgemeines}
-\subsection {Ã„nderungen gegenÃ¼ber dem Entwurf}
+\subsection {Änderungen gegenüber dem Entwurf}
 \begin{itemize}
-\item Der Server beinhaltet nun eine MÃ¶glichkeit ihn Ã¼ber die Kommandozeile zu starten und zu beenden
-\item Der Server bekommt am Anfang die maximale Spielerzahl und die Computerspielerzahl Ã¼bergeben
-\item Die FunktionalitÃ¤t der Methoden aus IServer, IServerTrade und IServerAuction werden wie im Entwurf vorgesehen implementiert, einzelne AblÃ¤ufe und Folgeaktionen waren im Entwurf aber nicht genau vorgeschrieben.
-\item Der Ãœbersichtlichkeit halber wurden einige privaten Methoden eingefÃ¼gt, beispielsweise
+\item Der Server beinhaltet nun eine Möglichkeit ihn über die Kommandozeile zu starten und zu beenden
+\item Der Server bekommt am Anfang die maximale Spielerzahl und die Computerspielerzahl übergeben
+\item Die Funktionalität der Methoden aus IServer, IServerTrade und IServerAuction werden wie im Entwurf vorgesehen implementiert, einzelne Abläufe und Folgeaktionen waren im Entwurf aber nicht genau vorgeschrieben.
+\item Der Server beinhaltet nun Erweiterungen von GameState (ServerGameState) und Logic (ServerLogic), die Methoden beinhalten, welche Clienten nicht benötigen
+\item Alle Methoden, die den Zustand verändern (könnten) wurden als synchronized deklariert
+\item Handel und Auktionen werden über eigene Klassen verwaltet
+\begin{itemize}
+\item Trade \\ Beinhaltet alle relevanten Handelsobjekte und kann einen Handel ausführen
+\item Auction \\ Beinhaltet alle relevanten Objekte für eine Auktion und kann eine Auktion selbstständig ausführen
+\end{itemize}
+\item Der Übersichtlichkeit halber wurden einige privaten Methoden eingefügt, beispielsweise
 \begin{itemize}
 \item private boolean checkAllPlayersReady()
+\item private boolean changeLevel(int playerId, int position, int levelChange)
 \end{itemize}
 \item Es gab ein paar Namensänderungen im package org.ojim.rmi.server 
 \begin{itemize}
