@@ -80,13 +80,19 @@ Feature X ist wegen ... noch nicht voll funktionsfÃ¤hig
 \item ImplBuffer wurde geändert in ImplNetOjim
 \end{itemize}
 \item Network Klasse wurde weggelassen, da die RMI die Verbingsschicht überdeckt und die Sockets selber managt
-\item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen , die für den Server Methoden zur Verfügung stellen welche aus einer anderen JVM aufgerufen werden können
+\item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen , die für den Server, Methoden zur Verfügung stellen welche aus einer anderen JVM aufgerufen werden können
 \begin{itemize}
 \item interface NetClient extends Remote : spezifiziert alle Methoden die über das Netzwerk vom Server aufgerufen werden können 
 \item ImplNetClient extends UnicastRemoteObject implements NetOjim,IServer: implementiert die Methoden des Interface NetOjim und leitet die Methodenaufrufe des IServer Objekts über RMI weiter , dabei ist es egal ob IServer sich im Netzwerk befindet oder lokal
 \item StartNetClient Startet einen neuen Client und holt sich eine Referenz vom Namendienst der im Server gestartet wurde
 \end{itemize}
-\item Auf Seite des Servers, wurde ein Wrapper erstellt der den Methodenaufruf über das Netzwer
+\item Auf Seite des Servers, wurde ein Wrapper erstellt der den Methodenaufruf über das Netzwerk verdeckt
+\begin{itemize}
+\item StartNetOjim : erstellt einen neuen RMI Server
+\item NetOjim extends Remote  : stellt alle Methoden zur Verfügung die der Client auf dem Server aufrufen kann
+\item ImplNetOjim  extends UnicastRemoteObject implements NetOjim : Implementiert das Interface NetOjim
+\item ClientWrapper implements IClient : stellt den Wrapper dar , der den Methodenaufruf eines IClient Objekt lokalisiert aufruft, bzw. keine Unterscheidung macht ob sich der Client über das Netzwerk mit dem Server verbunden hat
+\end{itemize}
 
 
 
