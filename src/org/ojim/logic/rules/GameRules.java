@@ -49,6 +49,15 @@ public class GameRules {
 			}
 		}
 		
+		
+		//Does the Player possess all houses?
+		for(Field groupField : ((Street)field).getFieldGroup().getFields()) {
+			if(((Street)groupField).getOwner() != player) {
+				return false;
+			}
+		}
+		
+		
 		return true;
 	}
 	
