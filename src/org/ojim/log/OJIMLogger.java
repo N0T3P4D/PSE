@@ -18,6 +18,7 @@
 package org.ojim.log;
 
 import java.util.logging.ConsoleHandler;
+import java.util.logging.Handler;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,6 +71,16 @@ public final class OJIMLogger {
 		assert (result != null);
 		setupLogger(result);
 		return result;
+	}
+
+	public static void changeLogLevel(Logger logger, Level level) {
+		if (logger == null) {
+			throw new IllegalArgumentException();
+		}
+		logger.setLevel(level);
+		for (Handler handler : logger.getHandlers()) {
+			handler.setLevel(level);
+		}
 	}
 
 }
