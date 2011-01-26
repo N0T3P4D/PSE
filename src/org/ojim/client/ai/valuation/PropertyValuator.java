@@ -43,10 +43,11 @@ public final class PropertyValuator extends ValuationFunction {
 		return PropertyValuator.getInstance(false, PropertyValuator.class);
 	}
 
-	@Override
-	public double returnValuation() {
+	public double returnValuation(int position) {
 		getLogger();
-		int position = this.getGameState().getActivePlayer().getPosition();
+		if (position == 0) {
+			position = this.getGameState().getActivePlayer().getPosition();
+		}
 		if (this.getGameState().getFieldAt(position) instanceof BuyableField) {
 			logger.log(Level.INFO, "ID = "
 					+ this.getGameState().getActivePlayer().getId());
@@ -59,7 +60,6 @@ public final class PropertyValuator extends ValuationFunction {
 
 			boolean isMortgaged = field.isMortgaged();
 
-			// Position or id?
 			if (price > ValuationParameters.getStreetValue(position)) {
 				logger.log(Level.INFO, "Denied");
 				return -1;
@@ -81,6 +81,11 @@ public final class PropertyValuator extends ValuationFunction {
 		} else {
 			return 0;
 		}
+	}
+
+	@Override
+	public double returnValuation() {
+		return returnValuation(0);
 	}
 
 }

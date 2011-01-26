@@ -31,6 +31,7 @@ import org.ojim.logic.Logic;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Jail;
+import edu.kit.iti.pse.iface.IServerTrade;
 
 import org.ojim.logic.state.GameState;
 
@@ -42,7 +43,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class Valuator {
+public class Valuator extends SimpleClient {
 
 	private double[] weights;
 	private ValuationFunction[] valuationFunctions;
@@ -50,10 +51,6 @@ public class Valuator {
 	private int playerID;
 	private IServer server;
 	private Logger logger;
-
-	// PrisonValuator prisonValuator;
-	// CapitalValuator capitalValuator;
-	// PropertyValuator propertyValuator;
 
 	/**
 	 * Constructor
@@ -68,6 +65,7 @@ public class Valuator {
 	 *            The player's ID
 	 */
 	public Valuator(Logic logic, IServer server, int playerID) {
+		super(logic, playerID, server);
 		assert (logic != null);
 		assert (server != null);
 		this.logic = logic;
@@ -83,23 +81,14 @@ public class Valuator {
 		valuationFunctions[0] = CapitalValuator.getInstance();
 		valuationFunctions[1] = PropertyValuator.getInstance();
 		valuationFunctions[2] = PrisonValuator.getInstance();
+		valuationFunctions[0].setServer(server);
 
 		// TODO for all!
 		for (int i = 0; i < 3; i++) {
 			assert (valuationFunctions[i] != null);
 		}
 
-		// capitalValuator = CapitalValuator.getInstance();
-		// assert (capitalValuator != null);
-		// capitalValuator.setParameters(logic);
-		// propertyValuator = PropertyValuator.getInstance();
-		// assert (propertyValuator != null);
-		// propertyValuator.setParameters(logic);
-		// prisonValuator = PrisonValuator.getInstance();
-		// assert (prisonValuator != null);
-		// prisonValuator.setParameters(logic);
 		ValuationParameters.init(logic);
-		// this.logic = logic;
 	}
 
 	/**
@@ -116,15 +105,10 @@ public class Valuator {
 		}
 
 		if (field instanceof BuyableField) {
-			if (((BuyableField) field).getOwner() != logic.getGameState()
-					.getActivePlayer()) {
+			if (((BuyableField) field).getOwner() != logic.getGameState().getActivePlayer()) {
 				logger.log(Level.INFO, "BuyableField!");
-				double valuation = weights[0]
-						* valuationFunctions[1].returnValuation()
-						+ weights[1]
-						* ((CapitalValuator)valuationFunctions[0])
-								.returnValuation(((BuyableField) field)
-										.getPrice());
+				double valuation = weights[0] * valuationFunctions[1].returnValuation() + weights[1]
+						* ((CapitalValuator) valuationFunctions[0]).returnValuation(((BuyableField) field).getPrice());
 
 				if (valuation > 0) {
 					logger.log(Level.INFO, "Granted");
@@ -140,7 +124,7 @@ public class Valuator {
 		// reicht das?
 		else if (field instanceof Jail) {
 			if (valuationFunctions[2].returnValuation() > 0) {
-				return new OutOfPrisonCommand(logic, server, playerID, false);
+				return new OutOfPrisonCommand(logic, server, playerID);
 			} else {
 				return new NullCommand(logic, server, playerID);
 			}
@@ -148,8 +132,52 @@ public class Valuator {
 
 		return new NullCommand(logic, server, playerID);
 	}
-	
-	private GameState getGameState() {
-		return logic.getGameState();
+
+	/**
+	 * Einschränkung: Nur _eine_ Sache pro Angebot!
+	 * 
+	 * @return
+	 */
+	public Command actOnTradeOffer() {
+		assert (getTradeState() == 1);
+		if (getNumberOfOfferedGetOutOfJailCards() > 0
+				&& this.getNumberOfGetOutOfJailCards(playerID) < ValuationParameters.desiredNumberOfOutOfOjailCards) {
+			if (this.getRequiredCash() < ((Jail) getGameState().getFieldAt(10)).getMoneyToPay()) {
+				return new AcceptCommand(logic, server, playerID);
+			} else {
+				return new DeclineCommand(logic, server, playerID);
+			}
+		} else if (this.getOfferedCash() > 0) {
+			int[] requests = this.getRequiredEstates();
+			assert (requests.length == 1);
+			// TODO take property group + buildings into account!
+			if (((PropertyValuator) valuationFunctions[1]).returnValuation(requests[1]) < this.getOfferedCash()) {
+				return new AcceptCommand(logic, server, playerID);
+			} else {
+				return new DeclineCommand(logic, server, playerID);
+			}
+		} else if (this.getOfferedEstates().length == 1) {
+			if (((PropertyValuator) valuationFunctions[1]).returnValuation(getOfferedEstates()[0]) < this
+					.getRequiredCash()) {
+				assert (false);
+				if (((CapitalValuator) valuationFunctions[0]).returnValuation(this.getRequiredCash()) >= 0) {
+					assert (false);
+					return new AcceptCommand(logic, server, playerID);
+				} else {
+					assert (false);
+					return new DeclineCommand(logic, server, playerID);
+				}
+			} else {
+				assert (false);
+				return new DeclineCommand(logic, server, playerID);
+			}
+		}
+		System.out.println(this.getOfferedEstates().length);
+		assert (false);
+		return new DeclineCommand(logic, server, playerID);
 	}
+
+	// private GameState getGameState() {
+	// return logic.getGameState();
+	// }
 }
