@@ -31,8 +31,6 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class OutOfPrisonCommand extends SimpleClient implements Command {
 
-	private boolean useCard;
-
 	/**
 	 * 
 	 * Constructor
@@ -43,15 +41,15 @@ public class OutOfPrisonCommand extends SimpleClient implements Command {
 	 *            Reference to the game logic
 	 * @param playerId
 	 *            The client's ID
+	 * 
 	 */
-	public OutOfPrisonCommand(Logic logic, IServer server, int playerId,
-			boolean useCard) {
+	public OutOfPrisonCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
 	}
 
 	@Override
 	public void execute() {
-		if (useCard && this.getNumberOfGetOutOfJailCards(getPlayerId()) > 0) {
+		if (this.getNumberOfGetOutOfJailCards(getPlayerId()) > 0) {
 			useGetOutOfJailCard();
 		} else {
 			payFine();
