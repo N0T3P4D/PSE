@@ -25,7 +25,7 @@ import org.ojim.iface.IClient;
 import edu.kit.iti.pse.iface.IServer;
 /**
  * 
- * Interface stellt zusätzlich zum IClient Interface Methoden bereit 
+ * Interface stellt zusätzlich zum IClient Interface Methoden bereit, 
  * die über das Netzwerk mit Hilfe von RMI, lokal oder über das Internet 
  * vom Server auf einer anderen JVM, in diesem Fall auf unserem Client aufgerufen werden können.  
  * 

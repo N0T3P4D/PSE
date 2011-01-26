@@ -19,13 +19,11 @@ package org.ojim.rmi.server;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
-import org.ojim.client.SimpleClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
 import org.ojim.rmi.client.NetClient;
 
-import edu.kit.iti.pse.iface.IServer;
+
 /**
  * Interface stellt zusätzlich zum IServer Interface Methoden bereit 
  * die über das Netzwerk mit Hilfe von RMI, lokal oder über das Internet 
@@ -79,6 +77,8 @@ public interface NetOjim extends Remote {
 	 * @return Geldbetrag
 	 * @throws RemoteException
 	 */
+	
+	
 	public int getMoneyToPay(int position) throws RemoteException;
 	
 	

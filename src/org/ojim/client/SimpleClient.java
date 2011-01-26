@@ -235,6 +235,8 @@ public class SimpleClient {
 	protected final void endTurn() {
 		if (this.getGameRules().isPlayerOnTurn(this.me)) {
 			this.server.endTurn(this.playerId);
+		} else {
+			System.out.println("not on turn");
 		}
 	}
 
