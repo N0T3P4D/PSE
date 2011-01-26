@@ -91,8 +91,10 @@ Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungs
 \item BufferServer wurde geändert in StartNetOjim
 \item ImplBuffer wurde geändert in ImplNetOjim
 \end{itemize}
+\begin{itemize}
 \item Network Klasse wurde weggelassen, da die RMI die Verbingsschicht überdeckt und die Sockets selber managt
 \item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen, die für den Server Methoden zur Verfügung stellen welche aus einer anderen JVM aufgerufen werden können
+\end{itemize}
 \begin{itemize}
 \item interface NetClient extends Remote : spezifiziert alle Methoden die über das Netzwerk vom Server aufgerufen werden können 
 \item ImplNetClient extends UnicastRemoteObject implements NetOjim: implementiert die Methoden des Interfaces
@@ -135,7 +137,7 @@ Außerdem speichert diese Klasse eine Referenz auf den IClient, damit dessen inf
 \item Einige Actions wurden entfernt und einige andere hinzugefügt.
 \item Mithilfe der ActionFactory können einige vordefinierte Actions erzeugen.
 \item Da die normale Logik nur die Werte ändert, übernimmt die Klasse ServerLogic das Informieren der einzelnen Clients.
-\item Zusätzlich wurden als Gimick "Dice" und "DiceSet" hinzugefügt.
+\item Zusätzlich wurden als Gimick ``Dice'' und ``DiceSet'' hinzugefügt.
 \end{itemize}
 
 \end{document}
