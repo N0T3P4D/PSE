@@ -105,11 +105,14 @@ public class GameFieldLayout implements LayoutManager {
 				boolean player = false;
 				
 				int fieldNumber = field % 10;
+				
+				int playerSize = 15;
 
 				// Mittelfeld = -1
 				if(field > 1000){
 					field /= 1000;
 					player = true;
+					//System.out.print(" Beim Layouter kommen Daten an.");
 				}
 				if (field == -1) {
 					c.setBounds(cardHeight, cardHeight, middleFieldSize,
@@ -120,9 +123,9 @@ public class GameFieldLayout implements LayoutManager {
 					switch (field) {
 					case 0:
 						if(player){
-							c.setBounds(middleFieldSize + cardHeight+halfHeight,
-									middleFieldSize + cardHeight+halfHeight, 10,
-									10);
+							c.setBounds(middleFieldSize + cardHeight,
+									middleFieldSize + cardHeight, playerSize,
+									playerSize);
 							
 						} else {
 						c.setBounds(middleFieldSize + cardHeight,
@@ -132,8 +135,8 @@ public class GameFieldLayout implements LayoutManager {
 						break;
 					case 10:
 						if(player){
-							c.setBounds(0+halfHeight, middleFieldSize + cardHeight+halfHeight,
-									10, 10);
+							c.setBounds(0, middleFieldSize + cardHeight,
+									playerSize, playerSize);
 							
 						} else {
 						c.setBounds(0, middleFieldSize + cardHeight,
@@ -142,7 +145,7 @@ public class GameFieldLayout implements LayoutManager {
 						break;
 					case 20:
 						if(player){
-							c.setBounds(0+halfHeight, 0+halfHeight, 10, 10);
+							c.setBounds(0, 0, playerSize, playerSize);
 							
 						} else {
 						c.setBounds(0, 0, cardHeight, cardHeight);
@@ -150,8 +153,8 @@ public class GameFieldLayout implements LayoutManager {
 						break;
 					case 30:
 						if(player){
-							c.setBounds(middleFieldSize + cardHeight+halfHeight, 0+halfHeight,
-									10, 10);
+							c.setBounds(middleFieldSize + cardHeight, 0,
+									playerSize, playerSize);
 							
 						} else {
 						c.setBounds(middleFieldSize + cardHeight, 0,
@@ -163,8 +166,8 @@ public class GameFieldLayout implements LayoutManager {
 				} else if (field < 10) {
 					if(player){
 						c.setBounds(middleFieldSize + cardHeight
-								- ((fieldNumber % 10) * cardWidth)+halfWidth, middleFieldSize
-								+ cardHeight+halfHeight, 10, 10);
+								- ((fieldNumber % 10) * cardWidth), middleFieldSize
+								+ cardHeight, playerSize, playerSize);
 						
 					} else {
 					c.setBounds(middleFieldSize + cardHeight
@@ -174,9 +177,9 @@ public class GameFieldLayout implements LayoutManager {
 					// Felder links
 				} else if (field < 20) {
 					if(player){
-						c.setBounds(0+halfWidth, middleFieldSize + cardHeight
-								- ((fieldNumber % 10) * cardWidth)+halfHeight, 10,
-								10);
+						c.setBounds(0, middleFieldSize + cardHeight
+								- ((fieldNumber % 10) * cardWidth), playerSize,
+								playerSize);
 						
 					} else {
 					c.setBounds(0, middleFieldSize + cardHeight
@@ -186,8 +189,8 @@ public class GameFieldLayout implements LayoutManager {
 					// Felder oben
 				} else if (field < 30) {
 					if(player){
-						c.setBounds(((fieldNumber % 10) * cardWidth) + cardWidth+halfWidth,
-								0+halfHeight, 10, 10);
+						c.setBounds(((fieldNumber % 10) * cardWidth) + cardWidth,
+								0, playerSize, playerSize);
 						
 					} else {
 					c.setBounds(((fieldNumber % 10) * cardWidth) + cardWidth,
@@ -196,9 +199,9 @@ public class GameFieldLayout implements LayoutManager {
 					// Felder rechts
 				} else {
 					if(player){
-						c.setBounds(middleFieldSize + cardHeight+halfWidth, cardHeight
-								+ ((fieldNumber % 10) * cardWidth) - cardWidth+halfHeight,
-								10, 10);
+						c.setBounds(middleFieldSize + cardHeight, cardHeight
+								+ ((fieldNumber % 10) * cardWidth) - cardWidth,
+								playerSize, playerSize);
 						
 					} else {
 					c.setBounds(middleFieldSize + cardHeight, cardHeight

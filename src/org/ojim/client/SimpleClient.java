@@ -27,6 +27,7 @@ import org.ojim.logic.state.fields.Street;
 import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
+import edu.kit.iti.pse.iface.IServerAuction;
 import edu.kit.iti.pse.iface.IServerTrade;
 
 /**
@@ -356,5 +357,29 @@ public class SimpleClient {
 
 	public final boolean proposeTrade() {
 		return ((IServerTrade) this.server).proposeTrade(playerId);
+	}
+	
+	/*
+	 * AUCTION
+	 */
+	
+	public final int getAuctionState() {
+		return ((IServerAuction) this.server).getAuctionState();
+	}
+	
+	public final int getAuctionedEstate() {
+		return ((IServerAuction) this.server).getAuctionedEstate();
+	}
+	
+	public final int getHighestBid() {
+		return ((IServerAuction) this.server).getHighestBid();
+	}
+	
+	public final int getBidder() {
+		return ((IServerAuction) this.server).getBidder();
+	}
+	
+	public final boolean placeBid(int amount) {
+		return ((IServerAuction) this.server).placeBid(playerId, amount);
 	}
 }
