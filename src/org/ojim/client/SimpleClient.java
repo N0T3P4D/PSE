@@ -17,8 +17,6 @@
 
 package org.ojim.client;
 
-
-
 import org.ojim.iface.IClient;
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
@@ -28,8 +26,8 @@ import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.rmi.server.NetOjim;
 
-
 import edu.kit.iti.pse.iface.IServer;
+import edu.kit.iti.pse.iface.IServerTrade;
 
 /**
  * Simpler client Implementation. This client only wraps the methods of IServer
@@ -59,15 +57,15 @@ public class SimpleClient {
 	protected void setMyPlayer(Player player) {
 		this.me = player;
 	}
-	
+
 	protected Player getMe() {
 		return this.me;
 	}
-	
+
 	protected Logic getLogic() {
 		return this.logic;
 	}
-	
+
 	protected void setPlayerId(int id) {
 		this.playerId = id;
 	}
@@ -85,7 +83,7 @@ public class SimpleClient {
 		this.playerId = playerId;
 		this.server = server;
 	}
-	
+
 	protected void setParameters(IServer server, IClient client) {
 		this.server = server;
 		this.logic = new Logic(server.getRules());
@@ -153,7 +151,7 @@ public class SimpleClient {
 	public int getPlayerPiecePosition(int playerID) {
 		return this.server.getPlayerPiecePosition(playerID);
 	}
-	
+
 	public int getEstateHousePrice(int position) {
 		return this.server.getEstateHousePrice(position);
 	}
@@ -161,7 +159,7 @@ public class SimpleClient {
 	public int getNumberOfGetOutOfJailCards(int playerID) {
 		return this.server.getNumberOfGetOutOfJailCards(playerID);
 	}
-	
+
 	/*
 	 * ADITIONAL GETTER
 	 */
@@ -176,7 +174,7 @@ public class SimpleClient {
 	 */
 	public int getMoneyToPay(int position) {
 		if (this.server instanceof NetOjim) {
-//			return ((NetOjim) this.server).getMoneyToPay(position);
+			// return ((NetOjim) this.server).getMoneyToPay(position);
 			return 1000;
 		} else {
 			return 1000; // TODO: (xZise) Is this the correct value?
@@ -194,7 +192,7 @@ public class SimpleClient {
 	 */
 	public int getRoundsToWait(int position) {
 		if (this.server instanceof NetOjim) {
-//			return ((NetOjim) this.server).getRoundsToWait(position);
+			// return ((NetOjim) this.server).getRoundsToWait(position);
 			return 3;
 		} else {
 			return 3; // TODO: (xZise) Is this the correct value?
@@ -261,7 +259,7 @@ public class SimpleClient {
 			this.server.toggleMortgage(this.playerId, street.getPosition());
 		}
 	}
-	
+
 	protected final void sendMessage(String text) {
 		this.server.sendMessage(text, this.playerId);
 	}
@@ -269,20 +267,92 @@ public class SimpleClient {
 	protected final void sendPrivateMessage(String text, int reciever) {
 		this.server.sendPrivateMessage(text, this.playerId, reciever);
 	}
-	
+
 	protected final void payFine() {
 		this.server.payFine(this.playerId);
 	}
-	
+
 	protected final void useGetOutOfJailCard() {
 		this.server.useGetOutOfJailCard(this.playerId);
 	}
-	
+
 	/*
 	 * RULES
 	 */
-	
+
 	public final boolean isMyTurn() {
 		return this.getGameRules().isPlayerOnTurn(this.me);
+	}
+
+	/*
+	 * TRADE
+	 */
+
+	public final boolean initTrade(int partnerPlayer) {
+		return ((IServerTrade) this.server).initTrade(playerId, partnerPlayer);
+	}
+
+	public final int getTradeState() {
+		return ((IServerTrade) this.server).getTradeState();
+	}
+
+	public final int getPartner() {
+		return ((IServerTrade) this.server).getTradeState();
+	}
+
+	public final boolean offerCash(int amount) {
+		return ((IServerTrade) this.server).offerCash(playerId, amount);
+	}
+
+	public final boolean offerGetOutOfJailCard() {
+		return ((IServerTrade) this.server).offerGetOutOfJailCard(playerId);
+	}
+
+	public final boolean offerEstate(int position) {
+		return ((IServerTrade) this.server).offerEstate(playerId, position);
+	}
+
+	public final boolean requireCash(int amount) {
+		return ((IServerTrade) this.server).requireCash(playerId, amount);
+	}
+
+	public final boolean requireGetOutOfJailCard() {
+		return ((IServerTrade) this.server).requireGetOutOfJailCard(playerId);
+	}
+
+	public final boolean requireEstate(int position) {
+		return ((IServerTrade) this.server).requireEstate(playerId, position);
+	}
+
+	public final int[] getOfferedEstates() {
+		return ((IServerTrade) this.server).getOfferedEstates();
+	}
+
+	public final int getOfferedCash() {
+		return ((IServerTrade) this.server).getOfferedCash();
+	}
+
+	public final int getNumberOfOfferedGetOutOfJailCards() {
+		return ((IServerTrade) this.server).getNumberOfOfferedGetOutOfJailCards();
+	}
+
+	public final int[] getRequiredEstates() {
+		return ((IServerTrade) this.server).getRequiredEstates();
+	}
+
+	public final int getRequiredCash() {
+		return ((IServerTrade) this.server).getRequiredCash();
+	}
+
+	public final int getNumberOfRequiredGetOutOfJailCards() {
+		return ((IServerTrade) this.server).getNumberOfRequiredGetOutOfJailCards();
+	}
+
+	public final boolean cancelTrade() {
+		return ((IServerTrade) this.server).cancelTrade(playerId);
+	}
+
+	public final boolean proposeTrade() {
+		return ((IServerTrade) this.server).proposeTrade(playerId);
 	}
 }
