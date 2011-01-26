@@ -72,9 +72,7 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \end{itemize}
 
 \subsection{Entwurfsentscheidungen}
-\begin{itemize}
 Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungsfunktionen als Singletons umgesetzt.
-\end{itemize}
 
 \section OjimServer
 \subsection{Allgemeines}
@@ -84,10 +82,11 @@ Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungs
 \item Der Server bekommt am Anfang die maximale Spielerzahl und die Computerspielerzahl übergeben
 \item Die Funktionalität der Methoden aus IServer, IServerTrade und IServerAuction werden wie im Entwurf vorgesehen implementiert, einzelne Abläufe und Folgeaktionen waren im Entwurf aber nicht genau vorgeschrieben.
 \item Der Übersichtlichkeit halber wurden einige privaten Methoden eingefügt, beispielsweise
+\end{itemize}
 \begin{itemize}
 \item private boolean checkAllPlayersReady()
-\end{itemize}
 \item Es gab ein paar Namensänderungen im package org.ojim.rmi.server 
+\end{itemize}
 \begin{itemize}
 \item BufferServer wurde geändert in StartNetOjim
 \item ImplBuffer wurde geändert in ImplNetOjim
@@ -112,7 +111,7 @@ Alle inform*-Methoden sind jetzt final und rufen die abstrakten on*-Methoden auf
 Damit ist ClientBase so ähnlich wie aufgebaut, wie die Listener Interfaces aus Swing. Nebenbei übersetzt sie die Variablen in die entsprechenden Objekte aus dem GameState.
 
 \section{Logik}
-Zu Beachten ist, dass auf dem Spielfeld, es mehrere "Felder" gibt. Das heißt wenn im folgenden von "Feld" ausgegangen wird, dann handelt es sich normalerweise um diese Einzelfelder (z.~B. Straßen, Bahnhöfe, \dots).
+Zu Beachten ist, dass auf dem Spielfeld, es mehrere ``Felder'' gibt. Das heißt wenn im folgenden von ``Feld'' ausgegangen wird, dann handelt es sich normalerweise um diese Einzelfelder (z.~B. Straßen, Bahnhöfe, \dots).
 \subsection {Änderungen gegenüber dem Entwurf}
 \subsubsection{Straßengruppen}
 Zusätzlich zur normalen Straßengruppe (eigentlich Feldergruppe) gibt es weitere spezieller Feldgruppen.
@@ -127,5 +126,4 @@ Zusätzlich gibt es noch eine Feldergruppe für Infrastrukturgebäude. Hier verh
 \item Mithilfe der ActionFactory können einige vordefinierte Actions erzeugen.
 \end{itemize}
 
-\end{itemize}
 \end{document}
