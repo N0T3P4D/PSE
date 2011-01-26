@@ -193,7 +193,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (checkAllPlayersReady()) {
 			this.startGame();
 		}
-		if (playerCount == aiCount) {
+		/*if (playerCount == aiCount) {
 			while (!state.getGameIsWon()) {
 				try {
 					wait(300);
@@ -202,7 +202,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 					e.printStackTrace();
 				}
 			}
-		}
+		}*/
 		return true;
 	}
 
@@ -211,7 +211,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * 
 	 * @return successful?
 	 */
-	public boolean endGame() {
+	public synchronized boolean endGame() {
 
 		// Stops the Game
 		this.gameStarted = false;
@@ -247,7 +247,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * @param client
 	 *            The Client to disconnect
 	 */
-	private void disconnect(IClient client) {
+	private synchronized void disconnect(IClient client) {
 		for (IClient oneClient : this.clients) {
 			// TODO Add Language
 			oneClient.informPlayerLeft(getIdOfClient(client));
@@ -258,7 +258,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		client = null;
 	}
 
-	private int getIdOfClient(IClient client) {
+	private synchronized int getIdOfClient(IClient client) {
 		for (Player player : state.getPlayers()) {
 			if (player instanceof ServerPlayer) {
 				if (((ServerPlayer) player).getClient().equals(client)) {
@@ -280,7 +280,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean initTrade(int actingPlayer, int partnerPlayer) {
+	public synchronized boolean initTrade(int actingPlayer, int partnerPlayer) {
 		// If there is already a Trade in process, dont create a new one
 		if (state.getGameIsWon()) {
 			return false;
@@ -305,7 +305,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getTradeState() {
+	public synchronized int getTradeState() {
 		if (trade != null) {
 			return trade.getTradeState();
 		}
@@ -313,7 +313,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getPartner() {
+	public synchronized int getPartner() {
 		if (trade != null && trade.getPartner() != null) {
 			return trade.getPartner().getId();
 		}
@@ -321,7 +321,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean offerCash(int playerID, int amount) {
+	public synchronized boolean offerCash(int playerID, int amount) {
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -335,7 +335,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean offerGetOutOfJailCard(int playerID) {
+	public synchronized boolean offerGetOutOfJailCard(int playerID) {
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -350,7 +350,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean offerEstate(int playerID, int position) {
+	public synchronized boolean offerEstate(int playerID, int position) {
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -365,7 +365,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean requireCash(int playerID, int amount) {
+	public synchronized boolean requireCash(int playerID, int amount) {
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -379,7 +379,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean requireGetOutOfJailCard(int playerID) {
+	public synchronized boolean requireGetOutOfJailCard(int playerID) {
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -394,7 +394,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean requireEstate(int playerID, int position) {
+	public synchronized boolean requireEstate(int playerID, int position) {
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -409,7 +409,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int[] getOfferedEstates() {
+	public synchronized int[] getOfferedEstates() {
 		if (trade != null) {
 			int[] out = new int[trade.getOfferedEstates().size()];
 			int i = 0;
@@ -425,7 +425,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getOfferedCash() {
+	public synchronized int getOfferedCash() {
 		if (trade != null) {
 			return trade.getOfferedCash();
 		}
@@ -433,7 +433,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getNumberOfOfferedGetOutOfJailCards() {
+	public synchronized int getNumberOfOfferedGetOutOfJailCards() {
 		if (trade != null) {
 			return trade.getOfferedNumberOfGetOutOfJailCards();
 		}
@@ -441,7 +441,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int[] getRequiredEstates() {
+	public synchronized int[] getRequiredEstates() {
 		if (trade != null) {
 			int[] out = new int[trade.getRequiredEstates().size()];
 			int i = 0;
@@ -457,7 +457,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getRequiredCash() {
+	public synchronized int getRequiredCash() {
 		if (trade != null) {
 			return trade.getRequiredCash();
 		}
@@ -465,7 +465,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getNumberOfRequiredGetOutOfJailCards() {
+	public synchronized int getNumberOfRequiredGetOutOfJailCards() {
 		if (trade != null) {
 			return trade.getRequiredNumberOfGetOutOfJailCards();
 		}
@@ -473,7 +473,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean cancelTrade(int playerID) {
+	public synchronized boolean cancelTrade(int playerID) {
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -487,7 +487,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean proposeTrade(int playerID) {
+	public synchronized boolean proposeTrade(int playerID) {
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -510,7 +510,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getAuctionState() {
+	public synchronized int getAuctionState() {
 		if (auction != null) {
 			return auction.getAuctionState();
 		}
@@ -518,7 +518,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getAuctionedEstate() {
+	public synchronized int getAuctionedEstate() {
 		if (auction != null) {
 			return auction.getObjective().getPosition();
 		}
@@ -526,7 +526,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getHighestBid() {
+	public synchronized int getHighestBid() {
 		if (auction != null) {
 			return auction.getHighestBid();
 		}
@@ -534,7 +534,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getBidder() {
+	public synchronized int getBidder() {
 		if (auction != null) {
 			return auction.getHighestBidder().getId();
 		}
@@ -542,7 +542,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean placeBid(int playerID, int amount) {
+	public synchronized boolean placeBid(int playerID, int amount) {
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -554,7 +554,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getPlayerPiecePosition(int playerID) {
+	public synchronized int getPlayerPiecePosition(int playerID) {
 		Player player = state.getPlayerByID(playerID);
 		if (player == null) {
 			return -1;
@@ -568,7 +568,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * @param card
 	 *            the Card to add
 	 */
-	public void addCurrentCard(Card card) {
+	public synchronized void addCurrentCard(Card card) {
 		if (state.getGameIsWon()) {
 			return;
 		}
@@ -580,7 +580,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * 
 	 * @return List of Cards that need accept()/decline()
 	 */
-	public List<Card> getCurrentCards() {
+	public synchronized List<Card> getCurrentCards() {
 		return this.currentCards;
 	}
 
@@ -616,7 +616,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public void setPlayerReady(int playerID) {
+	public synchronized void setPlayerReady(int playerID) {
 
 		// AI added
 		assert (state != null);
@@ -632,7 +632,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 	}
 
-	private boolean checkAllPlayersReady() {
+	private synchronized boolean checkAllPlayersReady() {
 		if (this.connectedClients == this.maxClients && initComplete) {
 			for (Player player : state.getPlayers()) {
 				// Check if the Player is ready
@@ -654,7 +654,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	/**
 	 * Starts a Game
 	 */
-	private void startGame() {
+	private synchronized void startGame() {
 		this.display("Started a Game!");
 		this.gameStarted = true;
 
@@ -662,7 +662,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public String getPlayerName(int playerID) {
+	public synchronized String getPlayerName(int playerID) {
 		Player player = state.getPlayerByID(playerID);
 		if (player != null) {
 			String name = player.getName();
@@ -678,7 +678,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getPlayerColor(int playerID) {
+	public synchronized int getPlayerColor(int playerID) {
 		Player player = state.getPlayerByID(playerID);
 		if (player != null) {
 			return player.getColor();
@@ -687,7 +687,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public Rules getRules() {
+	public synchronized Rules getRules() {
 		if (this.state.getRules() != null) {
 			return state.getRules();
 		}
@@ -695,7 +695,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public String getEstateName(int position) {
+	public synchronized String getEstateName(int position) {
 		Field field = state.getFieldAt(position);
 		String name = "";
 		if (field != null) {
@@ -708,7 +708,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getEstateColorGroup(int position) {
+	public synchronized int getEstateColorGroup(int position) {
 		Field field = state.getFieldAt(position);
 		if (field != null) {
 			return field.getColorGroup();
@@ -717,7 +717,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getEstateHouses(int position) {
+	public synchronized int getEstateHouses(int position) {
 		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof Street) {
 			return ((Street) field).getBuiltLevel();
@@ -726,7 +726,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getEstatePrice(int position) {
+	public synchronized int getEstatePrice(int position) {
 		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof BuyableField) {
 			return ((BuyableField) field).getPrice();
@@ -735,7 +735,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getEstateRent(int position, int houses) {
+	public synchronized int getEstateRent(int position, int houses) {
 		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof Street) {
 			return ((Street) field).getRent(houses);
@@ -746,7 +746,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public String getGameStatusMessage(int playerID) {
+	public synchronized String getGameStatusMessage(int playerID) {
 		Player player = state.getPlayerByID(playerID);
 		if (player != null && player instanceof ServerPlayer) {
 			return ((ServerPlayer) player).getGameStatusMessage();
@@ -755,7 +755,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public boolean isMortgaged(int position) {
+	public synchronized boolean isMortgaged(int position) {
 		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof BuyableField) {
 			return ((BuyableField) field).isMortgaged();
@@ -764,7 +764,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getOwner(int position) {
+	public synchronized int getOwner(int position) {
 		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof BuyableField) {
 			Player owner = ((BuyableField) field).getOwner();
@@ -776,17 +776,17 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getDiceValue() {
+	public synchronized int getDiceValue() {
 		return state.getDices().getResultSum();
 	}
 
 	@Override
-	public int[] getDiceValues() {
+	public synchronized int[] getDiceValues() {
 		return state.getDices().getResult();
 	}
 
 	@Override
-	public int getPlayerCash(int playerID) {
+	public synchronized int getPlayerCash(int playerID) {
 		Player player = state.getPlayerByID(playerID);
 		if (player != null) {
 			return player.getBalance();
@@ -795,7 +795,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getPlayerOnTurn() {
+	public synchronized int getPlayerOnTurn() {
 		if (state.getActivePlayer() != null) {
 			return state.getActivePlayer().getId();
 		}
@@ -803,7 +803,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getNumberOfGetOutOfJailCards(int playerID) {
+	public synchronized int getNumberOfGetOutOfJailCards(int playerID) {
 		Player player = this.state.getPlayerByID(playerID);
 		if (player != null) {
 			return player.getNumberOfGetOutOfJailCards();
@@ -812,12 +812,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getNumberOfHousesLeft() {
+	public synchronized int getNumberOfHousesLeft() {
 		return state.getBank().getHouses();
 	}
 
 	@Override
-	public int getNumberOfHotelsLeft() {
+	public synchronized int getNumberOfHotelsLeft() {
 		return state.getBank().getHotels();
 	}
 
@@ -892,7 +892,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	/**
 	 * Informs all Clients that the Dice has been rolled
 	 */
-	private void informDiceAll() {
+	private synchronized void informDiceAll() {
 		for (IClient client : clients) {
 			client.informDiceValues(state.getDices().getResult());
 		}
@@ -904,7 +904,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * @param player
 	 *            the moving Player
 	 */
-	private void informMoveAll(Player player) {
+	private synchronized void informMoveAll(Player player) {
 		for (IClient client : clients) {
 			client.informMove(player.getId(), player.getSignedPosition());
 		}
@@ -996,14 +996,16 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 				if (this.auction != null && this.auction.getAuctionState() >= 3) {
 					Field field = state.getFieldAt(player.getPosition());
+					/*TODO uncomment
 					if (field instanceof BuyableField
 							&& ((BuyableField) field).getOwner() == null) {
 						this.auction = new Auction(state, logic, rules,
 								(BuyableField) field);
-					} else {
-						logic.startNewTurn();
-					}
+					} else { */
+						
+					//}
 				}
+				logic.startNewTurn();
 				if (this.state.getGameIsWon()) {
 					this.endGame();
 				}
@@ -1109,7 +1111,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * 
 	 * @return Servername
 	 */
-	public String getName() {
+	public synchronized String getName() {
 		return this.name;
 	}
 
@@ -1118,16 +1120,16 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * 
 	 * @return maximum Clientconnections
 	 */
-	public int getMaxClients() {
+	public synchronized int getMaxClients() {
 		return this.maxClients;
 	}
 
-	public int getConnectedClients() {
+	public synchronized int getConnectedClients() {
 		return this.connectedClients;
 	}
 
 	@Override
-	public int getTurnsInPrison(int playerID) {
+	public synchronized int getTurnsInPrison(int playerID) {
 		Player player = state.getPlayerByID(playerID);
 		if (player != null) {
 			if (this.rules.isPlayerInPrison(player)) {
@@ -1154,7 +1156,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return false;
 	}
 
-	public List<IClient> getClients() {
+	public synchronized List<IClient> getClients() {
 		return this.clients;
 	}
 
@@ -1178,7 +1180,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public int getEstateHousePrice(int position) {
+	public synchronized int getEstateHousePrice(int position) {
 		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof Street) {
 			StreetFieldGroup group = ((Street) field).getFieldGroup();
@@ -1197,7 +1199,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * @return The money the player has to pay. If there is no money the return
 	 *         is undefined;.
 	 */
-	public int getMoneyToPay(int position) {
+	public synchronized int getMoneyToPay(int position) {
 		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof Jail) {
 			((Jail) field).getMoneyToPay();
@@ -1214,7 +1216,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * @return The number of rounds the player has to wait. If this is no jail
 	 *         it return is undefined.
 	 */
-	public int getRoundsToWait(int position) {
+	public synchronized int getRoundsToWait(int position) {
 		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof Jail) {
 			return ((Jail) field).getRoundsToWait();
@@ -1222,12 +1224,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return -1;
 	}
 
-	private CardField newEventCardField(int position) {
+	private synchronized CardField newEventCardField(int position) {
 		return new CardField("Ereignis- karte", position, false,
 				this.state.getEventCards(), this.logic);
 	}
 
-	private CardField newCommunityCardField(int position) {
+	private synchronized CardField newCommunityCardField(int position) {
 		return new CardField("Gemein- schafts- karte", position, true,
 				this.state.getCommunityCards(), this.logic);
 	}
