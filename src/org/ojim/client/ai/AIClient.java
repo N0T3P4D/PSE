@@ -21,8 +21,6 @@ import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import org.ojim.log.OJIMLogger;
-import org.ojim.logic.Logic;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Jail;
@@ -49,6 +47,8 @@ public class AIClient extends ClientBase {
 	private Logger logger;
 	private Valuator valuator;
 	private int count;
+	
+	private static final String[] NAMES = { "Leopard", "Johannes", "Timo", "Vater", "Danny", "Mum", "Buckit", "Cor7", "Nutch", "Doppelkeks" };
 
 	/**
 	 * 
@@ -63,7 +63,7 @@ public class AIClient extends ClientBase {
 			throw new IllegalArgumentException("Server == null");
 		}
 		logger = OJIMLogger.getLogger(getClass().toString());
-		this.setName("AI_" + getPlayerId());
+		this.setName(NAMES[(int) (Math.random() * NAMES.length)]);
 		connect(server);
 		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId()
 				+ " created.");
