@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.ojim.logic.ServerLogic;
+import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.state.fields.BuyableField;
 
 /**
@@ -30,11 +31,11 @@ import org.ojim.logic.state.fields.BuyableField;
  */
 public class Trade {
 	
-	//TODO: (xZise) finish all setters/getters. I didn't finished it :P
-
+	private boolean tradeWithBank;
 	private final ServerPlayer acting;
 	private final ServerPlayer partner;
 	private int tradeState;
+	private Bank bank;
 	
 	private int offeredCash, requiredCash;
 	private int offeredNumberOfGetOutOfJailCards, requiredNumberOfGetOutOfJailCards; //xZise: Jay :D
@@ -54,6 +55,13 @@ public class Trade {
 		this.requiredEstates = new ArrayList<BuyableField>();
 	}
 	
+	public Trade(ServerPlayer acting, Bank bank) {
+		this.acting = acting;
+		this.bank = bank;
+		this.partner = null;
+		this.tradeWithBank = true;
+	}
+
 	public int getTradeState() {
 		return this.tradeState;
 	}
@@ -87,7 +95,12 @@ public class Trade {
 	 * @return the required cash
 	 */
 	public int getRequiredCash() {
-		return this.requiredCash;
+		int cash = this.getOfferedCash();
+		for(BuyableField field : this.offeredEstates) {
+			cash += field.getPrice() / 2;
+		}
+		cash += this.offeredNumberOfGetOutOfJailCards * 500;
+		return cash;
 	}
 
 	/**
@@ -104,7 +117,7 @@ public class Trade {
 		return this.offeredNumberOfGetOutOfJailCards;
 	}
 
-	public void setOfferdCash(int amount) {
+	public void setOfferedCash(int amount) {
 		this.offeredCash = amount;
 	}
 	
@@ -146,7 +159,7 @@ public class Trade {
 	 * @return True if the estate wasn't on the list before. Otherwise false.
 	 */
 	public boolean addRequiredEstate(BuyableField estate) {
-		if(estate.getOwner() == partner) {
+		if(!tradeWithBank && estate.getOwner() == partner) {
 			return this.requiredEstates.add(estate);
 		}
 		return false;
@@ -179,6 +192,11 @@ public class Trade {
 		
 		//TODO Do the Exchange of GetOutOfJailCards
 		
-		//TODO Do the Cash exchange
+		
+		//Change the Cash
+		if(tradeWithBank) {
+			logic.exchangeMoney(acting, bank, getOfferedCash() - getRequiredCash());
+		}
+		logic.exchangeMoney(acting, partner, getOfferedCash() - getRequiredCash());
 	}
 }
