@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Untitled Gantt Project" company="" webLink="http://" view-date="2010-12-17" view-index="0" gantt-divider-location="316" resource-divider-location="301" version="2.0">
+<project name="Untitled Gantt Project" company="" webLink="http://" view-date="2010-12-17" view-index="1" gantt-divider-location="316" resource-divider-location="301" version="2.0">
     <description/>
     <view zooming-state="default:2" id="gantt-chart"/>
     <view id="resource-table">
-        <field id="0" name="Ressource" width="54" order="0"/>
-        <field id="1" name="Rolle" width="45" order="1"/>
+        <field id="0" name="Ressource" width="55" order="0"/>
+        <field id="1" name="Rolle" width="44" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -37,12 +37,13 @@
         <task id="12" name="OJIMServer" color="#8cb6ce" meeting="false" start="2011-01-03" duration="5" complete="0" priority="1" expand="true"/>
         <task id="13" name="OJIMServer" color="#8cb6ce" meeting="false" start="2011-01-13" duration="2" complete="0" priority="1" expand="true"/>
         <task id="14" name="OJIMServer" color="#8cb6ce" meeting="false" start="2011-01-17" duration="7" complete="0" priority="1" expand="true"/>
-        <task id="1" name="ClientBase" color="#8cb6ce" meeting="false" start="2010-12-17" duration="26" complete="0" priority="1" expand="true"/>
+        <task id="1" name="ClientBase" color="#8cb6ce" meeting="false" start="2011-01-10" duration="2" complete="0" priority="1" expand="true"/>
         <task id="2" name="GUIClient" color="#8cb6ce" meeting="false" start="2011-01-10" duration="12" complete="0" priority="1" expand="true"/>
         <task id="3" name="AIClient" color="#8cb6ce" meeting="false" start="2010-12-30" duration="18" complete="0" priority="1" expand="true"/>
         <task id="4" name="Network" color="#8cb6ce" meeting="false" start="2010-12-17" duration="26" complete="0" priority="1" expand="true"/>
-        <task id="5" name="Logic" color="#8cb6ce" meeting="false" start="2010-12-23" duration="22" complete="0" priority="1" expand="true"/>
-        <task id="11" name="GameState" color="#8cb6ce" meeting="false" start="2010-12-17" duration="26" complete="0" priority="1" expand="true"/>
+        <task id="11" name="Fields" color="#8cb6ce" meeting="false" start="2011-01-13" duration="7" complete="0" priority="1" expand="true"/>
+        <task id="15" name="Debugging" color="#8cb6ce" meeting="false" start="2011-01-24" duration="2" complete="0" priority="1" expand="true"/>
+        <task id="16" name="Actions" color="#8cb6ce" meeting="false" start="2011-01-10" duration="3" complete="0" priority="1" expand="true"/>
     </tasks>
     <resources>
         <resource id="0" name="Maximilian" function="Default:0" contacts="" phone=""/>
@@ -56,15 +57,14 @@
         <allocation task-id="12" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="13" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="14" resource-id="3" function="Default:0" responsible="true" load="200.0"/>
-        <allocation task-id="1" resource-id="4" function="Default:0" responsible="false" load="50.0"/>
-        <allocation task-id="1" resource-id="5" function="Default:0" responsible="true" load="50.0"/>
+        <allocation task-id="1" resource-id="5" function="Default:0" responsible="true" load="75.0"/>
         <allocation task-id="2" resource-id="0" function="Default:0" responsible="true" load="150.0"/>
         <allocation task-id="3" resource-id="4" function="Default:0" responsible="true" load="50.0"/>
-        <allocation task-id="3" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
         <allocation task-id="4" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="5" resource-id="4" function="Default:0" responsible="false" load="15.0"/>
-        <allocation task-id="11" resource-id="4" function="Default:0" responsible="true" load="50.0"/>
-        <allocation task-id="11" resource-id="5" function="Default:0" responsible="false" load="50.0"/>
+        <allocation task-id="11" resource-id="5" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="11" resource-id="3" function="Default:0" responsible="true" load="50.0"/>
+        <allocation task-id="15" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="16" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
     </allocations>
     <vacations/>
     <taskdisplaycolumns>
