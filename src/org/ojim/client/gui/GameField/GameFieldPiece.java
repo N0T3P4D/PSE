@@ -92,10 +92,7 @@ public class GameFieldPiece extends JPanel {
 				group.setBackground(PlayerColor
 						.getBackGroundColor(((BuyableField) field).getOwner()
 								.getColor()));
-			}
-			catch (NullPointerException e) {
-				
-			}
+
 				
 				price.setBackground(PlayerColor
 						.getBackGroundColor(((BuyableField) field).getOwner()
@@ -113,6 +110,10 @@ public class GameFieldPiece extends JPanel {
 				name.setForeground(PlayerColor
 						.getFontColor(((BuyableField) field).getOwner()
 								.getColor()));
+				}
+				catch (NullPointerException e) {
+					
+				}
 				
 			} else {
 				//System.out.println("NOT SOLD: "+field.getName());
