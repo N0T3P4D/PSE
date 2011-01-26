@@ -112,7 +112,7 @@ public class GUIClient extends ClientBase {
 		GUIFrame = new JFrame(language.getText("ojim"));
 
 		playerInfoWindow = new PlayerInfoWindow(language);
-		chatWindow = new ChatWindow(language);
+		chatWindow = new ChatWindow(language,this);
 
 		menubar = new MenuBar(language, this);
 		GUIFrame.setJMenuBar(menubar);
@@ -244,7 +244,7 @@ public class GUIClient extends ClientBase {
 			rightWindow1.setLayout(new GridLayout(0, 1));
 
 			playerInfoWindow = new PlayerInfoWindow(language);
-			chatWindow = new ChatWindow(language);
+			chatWindow = new ChatWindow(language, this);
 
 			//System.out.println("Es gibt "
 			//		+ this.getGameState().getPlayers().length + " Spieler.");
@@ -587,6 +587,10 @@ public class GUIClient extends ClientBase {
 	public void onPlayerLeft(Player player) {
 		// draw();
 
+	}
+	
+	public void sendOutMessage(String text){
+		sendMessage(text);
 	}
 
 }
