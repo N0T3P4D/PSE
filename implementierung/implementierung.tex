@@ -14,7 +14,7 @@
 %\geometry{top=0cm,bottom=0cm,left=0cm,right=0cm,nohead,nofoot}
 
 
-\title{Entwurf}
+\title{Implementierung}
 \date{}
 
 \author{Usman Ghani Ahmed \\
@@ -24,7 +24,7 @@ Jeremias Mechler\\
 Fabian Neundorf}
 
 \ifpdf
-\DeclareGraphicsExtensions{.pdf,.png}
+\DeclareGraphicsExtensions{.png,.pdf}
 \else
 \DeclareGraphicsExtensions{.eps}
 \fi
@@ -45,7 +45,6 @@ Gruppe 3 \\[0.5cm]
 Entwicklung eines "`Monopoly"'-ähnlichen Spiels \\[0.5cm]
 %\includegraphics[height=2cm]{kitlogo_de_rgb}  \\[0.5cm]
 WS 2010 / 2011} \\[2cm]
-Version 1.1
 %\textcolor{red}{! DRAFT !}
 \end{center}
 
@@ -75,11 +74,9 @@ Commands
 \item SellCommand und NullCommand wurden hinzugefügt.
 \item BuyPropertyCommand wurde entfernt, da unnötig
 \end{itemize}
-\newpage
-
 \subsection{Entwurfsentscheidungen}
 Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungsfunktionen als Singletons umgesetzt. Für das Ausführen des besten Befehls wird das Entwurfsmuster ``Befehl'' verwendet. Weiterhin gibt es eine Klasse ``NullCommand'', die sich an der Idee des Entwurfsmusters ``Null-Objekt'' orientiert.
-
+\newpage
 \section{GUI-Client}
 
 \subsection{Allgemeines}
@@ -103,8 +100,8 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \begin{itemize}
 \item -
 \end{itemize}
-
-\section OjimServer
+\newpage
+\section{OjimServer}
 \subsection{Allgemeines}
 \subsection {Änderungen gegenüber dem Entwurf}
 \begin{itemize}
@@ -136,7 +133,7 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \item StartNetClient Startet einen neuen Client und holt sich eine Referenz vom Namendienst der im Server gestartet wurde
 \end{itemize}
 \end{itemize}
-
+\newpage
 \section{ClientBase}
 \subsection {Änderungen gegenüber dem Entwurf}
 \subsubsection{SimpleClient}
@@ -147,7 +144,7 @@ Die Klasse SimpleClient dabei implementiert nicht das IClient Interface, um eben
 Alle inform*-Methoden sind jetzt final und rufen die abstrakten on*-Methoden auf. Dadurch wird gewährleistet, dass diese Methoden auf jeden Fall ausgeführt werden. Somit müssen alle Clients, die nicht abstrakt sind, diese Methoden zwingend Implementieren.
 
 Damit ist ClientBase so ähnlich wie aufgebaut, wie die Listener Interfaces aus Swing. Nebenbei übersetzt sie die Variablen in die entsprechenden Objekte aus dem GameState.
-
+\newpage
 \section{Logik}
 Zu Beachten ist, dass auf dem Spielfeld, es mehrere ``Felder'' gibt. Das heißt wenn im folgenden von ``Feld'' ausgegangen wird, dann handelt es sich normalerweise um diese Einzelfelder (z.~B. Straßen, Bahnhöfe, \dots).
 \subsection {Änderungen gegenüber dem Entwurf}
@@ -175,5 +172,8 @@ Außerdem speichert diese Klasse eine Referenz auf den IClient, damit dessen inf
 \item Da die normale Logik nur die Werte ändert, übernimmt die Klasse ServerLogic das Informieren der einzelnen Clients.
 \item Zusätzlich wurden als Gimick ``Dice'' und ``DiceSet'' hinzugefügt.
 \end{itemize}
+
+\newpage
+\includegraphics[width=15cm]{/home/notepad/studium/PSE/design/Gantt/gantt}
 
 \end{document}
