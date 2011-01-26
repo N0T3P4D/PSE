@@ -259,7 +259,7 @@ public class ServerLogic extends Logic {
 					return;
 				}
 				
-				System.out.println("Player has won!");
+				System.out.println("Player " + this.getGameState().getActivePlayer().getName() + " has won!");
 				for (Player player : this.getGameState().getPlayers()) {
 					if (player instanceof ServerPlayer) {
 						// TODO add language
