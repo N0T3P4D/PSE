@@ -20,16 +20,20 @@ import java.net.MalformedURLException;
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
+
+import org.ojim.client.ClientBase;
 import org.ojim.rmi.server.NetOjim;
 
 public class StartNetClient {
 	
-	public void createClientRMIConnection(int portNum,String ip, NetClient client){
+	public NetOjim createClientRMIConnection(int portNum,String ip, ClientBase base){
 		 
+		NetOjim server = null;
 		String registryURL = "rmi://"+ip+":" + portNum + "/myServer"; 
 		 try {
 			
-			NetOjim server =(NetOjim)Naming.lookup(registryURL);
+			server =(NetOjim)Naming.lookup(registryURL);
+			NetClient client = new ImplNetClient(base,server);
 			//ClientBase base = null ;
 			//NetClient clientInter = new ImplNetClient(base);
 			server.registerClient(client);
@@ -42,6 +46,7 @@ public class StartNetClient {
 		} catch (NotBoundException e) {
 			e.printStackTrace();
 		}
+		return server;
 	}
 	
 

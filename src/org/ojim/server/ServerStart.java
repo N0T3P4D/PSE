@@ -84,11 +84,15 @@ public class ServerStart {
 					server.initGame(2,2);
 					System.out.println("Game initialized!");
 				}
-			} else if(input.equals("aitest")) {
+			} else if(input.startsWith("aitest")) {
+				//Random rnd = new Random(Integer.parseInt(input.split(" ", 0)[1]));
 				Random rnd = new Random(42);
-				for(int i = 0; i < 100; i++) {
-					int count = rnd.nextInt(8) + 1;
+				for(int i = 0; i < 1000; i++) {
+					int count = rnd.nextInt(7) + 2;
+					server = new OjimServer("test");
 					server.initGame(count, count);
+					
+					System.out.println("round: " + i);
 				}
 			} else if(input.equals("end")) {
 				if(!isOpen) {

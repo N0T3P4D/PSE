@@ -24,10 +24,10 @@ import java.util.Queue;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-import org.ojim.client.triggers.OnBuy;
 import org.ojim.client.triggers.OnAuction;
-import org.ojim.client.triggers.OnCardPull;
 import org.ojim.client.triggers.OnBankruptcy;
+import org.ojim.client.triggers.OnBuy;
+import org.ojim.client.triggers.OnCardPull;
 import org.ojim.client.triggers.OnCashChange;
 import org.ojim.client.triggers.OnConstruct;
 import org.ojim.client.triggers.OnDestruct;
@@ -35,11 +35,11 @@ import org.ojim.client.triggers.OnDiceValues;
 import org.ojim.client.triggers.OnMessage;
 import org.ojim.client.triggers.OnMortgageToogle;
 import org.ojim.client.triggers.OnMove;
-import org.ojim.client.triggers.OnStartGame;
 import org.ojim.client.triggers.OnNewPlayer;
+import org.ojim.client.triggers.OnPlayerLeft;
+import org.ojim.client.triggers.OnStartGame;
 import org.ojim.client.triggers.OnTrade;
 import org.ojim.client.triggers.OnTurn;
-import org.ojim.client.triggers.OnPlayerLeft;
 import org.ojim.iface.IClient;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
@@ -79,7 +79,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		super();
 		this.executor = Executors.newFixedThreadPool(1);
 	}
-	
+
 	/*
 	 * MISC
 	 */
@@ -104,7 +104,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			int groupColor = this.getEstateColorGroup(position);
 			// Street
 			if (groupColor >= 0) {
-				
+
 				StreetFieldGroup group = colorGroups.get(groupColor);
 				if (group == null) {
 					int delim = name.indexOf(":");
@@ -112,19 +112,20 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 					if (delim > 0) {
 						groupName = name.substring(0, delim);
 					}
-					group = new StreetFieldGroup(groupColor, groupName, this.getEstateHousePrice(position));
+					group = new StreetFieldGroup(groupColor, groupName, this
+							.getEstateHousePrice(position));
 				}
 
 				name = name.substring(name.indexOf(":") + 1).trim();
-				
+
 				int[] rentByLevel = new int[Street.MAXMIMUM_BUILT_LEVEL];
 				for (int builtLevel = 0; builtLevel < rentByLevel.length; builtLevel++) {
 					rentByLevel[builtLevel] = this.getEstateRent(position,
 							builtLevel);
 				}
 
-				Street street = new Street(name, position, rentByLevel,
-						this.getEstateHouses(position), price);
+				Street street = new Street(name, position, rentByLevel, this
+						.getEstateHouses(position), price);
 				street.setMortgaged(this.isMortgaged(position));
 
 				field = group.addField(street);
@@ -134,8 +135,9 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 					field = new GoField(name, position);
 					break;
 				case FieldGroup.JAIL:
-					field = new Jail(name, position, this.getMoneyToPay(position),
-							this.getRoundsToWait(position));
+					field = new Jail(name, position, this
+							.getMoneyToPay(position), this
+							.getRoundsToWait(position));
 					break;
 				case FieldGroup.FREE_PARKING:
 					field = new FreeParking(name, position);
@@ -161,7 +163,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 					field = new TaxField(name, position, this.getEstateRent(
 							position, 0));
 					break;
-				default :
+				default:
 					field = null;
 					break;
 				}
@@ -188,7 +190,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			ImplNetClient server = new ImplNetClient(this);
 			StartNetClient creator = new StartNetClient();
 			creator.createClientRMIConnection(port, host, server);
-			this.setParameters(server, this);		
+			this.setParameters(server, this);
 			this.loadGameBoard();
 		} catch (RemoteException e) {
 			// TODO Auto-generated catch block
@@ -221,16 +223,17 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public final void informBankruptcy() {
 		this.executor.execute(new OnBankruptcy(this));
 	}
-	
+
 	public abstract void onBankruptcy();
 
 	@Override
 	public final void informCardPull(String text, boolean communityCard) {
 		Player active = this.getGameState().getActivePlayer();
-		active.setNumberOfGetOutOfJailCards(this.getNumberOfGetOutOfJailCards(active.getId()));
+		active.setNumberOfGetOutOfJailCards(this
+				.getNumberOfGetOutOfJailCards(active.getId()));
 		this.executor.execute(new OnCardPull(this, text, communityCard));
 	}
-	
+
 	public abstract void onCardPull(String text, boolean communityCard);
 
 	@Override
@@ -240,10 +243,12 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			player.transferMoney(cashChange);
 			this.executor.execute(new OnCashChange(this, player, cashChange));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informCashChange with invalid player (" + playerId + ").");
+			OJIMLogger.getLogger(this.getClass().toString()).warning(
+					"Get informCashChange with invalid player (" + playerId
+							+ ").");
 		}
 	}
-	
+
 	public abstract void onCashChange(Player player, int cashChange);
 
 	@Override
@@ -253,10 +258,11 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			this.getLogic().upgrade((Street) field, +1);
 			this.executor.execute(new OnConstruct(this, (Street) field));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informConstruct with invalid street.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning(
+					"Get informConstruct with invalid street.");
 		}
 	}
-	
+
 	public abstract void onConstruct(Street street);
 
 	@Override
@@ -266,42 +272,50 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			this.getLogic().upgrade((Street) field, -1);
 			this.executor.execute(new OnDestruct(this, (Street) field));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informDestruct with invalid street.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning(
+					"Get informDestruct with invalid street.");
 		}
 	}
-	
+
 	public abstract void onDestruct(Street street);
 
 	@Override
 	public final void informDiceValues(int[] diceValues) {
 		this.executor.execute(new OnDiceValues(this, diceValues));
 	}
-	
+
 	public abstract void onDiceValues(int[] diceValues);
 
 	@Override
-	public final void informMessage(String text, int sender, boolean privateMessage) {
+	public final void informMessage(String text, int sender,
+			boolean privateMessage) {
 		Player player = null;
-		if ((sender == -1) || (player = this.getGameState().getPlayerByID(sender)) != null) {
-			this.executor.execute(new OnMessage(this, text, player, privateMessage));
+		if ((sender == -1)
+				|| (player = this.getGameState().getPlayerByID(sender)) != null) {
+			this.executor.execute(new OnMessage(this, text, player,
+					privateMessage));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMessage with invalid player (" + sender + ").");
+			OJIMLogger.getLogger(this.getClass().toString()).warning(
+					"Get informMessage with invalid player (" + sender + ").");
 		}
 	}
-	
-	public abstract void onMessage(String text, Player sender, boolean privateMessage);
+
+	public abstract void onMessage(String text, Player sender,
+			boolean privateMessage);
 
 	@Override
 	public final void informMortgageToogle(int street) {
 		Field field = this.getLogic().getGameState().getFieldAt(street);
 		if (field instanceof BuyableField) {
 			this.getLogic().toggleMortgage((BuyableField) field);
-			this.executor.execute(new OnMortgageToogle(this, (BuyableField) field));
+			this.executor.execute(new OnMortgageToogle(this,
+					(BuyableField) field));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMortgageToogle with invalid buyable field.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning(
+					"Get informMortgageToogle with invalid buyable field.");
 		}
 	}
-	
+
 	public abstract void onMortgageToogle(BuyableField street);
 
 	@Override
@@ -324,9 +338,10 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 				}
 			}
 		}
-		this.executor.execute(new OnStartGame(this, this.getGameState().getPlayers()));
+		this.executor.execute(new OnStartGame(this, this.getGameState()
+				.getPlayers()));
 	}
-	
+
 	public abstract void onStartGame(Player[] players);
 
 	@Override
@@ -337,26 +352,30 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			if (partner != null) {
 				this.executor.execute(new OnTrade(this, acting, partner));
 			} else {
-				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTrade with invalid partner player.");
+				OJIMLogger.getLogger(this.getClass().toString()).warning(
+						"Get informTrade with invalid partner player.");
 			}
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTrade with invalid acting player.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning(
+					"Get informTrade with invalid acting player.");
 		}
 	}
-	
+
 	public abstract void onTrade(Player actingPlayer, Player partnerPlayer);
 
 	@Override
 	public final void informTurn(int player) {
+		System.out.println("XXX");
 		Player newPlayer = this.getGameState().getPlayerByID(player);
 		if (newPlayer != null) {
 			this.getGameState().setActivePlayer(newPlayer);
 			this.executor.execute(new OnTurn(this, newPlayer));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informTurn with invalid player.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning(
+					"Get informTurn with invalid player.");
 		}
 	}
-	
+
 	public abstract void onTurn(Player player);
 
 	@Override
@@ -366,11 +385,12 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			player.setPosition(position);
 			this.executor.execute(new OnMove(this, player, position));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informMove with invalid player, ID = " + playerId);
-			assert(false);
+			OJIMLogger.getLogger(this.getClass().toString()).warning(
+					"Get informMove with invalid player, ID = " + playerId);
+			assert (false);
 		}
 	}
-	
+
 	public abstract void onMove(Player player, int position);
 
 	@Override
@@ -380,15 +400,18 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			Field field = this.getGameState().getFieldAt(position);
 			if (field instanceof BuyableField) {
 				((BuyableField) field).buy(player);
-				this.executor.execute(new OnBuy(this, player, (BuyableField) field));
+				this.executor.execute(new OnBuy(this, player,
+						(BuyableField) field));
 			} else {
-				OJIMLogger.getLogger(this.getClass().toString()).warning("Get informBuy with invalid position.");
+				OJIMLogger.getLogger(this.getClass().toString()).warning(
+						"Get informBuy with invalid position.");
 			}
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning("Get informBuy with invalid player.");
+			OJIMLogger.getLogger(this.getClass().toString()).warning(
+					"Get informBuy with invalid player.");
 		}
 	}
-	
+
 	public abstract void onBuy(Player player, BuyableField field);
 
 	@Override
@@ -397,11 +420,12 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	}
 
 	public abstract void onAuction(int auctionState);
-	
+
 	public final void informNewPlayer(int playerId) {
-		Player player = new Player(this.getPlayerName(playerId),
-				this.getPlayerPiecePosition(playerId), this.getPlayerCash(playerId),
-				playerId, this.getPlayerColor(playerId));
+		Player player = new Player(this.getPlayerName(playerId), this
+				.getPlayerPiecePosition(playerId),
+				this.getPlayerCash(playerId), playerId, this
+						.getPlayerColor(playerId));
 		this.getGameState().setPlayer(player);
 		if (this.getPlayerId() == player.getId()) {
 			this.setMyPlayer(player);
@@ -410,15 +434,15 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	}
 
 	public abstract void onNewPlayer(Player player);
-	
+
 	public final void informPlayerLeft(int playerId) {
 		Player old = this.getGameState().getPlayerByID(playerId);
 		this.getGameState().removePlayer(old);
 		this.executor.execute(new OnPlayerLeft(this, old));
 	}
-	
+
 	public abstract void onPlayerLeft(Player player);
-	
+
 	@Override
 	public void setPlayerId(int newId) {
 		super.setPlayerId(newId);

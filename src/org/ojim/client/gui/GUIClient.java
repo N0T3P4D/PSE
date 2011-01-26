@@ -68,12 +68,13 @@ public class GUIClient extends ClientBase {
 	JPanel downRight = new JPanel();
 	JButton buyButton = new JButton();
 	JButton rollButton = new JButton();
+	JButton endTurnButton = new JButton();
 
 	JFrame GUIFrame;
 
 	JPanel pane = new JPanel(new OJIMLayout());
 	Localizer language;
-	
+
 	boolean haveIalreadyRolled = false;
 
 	private MenuState menuState;
@@ -168,10 +169,12 @@ public class GUIClient extends ClientBase {
 			setName("Max");
 
 			OjimServer server = new OjimServer("Philip");
-
+			System.out.println("X");
 			server.initGame(8, 7);
+			System.out.println("Y");
 
 			connect(server);
+			System.out.println("Z");
 
 			JPanel leftWindow = new JPanel();
 			JPanel rightWindow = new JPanel();
@@ -202,6 +205,13 @@ public class GUIClient extends ClientBase {
 
 			rightWindow.add(button);
 
+			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
+				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
+				this.playerInfoWindow.addPlayer(this.getGameState()
+						.getPlayers()[i], this.getGameState().getPlayers()[i]
+						.getBalance());
+			}
+			
 			window.add(leftWindow);
 			window.add(rightWindow);
 
@@ -209,7 +219,7 @@ public class GUIClient extends ClientBase {
 			break;
 
 		case game:
-			System.out.println("Male das Spielfeld");
+			//System.out.println("Male das Spielfeld");
 
 			GUIFrame.remove(window);
 			GUIFrame.remove(pane);
@@ -238,8 +248,8 @@ public class GUIClient extends ClientBase {
 			playerInfoWindow = new PlayerInfoWindow(language);
 			chatWindow = new ChatWindow(language);
 
-			System.out.println("Es gibt "
-					+ this.getGameState().getPlayers().length + " Spieler.");
+			//System.out.println("Es gibt "
+			//		+ this.getGameState().getPlayers().length + " Spieler.");
 			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
 				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
 				this.playerInfoWindow.addPlayer(this.getGameState()
@@ -285,14 +295,24 @@ public class GUIClient extends ClientBase {
 					downRight.add(buyButton);
 				}
 			} catch (Exception e) {
-				System.out.println("Kein buyablefield");
+				//System.out.println("Kein buyablefield");
+			}
+			
+			if(haveIalreadyRolled){
+				System.out.println("I HAVE!!!");
+			}
+			else {
+				System.out.println("I HAVE!!! NoT!");
+				
 			}
 
 			downRight.remove(rollButton);
+			downRight.remove(endTurnButton);
 			try {
-				if (!haveIalreadyRolled &&
-						//getGameState().getActivePlayer().equals(getMe()) && 
-						this.getGameState().getActivePlayerNeedsToRoll()) {
+				//if (!haveIalreadyRolled && 
+				//		getGameState().getActivePlayer().getId() == getPlayerId() &&
+				// getGameState().getActivePlayer().equals(getMe()) &&
+				//		this.getGameState().getActivePlayerNeedsToRoll()) {
 
 					ActionListener rollListener = new ActionListener() {
 
@@ -302,7 +322,6 @@ public class GUIClient extends ClientBase {
 							System.out.println("Rolly Rolly");
 							haveIalreadyRolled = true;
 							draw();
-
 						}
 					};
 
@@ -310,8 +329,8 @@ public class GUIClient extends ClientBase {
 					rollButton.addActionListener(rollListener);
 					downRight.add(rollButton);
 
-				} else // if (getGameState().getActivePlayer().equals(getMe()))
-				{
+				//} else if (getGameState().getActivePlayer().getId() == getPlayerId())
+				//{
 					ActionListener endTurnListener = new ActionListener() {
 
 						@Override
@@ -319,16 +338,19 @@ public class GUIClient extends ClientBase {
 							System.out.println("Turn is ENDED!!!");
 							haveIalreadyRolled = false;
 							endTurn();
-
 						}
 					};
 
-					rollButton = new JButton(language.getText("endturn"));
-					rollButton.addActionListener(endTurnListener);
-					downRight.add(rollButton);
-				}
+					endTurnButton = new JButton(language.getText("endturn"));
+					endTurnButton.addActionListener(endTurnListener);
+					downRight.add(endTurnButton);
+				//} else {
+
+				//	downRight.setToolTipText("Wait for other Players");
+				//}
 			} catch (NullPointerException e) {
-				System.out.println("Jemand anderes verschwendet unsere Zeit, Meister.");
+				System.out
+						.println("Jemand anderes verschwendet unsere Zeit, Meister.");
 			}
 			rollButton.setLayout(new FontLayout());
 
@@ -337,7 +359,7 @@ public class GUIClient extends ClientBase {
 			GUIFrame.add(pane);
 			GUIFrame.repaint();
 			GUIFrame.setVisible(true);
-			System.out.println("Spielfeld gemalt.");
+			//System.out.println("Spielfeld gemalt.");
 			break;
 
 		}
@@ -358,6 +380,10 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onBuy(Player player, BuyableField field) {
 		gameField.playerBuysField(player, field);
+
+
+		//System.out.println("Meista, da hat wer was gekauft!");
+		//draw();
 
 		// TODO if player = gui player => feld and cardBar schicken zum
 		// aufnehmen
@@ -396,7 +422,6 @@ public class GUIClient extends ClientBase {
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
 		gameField.playerMoves(this.getGameState().getFieldAt(position), player);
-		System.out.println("MOVE!");
 	}
 
 	@Override
@@ -431,6 +456,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
+		System.out.println("Player has changed to "+player.getName());
 	}
 
 	@Override
