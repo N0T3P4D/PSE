@@ -21,9 +21,11 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -31,48 +33,51 @@ import org.ojim.logic.state.fields.Field;
 
 public class GameField extends JPanel {
 
-	
 	GameFieldPiece[] fields;
 	int fieldsAmount;
-	
+	JPanel[] playerLabel;
+
 	// Das Feld auf das zuletzt mit der Maus geklickt wurde
 	String selectedField;
-	
+
 	MouseListener mouseListener = new MouseListener() {
-		
+
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
 		public void mousePressed(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
 		public void mouseExited(MouseEvent e) {
 			// TODO Auto-generated method stub
-			
+
 		}
-		
+
 		@Override
 		public void mouseEntered(MouseEvent e) {
 			// TODO Auto-generated method stub
 		}
-		
+
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			selectedField = e.getComponent().getName();
 			System.out.println(selectedField);
-			
+
 		}
 	};
-	
+
 	public GameField() {
-		
+		playerLabel = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
+			playerLabel[i] = new JPanel();
+		}
 
 	}
 
@@ -83,76 +88,75 @@ public class GameField extends JPanel {
 	public void buildOnStreet(Field field) {
 		// TODO Auto-generated method stub
 		draw();
-		
+
 	}
 
 	public void playerBuysField(Player player, Field field) {
 		// TODO Auto-generated method stub
 		draw();
-		
+
 	}
 
 	public void destroyOnStreet(Field field) {
 		// TODO Auto-generated method stub
 		draw();
-		
+
 	}
 
 	public void switchFieldStatus(Field field) {
 		// TODO Auto-generated method stub
 		draw();
-		
+
 	}
 
 	public void playerMoves(Field field, Player player) {
-		// TODO Auto-generated method stub
+		playerLabel[player.getId()].setBackground(PlayerColor.getBackGroundColor(player.getColor()));
+		playerLabel[player.getId()].setName(field.getPosition()+"000");
+		playerLabel[player.getId()].setBorder(new LineBorder(Color.black, 1));
+		this.add(playerLabel[player.getId()]);
 		draw();
 	}
-	
-	public void init(int fieldsAmount, GameState gameState){
-		//System.out.println("GAMEFIELD UPDATE");
+
+	public void init(int fieldsAmount, GameState gameState) {
+		// System.out.println("GAMEFIELD UPDATE");
 		this.fieldsAmount = fieldsAmount;
 		fields = new GameFieldPiece[fieldsAmount];
-		for(int i = 0; i < fieldsAmount; i++){
+		for (int i = 0; i < fieldsAmount; i++) {
 			fields[i] = new GameFieldPiece(gameState.getFieldAt(i));
 			fields[i].setField(gameState.getFieldAt(i));
 		}
 		draw();
 	}
-	
-	public void draw(){
 
-		
+	public void draw() {
+
 		this.setLayout(new GameFieldLayout());
-		
 
 		JPanel actualLabel = new JPanel();
 
 		actualLabel.setBackground(Color.black);
-		
-		actualLabel.setName(-1+"");
+
+		actualLabel.setName(-1 + "");
 		this.add(actualLabel);
-		
-		
-		for(int i = 0; i<fieldsAmount; i++){
+
+		for (int i = 0; i < fieldsAmount; i++) {
 			actualLabel = fields[i];
 			/*
-			if(i%2 == 0){
-				actualLabel.setBackground(StreetColor.getBackGroundColor(0));
-			} else {
-				actualLabel.setBackground(StreetColor.getBackGroundColor(1));				
-			}*/
-			try{
-				actualLabel.setName(i+"");
-				actualLabel.setBorder(new LineBorder(Color.black,1));
+			 * if(i%2 == 0){
+			 * actualLabel.setBackground(StreetColor.getBackGroundColor(0)); }
+			 * else {
+			 * actualLabel.setBackground(StreetColor.getBackGroundColor(1)); }
+			 */
+			try {
+				actualLabel.setName(i + "");
+				actualLabel.setBorder(new LineBorder(Color.black, 1));
 				actualLabel.addMouseListener(mouseListener);
 				this.add(actualLabel);
-				
-			}
-			catch (NullPointerException e) {
-				
+
+			} catch (NullPointerException e) {
+
 			}
 		}
 	}
-	
+
 }
