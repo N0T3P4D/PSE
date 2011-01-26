@@ -63,26 +63,34 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \subsection{Änderungen gegenüber dem Entwurf}
 \subsection{Entwurfsentscheidungen}
 
-\section OjimServer
+\section {OjimServer}
 \subsection{Allgemeines}
 \subsection {Änderungen gegenüber dem Entwurf}
 \begin{itemize}
 \item Der Server beinhaltet nun eine Möglichkeit ihn über die Kommandozeile zu starten und zu beenden
 \item Der Server bekommt am Anfang die maximale Spielerzahl und die Computerspielerzahl übergeben
 \item Die Funktionalität der Methoden aus IServer, IServerTrade und IServerAuction werden wie im Entwurf vorgesehen implementiert, einzelne Abläufe und Folgeaktionen waren im Entwurf aber nicht genau vorgeschrieben.
+\item Der Server beinhaltet nun Erweiterungen von GameState (ServerGameState) und Logic (ServerLogic), die Methoden beinhalten, welche Clienten nicht benötigen
+\item Alle Methoden, die den Zustand verändern (könnten) wurden als synchronized deklariert
+\item Handel und Auktionen werden über eigene Klassen verwaltet
+\begin{itemize}
+\item Trade \\ Beinhaltet alle relevanten Handelsobjekte und kann einen Handel ausführen
+\item Auction \\ Beinhaltet alle relevanten Objekte für eine Auktion und kann eine Auktion selbstständig ausführen
+\end{itemize}
 \item Der Übersichtlichkeit halber wurden einige privaten Methoden eingefügt, beispielsweise
 \begin{itemize}
 \item private boolean checkAllPlayersReady()
+\item private boolean changeLevel(int playerId, int position, int levelChange)
 \end{itemize}
-\item Es gab ein paar Namens�nderungen im package org.ojim.rmi.server 
+\item Es gab ein paar Namensänderungen im package org.ojim.rmi.server 
 \begin{itemize}
-\item BufferServer wurde ge�ndert in StartNetOjim
-\item ImplBuffer wurde ge�ndert in ImplNetOjim
+\item BufferServer wurde geändert in StartNetOjim
+\item ImplBuffer wurde geändert in ImplNetOjim
 \end{itemize}
-\item Network Klasse wurde weggelassen, da die RMI die Verbingsschicht �berdeckt und die Sockets selber managt
-\item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen , die f�r den Server Methoden zur Verf�gung stellen welche aus einer anderen JVM aufgerufen werden k�nnen
+\item Network Klasse wurde weggelassen, da die RMI die Verbingsschicht überdeckt und die Sockets selber managt
+\item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen , die für den Server Methoden zur Verfügung stellen welche aus einer anderen JVM aufgerufen werden können
 \begin{itemize}
-\item interface NetClient extends Remote : spezifiziert alle Methoden die �ber das Netzwerk vom Server aufgerufen werden k�nnen 
+\item interface NetClient extends Remote : spezifiziert alle Methoden die über das Netzwerk vom Server aufgerufen werden können 
 \item ImplNetClient extends UnicastRemoteObject implements NetOjim: implementiert die Methoden des Interfaces
 \item StartNetClient 
 \end{itemize}
