@@ -79,6 +79,8 @@ public interface NetOjim extends Remote {
 	 * @return Geldbetrag
 	 * @throws RemoteException
 	 */
+	
+	
 	public int getMoneyToPay(int position) throws RemoteException;
 	
 	

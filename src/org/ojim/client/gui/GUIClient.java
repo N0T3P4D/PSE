@@ -297,10 +297,10 @@ public class GUIClient extends ClientBase {
 			}
 			
 			if(haveIalreadyRolled){
-				//System.out.println("I HAVE!!!");
+				System.out.println("I HAVE!!!");
 			}
 			else {
-				//System.out.println("I HAVE!!! NoT!");
+				System.out.println("I HAVE!!! NoT!");
 				
 			}
 
@@ -316,10 +316,9 @@ public class GUIClient extends ClientBase {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							rollDice();
 							System.out.println("Rolly Rolly");
 							haveIalreadyRolled = true;
-							draw();
+							rollDice();
 						}
 					};
 
@@ -351,6 +350,7 @@ public class GUIClient extends ClientBase {
 						.println("Jemand anderes verschwendet unsere Zeit, Meister.");
 			}
 			rollButton.setLayout(new FontLayout());
+			endTurnButton.setLayout(new FontLayout());
 
 			pane.add(downRight);
 

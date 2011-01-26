@@ -72,8 +72,6 @@ public class PlayerInfoField extends JPanel {
 		this.setBackground(PlayerColor.getBackGroundColor(player.getColor()));
 		
 		this.setBorder(getBorder());
-
-		// TODO Schriftfarbe, Schriftgröße
 		
 		this.remove(activeLabel);
 		
@@ -90,7 +88,6 @@ public class PlayerInfoField extends JPanel {
 		this.cashLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
 		cashLabel.setLayout(new FontLayout());
 		
-		// Eigener Layouter?
 		this.setLayout(new GridLayout(0,3));
 		
 		this.add(activeLabel);
