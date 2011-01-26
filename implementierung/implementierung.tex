@@ -29,9 +29,9 @@ Fabian Neundorf}
 \DeclareGraphicsExtensions{.eps}
 \fi
 
-% EinrÃ¼ckung bei AbsÃ¤tzen
+% Einrückung bei Absätzen
 \setlength{\parindent}{0mm}
-% Zeilenabstand bei AbsÃ¤tzen
+% Zeilenabstand bei Absätzen
 \setlength{\parskip}{2mm}
 
 \begin{document}
@@ -42,7 +42,7 @@ Fabian Neundorf}
 \vspace{3cm}
 \huge{Praxis der Softwareentwicklung \\
 Gruppe 3 \\[0.5cm]
-Entwicklung eines "`Monopoly"'-Ã¤hnlichen Spiels \\[0.5cm]
+Entwicklung eines "`Monopoly"'-ähnlichen Spiels \\[0.5cm]
 %\includegraphics[height=2cm]{kitlogo_de_rgb}  \\[0.5cm]
 WS 2010 / 2011} \\[2cm]
 Version 1.1
@@ -58,42 +58,43 @@ Version 1.1
 \section{KI-Client}
 
 \subsection{Allgemeines}
-Feature X ist wegen ... noch nicht voll funktionsfÃ¤hig
+Feature X ist wegen ... noch nicht voll funktionsfähig
 \subsection{Bekannte Fehler / Probleme}
-\subsection{Ã„nderungen gegenÃ¼ber dem Entwurf}
+\subsection{Änderungen gegenüber dem Entwurf}
 \subsection{Entwurfsentscheidungen}
 
 \section {OjimServer}
 \subsection{Allgemeines}
-\subsection {Ã„nderungen gegenÃ¼ber dem Entwurf}
+\subsection {Änderungen gegenüber dem Entwurf}
 \begin{itemize}
-\item Der Server beinhaltet nun eine MÃ¶glichkeit ihn Ã¼ber die Kommandozeile zu starten und zu beenden
-\item Der Server bekommt am Anfang die maximale Spielerzahl und die Computerspielerzahl Ã¼bergeben
-\item Die FunktionalitÃ¤t der Methoden aus IServer, IServerTrade und IServerAuction werden wie im Entwurf vorgesehen implementiert, einzelne AblÃ¤ufe und Folgeaktionen waren im Entwurf aber nicht genau vorgeschrieben.
-\item Der Server beinhaltet nun Erweiterungen von GameState (ServerGameState) und Logic (ServerLogic), die Methoden beinhalten, welche Clienten nicht benÃ¶tigen
-\item Alle Methoden, die den Zustand verÃ¤ndern (kÃ¶nnten) wurden als synchronized deklariert
-\item Handel und Auktionen werden Ã¼ber eigene Klassen verwaltet
+\item Der Server beinhaltet nun eine Möglichkeit ihn über die Kommandozeile zu starten und zu beenden
+\item Der Server bekommt am Anfang die maximale Spielerzahl und die Computerspielerzahl übergeben
+\item Die Funktionalität der Methoden aus IServer, IServerTrade und IServerAuction werden wie im Entwurf vorgesehen implementiert, einzelne Abläufe und Folgeaktionen waren im Entwurf aber nicht genau vorgeschrieben.
+\item Der Server beinhaltet nun Erweiterungen von GameState (ServerGameState) und Logic (ServerLogic), die Methoden beinhalten, welche Clienten nicht benötigen
+\item Alle Methoden, die den Zustand verändern (könnten) wurden als synchronized deklariert
+\item Handel und Auktionen werden über eigene Klassen verwaltet
 \begin{itemize}
-\item Trade \\ Beinhaltet alle relevanten Handelsobjekte und kann einen Handel ausfÃ¼hren
-\item Auction \\ Beinhaltet alle relevanten Objekte fÃ¼r eine Auktion und kann eine Auktion selbststÃ¤ndig ausfÃ¼hren
+\item Trade \\ Beinhaltet alle relevanten Handelsobjekte und kann einen Handel ausführen
+\item Auction \\ Beinhaltet alle relevanten Objekte für eine Auktion und kann eine Auktion selbstständig ausführen
 \end{itemize}
-\item Der Ãœbersichtlichkeit halber wurden einige privaten Methoden eingefÃ¼gt, beispielsweise
+\item Der Übersichtlichkeit halber wurden einige privaten Methoden eingefügt, beispielsweise
 \begin{itemize}
 \item private boolean checkAllPlayersReady()
 \item private boolean changeLevel(int playerId, int position, int levelChange)
 \end{itemize}
-\item Es gab ein paar NamensÃ¤nderungen im package org.ojim.rmi.server 
+\item Es gab ein paar Namensänderungen im package org.ojim.rmi.server 
 \begin{itemize}
-\item BufferServer wurde geÃ¤ndert in StartNetOjim
-\item ImplBuffer wurde geÃ¤ndert in ImplNetOjim
+\item BufferServer wurde geändert in StartNetOjim
+\item ImplBuffer wurde geändert in ImplNetOjim
 \end{itemize}
-\item Network Klasse wurde weggelassen, da die RMI die Verbingsschicht Ã¼berdeckt und die Sockets selber managt
-\item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen , die fÃ¼r den Server Methoden zur VerfÃ¼gung stellen welche aus einer anderen JVM aufgerufen werden kÃ¶nnen
+\item Network Klasse wurde weggelassen, da die RMI die Verbingsschicht überdeckt und die Sockets selber managt
+\item Da der Server auch in der Lage sein muss entfernte Methoden in den Clients aufzurufen, sind wir auf Callbacks angewiesen Zu diesem Zweck sind noch folgende Klassen hinzugekommen , die für den Server Methoden zur Verfügung stellen welche aus einer anderen JVM aufgerufen werden können
 \begin{itemize}
-\item interface NetClient extends Remote : spezifiziert alle Methoden die Ã¼ber das Netzwerk vom Server aufgerufen werden kÃ¶nnen 
-\item ImplNetClient extends UnicastRemoteObject implements NetOjim: implementiert die Methoden des Interfaces
-\item StartNetClient 
+\item interface NetClient extends Remote : spezifiziert alle Methoden die über das Netzwerk vom Server aufgerufen werden können 
+\item ImplNetClient extends UnicastRemoteObject implements NetOjim,IServer: implementiert die Methoden des Interface NetOjim und leitet die Methodenaufrufe des IServer Objekts über RMI weiter , dabei ist es egal ob IServer sich im Netzwerk befindet oder lokal
+\item StartNetClient Startet einen neuen Client und holt sich eine Referenz vom Namendienst der im Server gestartet wurde
 \end{itemize}
+\item Auf Seite des Servers, wurde ein Wrapper erstellt der den Methodenaufruf über das Netzwer
 
 
 
