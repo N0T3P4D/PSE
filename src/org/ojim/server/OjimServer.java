@@ -1007,7 +1007,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 					// }
 				}
-				//logic.startNewTurn();
+				logic.startNewTurn();
 				if (this.state.getGameIsWon()) {
 					this.endGame();
 				}

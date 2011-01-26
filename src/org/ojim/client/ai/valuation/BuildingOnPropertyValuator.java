@@ -38,10 +38,16 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 		return BuildingOnPropertyValuator.getInstance(false, BuildingOnPropertyValuator.class);
 	}
 
+	public double returnValutation(int position) {
+		if (position == 0) {
+			position = this.getGameState().getActivePlayer().getPosition();
+		}
+		return ValuationParameters.getStreetValue(position);
+	}
+
 	@Override
 	public double returnValuation() {
-		// TODO Auto-generated method stub
-		return 0;
+		return returnValutation(0);
 	}
 
 }

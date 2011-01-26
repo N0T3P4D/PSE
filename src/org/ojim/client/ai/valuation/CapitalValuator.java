@@ -19,12 +19,15 @@ package org.ojim.client.ai.valuation;
 
 import java.util.logging.Level;
 
+import org.ojim.client.ai.commands.AuctionCommand;
+import org.ojim.client.ai.commands.SellCommand;
 import org.ojim.logic.state.Player;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 
 /**
  * 
- * Die Klasse CapitalValuator bewertet, ob sich der KI-Client leisten kann, Geld
- * auszugeben
+ * Die Klasse CapitalValuator bewertet, ob sich der KI-Client leisten kann, Geld auszugeben
  * 
  * @author Jeremias Mechler
  */
@@ -32,6 +35,8 @@ public final class CapitalValuator extends ValuationFunction {
 
 	protected CapitalValuator() {
 	}
+
+	private static boolean done = false;
 
 	/**
 	 * This is a singleton object!
@@ -43,12 +48,11 @@ public final class CapitalValuator extends ValuationFunction {
 	}
 
 	/**
-	 * Sometimes we have to specify an amount, for example if we want to buy
-	 * something
+	 * Sometimes we have to specify an amount, for example if we want to buy something
 	 * 
 	 * @param amount
 	 *            Amount of money
-	 * @return Valuation
+	 * @return Valuation 0 if granted, -1 if denied
 	 */
 	public double returnValuation(int amount) {
 
@@ -56,8 +60,7 @@ public final class CapitalValuator extends ValuationFunction {
 		// Aufruf bestimmt werden
 		getLogger();
 		Player currentPlayer = this.getGameState().getActivePlayer();
-		logger.log(Level.INFO, "Current cash = " + currentPlayer.getBalance()
-				+ " Price = " + amount);
+		logger.log(Level.INFO, "Current cash = " + currentPlayer.getBalance() + " Price = " + amount);
 
 		// Die Gesamtgeldsumme aller Gegenspieler
 		int sum = 0;
@@ -86,7 +89,30 @@ public final class CapitalValuator extends ValuationFunction {
 			return 0;
 		} else {
 			logger.log(Level.INFO, "Denied");
+			// HACK: Sell!
+			if (!done) {
+				if (currentPlayer.getBalance() < 1000) {
+					int field = -1;
+					for (int i = 0; i < 40; i++) {
+						if (field == -1) {
+							Field bla = getGameState().getFieldAt(i);
+							if (bla instanceof BuyableField) {
+								if (((BuyableField) bla).getOwner().getId() == currentPlayer.getId()) {
+									field = i;
+								}
+							}
+						}
+					}
+					if (field != -1) {
+						// assert (false);
+						new SellCommand(getLogic(), getServer(), getGameState().getActivePlayer().getId(), field, 2, 1)
+								.execute();
+						done = true;
+					}
+				}
+			}
 			return -1;
+
 		}
 	}
 

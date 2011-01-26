@@ -168,9 +168,9 @@ public class ServerLogic extends Logic {
 		logger.log(Level.INFO, "Almost Starting new turn");
 
 		
-		while(!this.getGameState().getGameIsWon() && this.getGameState().getActivePlayer() != null) {
-			startNewTurn();
-		}
+//		while(!this.getGameState().getGameIsWon() && this.getGameState().getActivePlayer() != null) {
+//			startNewTurn();
+//		}
 		
 
 	}
