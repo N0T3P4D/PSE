@@ -48,19 +48,8 @@ public class StartNetOjim {
 		
 		try {
 		    
-			
-		    //NetOjim stub = (NetOjim) UnicastRemoteObject.exportObject(this,portStub );
-		    //*reg = LocateRegistry.createRegistry(portReg);
-		    // Bind the remote object's stub in the registry
-		    //Registry registry = LocateRegistry.getRegistry();
-		    //reg.bind("myServer", stub);
-		    //*reg.bind("myServer", this);
-			 Registry registry = LocateRegistry.createRegistry(portReg);
-			 registry.list();  
-			 //OjimServer server = null;
-			 //NetClient client = null;
-			 //ImplNetOjim exportedObject = new ImplNetOjim(server,client);
-			
+			Registry registry = LocateRegistry.createRegistry(portReg);
+			registry.list();  
 			String registryURL = "rmi://"+ip+":" + portReg + "/myServer";
 		    Naming.rebind(registryURL, ojimServer);
 		    
@@ -85,7 +74,6 @@ public class StartNetOjim {
 			Registry registry = LocateRegistry.getRegistry();
 			registry.unbind("myServer");
 			UnicastRemoteObject.unexportObject(ojimServer, true);
-			//this.shutdown(true);
 			UnicastRemoteObject.unexportObject(registry, true);
 			registry = null;
 			

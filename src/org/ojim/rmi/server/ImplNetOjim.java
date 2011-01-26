@@ -230,23 +230,6 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 		 
 		ClientWrapper clientWrap = new ClientWrapper(netClient);
 		addPlayer(clientWrap);
-		
-		/*
-		if (!(clientList.contains(netClient)) && this.serverDetails.getOpen()) {
-	         clientList.addElement(netClient);
-	         this.serverDetails.connectPlayer();
-	         
-	         
-	         
-	         
-	       System.out.println("Client wurde dem Server hinzugefügt");  
-		} else {
-			System.out.print("Error: Client ist schon beim Server angemeldet");
-			
-		}
-	      
-*/
-		
 		this.netClient = netClient;
 		
 	}
@@ -257,15 +240,6 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	@Override
 	public synchronized void abmeldenClient(NetClient netClient) throws RemoteException {
 		 	
-			/*
-		    if (clientList.removeElement(netClient)) {
-		      System.out.println("Client wurde erfolgreich beim Server abgemeldet");
-		    } else {
-		       System.out.println("Client war bereits nicht beim Server angemeldet");
-		    }
-
-			*/
-		
 		this.netClient = null;
 		
 		
