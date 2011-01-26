@@ -159,21 +159,16 @@ public class Valuator extends SimpleClient {
 		} else if (this.getOfferedEstates().length == 1) {
 			if (((PropertyValuator) valuationFunctions[1]).returnValuation(getOfferedEstates()[0]) < this
 					.getRequiredCash()) {
-				assert (false);
 				if (((CapitalValuator) valuationFunctions[0]).returnValuation(this.getRequiredCash()) >= 0) {
-					assert (false);
 					return new AcceptCommand(logic, server, playerID);
 				} else {
-					assert (false);
 					return new DeclineCommand(logic, server, playerID);
 				}
 			} else {
-				assert (false);
 				return new DeclineCommand(logic, server, playerID);
 			}
 		}
 		System.out.println(this.getOfferedEstates().length);
-		assert (false);
 		return new DeclineCommand(logic, server, playerID);
 	}
 

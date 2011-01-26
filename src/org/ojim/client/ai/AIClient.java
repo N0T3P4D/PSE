@@ -66,14 +66,13 @@ public class AIClient extends ClientBase {
 		valuator = new Valuator(getLogic(), server, getPlayerId());
 		count = 0;
 		// OJIMLogger.changeLogLevel(logger, Level.WARNING);
-		ready();
 	}
 
 	/**
 	 * Für den Server: Setzt
 	 */
 	public void setReady() {
-		// ready();
+		 ready();
 	}
 
 	@Override

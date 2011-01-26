@@ -117,7 +117,6 @@ public class SellCommand extends SimpleClient implements Command {
 		}
 		if (sold) {
 			// TODO remove
-			assert (false);
 		}
 		// An die Bank weitergeben
 		if (!sold) {

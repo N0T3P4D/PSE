@@ -36,7 +36,7 @@ public final class CapitalValuator extends ValuationFunction {
 	protected CapitalValuator() {
 	}
 
-	private static boolean done = false;
+	private static boolean hackDisable = true;
 
 	/**
 	 * This is a singleton object!
@@ -90,7 +90,7 @@ public final class CapitalValuator extends ValuationFunction {
 		} else {
 			logger.log(Level.INFO, "Denied");
 			// HACK: Sell!
-			if (!done) {
+			if (!hackDisable) {
 				if (currentPlayer.getBalance() < 1000) {
 					int field = -1;
 					for (int i = 0; i < 40; i++) {
@@ -107,7 +107,7 @@ public final class CapitalValuator extends ValuationFunction {
 						// assert (false);
 						new SellCommand(getLogic(), getServer(), getGameState().getActivePlayer().getId(), field, 2, 1)
 								.execute();
-						done = true;
+						hackDisable = true;
 					}
 				}
 			}
