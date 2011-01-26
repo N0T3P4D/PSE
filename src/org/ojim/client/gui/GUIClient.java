@@ -378,6 +378,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onBuy(Player player, BuyableField field) {
 		gameField.playerBuysField(player, field);
+		draw();
 
 
 		//System.out.println("Meista, da hat wer was gekauft!");
@@ -392,27 +393,32 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onCashChange(Player player, int cashChange) {
 		playerInfoWindow.changeCash(player, cashChange);
+		draw();
 	}
 
 	@Override
 	public void onConstruct(Street street) {
 		gameField.buildOnStreet(street);
+		draw();
 	}
 
 	@Override
 	public void onDestruct(Street street) {
 		gameField.destroyOnStreet(street);
+		draw();
 	}
 
 	@Override
 	public void onMessage(String text, Player sender, boolean privateMessage) {
 		chatWindow.write(new ChatMessage(sender, privateMessage, text));
+		draw();
 	}
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
 		cardWindow.switchCardStatus(street);
 		gameField.switchFieldStatus(street);
+		draw();
 	}
 
 	@Override
@@ -420,6 +426,7 @@ public class GUIClient extends ClientBase {
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
 		gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)), player);
+		draw();
 	}
 
 	@Override

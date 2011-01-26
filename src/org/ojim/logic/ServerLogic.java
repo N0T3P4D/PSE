@@ -101,8 +101,12 @@ public class ServerLogic extends Logic {
 		// Inform All Player that a new Turn has come
 
 		for (Player player : this.getGameState().getPlayers()) {
-			((ServerPlayer) player).getClient().informTurn(id);
+			if(player != this.getGameState().getActivePlayer()) {
+				((ServerPlayer) player).getClient().informTurn(id);
+			}
 		}
+		((ServerPlayer)this.getGameState().getActivePlayer()).getClient().informTurn(id);
+		
 		this.getGameState().setActivePlayerNeedsToRoll(true);
 	}
 
