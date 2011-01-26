@@ -119,11 +119,23 @@ Zusätzlich zur normalen Straßengruppe (eigentlich Feldergruppe) gibt es weiter
 So gibt es die Bahnhofsgruppe, in der mehrere Bahnhöfe gespeichert werden. Damit kann der Bahnhof selber überprüfen, anhand der Gruppe in der der Bahnhof ist, wie viele weitere Bahnhöfe der Besitzer des testenden Bahnhofs hat. Diese Gruppe speichert dann auch, wie teuer die Miete für diesen Bahnhof ist. Somit kann man sehr einfach die Anzahl der Bahnhöfe ändern.
 
 Zusätzlich gibt es noch eine Feldergruppe für Infrastrukturgebäude. Hier verhält es sich regeltechnisch ähnlich wie bei den Bahnhöfen. Da dort abhängig von den besitzten Feldern der Faktor sich verändert. Nun überprüft auch dieses Feld, wie viele der Besitzer besitzt und fragt dann bei der Gruppe ab, wie groß der Faktor dafür ist. Dadurch kann man einfach ein neues Infrastrukturgebäude der Gruppe hinzufügen und die Faktoren verändern.
+\subsubsection{ServerGameState}
+Der ServerGameState dient auf der Serverseite dazu die besonderen Daten für das Spielbrett zu speichern. So werden die Karten nicht auf dem Client gespeichert, da die gemeinsame Schnittstelle das anbietet.
+
+Außerdem definiert sie ein Gefängnis, in dass die Spieler kommen, nachdem man zu oft ein Pasch gewürfel hat.
+
+\subsubsection{ServerPlayer}
+Zusätzlich wurde die Klasse ServerPlayer hinzugefügt die Serverspezifische Dinge speichert. Das wäre einseits die eigenen Karten, da diese modular ausgelegt sind. Da diese aber nur auf den Server gespeichert sind -- da die Kommunikation es nicht erlaubt die Karten auszutauschen -- werden sie in dieser Klasse gespeichert.
+
+Außerdem speichert diese Klasse eine Referenz auf den IClient, damit dessen inform*-Methoden aufgerufen werden können.
+
 \subsubsection{Weitere Änderungen}
 \begin{itemize}
 \item Da FieldRule und CardRule keinen Zweck erfüllt, wurde diese in Card und Field sowie dessen Unterklassen übernommen.
 \item Einige Actions wurden entfernt und einige andere hinzugefügt.
 \item Mithilfe der ActionFactory können einige vordefinierte Actions erzeugen.
+\item Da die normale Logik nur die Werte ändert, übernimmt die Klasse ServerLogic das Informieren der einzelnen Clients.
+\item Zusätzlich wurden als Gimick "Dice" und "DiceSet" hinzugefügt.
 \end{itemize}
 
 \end{document}
