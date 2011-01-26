@@ -18,18 +18,10 @@
 package org.ojim.rmi.server;
 
 
-import java.rmi.Naming;
-import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
-import java.rmi.registry.LocateRegistry;
-import java.rmi.registry.Registry;
 import java.rmi.server.UnicastRemoteObject;
-import java.util.Vector;
-
-import org.ojim.client.SimpleClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
-import org.ojim.network.ServerDetails;
 import org.ojim.rmi.client.NetClient;
 import org.ojim.server.OjimServer;
 
