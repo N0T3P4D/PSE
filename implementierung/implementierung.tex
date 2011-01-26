@@ -89,9 +89,24 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 
 \section{ClientBase}
 \subsection {Änderungen gegenüber dem Entwurf}
+\subsubsection{SimpleClient}
+Da der KI Client verschiedene "Command"-Klassen hat, benötigen diese Zugriff auf den IServer ohne sich selber als neuen Client einzuloggen. Deshalb wurde eine vereinfachte Client Klasse geschrieben. Von dieser können dann alle Command Klassen des KI Clients, sowie ClientBase erben.
+
+Die Klasse SimpleClient dabei implementiert nicht das IClient Interface, um eben zu verhindern, dass sie doppelt registiert werden müssen. Sie implementiert dabei nur Methoden um die IServer-Methoden abgesichert aufzurufen. Die Getter-Methoden werden dabei direkt durchgeleitet. Alle Aktionsmethoden hingegen testen vorher, ob es nach den Spielregeln erlaubt ist, diesen Zug durchzuführen.
+\subsubsection{Package triggers}
+Damit die Ausführung einer inform*-Methode nicht alle anderen Spieler blockert, wurde ein Executor hinzugefügt. Der Executor führt dabei die Ausfühung der on*-Methoden innerhalb eines Threads aus, und erlaubt somit, dass in den on*-Methoden komplexe Dinge ausgeführt werden.
+
+Dadurch werden alle Spieler informiert und bei Änderungen haben die den aktuellen Zustand. So konnte es vorher sein, dass ein Spieler an der Reihe ist, aber die restlichen Spieler davon nix bekommen haben. Dieser hat dann eine Aktion durchgeführt, zum Beispiel der Bau eines Gebäudes. Dadurch werden alle Spieler informiert bevor sie mitbekomme haben, dass jemand neu an der Reihe ist.
+\subsubsection{Kleinere Änderungen}
 \begin{itemize}
-\item SimpleClient wurde hinzugefügt, damit der KI Client auf die Methoden von IServer zugreifen kann, ohne dass der Client darauf zugreifen darf.
 \item Damit die inform*-Methoden auf jeden Fall aufgerufen werden, sind die jetzt final. Stattdessen werden abstrakte on*-Methoden aufgerufen/überschrieben.
+\end{itemize}
+
+\section{Logik}
+\subsection {Änderungen gegenüber dem Entwurf}
+\begin{itemize}
+\item Da FieldRule und CardRule keinen Zweck erfüllt, wurde diese in Card und Field sowie dessen Unterklassen übernommen.
+\item Einige Actions wurden entfernt und einige hinzugefügt
 \end{itemize}
 
 \end{itemize}

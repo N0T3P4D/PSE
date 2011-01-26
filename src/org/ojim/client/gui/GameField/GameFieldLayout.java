@@ -80,6 +80,9 @@ public class GameFieldLayout implements LayoutManager {
 			// Kartengröße
 			int cardWidth = (int) (maxSize * 1 / 13);
 			int cardHeight = 2 * cardWidth;
+			
+			int halfWidth = (int) cardWidth / 2;
+			int halfHeight = (int) cardHeight / 2;
 
 			// Mittelfeldgröße
 			int middleFieldSize = 9 * cardWidth;
@@ -98,10 +101,16 @@ public class GameFieldLayout implements LayoutManager {
 				// System.out.println("Container "+c.getName());
 				// Feld Position
 				int field = Integer.parseInt(c.getName());
+				
+				boolean player = false;
+				
 				int fieldNumber = field % 10;
 
 				// Mittelfeld = -1
-
+				if(field > 1000){
+					field /= 1000;
+					player = true;
+				}
 				if (field == -1) {
 					c.setBounds(cardHeight, cardHeight, middleFieldSize,
 							middleFieldSize);
@@ -110,41 +119,92 @@ public class GameFieldLayout implements LayoutManager {
 				} else if (field % 10 == 0) {
 					switch (field) {
 					case 0:
+						if(player){
+							c.setBounds(middleFieldSize + cardHeight+halfHeight,
+									middleFieldSize + cardHeight+halfHeight, 10,
+									10);
+							
+						} else {
 						c.setBounds(middleFieldSize + cardHeight,
 								middleFieldSize + cardHeight, cardHeight,
 								cardHeight);
+						}
 						break;
 					case 10:
+						if(player){
+							c.setBounds(0+halfHeight, middleFieldSize + cardHeight+halfHeight,
+									10, 10);
+							
+						} else {
 						c.setBounds(0, middleFieldSize + cardHeight,
 								cardHeight, cardHeight);
+						}
 						break;
 					case 20:
+						if(player){
+							c.setBounds(0+halfHeight, 0+halfHeight, 10, 10);
+							
+						} else {
 						c.setBounds(0, 0, cardHeight, cardHeight);
+						}
 						break;
 					case 30:
+						if(player){
+							c.setBounds(middleFieldSize + cardHeight+halfHeight, 0+halfHeight,
+									10, 10);
+							
+						} else {
 						c.setBounds(middleFieldSize + cardHeight, 0,
 								cardHeight, cardHeight);
+						}
 						break;
 					}
 					// Felder unten
 				} else if (field < 10) {
+					if(player){
+						c.setBounds(middleFieldSize + cardHeight
+								- ((fieldNumber % 10) * cardWidth)+halfWidth, middleFieldSize
+								+ cardHeight+halfHeight, 10, 10);
+						
+					} else {
 					c.setBounds(middleFieldSize + cardHeight
 							- ((fieldNumber % 10) * cardWidth), middleFieldSize
 							+ cardHeight, cardWidth, cardHeight);
+					}
 					// Felder links
 				} else if (field < 20) {
+					if(player){
+						c.setBounds(0+halfWidth, middleFieldSize + cardHeight
+								- ((fieldNumber % 10) * cardWidth)+halfHeight, 10,
+								10);
+						
+					} else {
 					c.setBounds(0, middleFieldSize + cardHeight
 							- ((fieldNumber % 10) * cardWidth), cardHeight,
 							cardWidth);
+					}
 					// Felder oben
 				} else if (field < 30) {
+					if(player){
+						c.setBounds(((fieldNumber % 10) * cardWidth) + cardWidth+halfWidth,
+								0+halfHeight, 10, 10);
+						
+					} else {
 					c.setBounds(((fieldNumber % 10) * cardWidth) + cardWidth,
 							0, cardWidth, cardHeight);
+					}
 					// Felder rechts
 				} else {
+					if(player){
+						c.setBounds(middleFieldSize + cardHeight+halfWidth, cardHeight
+								+ ((fieldNumber % 10) * cardWidth) - cardWidth+halfHeight,
+								10, 10);
+						
+					} else {
 					c.setBounds(middleFieldSize + cardHeight, cardHeight
 							+ ((fieldNumber % 10) * cardWidth) - cardWidth,
 							cardHeight, cardWidth);
+					}
 				}
 			}
 		}
