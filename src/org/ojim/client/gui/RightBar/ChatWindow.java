@@ -21,6 +21,8 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
@@ -29,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.language.Localizer;
 
@@ -37,9 +40,13 @@ public class ChatWindow extends JPanel {
 	Localizer language;
 	LinkedList<ChatMessage> messages = new LinkedList<ChatMessage>();
 	JTextArea textArea;
+	JTextField textField;
+	GUIClient gui;
 	
-	public ChatWindow(Localizer language) {
+	public ChatWindow(Localizer language, GUIClient guiClient) {
 		super();
+		
+		this.gui = guiClient;
 
 		this.setLayout(new GridBagLayout());
 
@@ -65,7 +72,7 @@ public class ChatWindow extends JPanel {
 		
 		textPanel.setLayout(new GridLayout(1,0));
 		
-		JTextField textField = new JTextField("");
+		textField = new JTextField("");
 		textField.setLayout(new FontLayout());
 
 		this.add(textPanel, new GridBagConstraints(0, 1, 2, 1, 1.0, 0.0,
@@ -75,11 +82,30 @@ public class ChatWindow extends JPanel {
 		JButton sendButton = new JButton(language.getText("send"));
 		sendButton.setLayout(new FontLayout());
 
+		ActionListener sendListener = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				sendMessage();
+				
+			}
+		};
+		
+		
+		sendButton.addActionListener(sendListener);
+		
+		
 		textPanel.add(textField);
 		
 		textPanel.add(sendButton);
 	}
 
+	private void sendMessage() {
+		gui.sendOutMessage(this.textField.getText());
+		this.textField.setText("");
+		
+	}
+	
 	public void clear() {
 
 	}
@@ -90,7 +116,12 @@ public class ChatWindow extends JPanel {
 			textArea.append(language.getText("private")+": ");
 			
 		}
+		if(chatMessage.getPlayer()==null){
+			textArea.append(" -Server- "+chatMessage.getMessage()+"\n");
+			
+		} else {
 		textArea.append(" <"+chatMessage.getPlayer()+"> "+chatMessage.getMessage()+"\n");
+		}
 	}
 
 }
