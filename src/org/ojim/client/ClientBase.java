@@ -365,7 +365,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	@Override
 	public final void informTurn(int player) {
-		System.out.println("XXX");
+		//System.out.println("XXX");
 		Player newPlayer = this.getGameState().getPlayerByID(player);
 		if (newPlayer != null) {
 			this.getGameState().setActivePlayer(newPlayer);
