@@ -292,7 +292,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		ServerPlayer acting = state.getPlayerByID(actingPlayer);
 		ServerPlayer partner = state.getPlayerByID(partnerPlayer);
-
+		if(partnerPlayer == -1) {
+			trade = new Trade(acting, state.getBank());
+			return true;
+		}
+		
+		
 		if (acting != null && partner != null) {
 			trade = new Trade(acting, partner);
 			return true;
@@ -310,7 +315,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public int getPartner() {
-		if (trade != null) {
+		if (trade != null && trade.getPartner() != null) {
 			return trade.getPartner().getId();
 		}
 		return -1;
@@ -324,7 +329,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		Player player = state.getPlayerByID(playerID);
 		if (trade != null && trade.getTradeState() == 0 && player != null
 				&& player.equals(trade.getActing())) {
-			trade.setOfferdCash(amount);
+			trade.setOfferedCash(amount);
 			return true;
 		}
 		return false;
@@ -491,11 +496,16 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (trade != null && trade.getTradeState() == 0 && player != null
 				&& player.equals(trade.getActing())) {
 			trade.setTradeState(1);
+			if(trade.getPartner() != null) {
 			trade.getPartner()
 					.getClient()
 					.informTrade(trade.getActing().getId(),
 							trade.getPartner().getId());
 			return true;
+			} else {
+				trade.setTradeState(3);
+				trade.executeTrade(logic);
+			}
 		}
 		return false;
 	}
@@ -833,7 +843,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			display("cant roll!");
 			return false;
 		}
-
+		display("rolling");
 		if (player.getJail() != null) {
 
 			// Roll and Inform everyone
@@ -959,7 +969,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerByID(playerID);
-
+		display("end of turn" + playerID);
 		// if(this.state.getGameIsWon()) {
 		// return false;
 		// }
