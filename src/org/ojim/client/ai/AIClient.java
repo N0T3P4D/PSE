@@ -63,11 +63,11 @@ public class AIClient extends ClientBase {
 			throw new IllegalArgumentException("Server == null");
 		}
 		logger = OJIMLogger.getLogger(getClass().toString());
+		this.setName("AI_" + getPlayerId());
 		connect(server);
 		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId()
 				+ " created.");
 		valuator = new Valuator(getLogic(), server, getPlayerId());
-		setName("AI_" + getPlayerId());
 		count = 0;
 	}
 
