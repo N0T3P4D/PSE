@@ -83,7 +83,8 @@ Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungs
 \section{GUI-Client}
 
 \subsection{Allgemeines}
-Feature X ist wegen ... noch nicht voll funktionsfähig
+Die GUI ist bereits in der Lage das Spielfeld relativ zur Fenstergröße zuverlässig darzustellen.
+Der GUI Client hat einige Fehler des GameState entdeckt die ursprünglich fälschlicher Weise für GUI Fehler gehalten wurden. Über den GUI Client war es möglich, das Zusammenspiel von meheren KIs und dem Serververhalten zu testen und dazu auch noch visuell angezeigt zu bekommen.
 \subsection{Bekannte Fehler / Probleme / noch nicht implementierte Funktionen}
 \begin{itemize}
 \item Spielerpositionen sind Verbuggt
@@ -92,16 +93,16 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \item Handel wird nicht unterstützt (wird noch hinzugefügt)
 \item Hypotheken funktionieren noch nicht
 \item CardStacks nicht voll Implementiert
-\item Interaktionspopup
+\item Interaktionspopup fehlt
 \end{itemize}
 \subsection{Änderungen gegenüber dem Entwurf}
 \begin{itemize}
-\item LayoutManager
+\item Unnötige Collections wurden nicht genutzt.
 \end{itemize}
 
 \subsection{Entwurfsentscheidungen}
 \begin{itemize}
-\item -
+\item Die GUI hat durch viele LayoutManager die Fähigkeit bekommen unabhängig von Größenbedürfnissen zu Skalieren.
 \end{itemize}
 
 \section OjimServer
