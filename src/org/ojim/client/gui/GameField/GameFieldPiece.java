@@ -88,9 +88,15 @@ public class GameFieldPiece extends JPanel {
 				textPanel.setBackground(PlayerColor
 						.getBackGroundColor(((BuyableField) field).getOwner()
 								.getColor()));
+				try {
 				group.setBackground(PlayerColor
 						.getBackGroundColor(((BuyableField) field).getOwner()
 								.getColor()));
+			}
+			catch (NullPointerException e) {
+				
+			}
+				
 				price.setBackground(PlayerColor
 						.getBackGroundColor(((BuyableField) field).getOwner()
 								.getColor()));

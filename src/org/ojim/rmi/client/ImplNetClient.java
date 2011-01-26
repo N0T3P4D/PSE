@@ -7,7 +7,6 @@ import java.rmi.server.UnicastRemoteObject;
 import org.ojim.client.ClientBase;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
-import org.ojim.network.ClientDetails;
 import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -22,7 +21,7 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 	
 	ClientBase clientBase;
 	
-	ClientDetails details;
+	
 	
 	NetOjim server;
 	

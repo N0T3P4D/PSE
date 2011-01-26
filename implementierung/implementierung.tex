@@ -87,8 +87,12 @@ Feature X ist wegen ... noch nicht voll funktionsfähig
 \item StartNetClient Startet einen neuen Client und holt sich eine Referenz vom Namendienst der im Server gestartet wurde
 \end{itemize}
 
-
-
+\section{ClientBase}
+\subsection {Änderungen gegenüber dem Entwurf}
+\begin{itemize}
+\item SimpleClient wurde hinzugefügt, damit der KI Client auf die Methoden von IServer zugreifen kann, ohne dass der Client darauf zugreifen darf.
+\item Damit die inform*-Methoden auf jeden Fall aufgerufen werden, sind die jetzt final. Stattdessen werden abstrakte on*-Methoden aufgerufen/überschrieben.
+\end{itemize}
 
 \end{itemize}
 \end{document}
