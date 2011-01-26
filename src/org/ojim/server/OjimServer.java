@@ -193,16 +193,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (checkAllPlayersReady()) {
 			this.startGame();
 		}
-		/*if (playerCount == aiCount) {
-			while (!state.getGameIsWon()) {
-				try {
-					wait(300);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			}
-		}*/
+		/*
+		 * if (playerCount == aiCount) { while (!state.getGameIsWon()) { try {
+		 * wait(300); } catch (InterruptedException e) { // TODO Auto-generated
+		 * catch block e.printStackTrace(); } } }
+		 */
 		return true;
 	}
 
@@ -248,6 +243,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 *            The Client to disconnect
 	 */
 	private synchronized void disconnect(IClient client) {
+		assert client != null;
 		for (IClient oneClient : this.clients) {
 			// TODO Add Language
 			oneClient.informPlayerLeft(getIdOfClient(client));
@@ -259,11 +255,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private synchronized int getIdOfClient(IClient client) {
+		assert client != null;
 		for (Player player : state.getPlayers()) {
-			if (player instanceof ServerPlayer) {
-				if (((ServerPlayer) player).getClient().equals(client)) {
-					return player.getId();
-				}
+			assert player instanceof ServerPlayer;
+			if (((ServerPlayer) player).getClient().equals(client)) {
+				return player.getId();
 			}
 		}
 		return -1;
@@ -292,7 +288,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		ServerPlayer acting = state.getPlayerByID(actingPlayer);
 		ServerPlayer partner = state.getPlayerByID(partnerPlayer);
-		if (partnerPlayer == -1) {
+		if (acting != null && partnerPlayer == -1) {
 			trade = new Trade(acting, state.getBank());
 			return true;
 		}
@@ -922,7 +918,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			trade.setTradeState(3);
 			// display("accept: trade");
 			trade.executeTrade(logic);
-			((ServerPlayer)trade.getActing()).getClient().informTrade(trade.getActing().getId(), (trade.getPartner() == null ? -1 : trade.getPartner().getId()));
+			((ServerPlayer) trade.getActing()).getClient().informTrade(
+					trade.getActing().getId(),
+					(trade.getPartner() == null ? -1 : trade.getPartner()
+							.getId()));
 		}
 
 		if (player == null || !rules.isPlayerOnTurn(player)) {
@@ -953,19 +952,22 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (state.getGameIsWon()) {
 			return false;
 		}
-		
+
 		ServerPlayer player = state.getPlayerByID(playerID);
-		
+
 		if (trade != null && player != null && trade.getTradeState() == 1
 				&& player.equals(trade.getPartner())) {
 			trade.setTradeState(2);
-			((ServerPlayer)trade.getActing()).getClient().informTrade(trade.getActing().getId(), (trade.getPartner() == null ? -1 : trade.getPartner().getId()));
+			((ServerPlayer) trade.getActing()).getClient().informTrade(
+					trade.getActing().getId(),
+					(trade.getPartner() == null ? -1 : trade.getPartner()
+							.getId()));
 		}
-		
+
 		if (player == null || playerID != state.getActivePlayer().getId()) {
 			return false;
 		}
-		
+
 		// First check if a Action needs Confirmation
 		Card card = state.getFirstWaitingCard();
 		if (card != null) {
@@ -996,16 +998,16 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 				if (this.auction != null && this.auction.getAuctionState() >= 3) {
 					Field field = state.getFieldAt(player.getPosition());
-					/*TODO uncomment
-					if (field instanceof BuyableField
-							&& ((BuyableField) field).getOwner() == null) {
-						this.auction = new Auction(state, logic, rules,
-								(BuyableField) field);
-					} else { */
-						
-					//}
+					/*
+					 * TODO uncomment if (field instanceof BuyableField &&
+					 * ((BuyableField) field).getOwner() == null) { this.auction
+					 * = new Auction(state, logic, rules, (BuyableField) field);
+					 * } else {
+					 */
+
+					// }
 				}
-				logic.startNewTurn();
+				//logic.startNewTurn();
 				if (this.state.getGameIsWon()) {
 					this.endGame();
 				}

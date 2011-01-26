@@ -112,15 +112,18 @@ public class GameField extends JPanel {
 	}
 
 	public void playerMoves(Field field, Player player) {
-		//this.remove(playerLabel[player.getId()]);
-		this.player[player.getId()] = player;
-		this.field[player.getId()] = field;
-		playerLabel[player.getId()].setBackground(PlayerColor
-				.getBackGroundColor(player.getColor()));
-		playerLabel[player.getId()].setName(field.getPosition() + "000");
-		playerLabel[player.getId()].setBorder(new LineBorder(Color.black, 1));
-		this.add(playerLabel[player.getId()]);
-		//this.revalidate();
+		// this.remove(playerLabel[player.getId()]);
+		/*
+		 * this.player[player.getId()] = player; this.field[player.getId()] =
+		 * field;
+		 * 
+		 * playerLabel[player.getId()].setBackground(PlayerColor
+		 * .getBackGroundColor(player.getColor()));
+		 * playerLabel[player.getId()].setName(field.getPosition() + "000");
+		 * playerLabel[player.getId()].setBorder(new LineBorder(Color.black,
+		 * 1)); this.add(playerLabel[player.getId()]); this.revalidate();
+		 */
+		draw();
 	}
 
 	public void init(int fieldsAmount, GameState gameState) {
@@ -128,12 +131,17 @@ public class GameField extends JPanel {
 		this.player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
 		this.field = new Field[GameState.MAXIMUM_PLAYER_COUNT];
 		
+		playerLabel = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
+			playerLabel[i] = new JPanel();
+		}
+
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			this.player[i] = gameState.getPlayers()[i];
-			this.field[i] = gameState.getFieldAt(gameState.getPlayers()[i].getPosition());
+			this.field[i] = gameState.getFieldAt(gameState.getPlayers()[i]
+					.getPosition());
 		}
-		
-		
+
 		this.fieldsAmount = fieldsAmount;
 		fields = new GameFieldPiece[fieldsAmount];
 		for (int i = 0; i < fieldsAmount; i++) {
@@ -144,19 +152,17 @@ public class GameField extends JPanel {
 	}
 
 	public void draw() {
-
+		/*
+		 * for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
+		 * //this.remove(playerLabel[i]); //System.out.println("Er malt.");
+		 * playerLabel[i].setBackground(PlayerColor
+		 * .getBackGroundColor(player[i].getColor()));
+		 * playerLabel[i].setName(field[i].getPosition() + "000");
+		 * playerLabel[i].setBorder(new LineBorder(Color.black, 1));
+		 * this.add(playerLabel[i]); }
+		 */
 		this.setLayout(new GameFieldLayout());
 
-		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-				//this.remove(playerLabel[i]);
-				//System.out.println("Er malt.");
-				playerLabel[i].setBackground(PlayerColor
-						.getBackGroundColor(player[i].getColor()));
-				playerLabel[i].setName(field[i].getPosition() + "000");
-				playerLabel[i].setBorder(new LineBorder(Color.black, 1));
-				this.add(playerLabel[i]);
-				//this.revalidate();
-		}
 		JPanel actualLabel = new JPanel();
 
 		actualLabel.setBackground(Color.black);
@@ -164,25 +170,51 @@ public class GameField extends JPanel {
 		actualLabel.setName(-1 + "");
 		this.add(actualLabel);
 
-		for (int i = 0; i < fieldsAmount; i++) {
-			actualLabel = fields[i];
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
+			// this.remove(playerLabel[i]);
+			// System.out.println("Er malt.");
 			/*
-			 * if(i%2 == 0){
-			 * actualLabel.setBackground(StreetColor.getBackGroundColor(0)); }
-			 * else {
-			 * actualLabel.setBackground(StreetColor.getBackGroundColor(1)); }
-			 */
+			actualLabel = playerLabel[i];
+			playerLabel[j].setBackground(PlayerColor
+					.getBackGroundColor(player[i].getColor()));
+			playerLabel[j].setName(field[i].getPosition() + "000");
+			playerLabel[j].setBorder(new LineBorder(Color.black, 1));
+			this.add(playerLabel[j]);*/
+		}
+		
+		for (int i = 0; i < fieldsAmount; i++) {
 			try {
-				actualLabel.setName(i + "");
-				actualLabel.setBorder(new LineBorder(Color.black, 1));
-				actualLabel.addMouseListener(mouseListener);
-				this.add(actualLabel);
-
-			} catch (NullPointerException e) {
-
+			((GameFieldPiece)actualLabel).removePlayer();
+			} catch (ClassCastException e) {
+				
 			}
 		}
+		
+		for (int j = 0; j < GameState.MAXIMUM_PLAYER_COUNT; j++) {
+			for (int i = 0; i < fieldsAmount; i++) {
+				actualLabel = fields[i];
+				/*
+				 * if(i%2 == 0){
+				 * actualLabel.setBackground(StreetColor.getBackGroundColor(0));
+				 * } else {
+				 * actualLabel.setBackground(StreetColor.getBackGroundColor(1));
+				 * }
+				 */
+				try {
+					if (i == field[j].getPosition()) {
+						((GameFieldPiece)actualLabel).addPlayer(player[j]);
+						((GameFieldPiece)actualLabel).draw();
+					}
+					actualLabel.setName(i + "");
+					actualLabel.setBorder(new LineBorder(Color.black, 1));
+					actualLabel.addMouseListener(mouseListener);
+					this.add(actualLabel);
 
+				} catch (NullPointerException e) {
+
+				}
+			}
+		}
 
 	}
 

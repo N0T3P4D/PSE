@@ -106,20 +106,25 @@ Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungs
 Da der KI Client verschiedene "Command"-Klassen hat, benötigen diese Zugriff auf den IServer ohne sich selber als neuen Client einzuloggen. Deshalb wurde eine vereinfachte Client Klasse geschrieben. Von dieser können dann alle Command Klassen des KI Clients, sowie ClientBase erben.
 
 Die Klasse SimpleClient dabei implementiert nicht das IClient Interface, um eben zu verhindern, dass sie doppelt registiert werden müssen. Sie implementiert dabei nur Methoden um die IServer-Methoden abgesichert aufzurufen. Die Getter-Methoden werden dabei direkt durchgeleitet. Alle Aktionsmethoden hingegen testen vorher, ob es nach den Spielregeln erlaubt ist, diesen Zug durchzuführen.
-\subsubsection{Package triggers}
-Damit die Ausführung einer inform*-Methode nicht alle anderen Spieler blockert, wurde ein Executor hinzugefügt. Der Executor führt dabei die Ausfühung der on*-Methoden innerhalb eines Threads aus, und erlaubt somit, dass in den on*-Methoden komplexe Dinge ausgeführt werden.
+\subsubsection{inform*-Methoden}
+Alle inform*-Methoden sind jetzt final und rufen die abstrakten on*-Methoden auf. Dadurch wird gewährleistet, dass diese Methoden auf jeden Fall ausgeführt werden. Somit müssen alle Clients, die nicht abstrakt sind, diese Methoden zwingend Implementieren.
 
-Dadurch werden alle Spieler informiert und bei Änderungen haben die den aktuellen Zustand. So konnte es vorher sein, dass ein Spieler an der Reihe ist, aber die restlichen Spieler davon nix bekommen haben. Dieser hat dann eine Aktion durchgeführt, zum Beispiel der Bau eines Gebäudes. Dadurch werden alle Spieler informiert bevor sie mitbekomme haben, dass jemand neu an der Reihe ist.
-\subsubsection{Kleinere Änderungen}
-\begin{itemize}
-\item Damit die inform*-Methoden auf jeden Fall aufgerufen werden, sind die jetzt final. Stattdessen werden abstrakte on*-Methoden aufgerufen/überschrieben.
-\end{itemize}
+Damit ist ClientBase so ähnlich wie aufgebaut, wie die Listener Interfaces aus Swing. Nebenbei übersetzt sie die Variablen in die entsprechenden Objekte aus dem GameState.
 
 \section{Logik}
+Zu Beachten ist, dass auf dem Spielfeld, es mehrere "Felder" gibt. Das heißt wenn im folgenden von "Feld" ausgegangen wird, dann handelt es sich normalerweise um diese Einzelfelder (z.~B. Straßen, Bahnhöfe, \dots).
 \subsection {Änderungen gegenüber dem Entwurf}
+\subsubsection{Straßengruppen}
+Zusätzlich zur normalen Straßengruppe (eigentlich Feldergruppe) gibt es weitere spezieller Feldgruppen.
+
+So gibt es die Bahnhofsgruppe, in der mehrere Bahnhöfe gespeichert werden. Damit kann der Bahnhof selber überprüfen, anhand der Gruppe in der der Bahnhof ist, wie viele weitere Bahnhöfe der Besitzer des testenden Bahnhofs hat. Diese Gruppe speichert dann auch, wie teuer die Miete für diesen Bahnhof ist. Somit kann man sehr einfach die Anzahl der Bahnhöfe ändern.
+
+Zusätzlich gibt es noch eine Feldergruppe für Infrastrukturgebäude. Hier verhält es sich regeltechnisch ähnlich wie bei den Bahnhöfen. Da dort abhängig von den besitzten Feldern der Faktor sich verändert. Nun überprüft auch dieses Feld, wie viele der Besitzer besitzt und fragt dann bei der Gruppe ab, wie groß der Faktor dafür ist. Dadurch kann man einfach ein neues Infrastrukturgebäude der Gruppe hinzufügen und die Faktoren verändern.
+\subsubsection{Weitere Änderungen}
 \begin{itemize}
 \item Da FieldRule und CardRule keinen Zweck erfüllt, wurde diese in Card und Field sowie dessen Unterklassen übernommen.
-\item Einige Actions wurden entfernt und einige hinzugefügt
+\item Einige Actions wurden entfernt und einige andere hinzugefügt.
+\item Mithilfe der ActionFactory können einige vordefinierte Actions erzeugen.
 \end{itemize}
 
 \end{itemize}

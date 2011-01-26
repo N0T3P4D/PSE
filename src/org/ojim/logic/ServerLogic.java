@@ -166,7 +166,12 @@ public class ServerLogic extends Logic {
 		}
 		// AI added
 		logger.log(Level.INFO, "Almost Starting new turn");
-		startNewTurn();
+
+		
+		while(!this.getGameState().getGameIsWon() && this.getGameState().getActivePlayer() != null) {
+			startNewTurn();
+		}
+		
 
 	}
 

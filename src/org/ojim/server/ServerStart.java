@@ -81,7 +81,7 @@ public class ServerStart {
 					System.out.println("There is already a Game running, end it first before starting a new one!");
 				} else {
 					System.out.println("Initializing Game");
-					server.initGame(2,2);
+					server.initGame(8,8);
 					System.out.println("Game initialized!");
 				}
 			} else if(input.startsWith("aitest")) {
