@@ -142,10 +142,16 @@ public class GameField extends JPanel {
 			} else {
 				actualLabel.setBackground(StreetColor.getBackGroundColor(1));				
 			}*/
-			actualLabel.setName(i+"");
-			actualLabel.setBorder(new LineBorder(Color.black,1));
-			actualLabel.addMouseListener(mouseListener);
-			this.add(actualLabel);
+			try{
+				actualLabel.setName(i+"");
+				actualLabel.setBorder(new LineBorder(Color.black,1));
+				actualLabel.addMouseListener(mouseListener);
+				this.add(actualLabel);
+				
+			}
+			catch (NullPointerException e) {
+				
+			}
 		}
 	}
 	
