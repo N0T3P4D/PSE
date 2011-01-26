@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project name="Untitled Gantt Project" company="" webLink="http://" view-date="2010-12-24" view-index="1" gantt-divider-location="316" resource-divider-location="301" version="2.0">
+<project name="Untitled Gantt Project" company="" webLink="http://" view-date="2010-12-28" view-index="1" gantt-divider-location="316" resource-divider-location="301" version="2.0">
     <description/>
     <view zooming-state="default:1" id="gantt-chart"/>
     <view id="resource-table">
-        <field id="0" name="Name" width="55" order="0"/>
-        <field id="1" name="Default role" width="44" order="1"/>
+        <field id="0" name="Ressource" width="54" order="0"/>
+        <field id="1" name="Rolle" width="45" order="1"/>
     </view>
     <!-- -->
     <calendars>
@@ -58,13 +58,14 @@
         <allocation task-id="13" resource-id="3" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="14" resource-id="3" function="Default:0" responsible="true" load="200.0"/>
         <allocation task-id="1" resource-id="5" function="Default:0" responsible="true" load="75.0"/>
-        <allocation task-id="2" resource-id="0" function="Default:0" responsible="true" load="150.0"/>
+        <allocation task-id="2" resource-id="0" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="3" resource-id="4" function="Default:0" responsible="true" load="125.0"/>
         <allocation task-id="4" resource-id="2" function="Default:0" responsible="true" load="100.0"/>
-        <allocation task-id="11" resource-id="5" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="11" resource-id="3" function="Default:0" responsible="true" load="50.0"/>
-        <allocation task-id="15" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
+        <allocation task-id="11" resource-id="5" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="15" resource-id="0" function="Default:0" responsible="false" load="100.0"/>
         <allocation task-id="15" resource-id="4" function="Default:0" responsible="false" load="100.0"/>
+        <allocation task-id="15" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
         <allocation task-id="16" resource-id="5" function="Default:0" responsible="true" load="100.0"/>
     </allocations>
     <vacations/>
