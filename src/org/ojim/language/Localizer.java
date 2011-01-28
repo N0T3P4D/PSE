@@ -31,16 +31,21 @@ public class Localizer {
 
 	private static final String[] TEXT_KEYS = { "ojim", "file", "missing text", "?", "create game", "join game",
 			"leave game", "settings", "direct connection", "list of servers", "exit", "about", "help", "roll", "buy",
-			"ready", "send", "currency" };
-
+			"ready", "send", "currency", "endturn" };
+	
 	/** Saves the translation to a key. */
 	private Map<String, String> strings;
-
+	
 	public Localizer() {
 		this.strings = new HashMap<String, String>();
-		// Initalize the map:
-		for (String string : Localizer.TEXT_KEYS) {
-			this.strings.put(string, string);
+		LanguageDefinition[] languages = this.getLanguages();
+		if (languages.length == 0) {
+			// Initalize the map:
+			for (String string : Localizer.TEXT_KEYS) {
+				this.strings.put(string, string);
+			}
+		} else {
+			this.setLanguage(languages[0]);
 		}
 	}
 

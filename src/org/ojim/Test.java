@@ -24,7 +24,6 @@ import org.ojim.client.ai.valuation.CapitalValuator;
 import org.ojim.client.ai.valuation.PropertyValuator;
 import org.ojim.client.ai.valuation.ValuationFunction;
 import org.ojim.client.gui.GUIClient;
-import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
 import org.ojim.logic.actions.Action;
 import org.ojim.logic.actions.ActionMoveToField;
 import org.ojim.logic.state.Card;
@@ -46,18 +45,6 @@ public class Test {
 	// -s --server == ojim server
 	// -a --ai == AI Client
 	public static void main(String args[]) {
-		
-//		ValuationFunction f = PropertyValuator.getInstance();
-//		PropertyValuator x = (PropertyValuator) f;
-//		
-//		CapitalValuator y = ValuationFunction.getInstance(CapitalValuator.class);
-//		
-//		System.out.println("foo");
-//		
-//		System.exit(0);
-		
-		FieldDrawer d = FieldDrawer.getDrawer(new Jail("foo", 2, 1, 2));
-		d.drawTo(null);
 		
 		for (String string : args) {
 			if (string.equals("-g") || string.equals("--gui")) {

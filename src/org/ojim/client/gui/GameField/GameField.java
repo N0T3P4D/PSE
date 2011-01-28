@@ -17,16 +17,11 @@
 
 package org.ojim.client.gui.GameField;
 
-import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.LineBorder;
 
-import org.ojim.client.gui.PlayerColor;
-import org.ojim.client.gui.StreetColor;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.Field;
@@ -34,10 +29,10 @@ import org.ojim.logic.state.fields.Field;
 public class GameField extends JPanel {
 
 	GameFieldPiece[] fields;
-	int fieldsAmount;
-	JPanel[] playerLabel;
 	Player[] player;
-	Field[] field;
+//	int fieldsAmount;
+//	JPanel[] playerLabel;
+//	Field[] field;
 
 	// Das Feld auf das zuletzt mit der Maus geklickt wurde
 	String selectedField;
@@ -75,12 +70,18 @@ public class GameField extends JPanel {
 		}
 	};
 
-	public GameField() {
-		playerLabel = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
-		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			playerLabel[i] = new JPanel();
+	public GameField(GameState state) {
+		// Load all data
+		this.fields = new GameFieldPiece[GameState.FIELDS_AMOUNT];
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			this.fields[i] = new GameFieldPiece(state.getFieldAt(i));
 		}
-
+		
+		this.player = state.getPlayers();
+		
+		this.setLayout(new GameFieldLayout());
+		
+		this.draw();
 	}
 
 	// Hält GameFieldPieceCollection
@@ -126,94 +127,14 @@ public class GameField extends JPanel {
 		draw();
 	}
 
-	public void init(int fieldsAmount, GameState gameState) {
-		// System.out.println("GAMEFIELD UPDATE");
-		this.player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
-		this.field = new Field[GameState.MAXIMUM_PLAYER_COUNT];
-		
-		playerLabel = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
-		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			playerLabel[i] = new JPanel();
-		}
-
-		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			this.player[i] = gameState.getPlayers()[i];
-			this.field[i] = gameState.getFieldAt(gameState.getPlayers()[i]
-					.getPosition());
-		}
-
-		this.fieldsAmount = fieldsAmount;
-		fields = new GameFieldPiece[fieldsAmount];
-		for (int i = 0; i < fieldsAmount; i++) {
-			fields[i] = new GameFieldPiece(gameState.getFieldAt(i));
-			fields[i].setField(gameState.getFieldAt(i));
-		}
-		draw();
-	}
-
-	public void draw() {
-		/*
-		 * for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-		 * //this.remove(playerLabel[i]); //System.out.println("Er malt.");
-		 * playerLabel[i].setBackground(PlayerColor
-		 * .getBackGroundColor(player[i].getColor()));
-		 * playerLabel[i].setName(field[i].getPosition() + "000");
-		 * playerLabel[i].setBorder(new LineBorder(Color.black, 1));
-		 * this.add(playerLabel[i]); }
-		 */
-		this.setLayout(new GameFieldLayout());
-
-		JPanel actualLabel = new JPanel();
-
-		actualLabel.setBackground(Color.black);
-
-		actualLabel.setName(-1 + "");
-		this.add(actualLabel);
-
-		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			// this.remove(playerLabel[i]);
-			// System.out.println("Er malt.");
-			/*
-			actualLabel = playerLabel[i];
-			playerLabel[j].setBackground(PlayerColor
-					.getBackGroundColor(player[i].getColor()));
-			playerLabel[j].setName(field[i].getPosition() + "000");
-			playerLabel[j].setBorder(new LineBorder(Color.black, 1));
-			this.add(playerLabel[j]);*/
+	public void draw() {		
+		for (GameFieldPiece field : this.fields) {
+			field.removePlayers();
+			field.update();
 		}
 		
-		for (int i = 0; i < fieldsAmount; i++) {
-			try {
-			((GameFieldPiece)actualLabel).removePlayer();
-			} catch (ClassCastException e) {
-				
-			}
-		}
-		
-		for (int j = 0; j < GameState.MAXIMUM_PLAYER_COUNT; j++) {
-			for (int i = 0; i < fieldsAmount; i++) {
-				actualLabel = fields[i];
-				/*
-				 * if(i%2 == 0){
-				 * actualLabel.setBackground(StreetColor.getBackGroundColor(0));
-				 * } else {
-				 * actualLabel.setBackground(StreetColor.getBackGroundColor(1));
-				 * }
-				 */
-				try {
-					if (i == field[j].getPosition()) {
-						((GameFieldPiece)actualLabel).addPlayer(player[j]);
-						((GameFieldPiece)actualLabel).draw();
-					}
-					actualLabel.setName(i + "");
-					actualLabel.setBorder(new LineBorder(Color.black, 1));
-					actualLabel.addMouseListener(mouseListener);
-					this.add(actualLabel);
-
-				} catch (NullPointerException e) {
-
-				}
-			}
+		for (Player player : this.player) {
+			this.fields[player.getPosition()].addPlayer(player);
 		}
 
 	}

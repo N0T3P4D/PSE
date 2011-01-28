@@ -40,11 +40,11 @@ public class PlayerColor {
 			{ Color.black, Color.white } };
 
 	public static Color getBackGroundColor(int color) {
-		return colors[color][0];
+		return color == -1 ? Color.WHITE : colors[color][0];
 	}
 
 	public static Color getFontColor(int color) {
-		return colors[color][1];
+		return color == -1 ? Color.BLACK : colors[color][1];
 	}
 
 }

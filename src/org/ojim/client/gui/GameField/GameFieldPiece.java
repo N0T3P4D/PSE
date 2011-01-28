@@ -18,9 +18,10 @@
 package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
-import java.awt.Graphics;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
-import java.awt.Image;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -28,9 +29,7 @@ import javax.swing.border.LineBorder;
 
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
-import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
 import org.ojim.client.gui.OLabel.FontLayout;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
@@ -38,157 +37,129 @@ import org.ojim.logic.state.fields.Street;
 
 public class GameFieldPiece extends JPanel {
 
-	private FieldDrawer drawer;
 	private Field field;
-	private JPanel colorTop;
-	private JLabel group;
-	private JLabel name;
+	private JPanel dataPanel;
 	private JLabel price;
-	private JPanel textPanel;
-	private Player[] player;
-	private JLabel playerLabel;
-	private JPanel playerPanel;
 
-	public GameFieldPiece(Field field, String name, int position, Image image) {
-	}
+	private JPanel playersPanel;
+	private List<Player> players;
 
 	public GameFieldPiece(Field field) {
-		player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
-		if (this.getComponentCount() > 0) {
-			remove(textPanel);
-			remove(playerPanel);
-			remove(colorTop);
-		}
 		this.field = field;
-		draw();
+		this.players = new ArrayList<Player>();
+
+		// Field is known, now initialize all Data
+		this.initialize();
+		// this.draw();
 	}
 
-	public void draw() {
+	public void initialize() {
+		// Clear all before
+		this.removeAll();
+		
+		this.dataPanel = new JPanel(new GridLayout(0, 1));
+		
+		this.playersPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+		this.playersPanel.setOpaque(false);
+		this.dataPanel.add(this.playersPanel);
+		
+		Player owner = null;
+		
+		if (this.field instanceof BuyableField) {
+			owner = ((BuyableField) field).getOwner();
+			if (this.field instanceof Street) {
+				JPanel colorBar = new JPanel();
+				colorBar.setBackground(StreetColor.getBackGroundColor(this.field.getColorGroup()));
+				//TODO: (xZise) Border finden, der nur unten gezeichnet wird.
+				colorBar.setBorder(new LineBorder(Color.black, 1));
+				this.add(colorBar);
 
-		textPanel = new JPanel();
-		playerPanel = new JPanel();
-		// this.drawer = FieldDrawer.getDrawer(field);
-		colorTop = new JPanel();
-		if (!(this.field.getColorGroup() < 0)) {
-			colorTop.setBackground(StreetColor.getBackGroundColor(this.field
-					.getColorGroup()));
-			colorTop.setBorder(new LineBorder(Color.black, 1));
-			this.add(colorTop);
-		}
+				JLabel group = new JLabel("<html>" + ((Street) field).getFieldGroup().getName());
 
-		try {
-			group = new JLabel("<html>"
-					+ ((Street) field).getFieldGroup().getName());
-
-			group.setLayout(new FontLayout());
-			group.setHorizontalTextPosition(JLabel.CENTER);
-			textPanel.add(group);
-		} catch (ClassCastException e) {
-
-		}
-
-		for (int i = 0; i < player.length; i++) {
-			if (player[i] != null) {
-				JLabel playerLabel = new JLabel("O");
-				playerLabel.setBackground(PlayerColor
-						.getBackGroundColor(player[i].getColor()));
-				playerLabel.setBorder(new LineBorder(Color.black, 1));
-				playerLabel.setBounds(0, 0, 15, 15);
-				System.out.println("Karte " + this.field.getName()
-						+ " beherbergt nun Spieler " + player[i].getName());
-				textPanel.add(playerLabel);
+				group.setLayout(new FontLayout());
+				group.setHorizontalTextPosition(JLabel.CENTER);
+				this.setColor(group, owner);
+				this.dataPanel.add(group);
 			}
+			
+			this.price = new JLabel();
+			this.price.setHorizontalTextPosition(JLabel.CENTER);
+			this.price.setVerticalTextPosition(JLabel.BOTTOM);
+			this.price.setLayout(new FontLayout());
+			this.setColor(this.price, owner);
 		}
-
-		name = new JLabel("<html>" + field.getName());
+		
+		JLabel name = new JLabel("<html>" + field.getName());
 		name.setHorizontalTextPosition(JLabel.CENTER);
 		name.setLayout(new FontLayout());
-		textPanel.add(name);
-		try {
-			if (((BuyableField) field).getOwner() != null) {
-
-				price = new JLabel("<html>"
-						+ ((BuyableField) field).getOwner().getName());
-				// System.out.println("SOLD: "+field.getName());
-				// System.out.println(((BuyableField)
-				// field).getOwner().getId()+" - ID - "+field.getName());
-				textPanel.setBackground(PlayerColor
-						.getBackGroundColor(((BuyableField) field).getOwner()
-								.getColor()));
-				try {
-					group.setBackground(PlayerColor
-							.getBackGroundColor(((BuyableField) field)
-									.getOwner().getColor()));
-
-					price.setBackground(PlayerColor
-							.getBackGroundColor(((BuyableField) field)
-									.getOwner().getColor()));
-					name.setBackground(PlayerColor
-							.getBackGroundColor(((BuyableField) field)
-									.getOwner().getColor()));
-
-					group.setForeground(PlayerColor
-							.getFontColor(((BuyableField) field).getOwner()
-									.getColor()));
-					price.setForeground(PlayerColor
-							.getFontColor(((BuyableField) field).getOwner()
-									.getColor()));
-					name.setForeground(PlayerColor
-							.getFontColor(((BuyableField) field).getOwner()
-									.getColor()));
-				} catch (NullPointerException e) {
-
-				}
-
-			} else {
-				// System.out.println("NOT SOLD: "+field.getName());
-				price = new JLabel("<html>" + ((BuyableField) field).getPrice());
-			}
-			price.setHorizontalTextPosition(JLabel.CENTER);
-			price.setVerticalTextPosition(JLabel.BOTTOM);
-			price.setLayout(new FontLayout());
-			textPanel.add(price);
-		} catch (ClassCastException e) {
-
+		this.setColor(name, owner);
+		this.dataPanel.add(name);
+		
+		if (this.price != null) {
+			this.dataPanel.add(this.price);
 		}
-		// text = new JLabel("<html>" + "test");
-		textPanel.setLayout(new GridLayout(0, 1));
-
-		// this.add(playerPanel);
-		this.add(textPanel);
+		this.add(dataPanel);
 		this.setLayout(new GameFieldPieceLayout());
-		// this.setBackground(Color.white);
+		this.update();
 		this.setVisible(true);
 	}
 
-	public void setField(Field field) {
-		this.field = field;
-	}
+	/**
+	 * Sets the color specifications for a label. If Owner is null it uses the default colors.
+	 * @param label The label holding the data.
+	 * @param owner The owner specifying the color.
+	 */
+	private void setColor(JLabel label, Player owner) {
+		int color = -1;
+		if (owner != null) {
+			color = owner.getColor();
+		}
 
-	@Override
-	protected void paintComponent(Graphics g) {
-		// Draw Field piece here
+		label.setBackground(PlayerColor.getBackGroundColor(color));
+
+		label.setForeground(PlayerColor.getFontColor(color));
+	}
+	
+	/**
+	 * Updates all volatile data.
+	 */
+	public void update() {
+		if (this.field instanceof BuyableField) {
+			Player owner = ((BuyableField) this.field).getOwner();
+			if (owner != null) {
+				this.price.setText("<html>" + owner.getName() + " (" + ((BuyableField) field).getPrice() + ")");
+			} else {
+				this.price.setText("<html>" + ((BuyableField) field).getPrice()); 
+			}
+			this.dataPanel.setBackground(PlayerColor.getBackGroundColor(owner == null ? -1 : owner.getColor()));
+		}
+	}
+	
+	private void updatePlayers() {
+		this.playersPanel.removeAll();
+		for (Player player : this.players) {
+			JPanel playerBox = new JPanel();
+			playerBox.setBackground(PlayerColor.getBackGroundColor(player.getColor()));
+			playerBox.setBorder(new LineBorder(Color.black, 1));
+			this.playersPanel.add(playerBox);
+		}
 	}
 
 	public void addPlayer(Player player) {
-		boolean found = false;
-		for (int i = 0; i < this.player.length; i++) {
-			if (this.player[i] == player) {
-				found = true;
-				break;
-			}
+		if (!this.players.contains(player)) {
+			this.players.add(player);
+			this.updatePlayers();
 		}
-		if (!found) {
-			for (int i = 0; i < this.player.length; i++) {
-				if (this.player[i] == null) {
-					this.player[i] = player;
-				}
-			}
-		}
-
 	}
 
-	public void removePlayer() {
-		this.player = null;
+	public void removePlayer(Player player) {
+		if (this.players.remove(player)) {
+			this.updatePlayers();
+		}
+	}
+	
+	public void removePlayers() {
+		this.players.clear();
+		this.updatePlayers();
 	}
 }

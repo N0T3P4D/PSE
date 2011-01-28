@@ -42,6 +42,7 @@ import org.ojim.language.LanguageDefinition;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.server.OjimServer;
 
@@ -62,17 +63,15 @@ public class GUIClient extends ClientBase {
 	String name;
 
 	MenuBar menubar;
-	JPanel window = new JPanel();
-	JPanel rightWindow1 = new JPanel();
-	JPanel downWindow = new JPanel();
-	JPanel downRight = new JPanel();
-	JButton buyButton = new JButton();
-	JButton rollButton = new JButton();
-	JButton endTurnButton = new JButton();
+	JPanel window;
+	JPanel downRight;
+	JButton buyButton;
+	JButton rollButton;
+	JButton endTurnButton;
 
 	JFrame GUIFrame;
 
-	JPanel pane = new JPanel(new OJIMLayout());
+//	JPanel pane = new JPanel(new OJIMLayout());
 	Localizer language;
 
 	boolean haveIalreadyRolled = false;
@@ -80,10 +79,6 @@ public class GUIClient extends ClientBase {
 	private MenuState menuState;
 
 	public GUIClient() {
-
-		// Nur zu Debugzwecken auf game
-		setMenuState(MenuState.mainMenu);
-		// setMenuState(MenuState.game);
 
 		language = new Localizer();
 
@@ -94,6 +89,17 @@ public class GUIClient extends ClientBase {
 
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
+
+		this.GUIFrame = new JFrame(language.getText("ojim"));
+		this.menubar = new MenuBar(this.language, this);
+		this.GUIFrame.setJMenuBar(this.menubar);
+		this.GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		this.GUIFrame.setMinimumSize(new Dimension(550, 450));
+		this.GUIFrame.setVisible(true);
+
+		// Nur zu Debugzwecken auf game
+		setMenuState(MenuState.waitRoom);
+		// setMenuState(MenuState.game);
 
 		createGameFrame = new CreateGameFrame(language, this);
 		joinGameFrame = new JoinGameFrame(language);
@@ -107,278 +113,205 @@ public class GUIClient extends ClientBase {
 		helpFrame.setTitle(language.getText("help"));
 		aboutFrame.setTitle(language.getText("about"));
 
-		gameField = new GameField();
-
-		GUIFrame = new JFrame(language.getText("ojim"));
-
-		playerInfoWindow = new PlayerInfoWindow(language);
 		chatWindow = new ChatWindow(language,this);
-
-		menubar = new MenuBar(language, this);
-		GUIFrame.setJMenuBar(menubar);
-
-		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		GUIFrame.setMinimumSize(new Dimension(550, 450));
-
+		
+//		//xZise: WTF was macht dieser Kram?
+//		try {
+//			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//				if ("Windows".equals(info.getName())) {
+//					UIManager.setLookAndFeel(info.getClassName());
+//					break;
+//				} else if ("Nimbus".equals(info.getName())) {
+//					UIManager.setLookAndFeel(info.getClassName());
+//					break;
+//				} else if ("Metal".equals(info.getName())) {
+//					UIManager.setLookAndFeel(info.getClassName());
+//					break;
+//				}
+//			}
+//			// Keines der Standarddesigns vorhanden. Nimm das was du hast.
+//		} catch (Exception e) {
+//			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+//				try {
+//					UIManager.setLookAndFeel(info.getClassName());
+//				} catch (Exception e1) {
+//					// Kein Look and Feel
+//					e1.printStackTrace();
+//				}
+//			}
+//		}
+		
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
-
-		draw();
-
-	}
-
-	private void draw() {
-
-		// GUIFrame = new JFrame(language.getText("ojim"));
-
-		try {
-			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				if ("Windows".equals(info.getName())) {
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				} else if ("Nimbus".equals(info.getName())) {
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				} else if ("Metal".equals(info.getName())) {
-					UIManager.setLookAndFeel(info.getClassName());
-					break;
-				}
-			}
-			// Keines der Standarddesigns vorhanden. Nimm das was du hast.
-		} catch (Exception e) {
-			for (LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
-				try {
-					UIManager.setLookAndFeel(info.getClassName());
-				} catch (Exception e1) {
-					// Kein Look and Feel
-					e1.printStackTrace();
-				}
-			}
-		}
-
-		switch (menuState) {
-
-		case mainMenu:
-
-			// TODO Ein schönes Bild, oder ein Vorschauspiel vielleicht?
-
-			break;
-
-		case waitRoom:
-
-			setName("Max");
-
-			OjimServer server = new OjimServer("Philip");
-			
-			server.initGame(8, 7);
-
-			connect(server);
-
-			JPanel leftWindow = new JPanel();
-			JPanel rightWindow = new JPanel();
-
-			window.setLayout(new GridLayout(1, 0));
-			rightWindow.setLayout(new GridLayout(0, 1));
-
-			playerInfoWindow = new PlayerInfoWindow(language);
-
-			rightWindow.add(playerInfoWindow);
-			leftWindow.add(chatWindow);
-
-			JButton button;
-			button = new JButton(language.getText("ready"));
-
-			ActionListener clickedOnReady = new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ready();
-
-				}
-			};
-			;
-			;
-
-			button.addActionListener(clickedOnReady);
-
-			rightWindow.add(button);
-
-			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
-				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
-				this.playerInfoWindow.addPlayer(this.getGameState()
-						.getPlayers()[i], this.getGameState().getPlayers()[i]
-						.getBalance());
-			}
-			
-			window.add(leftWindow);
-			window.add(rightWindow);
-
-			GUIFrame.add(window);
-			break;
-
-		case game:
-			//System.out.println("Male das Spielfeld");
-
-			GUIFrame.remove(window);
-			GUIFrame.remove(pane);
-
-			pane.remove(gameField);
-			pane.remove(rightWindow1);
-			pane.remove(downWindow);
-			pane.remove(downRight);
-
-			rightWindow1.remove(playerInfoWindow);
-			rightWindow1.remove(chatWindow);
-
-			downWindow.remove(cardWindow);
-
-			downRight.remove(buyButton);
-			downRight.remove(rollButton);
-
-			gameField = new GameField();
-
-			gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
-
-			pane.add(gameField);
-
-			rightWindow1.setLayout(new GridLayout(0, 1));
-
-			playerInfoWindow = new PlayerInfoWindow(language);
-			chatWindow = new ChatWindow(language, this);
-
-			//System.out.println("Es gibt "
-			//		+ this.getGameState().getPlayers().length + " Spieler.");
-			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
-				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
-				this.playerInfoWindow.addPlayer(this.getGameState()
-						.getPlayers()[i], this.getGameState().getPlayers()[i]
-						.getBalance());
-			}
-
-			rightWindow1.add(playerInfoWindow);
-			rightWindow1.add(chatWindow);
-
-			pane.add(rightWindow1);
-
-			downWindow.setLayout(new GridLayout(1, 0));
-
-			cardWindow = new CardWindow();
-
-			downWindow.add(cardWindow);
-
-			pane.add(downWindow);
-
-			downRight.remove(buyButton);
-
-			downRight.setLayout(new GridLayout(1, 0));
-			try {
-				if (((BuyableField) (getGameState().getFieldAt(getMe()
-						.getPosition()))).getPrice() <= getMe().getBalance()) {
-					buyButton = new JButton(language.getText("buy"));
-
-					ActionListener buyListener = new ActionListener() {
-
-						@Override
-						public void actionPerformed(ActionEvent e) {
-							accept();
-							System.out
-									.println("BUYYYYYYYY THISSSSSS!!!! I NEEEED IT SOOOO MUCH");
-
-						}
-					};
-
-					buyButton.addActionListener(buyListener);
-
-					buyButton.setLayout(new FontLayout());
-					downRight.add(buyButton);
-				}
-			} catch (Exception e) {
-				//System.out.println("Kein buyablefield");
-			}
-			
-			if(haveIalreadyRolled){
-				System.out.println("I HAVE!!!");
-			}
-			else {
-				System.out.println("I HAVE!!! NoT!");
-				
-			}
-
-			downRight.remove(rollButton);
-			downRight.remove(endTurnButton);
-			try {
-				//if (!haveIalreadyRolled && 
-				//		getGameState().getActivePlayer().getId() == getPlayerId() &&
-				// getGameState().getActivePlayer().equals(getMe()) &&
-				//		this.getGameState().getActivePlayerNeedsToRoll()) {
-
-					ActionListener rollListener = new ActionListener() {
-
-						@Override
-						public void actionPerformed(ActionEvent arg0) {
-							System.out.println("Rolly Rolly");
-							haveIalreadyRolled = true;
-							rollDice();
-						}
-					};
-
-					rollButton = new JButton(language.getText("roll"));
-					rollButton.addActionListener(rollListener);
-					downRight.add(rollButton);
-
-				//} else if (getGameState().getActivePlayer().getId() == getPlayerId())
-				//{
-					ActionListener endTurnListener = new ActionListener() {
-
-						@Override
-						public void actionPerformed(ActionEvent arg0) {
-							System.out.println("Turn is ENDED!!!");
-							haveIalreadyRolled = false;
-							endTurn();
-						}
-					};
-
-					endTurnButton = new JButton(language.getText("endturn"));
-					endTurnButton.addActionListener(endTurnListener);
-					downRight.add(endTurnButton);
-				//} else {
-
-				//	downRight.setToolTipText("Wait for other Players");
-				//}
-			} catch (NullPointerException e) {
-				System.out
-						.println("Jemand anderes verschwendet unsere Zeit, Meister.");
-			}
-			rollButton.setLayout(new FontLayout());
-			endTurnButton.setLayout(new FontLayout());
-
-			pane.add(downRight);
-
-			GUIFrame.add(pane);
-			GUIFrame.repaint();
-			GUIFrame.setVisible(true);
-			//System.out.println("Spielfeld gemalt.");
-			break;
-
-		}
-		if (GUIFrame != null) {
-			GUIFrame.setVisible(true);
-		}
+		
+		this.initialize();
 	}
 
 	public static void main(String[] args) {
 		new GUIClient();
 	}
+	
+	public void initialize() {
+		this.GUIFrame.removeAll();
+		this.GUIFrame.setLayout(new OJIMLayout());
+		this.GUIFrame.setJMenuBar(this.menubar);
+		switch (this.menuState) {
+		case game:
+			this.initializeGame();
+			break;
+		case waitRoom:
+			this.initializeWaitingRoom();
+			break;
+		case mainMenu:
+			this.initializeMenu();
+			break;
+		}
+	}
+	
+	public void initializeMenu() {
+		
+	}
+	
+	public void initializeWaitingRoom() {
+		setName("Max");
+
+		JPanel leftWindow = new JPanel();
+		this.chatWindow = new ChatWindow(language, this);
+		leftWindow.add(this.chatWindow);
+		
+		JPanel rightWindow = new JPanel();
+
+		rightWindow.setLayout(new GridLayout(0, 1));
+
+		this.playerInfoWindow = new PlayerInfoWindow(language);
+//		for (Player player : this.getGameState().getPlayers()) {
+//			this.playerInfoWindow.addPlayer(player);
+//		}
+		rightWindow.add(this.playerInfoWindow);
+
+		JButton readyButton = new JButton(language.getText("ready"));
+		readyButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GUIClient.this.ready();
+			}
+		});
+		rightWindow.add(readyButton);
+		
+		this.GUIFrame.setLayout(new GridLayout(1, 0));
+		
+		this.GUIFrame.add(leftWindow);
+		this.GUIFrame.add(rightWindow);
+		
+		// PRIVATE SERVER CONFIGURATION
+		OjimServer server = new OjimServer("Philip");
+		server.initGame(8, 7);
+		connect(server);
+		// REMOVE THESE STATEMENTS IF IT'S WORKING!
+	}
+	
+	public void initializeGame() {
+		// Gamefield
+		this.gameField = new GameField(this.getGameState());		
+		this.GUIFrame.add(gameField);
+
+		// Right bar (players, chat, buttons)		
+		JPanel rightTop = new JPanel(new GridLayout(0, 1));
+		
+		// Button bar
+		JPanel buttonBar = new JPanel(new GridLayout(1, 0));
+		
+		this.rollButton = new JButton(language.getText("roll"));
+		this.rollButton.setLayout(new FontLayout());
+		this.rollButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				if (!GUIClient.this.haveIalreadyRolled) {
+					GUIClient.this.haveIalreadyRolled = true;
+					GUIClient.this.rollButton.setEnabled(false);
+					GUIClient.this.rollDice();
+				}
+			}
+		});
+
+		this.buyButton = new JButton(language.getText("buy"));
+		this.buyButton.setLayout(new FontLayout());
+		this.buyButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GUIClient.this.accept();
+			}
+		});
+		
+		this.endTurnButton = new JButton(language.getText("endturn"));
+		this.endTurnButton.setLayout(new FontLayout());
+		this.endTurnButton.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				GUIClient.this.endTurn();
+			}
+		});
+		
+		buttonBar.add(this.rollButton);
+		buttonBar.add(this.buyButton);
+		buttonBar.add(this.endTurnButton);
+		
+		rightTop.add(this.playerInfoWindow);
+		rightTop.add(this.chatWindow);
+		rightTop.add(buttonBar);
+		
+		this.GUIFrame.add(rightTop);
+
+		// Cardstacks
+		
+		JPanel downWindow = new JPanel(new GridLayout(1, 0));
+
+		cardWindow = new CardWindow();
+		downWindow.add(cardWindow);
+
+		this.GUIFrame.add(downWindow);
+		
+		GUIFrame.repaint();
+		GUIFrame.setVisible(true);
+		//System.out.println("Spielfeld gemalt.");
+	}
+	
+	public void update() {
+		switch (this.menuState) {
+		case game :
+			this.gameField.draw();
+			if (this.haveIalreadyRolled && this.isMyTurn()) {
+				boolean buyable = false;
+				Field yourPos = this.getGameState().getFieldAt(this.getMe().getPosition());
+				if (yourPos instanceof BuyableField) {
+					this.buyButton.setEnabled((!((BuyableField) yourPos).getOwner().equals(this.getMe())) && ((BuyableField) yourPos).getPrice() <= this.getMe().getBalance());
+				}
+				this.endTurnButton.setEnabled(true);
+			} else {
+				this.rollButton.setEnabled(this.isMyTurn());
+				this.endTurnButton.setEnabled(false);
+			}
+			this.buyButton.setEnabled(false);
+			break;
+		case mainMenu :
+			break;
+		case waitRoom :
+			break;
+		}
+	}
 
 	public void setMenuState(MenuState menuState) {
 		this.menuState = menuState;
-		draw();
+		this.initialize();
 	}
 
 	@Override
 	public void onBuy(Player player, BuyableField field) {
 		gameField.playerBuysField(player, field);
-		draw();
+		this.update();
 
 
 		//System.out.println("Meista, da hat wer was gekauft!");
@@ -393,41 +326,40 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onCashChange(Player player, int cashChange) {
 		playerInfoWindow.changeCash(player, cashChange);
-		draw();
+		this.update();
 	}
 
 	@Override
 	public void onConstruct(Street street) {
 		gameField.buildOnStreet(street);
-		draw();
+		this.update();
 	}
 
 	@Override
 	public void onDestruct(Street street) {
 		gameField.destroyOnStreet(street);
-		draw();
+		this.update();
 	}
 
 	@Override
 	public void onMessage(String text, Player sender, boolean privateMessage) {
 		chatWindow.write(new ChatMessage(sender, privateMessage, text));
-		draw();
+		this.update(); // hmmmm
 	}
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
 		cardWindow.switchCardStatus(street);
 		gameField.switchFieldStatus(street);
-		draw();
+		this.update();
 	}
 
 	@Override
 	public void onMove(Player player, int position) {
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
-		//gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)), player);
-		gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
-		draw();
+		
+		this.update();
 	}
 
 	@Override
@@ -455,13 +387,17 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onStartGame(Player[] players) {
-		this.menuState = MenuState.game;
-		draw();
+		this.setMenuState(MenuState.game);
 	}
 
 	@Override
 	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
+		if (this.isMyTurn()) {
+			this.rollButton.setEnabled(true);
+			this.buyButton.setEnabled(false);
+			this.endTurnButton.setEnabled(false);
+		}
 		System.out.println("Player has changed to "+player.getName());
 	}
 
@@ -573,20 +509,17 @@ public class GUIClient extends ClientBase {
 	public void startServer() {
 		menuState = MenuState.waitRoom;
 		createGameFrame.setVisible(false);
-		draw();
-
+		this.update();
 	}
 
 	@Override
 	public void onNewPlayer(Player player) {
-		// draw();
-
+		this.playerInfoWindow.addPlayer(player);
 	}
 
 	@Override
 	public void onPlayerLeft(Player player) {
-		// draw();
-
+		this.playerInfoWindow.removePlayer(player);
 	}
 	
 	public void sendOutMessage(String text){
