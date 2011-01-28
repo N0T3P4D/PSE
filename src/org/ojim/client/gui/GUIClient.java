@@ -151,7 +151,10 @@ public class GUIClient extends ClientBase {
 	}
 	
 	public void initialize() {
-		this.GUIFrame.removeAll();
+		
+		// (Max) Remove All führt dazu dass ohne Revalidate alles verreckt
+		//this.GUIFrame.removeAll();
+
 		this.GUIFrame.setLayout(new OJIMLayout());
 		this.GUIFrame.setJMenuBar(this.menubar);
 		switch (this.menuState) {
