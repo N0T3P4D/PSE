@@ -53,7 +53,25 @@ public class PlayerInfoField extends JPanel {
 		nameLabel = new JLabel(this.player.getName());
 		cashLabel.setText(this.cash + " " + 
 				language.getText("currency"));
+
+		this.setBackground(PlayerColor.getBackGroundColor(player.getColor()));
 		
+		this.setBorder(getBorder());
+		
+		
+		
+		this.activeLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
+		activeLabel.setLayout(new FontLayout());
+		this.nameLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
+		nameLabel.setLayout(new FontLayout());
+		this.cashLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
+		cashLabel.setLayout(new FontLayout());
+		
+		this.setLayout(new GridLayout(0,3));
+		
+		this.add(activeLabel);
+		this.add(nameLabel);
+		this.add(cashLabel);
 		draw();
 		}
 	}
@@ -71,31 +89,16 @@ public class PlayerInfoField extends JPanel {
 	}
 
 	private void draw() {
-		this.setBackground(PlayerColor.getBackGroundColor(player.getColor()));
+		cashLabel.setText(this.cash + " " + 
+				language.getText("currency"));
 		
-		this.setBorder(getBorder());
-		
-		this.remove(activeLabel);
-		
+		//System.out.println("Player " + player.getId() + " gezeichnet.");
 		if(isTurnedOn){
 			activeLabel = new JLabel("On");
 		} else {
 			activeLabel = new JLabel("Off");
 		}
-		
-		this.activeLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
-		activeLabel.setLayout(new FontLayout());
-		this.nameLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
-		nameLabel.setLayout(new FontLayout());
-		this.cashLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
-		cashLabel.setLayout(new FontLayout());
-		
-		this.setLayout(new GridLayout(0,3));
-		
-		this.add(activeLabel);
-		this.add(nameLabel);
-		this.add(cashLabel);
-		//System.out.println("Player " + player.getId() + " gezeichnet.");
+		repaint();
 	}
 
 	public boolean isPlayer(Player player) {
