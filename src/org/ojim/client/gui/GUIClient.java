@@ -73,6 +73,7 @@ public class GUIClient extends ClientBase {
 	JFrame GUIFrame;
 
 	JPanel pane = new JPanel(new OJIMLayout());
+	JPanel gameFieldPanel = new JPanel();
 	Localizer language;
 
 	boolean haveIalreadyRolled = false;
@@ -219,10 +220,15 @@ public class GUIClient extends ClientBase {
 		case game:
 			//System.out.println("Male das Spielfeld");
 
+			//if(!gameField.isInitialized()){
+				gameField.init(getGameState());
+			//}
+			
+			
 			GUIFrame.remove(window);
 			GUIFrame.remove(pane);
 
-			pane.remove(gameField);
+			pane.remove(gameFieldPanel);
 			pane.remove(rightWindow1);
 			pane.remove(downWindow);
 			pane.remove(downRight);
@@ -235,11 +241,11 @@ public class GUIClient extends ClientBase {
 			downRight.remove(buyButton);
 			downRight.remove(rollButton);
 
-			gameField = new GameField();
+			gameFieldPanel = gameField.redraw();
 
-			gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
+			pane.add(gameFieldPanel);
 
-			pane.add(gameField);
+			//pane.add(gameField);
 
 			rightWindow1.setLayout(new GridLayout(0, 1));
 
@@ -426,7 +432,7 @@ public class GUIClient extends ClientBase {
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
 		//gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)), player);
-		gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
+		//gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
 		draw();
 	}
 

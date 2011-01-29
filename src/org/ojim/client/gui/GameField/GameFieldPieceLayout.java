@@ -77,7 +77,6 @@ public class GameFieldPieceLayout implements LayoutManager {
 			else if (parent.getComponent(1) == null){
 				
 			}
-
 			else if (i == 0) {
 				// Felder unten
 				if (field < 10) {

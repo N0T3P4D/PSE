@@ -17,9 +17,11 @@
 
 package org.ojim.client.gui.GameField;
 
+import javax.swing.JPanel;
+
 import org.ojim.logic.state.Card;
 
-public class InteractionPopup {
+public class InteractionPopup extends JPanel {
 
 	/**
 	 * Status Diese Enum erklärt welchen Zustand das Mittelfeld im Moment hat

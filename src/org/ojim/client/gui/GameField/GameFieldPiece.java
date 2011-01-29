@@ -19,6 +19,7 @@ package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
 
@@ -40,14 +41,15 @@ public class GameFieldPiece extends JPanel {
 
 	private FieldDrawer drawer;
 	private Field field;
-	private JPanel colorTop;
-	private JLabel group;
-	private JLabel name;
-	private JLabel price;
-	private JPanel textPanel;
+	private JPanel colorTop = new JPanel();
+	private JLabel group = new JLabel();
+	private JLabel name = new JLabel();
+	private JLabel price = new JLabel();
+	private JPanel textPanel = new JPanel();
 	private Player[] player;
-	private JLabel playerLabel;
-	private JPanel playerPanel;
+	private JLabel playerLabel[] = new JLabel[GameState.MAXIMUM_PLAYER_COUNT];
+	private JPanel playerPanelTwo[] = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
+	private JPanel playerPanel = new JPanel();
 
 	public GameFieldPiece(Field field, String name, int position, Image image) {
 	}
@@ -60,16 +62,42 @@ public class GameFieldPiece extends JPanel {
 			remove(colorTop);
 		}
 		this.field = field;
+		
+		textPanel.add(group);
+		textPanel.add(playerPanel);
+		textPanel.add(name);
+		textPanel.add(price);
+		for(int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++){
+			playerLabel[i] = new JLabel("P");
+			playerLabel[i].setLayout(new FontLayout());
+			playerPanelTwo[i] = new JPanel();
+			playerPanelTwo[i].add(playerLabel[i]);	
+			playerPanel.add(playerPanelTwo[i]);	
+		}
+		this.add(textPanel);
+		
 		draw();
 	}
 
 	public void draw() {
 
-		textPanel = new JPanel();
-		playerPanel = new JPanel();
+		this.remove(textPanel);
+		textPanel.remove(group);
+		textPanel.remove(playerPanel);
+		textPanel.remove(name);
+		textPanel.remove(price);
+		for(int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++){
+			playerPanelTwo[i].remove(playerLabel[i]);	
+			playerPanel.remove(playerPanelTwo[i]);			
+		}
+
+		playerPanel.setBackground(Color.white);
+		textPanel.setBackground(Color.white);
+		
 		// this.drawer = FieldDrawer.getDrawer(field);
-		colorTop = new JPanel();
+		
 		if (!(this.field.getColorGroup() < 0)) {
+			this.remove(colorTop);
 			colorTop.setBackground(StreetColor.getBackGroundColor(this.field
 					.getColorGroup()));
 			colorTop.setBorder(new LineBorder(Color.black, 1));
@@ -86,19 +114,30 @@ public class GameFieldPiece extends JPanel {
 		} catch (ClassCastException e) {
 
 		}
-
+		
+		playerPanel.setLayout(new GridBagLayout());
+		
 		for (int i = 0; i < player.length; i++) {
 			if (player[i] != null) {
-				JLabel playerLabel = new JLabel("O");
-				playerLabel.setBackground(PlayerColor
+				//playerLabel[i] = new JLabel(player[i].getName());
+				//playerLabel[i].setLayout(new FontLayout());
+				//playerLabel[i].setBounds(0, 0, 15, 15);
+				playerLabel[i].setForeground(PlayerColor
+						.getFontColor(player[i].getColor()));
+				playerPanelTwo[i].setBackground(PlayerColor
 						.getBackGroundColor(player[i].getColor()));
-				playerLabel.setBorder(new LineBorder(Color.black, 1));
-				playerLabel.setBounds(0, 0, 15, 15);
+				playerPanelTwo[i].setBorder(new LineBorder(Color.black, 1));
+				
 				System.out.println("Karte " + this.field.getName()
 						+ " beherbergt nun Spieler " + player[i].getName());
-				textPanel.add(playerLabel);
+				playerPanelTwo[i].add(playerLabel[i]);
+				playerPanel.add(playerPanelTwo[i]);
 			}
 		}
+		playerPanel.setBackground(Color.white);
+		
+		
+		textPanel.add(playerPanel);
 
 		name = new JLabel("<html>" + field.getName());
 		name.setHorizontalTextPosition(JLabel.CENTER);
@@ -126,6 +165,9 @@ public class GameFieldPiece extends JPanel {
 					name.setBackground(PlayerColor
 							.getBackGroundColor(((BuyableField) field)
 									.getOwner().getColor()));
+					playerPanel.setBackground(PlayerColor
+							.getBackGroundColor(((BuyableField) field)
+									.getOwner().getColor()));
 
 					group.setForeground(PlayerColor
 							.getFontColor(((BuyableField) field).getOwner()
@@ -147,17 +189,18 @@ public class GameFieldPiece extends JPanel {
 			price.setHorizontalTextPosition(JLabel.CENTER);
 			price.setVerticalTextPosition(JLabel.BOTTOM);
 			price.setLayout(new FontLayout());
+			textPanel.setLayout(new GridLayout(4,0));
 			textPanel.add(price);
 		} catch (ClassCastException e) {
-
+			textPanel.setLayout(new GridLayout(3,0));
 		}
 		// text = new JLabel("<html>" + "test");
-		textPanel.setLayout(new GridLayout(0, 1));
+		//textPanel.setLayout(new GridLayout(0, 1));
 
 		// this.add(playerPanel);
 		this.add(textPanel);
 		this.setLayout(new GameFieldPieceLayout());
-		// this.setBackground(Color.white);
+		//this.setBackground(Color.white);
 		this.setVisible(true);
 	}
 
@@ -182,6 +225,7 @@ public class GameFieldPiece extends JPanel {
 			for (int i = 0; i < this.player.length; i++) {
 				if (this.player[i] == null) {
 					this.player[i] = player;
+					break;
 				}
 			}
 		}
@@ -190,5 +234,16 @@ public class GameFieldPiece extends JPanel {
 
 	public void removePlayer() {
 		this.player = null;
+		player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
+	}
+
+	public void init(GameState gameState) {
+		removePlayer();
+		for(int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++){
+			if(gameState.getPlayerByID(i).getPosition()==field.getPosition()){
+				addPlayer(gameState.getPlayerByID(i));
+			}
+		}
+		draw();
 	}
 }
