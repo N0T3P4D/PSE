@@ -340,13 +340,16 @@ public class GameFieldPiece extends JPanel {
 					if (this.player[i] != null) {
 						this.player[i] = null;
 					}
-					// System.out.println("Player "+player.getName()+" entfernt von Feld "+this.field.getName());
+					System.out.println("Player "+player.getName()+" entfernt von Feld "+this.field.getName());
 					playerPanelTwo[i].remove(playerLabel[i]);
+					playerLabel[i] = new JLabel();
 					playerPanel.remove(playerPanelTwo[i]);
-					this.revalidate();
+					playerPanelTwo[i] = new JPanel();
 				}
 			}
 		}
+		this.revalidate();
+		this.repaint();
 	}
 
 	public void init(GameState gameState) {

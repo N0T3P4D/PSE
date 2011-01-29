@@ -124,6 +124,7 @@ public class GameField extends JPanel {
 		 * 1)); this.add(playerLabel[player.getId()]); this.revalidate();
 		 */
 		
+		
 		for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
 
 			this.fields[i].removeSinglePlayer(player);

@@ -60,7 +60,7 @@ public class CardWindow extends JPanel {
 
 			}
 		}
-		System.out.println("Karte gekauft");
+		//System.out.println("Karte gekauft");
 		draw();
 	}
 

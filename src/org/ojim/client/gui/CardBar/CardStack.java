@@ -60,7 +60,7 @@ public class CardStack extends JPanel {
 				break;
 			}
 		}
-		System.out.println("Karte gekauft;");
+		//System.out.println("Karte gekauft;");
 		draw();
 	}
 
