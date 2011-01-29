@@ -17,16 +17,23 @@
 
 package org.ojim.client.gui.CardBar;
 
+import java.awt.Color;
+import java.awt.GridLayout;
+
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.client.gui.StreetColor;
+import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.logic.state.fields.BuyableField;
 
 public class Card extends JPanel {
 
 	private boolean isTurnedAround = false;
 	private org.ojim.logic.state.fields.BuyableField card;
+	private JPanel colorPanel = new JPanel();
+	private JPanel textPanel = new JPanel();
+	private JLabel textLabel = new JLabel();
 
 	public Card() {
 		super();
@@ -38,6 +45,7 @@ public class Card extends JPanel {
 	}
 
 	public void setCard(org.ojim.logic.state.fields.BuyableField card) {
+		//System.out.println("Karte zu "+card.getName()+" gesetzt");
 		this.card = card;
 	}
 
@@ -53,17 +61,23 @@ public class Card extends JPanel {
 
 	public void draw() {
 		if (card != null) {
-			JLabel colorLabel = new JLabel();
 
-			colorLabel.setBackground(StreetColor.getBackGroundColor(card
+			this.remove(colorPanel);
+			this.remove(textLabel);
+			
+			colorPanel.setBackground(StreetColor.getBackGroundColor(card
 					.getFieldGroup().getColor()));
+			textPanel.setBackground(Color.white);
+			
+			//System.out.println("Draww");
+			
+			//textLabel.setLayout(new FontLayout());
+			textLabel.setText("<html>"+card.getName());
 
-			JLabel textLabel = new JLabel();
-
-			textLabel.setText("Card");
-
-			this.add(colorLabel);
-			this.add(textLabel);
+			this.setLayout(new GridLayout(0,1));
+			this.add(colorPanel);
+			textPanel.add(textLabel);
+			this.add(textPanel);
 		}
 
 	}

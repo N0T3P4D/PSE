@@ -129,8 +129,8 @@ public class GameFieldPiece extends JPanel {
 				playerPanelTwo[i].setBorder(new LineBorder(PlayerColor
 						.getFontColor(player[i].getColor()), 1));
 				
-				System.out.println("Karte " + this.field.getName()
-						+ " beherbergt nun Spieler " + player[i].getName());
+				//System.out.println("Karte " + this.field.getName()
+				//		+ " beherbergt nun Spieler " + player[i].getName());
 				playerPanelTwo[i].add(playerLabel[i]);
 				playerPanel.add(playerPanelTwo[i]);
 			}

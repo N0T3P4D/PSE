@@ -269,9 +269,7 @@ public class GUIClient extends ClientBase {
 
 			pane.add(rightWindow1);
 
-			downWindow.setLayout(new GridLayout(1, 0));
-
-			cardWindow = new CardWindow();
+			downWindow.setLayout(new GridBagLayout());
 
 			downWindow.add(cardWindow);
 
@@ -290,8 +288,8 @@ public class GUIClient extends ClientBase {
 						@Override
 						public void actionPerformed(ActionEvent e) {
 							accept();
-							System.out
-									.println("BUYYYYYYYY THISSSSSS!!!! I NEEEED IT SOOOO MUCH");
+							//System.out
+							//		.println("BUYYYYYYYY THISSSSSS!!!! I NEEEED IT SOOOO MUCH");
 
 						}
 					};
@@ -306,10 +304,10 @@ public class GUIClient extends ClientBase {
 			}
 			
 			if(haveIalreadyRolled){
-				System.out.println("I HAVE!!!");
+				//System.out.println("I HAVE!!!");
 			}
 			else {
-				System.out.println("I HAVE!!! NoT!");
+				//System.out.println("I HAVE!!! NoT!");
 				
 			}
 
@@ -325,7 +323,7 @@ public class GUIClient extends ClientBase {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							System.out.println("Rolly Rolly");
+							//System.out.println("Rolly Rolly");
 							haveIalreadyRolled = true;
 							rollDice();
 						}
@@ -341,7 +339,7 @@ public class GUIClient extends ClientBase {
 
 						@Override
 						public void actionPerformed(ActionEvent arg0) {
-							System.out.println("Turn is ENDED!!!");
+							//System.out.println("Turn is ENDED!!!");
 							haveIalreadyRolled = false;
 							endTurn();
 						}
@@ -387,6 +385,9 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onBuy(Player player, BuyableField field) {
 		gameField.playerBuysField(player, field);
+		if(player.getId() == getMe().getId()){
+			cardWindow.addCard(field);
+		}
 		draw();
 
 
@@ -471,7 +472,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
-		System.out.println("Player has changed to "+player.getName());
+		//System.out.println("Player has changed to "+player.getName());
 	}
 
 	@Override
@@ -587,7 +588,7 @@ public class GUIClient extends ClientBase {
 		
 		OjimServer server = new OjimServer("Philip");
 		
-		server.initGame(8, 7);
+		server.initGame(2, 1);
 
 		connect(server);
 		

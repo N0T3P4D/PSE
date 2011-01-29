@@ -124,8 +124,7 @@ public class GameField extends JPanel {
 		 * playerLabel[player.getId()].setBorder(new LineBorder(Color.black,
 		 * 1)); this.add(playerLabel[player.getId()]); this.revalidate();
 		 */
-		
-		
+
 		redraw();
 	}
 
@@ -145,67 +144,60 @@ public class GameField extends JPanel {
 
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			try {
-			this.player[i] = gameState.getPlayers()[i];
-			this.field[i] = gameState.getFieldAt(gameState.getPlayers()[i]
-					.getPosition());
+				this.player[i] = gameState.getPlayers()[i];
+				this.field[i] = gameState.getFieldAt(gameState.getPlayers()[i]
+						.getPosition());
 			} catch (ArrayIndexOutOfBoundsException e) {
-				
+
 			}
 		}
 
 		fields = new GameFieldPiece[GameState.FIELDS_AMOUNT];
 		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
 			fields[i] = new GameFieldPiece(gameState.getFieldAt(i));
-			fields[i].setField(gameState.getFieldAt(i));
-			fields[i].init(gameState);
+			try {
+				fields[i].setField(gameState.getFieldAt(i));
+				fields[i].init(gameState);
+			} catch (NullPointerException e) {
+			}
+
 		}
 		isInitialized = true;
 		redraw();
 	}
+
 	/*
-	public void draw() {
-		this.setLayout(new GameFieldLayout());
-
-		JPanel actualLabel = new JPanel();
-
-		actualLabel.setBackground(Color.black);
-
-		actualLabel.setName(-1 + "");
-		this.add(actualLabel);
-
-		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			// this.remove(playerLabel[i]);
-			// System.out.println("Er malt.");
-		}
-
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-			try {
-				((GameFieldPiece) actualLabel).removePlayer();
-			} catch (ClassCastException e) {
-
-			}
-		}
-
-		for (int j = 0; j < GameState.MAXIMUM_PLAYER_COUNT; j++) {
-			for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-				actualLabel = fields[i];
-				try {
-					if (i == field[j].getPosition()) {
-						((GameFieldPiece) actualLabel).addPlayer(player[j]);
-						((GameFieldPiece) actualLabel).draw();
-					}
-					actualLabel.setName(i + "");
-					actualLabel.setBorder(new LineBorder(Color.black, 1));
-					actualLabel.addMouseListener(mouseListener);
-					this.add(actualLabel);
-
-				} catch (NullPointerException e) {
-
-				}
-			}
-		}
-
-	}*/
+	 * public void draw() { this.setLayout(new GameFieldLayout());
+	 * 
+	 * JPanel actualLabel = new JPanel();
+	 * 
+	 * actualLabel.setBackground(Color.black);
+	 * 
+	 * actualLabel.setName(-1 + ""); this.add(actualLabel);
+	 * 
+	 * for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) { //
+	 * this.remove(playerLabel[i]); // System.out.println("Er malt."); }
+	 * 
+	 * for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) { try {
+	 * ((GameFieldPiece) actualLabel).removePlayer(); } catch
+	 * (ClassCastException e) {
+	 * 
+	 * } }
+	 * 
+	 * for (int j = 0; j < GameState.MAXIMUM_PLAYER_COUNT; j++) { for (int i =
+	 * 0; i < GameState.FIELDS_AMOUNT; i++) { actualLabel = fields[i]; try { if
+	 * (i == field[j].getPosition()) { ((GameFieldPiece)
+	 * actualLabel).addPlayer(player[j]); ((GameFieldPiece) actualLabel).draw();
+	 * } actualLabel.setName(i + ""); actualLabel.setBorder(new
+	 * LineBorder(Color.black, 1)); actualLabel.addMouseListener(mouseListener);
+	 * this.add(actualLabel);
+	 * 
+	 * } catch (NullPointerException e) {
+	 * 
+	 * } } }
+	 * 
+	 * }
+	 */
 
 	public JPanel redraw() {
 
@@ -227,7 +219,7 @@ public class GameField extends JPanel {
 
 		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
 			actualLabel = fields[i];
-			//((GameFieldPiece) actualLabel).draw();
+			// ((GameFieldPiece) actualLabel).draw();
 			actualLabel.setName(i + "");
 			actualLabel.setBorder(new LineBorder(Color.black, 1));
 			actualLabel.addMouseListener(mouseListener);
@@ -237,8 +229,8 @@ public class GameField extends JPanel {
 		return gameFieldPanel;
 
 	}
-	
-	public boolean isInitialized(){
+
+	public boolean isInitialized() {
 		return isInitialized;
 	}
 

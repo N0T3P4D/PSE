@@ -17,6 +17,10 @@
 
 package org.ojim.client.gui.CardBar;
 
+import java.awt.FlowLayout;
+import java.awt.GridBagLayout;
+import java.awt.GridLayout;
+
 import javax.swing.JPanel;
 
 import org.ojim.language.Localizer;
@@ -30,14 +34,14 @@ public class CardStack extends JPanel {
 	private static final int MAX_CARDS = 4;
 	private org.ojim.logic.state.fields.FieldGroup fieldGroup;
 	private Localizer language;
-	
+
 	public CardStack() {
 		super();
 
 		cards = new Card[MAX_CARDS];
-		
+
 		for (int i = 0; i < MAX_CARDS; i++) {
-			cards[i] = new Card();
+			cards[i] = null;
 		}
 
 		draw();
@@ -47,10 +51,16 @@ public class CardStack extends JPanel {
 	// Beschreibung
 	public void addCard(org.ojim.logic.state.fields.BuyableField card) {
 		for (int i = 0; i < MAX_CARDS; i++) {
+			System.out.println("Karte gesetztXXX");
 			if (cards[i] == null) {
+				System.out.println("Karte gesetzt");
+				cards[i] = new Card();
 				cards[i].setCard(card);
+				this.fieldGroup = card.getFieldGroup();
+				break;
 			}
 		}
+		System.out.println("Karte gekauft;");
 		draw();
 	}
 
@@ -81,11 +91,18 @@ public class CardStack extends JPanel {
 	}
 
 	public void draw() {
-		
-		this.setLayout(new CardStackLayout());
+
+		//this.setLayout(new CardStackLayout());
+		this.setLayout(new GridBagLayout());
 
 		for (int i = 0; i < MAX_CARDS; i++) {
-			this.add(cards[i]);
+			try {
+				this.remove(cards[i]);
+				cards[i].draw();
+				this.add(cards[i]);
+			} catch (NullPointerException e) {
+
+			}
 		}
 	}
 

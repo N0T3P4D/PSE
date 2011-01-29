@@ -43,6 +43,9 @@ public class StreetColor {
 			{ Color.black, Color.white } };
 
 	public static Color getBackGroundColor(int color) {
+		if(color < 0) {
+			return colors[8][0];
+		}
 		return colors[color][0];
 	}
 

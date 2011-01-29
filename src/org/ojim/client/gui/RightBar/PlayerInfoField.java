@@ -124,7 +124,7 @@ public class PlayerInfoField extends JPanel {
 	}
 
 	public void changeCash(int newCashValue) {
-		cash = newCashValue;
+		cash += newCashValue;
 		draw();
 
 	}

@@ -1,5 +1,6 @@
 package org.ojim.client.gui.CardBar;
 
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
@@ -19,7 +20,7 @@ public class CardWindow extends JPanel {
 
 		cardStacks = new CardStack[MAX_CARD_STACKS * 3];
 		
-		for (int i = 0; i < MAX_CARD_STACKS * (row + 1); i++) {
+		for (int i = 0; i < MAX_CARD_STACKS * 3; i++) {
 			cardStacks[i] = new CardStack();
 		}
 		
@@ -36,8 +37,9 @@ public class CardWindow extends JPanel {
 
 	public void addCard(org.ojim.logic.state.fields.BuyableField card) {
 		boolean found = false;
+
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1)
-				&& !cardStacks[i].getFieldGroup().equals(null); i++) {
+				&& !(cardStacks[i].getFieldGroup()==null); i++) {
 			if (cardStacks[i].getFieldGroup().equals(card.getFieldGroup())) {
 				cardStacks[i].addCard(card);
 				found = true;
@@ -45,16 +47,20 @@ public class CardWindow extends JPanel {
 			}
 		}
 		if (!found) {
+
 			for (int i = 0; i < MAX_CARD_STACKS * 2; i++) {
-				if (cardStacks[i].getFieldGroup().equals(null)) {
+
+				if (cardStacks[i].getFieldGroup() == null) {
 					cardStacks[i].addCard(card);
 					if (i >= MAX_CARD_STACKS*(row+1)) {
 						row++;
 					}
 					break;
 				}
+
 			}
 		}
+		System.out.println("Karte gekauft");
 		draw();
 	}
 
@@ -83,9 +89,11 @@ public class CardWindow extends JPanel {
 	}
 
 	public void draw() {
-		this.setLayout(new GridLayout(row, MAX_CARD_STACKS));
+		this.setLayout(new GridLayout(3,MAX_CARD_STACKS));
 
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1); i++) {
+			this.remove(cardStacks[i]);
+			cardStacks[i].draw();
 			this.add(cardStacks[i]);
 		}
 	}
