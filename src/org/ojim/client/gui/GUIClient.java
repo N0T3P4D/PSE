@@ -19,6 +19,7 @@ package org.ojim.client.gui;
 
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -50,7 +51,7 @@ public class GUIClient extends ClientBase {
 	GUISettings settings;
 	GameField gameField;
 	ChatWindow chatWindow;
-	PlayerInfoWindow playerInfoWindow;
+	PlayerInfoWindow playerInfoWindow = new PlayerInfoWindow();
 	CardWindow cardWindow = new CardWindow();
 
 	CreateGameFrame createGameFrame;
@@ -69,6 +70,10 @@ public class GUIClient extends ClientBase {
 	JButton buyButton = new JButton();
 	JButton rollButton = new JButton();
 	JButton endTurnButton = new JButton();
+	JButton button = new JButton();
+
+	JPanel leftWindow = new JPanel();
+	JPanel rightWindow = new JPanel();
 
 	JFrame GUIFrame;
 
@@ -112,7 +117,7 @@ public class GUIClient extends ClientBase {
 
 		GUIFrame = new JFrame(language.getText("ojim"));
 
-		playerInfoWindow = new PlayerInfoWindow(language);
+		playerInfoWindow.setLanguage(language);
 		chatWindow = new ChatWindow(language,this);
 
 		menubar = new MenuBar(language, this);
@@ -121,7 +126,10 @@ public class GUIClient extends ClientBase {
 		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		GUIFrame.setMinimumSize(new Dimension(550, 450));
-
+		
+		name = "Max";
+		setName(name);
+		
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
 		draw();
@@ -162,32 +170,28 @@ public class GUIClient extends ClientBase {
 		case mainMenu:
 
 			// TODO Ein schönes Bild, oder ein Vorschauspiel vielleicht?
-
 			break;
 
 		case waitRoom:
 
-			setName("Max");
-
-			OjimServer server = new OjimServer("Philip");
+			leftWindow.remove(chatWindow);
 			
-			server.initGame(8, 7);
-
-			connect(server);
-
-			JPanel leftWindow = new JPanel();
-			JPanel rightWindow = new JPanel();
+			leftWindow.setLayout(new GridLayout(0,1));
+			
+			rightWindow.remove(playerInfoWindow);
+			rightWindow.remove(button);
+			
+			
+			button.setText(language.getText("ready"));
 
 			window.setLayout(new GridLayout(1, 0));
 			rightWindow.setLayout(new GridLayout(0, 1));
 
-			playerInfoWindow = new PlayerInfoWindow(language);
+			playerInfoWindow.setLanguage(language);
 
 			rightWindow.add(playerInfoWindow);
 			leftWindow.add(chatWindow);
 
-			JButton button;
-			button = new JButton(language.getText("ready"));
 
 			ActionListener clickedOnReady = new ActionListener() {
 
@@ -249,8 +253,7 @@ public class GUIClient extends ClientBase {
 
 			rightWindow1.setLayout(new GridLayout(0, 1));
 
-			playerInfoWindow = new PlayerInfoWindow(language);
-			chatWindow = new ChatWindow(language, this);
+			playerInfoWindow.setLanguage(language);
 
 			//System.out.println("Es gibt "
 			//		+ this.getGameState().getPlayers().length + " Spieler.");
@@ -352,8 +355,8 @@ public class GUIClient extends ClientBase {
 				//	downRight.setToolTipText("Wait for other Players");
 				//}
 			} catch (NullPointerException e) {
-				System.out
-						.println("Jemand anderes verschwendet unsere Zeit, Meister.");
+				/*System.out
+						.println("Jemand anderes verschwendet unsere Zeit, Meister.");*/
 			}
 			rollButton.setLayout(new FontLayout());
 			endTurnButton.setLayout(new FontLayout());
@@ -561,6 +564,9 @@ public class GUIClient extends ClientBase {
 		aboutFrame.setTitle(language.getText("about"));
 		aboutFrame.setLanguage(language);
 		menubar.language(language);
+		chatWindow.setLanguage(language);
+		playerInfoWindow.setLanguage(language);
+		draw();
 
 	}
 
@@ -578,6 +584,14 @@ public class GUIClient extends ClientBase {
 
 	public void startServer() {
 		menuState = MenuState.waitRoom;
+		
+		OjimServer server = new OjimServer("Philip");
+		
+		server.initGame(8, 7);
+
+		connect(server);
+		
+		
 		createGameFrame.setVisible(false);
 		draw();
 
@@ -585,18 +599,19 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onNewPlayer(Player player) {
-		// draw();
+		draw();
 
 	}
 
 	@Override
 	public void onPlayerLeft(Player player) {
-		// draw();
+		draw();
 
 	}
 	
 	public void sendOutMessage(String text){
 		sendMessage(text);
+		draw();
 	}
 
 }

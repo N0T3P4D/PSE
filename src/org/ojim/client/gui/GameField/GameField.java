@@ -144,9 +144,13 @@ public class GameField extends JPanel {
 		}
 
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
+			try {
 			this.player[i] = gameState.getPlayers()[i];
 			this.field[i] = gameState.getFieldAt(gameState.getPlayers()[i]
 					.getPosition());
+			} catch (ArrayIndexOutOfBoundsException e) {
+				
+			}
 		}
 
 		fields = new GameFieldPiece[GameState.FIELDS_AMOUNT];

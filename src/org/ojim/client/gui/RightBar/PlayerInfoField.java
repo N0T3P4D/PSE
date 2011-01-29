@@ -36,7 +36,7 @@ public class PlayerInfoField extends JPanel {
 	private int cash;
 	private JLabel nameLabel;
 	private JLabel activeLabel;
-	private JLabel cashLabel;
+	private JLabel cashLabel = new JLabel();;
 	private Localizer language;
 
 	public PlayerInfoField(Player player, int cash, Localizer language) {
@@ -51,7 +51,7 @@ public class PlayerInfoField extends JPanel {
 		activeLabel = new JLabel();
 		if(this.player != null){
 		nameLabel = new JLabel(this.player.getName());
-		cashLabel = new JLabel(this.cash + " " + 
+		cashLabel.setText(this.cash + " " + 
 				language.getText("currency"));
 		
 		draw();
@@ -60,6 +60,8 @@ public class PlayerInfoField extends JPanel {
 
 	public void setLanguage(Localizer language) {
 		this.language = language;
+		cashLabel.setText(this.cash + " " + 
+				language.getText("currency"));
 		draw();
 	}
 

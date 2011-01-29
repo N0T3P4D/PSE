@@ -126,7 +126,8 @@ public class GameFieldPiece extends JPanel {
 						.getFontColor(player[i].getColor()));
 				playerPanelTwo[i].setBackground(PlayerColor
 						.getBackGroundColor(player[i].getColor()));
-				playerPanelTwo[i].setBorder(new LineBorder(Color.black, 1));
+				playerPanelTwo[i].setBorder(new LineBorder(PlayerColor
+						.getFontColor(player[i].getColor()), 1));
 				
 				System.out.println("Karte " + this.field.getName()
 						+ " beherbergt nun Spieler " + player[i].getName());
@@ -240,8 +241,12 @@ public class GameFieldPiece extends JPanel {
 	public void init(GameState gameState) {
 		removePlayer();
 		for(int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++){
+			try {
 			if(gameState.getPlayerByID(i).getPosition()==field.getPosition()){
 				addPlayer(gameState.getPlayerByID(i));
+			}
+			} catch (NullPointerException e) {
+				
 			}
 		}
 		draw();

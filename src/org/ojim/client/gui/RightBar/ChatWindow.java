@@ -42,6 +42,7 @@ public class ChatWindow extends JPanel {
 	JTextArea textArea;
 	JTextField textField;
 	GUIClient gui;
+	JButton sendButton = new JButton();
 	
 	public ChatWindow(Localizer language, GUIClient guiClient) {
 		super();
@@ -53,7 +54,6 @@ public class ChatWindow extends JPanel {
 		textArea = new JTextArea();
 
 		textArea.setEditable(false);
-		textArea.add(new JLabel("bla"));
 		//add(new JScrollPane(textArea));
 		// textPane.append("Zeile 1\nZeile 2\nZeile3\nZeile4");
 		
@@ -79,7 +79,7 @@ public class ChatWindow extends JPanel {
 				GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
 				new Insets(0, 0, 0, 0), 0, 0));
 
-		JButton sendButton = new JButton(language.getText("send"));
+		sendButton.setText(language.getText("send"));
 		sendButton.setLayout(new FontLayout());
 
 		ActionListener sendListener = new ActionListener() {
@@ -109,6 +109,10 @@ public class ChatWindow extends JPanel {
 	public void clear() {
 
 	}
+	
+	public void setLanguage(Localizer language) {
+		sendButton.setText(language.getText("send"));
+	}
 
 	public void write(ChatMessage chatMessage) {
 		messages.add(chatMessage);
@@ -120,7 +124,7 @@ public class ChatWindow extends JPanel {
 			textArea.append(" -Server- "+chatMessage.getMessage()+"\n");
 			
 		} else {
-		textArea.append(" <"+chatMessage.getPlayer()+"> "+chatMessage.getMessage()+"\n");
+		textArea.append(" <"+chatMessage.getPlayer().getName()+"> "+chatMessage.getMessage()+"\n");
 		}
 	}
 

@@ -31,9 +31,8 @@ public class PlayerInfoWindow extends JPanel {
 	private PlayerInfoField[] playerInfoFields;
 	private Localizer language;
 
-	public PlayerInfoWindow(Localizer language) {
+	public PlayerInfoWindow() {
 
-		this.language = language;
 		
 
 		playerInfoFields = new PlayerInfoField[GameState.MAXIMUM_PLAYER_COUNT];
@@ -61,8 +60,13 @@ public class PlayerInfoWindow extends JPanel {
 		this.language = language;
 
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			if (!playerInfoFields[i].isNull()) {
-				playerInfoFields[i].setLanguage(language);
+			try {
+				if (!playerInfoFields[i].isNull()) {
+					playerInfoFields[i].setLanguage(language);
+				}
+				
+			} catch (NullPointerException e){
+				
 			}
 		}
 
