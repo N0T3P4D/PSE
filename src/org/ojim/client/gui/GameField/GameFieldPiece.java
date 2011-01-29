@@ -56,48 +56,30 @@ public class GameFieldPiece extends JPanel {
 
 	public GameFieldPiece(Field field) {
 		player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
-		if (this.getComponentCount() > 0) {
-			remove(textPanel);
-			remove(playerPanel);
-			remove(colorTop);
-		}
+		/*
+		 * if (this.getComponentCount() > 0) { remove(textPanel);
+		 * remove(playerPanel); remove(colorTop); }
+		 */
 		this.field = field;
-		
-		textPanel.add(group);
-		textPanel.add(playerPanel);
-		textPanel.add(name);
-		textPanel.add(price);
-		for(int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++){
-			playerLabel[i] = new JLabel("P");
-			playerLabel[i].setLayout(new FontLayout());
-			playerPanelTwo[i] = new JPanel();
-			playerPanelTwo[i].add(playerLabel[i]);	
-			playerPanel.add(playerPanelTwo[i]);	
-		}
-		this.add(textPanel);
-		
-		draw();
-	}
 
-	public void draw() {
-
-		this.remove(textPanel);
-		textPanel.remove(group);
-		textPanel.remove(playerPanel);
-		textPanel.remove(name);
-		textPanel.remove(price);
-		for(int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++){
-			playerPanelTwo[i].remove(playerLabel[i]);	
-			playerPanel.remove(playerPanelTwo[i]);			
-		}
+		/*
+		 * textPanel.add(group); textPanel.add(playerPanel);
+		 * textPanel.add(name); textPanel.add(price); for(int i = 0; i <
+		 * GameState.MAXIMUM_PLAYER_COUNT; i++){ playerLabel[i] = new
+		 * JLabel("P"); playerLabel[i].setLayout(new FontLayout());
+		 * playerPanelTwo[i] = new JPanel();
+		 * playerPanelTwo[i].add(playerLabel[i]);
+		 * playerPanel.add(playerPanelTwo[i]); }
+		 */
+		// this.add(textPanel);
 
 		playerPanel.setBackground(Color.white);
 		textPanel.setBackground(Color.white);
-		
+
 		// this.drawer = FieldDrawer.getDrawer(field);
-		
+
 		if (!(this.field.getColorGroup() < 0)) {
-			this.remove(colorTop);
+			// this.remove(colorTop);
 			colorTop.setBackground(StreetColor.getBackGroundColor(this.field
 					.getColorGroup()));
 			colorTop.setBorder(new LineBorder(Color.black, 1));
@@ -105,49 +87,45 @@ public class GameFieldPiece extends JPanel {
 		}
 
 		try {
-			group = new JLabel("<html>"
-					+ ((Street) field).getFieldGroup().getName());
+			group
+					.setText("<html>"
+							+ ((Street) field).getFieldGroup().getName());
 
 			group.setLayout(new FontLayout());
 			group.setHorizontalTextPosition(JLabel.CENTER);
-			textPanel.add(group);
 		} catch (ClassCastException e) {
 
 		}
-		
+
 		playerPanel.setLayout(new GridBagLayout());
-		
+
 		for (int i = 0; i < player.length; i++) {
 			if (player[i] != null) {
-				//playerLabel[i] = new JLabel(player[i].getName());
-				//playerLabel[i].setLayout(new FontLayout());
-				//playerLabel[i].setBounds(0, 0, 15, 15);
-				playerLabel[i].setForeground(PlayerColor
-						.getFontColor(player[i].getColor()));
+
+				playerLabel[i] = new JLabel();
+				// playerLabel[i].setLayout(new FontLayout());
+				// playerLabel[i].setBounds(0, 0, 15, 15);
+				playerLabel[i].setForeground(PlayerColor.getFontColor(player[i]
+						.getColor()));
 				playerPanelTwo[i].setBackground(PlayerColor
 						.getBackGroundColor(player[i].getColor()));
 				playerPanelTwo[i].setBorder(new LineBorder(PlayerColor
 						.getFontColor(player[i].getColor()), 1));
-				
-				//System.out.println("Karte " + this.field.getName()
-				//		+ " beherbergt nun Spieler " + player[i].getName());
+
+				// System.out.println("Karte " + this.field.getName()
+				// + " beherbergt nun Spieler " + player[i].getName());
 				playerPanelTwo[i].add(playerLabel[i]);
 				playerPanel.add(playerPanelTwo[i]);
 			}
 		}
-		playerPanel.setBackground(Color.white);
-		
-		
-		textPanel.add(playerPanel);
 
-		name = new JLabel("<html>" + field.getName());
+		name.setText("<html>" + field.getName());
 		name.setHorizontalTextPosition(JLabel.CENTER);
 		name.setLayout(new FontLayout());
-		textPanel.add(name);
 		try {
 			if (((BuyableField) field).getOwner() != null) {
 
-				price = new JLabel("<html>"
+				price.setText("<html>"
 						+ ((BuyableField) field).getOwner().getName());
 				// System.out.println("SOLD: "+field.getName());
 				// System.out.println(((BuyableField)
@@ -185,24 +163,108 @@ public class GameFieldPiece extends JPanel {
 
 			} else {
 				// System.out.println("NOT SOLD: "+field.getName());
-				price = new JLabel("<html>" + ((BuyableField) field).getPrice());
+				price.setText("<html>" + ((BuyableField) field).getPrice());
 			}
 			price.setHorizontalTextPosition(JLabel.CENTER);
 			price.setVerticalTextPosition(JLabel.BOTTOM);
 			price.setLayout(new FontLayout());
-			textPanel.setLayout(new GridLayout(4,0));
-			textPanel.add(price);
 		} catch (ClassCastException e) {
-			textPanel.setLayout(new GridLayout(3,0));
+			textPanel.setLayout(new GridLayout(3, 0));
 		}
+
+		textPanel.setLayout(new GridLayout(4, 0));
+
+		textPanel.add(playerPanel);
+		textPanel.add(group);
+		textPanel.add(name);
+		textPanel.add(price);
+
 		// text = new JLabel("<html>" + "test");
-		//textPanel.setLayout(new GridLayout(0, 1));
+		// textPanel.setLayout(new GridLayout(0, 1));
 
 		// this.add(playerPanel);
 		this.add(textPanel);
 		this.setLayout(new GameFieldPieceLayout());
-		//this.setBackground(Color.white);
+		// this.setBackground(Color.white);
 		this.setVisible(true);
+
+	}
+
+	public void draw() {
+		/*
+		 * this.remove(textPanel); textPanel.remove(group);
+		 * 
+		 * textPanel.remove(playerPanel);
+		 * 
+		 * textPanel.remove(name); textPanel.remove(price);
+		 */
+
+		// playerPanel.setBackground(Color.white);
+		// textPanel.setBackground(Color.white);
+
+		// this.drawer = FieldDrawer.getDrawer(field);
+		/*
+		 * if (!(this.field.getColorGroup() < 0)) { //this.remove(colorTop);
+		 * colorTop.setBackground(StreetColor.getBackGroundColor(this.field
+		 * .getColorGroup())); colorTop.setBorder(new LineBorder(Color.black,
+		 * 1)); this.add(colorTop); }
+		 */
+		/*
+		 * try { group = new JLabel("<html>" + ((Street)
+		 * field).getFieldGroup().getName());
+		 * 
+		 * group.setLayout(new FontLayout());
+		 * group.setHorizontalTextPosition(JLabel.CENTER); textPanel.add(group);
+		 * } catch (ClassCastException e) {
+		 * 
+		 * }
+		 */
+
+		// textPanel.add(playerPanel);
+		try {
+			if (((BuyableField) field).getOwner() != null) {
+
+				price.setText("<html>"
+						+ ((BuyableField) field).getOwner().getName());
+				// System.out.println("SOLD: "+field.getName());
+				// System.out.println(((BuyableField)
+				// field).getOwner().getId()+" - ID - "+field.getName());
+				textPanel.setBackground(PlayerColor
+						.getBackGroundColor(((BuyableField) field).getOwner()
+								.getColor()));
+				try {
+					group.setBackground(PlayerColor
+							.getBackGroundColor(((BuyableField) field)
+									.getOwner().getColor()));
+
+					price.setBackground(PlayerColor
+							.getBackGroundColor(((BuyableField) field)
+									.getOwner().getColor()));
+					name.setBackground(PlayerColor
+							.getBackGroundColor(((BuyableField) field)
+									.getOwner().getColor()));
+					playerPanel.setBackground(PlayerColor
+							.getBackGroundColor(((BuyableField) field)
+									.getOwner().getColor()));
+
+					group.setForeground(PlayerColor
+							.getFontColor(((BuyableField) field).getOwner()
+									.getColor()));
+					price.setForeground(PlayerColor
+							.getFontColor(((BuyableField) field).getOwner()
+									.getColor()));
+					name.setForeground(PlayerColor
+							.getFontColor(((BuyableField) field).getOwner()
+									.getColor()));
+				} catch (NullPointerException e) {
+
+				}
+
+			} else {
+				price.setText("<html>" + ((BuyableField) field).getPrice());
+			}
+		} catch (ClassCastException e) {
+		}
 	}
 
 	public void setField(Field field) {
@@ -225,28 +287,77 @@ public class GameFieldPiece extends JPanel {
 		if (!found) {
 			for (int i = 0; i < this.player.length; i++) {
 				if (this.player[i] == null) {
+					System.out.println("new Player");
 					this.player[i] = player;
+					playerLabel[i] = new JLabel();
+					playerPanelTwo[i] = new JPanel();
 					break;
 				}
 			}
 		}
+
+		for (int i = 0; i < this.player.length; i++) {
+			if (this.player[i] != null) {
+				// playerLabel[i] = new JLabel(player[i].getName());
+				// playerLabel[i].setLayout(new FontLayout());
+				// playerLabel[i].setBounds(0, 0, 15, 15);
+				playerLabel[i].setForeground(PlayerColor
+						.getFontColor(this.player[i].getColor()));
+				playerPanelTwo[i].setBackground(PlayerColor
+						.getBackGroundColor(this.player[i].getColor()));
+				playerPanelTwo[i].setBorder(new LineBorder(PlayerColor
+						.getFontColor(this.player[i].getColor()), 1));
+
+				// System.out.println("Karte " + this.field.getName()
+				// + " beherbergt nun Spieler " + this.player[i].getName());
+				playerPanelTwo[i].add(playerLabel[i]);
+				playerPanel.add(playerPanelTwo[i]);
+			}
+		}
+		playerPanel.revalidate();
 
 	}
 
 	public void removePlayer() {
 		this.player = null;
 		player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
+
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
+			playerPanelTwo[i].remove(playerLabel[i]);
+			playerPanel.remove(playerPanelTwo[i]);
+		}
+
+	}
+
+	public void removeSinglePlayer(Player player) {
+
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
+			if (this.player[i] != null) {
+				if (playerLabel[i].getBackground().toString().equals(PlayerColor
+						.getBackGroundColor(player.getColor()).toString())
+						|| this.player[i].getId() == player.getId()) {
+					
+					if(this.player[i]!= null)
+					{
+						this.player = null;
+					}
+					playerPanelTwo[i].remove(playerLabel[i]);
+					playerLabel[i] = null;
+				}
+			}
+		}
 	}
 
 	public void init(GameState gameState) {
 		removePlayer();
-		for(int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++){
+		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			try {
-			if(gameState.getPlayerByID(i).getPosition()==field.getPosition()){
-				addPlayer(gameState.getPlayerByID(i));
-			}
+				if (gameState.getPlayerByID(i).getPosition() == field
+						.getPosition()) {
+					addPlayer(gameState.getPlayerByID(i));
+				}
 			} catch (NullPointerException e) {
-				
+
 			}
 		}
 		draw();

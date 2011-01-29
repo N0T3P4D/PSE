@@ -37,7 +37,6 @@ public class GameField extends JPanel {
 	JPanel[] playerLabel;
 	Player[] player;
 	Field[] field;
-	JPanel gameFieldPanel;
 	private boolean isInitialized = false;
 
 	// Das Feld auf das zuletzt mit der Maus geklickt wurde
@@ -95,7 +94,7 @@ public class GameField extends JPanel {
 	}
 
 	public void playerBuysField(Player player, Field field) {
-		// TODO Auto-generated method stub
+		this.fields[field.getPosition()].draw();
 		redraw();
 
 	}
@@ -124,15 +123,29 @@ public class GameField extends JPanel {
 		 * playerLabel[player.getId()].setBorder(new LineBorder(Color.black,
 		 * 1)); this.add(playerLabel[player.getId()]); this.revalidate();
 		 */
+		
+		for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
+
+			this.fields[field.getPosition()].removeSinglePlayer(player);
+		}
+		this.fields[field.getPosition()].addPlayer(player);
 
 		redraw();
 	}
 
 	public void init(GameState gameState) {
+		
+		JPanel actualLabel = new JPanel();
+
+		// Mittelfeld
+		actualLabel.setBackground(Color.black);
+		actualLabel.setName(-1 + "");
+
+		this.add(actualLabel);
+		
 		// System.out.println("GAMEFIELD UPDATE");
 
-		gameFieldPanel = new JPanel();
-		gameFieldPanel.setLayout(new GameFieldLayout());
+		this.setLayout(new GameFieldLayout());
 
 		this.player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
 		this.field = new Field[GameState.MAXIMUM_PLAYER_COUNT];
@@ -159,10 +172,21 @@ public class GameField extends JPanel {
 				fields[i].setField(gameState.getFieldAt(i));
 				fields[i].init(gameState);
 			} catch (NullPointerException e) {
+				System.out.println("IDx "+i);
 			}
 
 		}
 		isInitialized = true;
+		
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			// ((GameFieldPiece) actualLabel).draw();
+			fields[i].setName(i + "");
+			fields[i].setBorder(new LineBorder(Color.black, 1));
+			fields[i].addMouseListener(mouseListener);
+			this.add(fields[i]);
+
+		}
+		
 		redraw();
 	}
 
@@ -199,15 +223,8 @@ public class GameField extends JPanel {
 	 * }
 	 */
 
-	public JPanel redraw() {
-
-		JPanel actualLabel = new JPanel();
-
-		// Mittelfeld
-		actualLabel.setBackground(Color.black);
-		actualLabel.setName(-1 + "");
-
-		gameFieldPanel.add(actualLabel);
+	public void redraw() {
+		
 
 		/*
 		 * for (int i = 0; i < fieldsAmount; i++) { try {
@@ -217,16 +234,6 @@ public class GameField extends JPanel {
 		 * } }
 		 */
 
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-			actualLabel = fields[i];
-			// ((GameFieldPiece) actualLabel).draw();
-			actualLabel.setName(i + "");
-			actualLabel.setBorder(new LineBorder(Color.black, 1));
-			actualLabel.addMouseListener(mouseListener);
-			gameFieldPanel.add(actualLabel);
-
-		}
-		return gameFieldPanel;
 
 	}
 

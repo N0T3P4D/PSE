@@ -17,6 +17,7 @@
 
 package org.ojim.client.gui.GameField;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.logic.state.Card;
@@ -41,12 +42,14 @@ public class InteractionPopup extends JPanel {
 	private boolean cancelEnabled;
 	private boolean acceptEnabled;
 	private boolean isActive;
+	private JLabel textLabel = new JLabel();
+	//private 
 
 	/** 
 	 * Diese Methode initialisiert alles.
 	 */
 	public InteractionPopup() {
-
+		
 	}
 
 	public void clear() {
@@ -62,7 +65,7 @@ public class InteractionPopup extends JPanel {
 	}
 
 	public void draw() {
-
+		//if(s)
 	}
 	
 	
