@@ -80,7 +80,7 @@ public class GUIClient extends ClientBase {
 	JPanel pane = new JPanel(new OJIMLayout());
 	JPanel gameFieldPanel = new JPanel();
 	Localizer language;
-	
+
 	boolean notInit = true;
 	boolean haveIalreadyRolled = false;
 
@@ -292,9 +292,10 @@ public class GUIClient extends ClientBase {
 		// gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)),
 		// player);
 		// gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
-		
-		gameField.playerMoves(getGameState().getFieldAt(position), player);
-		
+
+		gameField.playerMoves(getGameState().getFieldAt(Math.abs(position)),
+				player);
+
 		if (player.getId() == getMe().getId()) {
 
 			try {
@@ -414,6 +415,16 @@ public class GUIClient extends ClientBase {
 			pane.add(downRight);
 
 			pane.setLayout(new OJIMLayout());
+
+			for (int i = 0; players.length > i; i++) {
+				try {
+					gameField.playerMoves(getGameState()
+							.getFieldAt(Math.abs(0)), getGameState()
+							.getPlayerByID(i));
+				} catch (NullPointerException e) {
+
+				}
+			}
 
 			GUIFrame.add(pane);
 		}

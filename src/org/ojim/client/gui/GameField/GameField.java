@@ -126,7 +126,7 @@ public class GameField extends JPanel {
 		
 		for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
 
-			this.fields[field.getPosition()].removeSinglePlayer(player);
+			this.fields[i].removeSinglePlayer(player);
 		}
 		this.fields[field.getPosition()].addPlayer(player);
 
@@ -172,7 +172,7 @@ public class GameField extends JPanel {
 				fields[i].setField(gameState.getFieldAt(i));
 				fields[i].init(gameState);
 			} catch (NullPointerException e) {
-				System.out.println("IDx "+i);
+				//System.out.println("IDx "+i);
 			}
 
 		}
