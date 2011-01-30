@@ -72,6 +72,9 @@ public class PlayerInfoField extends JPanel {
 		this.add(activeLabel);
 		this.add(nameLabel);
 		this.add(cashLabel);
+		
+		
+		
 		draw();
 		}
 	}

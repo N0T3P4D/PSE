@@ -71,7 +71,7 @@ public class GameField extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			selectedField = e.getComponent().getName();
-			System.out.println(selectedField);
+			System.out.println("Clicked on Field "+selectedField);
 
 		}
 	};
