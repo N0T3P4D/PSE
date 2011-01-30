@@ -94,9 +94,9 @@ public class PlayerInfoField extends JPanel {
 		
 		//System.out.println("Player " + player.getId() + " gezeichnet.");
 		if(isTurnedOn){
-			activeLabel.setText("On");
+			activeLabel.setText(language.getText("on"));
 		} else {
-			activeLabel.setText("Off");
+			activeLabel.setText(language.getText("off"));
 		}
 		repaint();
 	}

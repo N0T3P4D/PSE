@@ -45,3 +45,5 @@ serverListText=Please use Join Game.
 endturn=End Turn
 dice values=Dice Values
 free parking cash=Free Parking Cash
+on=Playing
+off=Waiting
