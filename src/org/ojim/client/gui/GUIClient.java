@@ -539,7 +539,8 @@ public class GUIClient extends ClientBase {
 		endTurnButton.setText(language.getText("endturn"));
 		rollButton.setText(language.getText("roll"));
 		gameField.setLanguage(language);
-
+		button.setText(language.getText("ready"));
+		
 		draw();
 
 	}
