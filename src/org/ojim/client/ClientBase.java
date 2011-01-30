@@ -415,6 +415,8 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			player.setPosition(position);
 			if (position < 0 && this.getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
 				player.sendToJail((Jail) this.getGameState().getFieldAt(Math.abs(position)));
+			} else {
+				player.sendToJail(null);
 			}
 			
 			//this.onMove(player, position);
