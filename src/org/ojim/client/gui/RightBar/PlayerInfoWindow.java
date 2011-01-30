@@ -187,4 +187,9 @@ public class PlayerInfoWindow extends JPanel {
 		}
 		return -1;
 	}
+
+	public void setBancrupt(Player player) {
+		playerInfoFields[findPlayer(player)].setBancrupt();
+		
+	}
 }

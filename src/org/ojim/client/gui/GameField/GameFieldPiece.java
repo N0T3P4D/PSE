@@ -222,7 +222,8 @@ public class GameFieldPiece extends JPanel {
 
 		// textPanel.add(playerPanel);
 		try {
-			if (((BuyableField) field).getOwner() != null) {
+			// isBankrupt workaround mit <0 
+			if (((BuyableField) field).getOwner() != null && !((BuyableField) field).getOwner().getIsBankrupt() && !(((BuyableField) field).getOwner().getBalance()<0)) {
 
 				price.setText("<html>"
 						+ ((BuyableField) field).getOwner().getName());
@@ -261,6 +262,17 @@ public class GameFieldPiece extends JPanel {
 				}
 
 			} else {
+				
+				textPanel.setBackground(Color.WHITE);
+				group.setBackground(Color.WHITE);
+
+				price.setBackground(Color.WHITE);
+				name.setBackground(Color.WHITE);
+				playerPanel.setBackground(Color.WHITE);
+				group.setForeground(Color.BLACK);
+				price.setForeground(Color.BLACK);
+				name.setForeground(Color.BLACK);
+				
 				price.setText("<html>" + ((BuyableField) field).getPrice());
 			}
 		} catch (ClassCastException e) {

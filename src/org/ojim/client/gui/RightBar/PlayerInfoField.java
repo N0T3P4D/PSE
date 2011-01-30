@@ -38,51 +38,49 @@ public class PlayerInfoField extends JPanel {
 	private JLabel activeLabel;
 	private JLabel cashLabel = new JLabel();;
 	private Localizer language;
+	private boolean bancruptcy = false;
 
 	public PlayerInfoField(Player player, int cash, Localizer language) {
 
 		this.language = language;
-		
+
 		this.player = player;
 		isTurnedOn = false;
 		this.cash = cash;
-		
 
 		activeLabel = new JLabel();
-		if(this.player != null){
-		nameLabel = new JLabel(this.player.getName());
-		cashLabel.setText(this.cash + " " + 
-				language.getText("currency"));
+		if (this.player != null) {
+			nameLabel = new JLabel(this.player.getName());
+			cashLabel.setText(this.cash + " " + language.getText("currency"));
 
-		this.setBackground(PlayerColor.getBackGroundColor(player.getColor()));
-		
-		this.setBorder(getBorder());
-		
-		
-		
-		this.activeLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
-		activeLabel.setLayout(new FontLayout());
-		this.nameLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
-		nameLabel.setLayout(new FontLayout());
-		this.cashLabel.setForeground(PlayerColor.getFontColor(this.player.getColor()));
-		cashLabel.setLayout(new FontLayout());
-		
-		this.setLayout(new GridLayout(0,3));
-		
-		this.add(activeLabel);
-		this.add(nameLabel);
-		this.add(cashLabel);
-		
-		
-		
-		draw();
+			this.setBackground(PlayerColor
+					.getBackGroundColor(player.getColor()));
+
+			this.setBorder(getBorder());
+
+			this.activeLabel.setForeground(PlayerColor.getFontColor(this.player
+					.getColor()));
+			activeLabel.setLayout(new FontLayout());
+			this.nameLabel.setForeground(PlayerColor.getFontColor(this.player
+					.getColor()));
+			nameLabel.setLayout(new FontLayout());
+			this.cashLabel.setForeground(PlayerColor.getFontColor(this.player
+					.getColor()));
+			cashLabel.setLayout(new FontLayout());
+
+			this.setLayout(new GridLayout(0, 3));
+
+			this.add(activeLabel);
+			this.add(nameLabel);
+			this.add(cashLabel);
+
+			draw();
 		}
 	}
 
 	public void setLanguage(Localizer language) {
 		this.language = language;
-		cashLabel.setText(this.cash + " " + 
-				language.getText("currency"));
+		cashLabel.setText(this.cash + " " + language.getText("currency"));
 		draw();
 	}
 
@@ -92,11 +90,14 @@ public class PlayerInfoField extends JPanel {
 	}
 
 	private void draw() {
-		cashLabel.setText(this.cash + " " + 
-				language.getText("currency"));
-		
-		//System.out.println("Player " + player.getId() + " gezeichnet.");
-		if(isTurnedOn){
+		if (bancruptcy) {
+			cashLabel.setText(language.getText("bancrupt"));
+		} else {
+			cashLabel.setText(this.cash + " " + language.getText("currency"));
+		}
+
+		// System.out.println("Player " + player.getId() + " gezeichnet.");
+		if (isTurnedOn) {
 			activeLabel.setText(language.getText("on"));
 		} else {
 			activeLabel.setText(language.getText("off"));
@@ -140,6 +141,12 @@ public class PlayerInfoField extends JPanel {
 			return true;
 		}
 		return false;
+	}
+
+	public void setBancrupt() {
+		bancruptcy = true;
+		draw();
+
 	}
 
 }

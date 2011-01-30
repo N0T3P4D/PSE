@@ -82,8 +82,7 @@ public class GUIClient extends ClientBase {
 
 	private boolean notInit = true;
 	private boolean haveIalreadyRolled = false;
-	
-	
+
 	private OjimServer server;
 
 	private MenuState menuState;
@@ -225,10 +224,6 @@ public class GUIClient extends ClientBase {
 		// System.out.println("Meista, da hat wer was gekauft!");
 		// draw();
 
-		// TODO if player = gui player => feld and cardBar schicken zum
-		// aufnehmen
-		// Wo finde ich heraus ob ich der GUI Player bin?
-
 	}
 
 	@Override
@@ -237,11 +232,20 @@ public class GUIClient extends ClientBase {
 				player.getId()).getBalance());
 		// draw();
 
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-			if (getGameState().getFieldAt(i) instanceof org.ojim.logic.state.fields.FreeParking) {
-				this.gameField
-						.setFreeParkingMoney(((org.ojim.logic.state.fields.FreeParking) getGameState()
-								.getFieldAt(i)).getMoneyInPot());
+		// Geld kleiner 0 Workaround weil getIsBankrupt nicht geht
+		if (player.getIsBankrupt() || getGameState().getPlayerByID(
+				player.getId()).getBalance() < 0) {
+			playerInfoWindow.setBancrupt(player);
+			gameField.playerIsBancrupt(player);
+			System.out.println("Bannnnnnncrupt!");
+		} else {
+
+			for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+				if (getGameState().getFieldAt(i) instanceof org.ojim.logic.state.fields.FreeParking) {
+					this.gameField
+							.setFreeParkingMoney(((org.ojim.logic.state.fields.FreeParking) getGameState()
+									.getFieldAt(i)).getMoneyInPot());
+				}
 			}
 		}
 
@@ -282,6 +286,16 @@ public class GUIClient extends ClientBase {
 
 		gameField.playerMoves(getGameState().getFieldAt(Math.abs(position)),
 				player);
+		
+		/* Falls Bancrupt in Move nicht geht
+		for(int i = 0; i < getGameState().getPlayers().length; i++){
+			if (getGameState().getPlayerByID(i).getIsBankrupt()) {
+				playerInfoWindow.setBancrupt(getGameState().getPlayerByID(i));
+				gameField.playerIsBancrupt(getGameState().getPlayerByID(i));
+				System.out.println("Bancrupt2");
+			}
+		}*/
+		
 
 		if (player.getId() == getMe().getId()) {
 
@@ -448,10 +462,9 @@ public class GUIClient extends ClientBase {
 	 * Beendet das Spiel
 	 */
 	public void leaveGame() {
-		
+
 		server.endGame();
-		
-		
+
 		menuState = MenuState.mainMenu;
 
 	}
@@ -540,7 +553,7 @@ public class GUIClient extends ClientBase {
 		rollButton.setText(language.getText("roll"));
 		gameField.setLanguage(language);
 		button.setText(language.getText("ready"));
-		
+
 		draw();
 
 	}
@@ -569,7 +582,6 @@ public class GUIClient extends ClientBase {
 		server = new OjimServer("Philip");
 
 		server.initGame(8, 7);
-		
 
 		connect(server);
 
