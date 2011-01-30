@@ -29,7 +29,6 @@ import javax.swing.border.LineBorder;
 
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
-import org.ojim.client.gui.GameField.fielddrawer.FieldDrawer;
 import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -40,7 +39,6 @@ import org.ojim.logic.state.fields.Street;
 
 public class GameFieldPiece extends JPanel {
 
-	private FieldDrawer drawer;
 	private Field field;
 	private JPanel colorTop = new JPanel();
 	private JLabel group = new JLabel();

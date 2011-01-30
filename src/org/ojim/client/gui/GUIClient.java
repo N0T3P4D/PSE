@@ -356,8 +356,7 @@ public class GUIClient extends ClientBase {
 			// + this.getGameState().getPlayers().length + " Spieler.");
 			for (int i = 0; players.length > i; i++) {
 				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
-				this.playerInfoWindow.addPlayer(players[i], players[i]
-						.getBalance());
+				this.playerInfoWindow.addPlayer(players[i]);
 			}
 
 			this.menuState = MenuState.game;
@@ -619,8 +618,7 @@ public class GUIClient extends ClientBase {
 		for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
 			// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
 			this.playerInfoWindow.addPlayer(
-					this.getGameState().getPlayers()[i], this.getGameState()
-							.getPlayers()[i].getBalance());
+					this.getGameState().getPlayers()[i]);
 		}
 
 		window.add(leftWindow);
