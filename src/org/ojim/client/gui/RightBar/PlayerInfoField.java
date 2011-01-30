@@ -94,9 +94,9 @@ public class PlayerInfoField extends JPanel {
 		
 		//System.out.println("Player " + player.getId() + " gezeichnet.");
 		if(isTurnedOn){
-			activeLabel = new JLabel("On");
+			activeLabel.setText("On");
 		} else {
-			activeLabel = new JLabel("Off");
+			activeLabel.setText("Off");
 		}
 		repaint();
 	}
@@ -127,7 +127,7 @@ public class PlayerInfoField extends JPanel {
 	}
 
 	public void changeCash(int newCashValue) {
-		cash += newCashValue;
+		cash = newCashValue;
 		draw();
 
 	}

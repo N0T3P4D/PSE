@@ -31,11 +31,11 @@ public class PlayerColor {
 			// Spieler 4
 			{ Color.green, Color.black },
 			// Spieler 5
-			{ Color.orange, Color.white },
+			{ Color.orange, Color.black },
 			// Spieler 6
-			{ Color.cyan, Color.white },
+			{ Color.cyan, Color.black },
 			// Spieler 7
-			{ Color.pink, Color.white },
+			{ Color.magenta, Color.white },
 			// Spieler 8
 			{ Color.black, Color.white } };
 

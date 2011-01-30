@@ -27,16 +27,17 @@ import javax.swing.border.LineBorder;
 
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
+import org.ojim.language.Localizer;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.Field;
 
 public class GameField extends JPanel {
 
-	GameFieldPiece[] fields;
-	JPanel[] playerLabel;
-	Player[] player;
-	Field[] field;
+	private GameFieldPiece[] fields;
+	private JPanel[] playerLabel;
+	private Player[] player;
+	private Field[] field;
 	private boolean isInitialized = false;
 
 	// Das Feld auf das zuletzt mit der Maus geklickt wurde
@@ -136,13 +137,13 @@ public class GameField extends JPanel {
 
 	public void init(GameState gameState) {
 		
-		JPanel actualLabel = new JPanel();
+		interactionPopup = new InteractionPopup();
 
 		// Mittelfeld
-		actualLabel.setBackground(Color.black);
-		actualLabel.setName(-1 + "");
+		//interactionPopup.setBackground(Color.black);
+		interactionPopup.setName(-1 + "");
 
-		this.add(actualLabel);
+		this.add(interactionPopup);
 		
 		// System.out.println("GAMEFIELD UPDATE");
 
@@ -240,6 +241,23 @@ public class GameField extends JPanel {
 
 	public boolean isInitialized() {
 		return isInitialized;
+	}
+
+	public void dices(int[] diceValues) {
+		interactionPopup.showDices(diceValues);
+		
+	}
+
+	public void setFreeParkingMoney(int moneyInPot) {
+		interactionPopup.showFreeParkingCash(moneyInPot);
+		
+	}
+
+	public void setLanguage(Localizer language) {
+		if(interactionPopup != null){
+			interactionPopup.setLanguage(language);
+		}
+		
 	}
 
 }

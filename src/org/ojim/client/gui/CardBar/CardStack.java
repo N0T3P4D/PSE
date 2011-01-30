@@ -51,9 +51,9 @@ public class CardStack extends JPanel {
 	// Beschreibung
 	public void addCard(org.ojim.logic.state.fields.BuyableField card) {
 		for (int i = 0; i < MAX_CARDS; i++) {
-			System.out.println("Karte gesetztXXX");
+			//System.out.println("Karte gesetztXXX");
 			if (cards[i] == null) {
-				System.out.println("Karte gesetzt");
+				//System.out.println("Karte gesetzt");
 				cards[i] = new Card();
 				cards[i].setCard(card);
 				this.fieldGroup = card.getFieldGroup();

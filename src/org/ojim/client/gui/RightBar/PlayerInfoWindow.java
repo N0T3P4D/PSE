@@ -100,6 +100,7 @@ public class PlayerInfoWindow extends JPanel {
 			}
 			//System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
 		}
+		repaint();
 	}
 
 	public void removePlayer(Player player) {

@@ -37,12 +37,12 @@ import org.ojim.language.Localizer;
 
 public class ChatWindow extends JPanel {
 
-	Localizer language;
-	LinkedList<ChatMessage> messages = new LinkedList<ChatMessage>();
-	JTextArea textArea;
-	JTextField textField;
-	GUIClient gui;
-	JButton sendButton = new JButton();
+	private Localizer language;
+	private LinkedList<ChatMessage> messages = new LinkedList<ChatMessage>();
+	private JTextArea textArea;
+	private JTextField textField;
+	private GUIClient gui;
+	private JButton sendButton = new JButton();
 	
 	public ChatWindow(Localizer language, GUIClient guiClient) {
 		super();
