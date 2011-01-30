@@ -22,6 +22,10 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
+/**
+ * Das OJIMLayout erstellt ein Flexibles Design des GUI Clients
+ *
+ */
 public class OJIMLayout implements LayoutManager {
 
 	private int minWidth = 400, minHeight = 400;
@@ -34,6 +38,10 @@ public class OJIMLayout implements LayoutManager {
 
 	}
 
+	/**
+	 * Setzt die Mindestgrößen
+	 * @param parent der Vatercontainer
+	 */
 	private void setSizes(Container parent) {
 		int nComps = parent.getComponentCount();
 		Dimension d = null;

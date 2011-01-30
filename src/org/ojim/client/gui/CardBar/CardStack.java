@@ -17,16 +17,16 @@
 
 package org.ojim.client.gui.CardBar;
 
-import java.awt.FlowLayout;
 import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
 import org.ojim.language.Localizer;
 
-// Card Stack ist in diesem Fall ein Kartenstapel unten im Card Window
-
+/**
+ * CardStack ist ein Kartenstapel der die Karten der Spielfelder des GUI
+ * Spielers hält
+ */
 public class CardStack extends JPanel {
 
 	// Hält Cards
@@ -35,6 +35,9 @@ public class CardStack extends JPanel {
 	private org.ojim.logic.state.fields.FieldGroup fieldGroup;
 	private Localizer language;
 
+	/**
+	 * Initialisiert den Kartenstapel
+	 */
 	public CardStack() {
 		super();
 
@@ -47,28 +50,34 @@ public class CardStack extends JPanel {
 		draw();
 	}
 
-	// Um verwechslungen mit der GUI Card zu vermeiden, die ausführliche
-	// Beschreibung
+	/**
+	 * fügt eine Karte zum Kartenstapel des Spielers hinzu
+	 * @param card das Spielfeld welches als Karte hinzugefügt werden soll
+	 */
 	public void addCard(org.ojim.logic.state.fields.BuyableField card) {
 		for (int i = 0; i < MAX_CARDS; i++) {
-			//System.out.println("Karte gesetztXXX");
+			// System.out.println("Karte gesetztXXX");
 			if (cards[i] == null) {
-				//System.out.println("Karte gesetzt");
+				// System.out.println("Karte gesetzt");
 				cards[i] = new Card();
 				cards[i].setCard(card);
 				this.fieldGroup = card.getFieldGroup();
 				break;
 			}
 		}
-		//System.out.println("Karte gekauft;");
+		// System.out.println("Karte gekauft;");
 		draw();
 	}
 
+	/**
+	 * Entfernt eine Karte aus dem Kartenstapel sofern sie enthalten ist
+	 * @param card die zu entferndende Karte
+	 */
 	public void removeCard(org.ojim.logic.state.fields.BuyableField card) {
 		int empty = -1;
 		for (int i = 0; i < MAX_CARDS; i++) {
 			if (cards[i].getCard().equals(card)) {
-				cards[i].removeCard(card);
+				cards[i].removeCard();
 				empty = i;
 				break;
 			}
@@ -85,14 +94,21 @@ public class CardStack extends JPanel {
 		draw();
 	}
 
+	/**
+	 * Setzt die Sprache
+	 * @param language die neue Sprache
+	 */
 	public void setLanguage(Localizer language) {
 		this.language = language;
 
 	}
 
+	/**
+	 * Zeichnet den Kartenstapel
+	 */
 	public void draw() {
 
-		//this.setLayout(new CardStackLayout());
+		// this.setLayout(new CardStackLayout());
 		this.setLayout(new GridBagLayout());
 
 		for (int i = 0; i < MAX_CARDS; i++) {
@@ -106,14 +122,25 @@ public class CardStack extends JPanel {
 		}
 	}
 
+	/**
+	 * Gibt die FieldGroup des Kartenstapels zurück
+	 * @return die FieldGroup
+	 */
 	public org.ojim.logic.state.fields.FieldGroup getFieldGroup() {
 		return fieldGroup;
 	}
 
+	/**
+	 * Setzt die FieldGroup des Kartenstapels auf Null
+	 */
 	public void setFieldGroupNull() {
 		fieldGroup = null;
 	}
 
+	/**
+	 * Gibt zurück ob der Kartenstapel leer ist
+	 * @return wenn er leer ist wahr
+	 */
 	public boolean isEmpty() {
 		return (fieldGroup != null);
 	}

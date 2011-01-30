@@ -17,9 +17,7 @@
 
 package org.ojim.client.gui;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,8 +25,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.CardBar.CardWindow;
@@ -46,6 +42,10 @@ import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.server.OjimServer;
 
+/**
+ * Diese Klasse ist der GUI Client
+ * 
+ */
 public class GUIClient extends ClientBase {
 
 	private GUISettings settings;
@@ -78,14 +78,19 @@ public class GUIClient extends ClientBase {
 	private JFrame GUIFrame;
 
 	private JPanel pane = new JPanel(new OJIMLayout());
-	private JPanel gameFieldPanel = new JPanel();
 	private Localizer language;
 
 	private boolean notInit = true;
 	private boolean haveIalreadyRolled = false;
+	
+	
+	private OjimServer server;
 
 	private MenuState menuState;
 
+	/**
+	 * Mit diesem Konstruktor wird der GUI Client gestartet
+	 */
 	public GUIClient() {
 
 		// Nur zu Debugzwecken auf game
@@ -138,6 +143,9 @@ public class GUIClient extends ClientBase {
 
 	}
 
+	/**
+	 * Diese Methode war früher zum Updaten da
+	 */
 	private void draw() {
 
 		// GUIFrame = new JFrame(language.getText("ojim"));
@@ -180,10 +188,22 @@ public class GUIClient extends ClientBase {
 		}
 	}
 
+	/**
+	 * Die Startmethode des GUI Clients
+	 * 
+	 * @param args
+	 *            Parameter die nicht benutzt werden
+	 */
 	public static void main(String[] args) {
 		new GUIClient();
 	}
 
+	/**
+	 * Den Spielstatus ändern
+	 * 
+	 * @param menuState
+	 *            auf diesen Status wird gesetzt
+	 */
 	public void setMenuState(MenuState menuState) {
 		this.menuState = menuState;
 		draw();
@@ -213,15 +233,18 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		playerInfoWindow.changeCash(player, getGameState().getPlayerByID(player.getId()).getBalance());
+		playerInfoWindow.changeCash(player, getGameState().getPlayerByID(
+				player.getId()).getBalance());
 		// draw();
-		
-		for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
-			if(getGameState().getFieldAt(i) instanceof org.ojim.logic.state.fields.FreeParking){
-				this.gameField.setFreeParkingMoney(((org.ojim.logic.state.fields.FreeParking)getGameState().getFieldAt(i)).getMoneyInPot());
+
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			if (getGameState().getFieldAt(i) instanceof org.ojim.logic.state.fields.FreeParking) {
+				this.gameField
+						.setFreeParkingMoney(((org.ojim.logic.state.fields.FreeParking) getGameState()
+								.getFieldAt(i)).getMoneyInPot());
 			}
 		}
-		
+
 	}
 
 	@Override
@@ -279,23 +302,26 @@ public class GUIClient extends ClientBase {
 	}
 
 	@Override
-	public void onTrade(Player actingPlayer, Player partnerPlayer) {		
+	public void onTrade(Player actingPlayer, Player partnerPlayer) {
 		System.out.println("-- DEBUG -- on Trade ");
-		chatWindow.write(new ChatMessage(null, false, "-- DEBUG -- onTrade, acting: "+actingPlayer.getName()+", partner: "+partnerPlayer.getName()));
+		chatWindow.write(new ChatMessage(null, false,
+				"-- DEBUG -- onTrade, acting: " + actingPlayer.getName()
+						+ ", partner: " + partnerPlayer.getName()));
 	}
 
 	@Override
 	public void onBankruptcy() {
 		System.out.println("-- DEBUG -- on Bankruptcy ");
-		chatWindow.write(new ChatMessage(null, false, "-- DEBUG -- on Bankruptcy"));
+		chatWindow.write(new ChatMessage(null, false,
+				"-- DEBUG -- on Bankruptcy"));
 	}
 
 	@Override
 	public void onCardPull(String text, boolean communityCard) {
-		// TODO Auto-generated method stub
-		// Mittelfeld
-		System.out.println("-- DEBUG -- on CardPull "+text);
-		chatWindow.write(new ChatMessage(null, false, "-- DEBUG -- on CardPull "+text));
+		// Passiert nix?
+		System.out.println("-- DEBUG -- on CardPull " + text);
+		chatWindow.write(new ChatMessage(null, false,
+				"-- DEBUG -- on CardPull " + text));
 	}
 
 	@Override
@@ -322,6 +348,7 @@ public class GUIClient extends ClientBase {
 			}
 
 			this.menuState = MenuState.game;
+			this.menubar.setMenuBarState(menuState);
 
 			GUIFrame.remove(window);
 
@@ -409,68 +436,77 @@ public class GUIClient extends ClientBase {
 		super.setName(name);
 	}
 
-	public MenuState getMenuState() {
-		return menuState;
-	}
-
-	public GameField getGameField() {
-		return gameField;
-	}
-
-	public ChatWindow getChatWindow() {
-		return chatWindow;
-	}
-
-	public PlayerInfoWindow getPlayerInfoWindow() {
-		return playerInfoWindow;
-	}
-
-	public CardWindow getCardWindow() {
-		return cardWindow;
-	}
-
+	/**
+	 * Öffnet ein neues Frame für die Spielerstellung
+	 */
 	public void openCreateGameWindow() {
 		createGameFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Beendet das Spiel
+	 */
 	public void leaveGame() {
-		// TODO Game beenden
-
+		
+		server.endGame();
+		
+		
 		menuState = MenuState.mainMenu;
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für das Spielbeitreten
+	 */
 	public void openJoinGameWindow() {
 		joinGameFrame.showJoin();
 		joinGameFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für das Spielbeitreten
+	 */
 	public void openServerListWindow() {
 		joinGameFrame.showServerList();
 		joinGameFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für das Beitreten per Direkter Verbindung
+	 */
 	public void openDirectConnectionWindow() {
 		joinGameFrame.showDirectConnection();
 		joinGameFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für den Abouttext
+	 */
 	public void openAboutWindow() {
 		aboutFrame.draw();
 		aboutFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für den Hilfetext
+	 */
 	public void openHelpWindow() {
 		helpFrame.draw();
 		helpFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Ändert die Sprache
+	 * 
+	 * @param languageName
+	 *            neue Sprache
+	 */
 	public void changeLanguage(String languageName) {
 		for (int i = 0; i < language.getLanguages().length; i++) {
 			if (language.getLanguages()[i].name.equals(languageName)) {
@@ -481,6 +517,9 @@ public class GUIClient extends ClientBase {
 
 	}
 
+	/**
+	 * setzt die Sprache der verschiedenen Elemente auf die Klassensprache
+	 */
 	private void resetLanguage() {
 		GUIFrame.setTitle(language.getText("ojim"));
 		createGameFrame.setTitle(language.getText("create game"));
@@ -511,22 +550,28 @@ public class GUIClient extends ClientBase {
 
 	}
 
+	/**
+	 * Öffnet das Einstellungenfenster
+	 */
 	public void openSettingsWindow() {
 		settingsFrame.draw();
 		settingsFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Startet ein neues Spiel und öffnet den Warteraum
+	 */
 	public void startServer() {
 		menuState = MenuState.waitRoom;
 
-		OjimServer server = new OjimServer("Philip");
+		server = new OjimServer("Philip");
 
 		server.initGame(8, 7);
+		
 
 		connect(server);
-		
-		
+
 		leftWindow.remove(chatWindow);
 
 		leftWindow.setLayout(new GridLayout(0, 1));
@@ -561,16 +606,15 @@ public class GUIClient extends ClientBase {
 
 		for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
 			// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
-			this.playerInfoWindow.addPlayer(this.getGameState()
-					.getPlayers()[i], this.getGameState().getPlayers()[i]
-					.getBalance());
+			this.playerInfoWindow.addPlayer(
+					this.getGameState().getPlayers()[i], this.getGameState()
+							.getPlayers()[i].getBalance());
 		}
 
 		window.add(leftWindow);
 		window.add(rightWindow);
 
 		GUIFrame.add(window);
-		
 
 		createGameFrame.setVisible(false);
 		draw();
@@ -589,6 +633,12 @@ public class GUIClient extends ClientBase {
 
 	}
 
+	/**
+	 * Verschickt eine Nachricht im Chat
+	 * 
+	 * @param text
+	 *            die zu verschickende Nachricht
+	 */
 	public void sendOutMessage(String text) {
 		sendMessage(text);
 		draw();

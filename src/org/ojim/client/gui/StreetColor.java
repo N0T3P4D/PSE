@@ -19,6 +19,10 @@ package org.ojim.client.gui;
 
 import java.awt.Color;
 
+/**
+ * Enthält die Farben der Straßen
+ *
+ */
 public class StreetColor {
 	private static final Color[][] colors = {
 			// Straße 1
@@ -41,14 +45,24 @@ public class StreetColor {
 			{ Color.blue, Color.white } ,
 			// Mittelfeld
 			{ Color.black, Color.white } };
-
+	
+	/**
+	 * Gibt die Hintergrundfarbe des Feldes zurück
+	 * @param color die int-Farbe des Feldes
+	 * @return die Farbe als Color
+	 */
 	public static Color getBackGroundColor(int color) {
 		if(color < 0) {
 			return colors[8][0];
 		}
 		return colors[color][0];
 	}
-
+	
+	/**
+	 * Gibt die Vordergrundfarbe des Feldes zurück
+	 * @param color die int-Farbe des Feldes
+	 * @return die Farbe als Color
+	 */
 	public static Color getFontColor(int color) {
 		return colors[color][1];
 	}

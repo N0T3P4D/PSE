@@ -32,6 +32,10 @@ import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.Field;
 
+/**
+ * Das Spielfeld
+ *
+ */
 public class GameField extends JPanel {
 
 	private GameFieldPiece[] fields;
@@ -41,9 +45,9 @@ public class GameField extends JPanel {
 	private boolean isInitialized = false;
 
 	// Das Feld auf das zuletzt mit der Maus geklickt wurde
-	String selectedField;
+	private String selectedField;
 
-	MouseListener mouseListener = new MouseListener() {
+	private MouseListener mouseListener = new MouseListener() {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {

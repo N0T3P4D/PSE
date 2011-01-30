@@ -27,6 +27,10 @@ import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.logic.state.fields.BuyableField;
 
+/**
+ * Eine Karte im Kartenstapel des Spielers
+ *
+ */
 public class Card extends JPanel {
 
 	private boolean isTurnedAround = false;
@@ -35,30 +39,50 @@ public class Card extends JPanel {
 	private JPanel textPanel = new JPanel();
 	private JLabel textLabel = new JLabel();
 
+	/**
+	 * Initialisiert eine Karte
+	 */
 	public Card() {
 		super();
 		draw();
 	}
 
+	/**
+	 * Dreht die Karte herum (Hypothek)
+	 */
 	public void turnAround() {
 		isTurnedAround = !isTurnedAround;
 	}
 
+	/**
+	 * Weist einer Karte ein Feld zu
+	 * @param card Das Spielfeld
+	 */
 	public void setCard(org.ojim.logic.state.fields.BuyableField card) {
 		//System.out.println("Karte zu "+card.getName()+" gesetzt");
 		this.card = card;
 	}
 
+	/**
+	 * gibt das Spielfeld der Karte zurück
+	 * @return Das Spielfeld
+	 */
 	public org.ojim.logic.state.fields.BuyableField getCard() {
 		return card;
 
 	}
 
-	public void removeCard(BuyableField card) {
+	/**
+	 * löst das Spielfeld von der Karte
+	 */
+	public void removeCard() {
 		this.card = null;
 
 	}
 
+	/**
+	 * Zeichnet die Karte
+	 */
 	public void draw() {
 		if (card != null) {
 

@@ -22,6 +22,10 @@ import java.awt.Container;
 import java.awt.Dimension;
 import java.awt.LayoutManager;
 
+/**
+ * Der LayoutManager für einen Kartenstapel
+ *
+ */
 public class CardStackLayout implements LayoutManager {
 
 	private int minWidth = 200, minHeight = 50;

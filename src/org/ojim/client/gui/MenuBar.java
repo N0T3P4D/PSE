@@ -17,7 +17,6 @@
 
 package org.ojim.client.gui;
 
-import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -27,6 +26,11 @@ import javax.swing.JMenuItem;
 
 import org.ojim.language.Localizer;
 
+/**
+ * Die Menubar ist oben am Frame verankert und bietet dem Benutzer mehr <br>
+ * Optionen und Aktionen
+ *
+ */
 public class MenuBar extends JMenuBar {
 
 	private JMenu fileMenu;
@@ -44,7 +48,10 @@ public class MenuBar extends JMenuBar {
 	private MenuState menuBarState;
 	private GUIClient gui;
 	private String languageName;
-
+	
+	/**
+	 * Der Konstruktor startet die Menubar
+	 */
 	public MenuBar() {
 
 		menuBarState = MenuState.mainMenu;
@@ -54,7 +61,12 @@ public class MenuBar extends JMenuBar {
 		language(language);
 
 	}
-
+	
+	/**
+	 * Der erweiterte Konstruktor
+	 * @param language die Sprache
+	 * @param gui eine Referenz auf die GUI
+	 */
 	public MenuBar(Localizer language, GUIClient gui) {
 
 		menuBarState = MenuState.mainMenu;
@@ -66,11 +78,19 @@ public class MenuBar extends JMenuBar {
 
 	}
 
+	/**
+	 * Stellt den Status der Menubar um
+	 * @param menuBarState auf diesen neuen Status
+	 */
 	public void setMenuBarState(MenuState menuBarState) {
 		this.menuBarState = menuBarState;
 		draw();
 	}
 
+	/**
+	 * Setzt die Sprache neu
+	 * @param language auf den angegebenen Localizer
+	 */
 	public void language(Localizer language) {
 
 		removeAll();
@@ -115,11 +135,9 @@ public class MenuBar extends JMenuBar {
 
 	}
 
-	public void switchMenuBarState(MenuState state) {
-		menuBarState = state;
-		draw();
-	}
-
+	/**
+	 * Zeichnet die MenuBar
+	 */
 	public void draw() {
 
 		add(fileMenu);
