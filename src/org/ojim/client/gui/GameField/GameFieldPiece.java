@@ -335,7 +335,12 @@ public class GameFieldPiece extends JPanel {
 				// System.out.println("Karte " + this.field.getName()
 				// + " beherbergt nun Spieler " + this.player[i].getName());
 				playerPanelTwo[i].add(playerLabel[i]);
-				playerPanel.add(playerPanelTwo[i]);
+				if (this.field instanceof Jail && (this.player[i].getJail() != null)) {
+						System.out.println("Jail not Null");
+						jailPanel.add(playerPanelTwo[i]);
+				} else {
+					playerPanel.add(playerPanelTwo[i]);
+				}
 			}
 		}
 		playerPanel.revalidate();
@@ -349,6 +354,7 @@ public class GameFieldPiece extends JPanel {
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			playerPanelTwo[i].remove(playerLabel[i]);
 			playerPanel.remove(playerPanelTwo[i]);
+			jailPanel.remove(playerPanelTwo[i]);
 		}
 
 	}
