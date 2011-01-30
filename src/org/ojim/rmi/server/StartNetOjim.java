@@ -42,7 +42,7 @@ public class StartNetOjim {
 	 * 
 	 * @param ip ip Adresse unter welcher der Namendienst erreichbar ist
 	 */
-	public void startServer(int portReg,int ip,ImplNetOjim ojimServer){
+	public void startServer(int portReg,String ip,ImplNetOjim ojimServer){
 		
 		System.out.println("Server wird eingerichtet...");
 		
