@@ -107,7 +107,7 @@ public class GUIClient extends ClientBase {
 			language.setLanguage(langs[0]);
 
 		createGameFrame = new CreateGameFrame(language, this);
-		joinGameFrame = new JoinGameFrame(language);
+		joinGameFrame = new JoinGameFrame(language, this);
 		settingsFrame = new SettingsFrame(language);
 		helpFrame = new HelpFrame(language);
 		aboutFrame = new AboutFrame(language);
@@ -654,6 +654,16 @@ public class GUIClient extends ClientBase {
 	public void sendOutMessage(String text) {
 		sendMessage(text);
 		draw();
+	}
+	
+	/**
+	 * Startet eine Verbindung über eine IP
+	 * @param ip die IP zu der verbunden werden muss
+	 * @param port der Port
+	 */
+	public void startIpConnection (String ip, int port) {
+		connect(ip,port);
+		System.out.println("Starte Verbindung zu IP :"+ip+", Port: "+port);
 	}
 
 }
