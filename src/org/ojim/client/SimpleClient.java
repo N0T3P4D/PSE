@@ -86,8 +86,12 @@ public class SimpleClient {
 	}
 
 	protected void setParameters(IServer server, IClient client) {
+		this.setParameters(server, client, new GameState());
+	}
+	
+	protected void setParameters(IServer server, IClient client, GameState state) {
 		this.server = server;
-		this.logic = new Logic(server.getRules());
+		this.logic = new Logic(state, server.getRules());
 		this.playerId = server.addPlayer(client);
 	}
 

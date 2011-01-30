@@ -204,9 +204,13 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		return true;
 	}
 
-	protected final void connect(IServer server) {
-		this.setParameters(server, this);
+	protected final void connect(IServer server, GameState state) {
+		this.setParameters(server, this, state);
 		this.loadGameBoard();
+	}
+	
+	protected final void connect(IServer server) {
+		this.connect(server, new GameState());
 	}
 
 	/*
