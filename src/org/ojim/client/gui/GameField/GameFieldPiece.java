@@ -336,7 +336,7 @@ public class GameFieldPiece extends JPanel {
 				// + " beherbergt nun Spieler " + this.player[i].getName());
 				playerPanelTwo[i].add(playerLabel[i]);
 				if (this.field instanceof Jail && (this.player[i].getJail() != null)) {
-						System.out.println("Jail not Null");
+						//System.out.println("Jail not Null");
 						jailPanel.add(playerPanelTwo[i]);
 				} else {
 					playerPanel.add(playerPanelTwo[i]);
@@ -375,6 +375,7 @@ public class GameFieldPiece extends JPanel {
 					playerPanelTwo[i].remove(playerLabel[i]);
 					playerLabel[i] = new JLabel();
 					playerPanel.remove(playerPanelTwo[i]);
+					jailPanel.remove(playerPanelTwo[i]);
 					playerPanelTwo[i] = new JPanel();
 				}
 			}
