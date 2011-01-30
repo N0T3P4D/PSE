@@ -27,22 +27,27 @@ import javax.swing.border.LineBorder;
 
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
+import org.ojim.language.Localizer;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.Field;
 
+/**
+ * Das Spielfeld
+ * 
+ */
 public class GameField extends JPanel {
 
-	GameFieldPiece[] fields;
-	JPanel[] playerLabel;
-	Player[] player;
-	Field[] field;
+	private GameFieldPiece[] fields;
+	private JPanel[] playerLabel;
+	private Player[] player;
+	private Field[] field;
 	private boolean isInitialized = false;
 
 	// Das Feld auf das zuletzt mit der Maus geklickt wurde
-	String selectedField;
+	private String selectedField;
 
-	MouseListener mouseListener = new MouseListener() {
+	private MouseListener mouseListener = new MouseListener() {
 
 		@Override
 		public void mouseReleased(MouseEvent e) {
@@ -70,7 +75,7 @@ public class GameField extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			selectedField = e.getComponent().getName();
-			System.out.println(selectedField);
+			System.out.println("Clicked on Field " + selectedField);
 
 		}
 	};
@@ -123,10 +128,10 @@ public class GameField extends JPanel {
 		 * playerLabel[player.getId()].setBorder(new LineBorder(Color.black,
 		 * 1)); this.add(playerLabel[player.getId()]); this.revalidate();
 		 */
-		
-		for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
 
-			this.fields[field.getPosition()].removeSinglePlayer(player);
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+
+			this.fields[i].removeSinglePlayer(player);
 		}
 		this.fields[field.getPosition()].addPlayer(player);
 
@@ -134,15 +139,15 @@ public class GameField extends JPanel {
 	}
 
 	public void init(GameState gameState) {
-		
-		JPanel actualLabel = new JPanel();
+
+		interactionPopup = new InteractionPopup();
 
 		// Mittelfeld
-		actualLabel.setBackground(Color.black);
-		actualLabel.setName(-1 + "");
+		// interactionPopup.setBackground(Color.black);
+		interactionPopup.setName(-1 + "");
 
-		this.add(actualLabel);
-		
+		this.add(interactionPopup);
+
 		// System.out.println("GAMEFIELD UPDATE");
 
 		this.setLayout(new GameFieldLayout());
@@ -172,12 +177,12 @@ public class GameField extends JPanel {
 				fields[i].setField(gameState.getFieldAt(i));
 				fields[i].init(gameState);
 			} catch (NullPointerException e) {
-				System.out.println("IDx "+i);
+				// System.out.println("IDx "+i);
 			}
 
 		}
 		isInitialized = true;
-		
+
 		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
 			// ((GameFieldPiece) actualLabel).draw();
 			fields[i].setName(i + "");
@@ -186,7 +191,7 @@ public class GameField extends JPanel {
 			this.add(fields[i]);
 
 		}
-		
+
 		redraw();
 	}
 
@@ -224,7 +229,6 @@ public class GameField extends JPanel {
 	 */
 
 	public void redraw() {
-		
 
 		/*
 		 * for (int i = 0; i < fieldsAmount; i++) { try {
@@ -234,11 +238,35 @@ public class GameField extends JPanel {
 		 * } }
 		 */
 
-
 	}
 
 	public boolean isInitialized() {
 		return isInitialized;
+	}
+
+	public void dices(int[] diceValues) {
+		interactionPopup.showDices(diceValues);
+
+	}
+
+	public void setFreeParkingMoney(int moneyInPot) {
+		interactionPopup.showFreeParkingCash(moneyInPot);
+
+	}
+
+	public void setLanguage(Localizer language) {
+		if (interactionPopup != null) {
+			interactionPopup.setLanguage(language);
+		}
+
+	}
+
+	public void playerIsBancrupt(Player bancruptPlayer) {
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			this.fields[i].draw();
+			this.fields[i].removeSinglePlayer(bancruptPlayer);
+		}
+
 	}
 
 }

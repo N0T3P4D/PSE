@@ -46,7 +46,7 @@ public class GameFieldPiece extends JPanel {
 	private JLabel name = new JLabel();
 	private JLabel price = new JLabel();
 	private JPanel textPanel = new JPanel();
-	private Player[] player;
+	private Player[] player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
 	private JLabel playerLabel[] = new JLabel[GameState.MAXIMUM_PLAYER_COUNT];
 	private JPanel playerPanelTwo[] = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
 	private JPanel playerPanel = new JPanel();
@@ -222,7 +222,8 @@ public class GameFieldPiece extends JPanel {
 
 		// textPanel.add(playerPanel);
 		try {
-			if (((BuyableField) field).getOwner() != null) {
+			// isBankrupt workaround mit <0 
+			if (((BuyableField) field).getOwner() != null && !((BuyableField) field).getOwner().getIsBankrupt() && !(((BuyableField) field).getOwner().getBalance()<0)) {
 
 				price.setText("<html>"
 						+ ((BuyableField) field).getOwner().getName());
@@ -261,6 +262,17 @@ public class GameFieldPiece extends JPanel {
 				}
 
 			} else {
+				
+				textPanel.setBackground(Color.WHITE);
+				group.setBackground(Color.WHITE);
+
+				price.setBackground(Color.WHITE);
+				name.setBackground(Color.WHITE);
+				playerPanel.setBackground(Color.WHITE);
+				group.setForeground(Color.BLACK);
+				price.setForeground(Color.BLACK);
+				name.setForeground(Color.BLACK);
+				
 				price.setText("<html>" + ((BuyableField) field).getPrice());
 			}
 		} catch (ClassCastException e) {
@@ -287,7 +299,6 @@ public class GameFieldPiece extends JPanel {
 		if (!found) {
 			for (int i = 0; i < this.player.length; i++) {
 				if (this.player[i] == null) {
-					System.out.println("new Player");
 					this.player[i] = player;
 					playerLabel[i] = new JLabel();
 					playerPanelTwo[i] = new JPanel();
@@ -333,19 +344,24 @@ public class GameFieldPiece extends JPanel {
 
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			if (this.player[i] != null) {
-				if (playerLabel[i].getBackground().toString().equals(PlayerColor
-						.getBackGroundColor(player.getColor()).toString())
+				if (playerLabel[i].getBackground().toString().equals(
+						PlayerColor.getBackGroundColor(player.getColor())
+								.toString())
 						|| this.player[i].getId() == player.getId()) {
-					
-					if(this.player[i]!= null)
-					{
-						this.player = null;
+
+					if (this.player[i] != null) {
+						this.player[i] = null;
 					}
+					//System.out.println("Player "+player.getName()+" entfernt von Feld "+this.field.getName());
 					playerPanelTwo[i].remove(playerLabel[i]);
-					playerLabel[i] = null;
+					playerLabel[i] = new JLabel();
+					playerPanel.remove(playerPanelTwo[i]);
+					playerPanelTwo[i] = new JPanel();
 				}
 			}
 		}
+		this.revalidate();
+		this.repaint();
 	}
 
 	public void init(GameState gameState) {

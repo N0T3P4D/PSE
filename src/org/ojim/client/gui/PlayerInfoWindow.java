@@ -24,13 +24,21 @@ import javax.swing.JPanel;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.Player;
 
+/**
+ * PlayerInfoWindow enthält die Spieler mit ihrem Geld und ihrem Status
+ *
+ */
 public class PlayerInfoWindow extends JPanel {
 
 	private static final int MAX_PLAYERS = 8;
 	// hält PlayerInfoField playerInfoField;
 	private PlayerInfoField[] playerInfoFields;
 	private Localizer language;
-
+	
+	/**
+	 * Initialisiert das PlayerInfoWindow
+	 * @param language die Anzeigesprache
+	 */
 	public PlayerInfoWindow(Localizer language) {
 		
 		this.language = language;
@@ -56,6 +64,10 @@ public class PlayerInfoWindow extends JPanel {
 		
 	}
 	
+	/**
+	 * Setzt eine neue Sprache
+	 * @param language die neue Sprache
+	 */
 	public void setLanguage(Localizer language) {
 		this.language = language;
 		
@@ -68,6 +80,11 @@ public class PlayerInfoWindow extends JPanel {
 		draw();
 	}
 
+	/**
+	 * Fügt einen neuen Spieler hinzu
+	 * @param player das Spielerobjekt
+	 * @param cash sein Kontostand
+	 */
 	public void addPlayer(Player player, int cash) {
 		//System.out.println("addPlayer");
 		if (findPlayer(player) == -1) {
@@ -83,6 +100,9 @@ public class PlayerInfoWindow extends JPanel {
 		draw();
 	}
 
+	/**
+	 * Zeichnet die Spieler
+	 */
 	private void draw() {
 		this.removeAll();
 		
@@ -96,6 +116,10 @@ public class PlayerInfoWindow extends JPanel {
 		}
 	}
 
+	/**
+	 * Entfernt einen Spieler
+	 * @param player der zu entfernende Spieler
+	 */
 	public void removePlayer(Player player) {
 		int i = findPlayer(player);
 		for (int j = i; j <= MAX_PLAYERS; j++) {
@@ -105,6 +129,10 @@ public class PlayerInfoWindow extends JPanel {
 		draw();
 	}
 
+	/** 
+	 * Aktiviert einen Spieler
+	 * @param player der zu aktivierende Spieler
+	 */
 	public void turnOn(Player player) {
 		for (int i = 0; i < MAX_PLAYERS; i++) {
 			if (playerInfoFields[i].isOn()) {
@@ -117,12 +145,22 @@ public class PlayerInfoWindow extends JPanel {
 		draw();
 	}
 
+	/**
+	 * Ändert den Geldbetrag eines Spielers
+	 * @param player der Spieler dessen Geldbetrag geändert werden soll
+	 * @param newCashValue der neue Geldbetrag
+	 */
 	public void changeCash(Player player, int newCashValue) {
 		int i = findPlayer(player);
 		playerInfoFields[i].changeCash(newCashValue);
 		draw();
 	}
 
+	/**
+	 * Hilfsmethode um einen Spieler mit seinem Objekt zu finden
+	 * @param player der gesuchte Spieler
+	 * @return die ID des playerInfoFieldsarray (wenn nichts gefunden wurde -1)
+	 */
 	private int findPlayer(Player player) {
 		for (int i = 0; i < MAX_PLAYERS; i++) {
 			if (playerInfoFields[i].isPlayer(player)) {

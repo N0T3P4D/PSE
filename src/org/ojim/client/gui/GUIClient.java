@@ -17,9 +17,7 @@
 
 package org.ojim.client.gui;
 
-import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,8 +25,6 @@ import java.awt.event.ActionListener;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
-import javax.swing.UIManager;
-import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.CardBar.CardWindow;
@@ -46,46 +42,54 @@ import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.server.OjimServer;
 
+/**
+ * Diese Klasse ist der GUI Client
+ * 
+ */
 public class GUIClient extends ClientBase {
 
-	GUISettings settings;
-	GameField gameField;
-	ChatWindow chatWindow;
-	PlayerInfoWindow playerInfoWindow = new PlayerInfoWindow();
-	CardWindow cardWindow = new CardWindow();
+	private GUISettings settings;
+	private GameField gameField;
+	private ChatWindow chatWindow;
+	private PlayerInfoWindow playerInfoWindow = new PlayerInfoWindow();
+	private CardWindow cardWindow = new CardWindow();
 
-	CreateGameFrame createGameFrame;
-	JoinGameFrame joinGameFrame;
-	SettingsFrame settingsFrame;
-	HelpFrame helpFrame;
-	AboutFrame aboutFrame;
+	private CreateGameFrame createGameFrame;
+	private JoinGameFrame joinGameFrame;
+	private SettingsFrame settingsFrame;
+	private HelpFrame helpFrame;
+	private AboutFrame aboutFrame;
 
-	String name;
+	private String name;
 
-	MenuBar menubar;
-	JPanel window = new JPanel();
-	JPanel rightWindow1 = new JPanel();
-	JPanel downWindow = new JPanel();
-	JPanel downRight = new JPanel();
-	JButton buyButton = new JButton();
-	JButton rollButton = new JButton();
-	JButton endTurnButton = new JButton();
-	JButton button = new JButton();
+	private MenuBar menubar;
+	private JPanel window = new JPanel();
+	private JPanel rightWindow1 = new JPanel();
+	private JPanel downWindow = new JPanel();
+	private JPanel downRight = new JPanel();
+	private JButton buyButton = new JButton();
+	private JButton rollButton = new JButton();
+	private JButton endTurnButton = new JButton();
+	private JButton button = new JButton();
 
-	JPanel leftWindow = new JPanel();
-	JPanel rightWindow = new JPanel();
+	private JPanel leftWindow = new JPanel();
+	private JPanel rightWindow = new JPanel();
 
-	JFrame GUIFrame;
+	private JFrame GUIFrame;
 
-	JPanel pane = new JPanel(new OJIMLayout());
-	JPanel gameFieldPanel = new JPanel();
-	Localizer language;
-	
-	boolean notInit = true;
-	boolean haveIalreadyRolled = false;
+	private JPanel pane = new JPanel(new OJIMLayout());
+	private Localizer language;
+
+	private boolean notInit = true;
+	private boolean haveIalreadyRolled = false;
+
+	private OjimServer server;
 
 	private MenuState menuState;
 
+	/**
+	 * Mit diesem Konstruktor wird der GUI Client gestartet
+	 */
 	public GUIClient() {
 
 		// Nur zu Debugzwecken auf game
@@ -138,6 +142,9 @@ public class GUIClient extends ClientBase {
 
 	}
 
+	/**
+	 * Diese Methode war früher zum Updaten da
+	 */
 	private void draw() {
 
 		// GUIFrame = new JFrame(language.getText("ojim"));
@@ -166,49 +173,6 @@ public class GUIClient extends ClientBase {
 
 		case waitRoom:
 
-			leftWindow.remove(chatWindow);
-
-			leftWindow.setLayout(new GridLayout(0, 1));
-
-			rightWindow.remove(playerInfoWindow);
-			rightWindow.remove(button);
-
-			button.setText(language.getText("ready"));
-
-			window.setLayout(new GridLayout(1, 0));
-			rightWindow.setLayout(new GridLayout(0, 1));
-
-			playerInfoWindow.setLanguage(language);
-
-			rightWindow.add(playerInfoWindow);
-			leftWindow.add(chatWindow);
-
-			ActionListener clickedOnReady = new ActionListener() {
-
-				@Override
-				public void actionPerformed(ActionEvent e) {
-					ready();
-
-				}
-			};
-			;
-			;
-
-			button.addActionListener(clickedOnReady);
-
-			rightWindow.add(button);
-
-			for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
-				// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
-				this.playerInfoWindow.addPlayer(this.getGameState()
-						.getPlayers()[i], this.getGameState().getPlayers()[i]
-						.getBalance());
-			}
-
-			window.add(leftWindow);
-			window.add(rightWindow);
-
-			GUIFrame.add(window);
 			break;
 
 		case game:
@@ -223,10 +187,22 @@ public class GUIClient extends ClientBase {
 		}
 	}
 
+	/**
+	 * Die Startmethode des GUI Clients
+	 * 
+	 * @param args
+	 *            Parameter die nicht benutzt werden
+	 */
 	public static void main(String[] args) {
 		new GUIClient();
 	}
 
+	/**
+	 * Den Spielstatus ändern
+	 * 
+	 * @param menuState
+	 *            auf diesen Status wird gesetzt
+	 */
 	public void setMenuState(MenuState menuState) {
 		this.menuState = menuState;
 		draw();
@@ -248,16 +224,30 @@ public class GUIClient extends ClientBase {
 		// System.out.println("Meista, da hat wer was gekauft!");
 		// draw();
 
-		// TODO if player = gui player => feld and cardBar schicken zum
-		// aufnehmen
-		// Wo finde ich heraus ob ich der GUI Player bin?
-
 	}
 
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		playerInfoWindow.changeCash(player, cashChange);
+		playerInfoWindow.changeCash(player, getGameState().getPlayerByID(
+				player.getId()).getBalance());
 		// draw();
+
+		// Geld kleiner 0 Workaround weil getIsBankrupt nicht geht
+		if (player.getIsBankrupt() || getGameState().getPlayerByID(
+				player.getId()).getBalance() < 0) {
+			playerInfoWindow.setBancrupt(player);
+			gameField.playerIsBancrupt(player);
+		} else {
+
+			for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+				if (getGameState().getFieldAt(i) instanceof org.ojim.logic.state.fields.FreeParking) {
+					this.gameField
+							.setFreeParkingMoney(((org.ojim.logic.state.fields.FreeParking) getGameState()
+									.getFieldAt(i)).getMoneyInPot());
+				}
+			}
+		}
+
 	}
 
 	@Override
@@ -292,9 +282,20 @@ public class GUIClient extends ClientBase {
 		// gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)),
 		// player);
 		// gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
+
+		gameField.playerMoves(getGameState().getFieldAt(Math.abs(position)),
+				player);
 		
-		gameField.playerMoves(getGameState().getFieldAt(position), player);
+		/* Falls Bancrupt in Move nicht geht
+		for(int i = 0; i < getGameState().getPlayers().length; i++){
+			if (getGameState().getPlayerByID(i).getIsBankrupt()) {
+				playerInfoWindow.setBancrupt(getGameState().getPlayerByID(i));
+				gameField.playerIsBancrupt(getGameState().getPlayerByID(i));
+				System.out.println("Bancrupt2");
+			}
+		}*/
 		
+
 		if (player.getId() == getMe().getId()) {
 
 			try {
@@ -315,24 +316,30 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onTrade(Player actingPlayer, Player partnerPlayer) {
-		// TODO Auto-generated method stub
+		System.out.println("-- DEBUG -- on Trade ");
+		chatWindow.write(new ChatMessage(null, false,
+				"-- DEBUG -- onTrade, acting: " + actingPlayer.getName()
+						+ ", partner: " + partnerPlayer.getName()));
 	}
 
 	@Override
 	public void onBankruptcy() {
-		// TODO Auto-generated method stub
-
+		System.out.println("-- DEBUG -- on Bankruptcy ");
+		chatWindow.write(new ChatMessage(null, false,
+				"-- DEBUG -- on Bankruptcy"));
 	}
 
 	@Override
 	public void onCardPull(String text, boolean communityCard) {
-		// TODO Auto-generated method stub
-		// Mittelfeld
+		// Passiert nix?
+		System.out.println("-- DEBUG -- on CardPull " + text);
+		chatWindow.write(new ChatMessage(null, false,
+				"-- DEBUG -- on CardPull " + text));
 	}
 
 	@Override
 	public void onDiceValues(int[] diceValues) {
-		// TODO Auto-generated method stub
+		gameField.dices(diceValues);
 
 	}
 
@@ -343,6 +350,7 @@ public class GUIClient extends ClientBase {
 			notInit = false;
 			gameField.init(getGameState());
 			playerInfoWindow.setLanguage(language);
+			gameField.setLanguage(language);
 
 			// System.out.println("Es gibt "
 			// + this.getGameState().getPlayers().length + " Spieler.");
@@ -353,6 +361,7 @@ public class GUIClient extends ClientBase {
 			}
 
 			this.menuState = MenuState.game;
+			this.menubar.setMenuBarState(menuState);
 
 			GUIFrame.remove(window);
 
@@ -415,6 +424,16 @@ public class GUIClient extends ClientBase {
 
 			pane.setLayout(new OJIMLayout());
 
+			for (int i = 0; players.length > i; i++) {
+				try {
+					gameField.playerMoves(getGameState()
+							.getFieldAt(Math.abs(0)), getGameState()
+							.getPlayerByID(i));
+				} catch (NullPointerException e) {
+
+				}
+			}
+
 			GUIFrame.add(pane);
 		}
 	}
@@ -430,68 +449,76 @@ public class GUIClient extends ClientBase {
 		super.setName(name);
 	}
 
-	public MenuState getMenuState() {
-		return menuState;
-	}
-
-	public GameField getGameField() {
-		return gameField;
-	}
-
-	public ChatWindow getChatWindow() {
-		return chatWindow;
-	}
-
-	public PlayerInfoWindow getPlayerInfoWindow() {
-		return playerInfoWindow;
-	}
-
-	public CardWindow getCardWindow() {
-		return cardWindow;
-	}
-
+	/**
+	 * Öffnet ein neues Frame für die Spielerstellung
+	 */
 	public void openCreateGameWindow() {
 		createGameFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Beendet das Spiel
+	 */
 	public void leaveGame() {
-		// TODO Game beenden
+
+		server.endGame();
 
 		menuState = MenuState.mainMenu;
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für das Spielbeitreten
+	 */
 	public void openJoinGameWindow() {
 		joinGameFrame.showJoin();
 		joinGameFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für das Spielbeitreten
+	 */
 	public void openServerListWindow() {
 		joinGameFrame.showServerList();
 		joinGameFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für das Beitreten per Direkter Verbindung
+	 */
 	public void openDirectConnectionWindow() {
 		joinGameFrame.showDirectConnection();
 		joinGameFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für den Abouttext
+	 */
 	public void openAboutWindow() {
 		aboutFrame.draw();
 		aboutFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Öffnet ein neues Frame für den Hilfetext
+	 */
 	public void openHelpWindow() {
 		helpFrame.draw();
 		helpFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Ändert die Sprache
+	 * 
+	 * @param languageName
+	 *            neue Sprache
+	 */
 	public void changeLanguage(String languageName) {
 		for (int i = 0; i < language.getLanguages().length; i++) {
 			if (language.getLanguages()[i].name.equals(languageName)) {
@@ -502,6 +529,9 @@ public class GUIClient extends ClientBase {
 
 	}
 
+	/**
+	 * setzt die Sprache der verschiedenen Elemente auf die Klassensprache
+	 */
 	private void resetLanguage() {
 		GUIFrame.setTitle(language.getText("ojim"));
 		createGameFrame.setTitle(language.getText("create game"));
@@ -520,6 +550,8 @@ public class GUIClient extends ClientBase {
 		buyButton.setText(language.getText("buy"));
 		endTurnButton.setText(language.getText("endturn"));
 		rollButton.setText(language.getText("roll"));
+		gameField.setLanguage(language);
+		button.setText(language.getText("ready"));
 
 		draw();
 
@@ -531,20 +563,70 @@ public class GUIClient extends ClientBase {
 
 	}
 
+	/**
+	 * Öffnet das Einstellungenfenster
+	 */
 	public void openSettingsWindow() {
 		settingsFrame.draw();
 		settingsFrame.setVisible(true);
 
 	}
 
+	/**
+	 * Startet ein neues Spiel und öffnet den Warteraum
+	 */
 	public void startServer() {
 		menuState = MenuState.waitRoom;
 
-		OjimServer server = new OjimServer("Philip");
+		server = new OjimServer("Philip");
 
 		server.initGame(8, 7);
 
 		connect(server);
+
+		leftWindow.remove(chatWindow);
+
+		leftWindow.setLayout(new GridLayout(0, 1));
+
+		rightWindow.remove(playerInfoWindow);
+		rightWindow.remove(button);
+
+		button.setText(language.getText("ready"));
+
+		window.setLayout(new GridLayout(1, 0));
+		rightWindow.setLayout(new GridLayout(0, 1));
+
+		playerInfoWindow.setLanguage(language);
+
+		rightWindow.add(playerInfoWindow);
+		leftWindow.add(chatWindow);
+
+		ActionListener clickedOnReady = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				ready();
+
+			}
+		};
+		;
+		;
+
+		button.addActionListener(clickedOnReady);
+
+		rightWindow.add(button);
+
+		for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
+			// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
+			this.playerInfoWindow.addPlayer(
+					this.getGameState().getPlayers()[i], this.getGameState()
+							.getPlayers()[i].getBalance());
+		}
+
+		window.add(leftWindow);
+		window.add(rightWindow);
+
+		GUIFrame.add(window);
 
 		createGameFrame.setVisible(false);
 		draw();
@@ -563,6 +645,12 @@ public class GUIClient extends ClientBase {
 
 	}
 
+	/**
+	 * Verschickt eine Nachricht im Chat
+	 * 
+	 * @param text
+	 *            die zu verschickende Nachricht
+	 */
 	public void sendOutMessage(String text) {
 		sendMessage(text);
 		draw();

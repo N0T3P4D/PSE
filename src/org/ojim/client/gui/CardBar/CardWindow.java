@@ -1,6 +1,5 @@
 package org.ojim.client.gui.CardBar;
 
-import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 
 import javax.swing.JPanel;
@@ -8,6 +7,10 @@ import javax.swing.JPanel;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.fields.Field;
 
+/**
+ * Das Kartenfenster zeichnet die Kartenstapel
+ * 
+ */
 public class CardWindow extends JPanel {
 
 	// Hält CardStacks
@@ -15,19 +18,27 @@ public class CardWindow extends JPanel {
 	private static final int MAX_CARD_STACKS = 4;
 	private int row = 0;
 
+	/**
+	 * Initialisert das Fenster
+	 */
 	public CardWindow() {
 		super();
 
 		cardStacks = new CardStack[MAX_CARD_STACKS * 3];
-		
+
 		for (int i = 0; i < MAX_CARD_STACKS * 3; i++) {
 			cardStacks[i] = new CardStack();
 		}
-		
-		
+
 		draw();
 	}
 
+	/**
+	 * Setzt die Sprache
+	 * 
+	 * @param language
+	 *            die neue Sprache
+	 */
 	public void setLanguage(Localizer language) {
 		for (int i = 0; i < MAX_CARD_STACKS; i++) {
 			cardStacks[i].setLanguage(language);
@@ -35,11 +46,17 @@ public class CardWindow extends JPanel {
 		draw();
 	}
 
+	/**
+	 * fügt eine Karte zu den Kartenstapeln hinzu
+	 * 
+	 * @param card
+	 *            das Spielfeld
+	 */
 	public void addCard(org.ojim.logic.state.fields.BuyableField card) {
 		boolean found = false;
 
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1)
-				&& !(cardStacks[i].getFieldGroup()==null); i++) {
+				&& !(cardStacks[i].getFieldGroup() == null); i++) {
 			if (cardStacks[i].getFieldGroup().equals(card.getFieldGroup())) {
 				cardStacks[i].addCard(card);
 				found = true;
@@ -52,7 +69,7 @@ public class CardWindow extends JPanel {
 
 				if (cardStacks[i].getFieldGroup() == null) {
 					cardStacks[i].addCard(card);
-					if (i >= MAX_CARD_STACKS*(row+1)) {
+					if (i >= MAX_CARD_STACKS * (row + 1)) {
 						row++;
 					}
 					break;
@@ -60,10 +77,16 @@ public class CardWindow extends JPanel {
 
 			}
 		}
-		System.out.println("Karte gekauft");
+		// System.out.println("Karte gekauft");
 		draw();
 	}
 
+	/**
+	 * Entfernt eine Karte aus einem Kartenstapel wenn die Karte enthalten ist
+	 * 
+	 * @param card
+	 *            das zu entferndende Feld
+	 */
 	public void removeCard(org.ojim.logic.state.fields.BuyableField card) {
 		int empty = -1;
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1)
@@ -77,19 +100,22 @@ public class CardWindow extends JPanel {
 			}
 		}
 		if (empty != -1) {
-			for (int i = empty; i < MAX_CARD_STACKS * (row + 1) -1; i++) {
-				cardStacks[i] = cardStacks[i+1];
+			for (int i = empty; i < MAX_CARD_STACKS * (row + 1) - 1; i++) {
+				cardStacks[i] = cardStacks[i + 1];
 			}
-			cardStacks[MAX_CARD_STACKS*(row+1)-1] = new CardStack();
-			if (empty < MAX_CARD_STACKS*(row+1)) {
+			cardStacks[MAX_CARD_STACKS * (row + 1) - 1] = new CardStack();
+			if (empty < MAX_CARD_STACKS * (row + 1)) {
 				row--;
 			}
 		}
 		draw();
 	}
 
+	/**
+	 * Zeichnet das Fenster
+	 */
 	public void draw() {
-		this.setLayout(new GridLayout(3,MAX_CARD_STACKS));
+		this.setLayout(new GridLayout(3, MAX_CARD_STACKS));
 
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1); i++) {
 			this.remove(cardStacks[i]);
@@ -97,9 +123,13 @@ public class CardWindow extends JPanel {
 			this.add(cardStacks[i]);
 		}
 	}
-	
-	public void switchCardStatus(Field field){
-		
+
+	/**
+	 * Dreht eine Karte im Kartenstapel um
+	 * @param field die umzudrehende Karte
+	 */
+	public void switchCardStatus(Field field) {
+
 	}
 
 }

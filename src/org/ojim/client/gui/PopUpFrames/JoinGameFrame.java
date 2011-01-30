@@ -29,13 +29,13 @@ import org.ojim.language.Localizer;
 
 public class JoinGameFrame extends JFrame {
 
-	JLabel ip;
-	JTextField ipField;
-	JPanel panel;
-	JButton joinButton;
-	Localizer language;
+	private JLabel ip;
+	private JTextField ipField;
+	private JPanel panel;
+	private JButton joinButton;
+	private Localizer language;
 	
-	Window windowStatus;
+	private Window windowStatus;
 	
 	enum Window {
 		directConnection, serverList

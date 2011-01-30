@@ -28,8 +28,8 @@ import org.ojim.language.Localizer;
 
 public class AboutFrame extends JFrame {
 
-	JLabel aboutText;
-	Localizer language;
+	private JLabel aboutText;
+	private Localizer language;
 	
 	public AboutFrame(Localizer language) {
 		this.language = language;

@@ -29,11 +29,11 @@ import org.ojim.language.Localizer;
 
 public class SettingsFrame extends JFrame {
 
-	JLabel name;
-	JTextField nameField;
-	JPanel panel;
-	JButton saveButton;
-	Localizer language;
+	private JLabel name;
+	private JTextField nameField;
+	private JPanel panel;
+	private JButton saveButton;
+	private Localizer language;
 	
 	public SettingsFrame(Localizer language) {
 		this.language = language;
