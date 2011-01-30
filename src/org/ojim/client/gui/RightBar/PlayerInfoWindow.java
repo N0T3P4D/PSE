@@ -18,6 +18,8 @@
 package org.ojim.client.gui.RightBar;
 
 import java.awt.GridLayout;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
@@ -31,11 +33,11 @@ public class PlayerInfoWindow extends JPanel {
 	private PlayerInfoField[] playerInfoFields;
 	private Localizer language;
 
-	public PlayerInfoWindow(Localizer language) {
+	public PlayerInfoWindow() {
 
-		this.language = language;
 		
 
+		this.setLayout(new GridLayout(GameState.MAXIMUM_PLAYER_COUNT, 0));
 		playerInfoFields = new PlayerInfoField[GameState.MAXIMUM_PLAYER_COUNT];
 		/*
 		 * for(int i = 0; i < MAX_PLAYERS; i++){ playerInfoFields[i] = new
@@ -61,8 +63,13 @@ public class PlayerInfoWindow extends JPanel {
 		this.language = language;
 
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			if (!playerInfoFields[i].isNull()) {
-				playerInfoFields[i].setLanguage(language);
+			try {
+				if (!playerInfoFields[i].isNull()) {
+					playerInfoFields[i].setLanguage(language);
+				}
+				
+			} catch (NullPointerException e){
+				
 			}
 		}
 
@@ -78,6 +85,9 @@ public class PlayerInfoWindow extends JPanel {
 					//System.out.println(player.getId()+" mit id "+i+" hinzugefügt");
 					playerInfoFields[i] = new PlayerInfoField(player, player.getBalance(),
 							language);
+					this.add(playerInfoFields[i]);
+					playerInfoFields[i].addMouseListener(playerMouseListener);
+					playerInfoFields[i].setName(i+"");
 					break;
 				}
 			}
@@ -86,17 +96,56 @@ public class PlayerInfoWindow extends JPanel {
 	}
 
 	private void draw() {
+		/*
 		this.removeAll();
-
+		this.revalidate();
+		
 		this.setLayout(new GridLayout(GameState.MAXIMUM_PLAYER_COUNT, 0));
 
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			if (playerInfoFields[i] != null) {
+				playerInfoFields[i].addMouseListener(playerMouseListener);
+				playerInfoFields[i].setName(i+"");
 				this.add(playerInfoFields[i]);
 			}
 			//System.out.println("Player "+i+" wurde nun angeblich hinzugefügt!");
-		}
+		}*/
+		repaint();
 	}
+	
+	MouseListener playerMouseListener = new MouseListener() {
+		
+		@Override
+		public void mouseReleased(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mousePressed(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseExited(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseEntered(MouseEvent e) {
+			// TODO Auto-generated method stub
+			
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) {
+			System.out.println("Clicked on Player "+e.getComponent().getName());
+			
+		}
+	};
+	
 
 	public void removePlayer(Player player) {
 		int i = findPlayer(player);
@@ -137,5 +186,10 @@ public class PlayerInfoWindow extends JPanel {
 			}
 		}
 		return -1;
+	}
+
+	public void setBancrupt(Player player) {
+		playerInfoFields[findPlayer(player)].setBancrupt();
+		
 	}
 }

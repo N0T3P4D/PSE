@@ -19,6 +19,10 @@ package org.ojim.client.gui;
 
 import java.awt.Color;
 
+/**
+ * Enthält die Farben der Spieler
+ *
+ */
 public class PlayerColor {
 
 	private static final Color[][] colors = {
@@ -31,18 +35,28 @@ public class PlayerColor {
 			// Spieler 4
 			{ Color.green, Color.black },
 			// Spieler 5
-			{ Color.orange, Color.white },
+			{ Color.orange, Color.black },
 			// Spieler 6
-			{ Color.cyan, Color.white },
+			{ Color.cyan, Color.black },
 			// Spieler 7
-			{ Color.pink, Color.white },
+			{ Color.magenta, Color.white },
 			// Spieler 8
 			{ Color.black, Color.white } };
 
+	/**
+	 * Gibt die Hintergrundfarbe des Spielers zurück
+	 * @param color die int-Farbe des Spielers
+	 * @return die Farbe als Color
+	 */
 	public static Color getBackGroundColor(int color) {
 		return color == -1 ? Color.WHITE : colors[color][0];
 	}
-
+	
+	/**
+	 * Gibt die Vordergrundfarbe des Spielers zurück
+	 * @param color die int-Farbe des Spielers
+	 * @return die Farbe als Color
+	 */
 	public static Color getFontColor(int color) {
 		return color == -1 ? Color.BLACK : colors[color][1];
 	}

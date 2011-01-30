@@ -18,6 +18,8 @@
 package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -25,80 +27,98 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.language.Localizer;
 
 public class JoinGameFrame extends JFrame {
 
-	JLabel ip;
-	JTextField ipField;
-	JPanel panel;
-	JButton joinButton;
-	Localizer language;
-	
-	Window windowStatus;
-	
+	private JLabel ip;
+	private JLabel buttonLabel;
+	private JTextField ipField = new JTextField();;
+	private JTextField portField = new JTextField();;
+	private JPanel panel;
+	private JButton joinButton;
+	private Localizer language;
+	private GUIClient gui;
+	private ActionListener joinButtonListener;
+
+	private Window windowStatus;
+
 	enum Window {
 		directConnection, serverList
 	}
-	
-	public JoinGameFrame(Localizer language) {
+
+	public JoinGameFrame(Localizer language, final GUIClient gui) {
 		this.language = language;
 		setMinimumSize(new Dimension(400, 100));
-		
+
 		ip = new JLabel(this.language.getText("IP"));
-		ipField = new JTextField();
 		joinButton = new JButton();
-		joinButton.add(new JLabel(this.language.getText("join")));
+		buttonLabel = new JLabel(this.language.getText("join"));
+		joinButton.add(buttonLabel);
+
 		ipField.setColumns(20);
+		portField.setColumns(5);
 		panel = new JPanel();
 
+		this.gui = gui;
+
+		joinButtonListener = new ActionListener() {
+
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("ACTION PERFORMED");
+				try {
+					gui.startIpConnection(ipField.getText(), Integer
+							.parseInt(portField.getText()));
+					setVisible(false);
+				} catch (NumberFormatException e1) {
+					System.out.println("Kein Port");
+				}
+
+			}
+		};
+		
+		joinButton.addActionListener(joinButtonListener);
+		
 		panel.add(ip);
 		panel.add(ipField);
+		panel.add(portField);
 		panel.add(joinButton);
+		this.add(panel);
+
 		
 		this.pack();
 	}
 
 	public void showDirectConnection() {
-		
-		
-		ip = new JLabel(this.language.getText("ip"));
-		ipField = new JTextField();
-		joinButton = new JButton();
-		joinButton.add(new JLabel(this.language.getText("join")));
-		ipField.setColumns(20);
-		panel = new JPanel();
-		
-		panel.add(ip);
-		panel.add(ipField);
-		panel.add(joinButton);
-		
+
+		ip.setText(this.language.getText("IP"));
+		buttonLabel.setText(this.language.getText("join"));
+
 		showJoin();
 
 	}
 
 	public void showServerList() {
-		ip = new JLabel(this.language.getText("serverListText"));
+		// ip = new JLabel(this.language.getText("serverListText"));
 
-		panel.add(ip);
+		// panel.add(ip);
 	}
 
 	public void showJoin() {
-		
-		remove(panel);
-		
-		this.add(panel);
-		this.repaint();
+
 		setVisible(true);
 
 	}
 
 	public void setLanguage(Localizer language) {
 		this.language = language;
-		if(isVisible()){
+		if (isVisible()) {
 			showJoin();
 		}
-		
+
 	}
+
 
 }

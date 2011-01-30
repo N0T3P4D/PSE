@@ -317,7 +317,7 @@ public class ServerLogic extends Logic {
 	public void movePlayerForDice(Player player, int result) {
 		// Do the passthrough-Action for all Fields the Player steps on
 		int position = player.getPosition();
-		for (int i = 1; i >= result; i++) {
+		for (int i = 1; i < result; i++) {
 			// Move Player 1 forward
 			player.setPosition((position + i)
 					% this.getGameState().FIELDS_AMOUNT);

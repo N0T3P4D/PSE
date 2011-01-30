@@ -29,8 +29,8 @@ import org.ojim.language.Localizer;
 
 public class HelpFrame extends JFrame {
 	
-	Localizer language;
-	JLabel helpText;
+	private Localizer language;
+	private JLabel helpText;
 	
 	public HelpFrame(Localizer language) {
 

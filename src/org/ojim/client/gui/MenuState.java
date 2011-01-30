@@ -17,7 +17,10 @@
 
 package org.ojim.client.gui;
 
-
+/**
+ * Zeigt die Verschiedenen Zustände des GUI Clients
+ *
+ */
 enum MenuState {
 	mainMenu, waitRoom, game
 };

@@ -172,7 +172,7 @@ public class Localizer {
 			for (String string : Localizer.TEXT_KEYS) {
 				if (string.equals(key)) {
 					// Maybe get translation?
-					return key;
+					return "<html>"+key;
 				}
 			}
 			// Maybe throw exception

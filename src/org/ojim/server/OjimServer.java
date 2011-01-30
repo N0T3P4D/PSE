@@ -54,6 +54,11 @@ import edu.kit.iti.pse.iface.IServer;
 import edu.kit.iti.pse.iface.IServerAuction;
 import edu.kit.iti.pse.iface.IServerTrade;
 
+/**
+ * 
+ * @author Philip
+ *
+ */
 public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	/**

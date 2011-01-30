@@ -85,7 +85,6 @@ public class ServerStart {
 					System.out.println("Game initialized!");
 				}
 			} else if(input.startsWith("aitest")) {
-				//Random rnd = new Random(Integer.parseInt(input.split(" ", 0)[1]));
 				Random rnd = new Random(42);
 				for(int i = 0; i < 1000; i++) {
 					int count = rnd.nextInt(7) + 2;

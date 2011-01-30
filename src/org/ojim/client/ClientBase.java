@@ -204,9 +204,13 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		return true;
 	}
 
-	protected final void connect(IServer server) {
-		this.setParameters(server, this);
+	protected final void connect(IServer server, GameState state) {
+		this.setParameters(server, this, state);
 		this.loadGameBoard();
+	}
+	
+	protected final void connect(IServer server) {
+		this.connect(server, new GameState());
 	}
 
 	/*
@@ -409,6 +413,12 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		Player player = this.getGameState().getPlayerByID(playerId);
 		if (player != null) {
 			player.setPosition(position);
+			if (position < 0 && this.getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
+				player.sendToJail((Jail) this.getGameState().getFieldAt(Math.abs(position)));
+			} else {
+				player.sendToJail(null);
+			}
+			
 			//this.onMove(player, position);
 			this.executor.execute(new OnMove(this, player, position));
 		} else {
