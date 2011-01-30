@@ -35,6 +35,7 @@ import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Street;
 
 public class GameFieldPiece extends JPanel {
@@ -46,6 +47,7 @@ public class GameFieldPiece extends JPanel {
 	private JLabel name = new JLabel();
 	private JLabel price = new JLabel();
 	private JPanel textPanel = new JPanel();
+	private JPanel jailPanel = new JPanel();
 	private Player[] player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
 	private JLabel playerLabel[] = new JLabel[GameState.MAXIMUM_PLAYER_COUNT];
 	private JPanel playerPanelTwo[] = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
@@ -95,6 +97,11 @@ public class GameFieldPiece extends JPanel {
 			group.setHorizontalTextPosition(JLabel.CENTER);
 		} catch (ClassCastException e) {
 
+		}
+
+		if (this.field instanceof Jail) {
+			jailPanel.setBackground(Color.BLACK);
+			textPanel.add(jailPanel);
 		}
 
 		playerPanel.setLayout(new GridBagLayout());
@@ -172,7 +179,11 @@ public class GameFieldPiece extends JPanel {
 			textPanel.setLayout(new GridLayout(3, 0));
 		}
 
-		textPanel.setLayout(new GridLayout(4, 0));
+		if (this.field instanceof Jail) {
+			textPanel.setLayout(new JailLayout());
+		} else {
+			textPanel.setLayout(new GridLayout(4, 0));
+		}
 
 		textPanel.add(playerPanel);
 		textPanel.add(group);
@@ -222,8 +233,10 @@ public class GameFieldPiece extends JPanel {
 
 		// textPanel.add(playerPanel);
 		try {
-			// isBankrupt workaround mit <0 
-			if (((BuyableField) field).getOwner() != null && !((BuyableField) field).getOwner().getIsBankrupt() && !(((BuyableField) field).getOwner().getBalance()<0)) {
+			// isBankrupt workaround mit <0
+			if (((BuyableField) field).getOwner() != null
+					&& !((BuyableField) field).getOwner().getIsBankrupt()
+					&& !(((BuyableField) field).getOwner().getBalance() < 0)) {
 
 				price.setText("<html>"
 						+ ((BuyableField) field).getOwner().getName());
@@ -262,7 +275,7 @@ public class GameFieldPiece extends JPanel {
 				}
 
 			} else {
-				
+
 				textPanel.setBackground(Color.WHITE);
 				group.setBackground(Color.WHITE);
 
@@ -272,7 +285,7 @@ public class GameFieldPiece extends JPanel {
 				group.setForeground(Color.BLACK);
 				price.setForeground(Color.BLACK);
 				name.setForeground(Color.BLACK);
-				
+
 				price.setText("<html>" + ((BuyableField) field).getPrice());
 			}
 		} catch (ClassCastException e) {
@@ -352,7 +365,7 @@ public class GameFieldPiece extends JPanel {
 					if (this.player[i] != null) {
 						this.player[i] = null;
 					}
-					//System.out.println("Player "+player.getName()+" entfernt von Feld "+this.field.getName());
+					// System.out.println("Player "+player.getName()+" entfernt von Feld "+this.field.getName());
 					playerPanelTwo[i].remove(playerLabel[i]);
 					playerLabel[i] = new JLabel();
 					playerPanel.remove(playerPanelTwo[i]);
