@@ -237,7 +237,6 @@ public class GUIClient extends ClientBase {
 				player.getId()).getBalance() < 0) {
 			playerInfoWindow.setBancrupt(player);
 			gameField.playerIsBancrupt(player);
-			System.out.println("Bannnnnnncrupt!");
 		} else {
 
 			for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
