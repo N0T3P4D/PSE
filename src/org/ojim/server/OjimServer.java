@@ -537,7 +537,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized int getBidder() {
 		if (auction != null) {
-			return auction.getHighestBidder().getId();
+			if(auction.getHighestBidder() != null) {
+				return auction.getHighestBidder().getId();
+			}
 		}
 		return -1;
 	}
