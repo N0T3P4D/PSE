@@ -50,6 +50,9 @@ public class GameFieldPiece extends JPanel {
 	private JLabel playerLabel[] = new JLabel[GameState.MAXIMUM_PLAYER_COUNT];
 	private JPanel playerPanelTwo[] = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
 	private JPanel playerPanel = new JPanel();
+	private JPanel[] housePanels = new JPanel[5];
+	private JPanel highHousePanel = new JPanel();
+	private JPanel innerHousePanel = new JPanel();
 
 	public GameFieldPiece(Field field, String name, int position, Image image) {
 	}
@@ -79,6 +82,22 @@ public class GameFieldPiece extends JPanel {
 		// this.drawer = FieldDrawer.getDrawer(field);
 
 		if (!(this.field.getColorGroup() < 0)) {
+
+			innerHousePanel.setBorder(new LineBorder(Color.BLACK));
+			highHousePanel.add(innerHousePanel);
+			highHousePanel.setBorder(new LineBorder(Color.BLACK));
+
+			for (int i = 0; i < 5; i++) {
+				housePanels[i] = new JPanel();
+				housePanels[i].setBorder(new LineBorder(Color.BLACK));
+			}
+			if (((Street) this.field).getBuiltLevel() == 5) {
+				colorTop.add(highHousePanel);
+			} else {
+				for (int i = 0; i < ((Street) this.field).getBuiltLevel(); i++) {
+					colorTop.add(housePanels[i]);
+				}
+			}
 			// this.remove(colorTop);
 			colorTop.setBackground(StreetColor.getBackGroundColor(this.field
 					.getColorGroup()));
@@ -333,9 +352,10 @@ public class GameFieldPiece extends JPanel {
 				// System.out.println("Karte " + this.field.getName()
 				// + " beherbergt nun Spieler " + this.player[i].getName());
 				playerPanelTwo[i].add(playerLabel[i]);
-				if (this.field instanceof Jail && (this.player[i].getJail() != null)) {
-						//System.out.println("Jail not Null");
-						jailPanel.add(playerPanelTwo[i]);
+				if (this.field instanceof Jail
+						&& (this.player[i].getJail() != null)) {
+					// System.out.println("Jail not Null");
+					jailPanel.add(playerPanelTwo[i]);
 				} else {
 					playerPanel.add(playerPanelTwo[i]);
 				}
@@ -395,5 +415,25 @@ public class GameFieldPiece extends JPanel {
 			}
 		}
 		draw();
+	}
+
+	public boolean isField(Field field2) {
+
+		return this.field.getPosition() == field2.getPosition();
+	}
+
+	public void redrawStreet() {
+		
+		colorTop.removeAll();
+		colorTop.revalidate();
+		
+		if (((Street) this.field).getBuiltLevel() == 5) {
+			colorTop.add(highHousePanel);
+		} else {
+			for (int i = 0; i < ((Street) this.field).getBuiltLevel(); i++) {
+				colorTop.add(housePanels[i]);
+			}
+		}
+
 	}
 }

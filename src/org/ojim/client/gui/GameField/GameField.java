@@ -93,7 +93,11 @@ public class GameField extends JPanel {
 	InteractionPopup interactionPopup;
 
 	public void buildOnStreet(Field field) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			if(this.fields[i].isField(field)){
+				this.fields[i].redrawStreet();
+			}
+		}
 		redraw();
 
 	}
@@ -105,7 +109,11 @@ public class GameField extends JPanel {
 	}
 
 	public void destroyOnStreet(Field field) {
-		// TODO Auto-generated method stub
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			if(this.fields[i].isField(field)){
+				this.fields[i].redrawStreet();
+			}
+		}
 		redraw();
 
 	}
