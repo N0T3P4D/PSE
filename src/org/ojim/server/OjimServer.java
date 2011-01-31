@@ -57,7 +57,7 @@ import edu.kit.iti.pse.iface.IServerTrade;
 /**
  * 
  * @author Philip
- *
+ * 
  */
 public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
@@ -970,7 +970,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerByID(playerID);
-		
+
 		if (player != null && rules.isPlayerOnTurn(player)
 				&& !state.getGameIsWon()) {
 			if (player.getJail() != null) {
@@ -983,24 +983,19 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 				if (this.auction != null && this.auction.getAuctionState() >= 3) {
 					Field field = state.getFieldAt(player.getPosition());
-					/*
-					 * TODO uncomment if (field instanceof BuyableField &&
-					 * ((BuyableField) field).getOwner() == null) { this.auction
-					 * = new Auction(state, logic, rules, (BuyableField) field);
-					 * } else {
-					 */
 
-					// }
-				} try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					if (field instanceof BuyableField
+							&& ((BuyableField) field).getOwner() == null) {
+						this.auction = new Auction(state, logic, rules,
+								(BuyableField) field);
+					} else {
+						logic.startNewTurn();
+						if (this.state.getGameIsWon()) {
+							this.endGame();
+						}
+					}
 				}
-				logic.startNewTurn();
-				if (this.state.getGameIsWon()) {
-					this.endGame();
-				}
+
 				return true;
 			}
 		}
