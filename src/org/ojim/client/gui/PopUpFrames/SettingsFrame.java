@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import org.ojim.client.gui.GUISettings;
 import org.ojim.language.Localizer;
 
 public class SettingsFrame extends JFrame {
@@ -34,13 +35,16 @@ public class SettingsFrame extends JFrame {
 	private JPanel panel;
 	private JButton saveButton;
 	private Localizer language;
+	private GUISettings settings;
 	
-	public SettingsFrame(Localizer language) {
+	public SettingsFrame(Localizer language, GUISettings settings) {
 		this.language = language;
 		setMinimumSize(new Dimension(400, 100));
 		
+		this.settings = settings;
+		
 		name = new JLabel(this.language.getText("player name"));
-		nameField = new JTextField();
+		nameField = new JTextField(settings.getPlayerName());
 		saveButton = new JButton();
 		saveButton.add(new JLabel(this.language.getText("save")));
 		nameField.setColumns(20);

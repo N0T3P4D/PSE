@@ -23,20 +23,15 @@ import java.awt.Dimension;
 import java.awt.LayoutManager;
 
 /**
- * Das OJIMLayout erstellt ein Flexibles Design des GUI Clients
+ * Das OJIMLayout erstellt ein Flexibles Design des GUI Clients.
  *
  */
 public class OJIMLayout implements LayoutManager {
 
+	// Werte des Layouts
 	private int minWidth = 400, minHeight = 400;
 	private int preferredWidth = 1600, preferredHeight = 900;
 	private boolean sizeUnknown = true;
-
-	@Override
-	public void addLayoutComponent(String arg0, Component arg1) {
-		// TODO Auto-generated method stub
-
-	}
 
 	/**
 	 * Setzt die Mindestgrößen
@@ -68,21 +63,28 @@ public class OJIMLayout implements LayoutManager {
 	@Override
 	public void layoutContainer(Container parent) {
 		int nComps = parent.getComponentCount();
-		// Go through the components' sizes, if neither
-		// preferredLayoutSize nor minimumLayoutSize has
-		// been called.
+		
+		/*
+		 * Sollte noch keine Lieblingsgröße eingestellt, so macht er das hier
+		 */
 		if (sizeUnknown) {
 			setSizes(parent);
-			// System.out.println("Handlungsbedarf");
 		}
 
+		/*
+		 * Jetzt geht er alle Komponenten durch
+		 */
 		for (int i = 0; i < nComps; i++) {
 			Component c = parent.getComponent(i);
 
+			// Berechne die Höhe des Spielfeldes und mache sie ganzzahlig
 			int squareHeight = (int) (parent.getHeight() * 0.8);
+			
+			// Berechne aus Ganzzahligen Zahlen, damit es nicht zu Rundungsfehlern kommt
 			int restWidth = (int) (parent.getWidth() - squareHeight);
 			int restHeight = (int) (parent.getHeight() - squareHeight);
 
+			// Ist das Fenster auch richtig skaliert, oder kann man die Spieler rechts nicht mehr lesen?
 			if (restWidth < parent.getHeight() * 0.2) {
 				System.out.println("Seitenverhältnis korrigiert.");
 				parent.getFocusCycleRootAncestor().setSize(parent.getHeight(),
@@ -99,19 +101,23 @@ public class OJIMLayout implements LayoutManager {
 
 					switch (i) {
 					case 0:
-
+						// Spielfeld
+						// Quadratisch am oberen linken Fenster
 						c.setBounds(0, 0, squareHeight, squareHeight);
 						break;
 					case 1:
-
+						// Kartenfenster
+						// Unter dem Spielfeld
 						c.setBounds(squareHeight, 0, restWidth, squareHeight);
 						break;
 					case 2:
-
+						// Rechte Bar
+						// Rechts von der GUI
 						c.setBounds(0, squareHeight, squareHeight, restHeight);
 						break;
 					case 3:
-
+						// Knöpfefenster
+						// rechts unten vom Spielfeld mit der Restgröße
 						c.setBounds(squareHeight, squareHeight, restWidth,
 								restHeight);
 						break;
@@ -133,8 +139,14 @@ public class OJIMLayout implements LayoutManager {
 
 	@Override
 	public void removeLayoutComponent(Component arg0) {
-		// TODO Auto-generated method stub
+		// Wird nicht benutzt
 
+	}
+
+	@Override
+	public void addLayoutComponent(String arg0, Component arg1) {
+		// Wird nicht benutzt
+		
 	}
 
 }
