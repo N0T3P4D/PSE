@@ -49,14 +49,16 @@ public class Card {
 	 * Stapel aufgenommen werden soll, wird diese Karte aufgenommen.
 	 * 
 	 * @param player Lässt den Spieler
+	 * @return <code>true</code> if a reaction is required.
 	 */
-	public void fetch(ServerPlayer player) {
+	public boolean fetch(ServerPlayer player) {
 		this.fetcher = player;
 		executeActions(this.preActions);
 		if (this.acceptActions.length > 0) {
-			//TODO: (xZise) servergamestate informieren
+			return true;
 		} else {
 			this.postFetch();
+			return false;
 		}
 	}
 	
@@ -64,6 +66,8 @@ public class Card {
 		if (this.holdingActions.length > 0) {
 			this.stack.remove();
 			this.fetcher.addCard(this);			
+		} else {
+			this.stack.step();
 		}
 	}
 	

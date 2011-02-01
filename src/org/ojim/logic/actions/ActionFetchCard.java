@@ -20,6 +20,7 @@ package org.ojim.logic.actions;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.state.Card;
 import org.ojim.logic.state.CardStack;
+import org.ojim.logic.state.ServerGameState;
 import org.ojim.logic.state.ServerPlayer;
 
 public class ActionFetchCard implements Action {
@@ -36,8 +37,10 @@ public class ActionFetchCard implements Action {
 	public void execute() {
 		if (!this.stack.isEmpty()) {
 			Card topCard = this.stack.getPointedCard();
-			this.stack.step();
-			topCard.fetch((ServerPlayer) this.logic.getGameState().getActivePlayer());
+			ServerGameState state = (ServerGameState) this.logic.getGameState();
+			if (topCard.fetch((ServerPlayer) this.logic.getGameState().getActivePlayer())) {
+				state.addWaitingCard(topCard);
+			}
 		}
 	}
 
