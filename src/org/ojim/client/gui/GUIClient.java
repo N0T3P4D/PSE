@@ -39,9 +39,7 @@ import org.ojim.language.LanguageDefinition;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
-import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
-import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.server.OjimServer;
 
 /**
@@ -107,10 +105,13 @@ public class GUIClient extends ClientBase {
 
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
+		
+		settings = new GUISettings();
+		settings.loadSettings();
 
 		createGameFrame = new CreateGameFrame(language, this);
 		joinGameFrame = new JoinGameFrame(language, this);
-		settingsFrame = new SettingsFrame(language);
+		settingsFrame = new SettingsFrame(language, settings);
 		helpFrame = new HelpFrame(language);
 		aboutFrame = new AboutFrame(language);
 
@@ -687,5 +688,14 @@ public class GUIClient extends ClientBase {
 
 	}
 
+	public void trade(int cash, int[] positions, int outOfJailCards) {
+		offerCash(cash);
+		for (int i = 0; i < positions.length; i++) {
+			offerEstate(positions[i]);
+		}
+		for (int i = 0; i < outOfJailCards; i++) {
+			offerGetOutOfJailCard();
+		}
+	}
 
 }

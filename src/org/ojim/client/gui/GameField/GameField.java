@@ -84,15 +84,15 @@ public class GameField extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			selectedField = e.getComponent().getName();
-			System.out.println("Clicked on Field " + selectedField);
+			//System.out.println("Clicked on Field " + selectedField);
 			try {
 				try {
-					System.out.println("1!");
+					//System.out.println("1!");
 					//if (((Street) fields[Integer.parseInt(selectedField)]
 					//		.getField()).getOwner().getId() == me.getId()) {
 					if(allOfGroupOwned((Street) fields[Integer.parseInt(selectedField)].getField())) {
 
-						System.out.println("2!");
+						//System.out.println("2!");
 						interactionPopup
 								.showUpgrade(
 										Integer.parseInt(selectedField),
@@ -100,7 +100,7 @@ public class GameField extends JPanel {
 												.getField().getName());
 					}
 				} catch (NullPointerException e2) {
-					System.out.println("nanana!");
+					//System.out.println("nanana!");
 					interactionPopup.deleteUpgrade();
 				}
 			} catch (ArrayIndexOutOfBoundsException e3) {
@@ -314,13 +314,13 @@ public class GameField extends JPanel {
 	 */
 	private boolean allOfGroupOwned(Street street) {
 		StreetFieldGroup group = street.getFieldGroup();
-		System.out.println("3!");
+		//System.out.println("3!");
 		if (group.getFields().length > 1) {
-			System.out.println("4!");
+			//System.out.println("4!");
 			int count = 0;
 
 			for (Field field : group.getFields()) {
-				System.out.println("5!");
+				//System.out.println("5!");
 				if (((BuyableField) field).getOwner() == this.me) {
 					count++;
 				}

@@ -32,6 +32,7 @@ import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.Card;
+import org.ojim.logic.state.GameState;
 
 public class InteractionPopup extends JPanel {
 
@@ -72,6 +73,9 @@ public class InteractionPopup extends JPanel {
 	private Localizer language;
 	private int cash;
 	private GUIClient gui;
+	
+	private int[] tradePositions;
+	private JPanel[] tradeCardPanel;
 
 	private ActionListener upgradeListener = new ActionListener() {
 		
@@ -100,6 +104,10 @@ public class InteractionPopup extends JPanel {
 		
 		this.gui = guiClient;
 		this.setBackground(Color.BLACK);
+		
+		tradePositions = new int[GameState.FIELDS_AMOUNT];
+		tradeCardPanel = new JPanel[GameState.FIELDS_AMOUNT];
+		
 		
 		
 		this.diceValues = new JLabel[2];
@@ -206,6 +214,10 @@ public class InteractionPopup extends JPanel {
 		this.add(upgradePanel);
 		this.repaint();
 		this.revalidate();
+		
+	}
+	
+	public void showTrade(int parseInt){
 		
 	}
 
