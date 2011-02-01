@@ -23,7 +23,7 @@ import java.util.logging.Logger;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
-import org.ojim.logic.state.fields.Jail;
+//import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
 
@@ -69,7 +69,7 @@ public class AIClient extends ClientBase {
 		valuator = new Valuator(getLogic(), server, getPlayerId());
 		count = 0;
 		OJIMLogger.changeLogLevel(logger, Level.WARNING);
-		 OJIMLogger.changeGlobalLevel(Level.FINEST);
+		OJIMLogger.changeGlobalLevel(Level.FINEST);
 	}
 
 	/**
@@ -93,18 +93,19 @@ public class AIClient extends ClientBase {
 			count++;
 			logger.log(Level.INFO, "ID " + getPlayerId() + " Move " + count + " New position is " + position
 					+ " with name " + getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
-//			if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
-//				logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
-//				assert (getGameState().getActivePlayer().getId() == getPlayerId());
-//				valuator.returnBestCommand(position).execute();
-//			} else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
-//				logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
-//				valuator.returnBestCommand(position).execute();
-			Command command;
-			while (!((command = valuator.returnBestCommand(position)) instanceof EndTurnCommand)) {
+			// if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
+			// logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
+			// assert (getGameState().getActivePlayer().getId() == getPlayerId());
+			// valuator.returnBestCommand(position).execute();
+			// } else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
+			// logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
+			// valuator.returnBestCommand(position).execute();
+			Command command = valuator.returnBestCommand(position);
+			while (!(command instanceof EndTurnCommand)) {
 				command.execute();
+				command = valuator.returnBestCommand(position);
 			}
-			assert(command != null);
+			assert (command != null);
 			command.execute();
 		} else {
 			logger.log(Level.FINE, log("Not my turn"));
@@ -168,17 +169,17 @@ public class AIClient extends ClientBase {
 				this.log("onBuy(" + this.getPlayerInfo(player) + ", " + this.getStreetInfo(position) + ")!"));
 	}
 
-	private boolean isPrison(int position) {
-		if (getLogic().getGameState().getFieldAt(position) instanceof Jail) {
-			logger.log(Level.FINE, "In prison!");
-			return true;
-		}
-		return false;
-	}
-
-	public void blub(String message) {
-		System.out.println(message);
-	}
+//	private boolean isPrison(int position) {
+//		if (getLogic().getGameState().getFieldAt(position) instanceof Jail) {
+//			logger.log(Level.FINE, "In prison!");
+//			return true;
+//		}
+//		return false;
+//	}
+//
+//	public void blub(String message) {
+//		System.out.println(message);
+//	}
 
 	@Override
 	public void onBankruptcy() {
@@ -221,10 +222,10 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onAuction(int auctionState) {
-//		assert(false);
+		// assert(false);
 		logger.log(Level.FINE, this.log("onAuction(" + auctionState + ")!"));
-//		valuator.actOnAuction();
-//		this.endTurn();
+		valuator.actOnAuction().execute();
+		this.endTurn();
 	}
 
 	@Override

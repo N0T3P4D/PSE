@@ -24,40 +24,42 @@ import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.Field;
 
 /**
- * Valuation parameters for the AI client
- * Yet to be finally determined!
+ * Valuation parameters for the AI client Yet to be finally determined!
  * 
  * @author Jeremias Mechler
  * 
  */
 public final class ValuationParameters {
+	
+	private ValuationParameters() {
+	}
 
 	public static Logic myLogic = null;
 
 	/**
 	 * Minimum limit of cash
 	 */
-	public final static int baseCash = 200;
+	public static final int baseCash = 200;
 	/**
 	 * How many percents of the average cash of all opponents we should keep
 	 */
-	public final static double averageCashPercentage = 0.01;
+	public static final double averageCashPercentage = 0.01;
 	/**
 	 * How many percents of the cash of the opponent with the most money we should keep
 	 */
-	public final static double maxCashPercentage = 0.05;
+	public static final double maxCashPercentage = 0.05;
 	/**
 	 * Contains the value of each buyable field
 	 */
-	public final static int[] FieldValue = new int[40];
+	public static final int[] FieldValue = new int[40];
 	/**
 	 * Valuation penalty for mortgage
 	 */
-	public final static double mortgageFactor = 0.5;
+	public static final double mortgageFactor = 0.5;
 
-	public final static int desiredNumberOfOutOfOjailCards = 3;
+	public static final int desiredNumberOfOutOfOjailCards = 3;
 
-	public final static double buildingFactor = 2;
+	public static final double buildingFactor = 2;
 
 	/**
 	 * Get the value of a buyable field
@@ -66,7 +68,7 @@ public final class ValuationParameters {
 	 *            The field's ID
 	 * @return Value
 	 */
-	public final static double fieldGroupFactor = 1.5;
+	public static final double fieldGroupFactor = 1.5;
 
 	public static int getStreetValue(int id) {
 		return FieldValue[id];

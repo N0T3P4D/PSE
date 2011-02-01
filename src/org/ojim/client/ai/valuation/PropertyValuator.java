@@ -52,47 +52,49 @@ public final class PropertyValuator extends ValuationFunction {
 		}
 		assert (position != -1);
 		if (this.getGameState().getFieldAt(position) instanceof BuyableField) {
-//			OJIMLogger.changeLogLevel(logger, Level.FINE);
 			logger.log(Level.FINE, "ID = " + this.getGameState().getActivePlayer().getId());
 			// We assume that position 0 will never be buyable
 			assert (position != 0);
 			BuyableField field = (BuyableField) this.getGameState().getFieldAt(position);
-			if (field.getOwner() != this.getGameState().getActivePlayer()) {
-				// Price is needed again later
-				int price = field.getPrice();
-				logger.log(Level.FINE, "Name = " + field.getName() + " Price = " + price);
-
-				boolean isMortgaged = field.isMortgaged();
-
-				if (price > ValuationParameters.getStreetValue(position)) {
-					logger.log(Level.FINE, "Denied");
-					return -1;
-				} else {
-					if (isMortgaged) {
-						double result = ValuationParameters.getStreetValue(position) * ValuationParameters.mortgageFactor;
-						if (price < result) {
-							logger.log(Level.FINE, "Granted");
-							return result;
-						} else {
-							logger.log(Level.FINE, "Denied");
-							return -1;
-						}
+			if (!field.getSelected()) {
+				if (field.getOwner() != this.getGameState().getActivePlayer()) {
+					// Price is needed again later
+					int price = field.getPrice();
+					logger.log(Level.FINE, "Name = " + field.getName() + " Price = " + price);
+					boolean isMortgaged = field.isMortgaged();
+					if (price > ValuationParameters.getStreetValue(position)) {
+						logger.log(Level.FINE, "Denied");
+						return -1;
 					} else {
-						logger.log(Level.FINE, "Granted");
-						return ValuationParameters.getStreetValue(position);
+						if (isMortgaged) {
+							double result = ValuationParameters.getStreetValue(position)
+									* ValuationParameters.mortgageFactor;
+							if (price < result) {
+								logger.log(Level.FINE, "Granted = " + result);
+								return result;
+							} else {
+								logger.log(Level.FINE, "Denied");
+								return -1;
+							}
+						} else {
+							logger.log(Level.FINE, "Granted + " + ValuationParameters.getStreetValue(position));
+							return ValuationParameters.getStreetValue(position);
+						}
 					}
-				}
-			} else {
-//				if (field.getSelected()) {
-//					return ValuationParameters.getStreetValue(position);
-//				} else {
+				} else {
+					// if (field.getSelected()) {
+					// return ValuationParameters.getStreetValue(position);
+					// } else {
 					return 0;
-//				}
+					// }
+				}
+
+			} else {
+				logger.log(Level.FINE, "Here! result = 0");
+
+				return 0;
 			}
-
 		} else {
-			logger.log(Level.FINE, "Here! result = 0");
-
 			return 0;
 		}
 	}

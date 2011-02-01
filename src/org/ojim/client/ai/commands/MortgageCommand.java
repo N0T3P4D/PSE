@@ -30,7 +30,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class MortgageCommand extends SimpleClient implements Command {
+public class MortgageCommand extends Command {
 
 	/**
 	 * 
