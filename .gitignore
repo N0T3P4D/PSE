@@ -4,3 +4,7 @@ bin/
 
 # .metadata
 .metadata/
+
+
+# settings file
+settings.txt
