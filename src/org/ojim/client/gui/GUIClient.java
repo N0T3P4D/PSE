@@ -55,7 +55,7 @@ public class GUIClient extends ClientBase {
 	private GUISettings settings;
 	private GameField gameField;
 	private ChatWindow chatWindow;
-	private PlayerInfoWindow playerInfoWindow = new PlayerInfoWindow();
+	private PlayerInfoWindow playerInfoWindow;
 	private CardWindow cardWindow = new CardWindow();
 
 	private CreateGameFrame createGameFrame;
@@ -112,6 +112,8 @@ public class GUIClient extends ClientBase {
 
 		settings = new GUISettings();
 		settings.loadSettings();
+
+		playerInfoWindow = new PlayerInfoWindow(this);
 
 		createGameFrame = new CreateGameFrame(language, this);
 		joinGameFrame = new JoinGameFrame(language, this);
@@ -216,6 +218,9 @@ public class GUIClient extends ClientBase {
 		gameField.playerBuysField(player, field);
 		if (player.getId() == getMe().getId()) {
 			cardWindow.addCard(field);
+		} else {
+			// Sollte man bei einer Auktion überboten sein worden.
+			cardWindow.removeCard(field);
 		}
 
 		if (player.getId() == getMe().getId()) {
@@ -319,10 +324,44 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onTrade(Player actingPlayer, Player partnerPlayer) {
-		System.out.println("-- DEBUG -- on Trade ");
-		chatWindow.write(new ChatMessage(null, false,
-				"-- DEBUG -- onTrade, acting: " + actingPlayer.getName()
-						+ ", partner: " + partnerPlayer.getName()));
+		/**
+		 * Gibt den Zustand einer Handelssitzung an.
+		 * 
+		 * @return -1 falls keine Handelssitzung läuft<br>
+		 *         0 falls eine Handelssitzung läuft und der handelnde Spieler
+		 *         noch kein Angebot abgegeben hat<br>
+		 *         1 falls eine Handelssitzung läuft, der handelnde Spieler ein
+		 *         Angebot abgegeben hat, der Handelspartner aber noch keine
+		 *         Entscheidung getroffen hat<br>
+		 *         2 falls gerade eine Handelssitzung mit negativem Ergebnis
+		 *         beendet wurde <i>(optional)</i>, in diesem Zustand müssen
+		 *         noch alle Daten des Angebots abrufbar sein<br>
+		 *         3 falls gerade eine Handelssitzung mit positivem Ergebnis
+		 *         beendet wurde <i>(optional)</i>, in diesem Zustand müssen
+		 *         noch alle Daten des Angebots abrufbar sein
+		 */
+		if (getTradeState() == 0 || getTradeState() == 1) {
+			if (actingPlayer.getId() == getMe().getId()) {
+				this.showTrade(partnerPlayer.getId());
+			} else if (partnerPlayer.getId() == getMe().getId()) {
+				this.showTrade(actingPlayer.getId());
+
+			}
+			chatWindow.write(new ChatMessage(null, false, ""
+					+ actingPlayer.getName() + " handelt mit "
+					+ partnerPlayer.getName()));
+		}
+		if (getTradeState() == 2 || getTradeState() == 3) {
+			if (actingPlayer.getId() == getMe().getId()) {
+				this.gameField.endTrade();
+			} else if (partnerPlayer.getId() == getMe().getId()) {
+				this.gameField.endTrade();
+
+			}
+			chatWindow.write(new ChatMessage(null, false, ""
+					+ actingPlayer.getName() + " handelte mit "
+					+ partnerPlayer.getName()));
+		}
 	}
 
 	@Override
@@ -715,6 +754,15 @@ public class GUIClient extends ClientBase {
 		}
 		for (int i = 0; i < outOfJailCards; i++) {
 			offerGetOutOfJailCard();
+		}
+	}
+
+	public void showTrade(int player) {
+		if(this.menuState == menuState.game){
+		gameField.showTrade(getMe(), getGameState().getPlayerByID(player),
+				getRequiredCash(), getRequiredEstates(),
+				getNumberOfRequiredGetOutOfJailCards(), getOfferedCash(),
+				getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards());
 		}
 	}
 

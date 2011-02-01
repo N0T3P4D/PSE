@@ -33,6 +33,8 @@ import org.ojim.client.gui.PlayerColor;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.Card;
 import org.ojim.logic.state.GameState;
+import org.ojim.logic.state.Player;
+import org.ojim.logic.state.fields.BuyableField;
 
 public class InteractionPopup extends JPanel {
 
@@ -74,6 +76,20 @@ public class InteractionPopup extends JPanel {
 	private int cash;
 	private GUIClient gui;
 	
+	// Trade
+	private JPanel tradePanel;
+	private JPanel myTradePanel;
+	private JPanel hisTradePanel;
+	private JLabel myName;
+	private JLabel hisName;
+	private JLabel myMoney;
+	private JLabel hisMoney;
+	private JTextField myMoneyField;
+	private JTextField hisMoneyField;
+	private JPanel myCards;
+	private JPanel hisCards;
+	private JButton okButton;
+	
 	private int[] tradePositions;
 	private JPanel[] tradeCardPanel;
 
@@ -85,12 +101,22 @@ public class InteractionPopup extends JPanel {
 			deleteUpgrade();
 		}
 	};;;
+	
 	private ActionListener downgradeListener = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			gui.downgradeField(position,Integer.parseInt(upgradeTextField.getText()));
 			deleteUpgrade();
+		}
+	};;;
+	
+
+	private ActionListener tradeOkListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.trade(Integer.parseInt(myMoneyField.getText())-Integer.parseInt(hisMoneyField.getText()), null, 0);
 		}
 	};;;
 	
@@ -163,7 +189,12 @@ public class InteractionPopup extends JPanel {
 		
 	} 
 	
-	public void showTrade() {
+	public void showTrade(Player me, Player partnerPlayer,
+			int requiredCash, BuyableField[] requiredBuyableFields,
+			int requiredOutOfJailCards, int offeredCash,
+			BuyableField[] offeredBuyableFields, int offeredOutOfJailCards) {
+		
+		System.out.println("May the Trade begin!");
 		
 	}
 	
@@ -225,6 +256,11 @@ public class InteractionPopup extends JPanel {
 		this.remove(upgradePanel);
 		this.repaint();
 		this.revalidate();
+		
+	}
+
+	public void endTrade() {
+		// TODO Auto-generated method stub
 		
 	}
 }
