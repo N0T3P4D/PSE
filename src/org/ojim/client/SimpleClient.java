@@ -224,7 +224,6 @@ public class SimpleClient {
 	 * @see {@link edu.kit.iti.pse.iface.IServer.accept}
 	 */
 	protected final void accept() {
-
 		this.server.accept(this.playerId);
 	}
 
@@ -264,7 +263,7 @@ public class SimpleClient {
 		}
 	}
 
-	protected final void toggleMortage(BuyableField street) {
+	protected final void toggleMortgage(BuyableField street) {
 		if (this.getGameRules().isFieldMortgageable(this.me, street)) {
 			this.server.toggleMortgage(this.playerId, street.getPosition());
 		}
@@ -274,16 +273,23 @@ public class SimpleClient {
 		this.server.sendMessage(text, this.playerId);
 	}
 
+	/**
+	 * @deprecated Use {@link #sendPrivateMessage(String, Player)}
+	 */
 	protected final void sendPrivateMessage(String text, int reciever) {
 		this.server.sendPrivateMessage(text, this.playerId, reciever);
 	}
 
-	protected final void payFine() {
-		this.server.payFine(this.playerId);
+	protected final void sendPrivateMessage(String text, Player reciever) {
+		this.server.sendPrivateMessage(text, this.playerId, reciever.getId());
+	}
+	
+	protected final boolean payFine() {
+		return this.server.payFine(this.playerId);
 	}
 
-	protected final void useGetOutOfJailCard() {
-		this.server.useGetOutOfJailCard(this.playerId);
+	protected final boolean useGetOutOfJailCard() {
+		return this.server.useGetOutOfJailCard(this.playerId);
 	}
 
 	/*
@@ -298,16 +304,30 @@ public class SimpleClient {
 	 * TRADE
 	 */
 
+	/**
+	 * @deprecated Use {@link #initTrade(Player)}
+	 */
 	public final boolean initTrade(int partnerPlayer) {
 		return ((IServerTrade) this.server).initTrade(playerId, partnerPlayer);
+	}
+	
+	public final boolean initTrade(Player partnerPlayer) {
+		return ((IServerTrade) this.server).initTrade(this.playerId, partnerPlayer.getId());
 	}
 
 	public final int getTradeState() {
 		return ((IServerTrade) this.server).getTradeState();
 	}
 
-	public final int getPartner() {
-		return ((IServerTrade) this.server).getTradeState();
+	/**
+	 * @deprecated Use {@link #getPartner()}
+	 */
+	public final int getPartnerO() {
+		return ((IServerTrade) this.server).getPartner();
+	}
+	
+	public final Player getPartner() {
+		return this.logic.getGameState().getPlayerByID(((IServerTrade) this.server).getPartner());
 	}
 
 	public final boolean offerCash(int amount) {
@@ -318,8 +338,15 @@ public class SimpleClient {
 		return ((IServerTrade) this.server).offerGetOutOfJailCard(playerId);
 	}
 
+	/**
+	 * @deprecated Use {@link #offerEstate(BuyableField)}
+	 */
 	public final boolean offerEstate(int position) {
 		return ((IServerTrade) this.server).offerEstate(playerId, position);
+	}
+
+	public final boolean offerEstate(BuyableField field) {
+		return ((IServerTrade) this.server).offerEstate(playerId, field.getPosition()); 
 	}
 
 	public final boolean requireCash(int amount) {
@@ -330,12 +357,31 @@ public class SimpleClient {
 		return ((IServerTrade) this.server).requireGetOutOfJailCard(playerId);
 	}
 
+	/**
+	 * @deprecated Use {@link #requireEstate(BuyableField)}
+	 */
 	public final boolean requireEstate(int position) {
 		return ((IServerTrade) this.server).requireEstate(playerId, position);
 	}
+	
+	public final boolean requireEstate(BuyableField field) {
+		return ((IServerTrade) this.server).requireEstate(playerId, field.getPosition());
+	}
 
-	public final int[] getOfferedEstates() {
+	/**
+	 * @deprecated Use {@link #getOfferedEstate()}
+	 */
+	public final int[] getOfferedEstatesO() {
 		return ((IServerTrade) this.server).getOfferedEstates();
+	}
+	
+	public final BuyableField[] getOfferedEstate() {
+		int[] fields = ((IServerTrade) this.server).getOfferedEstates();
+		BuyableField[] result = new BuyableField[fields.length];
+		for (int i = 0; i < fields.length; i++) {
+			result[i] = (BuyableField) this.getGameState().getFieldAt(fields[i]);
+		}
+		return result;
 	}
 
 	public final int getOfferedCash() {
@@ -346,8 +392,20 @@ public class SimpleClient {
 		return ((IServerTrade) this.server).getNumberOfOfferedGetOutOfJailCards();
 	}
 
-	public final int[] getRequiredEstates() {
+	/**
+	 * @deprecated Use {@link #getRequiredEstates()}
+	 */
+	public final int[] getRequiredEstatesO() {
 		return ((IServerTrade) this.server).getRequiredEstates();
+	}
+	
+	public final BuyableField[] getRequiredEstates() {
+		int[] fields = ((IServerTrade) this.server).getRequiredEstates();
+		BuyableField[] result = new BuyableField[fields.length];
+		for (int i = 0; i < fields.length; i++) {
+			result[i] = (BuyableField) this.getGameState().getFieldAt(fields[i]);
+		}
+		return result;
 	}
 
 	public final int getRequiredCash() {
@@ -359,11 +417,11 @@ public class SimpleClient {
 	}
 
 	public final boolean cancelTrade() {
-		return ((IServerTrade) this.server).cancelTrade(playerId);
+		return ((IServerTrade) this.server).cancelTrade(this.playerId);
 	}
 
 	public final boolean proposeTrade() {
-		return ((IServerTrade) this.server).proposeTrade(playerId);
+		return ((IServerTrade) this.server).proposeTrade(this.playerId);
 	}
 	
 	/*
@@ -374,19 +432,26 @@ public class SimpleClient {
 		return ((IServerAuction) this.server).getAuctionState();
 	}
 	
-	public final int getAuctionedEstate() {
+	/**
+	 * @deprecated Use {@link #getAuctionedEstate()}
+	 */
+	public final int getAuctionedEstateO() {
 		return ((IServerAuction) this.server).getAuctionedEstate();
+	}
+	
+	public final BuyableField getAuctionedEstate() {
+		return (BuyableField) this.getGameState().getFieldAt(((IServerAuction) this.server).getAuctionedEstate());
 	}
 	
 	public final int getHighestBid() {
 		return ((IServerAuction) this.server).getHighestBid();
 	}
 	
-	public final int getBidder() {
-		return ((IServerAuction) this.server).getBidder();
+	public final Player getBidder() {
+		return (Player) this.getGameState().getPlayerByID(((IServerAuction) this.server).getBidder());
 	}
 	
 	public final boolean placeBid(int amount) {
-		return ((IServerAuction) this.server).placeBid(playerId, amount);
+		return ((IServerAuction) this.server).placeBid(this.playerId, amount);
 	}
 }

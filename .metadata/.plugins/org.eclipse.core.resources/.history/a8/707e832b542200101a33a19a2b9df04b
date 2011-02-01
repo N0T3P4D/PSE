@@ -1,3 +1,0 @@
-enum MenuBarState {
-	mainMenu, waitRoom, game
-};
