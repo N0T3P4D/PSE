@@ -362,9 +362,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		Player player = state.getPlayerByID(playerID);
 		Field field = state.getFieldAt(position);
-		if (trade != null && trade.getTradeState() == 0 && player != null
-				&& player.equals(trade.getActing()) && field != null
-				&& field instanceof BuyableField && (!(field instanceof Street) || ((Street)field).getBuiltLevel() == 0)) {
+		if (trade != null
+				&& trade.getTradeState() == 0
+				&& player != null
+				&& player.equals(trade.getActing())
+				&& field != null
+				&& field instanceof BuyableField
+				&& (!(field instanceof Street) || ((Street) field)
+						.getBuiltLevel() == 0)) {
 			return trade.addOfferedEstate((BuyableField) field);
 		}
 		return false;
@@ -406,9 +411,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		Player player = state.getPlayerByID(playerID);
 		Field field = state.getFieldAt(position);
-		if (trade != null && trade.getTradeState() == 0 && player != null
-				&& player.equals(trade.getActing()) && field != null
-				&& field instanceof BuyableField && (!(field instanceof Street) || ((Street)field).getBuiltLevel() == 0)) {
+		if (trade != null
+				&& trade.getTradeState() == 0
+				&& player != null
+				&& player.equals(trade.getActing())
+				&& field != null
+				&& field instanceof BuyableField
+				&& (!(field instanceof Street) || ((Street) field)
+						.getBuiltLevel() == 0)) {
 			return trade.addOfferedEstate((BuyableField) field);
 		}
 		return false;
@@ -824,6 +834,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return state.getBank().getHotels();
 	}
 
+	/**
+	 * How many doubles were there in this turn?
+	 */
+	private int doublesChain = 0;
+
+	private boolean playerNeedsAcceptCancel;
+
 	@Override
 	public synchronized boolean rollDice(int playerID) {
 		if (state.getGameIsWon()) {
@@ -837,12 +854,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				|| this.state.getGameIsWon()) {
 			return false;
 		}
+
+		// Roll and Inform everyone
+		state.getDices().roll();
+		informDiceAll();
+		
 		if (player.getJail() != null) {
-
-			// Roll and Inform everyone
-			state.getDices().roll();
-			informDiceAll();
-
 			// Player has not rolled a Double and stays in jail
 			if (!state.getDices().isDouble()) {
 				state.setActivePlayerNeedsToRoll(false);
@@ -853,30 +870,29 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				// Inform all that the Player is now out of Prison (position
 				// > -1)
 				informMoveAll(player);
+				return true;
 			}
 		}
 
-		int doubles = 0;
-		while (state.getActivePlayerNeedsToRoll()) {
+		// Now move the Player forward
+		logic.movePlayerForDice(player, state.getDices().getResultSum());
 
-			// Roll the Dices and inform everyone about it
-			state.getDices().roll();
-			informDiceAll();
-
-			// Now move the Player forward
-			logic.movePlayerForDice(player, state.getDices().getResultSum());
-
-			// If the Player has not rolled a double, stop rolling
-			if (!state.getDices().isDouble()) {
-				state.setActivePlayerNeedsToRoll(false);
-			} else {
-				doubles++;
-				if (doubles >= GameRules.MAX_DOUBLES_ALLOWED) {
-					// Player has to get to jail
-					logic.sendPlayerToJail(player, state.getDefaultJail());
-					return true;
-				}
+		// If the Player has not rolled a double, stop rolling
+		if (!state.getDices().isDouble()) {
+			state.setActivePlayerNeedsToRoll(false);
+		} else {
+			doublesChain++;
+			if (doublesChain >= GameRules.MAX_DOUBLES_ALLOWED) {
+				// Player has to get to jail
+				logic.sendPlayerToJail(player, state.getDefaultJail());
+				return true;
 			}
+		}
+		
+		//Is the Field the Player is standing on buyable?
+		Field field = state.getFieldAt(player.getPosition());
+		if(field instanceof BuyableField && ((BuyableField)field).getOwner() == null) {
+			playerNeedsAcceptCancel = true;
 		}
 		return true;
 	}
@@ -930,10 +946,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return true;
 		}
 		Field field = state.getFieldAt(player.getPosition());
-		if (field instanceof BuyableField
-				&& ((BuyableField) field).getOwner() == null
-				&& player.getBalance() > ((BuyableField) field).getPrice()) {
+		if (playerNeedsAcceptCancel	&& player.getBalance() > ((BuyableField) field).getPrice()) {
 			logic.buyStreet();
+			playerNeedsAcceptCancel = false;
 			return true;
 		}
 		return false;
@@ -967,10 +982,16 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			state.RemoveWaitingCard(card);
 			return true;
 		}
+		
+		//Check if the Buying of a field was declined
+		if(playerNeedsAcceptCancel) {
+			this.auction = new Auction(state, logic, rules,
+					(BuyableField) state.getFieldAt(state.getActivePlayer().getPosition()));
+			this.auction.setReturnParameters(this, state.getActivePlayer().getId());
+			
+		}
 		return false;
 	}
-
-	private boolean alreadyAuction = false;
 
 	@Override
 	public synchronized boolean endTurn(int playerID) {
@@ -986,25 +1007,24 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				if (player.getBalance() < 0) {
 					this.logic.setPlayerBankrupt(player);
 				}
-				if (this.auction == null || this.auction.getAuctionState() >= 3) {
-					Field field = state.getFieldAt(player.getPosition());
-
-					if (field instanceof BuyableField
-							&& ((BuyableField) field).getOwner() == null
-							&& !alreadyAuction) {
-						this.auction = new Auction(state, logic, rules,
-								(BuyableField) field);
-						this.auction.setReturnParameters(this, playerID);
-						alreadyAuction = true;
-					} else {
-						alreadyAuction = false;
-						logic.startNewTurn();
-						if (this.state.getGameIsWon()) {
-							this.endGame();
-						}
-					}
+				
+				//Is there an Auction running?
+				if (this.auction != null && this.auction.getAuctionState() < 3) {
+					return false;
+				}
+				
+				//does the Player have to accept/cancel to buy a field?
+				if(playerNeedsAcceptCancel) {
+					return false;
+				}
+				if (this.state.getGameIsWon()) {
+					this.endGame();
+					return true;
 				}
 
+				this.doublesChain = 0;
+				logic.startNewTurn();
+				
 				return true;
 			}
 		}
@@ -1056,7 +1076,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			if (field != null) {
 				if (rules.isFieldUpgradable(player, field, levelChange)) {
 					logic.upgrade((Street) field, levelChange);
-					logic.exchangeMoney(player, state.getBank(), ((Street)field).getFieldGroup().getHousePrice() * levelChange);
+					logic.exchangeMoney(player, state.getBank(),
+							((Street) field).getFieldGroup().getHousePrice()
+									* levelChange);
 					return true;
 				}
 			}
@@ -1257,7 +1279,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		streets[6] = new StreetFieldGroup(6, "Endor", 4000);
 		streets[7] = new StreetFieldGroup(7, "Coruscant", 4000);
 		InfrastructureFieldGroup infrastructures = new InfrastructureFieldGroup();
-		
+
 		FreeParking freeParking;
 
 		// Add Streets
@@ -1353,19 +1375,31 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		infrastructures.setFactors(new int[] { 80, 200 });
 
 		// Add Cards
-		CardStack comm = ((ServerGameState) this.logic.getGameState()).getCommunityCards();
+		CardStack comm = ((ServerGameState) this.logic.getGameState())
+				.getCommunityCards();
 		new GetOutOfJailCard("comm jail", comm, this.logic);
-		Card.newNormalCard("comm +100 money", comm, ActionFactory.newTransferMoneyToBank(this.logic, -100));
-		Card.newNormalCard("comm 100 m > free", comm, ActionFactory.newTransferMoneyToFreeParking(this.logic, 100, freeParking));
-		Card.newNormalCard("comm 100 m (p. Hou) 1000 (p. Hot)", comm, new ActionPayForBuildings(this.logic, 100, 1000, this.logic.getGameState().getBank()));
-		Card.newNormalCard("comm +100 m (p. Ply)", comm, new ActionTransferMoneyToPlayers(this.logic, 100));
-		
-		CardStack even = ((ServerGameState) this.logic.getGameState()).getEventCards();
+		Card.newNormalCard("comm +100 money", comm,
+				ActionFactory.newTransferMoneyToBank(this.logic, -100));
+		Card.newNormalCard("comm 100 m > free", comm, ActionFactory
+				.newTransferMoneyToFreeParking(this.logic, 100, freeParking));
+		Card.newNormalCard("comm 100 m (p. Hou) 1000 (p. Hot)", comm,
+				new ActionPayForBuildings(this.logic, 100, 1000, this.logic
+						.getGameState().getBank()));
+		Card.newNormalCard("comm +100 m (p. Ply)", comm,
+				new ActionTransferMoneyToPlayers(this.logic, 100));
+
+		CardStack even = ((ServerGameState) this.logic.getGameState())
+				.getEventCards();
 		new GetOutOfJailCard("even jail", even, this.logic);
-		Card.newNormalCard("even +100 money", even, ActionFactory.newTransferMoneyToBank(this.logic, -100));
-		Card.newNormalCard("even 100 m > free", even, ActionFactory.newTransferMoneyToFreeParking(this.logic, 100, freeParking));
-		Card.newNormalCard("even 100 m (p. Hou) 1000 (p. Hot)", even, new ActionPayForBuildings(this.logic, 100, 1000, this.logic.getGameState().getBank()));
-		Card.newNormalCard("even +100 m (p. Ply)", even, new ActionTransferMoneyToPlayers(this.logic, 100));
+		Card.newNormalCard("even +100 money", even,
+				ActionFactory.newTransferMoneyToBank(this.logic, -100));
+		Card.newNormalCard("even 100 m > free", even, ActionFactory
+				.newTransferMoneyToFreeParking(this.logic, 100, freeParking));
+		Card.newNormalCard("even 100 m (p. Hou) 1000 (p. Hot)", even,
+				new ActionPayForBuildings(this.logic, 100, 1000, this.logic
+						.getGameState().getBank()));
+		Card.newNormalCard("even +100 m (p. Ply)", even,
+				new ActionTransferMoneyToPlayers(this.logic, 100));
 	}
 
 }
