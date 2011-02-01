@@ -1,0 +1,35 @@
+package org.ojim.client.gui;
+
+public class GUILocalizer {
+
+	int language;
+
+	private static final String[] languages = {"DE-de","EN-uk"," FR-fr"};
+	
+	private static final String[][] languageFiles = {{"Datei","File"," Fichier"},
+													 {"Datei","File"," Fichier"}};
+	
+	public GUILocalizer() {
+		language = 0;
+	}
+
+	public void setLanguage(String language){
+
+		for(int i = 0; i<languages.length; i++){
+			if(language.equals(languages[i])){
+				this.language = i;
+			}
+		}
+		
+	}
+	
+	public String getText(String textRequest){
+		for(int i = 0; i<languageFiles.length; i++){
+			if(languageFiles[i][0].equals(textRequest)){
+				return languageFiles[i][this.language];
+			}
+		}
+		
+	}
+	
+}

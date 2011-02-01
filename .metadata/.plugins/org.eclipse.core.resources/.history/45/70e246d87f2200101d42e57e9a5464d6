@@ -1,0 +1,18 @@
+package org.ojim.client.gui.GameField;
+
+import javax.swing.JPanel;
+
+public class GameField  extends JPanel{
+
+	public GameField() {
+		super();
+		// TODO Auto-generated constructor stub
+		this.setLayout(new GridLayout(0,1));
+		System.out.println("X: "+this.getWidth()+", Y: "+this.getHeight());
+		
+	}
+
+	// Hält GameFieldPieceCollection
+	// Hält Referenz auf GameFieldPiece
+	InteractionPopup interactionPopup;
+}

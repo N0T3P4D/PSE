@@ -1,0 +1,8 @@
+package org.ojim.client.gui.GameField;
+
+public class GameField {
+
+	// Hält GameFieldPieceCollection
+	// Hält Referenz auf GameFieldPiece
+	InteractionPopup interactionPopup;
+}

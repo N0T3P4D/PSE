@@ -1,0 +1,34 @@
+package org.ojim.client.gui;
+
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+
+public class MenuBar extends JMenuBar {
+
+	enum MenuBarState {
+		mainMenu, waitRoom, game
+	};
+	
+	
+	public MenuBar() {
+		// TODO: Lokalisierung
+        JMenu fileMenu = new JMenu("Datei");
+        JMenu editMenu = new JMenu("?");
+        add(fileMenu);
+        add(editMenu);
+        
+        JMenuItem createGame = new JMenuItem("Spiel erstellen");
+        JMenuItem joinGame = new JMenuItem("Spiel beitreten");
+        JMenu settings = new JMenu("Einstellungen");
+        JMenuItem exit = new JMenuItem("Beenden");
+        JMenuItem directConnection = new JMenuItem("Direkte Verbindung");
+        JMenuItem serverList = new JMenuItem("Serverliste");
+        
+        
+        
+        
+        
+	}
+
+}
