@@ -16,6 +16,13 @@
  */
 package org.ojim.client.gui;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileNotFoundException;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class GUISettings {
 
@@ -64,5 +71,84 @@ public class GUISettings {
 	public void setLastIP(String lastIP) {
 		this.lastIP = lastIP;
 	}
+	
+	/**
+	 * Speichert die neuen GUI Einstellungen in der settings.txt
+	 */
+	public void saveSettings(){
+		
+		 FileWriter fw = null;
+			try {
+				fw = new FileWriter("settings.txt");
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		    BufferedWriter bw = new BufferedWriter(fw);
+
+		    try {
+				bw.write(String.valueOf(this.width)); 
+				bw.newLine();
+				bw.write(String.valueOf(this.height));
+				bw.newLine();
+				bw.write(this.title);
+				bw.newLine();
+				bw.write(this.playerName);
+				bw.newLine();
+				bw.write(this.lastIP);
+				bw.close();
+			} catch (IOException e) {
+				
+				e.printStackTrace();
+			}
+		
+		
+	}
+	
+	
+	/**
+	 * Lädt zuvor gespeicherte GUI Einstellungen, es muss eine settings.txt Datei vorhanden sein
+	 * 
+	 */
+	public void loadSettings(){
+		
+		FileReader reader = null;
+		try {
+		reader = new FileReader("settings.txt");
+		} catch (FileNotFoundException e) {
+			System.out.println("Datei kann nicht gefunden werden");
+			//e.printStackTrace();
+		}
+		
+		BufferedReader br = new BufferedReader(reader);
+		
+		    String width = null;
+		    String height = null;
+		    String title = null;
+		    String playerName = null;
+		    String lastIP = null;
+		    
+			try {
+				width = br.readLine();
+				height = br.readLine();
+				title = br.readLine();
+				playerName = br.readLine();
+				lastIP = br.readLine();
+				br.close();
+			} catch (IOException e) {
+				System.out.print("Fehler in der settings.txt");
+				//e.printStackTrace();
+			}
+		    
+			this.width = Integer.parseInt (width);
+			this.height = Integer.parseInt (height);
+			this.title = title;
+			this.playerName = playerName;
+			this.lastIP = lastIP;
+			
+			
+	}
+	
+	
 
 }
