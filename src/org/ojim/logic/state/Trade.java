@@ -99,12 +99,15 @@ public class Trade {
 	 * @return the required cash
 	 */
 	public int getRequiredCash() {
+		if(this.bank != null) {
 		int cash = this.getOfferedCash();
 		for(BuyableField field : this.offeredEstates) {
 			cash += rules.getFieldValueForBank(field);
 		}
 		cash += this.offeredNumberOfGetOutOfJailCards * 500;
 		return cash;
+		}
+		return this.requiredCash;
 	}
 
 	/**

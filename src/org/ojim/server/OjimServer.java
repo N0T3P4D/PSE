@@ -299,7 +299,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		ServerPlayer acting = state.getPlayerByID(actingPlayer);
 		ServerPlayer partner = state.getPlayerByID(partnerPlayer);
 		if (acting != null && partnerPlayer == -1) {
-			trade = new Trade(acting, state.getBank());
+			trade = new Trade(acting, state.getBank(), rules);
 			return true;
 		}
 
@@ -408,7 +408,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		Field field = state.getFieldAt(position);
 		if (trade != null && trade.getTradeState() == 0 && player != null
 				&& player.equals(trade.getActing()) && field != null
-				&& field instanceof BuyableField && (!(field instanceof Street) || ((Street)field).getBuiltLevel() == 0) {
+				&& field instanceof BuyableField && (!(field instanceof Street) || ((Street)field).getBuiltLevel() == 0)) {
 			return trade.addOfferedEstate((BuyableField) field);
 		}
 		return false;
