@@ -1,8 +1,0 @@
-package org.ojim.client.gui.GameField;
-
-public class GameField  extends JPanel{
-
-	// Hält GameFieldPieceCollection
-	// Hält Referenz auf GameFieldPiece
-	InteractionPopup interactionPopup;
-}
