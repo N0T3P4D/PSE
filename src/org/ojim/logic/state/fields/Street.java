@@ -118,28 +118,12 @@ public class Street extends BuyableField {
 	 * @param level
 	 *            Changes of the level.
 	 */
-	public boolean upgrade(int level, Bank bank) {
+	public boolean upgrade(int level) {
 		int newLevel = this.builtLevel + level;
 		if (newLevel < 0 || newLevel > 5) {
 			return false;
 		}
 		
-		for(Field street : this.getFieldGroup().getFields()) {
-			if(((Street)street).getBuiltLevel() < newLevel - 1) {
-				return false;
-			}
-		}
-
-		// Check if enough houses and hotels are in the Bank
-		bank.takeHouses(-(builtLevel % 5));
-		bank.takeHotels(-(builtLevel / 5));
-
-		if (!bank.takeHouses(newLevel == 5 ? 4 : newLevel)) {
-			return false;
-		}
-		if (!bank.takeHotels(newLevel / 5)) {
-			return false;
-		}
 		this.builtLevel = newLevel;
 		return true;
 	}

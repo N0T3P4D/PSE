@@ -86,6 +86,6 @@ public class Logic {
 	}
 
 	public boolean upgrade(Street street, int level) {
-		return street.upgrade(level, this.getGameState().getBank());
+		return street.upgrade(level);
 	}
 }
