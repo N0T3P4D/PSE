@@ -55,7 +55,7 @@ public class SimpleClient {
 		this.me = this.getGameState().getPlayerByID(playerId);
 	}
 
-	protected void setMyPlayer(Player player) {
+	private void setMyPlayer(Player player) {
 		this.me = player;
 	}
 
@@ -93,6 +93,9 @@ public class SimpleClient {
 		this.server = server;
 		this.logic = new Logic(state, server.getRules());
 		this.playerId = server.addPlayer(client);
+		// Load my data
+		client.informNewPlayer(this.playerId);
+		this.setMyPlayer(state.getPlayerByID(this.playerId));		
 	}
 
 	public final int getPlayerId() {

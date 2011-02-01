@@ -254,16 +254,4 @@ public class ClientWrapper implements IClient {
 
 	}
 
-	@Override
-	public void setPlayerId(int newId) {
-		
-		try {
-			this.sink.setPlayerId(newId);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		
-		
-	}
-
 }
