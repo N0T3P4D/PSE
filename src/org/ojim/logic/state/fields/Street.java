@@ -23,12 +23,13 @@ import java.util.Map;
 import org.jdom.DataConversionException;
 import org.jdom.Element;
 import org.ojim.logic.ServerLogic;
+import org.ojim.logic.accounting.Bank;
 
 public class Street extends BuyableField {
 
 	// Erlaube maximal ein Hotel.
 	public static final int MAXMIMUM_BUILT_LEVEL = 5;
-	
+
 	private int builtLevel;
 	private int[] rentByLevel;
 
@@ -41,31 +42,34 @@ public class Street extends BuyableField {
 	public Street(String name, int position, int[] rentByLevel, int price) {
 		this(name, position, rentByLevel, 0, price);
 	}
-	
+
 	public Street(String name, int position, int[] rentByLevel, int builtLevel,
 			int price, ServerLogic logic) {
 		super(name, position, price, logic);
 		this.setRentAndBuiltLevel(rentByLevel, builtLevel);
 	}
-	
-	public Street(String name, int position, int[] rentByLevel,
-			int price, ServerLogic logic) {
+
+	public Street(String name, int position, int[] rentByLevel, int price,
+			ServerLogic logic) {
 		this(name, position, rentByLevel, 0, price, logic);
 	}
-	
-	public Street(Element element, ServerLogic logic, Map<Integer, FieldGroup> groups) throws DataConversionException {
+
+	public Street(Element element, ServerLogic logic,
+			Map<Integer, FieldGroup> groups) throws DataConversionException {
 		super(element, logic, groups);
 		this.rentByLevel = new int[Street.MAXMIMUM_BUILT_LEVEL];
-		/* 
+		/*
 		 * These guys think that generics are out -.- *facepalm*
 		 * http://www.jdom.org/pipermail/jdom-interest/2002-July/010244.html
 		 */
 		List rents = element.getChildren("rent");
 		for (Object object : rents) {
-			this.rentByLevel[((Element) object).getAttribute("level").getIntValue()] = Integer.parseInt(((Element) object).getText());
+			this.rentByLevel[((Element) object).getAttribute("level")
+					.getIntValue()] = Integer.parseInt(((Element) object)
+					.getText());
 		}
 	}
-	
+
 	private void setRentAndBuiltLevel(int[] rentByLevel, int builtLevel) {
 		this.builtLevel = builtLevel;
 		this.rentByLevel = rentByLevel;
@@ -86,7 +90,9 @@ public class Street extends BuyableField {
 		// owner, the rent is doubled
 		if (level == 0) {
 			for (Field field : this.getFieldGroup().getFields()) {
-				if (!(field instanceof Street) || ((Street)field).getOwner() == null || !this.getOwner().equals(((Street) field).getOwner())) {
+				if (!(field instanceof Street)
+						|| ((Street) field).getOwner() == null
+						|| !this.getOwner().equals(((Street) field).getOwner())) {
 					// Not all the same owner: normal rent
 					return rentByLevel[0];
 				}
@@ -108,21 +114,34 @@ public class Street extends BuyableField {
 
 	/**
 	 * Changes the built level of this street by the given change.
-	 * @param level Changes of the level.
+	 * 
+	 * @param level
+	 *            Changes of the level.
 	 */
-	public boolean upgrade(int level) {
+	public boolean upgrade(int level, Bank bank) {
 		int newLevel = this.builtLevel + level;
-		if(newLevel < 0 || newLevel > 5) {
+		if (newLevel < 0 || newLevel > 5) {
+			return false;
+		}
+
+		// Check if enough houses and hotels are in the Bank
+		bank.takeHouses(-(builtLevel % 5));
+		bank.takeHotels(-(builtLevel / 5));
+
+		if (!bank.takeHouses(newLevel == 5 ? 4 : newLevel)) {
+			return false;
+		}
+		if (!bank.takeHotels(newLevel / 5)) {
 			return false;
 		}
 		this.builtLevel = newLevel;
 		return true;
 	}
-	
+
 	public void setFieldGroup(StreetFieldGroup fieldGroup) {
 		super.setFieldGroup(fieldGroup);
 	}
-	
+
 	public StreetFieldGroup getFieldGroup() {
 		return (StreetFieldGroup) super.getFieldGroup();
 	}
