@@ -55,11 +55,34 @@ public class GameRules {
 			if(((Street)groupField).getOwner() != player) {
 				return false;
 			}
+			if(((Street)groupField).getBuiltLevel() < street.getBuiltLevel() - 1) {
+				return false;
+			}
 		}
 		
+		int newLevel = street.getBuiltLevel() + levelChange;
+		
+		//Has the Bank enough houses left?
+		if(newLevel != 5 && state.getBank().getHouses() < levelChange) {
+			return false;
+		}
+		
+		//Has the Bank enough Hotels left?
+		if(newLevel == 5 && state.getBank().getHotels() < 1) {
+			return false;
+		}
 		
 		return true;
 	}
+	
+	public int getFieldValueForBank(BuyableField field) {
+		if(field instanceof Street && ((Street)field).isMortgaged()) {
+			return field.getPrice() / 10;
+		} else {
+			return field.getPrice() / 2;
+		}
+	}
+	
 	
 	private boolean isFieldMortgageable(Player player, BuyableField buyField, boolean mortgage) {
 	
@@ -68,8 +91,13 @@ public class GameRules {
 			return false;
 		}
 		
-		//When the Street already has the needed state, then we are done
+		//When the Field already has the needed state, then we are done
 		if((buyField.isMortgaged() ^ mortgage)) {
+			return false;
+		}
+		
+		//If a Street has houses on it, it can't be mortgaged
+		if(!mortgage && buyField instanceof Street && ((Street)buyField).getBuiltLevel() != 0) {
 			return false;
 		}
 		

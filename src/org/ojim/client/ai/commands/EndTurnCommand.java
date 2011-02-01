@@ -28,7 +28,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class EndTurnCommand extends SimpleClient implements Command {
+public class EndTurnCommand extends Command {
 
 	private static final long serialVersionUID = 3744229015786962057L;
 

@@ -36,6 +36,7 @@ import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FreeParking;
 import org.ojim.logic.state.fields.Jail;
+import org.ojim.logic.state.fields.Street;
 
 /**
  * Acts as logic, but this class informs also the players.
@@ -64,7 +65,7 @@ public class ServerLogic extends Logic {
 		player.transferMoney(-(player.getBalance() + 1));
 		player.setBankrupt();
 		Field field;
-		for (int i = 0; i < this.getGameState().FIELDS_AMOUNT; i++) {
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
 			field = this.getGameState().getFieldAt(i);
 			if (field instanceof BuyableField
 					&& ((BuyableField) field).getOwner() == player) {
@@ -279,6 +280,21 @@ public class ServerLogic extends Logic {
 	public void playerRolledOutOfJail(Player player) {
 		this.sendPlayerOutOfJail(player);
 	}
+	
+	public void auctionWithoutResult(BuyableField objective) {
+		System.out.println("Action without result!");
+		return;
+	}	
+	
+	public void auctionWithResult(BuyableField objective, Player winner, int price) {
+		objective.buy(winner);
+		for(Player player : this.getGameState().getPlayers()) {
+			if(player instanceof ServerPlayer) {
+				((ServerPlayer)player).getClient().informBuy(winner.getId(), objective.getPosition());
+			}
+		}
+		this.exchangeMoney(winner, this.getGameState().getBank(), price);
+	}
 
 	public void movePlayerTo(Field field, Player player, boolean secondary,
 			boolean executePasses) {
@@ -311,7 +327,7 @@ public class ServerLogic extends Logic {
 
 	public void payRent(Player player, BuyableField field) {
 		Player owner = field.getOwner();
-		if (owner != null && !player.equals(owner)) {
+		if (owner != null && !player.equals(owner) && !field.isMortgaged()) {
 			this.exchangeMoney(player, owner, field.getRent());
 		}
 	}
@@ -373,6 +389,8 @@ public class ServerLogic extends Logic {
 		}
 	}
 
+	
+	
 	public void endGame() {
 		// TODO Free Stack here
 

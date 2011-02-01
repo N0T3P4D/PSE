@@ -33,7 +33,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class OutOfPrisonCommand extends SimpleClient implements Command {
+public class OutOfPrisonCommand extends Command {
 	
 	private int playerId;
 

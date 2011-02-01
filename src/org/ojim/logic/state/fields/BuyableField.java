@@ -31,13 +31,18 @@ import org.ojim.logic.state.Player;
  * 
  * @author Fabian Neundorf
  */
-public abstract class BuyableField extends Field {
+public abstract class BuyableField extends Field implements Comparable<BuyableField>
+{
 
 	private int price;
 	private Player owner;
 
 	private boolean mortgaged;
 	private int mortgagePrice;
+	
+	//TODO AI Test
+	private double valuation = 0;
+	private boolean selected = false;
 
 	public BuyableField(String name, int position, int price) {
 		super(name, position);
@@ -107,5 +112,25 @@ public abstract class BuyableField extends Field {
 	 */
 	public Player getOwner() {
 		return this.owner;
+	}
+	
+	public double getValuation() {
+		return valuation;
+	}
+	
+	public void setValuation(double valuation) {
+		this.valuation = valuation;
+	}
+	
+	public boolean getSelected() {
+		return selected;
+	}
+	
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+	
+	public int compareTo(BuyableField o) {
+		return (int) (o.getValuation() - valuation);
 	}
 }

@@ -67,22 +67,27 @@ public final class CapitalValuator extends ValuationFunction {
 		int sum = 0;
 		// Der Geldbetrag des Spielers mit dem meisten Geld
 		int max = 0;
+		int count = 0;
 		Player[] players = this.getGameState().getPlayers();
 		for (Player player : players) {
 			if (player == currentPlayer) {
 				continue;
 			}
 			sum += player.getBalance();
+			count++;
 			if (player.getBalance() > max) {
 				max = player.getBalance();
 			}
 		}
+		assert(server != null);
+		double required = ValuationParameters.baseCash + 0.01 * (max + (sum / count)) + 0.05 * (40 - server.getNumberOfHousesLeft());
+
 
 		// Nach dem Papier
-		double required = ValuationParameters.baseCash
-		// + ValuationParameters.averageCashPercentage
-		// * (((double) sum / (double) (players.length - 1)) + sum)
-				+ ValuationParameters.maxCashPercentage * max;
+//		double required = ValuationParameters.baseCash
+//		 + ValuationParameters.averageCashPercentage
+//		 * (((double) sum / (double) (players.length - 1)) + sum)
+//				+ ValuationParameters.maxCashPercentage * max;
 		logger.log(Level.FINE, "Required = " + required);
 
 		if (currentPlayer.getBalance() - amount >= required) {

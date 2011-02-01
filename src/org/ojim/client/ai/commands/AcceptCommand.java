@@ -28,7 +28,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class AcceptCommand extends SimpleClient implements Command {
+public class AcceptCommand extends Command {
 
 	private static final long serialVersionUID = 5107314051420108256L;
 
@@ -47,7 +47,7 @@ public class AcceptCommand extends SimpleClient implements Command {
 		super(logic, playerId, server);
 	}
 
-	@Override
+//	@Override
 	public void execute() {
 		this.accept();
 	}

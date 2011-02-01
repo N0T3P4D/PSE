@@ -19,6 +19,7 @@ package org.ojim.client.ai.valuation;
 
 import java.util.logging.Level;
 
+import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.Jail;
 
 /**
@@ -42,11 +43,30 @@ public final class PrisonValuator extends ValuationFunction {
 
 	@Override
 	public double returnValuation(int position) {
+
 		getLogger();
-		if (getGameState().getFieldAt(
-				getGameState().getActivePlayer().getPosition()) instanceof Jail) {
-			logger.log(Level.FINE, "Yes!");
-			return 1;
+		if (getGameState().getFieldAt(getGameState().getActivePlayer().getPosition()) instanceof Jail) {
+			Player currentPlayer = this.getGameState().getActivePlayer();
+			int sum = 0;
+			int count = 0;
+			// Der Geldbetrag des Spielers mit dem meisten Geld
+			int max = 0;
+			Player[] players = this.getGameState().getPlayers();
+			for (Player player : players) {
+				if (player == currentPlayer) {
+					continue;
+				}
+				sum += player.getBalance();
+				count++;
+				if (player.getBalance() > max) {
+					max = player.getBalance();
+				}
+			}
+			if (max + (sum / count) + 10 * (40 - server.getNumberOfHousesLeft()) > 100000) {
+				return -1;
+			} else {
+				return 1;
+			}
 		} else {
 			return 0;
 		}

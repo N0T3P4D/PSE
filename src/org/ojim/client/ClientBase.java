@@ -61,7 +61,6 @@ import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.logic.state.fields.TaxField;
 import org.ojim.rmi.client.ImplNetClient;
-import org.ojim.rmi.client.NetClient;
 import org.ojim.rmi.client.StartNetClient;
 import org.ojim.rmi.server.NetOjim;
 
@@ -258,8 +257,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		//	this.onCashChange(player, cashChange);
 			this.executor.execute(new OnCashChange(this, player, cashChange));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning(
-					"Get informCashChange with invalid player (" + playerId
+			this.logger.warning("Get informCashChange with invalid player (" + playerId
 							+ ").");
 		}
 	}
@@ -275,7 +273,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			//this.onConstruct((Street) field);
 			this.executor.execute(new OnConstruct(this, (Street) field));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning(
+			this.logger.warning(
 					"Get informConstruct with invalid street.");
 		}
 	}
@@ -291,8 +289,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		//	this.onDestruct((Street) field);
 			this.executor.execute(new OnDestruct(this, (Street) field));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning(
-					"Get informDestruct with invalid street.");
+			this.logger.warning("Get informDestruct with invalid street.");
 		}
 	}
 
@@ -318,8 +315,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			this.executor.execute(new OnMessage(this, text, player,
 					privateMessage));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning(
-					"Get informMessage with invalid player (" + sender + ").");
+			this.logger.warning("Get informMessage with invalid player (" + sender + ").");
 		}
 	}
 
@@ -336,8 +332,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			this.executor.execute(new OnMortgageToogle(this,
 					(BuyableField) field));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning(
-					"Get informMortgageToogle with invalid buyable field.");
+			this.logger.warning("Get informMortgageToogle with invalid buyable field.");
 		}
 	}
 
@@ -381,12 +376,11 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 				//this.onTrade(acting, partner);
 				this.executor.execute(new OnTrade(this, acting, partner));
 			} else {
-				OJIMLogger.getLogger(this.getClass().toString()).warning(
+				this.logger.warning(
 						"Get informTrade with invalid partner player.");
 			}
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning(
-					"Get informTrade with invalid acting player.");
+			this.logger.warning("Get informTrade with invalid acting player.");
 		}
 	}
 
@@ -401,8 +395,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			//this.onTurn(newPlayer);
 			this.executor.execute(new OnTurn(this, newPlayer));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning(
-					"Get informTurn with invalid player.");
+			this.logger.warning("Get informTurn with invalid player.");
 		}
 	}
 
@@ -423,9 +416,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			//this.onMove(player, position);
 			this.executor.execute(new OnMove(this, player, position));
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning(
-					"Get informMove with invalid player, ID = " + playerId);
-			assert (false);
+			this.logger.warning("Get informMove with invalid player, ID = " + playerId);
 		}
 	}
 
@@ -443,12 +434,10 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 				this.executor.execute(new OnBuy(this, player,
 						(BuyableField) field));
 			} else {
-				OJIMLogger.getLogger(this.getClass().toString()).warning(
-						"Get informBuy with invalid position.");
+				this.logger.warning("Get informBuy with invalid position.");
 			}
 		} else {
-			OJIMLogger.getLogger(this.getClass().toString()).warning(
-					"Get informBuy with invalid player.");
+			this.logger.warning("Get informBuy with invalid player.");
 		}
 	}
 
@@ -465,16 +454,17 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	public final void informNewPlayer(int playerId) {
 		this.logger.log(Level.INFO, "informNewPlayer(" + playerId + ")");
-		Player player = new Player(this.getPlayerName(playerId), this
-				.getPlayerPiecePosition(playerId),
-				this.getPlayerCash(playerId), playerId, this
-						.getPlayerColor(playerId));
-		this.getGameState().setPlayer(player);
-		if (this.getPlayerId() == player.getId()) {
-			this.setMyPlayer(player);
+		if (this.getGameState().getPlayerByID(playerId) == null) {
+			Player player = new Player(this.getPlayerName(playerId), this
+					.getPlayerPiecePosition(playerId),
+					this.getPlayerCash(playerId), playerId, this
+							.getPlayerColor(playerId));
+			this.getGameState().setPlayer(player);
+			//this.onNewPlayer(player);
+			this.executor.execute(new OnNewPlayer(this, player));
+		} else {
+			this.logger.warning("Get informNewPlayer with already existing player.");
 		}
-		//this.onNewPlayer(player);
-		this.executor.execute(new OnNewPlayer(this, player));
 	}
 
 	public abstract void onNewPlayer(Player player);

@@ -19,34 +19,48 @@ package org.ojim.client.ai.commands;
 
 import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
+import org.ojim.logic.state.fields.Street;
 
 import edu.kit.iti.pse.iface.IServer;
 
 /**
- * Interface for the commands
+ * 
+ * Toggles a mortgage
  * 
  * @author Jeremias Mechler
  * 
  */
-public abstract class Command extends SimpleClient implements Comparable<Command> {
-
-	double valuation;
-
-	protected Command(Logic logic, int playerId, IServer server) {
-		super(logic, playerId, server);
-
-	}
+public class BuildHouseCommand extends Command {
 
 	/**
-	 * Execute method, has to be implemented by all commands!
+	 * 
 	 */
-	public abstract void execute();
+	private Street street;
 
-	public int compareTo(Command c) {
-		return (int) (this.valuation - c.getValuation());
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 * @param street
+	 *            Street to toggle
+	 */
+
+	public BuildHouseCommand(Logic logic, IServer server, int playerId, Street street) {
+		super(logic, playerId, server);
+		this.street = street;
 	}
 
-	public double getValuation() {
-		return valuation;
+	@Override
+	public void execute() {
+		int oldLevel = street.getNumberOfHouse();
+		construct(street);
+		assert (street.getNumberOfHouse() == oldLevel + 1);
 	}
+
 }
