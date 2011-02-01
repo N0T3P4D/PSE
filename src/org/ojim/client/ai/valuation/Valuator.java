@@ -193,6 +193,7 @@ public class Valuator extends SimpleClient {
 							logger.log(Level.FINE, "All houses owned on " + street.getPosition());
 						}
 //						assert(false);
+						endTurn = true;
 						return new BuildHouseCommand(logic, server, playerID, street);
 						// assert(false);
 					} else {
