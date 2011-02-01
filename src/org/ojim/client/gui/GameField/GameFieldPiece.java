@@ -307,6 +307,7 @@ public class GameFieldPiece extends JPanel {
 			}
 		} catch (ClassCastException e) {
 		}
+
 	}
 
 	public void setField(Field field) {
@@ -423,16 +424,25 @@ public class GameFieldPiece extends JPanel {
 	}
 
 	public void redrawStreet() {
-		
+
 		colorTop.removeAll();
 		colorTop.revalidate();
-		
+
 		if (((Street) this.field).getBuiltLevel() == 5) {
 			colorTop.add(highHousePanel);
 		} else {
 			for (int i = 0; i < ((Street) this.field).getBuiltLevel(); i++) {
 				colorTop.add(housePanels[i]);
 			}
+		}
+
+	}
+
+	public Street getField() {
+		if (this.field instanceof Street) {
+			return (Street) this.field;
+		} else {
+			return null;
 		}
 
 	}

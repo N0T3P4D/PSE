@@ -25,12 +25,15 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
+import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Street;
 
 /**
  * Das Spielfeld
@@ -43,9 +46,14 @@ public class GameField extends JPanel {
 	private Player[] player;
 	private Field[] field;
 	private boolean isInitialized = false;
+	private static Player me;
 
 	// Das Feld auf das zuletzt mit der Maus geklickt wurde
 	private String selectedField;
+
+	// Hält GameFieldPieceCollection
+	// Hält Referenz auf GameFieldPiece
+	private InteractionPopup interactionPopup;
 
 	private MouseListener mouseListener = new MouseListener() {
 
@@ -76,25 +84,40 @@ public class GameField extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			selectedField = e.getComponent().getName();
 			System.out.println("Clicked on Field " + selectedField);
+			try {
+				try {
+					if (((Street) fields[Integer.parseInt(selectedField)]
+							.getField()).getOwner().getId() == me.getId()) {
+
+						interactionPopup
+								.showUpgrade(
+										Integer.parseInt(selectedField),
+										fields[(Integer.parseInt(selectedField))]
+												.getField().getName());
+					}
+				} catch (NullPointerException e2) {
+					System.out.println("nanana!");
+					interactionPopup.deleteUpgrade();
+				}
+			} catch (ArrayIndexOutOfBoundsException e3) {
+				// Noch nicht initialisiert
+			}
 
 		}
 	};
 
-	public GameField() {
+	public GameField(GUIClient guiClient) {
 		playerLabel = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			playerLabel[i] = new JPanel();
 		}
+		interactionPopup = new InteractionPopup(guiClient);
 
 	}
 
-	// Hält GameFieldPieceCollection
-	// Hält Referenz auf GameFieldPiece
-	InteractionPopup interactionPopup;
-
 	public void buildOnStreet(Field field) {
 		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-			if(this.fields[i].isField(field)){
+			if (this.fields[i].isField(field)) {
 				this.fields[i].redrawStreet();
 			}
 		}
@@ -110,7 +133,7 @@ public class GameField extends JPanel {
 
 	public void destroyOnStreet(Field field) {
 		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-			if(this.fields[i].isField(field)){
+			if (this.fields[i].isField(field)) {
 				this.fields[i].redrawStreet();
 			}
 		}
@@ -148,7 +171,6 @@ public class GameField extends JPanel {
 
 	public void init(GameState gameState) {
 
-		interactionPopup = new InteractionPopup();
 
 		// Mittelfeld
 		// interactionPopup.setBackground(Color.black);
@@ -237,7 +259,6 @@ public class GameField extends JPanel {
 	 */
 
 	public void redraw() {
-
 		/*
 		 * for (int i = 0; i < fieldsAmount; i++) { try {
 		 * ((GameFieldPiece)actualLabel).removePlayer(); } catch
@@ -276,5 +297,11 @@ public class GameField extends JPanel {
 		}
 
 	}
+
+	public static void addMe(Player me2) {
+		me = me2;
+
+	}
+
 
 }

@@ -18,11 +18,16 @@
 package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.Card;
@@ -52,16 +57,36 @@ public class InteractionPopup extends JPanel {
 	private JLabel[] diceValues;
 	private JPanel freeParkingCashPanel = new JPanel();
 	private JLabel freeParkingCashLabel = new JLabel();
+	
+	private String upgradeFieldname;
+	private int position;
+	private JLabel upgradeTextLabel = new JLabel();
+	private JTextField upgradeTextField = new JTextField();
+	private JButton upgradeButton = new JButton();
+	private JLabel upgradeButtonLabel = new JLabel();
+	private JPanel upgradePanel = new JPanel();
 	private Localizer language;
 	private int cash;
+	private GUIClient gui;
+	
+	private ActionListener upgradeListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.upgradeField(position,Integer.parseInt(upgradeTextField.getText()));
+			deleteUpgrade();
+		}
+	};;;
+	
 	//private 
 
 	/** 
 	 * Diese Methode initialisiert alles.
+	 * @param guiClient 
 	 */
-	public InteractionPopup() {
+	public InteractionPopup(GUIClient guiClient) {
 		
-		
+		this.gui = guiClient;
 		this.setBackground(Color.BLACK);
 		
 		
@@ -80,6 +105,16 @@ public class InteractionPopup extends JPanel {
 
 		freeParkingCashPanel.add(freeParkingCashLabel);
 		this.add(freeParkingCashPanel);
+		
+
+		upgradeTextField.setText("0");
+		upgradeButton.add(upgradeButtonLabel);
+		upgradePanel.add(upgradeTextLabel);
+		upgradePanel.add(upgradeTextField);
+		upgradePanel.add(upgradeButton);
+		upgradePanel.setBackground(Color.WHITE);
+		
+		upgradeButton.addActionListener(upgradeListener );
 		
 		
 	}
@@ -134,6 +169,33 @@ public class InteractionPopup extends JPanel {
 		this.language = language;
 		diceTextLabel.setText(language.getText("dice values")+": ");
 		freeParkingCashLabel.setText(language.getText("free parking cash")+": "+cash+" "+language.getText("currency"));
+		
+		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeFieldname+": ");
+		upgradeButtonLabel.setText(language.getText("upgrade"));
+		
 		repaint();
+	}
+
+	public void showUpgrade(int parseInt, String fieldName) {
+		
+		this.position = parseInt;
+		this.remove(upgradePanel);
+		
+		upgradeFieldname = fieldName;
+		
+		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeFieldname+": ");
+		
+		System.out.println("Upgrade");
+		this.add(upgradePanel);
+		this.repaint();
+		this.revalidate();
+		
+	}
+
+	public void deleteUpgrade() {		
+		this.remove(upgradePanel);
+		this.repaint();
+		this.revalidate();
+		
 	}
 }

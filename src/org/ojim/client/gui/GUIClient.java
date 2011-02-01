@@ -118,7 +118,7 @@ public class GUIClient extends ClientBase {
 		helpFrame.setTitle(language.getText("help"));
 		aboutFrame.setTitle(language.getText("about"));
 
-		gameField = new GameField();
+		gameField = new GameField(this);
 
 		GUIFrame = new JFrame(language.getText("ojim"));
 
@@ -252,6 +252,7 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onConstruct(Street street) {
+		System.out.println(street.getName()+" wurde upgegradet");
 		gameField.buildOnStreet(street);
 		draw();
 	}
@@ -385,7 +386,7 @@ public class GUIClient extends ClientBase {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					// System.out.println("Rolly Rolly");
+					System.out.println("Rolly Rolly");
 					haveIalreadyRolled = true;
 					rollDice();
 				}
@@ -397,7 +398,7 @@ public class GUIClient extends ClientBase {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					// System.out.println("Turn is ENDED!!!");
+					System.out.println("Turn is ENDED!!!");
 					haveIalreadyRolled = false;
 					endTurn();
 				}
@@ -579,7 +580,7 @@ public class GUIClient extends ClientBase {
 
 		server = new OjimServer("Philip");
 
-		server.initGame(8, 7);
+		server.initGame(2, 1);
 
 		connect(server);
 
@@ -620,10 +621,13 @@ public class GUIClient extends ClientBase {
 			this.playerInfoWindow.addPlayer(
 					this.getGameState().getPlayers()[i]);
 		}
+		
 
 		window.add(leftWindow);
 		window.add(rightWindow);
 
+		GameField.addMe(getMe());
+		
 		GUIFrame.add(window);
 
 		createGameFrame.setVisible(false);
@@ -662,6 +666,11 @@ public class GUIClient extends ClientBase {
 	public void startIpConnection (String ip, int port) {
 		connect(ip,port);
 		System.out.println("Starte Verbindung zu IP :"+ip+", Port: "+port);
+	}
+
+	public void upgradeField(int position, int parseInt) {
+		construct((Street)getGameState().getFieldAt(position));
+		
 	}
 
 }

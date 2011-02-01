@@ -43,10 +43,10 @@ public class ChatWindow extends JPanel {
 	private JTextField textField;
 	private GUIClient gui;
 	private JButton sendButton = new JButton();
-	
+
 	public ChatWindow(Localizer language, GUIClient guiClient) {
 		super();
-		
+
 		this.gui = guiClient;
 
 		this.setLayout(new GridBagLayout());
@@ -54,24 +54,21 @@ public class ChatWindow extends JPanel {
 		textArea = new JTextArea();
 
 		textArea.setEditable(false);
-		//add(new JScrollPane(textArea));
+		// add(new JScrollPane(textArea));
 		// textPane.append("Zeile 1\nZeile 2\nZeile3\nZeile4");
-		
-		
 
 		// Zeigt die erste Zeile an,
 		// indem dort der Caret positioniert wird
 		// textPane.setCaretPosition(4);
 
 		this.add(textArea, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
-				GridBagConstraints.NORTH, GridBagConstraints.BOTH,
-				new Insets(0, 0, 0, 0), 0, 0));
+				GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(
+						0, 0, 0, 0), 0, 0));
 
-		
 		JPanel textPanel = new JPanel();
-		
-		textPanel.setLayout(new GridLayout(1,0));
-		
+
+		textPanel.setLayout(new GridLayout(1, 0));
+
 		textField = new JTextField("");
 		textField.setLayout(new FontLayout());
 
@@ -83,48 +80,53 @@ public class ChatWindow extends JPanel {
 		sendButton.setLayout(new FontLayout());
 
 		ActionListener sendListener = new ActionListener() {
-			
+
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				sendMessage();
-				
+
 			}
 		};
-		
-		
+
 		sendButton.addActionListener(sendListener);
-		
-		
+
 		textPanel.add(textField);
-		
+
 		textPanel.add(sendButton);
 	}
 
 	private void sendMessage() {
-		gui.sendOutMessage(this.textField.getText());
-		this.textField.setText("");
-		
+		if (this.textField.getText().length() > 0) {
+			gui.sendOutMessage(this.textField.getText());
+			this.textField.setText("");
+		} else {
+			write(new ChatMessage(null, true, "Please enter a Message"));
+			this.textField.setText("");
+		}
+
 	}
-	
+
 	public void clear() {
 
 	}
-	
+
 	public void setLanguage(Localizer language) {
+		this.language = language;
 		sendButton.setText(language.getText("send"));
 	}
 
 	public void write(ChatMessage chatMessage) {
 		messages.add(chatMessage);
-		if(chatMessage.getPrivate()){
-			textArea.append(language.getText("private")+": ");
-			
+		if (chatMessage.getPrivate()) {
+			textArea.append(language.getText("private") + ": ");
+
 		}
-		if(chatMessage.getPlayer()==null){
-			textArea.append(" -Server- "+chatMessage.getMessage()+"\n");
-			
+		if (chatMessage.getPlayer() == null) {
+			textArea.append(" -Server- " + chatMessage.getMessage() + "\n");
+
 		} else {
-		textArea.append(" <"+chatMessage.getPlayer().getName()+"> "+chatMessage.getMessage()+"\n");
+			textArea.append(" <" + chatMessage.getPlayer().getName() + "> "
+					+ chatMessage.getMessage() + "\n");
 		}
 	}
 
