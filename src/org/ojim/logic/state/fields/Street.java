@@ -123,6 +123,12 @@ public class Street extends BuyableField {
 		if (newLevel < 0 || newLevel > 5) {
 			return false;
 		}
+		
+		for(Field street : this.getFieldGroup().getFields()) {
+			if(((Street)street).getBuiltLevel() < newLevel - 1) {
+				return false;
+			}
+		}
 
 		// Check if enough houses and hotels are in the Bank
 		bank.takeHouses(-(builtLevel % 5));
