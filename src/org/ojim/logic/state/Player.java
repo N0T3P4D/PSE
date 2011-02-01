@@ -23,6 +23,7 @@ import org.ojim.logic.state.fields.Jail;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.PriorityQueue;
 
 public class Player implements IMoneyPartner {
 
@@ -52,10 +53,10 @@ public class Player implements IMoneyPartner {
 	private int roundsInJail;
 
 	/** Contains all fields which this player owns. */
-	private List<BuyableField> fields;
+	private PriorityQueue<BuyableField> fields;
 	
 	public Player() {
-		this.fields = new ArrayList<BuyableField>();
+		this.fields = new PriorityQueue<BuyableField>();
 	}
 	
 	public int getRoundsInJail() {
@@ -91,7 +92,7 @@ public class Player implements IMoneyPartner {
 	 *            The color of the player.
 	 */
 	public Player(String name, int position, int balance, int id, int color) {
-		this.fields = new ArrayList<BuyableField>();
+		this.fields = new PriorityQueue<BuyableField>();
 		
 		this.name = name;
 		this.position = position;
@@ -216,6 +217,10 @@ public class Player implements IMoneyPartner {
 	
 	public int getNumberOfGetOutOfJailCards() {
 		return this.numberOfGetOutOfJailCards;
+	}
+	
+	public PriorityQueue<BuyableField> getQueue() {
+		return fields;
 	}
 	
 }
