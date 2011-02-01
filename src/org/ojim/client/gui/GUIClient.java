@@ -340,7 +340,7 @@ public class GUIClient extends ClientBase {
 		 *         beendet wurde <i>(optional)</i>, in diesem Zustand müssen
 		 *         noch alle Daten des Angebots abrufbar sein
 		 */
-		if (getTradeState() == 0 || getTradeState() == 1) {
+		if (getTradeState() == TradeState.WAITING_PROPOSAL || getTradeState() == TradeState.WAITING_PROPOSED) {
 			if (actingPlayer.getId() == getMe().getId()) {
 				this.showTrade(partnerPlayer.getId());
 			} else if (partnerPlayer.getId() == getMe().getId()) {
@@ -351,7 +351,7 @@ public class GUIClient extends ClientBase {
 					+ actingPlayer.getName() + " handelt mit "
 					+ partnerPlayer.getName()));
 		}
-		if (getTradeState() == 2 || getTradeState() == 3) {
+		if (getTradeState() == TradeState.ACCEPTED || getTradeState() == TradeState.DECLINED) {
 			if (actingPlayer.getId() == getMe().getId()) {
 				this.gameField.endTrade();
 			} else if (partnerPlayer.getId() == getMe().getId()) {
