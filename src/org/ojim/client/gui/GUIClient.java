@@ -340,7 +340,8 @@ public class GUIClient extends ClientBase {
 		 *         beendet wurde <i>(optional)</i>, in diesem Zustand müssen
 		 *         noch alle Daten des Angebots abrufbar sein
 		 */
-		if (getTradeState() == TradeState.WAITING_PROPOSAL || getTradeState() == TradeState.WAITING_PROPOSED) {
+		if (getTradeState() == TradeState.WAITING_PROPOSAL
+				|| getTradeState() == TradeState.WAITING_PROPOSED) {
 			if (actingPlayer.getId() == getMe().getId()) {
 				this.showTrade(partnerPlayer.getId());
 			} else if (partnerPlayer.getId() == getMe().getId()) {
@@ -351,7 +352,8 @@ public class GUIClient extends ClientBase {
 					+ actingPlayer.getName() + " handelt mit "
 					+ partnerPlayer.getName()));
 		}
-		if (getTradeState() == TradeState.ACCEPTED || getTradeState() == TradeState.DECLINED) {
+		if (getTradeState() == TradeState.ACCEPTED
+				|| getTradeState() == TradeState.DECLINED) {
 			if (actingPlayer.getId() == getMe().getId()) {
 				this.gameField.endTrade();
 			} else if (partnerPlayer.getId() == getMe().getId()) {
@@ -439,7 +441,8 @@ public class GUIClient extends ClientBase {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					// System.out.println("Turn is ENDED!!!");
+					System.out
+							.println("Turn is ENDED!!! FREE THE HOSTAGE OR I WILL END IT WITH ENDTURN()!!!! OK YOU WANTED IT LIKE THIF!");
 					haveIalreadyRolled = false;
 					endTurn();
 				}
@@ -758,11 +761,11 @@ public class GUIClient extends ClientBase {
 	}
 
 	public void showTrade(int player) {
-		if(this.menuState == menuState.game){
-		gameField.showTrade(getMe(), getGameState().getPlayerByID(player),
-				getRequiredCash(), getRequiredEstates(),
-				getNumberOfRequiredGetOutOfJailCards(), getOfferedCash(),
-				getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards());
+		if (this.menuState == menuState.game) {
+			gameField.showTrade(getMe(), getGameState().getPlayerByID(player),
+					getRequiredCash(), getRequiredEstates(),
+					getNumberOfRequiredGetOutOfJailCards(), getOfferedCash(),
+					getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards());
 		}
 	}
 
