@@ -18,6 +18,8 @@
 package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -32,10 +34,31 @@ public class SettingsFrame extends JFrame {
 
 	private JLabel name;
 	private JTextField nameField;
+	private JTextField widthField;
+	private JTextField heightField;
+	private JTextField ipField;
 	private JPanel panel;
 	private JButton saveButton;
+	private JLabel saveText;
 	private Localizer language;
 	private GUISettings settings;
+	private JLabel widthLabel;
+	private JLabel heightLabel;
+	private JLabel ipLabel;
+	
+	
+	private ActionListener saveListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			settings.setPlayerName(nameField.getText());
+			settings.setWidth(Integer.parseInt(widthField.getText()));
+			settings.setHeight(Integer.parseInt(heightField.getText()));
+			settings.setLastIP(ipField.getText());
+			settings.saveSettings();
+			
+		}
+	};;;
 	
 	public SettingsFrame(Localizer language, GUISettings settings) {
 		this.language = language;
@@ -45,29 +68,51 @@ public class SettingsFrame extends JFrame {
 		
 		name = new JLabel(this.language.getText("player name"));
 		nameField = new JTextField(settings.getPlayerName());
+		
+		widthLabel = new JLabel(this.language.getText("width"));
+		widthField = new JTextField(settings.getWidth()+"");
+		
+		heightLabel = new JLabel(this.language.getText("height"));
+		heightField = new JTextField(settings.getHeight()+"");
+		
+		ipLabel = new JLabel(this.language.getText("ip"));
+		ipField = new JTextField(settings.getLastIP());
+		
+		
 		saveButton = new JButton();
-		saveButton.add(new JLabel(this.language.getText("save")));
+		saveButton.add(saveText = new JLabel(this.language.getText("save")));
+		saveButton.addActionListener(saveListener);
 		nameField.setColumns(20);
+		widthField.setColumns(4);
+		heightField.setColumns(4);
+		ipField.setColumns(15);
 		panel = new JPanel();
+		panel.add(name);
+		panel.add(nameField);
+		panel.add(widthLabel);
+		panel.add(widthField);
+		panel.add(heightLabel);
+		panel.add(heightField);
+		panel.add(ipLabel);
+		panel.add(ipField);
+		panel.add(saveButton);
+		this.add(panel);
 		
 		this.pack();
 	}
 	
 	public void draw(){
 
-		remove(panel);
 		
-		panel = new JPanel();
-		name = new JLabel(this.language.getText("player name"));
-		saveButton = new JButton();
-		saveButton.add(new JLabel(this.language.getText("save")));
-		panel.add(name);
-		panel.add(nameField);
-		panel.add(saveButton);
+		name.setText(this.language.getText("player name"));
+		widthLabel.setText(this.language.getText("width"));
 		
-		this.add(panel);
-		this.repaint();
-		setVisible(true);
+		heightLabel.setText(this.language.getText("height"));
+		
+		ipLabel.setText(this.language.getText("ip"));
+		
+		saveText.setText(this.language.getText("save"));
+		
 	}
 
 	public void setLanguage(Localizer language) {

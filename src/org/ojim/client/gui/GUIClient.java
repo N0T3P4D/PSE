@@ -136,8 +136,6 @@ public class GUIClient extends ClientBase {
 
 		GUIFrame.setMinimumSize(new Dimension(550, 450));
 
-		name = "Max";
-		setName(name);
 
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
@@ -435,7 +433,10 @@ public class GUIClient extends ClientBase {
 				}
 			}
 
+			pane.setSize(new Dimension(settings.getWidth(), settings.getHeight()));
 			GUIFrame.add(pane);
+			
+			
 		}
 	}
 
@@ -443,6 +444,15 @@ public class GUIClient extends ClientBase {
 	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
 		// System.out.println("Player has changed to "+player.getName());
+		if(player.getId() != getMe().getId()){
+			downRight.remove(rollButton);
+			downRight.remove(endTurnButton);
+			downRight.repaint();
+			downRight.revalidate();
+		} else {
+			downRight.add(rollButton);
+			downRight.add(endTurnButton);
+		}
 	}
 
 	@Override
@@ -583,6 +593,9 @@ public class GUIClient extends ClientBase {
 	 * Startet ein neues Spiel und öffnet den Warteraum
 	 */
 	public void startServer() {
+		
+		setName(settings.getPlayerName());
+		
 		menuState = MenuState.waitRoom;
 
 		server = new OjimServer("Philip");
