@@ -94,6 +94,7 @@ public class Valuator extends SimpleClient {
 			weights[i] = 1;
 		}
 		weights[0] = 100000;
+		weights[2] = 50000;
 		this.logger = OJIMLogger.getLogger(this.getClass().toString());
 
 		valuationFunctions = new ValuationFunction[6];
@@ -124,11 +125,7 @@ public class Valuator extends SimpleClient {
 		assert (this.getNumberOfGetOutOfJailCards(playerID) == 0);
 		assert (position >= 0);
 		Field field = getGameState().getFieldAt(Math.abs(position));
-		for (ValuationFunction function : valuationFunctions) {
-			assert (function != null);
-			function.setParameters(logic);
-			function.setServer(server);
-		}
+		initFunctions();
 
 		// OJIMLogger.changeGlobalLevel(Level.WARNING);
 		// OJIMLogger.changeLogLevel(logger, Level.FINE);
@@ -161,6 +158,7 @@ public class Valuator extends SimpleClient {
 	 * @return
 	 */
 	public Command actOnTradeOffer() {
+		initFunctions();
 		System.out.println("Trade!");
 		assert (getTradeStateO() == 1);
 		boolean restricted = false;
@@ -207,13 +205,26 @@ public class Valuator extends SimpleClient {
 	}
 
 	public Command actOnAuction() {
+		initFunctions();
+		for (ValuationFunction function : valuationFunctions) {
+			assert (function != null);
+			function.setParameters(logic);
+			function.setServer(server);
+		}
 		int auctionState = getAuctionState();
 		assert (auctionState >= 0);
 		int realValue = (int) getResults(getAuctionedEstateO(), 0);
 		getAuctionState();
 		getBidder();
 		getHighestBid();
-		logger.log(Level.FINE, "state = " + getAuctionState() + " bidder = " + getBidder() + " highesBid = "
+		String bidder;
+		if (getBidder() == null) {
+			bidder = "-1";
+		}
+		else {
+			bidder = ((Integer) getBidder().getId()).toString();
+		}
+		logger.log(Level.FINE, "state = " + getAuctionState() + " bidder = " + bidder + " highesBid = "
 				+ getHighestBid() + " value = " + realValue);
 
 		if ((auctionState = getAuctionState()) < 3 && getBidder() != getMe() && getHighestBid() < realValue
@@ -230,7 +241,7 @@ public class Valuator extends SimpleClient {
 					// assert(false);
 					return new AuctionBidCommand(logic, server, playerID, auctionBid);
 				} else {
-					assert (false);
+//					assert (false);
 				}
 			}
 		}
@@ -344,7 +355,7 @@ public class Valuator extends SimpleClient {
 		return ((BuyableField) field).getPrice();
 	}
 
-	private boolean allOfGroupOwned(Street street) {
+/*	private boolean allOfGroupOwned(Street street) {
 		StreetFieldGroup group = street.getFieldGroup();
 		if (group.getFields().length > 1) {
 			int count = 0;
@@ -358,7 +369,7 @@ public class Valuator extends SimpleClient {
 			System.out.println(street.getFieldGroup().getName());
 			return false;
 		}
-	}
+	} */
 
 	public Command negative() {
 		logger.log(Level.FINE, "Negative cash!");
@@ -513,8 +524,13 @@ public class Valuator extends SimpleClient {
 		return result;
 	}
 	
-	public void setDiceValues(int[] values) {
-		this.diceValues = values;
+	private void initFunctions() {
+		for (ValuationFunction function : valuationFunctions) {
+			assert (function != null);
+			function.setParameters(logic);
+			function.setServer(server);
+		}
 	}
+	
 
 }
