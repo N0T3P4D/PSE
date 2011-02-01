@@ -109,7 +109,7 @@ public class GUIClient extends ClientBase {
 
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
-		
+
 		settings = new GUISettings();
 		settings.loadSettings();
 
@@ -139,7 +139,6 @@ public class GUIClient extends ClientBase {
 		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
 		GUIFrame.setMinimumSize(new Dimension(550, 450));
-
 
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
@@ -437,10 +436,10 @@ public class GUIClient extends ClientBase {
 				}
 			}
 
-			pane.setSize(new Dimension(settings.getWidth(), settings.getHeight()));
+			pane.setSize(new Dimension(settings.getWidth(), settings
+					.getHeight()));
 			GUIFrame.add(pane);
-			
-			
+
 		}
 	}
 
@@ -448,7 +447,7 @@ public class GUIClient extends ClientBase {
 	public void onTurn(Player player) {
 		playerInfoWindow.turnOn(player);
 		// System.out.println("Player has changed to "+player.getName());
-		if(player.getId() != getMe().getId()){
+		if (player.getId() != getMe().getId()) {
 			downRight.remove(rollButton);
 			downRight.remove(endTurnButton);
 			downRight.repaint();
@@ -595,14 +594,15 @@ public class GUIClient extends ClientBase {
 
 	/**
 	 * Startet ein neues Spiel und öffnet den Warteraum
-	 * @param string 
-	 * @param k 
-	 * @param j 
+	 * 
+	 * @param string
+	 * @param k
+	 * @param j
 	 */
 	public void startServer(String serverName, int maxPlayers, int kiPlayers) {
-		
+
 		setName(settings.getPlayerName());
-		
+
 		menuState = MenuState.waitRoom;
 
 		server = new OjimServer(serverName);
