@@ -46,9 +46,9 @@ public class CreateGameFrame extends JFrame {
 
 	private JLabel kiLabel;
 	private JTextField kiField;
-	
+
 	private JLabel errorLabel;
-	
+
 	private ActionListener serverStartListener;
 	private GUIClient gui;
 	private String wrongInput;
@@ -63,10 +63,14 @@ public class CreateGameFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				try {
-				if (!nameField.getText().equals("") && Integer.parseInt(playerField.getText()) > Integer.parseInt(kiField.getText())) {
-					gui.startServer(nameField.getText(),Integer.parseInt(playerField.getText()),Integer.parseInt(kiField.getText()));
-				}
-				} catch (NumberFormatException e2){
+					if (!nameField.getText().equals("")
+							&& Integer.parseInt(playerField.getText()) > Integer
+									.parseInt(kiField.getText())) {
+						gui.startServer(nameField.getText(), Integer
+								.parseInt(playerField.getText()), Integer
+								.parseInt(kiField.getText()));
+					}
+				} catch (NumberFormatException e2) {
 					errorLabel.setText(wrongInput);
 				}
 
@@ -75,18 +79,18 @@ public class CreateGameFrame extends JFrame {
 
 		panel = new JPanel();
 		startButton = new JButton();
-		
+
 		nameLabel = new JLabel(language.getText("server name"));
 		nameField = new JTextField(language.getText("Server"));
-		
+
 		playerLabel = new JLabel(language.getText("max player"));
 		playerField = new JTextField(language.getText("4"));
-		
+
 		kiLabel = new JLabel(language.getText("ki player"));
 		kiField = new JTextField(language.getText("3"));
-		
+
 		errorLabel = new JLabel();
-		
+
 		startButton.add(startButtonlabel = new JLabel(language
 				.getText("start server")));
 		startButton.addActionListener(serverStartListener);
@@ -107,7 +111,7 @@ public class CreateGameFrame extends JFrame {
 
 	public void draw() {
 
-		nameLabel.setText(language.getText("server name"));		
+		nameLabel.setText(language.getText("server name"));
 		playerLabel.setText(language.getText("max player"));
 		kiLabel.setText(language.getText("ki player"));
 		startButtonlabel.setText(language.getText("start server"));

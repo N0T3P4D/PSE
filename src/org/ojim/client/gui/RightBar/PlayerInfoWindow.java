@@ -23,6 +23,7 @@ import java.awt.event.MouseListener;
 
 import javax.swing.JPanel;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -32,10 +33,11 @@ public class PlayerInfoWindow extends JPanel {
 	// hält PlayerInfoField playerInfoField;
 	private PlayerInfoField[] playerInfoFields;
 	private Localizer language;
+	private GUIClient gui;
 
-	public PlayerInfoWindow() {
+	public PlayerInfoWindow(GUIClient guiClient) {
 
-		
+		gui = guiClient;
 
 		this.setLayout(new GridLayout(GameState.MAXIMUM_PLAYER_COUNT, 0));
 		playerInfoFields = new PlayerInfoField[GameState.MAXIMUM_PLAYER_COUNT];
@@ -142,6 +144,7 @@ public class PlayerInfoWindow extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("Clicked on Player "+e.getComponent().getName());
+			gui.showTrade(Integer.parseInt(e.getComponent().getName()));
 			
 		}
 	};
