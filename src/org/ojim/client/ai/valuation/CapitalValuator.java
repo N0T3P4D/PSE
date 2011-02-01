@@ -19,8 +19,8 @@ package org.ojim.client.ai.valuation;
 
 import java.util.logging.Level;
 
-import org.ojim.client.ai.commands.AuctionCommand;
 import org.ojim.client.ai.commands.SellCommand;
+import org.ojim.log.OJIMLogger;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
@@ -54,14 +54,15 @@ public final class CapitalValuator extends ValuationFunction {
 	 *            Amount of money
 	 * @return Valuation 0 if granted, -1 if denied
 	 */
+	@Override
 	public double returnValuation(int amount) {
 
 		// Da die Klasse ein Singleton ist, muss der aktive Spieler bei jedem
 		// Aufruf bestimmt werden
 		getLogger();
+//		OJIMLogger.changeLogLevel(logger, Level.FINE);
 		Player currentPlayer = this.getGameState().getActivePlayer();
-		logger.log(Level.INFO, "Current cash = " + currentPlayer.getBalance() + " Price = " + amount);
-
+		logger.log(Level.FINE, "Current cash = " + currentPlayer.getBalance() + " Price = " + amount);
 		// Die Gesamtgeldsumme aller Gegenspieler
 		int sum = 0;
 		// Der Geldbetrag des Spielers mit dem meisten Geld
@@ -82,13 +83,13 @@ public final class CapitalValuator extends ValuationFunction {
 		// + ValuationParameters.averageCashPercentage
 		// * (((double) sum / (double) (players.length - 1)) + sum)
 				+ ValuationParameters.maxCashPercentage * max;
-		logger.log(Level.INFO, "Required = " + required);
+		logger.log(Level.FINE, "Required = " + required);
 
 		if (currentPlayer.getBalance() - amount >= required) {
-			logger.log(Level.INFO, "Granted");
+			logger.log(Level.FINE, "Granted");
 			return 0;
 		} else {
-			logger.log(Level.INFO, "Denied");
+			logger.log(Level.FINE, "Denied");
 			// HACK: Sell!
 			if (!hackDisable) {
 				if (currentPlayer.getBalance() < 1000) {
@@ -114,10 +115,5 @@ public final class CapitalValuator extends ValuationFunction {
 			return -1;
 
 		}
-	}
-
-	@Override
-	public double returnValuation() {
-		return returnValuation(0);
 	}
 }

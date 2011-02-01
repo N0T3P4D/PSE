@@ -19,9 +19,8 @@ package org.ojim.client.ai.valuation;
 
 import java.util.logging.Level;
 
-import org.ojim.logic.state.GameState;
+import org.ojim.log.OJIMLogger;
 import org.ojim.logic.state.fields.BuyableField;
-import org.ojim.logic.state.fields.Field;
 
 /**
  * Property valuator
@@ -43,49 +42,59 @@ public final class PropertyValuator extends ValuationFunction {
 		return PropertyValuator.getInstance(false, PropertyValuator.class);
 	}
 
+	@Override
 	public double returnValuation(int position) {
 		getLogger();
-		if (position == 0) {
+		// position == 0 either means that our position is _really_ 0 or yet to be determined (called from
+		// returnValuation)
+		if (position == -1) {
 			position = this.getGameState().getActivePlayer().getPosition();
 		}
+		assert (position != -1);
 		if (this.getGameState().getFieldAt(position) instanceof BuyableField) {
-			logger.log(Level.INFO, "ID = "
-					+ this.getGameState().getActivePlayer().getId());
+//			OJIMLogger.changeLogLevel(logger, Level.FINE);
+			logger.log(Level.FINE, "ID = " + this.getGameState().getActivePlayer().getId());
+			// We assume that position 0 will never be buyable
 			assert (position != 0);
-			BuyableField field = (BuyableField) this.getGameState().getFieldAt(
-					position);
-			int price = field.getPrice();
-			logger.log(Level.INFO, "Name = " + field.getName() + " Price = "
-					+ price);
+			BuyableField field = (BuyableField) this.getGameState().getFieldAt(position);
+			if (field.getOwner() != this.getGameState().getActivePlayer()) {
+				// Price is needed again later
+				int price = field.getPrice();
+				logger.log(Level.FINE, "Name = " + field.getName() + " Price = " + price);
 
-			boolean isMortgaged = field.isMortgaged();
+				boolean isMortgaged = field.isMortgaged();
 
-			if (price > ValuationParameters.getStreetValue(position)) {
-				logger.log(Level.INFO, "Denied");
-				return -1;
-			} else {
-				if (isMortgaged) {
-					if (price > ValuationParameters.getStreetValue(position)
-							* ValuationParameters.mortgageFactor) {
-						logger.log(Level.INFO, "Granted");
-						return 1;
-					} else {
-						logger.log(Level.INFO, "Denied");
-						return -1;
-					}
+				if (price > ValuationParameters.getStreetValue(position)) {
+					logger.log(Level.FINE, "Denied");
+					return -1;
 				} else {
-					logger.log(Level.INFO, "Granted");
-					return 1;
+					if (isMortgaged) {
+						double result = ValuationParameters.getStreetValue(position) * ValuationParameters.mortgageFactor;
+						if (price < result) {
+							logger.log(Level.FINE, "Granted");
+							return result;
+						} else {
+							logger.log(Level.FINE, "Denied");
+							return -1;
+						}
+					} else {
+						logger.log(Level.FINE, "Granted");
+						return ValuationParameters.getStreetValue(position);
+					}
 				}
+			} else {
+//				if (field.getSelected()) {
+//					return ValuationParameters.getStreetValue(position);
+//				} else {
+					return 0;
+//				}
 			}
+
 		} else {
+			logger.log(Level.FINE, "Here! result = 0");
+
 			return 0;
 		}
-	}
-
-	@Override
-	public double returnValuation() {
-		return returnValuation(0);
 	}
 
 }

@@ -17,6 +17,8 @@
 
 package org.ojim.client.ai.valuation;
 
+import java.util.logging.Level;
+
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 
@@ -27,7 +29,7 @@ import org.ojim.logic.state.fields.Field;
  */
 public final class MortgageValuator extends ValuationFunction {
 
-	private MortgageValuator() {
+	protected MortgageValuator() {
 	}
 
 	/**
@@ -40,23 +42,21 @@ public final class MortgageValuator extends ValuationFunction {
 	}
 
 	public double returnValuation(int position) {
+		getLogger();
 		if (position == -1) {
 			position = getGameState().getActivePlayer().getPosition();
 		}
 		assert (position != -1);
 		Field field = getGameState().getFieldAt(position);
-		if (field instanceof BuyableField)
-			return -ValuationParameters.mortgageFactor
-					* ((BuyableField) field).getPrice();
-		else {
+		if (field instanceof BuyableField) {
+			//return -ValuationParameters.mortgageFactor * ((BuyableField) field).getPrice();
+			logger.log(Level.FINE, "Here! result = 0");
+
+			return 0;
+		} else {
+			logger.log(Level.FINE, "Here! result = 0");
+
 			return 0;
 		}
 	}
-
-	@Override
-	public double returnValuation() {
-		// TODO Auto-generated method stub
-		return returnValuation(-1);
-	}
-
 }

@@ -28,7 +28,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class NullCommand extends SimpleClient implements Command {
+public class EndTurnCommand extends SimpleClient implements Command {
 
 	private static final long serialVersionUID = 3744229015786962057L;
 
@@ -43,12 +43,13 @@ public class NullCommand extends SimpleClient implements Command {
 	 * @param playerId
 	 *            The client's ID
 	 */
-	public NullCommand(Logic logic, IServer server, int playerId) {
+	public EndTurnCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
 	}
 
 	@Override
 	public void execute() {
+		endTurn();
 	}
 
 }
