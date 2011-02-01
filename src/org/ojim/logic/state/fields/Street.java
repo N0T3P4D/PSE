@@ -126,4 +126,5 @@ public class Street extends BuyableField {
 	public StreetFieldGroup getFieldGroup() {
 		return (StreetFieldGroup) super.getFieldGroup();
 	}
+
 }

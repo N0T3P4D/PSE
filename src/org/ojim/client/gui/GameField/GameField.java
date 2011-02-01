@@ -34,6 +34,7 @@ import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.logic.state.fields.StreetFieldGroup;
 
 /**
  * Das Spielfeld
@@ -86,9 +87,12 @@ public class GameField extends JPanel {
 			System.out.println("Clicked on Field " + selectedField);
 			try {
 				try {
-					if (((Street) fields[Integer.parseInt(selectedField)]
-							.getField()).getOwner().getId() == me.getId()) {
+					System.out.println("1!");
+					//if (((Street) fields[Integer.parseInt(selectedField)]
+					//		.getField()).getOwner().getId() == me.getId()) {
+					if(allOfGroupOwned((Street) fields[Integer.parseInt(selectedField)].getField())) {
 
+						System.out.println("2!");
 						interactionPopup
 								.showUpgrade(
 										Integer.parseInt(selectedField),
@@ -303,5 +307,29 @@ public class GameField extends JPanel {
 
 	}
 
+	/**
+	 * Funktion von Jeremias
+	 * @param street eingegebene Straße
+	 * @return gehören mir alle Teile der Straße?
+	 */
+	private boolean allOfGroupOwned(Street street) {
+		StreetFieldGroup group = street.getFieldGroup();
+		System.out.println("3!");
+		if (group.getFields().length > 1) {
+			System.out.println("4!");
+			int count = 0;
+
+			for (Field field : group.getFields()) {
+				System.out.println("5!");
+				if (((BuyableField) field).getOwner() == this.me) {
+					count++;
+				}
+			}
+			return (count == group.getFields().length);
+		} else {
+			System.out.println(street.getFieldGroup().getName());
+		}
+		return false;
+	}
 
 }

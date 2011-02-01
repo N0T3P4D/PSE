@@ -18,6 +18,7 @@
 package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
+import java.awt.FlowLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -63,17 +64,28 @@ public class InteractionPopup extends JPanel {
 	private JLabel upgradeTextLabel = new JLabel();
 	private JTextField upgradeTextField = new JTextField();
 	private JButton upgradeButton = new JButton();
-	private JLabel upgradeButtonLabel = new JLabel();
+	private JButton downgradeButton = new JButton();
+
+	private JLabel upgradeButtonLabel = new JLabel();	
+	private JLabel downgradeButtonLabel = new JLabel();
 	private JPanel upgradePanel = new JPanel();
 	private Localizer language;
 	private int cash;
 	private GUIClient gui;
-	
+
 	private ActionListener upgradeListener = new ActionListener() {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			gui.upgradeField(position,Integer.parseInt(upgradeTextField.getText()));
+			deleteUpgrade();
+		}
+	};;;
+	private ActionListener downgradeListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.downgradeField(position,Integer.parseInt(upgradeTextField.getText()));
 			deleteUpgrade();
 		}
 	};;;
@@ -109,12 +121,15 @@ public class InteractionPopup extends JPanel {
 
 		upgradeTextField.setText("0");
 		upgradeButton.add(upgradeButtonLabel);
+		downgradeButton.add(downgradeButtonLabel);
 		upgradePanel.add(upgradeTextLabel);
-		upgradePanel.add(upgradeTextField);
+		//upgradePanel.add(upgradeTextField);
 		upgradePanel.add(upgradeButton);
+		upgradePanel.add(downgradeButton);
 		upgradePanel.setBackground(Color.WHITE);
 		
 		upgradeButton.addActionListener(upgradeListener );
+		upgradePanel.setLayout(new FlowLayout());
 		
 		
 	}
@@ -170,8 +185,9 @@ public class InteractionPopup extends JPanel {
 		diceTextLabel.setText(language.getText("dice values")+": ");
 		freeParkingCashLabel.setText(language.getText("free parking cash")+": "+cash+" "+language.getText("currency"));
 		
-		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeFieldname+": ");
+		upgradeTextLabel.setText(upgradeFieldname+": ");
 		upgradeButtonLabel.setText(language.getText("upgrade"));
+		downgradeButtonLabel.setText(language.getText("downgrade"));
 		
 		repaint();
 	}
@@ -184,8 +200,9 @@ public class InteractionPopup extends JPanel {
 		upgradeFieldname = fieldName;
 		
 		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeFieldname+": ");
-		
+
 		System.out.println("Upgrade");
+		upgradePanel.setLayout(new FlowLayout());
 		this.add(upgradePanel);
 		this.repaint();
 		this.revalidate();
