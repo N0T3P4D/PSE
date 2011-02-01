@@ -534,8 +534,20 @@ public class SimpleClient {
 		return ((IServerAuction) this.server).getHighestBid();
 	}
 
+	/**
+	 * Returns the highest bidder. If nobody has bid its null.
+	 * @return the highest bidder. If nobody has bid its null.
+	 */
 	public final Player getBidder() {
-		return (Player) this.getGameState().getPlayerByID(((IServerAuction) this.server).getBidder());
+		int id = ((IServerAuction) this.server).getBidder();
+		Player bidder = null;
+		if (id >= 0) {
+			bidder = this.getGameState().getPlayerByID(id);
+			if (bidder == null) {
+				OJIMLogger.getLogger(this.getClass().toString()).severe("bidder is unkown");
+			}
+		}
+		return bidder;
 	}
 
 	public final boolean placeBid(int amount) {
