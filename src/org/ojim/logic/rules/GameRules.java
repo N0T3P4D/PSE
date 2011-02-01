@@ -68,8 +68,13 @@ public class GameRules {
 			return false;
 		}
 		
-		//When the Street already has the needed state, then we are done
+		//When the Field already has the needed state, then we are done
 		if((buyField.isMortgaged() ^ mortgage)) {
+			return false;
+		}
+		
+		//If a Street has houses on it, it can't be mortgaged
+		if(!mortgage && buyField instanceof Street && ((Street)buyField).getBuiltLevel() != 0) {
 			return false;
 		}
 		
