@@ -27,22 +27,58 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.ojim.log.OJIMLogger;
+
 public class Localizer {
 
-	private static final String[] TEXT_KEYS = { "ojim", "file", "missing text", "?", "create game", "join game",
-			"leave game", "settings", "direct connection", "list of servers", "exit", "about", "help", "roll", "buy",
-			"ready", "send", "currency", "endturn" };
+	public enum TextKey {
+		OJIM("ojim"),
+		FILE("file"),
+		MISSING_TEXT("missing text"),
+		HELP_MENU("?"),
+		CREATE_GAME("create game"),
+		JOIN_GAME("join game"),
+		LEAVE_GAME("leave game"),
+		SETTINGS("settings"),
+		DIRECT_CONNECTION("direct connection"),
+		LIST_OF_SERVERS("list of servers"),
+		EXIT("exit"),
+		ABOUT("about"),
+		HELP("help"),
+		ROLL("roll"),
+		BUY("buy"),
+		READY("ready"),
+		SEND("send"),
+		CURRENCY("currency"),
+		ENDTURN("endturn"),
+		BANKRUPT("bankrupt");
+		
+		public final String key;
+		
+		TextKey(String key) {
+			this.key = key;
+		}
+		
+		public static TextKey getToKey(String key) {
+			for (TextKey textKey : TextKey.values()) {
+				if (textKey.key.equals(key)) {
+					return textKey;
+				}
+			}
+			return null;
+		}
+	}
 	
 	/** Saves the translation to a key. */
-	private Map<String, String> strings;
+	private Map<TextKey, String> strings;
 	
 	public Localizer() {
-		this.strings = new HashMap<String, String>();
+		this.strings = new HashMap<TextKey, String>();
 		LanguageDefinition[] languages = this.getLanguages();
 		if (languages.length == 0) {
 			// Initalize the map:
-			for (String string : Localizer.TEXT_KEYS) {
-				this.strings.put(string, string);
+			for (TextKey key : TextKey.values()) {
+				this.strings.put(key, key.key);
 			}
 		} else {
 			this.setLanguage(languages[0]);
@@ -152,9 +188,14 @@ public class Localizer {
 					if (delim < 1) {
 						// TODO: No "=" found/"=" is first char?!
 					} else {
-						String key = string.substring(0, delim).trim();
-						String value = string.substring(delim + 1).trim();
-						this.strings.put(key, value);
+						String keyText = string.substring(0, delim).trim();
+						TextKey key = TextKey.getToKey(keyText);
+						if (key != null) {
+							String value = string.substring(delim + 1).trim();
+							this.strings.put(key, value);
+						} else {
+							OJIMLogger.getLogger(this.getClass().getName()).warning("Trying to load with a illegal key (" + keyText + ")");
+						}
 					}
 				}
 			}
@@ -165,20 +206,21 @@ public class Localizer {
 		}
 	}
 
-	// Newer version (replace example)
-	public String getText(String key) {
+	public String getText(TextKey key) {
 		String text = this.strings.get(key);
 		if (text == null) {
-			for (String string : Localizer.TEXT_KEYS) {
-				if (string.equals(key)) {
-					// Maybe get translation?
-					return "<html>"+key;
-				}
-			}
-			// Maybe throw exception
-			return key;
+			return key.key;
 		} else {
 			return text;
+		}
+	}
+	
+	public String getText(String keyText) {
+		TextKey key = TextKey.getToKey(keyText);
+		if (key == null) {
+			return keyText;
+		} else {
+			return this.getText(key);
 		}
 	}
 }
