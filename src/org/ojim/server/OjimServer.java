@@ -364,7 +364,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		Field field = state.getFieldAt(position);
 		if (trade != null && trade.getTradeState() == 0 && player != null
 				&& player.equals(trade.getActing()) && field != null
-				&& field instanceof BuyableField) {
+				&& field instanceof BuyableField && (!(field instanceof Street) || ((Street)field).getBuiltLevel() == 0)) {
 			return trade.addOfferedEstate((BuyableField) field);
 		}
 		return false;
@@ -408,7 +408,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		Field field = state.getFieldAt(position);
 		if (trade != null && trade.getTradeState() == 0 && player != null
 				&& player.equals(trade.getActing()) && field != null
-				&& field instanceof BuyableField) {
+				&& field instanceof BuyableField && (!(field instanceof Street) || ((Street)field).getBuiltLevel() == 0) {
 			return trade.addOfferedEstate((BuyableField) field);
 		}
 		return false;
@@ -1056,6 +1056,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			if (field != null) {
 				if (rules.isFieldUpgradable(player, field, levelChange)) {
 					logic.upgrade((Street) field, levelChange);
+					logic.exchangeMoney(player, state.getBank(), ((Street)field).getFieldGroup().getHousePrice() * levelChange);
 					return true;
 				}
 			}

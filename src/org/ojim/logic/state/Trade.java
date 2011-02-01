@@ -20,8 +20,10 @@ package org.ojim.logic.state;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.ojim.logic.Logic;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.Bank;
+import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.fields.BuyableField;
 
 /**
@@ -36,6 +38,7 @@ public class Trade {
 	private final ServerPlayer partner;
 	private int tradeState;
 	private Bank bank;
+	private GameRules rules;
 	
 	private int offeredCash, requiredCash;
 	private int offeredNumberOfGetOutOfJailCards, requiredNumberOfGetOutOfJailCards; //xZise: Jay :D
@@ -55,8 +58,9 @@ public class Trade {
 		this.requiredEstates = new ArrayList<BuyableField>();
 	}
 	
-	public Trade(ServerPlayer acting, Bank bank) {
+	public Trade(ServerPlayer acting, Bank bank, GameRules rules) {
 		this.acting = acting;
+		this.rules = rules;
 		this.bank = bank;
 		this.partner = null;
 		this.tradeWithBank = true;
@@ -97,7 +101,7 @@ public class Trade {
 	public int getRequiredCash() {
 		int cash = this.getOfferedCash();
 		for(BuyableField field : this.offeredEstates) {
-			cash += field.getPrice() / 2;
+			cash += rules.getFieldValueForBank(field);
 		}
 		cash += this.offeredNumberOfGetOutOfJailCards * 500;
 		return cash;

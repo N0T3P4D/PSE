@@ -17,6 +17,9 @@
 
 package org.ojim.iface;
 
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Street;
+
 /**
  * Minimales Regelset.
  */

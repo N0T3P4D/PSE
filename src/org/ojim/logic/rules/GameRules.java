@@ -75,6 +75,15 @@ public class GameRules {
 		return true;
 	}
 	
+	public int getFieldValueForBank(BuyableField field) {
+		if(field instanceof Street && ((Street)field).isMortgaged()) {
+			return field.getPrice() / 10;
+		} else {
+			return field.getPrice() / 2;
+		}
+	}
+	
+	
 	private boolean isFieldMortgageable(Player player, BuyableField buyField, boolean mortgage) {
 	
 		//The Player can't spend more money than he has

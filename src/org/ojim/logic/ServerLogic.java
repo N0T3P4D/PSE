@@ -36,6 +36,7 @@ import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FreeParking;
 import org.ojim.logic.state.fields.Jail;
+import org.ojim.logic.state.fields.Street;
 
 /**
  * Acts as logic, but this class informs also the players.
