@@ -54,10 +54,12 @@ public class EndTurnCommand extends Command {
 	public void execute() {
 		int result[] = getGameState().getDices().getResult();
 		assert(result.length == 2);
+		
 		if (result[0] == result[1]) {
 			System.out.println("rollDice!");
-			rollDice();
-			
+			if (!rollDice()) {
+				System.out.println("mist durfte aber nicht :(");
+			}
 		}
 		else {
 			System.out.println("EndTurn!");

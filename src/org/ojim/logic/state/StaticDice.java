@@ -27,6 +27,7 @@ public class StaticDice extends Dice {
 	
 	public void setResult(int result) {
 		this.result = result;
+		this.roll();
 	}
 
 	@Override
