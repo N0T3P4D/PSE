@@ -201,6 +201,4 @@ public interface IClient {
 	 * @since SVN revision 16.
 	 */
 	void informPlayerLeft(int playerId);
-	
-	void setPlayerId(int newId);
 }
