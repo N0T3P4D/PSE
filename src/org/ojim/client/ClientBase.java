@@ -220,8 +220,8 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	protected void setParameters(IServer server, IClient client, GameState state) {
 		// New dynamic way?
 		this.dices = new StaticDice[2];
-		this.dices[2] = new StaticDice(6);
 		this.dices[1] = new StaticDice(6);
+		this.dices[0] = new StaticDice(6);
 		DiceSet set = new DiceSet(this.dices);
 		state.setDiceSet(set);
 		super.setParameters(server, client, state);
