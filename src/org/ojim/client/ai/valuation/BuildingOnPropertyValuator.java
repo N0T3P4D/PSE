@@ -46,18 +46,22 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 	@Override
 	public double returnValuation(int position) {
 		getLogger();
-//		if (position == -1) {
-//			position = this.getGameState().getActivePlayer().getPosition();
-//		}
-//		// number of houses? hotels?
-//		if (getGameState().getFieldAt(position) instanceof Street) {
-//			return ValuationParameters.getBuildingValue(position,
+		if (position == -1) {
+			position = this.getGameState().getActivePlayer().getPosition();
+		}
+		// number of houses? hotels?
+		if (getGameState().getFieldAt(position) instanceof Street) {
+			//erstmal schauen, ob mir alles gehört...
+//			double result = ValuationParameters.getBuildingValue(position,
 //					((Street) getGameState().getFieldAt(position)).getNumberOfHouse() + 1);
-//		} else {
-//			return 0;
-//		}
-		logger.log(Level.FINE, "Here! result = 0.1");
-		return 0.1;
+//			logger.log(Level.FINE, "Result = " + result);
+//			return result;
+			return 1;
+		} else {
+			return 0;
+		}
+//		logger.log(Level.FINE, "Here! result = 0.1");
+//		return 0.1;
 	}
 
 }

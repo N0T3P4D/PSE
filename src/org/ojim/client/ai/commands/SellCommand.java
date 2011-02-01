@@ -33,7 +33,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class SellCommand extends SimpleClient implements Command {
+public class SellCommand extends Command {
 
 	private static final long serialVersionUID = 5107314051420108256L;
 
@@ -116,6 +116,7 @@ public class SellCommand extends SimpleClient implements Command {
 			amount = minCash;
 		}
 		if (sold) {
+			assert (true);
 			// TODO remove
 		}
 		// An die Bank weitergeben
@@ -126,7 +127,7 @@ public class SellCommand extends SimpleClient implements Command {
 			offerEstate(position);
 			this.requireCash(0);
 			proposeTrade();
-			assert(getTradeState() == 3);
+			assert (getTradeState() == 3);
 		}
 	}
 }

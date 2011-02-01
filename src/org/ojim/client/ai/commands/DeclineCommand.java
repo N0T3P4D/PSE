@@ -29,7 +29,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class DeclineCommand extends SimpleClient implements Command {
+public class DeclineCommand extends Command {
 
 	private static final long serialVersionUID = -6597967898179595605L;
 
