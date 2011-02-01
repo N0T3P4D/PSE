@@ -444,6 +444,7 @@ public class GUIClient extends ClientBase {
 					System.out
 							.println("Turn is ENDED!!! FREE THE HOSTAGE OR I WILL END IT WITH ENDTURN()!!!! OK YOU WANTED IT LIKE THIF!");
 					haveIalreadyRolled = false;
+					decline();
 					endTurn();
 				}
 			};
@@ -752,12 +753,17 @@ public class GUIClient extends ClientBase {
 
 	public void trade(int cash, int[] positions, int outOfJailCards) {
 		offerCash(cash);
-		for (int i = 0; i < positions.length; i++) {
-			offerEstate(positions[i]);
+		if (positions != null) {
+			for (int i = 0; i < positions.length; i++) {
+				offerEstate(positions[i]);
+			}
 		}
 		for (int i = 0; i < outOfJailCards; i++) {
 			offerGetOutOfJailCard();
 		}
+		System.out.println("Ok Meista, hab nun gehandelt!!");
+		proposeTrade();
+
 	}
 
 	public void showTrade(int player) {
