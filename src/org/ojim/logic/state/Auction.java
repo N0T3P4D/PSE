@@ -25,6 +25,7 @@ import org.ojim.logic.ServerLogic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.server.OjimServer;
 
 public class Auction {
 
@@ -47,11 +48,19 @@ public class Auction {
 	private int currentBid;
 
 	private ServerLogic logic;
-
+	
+	private int playerID;
+	private OjimServer server;
+	
 	private GameRules rules;
 
 	private Timer timer;
 
+	public void setReturnParameters(OjimServer server, int playerID) {
+		this.server = server;
+		this.playerID = playerID;
+	}
+	
 	public Auction(GameState state, ServerLogic logic, GameRules rules,
 			BuyableField objective) {
 		this.state = state;
@@ -141,6 +150,11 @@ public class Auction {
 				} else {
 					this.logic.auctionWithResult(this.objective, highestBidder,
 							this.currentBid);
+				}
+				
+				//Set endTurn so that the Player doesn't need to call endTurn himself
+				if(server != null) {
+					server.endTurn(playerID);
 				}
 			}
 		}

@@ -993,6 +993,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 							&& !alreadyAuction) {
 						this.auction = new Auction(state, logic, rules,
 								(BuyableField) field);
+						this.auction.setReturnParameters(this, playerID);
 						alreadyAuction = true;
 					} else {
 						alreadyAuction = false;
