@@ -31,7 +31,7 @@ public class Localizer {
 
 	private static final String[] TEXT_KEYS = { "ojim", "file", "missing text", "?", "create game", "join game",
 			"leave game", "settings", "direct connection", "list of servers", "exit", "about", "help", "roll", "buy",
-			"ready", "send", "currency", "endturn" };
+			"ready", "send", "currency", "endturn", "bankrupt" };
 	
 	/** Saves the translation to a key. */
 	private Map<String, String> strings;
