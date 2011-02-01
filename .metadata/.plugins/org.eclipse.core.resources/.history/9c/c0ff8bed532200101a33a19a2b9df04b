@@ -1,0 +1,5 @@
+package org.ojim.client.gui;
+
+enum MenuBarState {
+	mainMenu, waitRoom, game
+};

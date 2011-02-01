@@ -1,0 +1,30 @@
+# Translation file for german
+# Übersetzungsdatei für die Sprache deutsch
+# Sharp acts as comment
+# Semicolon (at the first sign) acts as file definition
+# File definition fields:
+#	- author
+#	- name
+#	- english name
+#	- code (ISO 639-3)
+
+# Copyright (C) 2010 Licensed under GNU GPL version 3.
+
+;author=Maximilian
+;name=English
+;english name=English
+;code=eng
+
+ojim=OJIM
+file=File
+missing text=Missing Text
+?=?
+create game=Create Game
+join game=Join Game
+leave game=Leave Game
+settings=Settings
+direct connection=Direct Connection
+list of servers=List of Servers
+exit=Exit
+about=About OJIM
+help=Hilfe

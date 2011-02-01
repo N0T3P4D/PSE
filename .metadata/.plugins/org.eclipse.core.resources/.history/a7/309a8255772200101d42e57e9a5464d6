@@ -1,0 +1,31 @@
+package org.ojim.client.gui.Card;
+
+import java.awt.GridLayout;
+
+import javax.swing.JPanel;
+
+
+public class CardWindow extends JPanel{
+
+	// Hält CardStacks
+	
+	public CardWindow() {
+		super();
+		
+		this.setLayout(new GridLayout(4,0));
+		
+		cardWindow = new CardWindow();
+		
+		this.add(cardWindow);
+	}
+
+	// FIXME: INT
+	public void addCard(int cardStack, int cardId){
+		
+	}
+	
+	public void removeCard(int cardId){
+		
+	}
+	
+}

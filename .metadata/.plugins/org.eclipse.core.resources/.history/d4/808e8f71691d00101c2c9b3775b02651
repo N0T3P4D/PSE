@@ -1,0 +1,17 @@
+package org.ojim.client.gui;
+
+public class GUILocalizer {
+
+	String language;
+	
+	public GUILocalizer() {
+		language = "DE-de"
+	}
+
+	public void setLanguage(String language){
+		
+		
+		
+	}
+	
+}

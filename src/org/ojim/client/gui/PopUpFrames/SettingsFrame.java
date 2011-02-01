@@ -18,6 +18,7 @@
 package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -98,6 +99,7 @@ public class SettingsFrame extends JFrame {
 		panel.add(saveButton);
 		this.add(panel);
 		
+		panel.setLayout(new GridLayout(0,2));
 		this.pack();
 	}
 	
