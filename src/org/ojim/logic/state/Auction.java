@@ -21,6 +21,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.ojim.logic.Logic;
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
@@ -45,13 +46,13 @@ public class Auction {
 
 	private int currentBid;
 	
-	private Logic logic;
+	private ServerLogic logic;
 
 	private GameRules rules;
 	
 	private Timer timer;
 	
-	public Auction(GameState state, Logic logic, GameRules rules, BuyableField objective) {
+	public Auction(GameState state, ServerLogic logic, GameRules rules, BuyableField objective) {
 		this.state = state;
 		this.logic = logic;
 		this.rules = rules;
@@ -119,7 +120,7 @@ public class Auction {
 			if(highestBidder == null) {
 				this.logic.auctionWithoutResult(this.objective);
 			} else {
-				this.logic.auctionWithResult(this.objective, highestBidder);
+				this.logic.auctionWithResult(this.objective, highestBidder, this.currentBid);
 			}
 		} else {
 			//Call all Players that the next Step has come
