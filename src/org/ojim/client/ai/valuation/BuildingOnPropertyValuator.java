@@ -19,8 +19,11 @@ package org.ojim.client.ai.valuation;
 
 import java.util.logging.Level;
 
+import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.logic.state.fields.StreetFieldGroup;
 
 /**
  * 
@@ -43,25 +46,38 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 		return BuildingOnPropertyValuator.getInstance(false, BuildingOnPropertyValuator.class);
 	}
 
+	private boolean allOfGroupOwned(Street street) {
+		StreetFieldGroup group = street.getFieldGroup();
+		assert (group.getFields().length != 1);
+		int count = 0;
+		for (Field field : group.getFields()) {
+			if (((BuyableField) field).getOwner() == getGameState().getActivePlayer()) {
+				count++;
+			}
+		}
+		return (count == group.getFields().length);
+	}
+
 	@Override
 	public double returnValuation(int position) {
+		Player me = this.getGameState().getActivePlayer();
 		getLogger();
+		double result = 0;
 		if (position == -1) {
-			position = this.getGameState().getActivePlayer().getPosition();
+			position = me.getPosition();
 		}
-		// number of houses? hotels?
 		if (getGameState().getFieldAt(position) instanceof Street) {
-			//erstmal schauen, ob mir alles gehört...
-//			double result = ValuationParameters.getBuildingValue(position,
-//					((Street) getGameState().getFieldAt(position)).getNumberOfHouse() + 1);
-//			logger.log(Level.FINE, "Result = " + result);
-//			return result;
-			return 1;
-		} else {
-			return 0;
+			Street street = (Street) getGameState().getFieldAt(position);
+			if (allOfGroupOwned(street)) {
+				logger.log(Level.FINE, "All owned by me");
+				if (getGameRules().isFieldUpgradable(me, street, street.getBuiltLevel() + 1)) {
+					// double result = ValuationParameters.getBuildingValue(position,street.getNumberOfHouse() + 1);
+					result = 10 * street.getRent(street.getBuiltLevel() + 1);
+				}
+			}
 		}
-//		logger.log(Level.FINE, "Here! result = 0.1");
-//		return 0.1;
+		logger.log(Level.FINE, "Here! result = " + result);
+		return result;
 	}
 
 }

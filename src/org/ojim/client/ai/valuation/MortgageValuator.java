@@ -43,20 +43,19 @@ public final class MortgageValuator extends ValuationFunction {
 
 	public double returnValuation(int position) {
 		getLogger();
+		double result = 0;
 		if (position == -1) {
 			position = getGameState().getActivePlayer().getPosition();
 		}
 		assert (position != -1);
 		Field field = getGameState().getFieldAt(position);
 		if (field instanceof BuyableField) {
-			//return -ValuationParameters.mortgageFactor * ((BuyableField) field).getPrice();
-			logger.log(Level.FINE, "Here! result = 0");
-
-			return 0;
-		} else {
-			logger.log(Level.FINE, "Here! result = 0");
-
-			return 0;
+			if (((BuyableField)field).isMortgaged()) {
+			result = -ValuationParameters.mortgageFactor * ((BuyableField) field).getPrice();
+			logger.log(Level.FINE, "Mortgaged!");
+			}
 		}
+		logger.log(Level.FINE, "Result = " + result);
+		return result;
 	}
 }

@@ -56,45 +56,47 @@ public final class PropertyGroupValuator extends ValuationFunction {
 		int count = 0;
 		boolean fremdfeld = false;
 		boolean myField = false;
+		double result = 0;
 
 		if (getGameState().getFieldAt(position) instanceof BuyableField) {
 			getLogger();
-//			OJIMLogger.changeLogLevel(logger, Level.FINE);
-			logger.log(Level.FINE, "Position = " + position);
-			FieldGroup group = getGameState().getFieldAt(position).getFieldGroup();
-			Field[] list = group.getFields();
-			if (group != null) {
-				for (Field temp : list) {
-					BuyableField field = ((BuyableField) temp);
-					count++;
-					if (field.getOwner() == null) {
-						freeFields++;
-					} else if (field.getOwner() == getGameState().getActivePlayer()) {
-						ownedByMe++;
-						if (field.getPosition() == position) {
-							myField = true;
+			BuyableField field = ((BuyableField) getGameState().getFieldAt(position));
+			if (!field.getSelected()) {
+				// OJIMLogger.changeLogLevel(logger, Level.FINE);
+				logger.log(Level.FINE, "Position = " + position);
+				FieldGroup group = field.getFieldGroup();
+				Field[] list = group.getFields();
+				if (group != null) {
+					for (Field temp : list) {
+						BuyableField bfield = ((BuyableField) temp);
+						count++;
+						if (bfield.getOwner() == null) {
+							freeFields++;
+						} else if (bfield.getOwner() == getGameState().getActivePlayer()) {
+							ownedByMe++;
+							if (bfield.getPosition() == position) {
+								myField = true;
+							}
+						} else if (bfield.getPosition() == position) {
+							fremdfeld = true;
 						}
-					} else if (field.getPosition() == position) {
-						fremdfeld = true;
+					}
+
+					if (myField) {
+						logger.log(Level.FINE, "Here! result = 0");
+						result = 0;
+					} else if (count - ownedByMe != freeFields && !fremdfeld) {
+						logger.log(Level.FINE, "Here! result = -1");
+						// assert(false);
+						result = 1;
+						;
+					} else {
+						result = ValuationParameters.getFieldGroupFactor(ownedByMe, count);
+						logger.log(Level.FINE, "Here! result = " + result);
 					}
 				}
-
-				if (myField) {
-					logger.log(Level.FINE, "Here! result = 0");
-					return 0;
-				} else if (count - ownedByMe != freeFields && !fremdfeld) {
-					logger.log(Level.FINE, "Here! result = -1");
-//					assert(false);
-					return -1;
-				} else {
-					double result = ValuationParameters.getFieldGroupFactor(ownedByMe, count);
-					logger.log(Level.FINE, "Here! result = " + result);
-					return result;
-				}
 			}
-		} else {
-			return 0;
 		}
-		return 0.1;
+		return result;
 	}
 }
