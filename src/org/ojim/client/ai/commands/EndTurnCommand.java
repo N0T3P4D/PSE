@@ -31,6 +31,8 @@ import edu.kit.iti.pse.iface.IServer;
 public class EndTurnCommand extends Command {
 
 	private static final long serialVersionUID = 3744229015786962057L;
+	
+	private Logic logic;
 
 	/**
 	 * 
@@ -45,11 +47,22 @@ public class EndTurnCommand extends Command {
 	 */
 	public EndTurnCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
+		this.logic = logic;
 	}
 
 	@Override
 	public void execute() {
-		endTurn();
+		int result[] = getGameState().getDices().getResult();
+		assert(result.length == 2);
+		if (result[0] == result[1]) {
+			System.out.println("rollDice!");
+			rollDice();
+			
+		}
+		else {
+			System.out.println("EndTurn!");
+			endTurn();
+		}
 	}
 
 }

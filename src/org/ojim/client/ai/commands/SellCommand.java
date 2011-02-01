@@ -87,10 +87,10 @@ public class SellCommand extends Command {
 						assert (((BuyableField) getGameState().getFieldAt(position)).getOwner().getId() == myID);
 						requireCash(amount);
 						proposeTrade();
-						ret = getTradeState();
+						ret = getTradeStateO();
 						assert (ret != -1 && !end);
 						while (ret != -1 && !end) {
-							ret = getTradeState();
+							ret = getTradeStateO();
 							switch (ret) {
 							case 0:
 								assert (false);
@@ -127,7 +127,7 @@ public class SellCommand extends Command {
 			offerEstate(position);
 			this.requireCash(0);
 			proposeTrade();
-			assert (getTradeState() == 3);
+			assert (getTradeStateO() == 3);
 		}
 	}
 }

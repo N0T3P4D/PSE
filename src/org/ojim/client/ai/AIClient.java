@@ -30,6 +30,7 @@ import org.ojim.logic.state.fields.Street;
 import org.ojim.client.ClientBase;
 import org.ojim.client.ai.commands.Command;
 import org.ojim.client.ai.commands.EndTurnCommand;
+import org.ojim.client.ai.commands.NullCommand;
 import org.ojim.client.ai.valuation.Valuator;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -88,25 +89,7 @@ public class AIClient extends ClientBase {
 					+ this.getGameState().getActivePlayer().getPosition());
 			this.rollDice();
 			// get current position
-			int position = getGameState().getActivePlayer().getPosition();
-			// increment round count
-			count++;
-			logger.log(Level.INFO, "ID " + getPlayerId() + " Move " + count + " New position is " + position
-					+ " with name " + getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
-			// if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
-			// logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
-			// assert (getGameState().getActivePlayer().getId() == getPlayerId());
-			// valuator.returnBestCommand(position).execute();
-			// } else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
-			// logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
-			// valuator.returnBestCommand(position).execute();
-			Command command = valuator.returnBestCommand(position);
-			while (!(command instanceof EndTurnCommand)) {
-				command.execute();
-				command = valuator.returnBestCommand(position);
-			}
-			assert (command != null);
-			command.execute();
+
 		} else {
 			logger.log(Level.FINE, log("Not my turn"));
 		}
@@ -135,6 +118,9 @@ public class AIClient extends ClientBase {
 				this.log("onCashChange(" + this.getPlayerInfo(player) + ")! Amount = " + cashChange + " New cash = "
 						+ player.getBalance()));
 
+		if (player == getMe() && player.getBalance() < 0) {
+				valuator.negative().execute();
+		}
 		assert (this.getGameState().getActivePlayer() != null);
 	}
 
@@ -204,6 +190,36 @@ public class AIClient extends ClientBase {
 	@Override
 	public void onDiceValues(int[] diceValues) {
 		logger.log(Level.FINE, this.log("onDiceValues(" + Arrays.toString(diceValues) + ")!"));
+		assert(diceValues.length == 2);
+		if (this.isMyTurn()) {
+			int position = getGameState().getActivePlayer().getPosition();
+			// increment round count
+			count++;
+			logger.log(Level.INFO, "ID " + getPlayerId() + " Move " + count + " New position is " + position
+					+ " with name " + getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
+			// if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
+			// logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
+			// assert (getGameState().getActivePlayer().getId() == getPlayerId());
+			// valuator.returnBestCommand(position).execute();
+			// } else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
+			// logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
+			// valuator.returnBestCommand(position).execute();
+			
+			// mortgages
+			Command command = valuator.paybackMortgages();
+			while (!(command instanceof NullCommand)) {
+				command.execute();
+				command = valuator.paybackMortgages();
+			}
+			command.execute();
+			command = valuator.returnBestCommand(position);
+			while (!(command instanceof EndTurnCommand)) {
+				command.execute();
+				command = valuator.returnBestCommand(position);
+			}
+			assert (command != null);
+			command.execute();
+		}
 	}
 
 	@Override

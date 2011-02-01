@@ -18,6 +18,8 @@
 package org.ojim.client.ai.valuation;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
 import java.util.logging.Level;
@@ -33,6 +35,7 @@ import org.ojim.client.ai.commands.EndTurnCommand;
 import org.ojim.client.ai.commands.NullCommand;
 import org.ojim.client.ai.commands.OutOfPrisonCommand;
 import org.ojim.client.ai.commands.SellCommand;
+import org.ojim.client.ai.commands.ToggleMortgageCommand;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.Player;
@@ -65,7 +68,7 @@ public class Valuator extends SimpleClient {
 	// private LinkedList<Property> list;
 	private int[] toSell;
 	private boolean endTurn = false;
-	
+	private int[] diceValues;
 
 	/**
 	 * Constructor
@@ -116,7 +119,9 @@ public class Valuator extends SimpleClient {
 	 * @return command
 	 */
 	public Command returnBestCommand(int position) {
-		assert(this.getNumberOfGetOutOfJailCards(playerID) == 0);
+
+		PriorityQueue<Command> queue = new PriorityQueue<Command>();
+		assert (this.getNumberOfGetOutOfJailCards(playerID) == 0);
 		assert (position >= 0);
 		Field field = getGameState().getFieldAt(Math.abs(position));
 		for (ValuationFunction function : valuationFunctions) {
@@ -129,94 +134,24 @@ public class Valuator extends SimpleClient {
 		// OJIMLogger.changeLogLevel(logger, Level.FINE);
 
 		// Feld potenziell kaufbar
-		if (field instanceof BuyableField && !endTurn) {
-			logger.log(Level.FINE, "BuyableField!");
-			Player owner = ((BuyableField) field).getOwner();
-			double realValue = getResults(position, 0);
-			// Feld gehört mir (noch) nicht
-			if (owner != getMe()) {
-				int price = ((BuyableField) field).getPrice();
-				double valuation = getResults(position, price);
-				// double realValue = getResults(position, 0);
-				// Feld gehört der Bank
-				if (owner == null) {
-					if (valuation > 0) {
-						logger.log(Level.FINE, "Granted");
-						assert (logic != null);
-						assert (server != null);
-						logger.log(Level.FINE, "Accept");
-						return new AcceptCommand(logic, server, playerID);
-						// nicht ausreichend, ab wann verkaufen oder handeln?
-					} else if (realValue > 0 && false) {
-						// preis?
-						// getPropertiesToSell();
-						// sell();
+		if (!endTurn) {
 
-						// return new DeclineCommand(logic, server, playerID);
-					} else {
-						// Ablehnen
-						logger.log(Level.FINE, "Decline");
-						endTurn = true;
-						return new DeclineCommand(logic, server, playerID);
-					}
-				} else {
-					// Trade!
-					logger.log(Level.FINE, "Soon trade");
-//					return new NullCommand(logic, server, playerID);
-				}
-			}
-
+			queue.add(buyFields(field));
 			// Feld potentiell bebaubar
-			if (field instanceof Street) {
-				Street street = (Street) field;
-				// Feld bebaubar
-//				if (allOfGroupOwned(street)) {
-//					assert(false);
-//				}
-				if (allOfGroupOwned(street) && this.getNumberOfHousesLeft() > 0) {
-					logger.log(Level.FINE, "Owning everything in group " + street.getColorGroup());
-					// assert(false);
-					double valuation = getResults(position, this.getEstateHousePrice(street.getPosition()));
-					// houses, hotels, real price?
-					// if (valuation > 0) {
-					if (true) {
-						// int oldLevel = street.getNumberOfHouse();
-						System.out.println(this.getEstateHouses(street.getPosition()));
-						System.out.println(this.getNumberOfHousesLeft());
+			queue.add(upgradeStreet());
 
-						// construct(street);
-						// this.
-						// street.upgrade(street.getNumberOfHouse() + 1);
-						// assert (street.getNumberOfHouse() == oldLevel + 1);
-						if (this.getEstateHouses(street.getPosition()) == 1) {
-							assert (false);
-							logger.log(Level.FINE, "All houses owned on " + street.getPosition());
-						}
-//						assert(false);
-						endTurn = true;
-						return new BuildHouseCommand(logic, server, playerID, street);
-						// assert(false);
-					} else {
-						// assert(false);
-					}
-				}
-			}
-		}
+			queue.add(getOutOfJail());
+			// reicht das?
 
-		// reicht das?
-		else if (field instanceof Jail) {
-			double valuation = getResults(position, 0);
-			// To be tested!
-			if (valuation > 0 && position == -10) {
-				return new OutOfPrisonCommand(logic, server, playerID);
-			} else {
-				// null command?
-				System.out.println(valuation);
-				// assert (false);
-				endTurn = false;
-				return new EndTurnCommand(logic, server, playerID);
+			if (queue.peek() instanceof NullCommand) {
+				endTurn = true;
 			}
+			System.out.println("lol");
+
+			return queue.peek();
 		}
+		System.out.println("lbol");
+
 		endTurn = false;
 		return new EndTurnCommand(logic, server, playerID);
 	}
@@ -227,10 +162,10 @@ public class Valuator extends SimpleClient {
 	 */
 	public Command actOnTradeOffer() {
 		System.out.println("Trade!");
-		assert (getTradeState() == 1);
+		assert (getTradeStateO() == 1);
 		boolean restricted = false;
 		if (getRequiredEstates() != null) {
-			for (int position : getRequiredEstates()) {
+			for (int position : getRequiredEstatesO()) {
 				BuyableField field = (BuyableField) getGameState().getFieldAt(position);
 				if (field.isMortgaged()) {
 					restricted = true;
@@ -254,27 +189,45 @@ public class Valuator extends SimpleClient {
 		return new DeclineCommand(logic, server, playerID);
 	}
 
+	public Command paybackMortgages() {
+		for (BuyableField field : getMe().getFields()) {
+			if (field.isMortgaged()) {
+				field.setSelected(true);
+				double valuation = getResults(field.getPosition(), field.getMortgagePrice());
+				field.setSelected(false);
+				if (valuation > 0) {
+					return new ToggleMortgageCommand(logic, server, playerID, field);
+				} else {
+					return new NullCommand(logic, server, playerID);
+				}
+			}
+
+		}
+		return new NullCommand(logic, server, playerID);
+	}
+
 	public Command actOnAuction() {
 		int auctionState = getAuctionState();
 		assert (auctionState >= 0);
-		int realValue = (int) getResults(getAuctionedEstate(), 0);
+		int realValue = (int) getResults(getAuctionedEstateO(), 0);
 		getAuctionState();
 		getBidder();
 		getHighestBid();
-		logger.log(Level.FINE, "state = " + getAuctionState() + " bidder = " + getBidder() + " highesBid = " + getHighestBid() + " value = " + realValue);
+		logger.log(Level.FINE, "state = " + getAuctionState() + " bidder = " + getBidder() + " highesBid = "
+				+ getHighestBid() + " value = " + realValue);
 
-		if ((auctionState = getAuctionState()) < 3 && getBidder() != playerID && getHighestBid() < realValue
+		if ((auctionState = getAuctionState()) < 3 && getBidder() != getMe() && getHighestBid() < realValue
 				&& currentStep < auctionSteps) {
 			logger.log(Level.FINE, "Highest bid = " + getHighestBid());
 			if (getHighestBid() < realValue) {
 				logger.log(Level.FINE, "Valuation " + realValue);
-				double factor = Math.log(currentStep++)/Math.log(auctionSteps);
-				auctionBid = (int)(factor * realValue);
+				double factor = Math.log(currentStep++) / Math.log(auctionSteps);
+				auctionBid = (int) (factor * realValue);
 				logger.log(Level.FINE, "Bidding " + auctionBid);
 
-				if (getResults(getAuctionedEstate(), auctionBid) > 0) {
+				if (getResults(getAuctionedEstateO(), auctionBid) > 0) {
 					System.out.println("THere!");
-//					assert(false);
+					// assert(false);
 					return new AuctionBidCommand(logic, server, playerID, auctionBid);
 				} else {
 					assert (false);
@@ -318,16 +271,16 @@ public class Valuator extends SimpleClient {
 	}
 
 	private double tradeValuateRequestedEstates() {
-		return (-1) * tradeValuateEstates(getRequiredEstates());
+		return (-1) * tradeValuateEstates(getRequiredEstatesO());
 	}
 
 	private double tradeValuateOfferedEstates() {
-		return tradeValuateEstates(getOfferedEstates());
+		return tradeValuateEstates(getOfferedEstatesO());
 	}
 
-	private boolean decideWhetherToSell(int buyPosition, int sellPosition) {
-		return (getResults(buyPosition, 0) > getResults(sellPosition, 0));
-	}
+//	private boolean decideWhetherToSell(int buyPosition, int sellPosition) {
+//		return (getResults(buyPosition, 0) > getResults(sellPosition, 0));
+//	}
 
 	private void getPropertiesToSell(int requiredCash, boolean mortgage) {
 		int cash = 0;
@@ -406,7 +359,162 @@ public class Valuator extends SimpleClient {
 			return false;
 		}
 	}
+
+	public Command negative() {
+		logger.log(Level.FINE, "Negative cash!");
+		int balance = Math.abs(getMe().getBalance());
+		BuyableField[] result = mortgageBuildings(balance);
+		boolean success = false;
+		if (result.length > 0) {
+			success = true;
+			return new ToggleMortgageCommand(logic, server, playerID, result[0]);
+		} else {
+			LinkedList<BuyableField> list = new LinkedList<BuyableField>();
+			result = mortgageBuildings(0);
+			if (result.length != 0) {
+			int sum = 0;
+			for (int i = 0; i < result.length; i++) {
+				if (sum < balance) {
+					list.add(result[i]);
+					sum += result[i].getMortgagePrice();
+				}
+			}
+			if (sum >= balance) {
+				success = true;
+				return new ToggleMortgageCommand(logic, server, playerID, list.toArray(new BuyableField[0]));
+			}
+		}
+		}
+		// bankrupt
+//		if (!success) {
+			// Sell!
+		return new NullCommand(logic, server, playerID);
+//		}
+	}
+
+	private BuyableField[] mortgageBuildings(int money) {
+		LinkedList<BuyableField> list = new LinkedList<BuyableField>();
+		for (BuyableField field : getMe().getFields()) {
+			boolean flip = false;
+			if (!field.isMortgaged() && field.getMortgagePrice() >= Math.abs(money)) {
+				for (Field f : field.getFieldGroup().getFields()) {
+					if (((BuyableField) f).getOwner() == getMe() && ((BuyableField) f).isMortgaged()) {
+						flip = true;
+					}
+				}
+				if (!flip) {
+					list.add(field);
+				}
+			}
+		}
+
+		final class MoneyComparator implements Comparator<BuyableField> {
+
+			@Override
+			public int compare(BuyableField o1, BuyableField o2) {
+				return o1.getPrice() - o2.getPrice();
+			}
+		}
+
+		Street[] array = list.toArray(new Street[0]);
+		Arrays.sort(array, new MoneyComparator());
+		// System.out.println(result);
+		return array;
+	}
 	
-//	private boolean
+	private Command buyFields(Field field) {
+		if (field instanceof BuyableField && !endTurn) {
+			logger.log(Level.FINE, "BuyableField!");
+			Player owner = ((BuyableField) field).getOwner();
+			double realValue = getResults(field.getPosition(), 0);
+			// Feld gehört mir (noch) nicht
+			if (owner != getMe()) {
+				int price = ((BuyableField) field).getPrice();
+				double valuation = getResults(field.getPosition(), price);
+				// double realValue = getResults(position, 0);
+				// Feld gehört der Bank
+				if (owner == null) {
+					if (valuation > 0) {
+						logger.log(Level.FINE, "Granted");
+						assert (logic != null);
+						assert (server != null);
+						logger.log(Level.FINE, "Accept");
+						return new AcceptCommand(logic, server, playerID);
+						// nicht ausreichend, ab wann verkaufen oder handeln?
+					} else if (realValue > 0 && false) {
+						// preis?
+						// getPropertiesToSell();
+						// sell();
+
+						// return new DeclineCommand(logic, server, playerID);
+					} else {
+						// Ablehnen
+						logger.log(Level.FINE, "Decline");
+						endTurn = true;
+						return new DeclineCommand(logic, server, playerID);
+					}
+				} else {
+					// Trade!
+					logger.log(Level.FINE, "Soon trade");
+					// return new NullCommand(logic, server, playerID);
+				}
+			}
 	
+	}
+		Command result = new NullCommand(logic, server, playerID);
+		result.setValuation(0);
+		return result;
+	}
+	
+	public Command upgradeStreet() {
+		PriorityQueue<Street> upgradeableStreets = new PriorityQueue<Street>();
+		for (int i = 0; i < 40; i++) {
+			Field field = getGameState().getFieldAt(i);
+			if (field instanceof Street) {
+				if (getGameRules().isFieldUpgradable(getMe(), field, ((Street) field).getBuiltLevel()+1)) {
+					upgradeableStreets.add((Street) field);
+				}
+			}
+		}
+		for (Street street: upgradeableStreets) {
+			street.setSelected(true);
+			street.setValuation(getResults(street.getPosition(), this.getEstateHousePrice(street.getPosition())));
+			street.setSelected(false);
+		}
+		Street[] streets = upgradeableStreets.toArray(new Street[0]);
+		Arrays.sort(streets);
+		if (streets.length > 0 && streets[0].getValuation() > 0) {
+			Command result = new BuildHouseCommand(logic, server, playerID, streets[0]);
+			result.setValuation(streets[0].getValuation());
+			return result;
+		}
+		else {
+			Command result = new NullCommand(logic,server,playerID);
+			result.setValuation(0);
+			return result;
+		}
+	}
+	
+	public Command getOutOfJail() {
+		Jail jail = getMe().getJail();
+		if (jail != null) {
+			double valuation = getResults(jail.getPosition(), jail.getMoneyToPay());
+			if (valuation > 0) {
+				Command result = new OutOfPrisonCommand(logic, server, playerID);
+				result.setValuation(valuation);
+				return result;
+			}
+		}
+		// null command?
+		// System.out.println(valuation);
+		// assert (false);
+		Command result = new EndTurnCommand(logic, server, playerID);
+		result.setValuation(0);
+		return result;
+	}
+	
+	public void setDiceValues(int[] values) {
+		this.diceValues = values;
+	}
+
 }

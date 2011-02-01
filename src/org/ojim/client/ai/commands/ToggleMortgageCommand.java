@@ -19,38 +19,52 @@ package org.ojim.client.ai.commands;
 
 import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Street;
 
 import edu.kit.iti.pse.iface.IServer;
 
 /**
- * Interface for the commands
+ * 
+ * Toggles a mortgage
  * 
  * @author Jeremias Mechler
  * 
  */
-public abstract class Command extends SimpleClient implements Comparable<Command> {
-
-	double valuation = 0;
-
-	protected Command(Logic logic, int playerId, IServer server) {
-		super(logic, playerId, server);
-
-	}
+public class ToggleMortgageCommand extends Command {
 
 	/**
-	 * Execute method, has to be implemented by all commands!
+	 * 
 	 */
-	public abstract void execute();
+	private BuyableField[] fields;
 
-	public int compareTo(Command c) {
-		return (int) (this.valuation - c.getValuation());
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 * @param street
+	 *            Street to toggle
+	 */
+
+	public ToggleMortgageCommand(Logic logic, IServer server, int playerId, BuyableField... fields) {
+		super(logic, playerId, server);
+		this.fields = fields;
 	}
 
-	public double getValuation() {
-		return valuation;
+	@Override
+	public void execute() {
+		for (BuyableField field: fields) {
+			//FIX: Mortgage
+			boolean state = this.isMortgaged(field.getPosition());
+			this.toggleMortgage(field);
+			assert(this.isMortgaged(field.getPosition()) != state);
+		}
 	}
-	
-	public void setValuation(double valuation) {
-		this.valuation = valuation;
-	}
+
 }
