@@ -1381,31 +1381,19 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		infrastructures.setFactors(new int[] { 80, 200 });
 
 		// Add Cards
-		CardStack comm = ((ServerGameState) this.logic.getGameState())
-				.getCommunityCards();
-		new GetOutOfJailCard("comm jail", comm, this.logic);
-		Card.newNormalCard("comm +100 money", comm,
-				ActionFactory.newTransferMoneyToBank(this.logic, -100));
-		Card.newNormalCard("comm 100 m > free", comm, ActionFactory
-				.newTransferMoneyToFreeParking(this.logic, 100, freeParking));
-		Card.newNormalCard("comm 100 m (p. Hou) 1000 (p. Hot)", comm,
-				new ActionPayForBuildings(this.logic, 100, 1000, this.logic
-						.getGameState().getBank()));
-		Card.newNormalCard("comm +100 m (p. Ply)", comm,
-				new ActionTransferMoneyToPlayers(this.logic, 100));
-
-		CardStack even = ((ServerGameState) this.logic.getGameState())
-				.getEventCards();
-		new GetOutOfJailCard("even jail", even, this.logic);
-		Card.newNormalCard("even +100 money", even,
-				ActionFactory.newTransferMoneyToBank(this.logic, -100));
-		Card.newNormalCard("even 100 m > free", even, ActionFactory
-				.newTransferMoneyToFreeParking(this.logic, 100, freeParking));
-		Card.newNormalCard("even 100 m (p. Hou) 1000 (p. Hot)", even,
-				new ActionPayForBuildings(this.logic, 100, 1000, this.logic
-						.getGameState().getBank()));
-		Card.newNormalCard("even +100 m (p. Ply)", even,
-				new ActionTransferMoneyToPlayers(this.logic, 100));
+		CardStack comm = ((ServerGameState) this.logic.getGameState()).getCommunityCards();
+		comm.add(new GetOutOfJailCard("comm jail", comm, this.logic));
+		comm.add(Card.newNormalCard("comm +100 money", comm, ActionFactory.newTransferMoneyToBank(this.logic, -100)));
+		comm.add(Card.newNormalCard("comm 100 m > free", comm, ActionFactory.newTransferMoneyToFreeParking(this.logic, 100, freeParking)));
+		comm.add(Card.newNormalCard("comm 100 m (p. Hou) 1000 (p. Hot)", comm, new ActionPayForBuildings(this.logic, 100, 1000, this.logic.getGameState().getBank())));
+		comm.add(Card.newNormalCard("comm +100 m (p. Ply)", comm, new ActionTransferMoneyToPlayers(this.logic, 100)));
+		
+		CardStack even = ((ServerGameState) this.logic.getGameState()).getEventCards();
+		even.add(new GetOutOfJailCard("even jail", even, this.logic));
+		even.add(Card.newNormalCard("even +100 money", even, ActionFactory.newTransferMoneyToBank(this.logic, -100)));
+		even.add(Card.newNormalCard("even 100 m > free", even, ActionFactory.newTransferMoneyToFreeParking(this.logic, 100, freeParking)));
+		even.add(Card.newNormalCard("even 100 m (p. Hou) 1000 (p. Hot)", even, new ActionPayForBuildings(this.logic, 100, 1000, this.logic.getGameState().getBank())));
+		even.add(Card.newNormalCard("even +100 m (p. Ply)", even, new ActionTransferMoneyToPlayers(this.logic, 100)));
 	}
 
 }
