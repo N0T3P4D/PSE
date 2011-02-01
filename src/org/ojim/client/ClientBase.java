@@ -44,8 +44,10 @@ import org.ojim.client.triggers.OnTrade;
 import org.ojim.client.triggers.OnTurn;
 import org.ojim.iface.IClient;
 import org.ojim.log.OJIMLogger;
+import org.ojim.logic.state.DiceSet;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
+import org.ojim.logic.state.StaticDice;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.CardField;
 import org.ojim.logic.state.fields.Field;
@@ -76,6 +78,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	private String name;
 	private ExecutorService executor;
 	private Logger logger;
+	private StaticDice[] dices;
 
 	public ClientBase() {
 		super();
@@ -212,6 +215,17 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	protected final void connect(IServer server) {
 		this.connect(server, new GameState());
 	}
+	
+	@Override
+	protected void setParameters(IServer server, IClient client, GameState state) {
+		// New dynamic way?
+		this.dices = new StaticDice[2];
+		this.dices[2] = new StaticDice(6);
+		this.dices[1] = new StaticDice(6);
+		DiceSet set = new DiceSet(this.dices);
+		state.setDiceSet(set);
+		super.setParameters(server, client, state);
+	}
 
 	/*
 	 * TRIGGER-METHODS
@@ -298,6 +312,12 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informDiceValues(int[] diceValues) {
 		this.logger.log(Level.INFO, "informDiceValues(" + Arrays.toString(diceValues) + ")");
+		// Set dice values in dice set
+		
+		for (int i = 0; i < diceValues.length; i++) {
+			this.dices[i].setResult(diceValues[i]);
+		}
+		
 	//	this.onDiceValues(diceValues);
 		this.executor.execute(new OnDiceValues(this, diceValues));
 	}
