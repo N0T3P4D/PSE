@@ -92,7 +92,7 @@ public class Auction {
 			
 			//Restart the Timer
 			this.auctionState = 0;
-			timer.cancel();
+			//timer.cancel();
 			timer.schedule(new AuctionTask(this), 1000 * this.rules.getActionTickTime(), 1000 * this.rules.getActionTickTime());
 			
 			//Tell All Players that a new Highest Bid is there

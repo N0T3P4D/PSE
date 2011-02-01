@@ -537,7 +537,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized int getBidder() {
 		if (auction != null) {
-			if(auction.getHighestBidder() != null) {
+			if (auction.getHighestBidder() != null) {
 				return auction.getHighestBidder().getId();
 			}
 		}
@@ -970,7 +970,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private boolean alreadyAuction = false;
-	
+
 	@Override
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerByID(playerID);
@@ -989,7 +989,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 					Field field = state.getFieldAt(player.getPosition());
 
 					if (field instanceof BuyableField
-							&& ((BuyableField) field).getOwner() == null && !alreadyAuction) {
+							&& ((BuyableField) field).getOwner() == null
+							&& !alreadyAuction) {
 						this.auction = new Auction(state, logic, rules,
 								(BuyableField) field);
 						alreadyAuction = true;
@@ -1026,7 +1027,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (state.getGameIsWon()) {
 			return false;
 		}
-		return changeLevel(playerID, position, 1);
+		if (changeLevel(playerID, position, 1)) {
+			for (IClient client : clients) {
+				client.informConstruct(position);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1059,7 +1066,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (state.getGameIsWon()) {
 			return false;
 		}
-		return changeLevel(playerID, position, -1);
+		if (changeLevel(playerID, position, -1)) {
+			for (IClient client : clients) {
+				client.informDestruct(position);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@Override
