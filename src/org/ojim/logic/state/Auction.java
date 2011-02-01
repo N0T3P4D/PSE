@@ -57,7 +57,7 @@ public class Auction {
 		this.rules = rules;
 		this.objective = objective;
 		this.highestBidder = null;;
-		this.auctionState = -1;
+		this.auctionState = 0;
 		this.currentBid = rules.getAuctionStartBid(objective);
 		this.timer = new Timer();
 		
