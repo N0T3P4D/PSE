@@ -36,9 +36,45 @@ import edu.kit.iti.pse.iface.IServerTrade;
  * 
  * But no “Connection” and “IClient” support.
  * 
- * @author Fabian Neundorf
+ * @author Fabian Neundorf.
  */
 public class SimpleClient {
+	
+	/**
+	 * Different trade states.
+	 * @author Fabian Neundorf.
+	 * @see {@link IServerTrade#getTradeState()}.
+	 */
+	public enum TradeState {
+		NOT_RUNNING(-1),
+		WAITING_PROPOSAL(0),
+		WAITING_PROPOSED(1),
+		ACCEPTED(2),
+		DECLINED(3);
+		
+		public final int value;
+		
+		TradeState(int value) {
+			this.value = value;
+		}
+		
+		public static TradeState getState(int state) {
+			switch (state) {
+			case -1:
+				return NOT_RUNNING;
+			case 0:
+				return WAITING_PROPOSAL;
+			case 1:
+				return WAITING_PROPOSED;
+			case 2:
+				return ACCEPTED;
+			case 3:
+				return DECLINED;
+			default:
+				throw new IllegalArgumentException("state is not recognized");	
+			}
+		}
+	}
 
 	private IServer server;
 	private Logic logic;
@@ -314,9 +350,16 @@ public class SimpleClient {
 	public final boolean initTrade(Player partnerPlayer) {
 		return ((IServerTrade) this.server).initTrade(this.playerId, partnerPlayer.getId());
 	}
-
-	public final int getTradeState() {
+	
+	/**
+	 * @deprecated Use {@link #getTradeState()}
+	 */
+	public final int getTradeStateO() {
 		return ((IServerTrade) this.server).getTradeState();
+	}
+	
+	public final TradeState getTradeState() {
+		return TradeState.getState(((IServerTrade) this.server).getTradeState());
 	}
 
 	/**
