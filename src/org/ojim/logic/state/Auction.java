@@ -62,7 +62,7 @@ public class Auction {
 		this.timer = new Timer();
 		
 		//Start ticking
-		timer.schedule(new AuctionTask(this), this.rules.getActionStartTime(), this.rules.getActionTickTime());
+		timer.schedule(new AuctionTask(this), 1000 * this.rules.getActionStartTime(), 1000 * this.rules.getActionTickTime());
 		
 		//Tell All Players that a new Auction has started
 		for(Player player : state.getPlayers()) {
@@ -93,7 +93,7 @@ public class Auction {
 			//Restart the Timer
 			this.auctionState = 0;
 			timer.cancel();
-			timer.schedule(new AuctionTask(this), this.rules.getActionTickTime(), this.rules.getActionTickTime());
+			timer.schedule(new AuctionTask(this), 1000 * this.rules.getActionTickTime(), 1000 * this.rules.getActionTickTime());
 			
 			//Tell All Players that a new Highest Bid is there
 			for(Player player : state.getPlayers()) {
@@ -126,6 +126,8 @@ public class Auction {
 			for(Player player : state.getPlayers()) {
 				if(player instanceof ServerPlayer) {
 					((ServerPlayer)player).getClient().informAuction(this.auctionState);
+					//TODO remove test
+					((ServerPlayer)player).getClient().informMessage("Auction:" + this.auctionState, -1, false);
 				}
 			}
 		}
@@ -143,11 +145,13 @@ class AuctionTask extends TimerTask {
 	
 	protected AuctionTask(Auction auction) {
 		this.auction = auction;
+		System.out.println("Tick!");
 	}
 	
 	@Override
 	public void run() {
 		auction.tick();		
+		System.out.println("Tock!");
 	}
 	
 }

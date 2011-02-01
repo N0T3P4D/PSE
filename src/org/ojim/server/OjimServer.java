@@ -969,6 +969,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return false;
 	}
 
+	private boolean alreadyAuction = false;
+	
 	@Override
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerByID(playerID);
@@ -987,10 +989,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 					Field field = state.getFieldAt(player.getPosition());
 
 					if (field instanceof BuyableField
-							&& ((BuyableField) field).getOwner() == null) {
+							&& ((BuyableField) field).getOwner() == null && !alreadyAuction) {
 						this.auction = new Auction(state, logic, rules,
 								(BuyableField) field);
+						alreadyAuction = true;
 					} else {
+						alreadyAuction = false;
 						logic.startNewTurn();
 						if (this.state.getGameIsWon()) {
 							this.endGame();

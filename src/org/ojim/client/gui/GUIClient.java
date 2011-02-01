@@ -585,10 +585,14 @@ public class GUIClient extends ClientBase {
 		server = new OjimServer("Philip");
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 		server.initGame(4, 3);
 =======
 		server.initGame(2, 1);
 >>>>>>> 6f04a1ff16ca2f2c4c38d1d7bd585d9dc0f4f8f3
+=======
+		server.initGame(2, 1);
+>>>>>>> 2e27d5e0138fc864d301f3daaf45929d1220a67e
 
 		connect(server);
 

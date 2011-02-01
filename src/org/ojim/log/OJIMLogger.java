@@ -17,6 +17,7 @@
 
 package org.ojim.log;
 
+import java.util.LinkedList;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Handler;
 import java.util.logging.Level;
@@ -33,31 +34,32 @@ public final class OJIMLogger {
 
 	private static ConsoleHandler consoleHandler;
 	private static OJIMFormatter formatter;
+	private static Level globalLevel = Level.WARNING;
+	private static LinkedList<Logger> loggerList;
 
 	private OJIMLogger() {
 	}
 
 	private static void setupLogger(Logger logger) {
 		assert (logger != null);
-		logger.setLevel(Level.CONFIG);
+		logger.setLevel(globalLevel);
 		logger.setUseParentHandlers(false);
-		/*if (consoleHandler == null) {
+		if (consoleHandler == null) {
 			consoleHandler = new ConsoleHandler();
 		}
 		if (formatter == null) {
 			formatter = new OJIMFormatter();
 		}
 		consoleHandler.setFormatter(formatter);
-		consoleHandler.setLevel(Level.CONFIG);
+		consoleHandler.setLevel(globalLevel);
 		if (logger.getHandlers().length == 0) {
 			logger.addHandler(consoleHandler);
-		}//*/
+		}
 	}
 
 	/**
 	 * 
-	 * To be called from outside - creates a new Logger, set up for OJIM
-	 * purposes
+	 * To be called from outside - creates a new Logger, set up for OJIM purposes
 	 * 
 	 * @param name
 	 *            The logger's name
@@ -67,20 +69,46 @@ public final class OJIMLogger {
 		if (name == null) {
 			throw new IllegalArgumentException("name == null");
 		}
+		if (loggerList == null) {
+			loggerList = new LinkedList<Logger>();
+		}
 		Logger result = Logger.getLogger(name);
 		assert (result != null);
+		loggerList.add(result);
+		assert(loggerList.contains(result));
 		setupLogger(result);
 		return result;
 	}
 
-	public static void changeLogLevel(Logger logger, Level level) {
-		if (logger == null) {
+	public synchronized static void changeLogLevel(Logger logger, Level level) {
+		if (logger == null || level == null) {
 			throw new IllegalArgumentException();
 		}
 		logger.setLevel(level);
 		for (Handler handler : logger.getHandlers()) {
 			handler.setLevel(level);
 		}
+	}
+
+	public synchronized static void changeGlobalLevel(Level level) {
+		if (level == null) {
+			throw new IllegalArgumentException("level == null");
+		}
+		globalLevel = level;
+		for (Logger logger : loggerList) {
+			changeLogLevel(logger, level);
+		}
+	}
+	
+	public static void printLevel() {
+		System.out.println(globalLevel);
+//		assert(false);
+	}
+	
+	public static void printLoggerLevel(Logger logger) {
+		assert(loggerList.contains(logger));
+		System.out.println(logger.getLevel());
+//		assert(false);
 	}
 
 }

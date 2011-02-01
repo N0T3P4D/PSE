@@ -82,10 +82,10 @@ public class SellCommand extends SimpleClient implements Command {
 				if (!sold) {
 					if (player.getId() != myID) {
 						initTrade(player.getId());
-						logger.log(Level.INFO, "RemoteID = " + player.getId() + " offered estate = " + position);
+						logger.log(Level.FINE, "RemoteID = " + player.getId() + " offered estate = " + position);
 						offerEstate(position);
 						assert (((BuyableField) getGameState().getFieldAt(position)).getOwner().getId() == myID);
-						this.requireCash(amount);
+						requireCash(amount);
 						proposeTrade();
 						ret = getTradeState();
 						assert (ret != -1 && !end);
@@ -126,6 +126,7 @@ public class SellCommand extends SimpleClient implements Command {
 			offerEstate(position);
 			this.requireCash(0);
 			proposeTrade();
+			assert(getTradeState() == 3);
 		}
 	}
 }

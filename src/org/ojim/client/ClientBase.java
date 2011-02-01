@@ -118,6 +118,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 					}
 					group = new StreetFieldGroup(groupColor, groupName, this
 							.getEstateHousePrice(position));
+					colorGroups.put(groupColor, group);
 				}
 
 				name = name.substring(name.indexOf(":") + 1).trim();

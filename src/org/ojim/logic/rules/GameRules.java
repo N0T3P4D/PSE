@@ -90,7 +90,7 @@ public class GameRules {
 	 * @return
 	 */
 	public int getActionStartTime() {
-		return 20;
+		return 7;
 	}
 	
 	/**

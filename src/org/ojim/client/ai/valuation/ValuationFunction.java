@@ -19,7 +19,6 @@ package org.ojim.client.ai.valuation;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.ojim.log.OJIMLogger;
@@ -83,8 +82,7 @@ public abstract class ValuationFunction {
 	 * @return Instance
 	 */
 	@SuppressWarnings("unchecked")
-	public static <T extends ValuationFunction> T getInstance(boolean forceNew,
-			Class<T> clazz) {
+	public static <T extends ValuationFunction> T getInstance(boolean forceNew, Class<T> clazz) {
 		T instance = null;
 		if (!forceNew) {
 			instance = (T) ValuationFunction.instances.get(clazz);
@@ -148,7 +146,7 @@ public abstract class ValuationFunction {
 	 * 
 	 * @return Valuation as double
 	 */
-	public abstract double returnValuation();
+	public abstract double returnValuation(int argument);
 
 	protected final void getLogger() {
 		if (logger == null) {
@@ -159,13 +157,13 @@ public abstract class ValuationFunction {
 	protected final Logic getLogic() {
 		return logic;
 	}
-	
+
 	protected final void setServer(IServer server) {
 		this.server = server;
 	}
-	
+
 	protected final IServer getServer() {
-		assert(server != null);
+		assert (server != null);
 		return server;
 	}
 

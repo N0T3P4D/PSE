@@ -17,6 +17,11 @@
 
 package org.ojim.client.ai.valuation;
 
+import java.util.logging.Level;
+
+import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Street;
+
 /**
  * 
  * Valuates a building on a property
@@ -26,7 +31,7 @@ package org.ojim.client.ai.valuation;
  */
 public final class BuildingOnPropertyValuator extends ValuationFunction {
 
-	private BuildingOnPropertyValuator() {
+	protected BuildingOnPropertyValuator() {
 	}
 
 	/**
@@ -38,16 +43,21 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 		return BuildingOnPropertyValuator.getInstance(false, BuildingOnPropertyValuator.class);
 	}
 
-	public double returnValutation(int position) {
-		if (position == 0) {
-			position = this.getGameState().getActivePlayer().getPosition();
-		}
-		return ValuationParameters.getStreetValue(position);
-	}
-
 	@Override
-	public double returnValuation() {
-		return returnValutation(0);
+	public double returnValuation(int position) {
+		getLogger();
+//		if (position == -1) {
+//			position = this.getGameState().getActivePlayer().getPosition();
+//		}
+//		// number of houses? hotels?
+//		if (getGameState().getFieldAt(position) instanceof Street) {
+//			return ValuationParameters.getBuildingValue(position,
+//					((Street) getGameState().getFieldAt(position)).getNumberOfHouse() + 1);
+//		} else {
+//			return 0;
+//		}
+		logger.log(Level.FINE, "Here! result = 0.1");
+		return 0.1;
 	}
 
 }

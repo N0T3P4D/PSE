@@ -41,11 +41,11 @@ public final class PrisonValuator extends ValuationFunction {
 	}
 
 	@Override
-	public double returnValuation() {
+	public double returnValuation(int position) {
 		getLogger();
-		logger.log(Level.INFO, "");
 		if (getGameState().getFieldAt(
 				getGameState().getActivePlayer().getPosition()) instanceof Jail) {
+			logger.log(Level.FINE, "Yes!");
 			return 1;
 		} else {
 			return 0;
