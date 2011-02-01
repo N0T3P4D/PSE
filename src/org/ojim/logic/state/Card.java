@@ -21,6 +21,8 @@ import org.ojim.logic.actions.Action;
 
 public class Card {
 
+	private static final Action[] EMPTY_ACTIONS = new Action[0];
+	
 	public final String text;
 	private final Action[] preActions, acceptActions, declineActions, holdingActions;
 	private final CardStack stack;
@@ -33,6 +35,13 @@ public class Card {
 		this.declineActions = declineActions;
 		this.holdingActions = holdingActions;
 		this.stack = stack;
+	}
+	
+	public static Card newNormalCard(String text, CardStack stack, Action... preActions) {
+		if (preActions.length < 1) {
+			throw new IllegalArgumentException();
+		}
+		return new Card(text, stack, preActions, EMPTY_ACTIONS, EMPTY_ACTIONS, EMPTY_ACTIONS);
 	}
 
 	/**
