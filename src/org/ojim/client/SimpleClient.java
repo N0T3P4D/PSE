@@ -39,25 +39,22 @@ import edu.kit.iti.pse.iface.IServerTrade;
  * @author Fabian Neundorf.
  */
 public class SimpleClient {
-	
+
 	/**
 	 * Different trade states.
+	 * 
 	 * @author Fabian Neundorf.
 	 * @see {@link IServerTrade#getTradeState()}.
 	 */
 	public enum TradeState {
-		NOT_RUNNING(-1),
-		WAITING_PROPOSAL(0),
-		WAITING_PROPOSED(1),
-		ACCEPTED(2),
-		DECLINED(3);
-		
+		NOT_RUNNING(-1), WAITING_PROPOSAL(0), WAITING_PROPOSED(1), ACCEPTED(2), DECLINED(3);
+
 		public final int value;
-		
+
 		TradeState(int value) {
 			this.value = value;
 		}
-		
+
 		public static TradeState getState(int state) {
 			switch (state) {
 			case -1:
@@ -71,7 +68,7 @@ public class SimpleClient {
 			case 3:
 				return DECLINED;
 			default:
-				throw new IllegalArgumentException("state is not recognized");	
+				throw new IllegalArgumentException("state is not recognized");
 			}
 		}
 	}
@@ -124,14 +121,14 @@ public class SimpleClient {
 	protected void setParameters(IServer server, IClient client) {
 		this.setParameters(server, client, new GameState());
 	}
-	
+
 	protected void setParameters(IServer server, IClient client, GameState state) {
 		this.server = server;
 		this.logic = new Logic(state, server.getRules());
 		this.playerId = server.addPlayer(client);
 		// Load my data
 		client.informNewPlayer(this.playerId);
-		this.setMyPlayer(state.getPlayerByID(this.playerId));		
+		this.setMyPlayer(state.getPlayerByID(this.playerId));
 	}
 
 	public final int getPlayerId() {
@@ -319,7 +316,7 @@ public class SimpleClient {
 	protected final void sendPrivateMessage(String text, Player reciever) {
 		this.server.sendPrivateMessage(text, this.playerId, reciever.getId());
 	}
-	
+
 	protected final boolean payFine() {
 		return this.server.payFine(this.playerId);
 	}
@@ -346,18 +343,18 @@ public class SimpleClient {
 	public final boolean initTrade(int partnerPlayer) {
 		return ((IServerTrade) this.server).initTrade(playerId, partnerPlayer);
 	}
-	
+
 	public final boolean initTrade(Player partnerPlayer) {
 		return ((IServerTrade) this.server).initTrade(this.playerId, partnerPlayer.getId());
 	}
-	
+
 	/**
 	 * @deprecated Use {@link #getTradeState()}
 	 */
 	public final int getTradeStateO() {
 		return ((IServerTrade) this.server).getTradeState();
 	}
-	
+
 	public final TradeState getTradeState() {
 		return TradeState.getState(((IServerTrade) this.server).getTradeState());
 	}
@@ -368,7 +365,7 @@ public class SimpleClient {
 	public final int getPartnerO() {
 		return ((IServerTrade) this.server).getPartner();
 	}
-	
+
 	public final Player getPartner() {
 		return this.logic.getGameState().getPlayerByID(((IServerTrade) this.server).getPartner());
 	}
@@ -378,7 +375,24 @@ public class SimpleClient {
 	}
 
 	public final boolean offerGetOutOfJailCard() {
-		return ((IServerTrade) this.server).offerGetOutOfJailCard(playerId);
+		return this.offerGetOutOfJailCard(1) == 0;
+	}
+
+	/**
+	 * Offers so often a get out of jail card until, it returns false.
+	 * 
+	 * @param amount
+	 *            the number of offered cards.
+	 * @return false if the offering fails. Then it has offered less than the
+	 *         given amount. If all cards could be offered it returns true.
+	 */
+	public final int offerGetOutOfJailCard(int amount) {
+		while (amount-- > 0) {
+			if (!((IServerTrade) this.server).offerGetOutOfJailCard(playerId)) {
+				return amount + 1;
+			}
+		}
+		return amount;
 	}
 
 	/**
@@ -389,7 +403,7 @@ public class SimpleClient {
 	}
 
 	public final boolean offerEstate(BuyableField field) {
-		return ((IServerTrade) this.server).offerEstate(playerId, field.getPosition()); 
+		return ((IServerTrade) this.server).offerEstate(playerId, field.getPosition());
 	}
 
 	public final boolean requireCash(int amount) {
@@ -397,7 +411,23 @@ public class SimpleClient {
 	}
 
 	public final boolean requireGetOutOfJailCard() {
-		return ((IServerTrade) this.server).requireGetOutOfJailCard(playerId);
+		return this.requireGetOutOfJailCard(1) == 0;
+	}
+
+	/**
+	 * Requires so often a get out of jail card until, it returns false.
+	 * 
+	 * @param amount
+	 *            the number of required cards.
+	 * @return The number of remaining cards which couldn't be required.
+	 */
+	public final int requireGetOutOfJailCard(int amount) {
+		while (amount-- > 0) {
+			if (!((IServerTrade) this.server).requireGetOutOfJailCard(playerId)) {
+				return amount + 1;
+			}
+		}
+		return 0;
 	}
 
 	/**
@@ -406,7 +436,7 @@ public class SimpleClient {
 	public final boolean requireEstate(int position) {
 		return ((IServerTrade) this.server).requireEstate(playerId, position);
 	}
-	
+
 	public final boolean requireEstate(BuyableField field) {
 		return ((IServerTrade) this.server).requireEstate(playerId, field.getPosition());
 	}
@@ -417,7 +447,7 @@ public class SimpleClient {
 	public final int[] getOfferedEstatesO() {
 		return ((IServerTrade) this.server).getOfferedEstates();
 	}
-	
+
 	public final BuyableField[] getOfferedEstate() {
 		int[] fields = ((IServerTrade) this.server).getOfferedEstates();
 		BuyableField[] result = new BuyableField[fields.length];
@@ -441,7 +471,7 @@ public class SimpleClient {
 	public final int[] getRequiredEstatesO() {
 		return ((IServerTrade) this.server).getRequiredEstates();
 	}
-	
+
 	public final BuyableField[] getRequiredEstates() {
 		int[] fields = ((IServerTrade) this.server).getRequiredEstates();
 		BuyableField[] result = new BuyableField[fields.length];
@@ -466,34 +496,34 @@ public class SimpleClient {
 	public final boolean proposeTrade() {
 		return ((IServerTrade) this.server).proposeTrade(this.playerId);
 	}
-	
+
 	/*
 	 * AUCTION
 	 */
-	
+
 	public final int getAuctionState() {
 		return ((IServerAuction) this.server).getAuctionState();
 	}
-	
+
 	/**
 	 * @deprecated Use {@link #getAuctionedEstate()}
 	 */
 	public final int getAuctionedEstateO() {
 		return ((IServerAuction) this.server).getAuctionedEstate();
 	}
-	
+
 	public final BuyableField getAuctionedEstate() {
 		return (BuyableField) this.getGameState().getFieldAt(((IServerAuction) this.server).getAuctionedEstate());
 	}
-	
+
 	public final int getHighestBid() {
 		return ((IServerAuction) this.server).getHighestBid();
 	}
-	
+
 	public final Player getBidder() {
 		return (Player) this.getGameState().getPlayerByID(((IServerAuction) this.server).getBidder());
 	}
-	
+
 	public final boolean placeBid(int amount) {
 		return ((IServerAuction) this.server).placeBid(this.playerId, amount);
 	}
