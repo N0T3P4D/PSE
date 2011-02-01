@@ -591,16 +591,19 @@ public class GUIClient extends ClientBase {
 
 	/**
 	 * Startet ein neues Spiel und öffnet den Warteraum
+	 * @param string 
+	 * @param k 
+	 * @param j 
 	 */
-	public void startServer() {
+	public void startServer(String serverName, int maxPlayers, int kiPlayers) {
 		
 		setName(settings.getPlayerName());
 		
 		menuState = MenuState.waitRoom;
 
-		server = new OjimServer("Philip");
+		server = new OjimServer(serverName);
 
-		server.initGame(4, 3);
+		server.initGame(maxPlayers, kiPlayers);
 
 		connect(server);
 
