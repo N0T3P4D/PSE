@@ -326,7 +326,7 @@ public class ServerLogic extends Logic {
 
 	public void payRent(Player player, BuyableField field) {
 		Player owner = field.getOwner();
-		if (owner != null && !player.equals(owner)) {
+		if (owner != null && !player.equals(owner) && !field.isMortgaged()) {
 			this.exchangeMoney(player, owner, field.getRent());
 		}
 	}
