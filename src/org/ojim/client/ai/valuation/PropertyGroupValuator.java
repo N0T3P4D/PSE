@@ -17,7 +17,12 @@
 
 package org.ojim.client.ai.valuation;
 
+import java.util.logging.Level;
+
+import org.ojim.log.OJIMLogger;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.FieldGroup;
 
 /**
  * 
@@ -28,7 +33,7 @@ import org.ojim.logic.state.fields.BuyableField;
  */
 public final class PropertyGroupValuator extends ValuationFunction {
 
-	private PropertyGroupValuator() {
+	protected PropertyGroupValuator() {
 	}
 
 	/**
@@ -37,11 +42,11 @@ public final class PropertyGroupValuator extends ValuationFunction {
 	 * @return An instance
 	 */
 	public static PropertyGroupValuator getInstance() {
-		return ValuationFunction
-				.getInstance(false, PropertyGroupValuator.class);
+		return ValuationFunction.getInstance(false, PropertyGroupValuator.class);
 	}
 
 	public double returnValuation(int position) {
+		// Call from outside without position
 		if (position == -1) {
 			position = getGameState().getActivePlayer().getPosition();
 		}
@@ -52,32 +57,44 @@ public final class PropertyGroupValuator extends ValuationFunction {
 		boolean fremdfeld = false;
 		boolean myField = false;
 
-		for (BuyableField field : ((BuyableField[]) getGameState()
-				.getFieldAt(position).getFieldGroup().getFields())) {
-			count++;
-			if (field.getOwner() == null) {
-				freeFields++;
-			} else if (field.getOwner() == getGameState().getActivePlayer()) {
-				ownedByMe++;
-				if (field.getPosition() == position) {
-					myField = true;
+		if (getGameState().getFieldAt(position) instanceof BuyableField) {
+			getLogger();
+//			OJIMLogger.changeLogLevel(logger, Level.FINE);
+			logger.log(Level.FINE, "Position = " + position);
+			FieldGroup group = getGameState().getFieldAt(position).getFieldGroup();
+			Field[] list = group.getFields();
+			if (group != null) {
+				for (Field temp : list) {
+					BuyableField field = ((BuyableField) temp);
+					count++;
+					if (field.getOwner() == null) {
+						freeFields++;
+					} else if (field.getOwner() == getGameState().getActivePlayer()) {
+						ownedByMe++;
+						if (field.getPosition() == position) {
+							myField = true;
+						}
+					} else if (field.getPosition() == position) {
+						fremdfeld = true;
+					}
 				}
-			} else if (field.getPosition() == position) {
-				fremdfeld = true;
+
+				if (myField) {
+					logger.log(Level.FINE, "Here! result = 0");
+					return 0;
+				} else if (count - ownedByMe != freeFields && !fremdfeld) {
+					logger.log(Level.FINE, "Here! result = -1");
+//					assert(false);
+					return -1;
+				} else {
+					double result = ValuationParameters.getFieldGroupFactor(ownedByMe, count);
+					logger.log(Level.FINE, "Here! result = " + result);
+					return result;
+				}
 			}
-		}
-
-		if (myField) {
-			return 0;
-		} else if (count - ownedByMe != freeFields && !fremdfeld) {
-			return -1;
 		} else {
-			return ValuationParameters.getFieldGroupFactor(ownedByMe, count);
+			return 0;
 		}
-	}
-
-	@Override
-	public double returnValuation() {
-		return returnValuation(-1);
+		return 0.1;
 	}
 }

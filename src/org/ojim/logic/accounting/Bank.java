@@ -50,6 +50,24 @@ public class Bank implements IMoneyPartner {
 		return this.houses;
 	}
 
+	public boolean takeHouses(int amount) {
+		if(amount > this.houses) {
+			this.houses -= amount;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	public boolean takeHotels(int amount) {
+		if(amount > this.hotels) {
+			this.hotels -= amount;
+			return true;
+		} else {
+			return false;
+		}
+	}
+
 	public void setHotels(int hotels) {
 		this.hotels = hotels;
 	}

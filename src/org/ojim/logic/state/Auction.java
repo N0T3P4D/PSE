@@ -21,111 +21,140 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 import org.ojim.logic.Logic;
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.server.OjimServer;
 
 public class Auction {
-	
+
 	private BuyableField objective;
-	
+
 	/**
-     * Gibt den Stand der Auktion an.
-     *  0 falls eine Auktion läuft und noch nicht ausgezählt wird<br>
-     *  1 falls eine Auktion läuft und "zum Ersten" angekündigt wurde<br>
-     *  2 falls eine Auktion läuft und "zum Zweiten" angekündigt wurde<br>
-     *  3 falls eine Auktion gerade abgeschlossen wurde <i>(optional)</i>,
-     *    in diesem Zustand müssen noch alle Daten abrufbar sein
-     */
+	 * Gibt den Stand der Auktion an. 0 falls eine Auktion läuft und noch nicht
+	 * ausgezählt wird<br>
+	 * 1 falls eine Auktion läuft und "zum Ersten" angekündigt wurde<br>
+	 * 2 falls eine Auktion läuft und "zum Zweiten" angekündigt wurde<br>
+	 * 3 falls eine Auktion gerade abgeschlossen wurde <i>(optional)</i>, in
+	 * diesem Zustand müssen noch alle Daten abrufbar sein
+	 */
 	private int auctionState;
-	
+
 	private Player highestBidder;
-	
+
 	private GameState state;
 
 	private int currentBid;
-	
-	private Logic logic;
 
+	private ServerLogic logic;
+	
+	private int playerID;
+	private OjimServer server;
+	
 	private GameRules rules;
-	
+
 	private Timer timer;
+
+	public void setReturnParameters(OjimServer server, int playerID) {
+		this.server = server;
+		this.playerID = playerID;
+	}
 	
-	public Auction(GameState state, Logic logic, GameRules rules, BuyableField objective) {
+	public Auction(GameState state, ServerLogic logic, GameRules rules,
+			BuyableField objective) {
 		this.state = state;
 		this.logic = logic;
 		this.rules = rules;
 		this.objective = objective;
-		this.highestBidder = null;;
-		this.auctionState = -1;
+		this.highestBidder = null;
+		;
+		this.auctionState = 0;
 		this.currentBid = rules.getAuctionStartBid(objective);
 		this.timer = new Timer();
-		
-		//Start ticking
-		timer.schedule(new AuctionTask(this), this.rules.getActionStartTime(), this.rules.getActionTickTime());
-		
-		//Tell All Players that a new Auction has started
-		for(Player player : state.getPlayers()) {
-			if(player instanceof ServerPlayer) {
-				((ServerPlayer)player).getClient().informAuction(this.auctionState);
+
+		// Start ticking
+		timer.schedule(new AuctionTask(this),
+				1000 * this.rules.getActionStartTime(),
+				1000 * this.rules.getActionTickTime());
+
+		// Tell All Players that a new Auction has started
+		for (Player player : state.getPlayers()) {
+			if (player instanceof ServerPlayer) {
+				((ServerPlayer) player).getClient().informAuction(
+						this.auctionState);
 			}
 		}
 	}
-	
+
 	public Player getHighestBidder() {
 		return this.highestBidder;
 	}
-	
+
 	public int getHighestBid() {
 		return this.currentBid;
 	}
-		
+
 	public int getAuctionState() {
 		return this.auctionState;
 	}
-	
+
 	public boolean placeBid(Player bidder, int bid) {
-		if(bid > currentBid) {
-			//Set the Bidder as the Highest Bidder
+		if (bid > currentBid) {
+			// Set the Bidder as the Highest Bidder
 			this.highestBidder = bidder;
 			this.currentBid = bid;
-			
-			//Restart the Timer
+
+			// Restart the Timer
 			this.auctionState = 0;
-			timer.cancel();
-			timer.schedule(new AuctionTask(this), this.rules.getActionTickTime(), this.rules.getActionTickTime());
-			
-			//Tell All Players that a new Highest Bid is there
-			for(Player player : state.getPlayers()) {
-				if(player instanceof ServerPlayer) {
-					((ServerPlayer)player).getClient().informAuction(this.auctionState);
+			// timer.cancel();
+			timer.schedule(new AuctionTask(this),
+					1000 * this.rules.getActionTickTime(),
+					1000 * this.rules.getActionTickTime());
+
+			// Tell All Players that a new Highest Bid is there
+			for (Player player : state.getPlayers()) {
+				if (player instanceof ServerPlayer) {
+					((ServerPlayer) player).getClient().informAuction(
+							this.auctionState);
 				}
-			}	
+			}
 			return true;
 		}
 		return false;
 	}
-	
+
 	protected void tick() {
 		this.auctionState++;
-		
-		//Auction is now over
-		if(this.auctionState >= 3) {
 
-			//End the Auction, stop the Timer
-			this.timer.cancel();
-			
-			//No one wanted the Field, see what to do now
-			if(highestBidder == null) {
-				this.logic.auctionWithoutResult(this.objective);
-			} else {
-				this.logic.auctionWithResult(this.objective, highestBidder);
+		// Auction is now over
+
+		// Call all Players that the next Step has come
+		for (Player player : state.getPlayers()) {
+			if (player instanceof ServerPlayer) {
+				((ServerPlayer) player).getClient().informAuction(
+						this.auctionState);
+				// TODO remove test
+				((ServerPlayer) player).getClient().informMessage(
+						"Auction:" + this.auctionState, -1, false);
 			}
-		} else {
-			//Call all Players that the next Step has come
-			for(Player player : state.getPlayers()) {
-				if(player instanceof ServerPlayer) {
-					((ServerPlayer)player).getClient().informAuction(this.auctionState);
+
+			if (this.auctionState >= 3) {
+
+				// End the Auction, stop the Timer
+				this.timer.cancel();
+
+				// No one wanted the Field, see what to do now
+				if (highestBidder == null) {
+					this.logic.auctionWithoutResult(this.objective);
+				} else {
+					this.logic.auctionWithResult(this.objective, highestBidder,
+							this.currentBid);
+				}
+				
+				//Set endTurn so that the Player doesn't need to call endTurn himself
+				if(server != null) {
+					server.endTurn(playerID);
 				}
 			}
 		}
@@ -134,20 +163,22 @@ public class Auction {
 	public Field getObjective() {
 		return this.objective;
 	}
-	
+
 }
 
 class AuctionTask extends TimerTask {
 
 	private Auction auction;
-	
+
 	protected AuctionTask(Auction auction) {
 		this.auction = auction;
+		System.out.println("Tick!");
 	}
-	
+
 	@Override
 	public void run() {
-		auction.tick();		
+		auction.tick();
+		System.out.println("Tock!");
 	}
-	
+
 }

@@ -23,14 +23,14 @@ import edu.kit.iti.pse.iface.IServer;
 
 /**
  * 
- * Null command - does nothing
+ * Accept command - runs accept()
  * 
  * @author Jeremias Mechler
  * 
  */
-public class NullCommand extends SimpleClient implements Command {
+public class NullCommand extends Command {
 
-	private static final long serialVersionUID = 3744229015786962057L;
+	private static final long serialVersionUID = 5107314051420108256L;
 
 	/**
 	 * 

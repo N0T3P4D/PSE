@@ -88,17 +88,4 @@ public class Logic {
 	public boolean upgrade(Street street, int level) {
 		return street.upgrade(level);
 	}
-
-	public void auctionWithoutResult(BuyableField objective) {
-		return;
-	}
-	
-	
-	
-	public void auctionWithResult(BuyableField objective, Player winner) {
-		
-	}
-
-
-
 }

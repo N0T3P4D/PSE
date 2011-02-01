@@ -19,21 +19,18 @@ package org.ojim.client.ai.commands;
 
 import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
-
 import edu.kit.iti.pse.iface.IServer;
 
 /**
- * Auction command for running an auction
+ * 
+ * Null command - does nothing
  * 
  * @author Jeremias Mechler
  * 
  */
-public class AuctionCommand extends SimpleClient implements Command {
+public class EndTurnCommand extends Command {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 3521075218222740269L;
+	private static final long serialVersionUID = 3744229015786962057L;
 
 	/**
 	 * 
@@ -46,14 +43,13 @@ public class AuctionCommand extends SimpleClient implements Command {
 	 * @param playerId
 	 *            The client's ID
 	 */
-	public AuctionCommand(Logic logic, IServer server, int playerId) {
+	public EndTurnCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
 	}
 
 	@Override
 	public void execute() {
-		// TODO Auto-generated method stub
-
+		endTurn();
 	}
 
 }

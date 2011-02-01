@@ -234,7 +234,9 @@ public class ServerLogic extends Logic {
 				// TODO Add Language
 				((ServerPlayer) onePlayer).getClient().informMessage(
 						"Current Player is now out of Jail!", -1, false);
+				((ServerPlayer) onePlayer).getClient().informMove(player.getId(), player.getPosition());
 			}
+			
 		}
 
 	}
@@ -276,6 +278,21 @@ public class ServerLogic extends Logic {
 
 	public void playerRolledOutOfJail(Player player) {
 		this.sendPlayerOutOfJail(player);
+	}
+	
+	public void auctionWithoutResult(BuyableField objective) {
+		System.out.println("Action without result!");
+		return;
+	}	
+	
+	public void auctionWithResult(BuyableField objective, Player winner, int price) {
+		objective.buy(winner);
+		for(Player player : this.getGameState().getPlayers()) {
+			if(player instanceof ServerPlayer) {
+				((ServerPlayer)player).getClient().informBuy(winner.getId(), objective.getPosition());
+			}
+		}
+		this.exchangeMoney(winner, this.getGameState().getBank(), price);
 	}
 
 	public void movePlayerTo(Field field, Player player, boolean secondary,
@@ -371,6 +388,8 @@ public class ServerLogic extends Logic {
 		}
 	}
 
+	
+	
 	public void endGame() {
 		// TODO Free Stack here
 

@@ -33,7 +33,7 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class SellCommand extends SimpleClient implements Command {
+public class SellCommand extends Command {
 
 	private static final long serialVersionUID = 5107314051420108256L;
 
@@ -82,10 +82,10 @@ public class SellCommand extends SimpleClient implements Command {
 				if (!sold) {
 					if (player.getId() != myID) {
 						initTrade(player.getId());
-						logger.log(Level.INFO, "RemoteID = " + player.getId() + " offered estate = " + position);
+						logger.log(Level.FINE, "RemoteID = " + player.getId() + " offered estate = " + position);
 						offerEstate(position);
 						assert (((BuyableField) getGameState().getFieldAt(position)).getOwner().getId() == myID);
-						this.requireCash(amount);
+						requireCash(amount);
 						proposeTrade();
 						ret = getTradeState();
 						assert (ret != -1 && !end);
@@ -116,6 +116,7 @@ public class SellCommand extends SimpleClient implements Command {
 			amount = minCash;
 		}
 		if (sold) {
+			assert (true);
 			// TODO remove
 		}
 		// An die Bank weitergeben
@@ -126,6 +127,7 @@ public class SellCommand extends SimpleClient implements Command {
 			offerEstate(position);
 			this.requireCash(0);
 			proposeTrade();
+			assert (getTradeState() == 3);
 		}
 	}
 }

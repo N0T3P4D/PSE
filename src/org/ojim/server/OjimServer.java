@@ -57,7 +57,7 @@ import edu.kit.iti.pse.iface.IServerTrade;
 /**
  * 
  * @author Philip
- *
+ * 
  */
 public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
@@ -537,7 +537,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized int getBidder() {
 		if (auction != null) {
-			return auction.getHighestBidder().getId();
+			if (auction.getHighestBidder() != null) {
+				return auction.getHighestBidder().getId();
+			}
 		}
 		return -1;
 	}
@@ -963,10 +965,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return false;
 	}
 
+	private boolean alreadyAuction = false;
+
 	@Override
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerByID(playerID);
-		
+
 		if (player != null && rules.isPlayerOnTurn(player)
 				&& !state.getGameIsWon()) {
 			if (player.getJail() != null) {
@@ -977,26 +981,25 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				if (player.getBalance() < 0) {
 					this.logic.setPlayerBankrupt(player);
 				}
-				if (this.auction != null && this.auction.getAuctionState() >= 3) {
+				if (this.auction == null || this.auction.getAuctionState() >= 3) {
 					Field field = state.getFieldAt(player.getPosition());
-					/*
-					 * TODO uncomment if (field instanceof BuyableField &&
-					 * ((BuyableField) field).getOwner() == null) { this.auction
-					 * = new Auction(state, logic, rules, (BuyableField) field);
-					 * } else {
-					 */
 
-					// }
-				} try {
-					Thread.sleep(1000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
+					if (field instanceof BuyableField
+							&& ((BuyableField) field).getOwner() == null
+							&& !alreadyAuction) {
+						this.auction = new Auction(state, logic, rules,
+								(BuyableField) field);
+						this.auction.setReturnParameters(this, playerID);
+						alreadyAuction = true;
+					} else {
+						alreadyAuction = false;
+						logic.startNewTurn();
+						if (this.state.getGameIsWon()) {
+							this.endGame();
+						}
+					}
 				}
-				logic.startNewTurn();
-				if (this.state.getGameIsWon()) {
-					this.endGame();
-				}
+
 				return true;
 			}
 		}
@@ -1021,7 +1024,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (state.getGameIsWon()) {
 			return false;
 		}
-		return changeLevel(playerID, position, 1);
+		if (changeLevel(playerID, position, 1)) {
+			for (IClient client : clients) {
+				client.informConstruct(position);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	/**
@@ -1054,7 +1063,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (state.getGameIsWon()) {
 			return false;
 		}
-		return changeLevel(playerID, position, -1);
+		if (changeLevel(playerID, position, -1)) {
+			for (IClient client : clients) {
+				client.informDestruct(position);
+			}
+			return true;
+		}
+		return false;
 	}
 
 	@Override

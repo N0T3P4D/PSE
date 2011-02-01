@@ -23,11 +23,13 @@ import java.util.logging.Logger;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
-import org.ojim.logic.state.fields.Jail;
+//import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
 
 import org.ojim.client.ClientBase;
+import org.ojim.client.ai.commands.Command;
+import org.ojim.client.ai.commands.EndTurnCommand;
 import org.ojim.client.ai.valuation.Valuator;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -44,8 +46,9 @@ public class AIClient extends ClientBase {
 	private Logger logger;
 	private Valuator valuator;
 	private static int count;
-	
-	private static final String[] NAMES = { "Leopard", "Johannes", "Timo", "Vater", "Danny", "Mum", "Buckit", "Cor7", "Nutch", "Doppelkeks" };
+
+	private static final String[] NAMES = { "Leopard", "Johannes", "Timo", "Vater", "Danny", "Mum", "Buckit", "Cor7",
+			"Nutch", "Doppelkeks" };
 
 	/**
 	 * 
@@ -65,14 +68,15 @@ public class AIClient extends ClientBase {
 		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId() + " created.");
 		valuator = new Valuator(getLogic(), server, getPlayerId());
 		count = 0;
-		// OJIMLogger.changeLogLevel(logger, Level.WARNING);
+		OJIMLogger.changeLogLevel(logger, Level.WARNING);
+		OJIMLogger.changeGlobalLevel(Level.FINEST);
 	}
 
 	/**
 	 * Für den Server: Setzt
 	 */
 	public void setReady() {
-		 ready();
+		ready();
 	}
 
 	@Override
@@ -89,15 +93,20 @@ public class AIClient extends ClientBase {
 			count++;
 			logger.log(Level.INFO, "ID " + getPlayerId() + " Move " + count + " New position is " + position
 					+ " with name " + getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
-			if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
-				logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
-				assert (getGameState().getActivePlayer().getId() == getPlayerId());
-				valuator.returnBestCommand(position).execute();
-			} else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
-				logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
-				valuator.returnBestCommand(position).execute();
+			// if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
+			// logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
+			// assert (getGameState().getActivePlayer().getId() == getPlayerId());
+			// valuator.returnBestCommand(position).execute();
+			// } else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
+			// logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
+			// valuator.returnBestCommand(position).execute();
+			Command command = valuator.returnBestCommand(position);
+			while (!(command instanceof EndTurnCommand)) {
+				command.execute();
+				command = valuator.returnBestCommand(position);
 			}
-			endTurn();
+			assert (command != null);
+			command.execute();
 		} else {
 			logger.log(Level.FINE, log("Not my turn"));
 		}
@@ -105,6 +114,7 @@ public class AIClient extends ClientBase {
 
 	private String log(String call) {
 		return "Call (@" + this.getPlayerId() + ") " + call;
+		// return "";
 	}
 
 	private String getPlayerInfo(Player player) {
@@ -159,17 +169,17 @@ public class AIClient extends ClientBase {
 				this.log("onBuy(" + this.getPlayerInfo(player) + ", " + this.getStreetInfo(position) + ")!"));
 	}
 
-	private boolean isPrison(int position) {
-		if (getLogic().getGameState().getFieldAt(position) instanceof Jail) {
-			logger.log(Level.FINE, "In prison!");
-			return true;
-		}
-		return false;
-	}
-
-	public void blub(String message) {
-		System.out.println(message);
-	}
+//	private boolean isPrison(int position) {
+//		if (getLogic().getGameState().getFieldAt(position) instanceof Jail) {
+//			logger.log(Level.FINE, "In prison!");
+//			return true;
+//		}
+//		return false;
+//	}
+//
+//	public void blub(String message) {
+//		System.out.println(message);
+//	}
 
 	@Override
 	public void onBankruptcy() {
@@ -212,7 +222,10 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onAuction(int auctionState) {
+		// assert(false);
 		logger.log(Level.FINE, this.log("onAuction(" + auctionState + ")!"));
+		valuator.actOnAuction().execute();
+		this.endTurn();
 	}
 
 	@Override

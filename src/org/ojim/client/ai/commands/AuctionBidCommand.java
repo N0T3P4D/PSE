@@ -23,30 +23,40 @@ import org.ojim.logic.Logic;
 import edu.kit.iti.pse.iface.IServer;
 
 /**
- * Interface for the commands
+ * Auction command for running an auction
  * 
  * @author Jeremias Mechler
  * 
  */
-public abstract class Command extends SimpleClient implements Comparable<Command> {
-
-	double valuation;
-
-	protected Command(Logic logic, int playerId, IServer server) {
-		super(logic, playerId, server);
-
-	}
+public class AuctionBidCommand extends Command {
 
 	/**
-	 * Execute method, has to be implemented by all commands!
+	 * 
 	 */
-	public abstract void execute();
+	private static final long serialVersionUID = 3521075218222740269L;
+	private int bid;
 
-	public int compareTo(Command c) {
-		return (int) (this.valuation - c.getValuation());
+	/**
+	 * 
+	 * Constructor
+	 * 
+	 * @param server
+	 *            Reference to the server
+	 * @param logic
+	 *            Reference to the game logic
+	 * @param playerId
+	 *            The client's ID
+	 * @param bid
+	 *            Amount of money
+	 */
+	public AuctionBidCommand(Logic logic, IServer server, int playerId, int bid) {
+		super(logic, playerId, server);
+		this.bid = bid;
 	}
 
-	public double getValuation() {
-		return valuation;
+	@Override
+	public void execute() {
+		placeBid(bid);
 	}
+
 }

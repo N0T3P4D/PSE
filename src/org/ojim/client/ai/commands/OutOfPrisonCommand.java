@@ -17,7 +17,11 @@
 
 package org.ojim.client.ai.commands;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.ojim.client.SimpleClient;
+import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -29,7 +33,9 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Jeremias Mechler
  * 
  */
-public class OutOfPrisonCommand extends SimpleClient implements Command {
+public class OutOfPrisonCommand extends Command {
+	
+	private int playerId;
 
 	/**
 	 * 
@@ -45,13 +51,18 @@ public class OutOfPrisonCommand extends SimpleClient implements Command {
 	 */
 	public OutOfPrisonCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
+		this.playerId = playerId;
 	}
 
 	@Override
 	public void execute() {
+		Logger logger = OJIMLogger.getLogger(getClass().toString());
+		OJIMLogger.changeLogLevel(logger, Level.FINE);
 		if (this.getNumberOfGetOutOfJailCards(getPlayerId()) > 0) {
+			logger.log(Level.FINE, "Using OutOfJailCard!");
 			useGetOutOfJailCard();
 		} else {
+			logger.log(Level.FINE, "Player " + playerId + " Paying fine!");
 			payFine();
 		}
 	}

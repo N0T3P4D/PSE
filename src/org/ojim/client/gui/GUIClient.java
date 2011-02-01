@@ -39,7 +39,9 @@ import org.ojim.language.LanguageDefinition;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.server.OjimServer;
 
 /**
@@ -118,7 +120,7 @@ public class GUIClient extends ClientBase {
 		helpFrame.setTitle(language.getText("help"));
 		aboutFrame.setTitle(language.getText("about"));
 
-		gameField = new GameField();
+		gameField = new GameField(this);
 
 		GUIFrame = new JFrame(language.getText("ojim"));
 
@@ -168,7 +170,6 @@ public class GUIClient extends ClientBase {
 
 		case mainMenu:
 
-			// TODO Ein schönes Bild, oder ein Vorschauspiel vielleicht?
 			break;
 
 		case waitRoom:
@@ -233,8 +234,8 @@ public class GUIClient extends ClientBase {
 		// draw();
 
 		// Geld kleiner 0 Workaround weil getIsBankrupt nicht geht
-		if (player.getIsBankrupt() || getGameState().getPlayerByID(
-				player.getId()).getBalance() < 0) {
+		if (player.getIsBankrupt()
+				|| getGameState().getPlayerByID(player.getId()).getBalance() < 0) {
 			playerInfoWindow.setBancrupt(player);
 			gameField.playerIsBancrupt(player);
 		} else {
@@ -252,6 +253,7 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onConstruct(Street street) {
+		System.out.println(street.getName() + " wurde upgegradet");
 		gameField.buildOnStreet(street);
 		draw();
 	}
@@ -285,16 +287,15 @@ public class GUIClient extends ClientBase {
 
 		gameField.playerMoves(getGameState().getFieldAt(Math.abs(position)),
 				player);
-		
-		/* Falls Bancrupt in Move nicht geht
-		for(int i = 0; i < getGameState().getPlayers().length; i++){
-			if (getGameState().getPlayerByID(i).getIsBankrupt()) {
-				playerInfoWindow.setBancrupt(getGameState().getPlayerByID(i));
-				gameField.playerIsBancrupt(getGameState().getPlayerByID(i));
-				System.out.println("Bancrupt2");
-			}
-		}*/
-		
+
+		/*
+		 * Falls Bancrupt in Move nicht geht for(int i = 0; i <
+		 * getGameState().getPlayers().length; i++){ if
+		 * (getGameState().getPlayerByID(i).getIsBankrupt()) {
+		 * playerInfoWindow.setBancrupt(getGameState().getPlayerByID(i));
+		 * gameField.playerIsBancrupt(getGameState().getPlayerByID(i));
+		 * System.out.println("Bancrupt2"); } }
+		 */
 
 		if (player.getId() == getMe().getId()) {
 
@@ -461,6 +462,10 @@ public class GUIClient extends ClientBase {
 	 */
 	public void leaveGame() {
 
+		GUIFrame.remove(pane);
+		GUIFrame.remove(window);
+
+		GUIFrame.repaint();
 		server.endGame();
 
 		menuState = MenuState.mainMenu;
@@ -558,7 +563,9 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onAuction(int auctionState) {
-		// TODO Auto-generated method stub
+		System.out.println("-- DEBUG -- on Auction state:" + auctionState);
+		chatWindow.write(new ChatMessage(null, false,
+				"-- DEBUG -- on Auction State: " + auctionState));
 
 	}
 
@@ -579,7 +586,7 @@ public class GUIClient extends ClientBase {
 
 		server = new OjimServer("Philip");
 
-		server.initGame(8, 7);
+		server.initGame(4, 3);
 
 		connect(server);
 
@@ -617,12 +624,14 @@ public class GUIClient extends ClientBase {
 
 		for (int i = 0; this.getGameState().getPlayers().length > i; i++) {
 			// System.out.println(this.getGameState().getPlayers()[i].getName()+" wurde hinzugefügt mit "+this.getGameState().getPlayers()[i].getBalance()+" Kohle.");
-			this.playerInfoWindow.addPlayer(
-					this.getGameState().getPlayers()[i]);
+			this.playerInfoWindow
+					.addPlayer(this.getGameState().getPlayers()[i]);
 		}
 
 		window.add(leftWindow);
 		window.add(rightWindow);
+
+		GameField.addMe(getMe());
 
 		GUIFrame.add(window);
 
@@ -653,15 +662,30 @@ public class GUIClient extends ClientBase {
 		sendMessage(text);
 		draw();
 	}
-	
+
 	/**
 	 * Startet eine Verbindung über eine IP
-	 * @param ip die IP zu der verbunden werden muss
-	 * @param port der Port
+	 * 
+	 * @param ip
+	 *            die IP zu der verbunden werden muss
+	 * @param port
+	 *            der Port
 	 */
-	public void startIpConnection (String ip, int port) {
-		connect(ip,port);
-		System.out.println("Starte Verbindung zu IP :"+ip+", Port: "+port);
+	public void startIpConnection(String ip, int port) {
+		connect(ip, port);
+		System.out
+				.println("Starte Verbindung zu IP :" + ip + ", Port: " + port);
 	}
+
+	public void upgradeField(int position, int parseInt) {
+		construct((Street) getGameState().getFieldAt(position));
+
+	}
+
+	public void downgradeField(int position, int parseInt) {
+		destruct((Street) getGameState().getFieldAt(position));
+
+	}
+
 
 }
