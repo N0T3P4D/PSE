@@ -579,7 +579,7 @@ public class GUIClient extends ClientBase {
 
 		server = new OjimServer("Philip");
 
-		server.initGame(8, 7);
+		server.initGame(2, 1);
 
 		connect(server);
 
