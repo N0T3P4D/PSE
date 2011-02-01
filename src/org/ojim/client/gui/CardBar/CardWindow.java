@@ -89,6 +89,7 @@ public class CardWindow extends JPanel {
 	 */
 	public void removeCard(org.ojim.logic.state.fields.BuyableField card) {
 		int empty = -1;
+		try {
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1)
 				&& !cardStacks[i].getFieldGroup().equals(null); i++) {
 			if (cardStacks[i].getFieldGroup().equals(card.getFieldGroup())) {
@@ -98,6 +99,9 @@ public class CardWindow extends JPanel {
 				}
 				break;
 			}
+		}
+		} catch (NullPointerException e ){
+			System.out.println("Nullpointer");
 		}
 		if (empty != -1) {
 			for (int i = empty; i < MAX_CARD_STACKS * (row + 1) - 1; i++) {
