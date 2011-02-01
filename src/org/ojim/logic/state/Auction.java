@@ -126,6 +126,8 @@ public class Auction {
 			for(Player player : state.getPlayers()) {
 				if(player instanceof ServerPlayer) {
 					((ServerPlayer)player).getClient().informAuction(this.auctionState);
+					//TODO remove test
+					((ServerPlayer)player).getClient().informMessage("Auction:" + this.auctionState, -1, false);
 				}
 			}
 		}
