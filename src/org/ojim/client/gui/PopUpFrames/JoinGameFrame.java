@@ -68,26 +68,30 @@ public class JoinGameFrame extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("ACTION PERFORMED");
-				try {
-					gui.startIpConnection(ipField.getText(), Integer
-							.parseInt(portField.getText()));
-					setVisible(false);
-				} catch (NumberFormatException e1) {
-					System.out.println("Kein Port");
+				if (ipField.getText().equals("")) {
+					System.out.println("Keine IP");
+				} else {
+
+					try {
+						gui.startIpConnection(ipField.getText(), Integer
+								.parseInt(portField.getText()));
+						setVisible(false);
+					} catch (NumberFormatException e1) {
+						System.out.println("Kein Port");
+					}
 				}
 
 			}
 		};
-		
+
 		joinButton.addActionListener(joinButtonListener);
-		
+
 		panel.add(ip);
 		panel.add(ipField);
 		panel.add(portField);
 		panel.add(joinButton);
 		this.add(panel);
 
-		
 		this.pack();
 	}
 
@@ -119,6 +123,5 @@ public class JoinGameFrame extends JFrame {
 		}
 
 	}
-
 
 }
