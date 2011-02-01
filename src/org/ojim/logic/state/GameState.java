@@ -67,6 +67,10 @@ public class GameState {
 		return this.dices;
 	}
 	
+	public void setDiceSet(DiceSet set) {
+		this.dices = set;
+	}
+	
 	public Rules getRules() {
 		return rules;
 	}

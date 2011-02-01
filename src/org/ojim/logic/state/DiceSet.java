@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -17,7 +17,6 @@
 
 package org.ojim.logic.state;
 
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
 
@@ -29,10 +28,17 @@ import java.util.Random;
 public class DiceSet {
 
 	private boolean isDeterministic;
-	private List<? extends Dice> dices;
+	private Dice[] dices;
 
 	public DiceSet(List<? extends Dice> dices) {
+		this(dices.toArray(new Dice[0]));
+	}
 
+	public DiceSet(int amount, int sides, int seed) {
+		this(DiceSet.generateDices(amount, sides, seed));
+	}
+
+	public DiceSet(Dice[] dices) {
 		// 0 Dices are Deterministic..
 		this.isDeterministic = true;
 		this.dices = dices;
@@ -43,19 +49,17 @@ public class DiceSet {
 		}
 	}
 
-	public DiceSet(int amount, int sides, int seed) {
-		this(DiceSet.generateDices(amount, sides, seed));
-	}
-
-	public static List<Dice> generateDices(int amount, int sides, int seed) {
-		List<Dice> tempList = new LinkedList<Dice>();
+	public static Dice[] generateDices(int amount, int sides, int seed) {
+		Dice[] tempList = new Dice[amount];
 		if (seed == 0) {
-			tempList.add(new RandomDice(sides));
-			tempList.add(new RandomDice(sides));
+			for (int i = 0; i < tempList.length; i++) {
+				tempList[i] = new RandomDice(sides);
+			}
 		} else {
 			Random rnd = new Random(seed);
-			tempList.add(new RandomDice(sides, rnd.nextInt()));
-			tempList.add(new RandomDice(sides, rnd.nextInt()));
+			for (int i = 0; i < tempList.length; i++) {
+				tempList[i] = new RandomDice(sides, rnd.nextInt());
+			}
 		}
 		return tempList;
 	}
@@ -71,9 +75,9 @@ public class DiceSet {
 	}
 
 	public int[] getResult() {
-		int[] result = new int[this.dices.size()];
-		for (int i = 0; i < this.dices.size(); i++) {
-			result[i] = this.dices.get(i).getResult();
+		int[] result = new int[this.dices.length];
+		for (int i = 0; i < this.dices.length; i++) {
+			result[i] = this.dices[i].getResult();
 		}
 		return result;
 	}
@@ -89,12 +93,12 @@ public class DiceSet {
 	public boolean isDouble() {
 
 		// There can't be double with less than 2 dices
-		if (dices.size() < 2) {
+		if (this.dices.length < 2) {
 			return false;
 		}
-		for (int i = 0; i < dices.size() - 1; i++) {
-			for (int j = i + 1; j < dices.size(); j++) {
-				if (dices.get(i).getResult() == dices.get(j).getResult()) {
+		for (int i = 0; i < this.dices.length - 1; i++) {
+			for (int j = i + 1; j < this.dices.length; j++) {
+				if (dices[i].getResult() == dices[j].getResult()) {
 					return true;
 				}
 			}
