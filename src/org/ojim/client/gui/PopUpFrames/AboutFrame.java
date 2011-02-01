@@ -35,14 +35,14 @@ public class AboutFrame extends JFrame {
 		this.language = language;
 		setMinimumSize(new Dimension(200, 50));
 		setSize(new Dimension(400, 200));
-		aboutText = new JLabel(this.language.getText("aboutText"));
+		aboutText = new JLabel("<html>" + this.language.getText("aboutText"));
 	}
 	
 	public void draw(){
 
 		remove(aboutText);
 
-		aboutText = new JLabel(this.language.getText("aboutText"));
+		aboutText = new JLabel("<html>" + this.language.getText("aboutText"));
 		this.add(aboutText);
 		this.repaint();
 		setVisible(true);
