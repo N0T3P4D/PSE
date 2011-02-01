@@ -854,12 +854,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				|| this.state.getGameIsWon()) {
 			return false;
 		}
-
-		// Roll and Inform everyone
-		state.getDices().roll();
-		informDiceAll();
 		
 		if (player.getJail() != null) {
+			
+
+			// Roll and Inform everyone
+			state.getDices().roll();
+			informDiceAll();
+			
 			// Player has not rolled a Double and stays in jail
 			if (!state.getDices().isDouble()) {
 				state.setActivePlayerNeedsToRoll(false);
@@ -870,9 +872,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				// Inform all that the Player is now out of Prison (position
 				// > -1)
 				informMoveAll(player);
-				return true;
 			}
 		}
+		
+
+		// Roll and Inform everyone
+		state.getDices().roll();
+		informDiceAll();
 
 		// Now move the Player forward
 		logic.movePlayerForDice(player, state.getDices().getResultSum());
