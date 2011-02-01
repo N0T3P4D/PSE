@@ -18,6 +18,7 @@ package org.ojim.client.gui;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -112,39 +113,52 @@ public class GUISettings {
 	 */
 	public void loadSettings(){
 		
-		FileReader reader = null;
-		try {
-		reader = new FileReader("settings.txt");
-		} catch (FileNotFoundException e) {
-			System.out.println("Datei kann nicht gefunden werden");
-			//e.printStackTrace();
-		}
+		boolean exists = (new File("settings.txt")).exists();
 		
-		BufferedReader br = new BufferedReader(reader);
-		
-		    String width = null;
-		    String height = null;
-		    String title = null;
-		    String playerName = null;
-		    String lastIP = null;
-		    
+		if(exists){
+			
+			FileReader reader = null;
 			try {
-				width = br.readLine();
-				height = br.readLine();
-				title = br.readLine();
-				playerName = br.readLine();
-				lastIP = br.readLine();
-				br.close();
-			} catch (IOException e) {
-				System.out.print("Fehler in der settings.txt");
+			reader = new FileReader("settings.txt");
+			} catch (FileNotFoundException e) {
+				System.out.println("Datei kann nicht gefunden werden");
+				
 				//e.printStackTrace();
 			}
-		    
-			this.width = Integer.parseInt (width);
-			this.height = Integer.parseInt (height);
-			this.title = title;
-			this.playerName = playerName;
-			this.lastIP = lastIP;
+			
+			BufferedReader br = new BufferedReader(reader);
+			
+			    String width = null;
+			    String height = null;
+			    String title = null;
+			    String playerName = null;
+			    String lastIP = null;
+			    
+				try {
+					width = br.readLine();
+					height = br.readLine();
+					title = br.readLine();
+					playerName = br.readLine();
+					lastIP = br.readLine();
+					br.close();
+				} catch (IOException e) {
+					System.out.print("Fehler in der settings.txt");
+					//e.printStackTrace();
+				}
+			    
+				this.width = Integer.parseInt (width);
+				this.height = Integer.parseInt (height);
+				this.title = title;
+				this.playerName = playerName;
+				this.lastIP = lastIP;
+			
+		} else {
+			System.out.print("Es wurden zuvor keine GUI Einstellungen gespeichert!");
+		}
+
+		
+		
+		
 			
 			
 	}
