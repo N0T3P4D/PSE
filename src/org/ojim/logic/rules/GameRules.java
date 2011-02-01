@@ -55,8 +55,22 @@ public class GameRules {
 			if(((Street)groupField).getOwner() != player) {
 				return false;
 			}
+			if(((Street)groupField).getBuiltLevel() < street.getBuiltLevel() - 1) {
+				return false;
+			}
 		}
 		
+		int newLevel = street.getBuiltLevel() + levelChange;
+		
+		//Has the Bank enough houses left?
+		if(newLevel != 5 && state.getBank().getHouses() < levelChange) {
+			return false;
+		}
+		
+		//Has the Bank enough Hotels left?
+		if(newLevel == 5 && state.getBank().getHotels() < 1) {
+			return false;
+		}
 		
 		return true;
 	}
