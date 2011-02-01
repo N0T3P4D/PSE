@@ -428,6 +428,8 @@ public class GameFieldPiece extends JPanel {
 		colorTop.removeAll();
 		colorTop.revalidate();
 
+		System.out.println(((Street) this.field).getName()+" ist auf Level "+((Street) this.field).getBuiltLevel());
+		
 		if (((Street) this.field).getBuiltLevel() == 5) {
 			colorTop.add(highHousePanel);
 		} else {
