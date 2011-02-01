@@ -17,6 +17,7 @@
 
 package org.ojim.logic.state;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
 
@@ -104,5 +105,10 @@ public class DiceSet {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public String toString() {
+		return this.getClass().getName() + Arrays.toString(this.dices);
 	}
 }

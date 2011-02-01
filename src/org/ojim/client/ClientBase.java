@@ -78,7 +78,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	private String name;
 	private ExecutorService executor;
 	private Logger logger;
-	private StaticDice[] dices;
+	private StaticDice[] dice;
 
 	public ClientBase() {
 		super();
@@ -219,11 +219,16 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	protected void setParameters(IServer server, IClient client, GameState state) {
 		// New dynamic way?
-		this.dices = new StaticDice[2];
-		this.dices[1] = new StaticDice(6);
-		this.dices[0] = new StaticDice(6);
-		DiceSet set = new DiceSet(this.dices);
+//		System.out.println("create dice");
+		this.dice = new StaticDice[2];
+		this.dice[1] = new StaticDice(6);
+		this.dice[0] = new StaticDice(6);
+		DiceSet set = new DiceSet(this.dice);
 		state.setDiceSet(set);
+//		this.dices[0].setResult(2);
+//		System.out.println(this.dices[0]);
+//		System.out.println(set);
+//		System.out.println(state.getDices());
 		super.setParameters(server, client, state);
 	}
 
@@ -315,7 +320,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		// Set dice values in dice set
 		
 		for (int i = 0; i < diceValues.length; i++) {
-			this.dices[i].setResult(diceValues[i]);
+			this.dice[i].setResult(diceValues[i]);
 		}
 		
 	//	this.onDiceValues(diceValues);

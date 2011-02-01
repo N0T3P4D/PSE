@@ -50,8 +50,8 @@ public abstract class Dice {
 	}
 
 	public String toString() {
-		return this.sides + "-sided, " + (!this.isDeterministic ? "not" : "")
-				+ "deterministic";
+		return this.getClass().getName() + "{" + this.getResult() + ", " + this.sides + "-sided, " + (!this.isDeterministic ? "not " : "")
+				+ "deterministic}";
 	}
 
 	public Dice(int sides, boolean deterministic) {

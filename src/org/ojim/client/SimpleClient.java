@@ -18,6 +18,7 @@
 package org.ojim.client;
 
 import org.ojim.iface.IClient;
+import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.GameState;
@@ -215,7 +216,7 @@ public class SimpleClient {
 	 */
 	public int getMoneyToPay(int position) {
 		if (this.server instanceof NetOjim) {
-			// return ((NetOjim) this.server).getMoneyToPay(position);
+//			 return ((NetOjim) this.server).getMoneyToPay(position);
 			return 1000;
 		} else {
 			return 1000; // TODO: (xZise) Is this the correct value?
@@ -264,11 +265,12 @@ public class SimpleClient {
 		this.server.decline(this.playerId);
 	}
 
-	protected final void rollDice() {
+	protected final boolean rollDice() {
 		if (this.getGameRules().isPlayerOnTurn(this.me)) {
-			this.server.rollDice(this.playerId);
+			return this.server.rollDice(this.playerId);
 		} else {
 			System.out.println("not on turn");
+			return false;
 		}
 	}
 
@@ -345,7 +347,11 @@ public class SimpleClient {
 	}
 
 	public final boolean initTrade(Player partnerPlayer) {
-		return ((IServerTrade) this.server).initTrade(this.playerId, partnerPlayer.getId());
+		int id = -1;
+		if (partnerPlayer != null) {
+			id = partnerPlayer.getId();
+		}
+		return ((IServerTrade) this.server).initTrade(this.playerId, id);
 	}
 
 	/**
@@ -367,7 +373,15 @@ public class SimpleClient {
 	}
 
 	public final Player getPartner() {
-		return this.logic.getGameState().getPlayerByID(((IServerTrade) this.server).getPartner());
+		int id = ((IServerTrade) this.server).getPartner();
+		Player partner = null;
+		if (id >= 0) {
+			partner = this.getGameState().getPlayerByID(id);
+			if (partner == null) {
+				OJIMLogger.getLogger(this.getClass().toString()).severe("partner is unkown");
+			}
+		}
+		return partner;
 	}
 
 	public final boolean offerCash(int amount) {
