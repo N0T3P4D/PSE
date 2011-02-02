@@ -794,6 +794,7 @@ public class GUIClient extends ClientBase {
 		if (!myFields.isEmpty()) {
 			for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
 				if(getGameState().getFieldAt(i).getName().equals(myFields.getFirst())){
+					System.out.println("Meine Felder: "+getGameState().getFieldAt(i).getName());
 					offerEstate((BuyableField)getGameState().getFieldAt(i));
 					
 				}
@@ -802,6 +803,7 @@ public class GUIClient extends ClientBase {
 		if (!hisFields.isEmpty()) {
 			for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
 				if(getGameState().getFieldAt(i).getName().equals(hisFields.getFirst())){
+					System.out.println("Seine Felder: "+getGameState().getFieldAt(i).getName());
 					requireEstate((BuyableField)getGameState().getFieldAt(i));
 					
 				}
