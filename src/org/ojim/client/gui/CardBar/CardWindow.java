@@ -1,7 +1,14 @@
 package org.ojim.client.gui.CardBar;
 
+import java.awt.BorderLayout;
+import java.awt.ComponentOrientation;
+import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.client.gui.GUIClient;
@@ -18,19 +25,64 @@ public class CardWindow extends JPanel {
 	private CardStack[] cardStacks;
 	private static final int MAX_CARD_STACKS = 4;
 	private int row = 0;
+	
+	private JPanel overPanel = new JPanel();
+	
+	private GUIClient gui;
+	
+	private JButton freeButton = new JButton();
+	private JLabel buttonLabel = new JLabel();
+	private JButton freeMoneyButton = new JButton();
+	private JLabel buttonMoneyLabel = new JLabel();
+	private JPanel leftPanel = new JPanel();
+	
+	
+	private ActionListener freeButtonListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			gui.freeMe(0);
+			
+		}
+	};;;
+	private ActionListener freeMoneyListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.freeMe(1);
+			
+		}
+	};;;
 
 	/**
 	 * Initialisert das Fenster
 	 */
-	public CardWindow() {
-		super();
+	public CardWindow(GUIClient gui) {
+
+		this.gui = gui;
+		
+		freeButton.add(buttonLabel);
+		leftPanel.add(freeButton);
+		
+		freeButton.addActionListener(freeButtonListener);
+		
+		buttonMoneyLabel.setText("1000");
+		freeMoneyButton.add(buttonMoneyLabel);
+		leftPanel.add(freeMoneyButton);
+		
+		freeMoneyButton.addActionListener(freeMoneyListener);
 
 		cardStacks = new CardStack[MAX_CARD_STACKS * 3];
 
 		for (int i = 0; i < MAX_CARD_STACKS * 3; i++) {
 			cardStacks[i] = new CardStack();
 		}
-
+		
+		this.setLayout(new BorderLayout());
+		this.add(leftPanel, BorderLayout.WEST);	
+		this.add(overPanel, BorderLayout.EAST);	
+		this.validate();
+		this.repaint();
 		draw();
 	}
 
@@ -120,12 +172,12 @@ public class CardWindow extends JPanel {
 	 * Zeichnet das Fenster
 	 */
 	public void draw() {
-		this.setLayout(new GridLayout(3, MAX_CARD_STACKS));
+		overPanel.setLayout(new GridLayout(3, MAX_CARD_STACKS));
 
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1); i++) {
-			this.remove(cardStacks[i]);
+			overPanel.remove(cardStacks[i]);
 			cardStacks[i].draw();
-			this.add(cardStacks[i]);
+			overPanel.add(cardStacks[i]);
 		}
 	}
 
@@ -137,6 +189,13 @@ public class CardWindow extends JPanel {
 		for (int i = 0; i < cardStacks.length; i++){
 			cardStacks[i].switchMortage(field);
 		}
+	}
+	
+
+
+	public void jailCards(int numberOfGetOutOfJailCards) {
+		buttonLabel.setText(numberOfGetOutOfJailCards+"");
+		
 	}
 
 }
