@@ -327,6 +327,7 @@ public class SimpleClient {
 
 	protected final void toggleMortgage(BuyableField street) {
 		if (this.getGameRules().isFieldMortgageable(this.me, street)) {
+			System.out.println("Field is Mortageable");
 			this.server.toggleMortgage(this.playerId, street.getPosition());
 		}
 	}

@@ -4,6 +4,7 @@ import java.awt.GridLayout;
 
 import javax.swing.JPanel;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.fields.Field;
 
@@ -52,13 +53,13 @@ public class CardWindow extends JPanel {
 	 * @param card
 	 *            das Spielfeld
 	 */
-	public void addCard(org.ojim.logic.state.fields.BuyableField card) {
+	public void addCard(org.ojim.logic.state.fields.BuyableField card, GUIClient gui) {
 		boolean found = false;
 
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1)
 				&& !(cardStacks[i].getFieldGroup() == null); i++) {
 			if (cardStacks[i].getFieldGroup().equals(card.getFieldGroup())) {
-				cardStacks[i].addCard(card);
+				cardStacks[i].addCard(card, gui);
 				found = true;
 				break;
 			}
@@ -68,7 +69,7 @@ public class CardWindow extends JPanel {
 			for (int i = 0; i < MAX_CARD_STACKS * 2; i++) {
 
 				if (cardStacks[i].getFieldGroup() == null) {
-					cardStacks[i].addCard(card);
+					cardStacks[i].addCard(card, gui);
 					if (i >= MAX_CARD_STACKS * (row + 1)) {
 						row++;
 					}
@@ -87,13 +88,13 @@ public class CardWindow extends JPanel {
 	 * @param card
 	 *            das zu entferndende Feld
 	 */
-	public void removeCard(org.ojim.logic.state.fields.BuyableField card) {
+	public void removeCard(org.ojim.logic.state.fields.BuyableField card, GUIClient gui) {
 		int empty = -1;
 		try {
 		for (int i = 0; i < MAX_CARD_STACKS * (row + 1)
 				&& !cardStacks[i].getFieldGroup().equals(null); i++) {
 			if (cardStacks[i].getFieldGroup().equals(card.getFieldGroup())) {
-				cardStacks[i].removeCard(card);
+				cardStacks[i].removeCard(card, gui);
 				if (cardStacks[i].isEmpty()) {
 					empty = i;
 				}
@@ -133,7 +134,9 @@ public class CardWindow extends JPanel {
 	 * @param field die umzudrehende Karte
 	 */
 	public void switchCardStatus(Field field) {
-
+		for (int i = 0; i < cardStacks.length; i++){
+			cardStacks[i].switchMortage(field);
+		}
 	}
 
 }

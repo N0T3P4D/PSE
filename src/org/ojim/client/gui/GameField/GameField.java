@@ -151,7 +151,8 @@ public class GameField extends JPanel {
 	}
 
 	public void switchFieldStatus(Field field) {
-		// TODO Auto-generated method stub
+		this.fields[field.getPosition()].draw();
+		System.out.println(field.getName()+" wird mortaged");
 		redraw();
 
 	}
