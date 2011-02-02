@@ -819,6 +819,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized boolean rollDice(int playerID) {
+		display(playerID + " wants to roll!");
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -830,7 +831,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 
 		if (player.getJail() != null) {
-
+			display("he is in jail");
 			// Roll and Inform everyone
 			state.getDices().roll();
 			informDiceAll();
@@ -848,10 +849,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			}
 		}
 
+		display("He is now rolling");
 		// Roll and Inform everyone
 		state.getDices().roll();
 		informDiceAll();
-
+		display("He has rolled");
 
 		// If the Player has not rolled a double, stop rolling
 		if (!state.getDices().isDouble()) {
@@ -864,7 +866,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				return true;
 			}
 		}
-		
+		display("he is moving");
 		// Now move the Player forward
 		logic.movePlayerForDice(player, state.getDices().getResultSum());
 
