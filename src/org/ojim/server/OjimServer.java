@@ -855,6 +855,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		informDiceAll();
 		display("He has rolled");
 
+
+		display("he is moving");
+		// Now move the Player forward
+		logic.movePlayerForDice(player, state.getDices().getResultSum());
+
+		
 		// If the Player has not rolled a double, stop rolling
 		if (!state.getDices().isDouble()) {
 			state.setActivePlayerNeedsToRoll(false);
@@ -867,10 +873,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				return true;
 			}
 		}
-		display("he is moving");
-		// Now move the Player forward
-		logic.movePlayerForDice(player, state.getDices().getResultSum());
-
 
 		// Is the Field the Player is standing on buyable?
 		Field field = state.getFieldAt(player.getPosition());
