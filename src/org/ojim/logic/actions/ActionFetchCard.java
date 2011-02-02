@@ -26,11 +26,17 @@ import org.ojim.logic.state.ServerPlayer;
 public class ActionFetchCard implements Action {
 
 	private final ServerLogic logic;
-	private final CardStack stack;	
+	private final boolean community;
+	private final CardStack stack;
 
-	public ActionFetchCard(ServerLogic logic, CardStack stack) {
+	public ActionFetchCard(ServerLogic logic, boolean community) {
 		this.logic = logic;
-		this.stack = stack;
+		this.community = community;
+		if (community) {
+			this.stack = ((ServerGameState) logic.getGameState()).getCommunityCards();
+		} else {
+			this.stack = ((ServerGameState) logic.getGameState()).getEventCards();
+		}
 	}
 	
 	@Override
@@ -41,6 +47,7 @@ public class ActionFetchCard implements Action {
 			if (topCard.fetch((ServerPlayer) this.logic.getGameState().getActivePlayer())) {
 				state.addWaitingCard(topCard);
 			}
+			this.logic.pullCard(topCard.text, this.community);
 		}
 	}
 

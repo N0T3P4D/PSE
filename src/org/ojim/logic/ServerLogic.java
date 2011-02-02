@@ -399,6 +399,12 @@ public class ServerLogic extends Logic {
 	}
 	
 	
+	public void pullCard(String text, boolean community) {
+		for (Player player : this.getGameState().getPlayers()) {
+			((ServerPlayer) player).getClient().informCardPull(text, community);
+		}
+	}
+	
 	public void endGame() {
 		// TODO Free Stack here
 

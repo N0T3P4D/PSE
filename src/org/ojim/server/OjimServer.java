@@ -1247,11 +1247,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private synchronized CardField newEventCardField(int position) {
-		return new CardField("Ereignis- karte", position, false, this.state.getEventCards(), this.logic);
+		return new CardField("Ereignis- karte", position, false, this.logic);
 	}
 
 	private synchronized CardField newCommunityCardField(int position) {
-		return new CardField("Gemein- schafts- karte", position, true, this.state.getCommunityCards(), this.logic);
+		return new CardField("Gemein- schafts- karte", position, true, this.logic);
 	}
 
 	private void loadDefaultGameStateFields(Field[] fields) {

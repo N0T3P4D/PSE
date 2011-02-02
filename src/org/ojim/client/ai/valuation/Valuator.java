@@ -123,7 +123,6 @@ public class Valuator extends SimpleClient {
 	public Command returnBestCommand(int position) {
 
 		PriorityQueue<Command> queue = new PriorityQueue<Command>();
-		assert (this.getNumberOfGetOutOfJailCards(playerID) == 0);
 		// assert (position >= 0);
 		Field field = getGameState().getFieldAt(Math.abs(position));
 		initFunctions();
