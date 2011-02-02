@@ -866,7 +866,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			state.setActivePlayerNeedsToRoll(false);
 		} else {
 			doublesChain++;
-			((ServerPlayer)player).getClient().informTurn(player.getId());
 			if (doublesChain >= GameRules.MAX_DOUBLES_ALLOWED) {
 				// Player has to get to jail
 				logic.sendPlayerToJail(player, state.getDefaultJail());
