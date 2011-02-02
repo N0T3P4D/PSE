@@ -155,7 +155,7 @@ public class InteractionPopup extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			gui.trade(Integer.parseInt(myMoneyField.getText())-Integer.parseInt(hisMoneyField.getText()), myFields, hisFields, Integer.parseInt(myJailCards.getText())-Integer.parseInt(hisJailCards.getText()));
+			gui.trade(tradePartner, Integer.parseInt(myMoneyField.getText())-Integer.parseInt(hisMoneyField.getText()), myFields, hisFields, Integer.parseInt(myJailCards.getText())-Integer.parseInt(hisJailCards.getText()));
 		}
 	};;;
 	

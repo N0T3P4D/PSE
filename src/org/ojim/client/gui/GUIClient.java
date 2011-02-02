@@ -784,7 +784,8 @@ public class GUIClient extends ClientBase {
 
 	}
 
-	public void trade(int cash, LinkedList<String> myFields, LinkedList<String> hisFields, int outOfJailCards) {
+	public void trade(Player tradePartner, int cash, LinkedList<String> myFields, LinkedList<String> hisFields, int outOfJailCards) {
+		initTrade(tradePartner);
 		offerCash(cash);
 		if (!myFields.isEmpty()) {
 			for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
