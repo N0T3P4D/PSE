@@ -17,17 +17,23 @@
 
 package org.ojim.client.gui.RightBar;
 
+import java.awt.BorderLayout;
+import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Insets;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.AdjustmentEvent;
+import java.awt.event.AdjustmentListener;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -43,6 +49,8 @@ public class ChatWindow extends JPanel {
 	private JTextField textField;
 	private GUIClient gui;
 	private JButton sendButton = new JButton();
+	private JPanel chatWindowPanel = new JPanel();
+	JScrollBar scrollPane = new JScrollBar(JScrollBar.VERTICAL);
 
 	public ChatWindow(Localizer language, GUIClient guiClient) {
 		super();
@@ -50,21 +58,44 @@ public class ChatWindow extends JPanel {
 		this.gui = guiClient;
 
 		this.setLayout(new GridBagLayout());
+		
+		chatWindowPanel.setLayout(new BorderLayout());
 
 		textArea = new JTextArea();
 
 		textArea.setEditable(false);
-		// add(new JScrollPane(textArea));
+		//textArea.add(new JScrollPane(textArea));
 		// textPane.append("Zeile 1\nZeile 2\nZeile3\nZeile4");
 
 		// Zeigt die erste Zeile an,
 		// indem dort der Caret positioniert wird
 		// textPane.setCaretPosition(4);
+		scrollPane.setBlockIncrement(1);
 
-		this.add(textArea, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
+		
+		AdjustmentListener scrollListener = new AdjustmentListener() {
+			
+			@Override
+			public void adjustmentValueChanged(AdjustmentEvent e) {
+				//textArea.setText("    New Value is " + e.getValue() + "      ");
+				
+			      repaint();
+				
+			}
+		};
+
+		scrollPane.addAdjustmentListener(scrollListener);
+		
+
+		chatWindowPanel.add(textArea, BorderLayout.CENTER);
+		chatWindowPanel.add(scrollPane, BorderLayout.EAST);
+		
+		this.add(chatWindowPanel, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
 				GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(
 						0, 0, 0, 0), 0, 0));
-
+		
+		this.revalidate();
+		
 		JPanel textPanel = new JPanel();
 
 		textPanel.setLayout(new GridLayout(1, 0));

@@ -546,6 +546,7 @@ public class GUIClient extends ClientBase {
 	 */
 	public void leaveGame() {
 
+		
 		System.out.println("END!!");
 
 		pane.removeAll();

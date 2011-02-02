@@ -94,17 +94,30 @@ Es wurde viel Wert auf Erweiterbarkeit und Austauschbarkeit gelegt. Bewertungsfu
 \section{GUI-Client}
 
 \subsection{Allgemeines}
-Die GUI ist bereits in der Lage das Spielfeld relativ zur Fenstergröße zuverlässig darzustellen.
-Der GUI Client hat einige Fehler des GameState entdeckt die ursprünglich fälschlicher Weise für GUI Fehler gehalten wurden. Über den GUI Client war es möglich, das Zusammenspiel von meheren KIs und dem Serververhalten zu testen und dazu auch noch visuell angezeigt zu bekommen.
+Die GUI ist in der Lage das Spielfeld relativ zur Fenstergröße zuverlässig darzustellen.
+Der GUI Client hat sich gut zum finden von Fehlern geeignet. Über den GUI Client ist es möglich, das Zusammenspiel von meheren KIs und dem Serververhalten zu testen und dazu auch noch visuell angezeigt zu bekommen.
+Folgende Möglichkeiten gibt es:
+\begin{itemize}
+\item Starten eines Servers
+\item Beitreten via IP
+\item Sprache ändern
+\item Einstellungen ändern
+\item (korrekte) Darstellung des Spielfeldes
+\item Spieler anzeigen
+\item eigene Karten anzeigen
+\item Gespräche anzeigen
+\item Geldstand anzeigen
+\item Würfeln / Zug beenden -> Würfelergebnisse anzeigen
+\item Kaufen von Feldern
+\item Handeln mit anderen Spielern
+\item Teilnahme an Auktionen
+\item Felder umdrehen (Hypothek)
+\item aus dem Gefängnis freikaufen / Karte benutzen
 \subsection{Bekannte Fehler / Probleme / noch nicht implementierte Funktionen}
 \begin{itemize}
-\item Spielerpositionen sind Verbuggt
-\item Chat erhält keine Antwort -> wirklich ein GUI Fehler?
-\item Auktionen werden nicht unterstützt (wird noch hinzugefügt)
-\item Handel wird nicht unterstützt (wird noch hinzugefügt)
-\item Hypotheken funktionieren noch nicht
-\item CardStacks nicht voll Implementiert
-\item Interaktionspopup fehlt
+\item Chat noch nicht scrollbar
+\item Spiel nach beenden nicht gut neustartbar
+\item Serverliste funktioniert nicht
 \end{itemize}
 \subsection{Änderungen gegenüber dem Entwurf}
 \begin{itemize}
