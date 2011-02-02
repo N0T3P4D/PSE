@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.client.ClientBase;
@@ -78,6 +79,8 @@ public class GUIClient extends ClientBase {
 
 	private JPanel leftWindow = new JPanel();
 	private JPanel rightWindow = new JPanel();
+	
+	private JButton jeremiasButton = new JButton();
 
 	private JFrame GUIFrame;
 
@@ -455,7 +458,24 @@ public class GUIClient extends ClientBase {
 
 			rollButton.setLayout(new FontLayout());
 			endTurnButton.setLayout(new FontLayout());
-
+			
+			
+			jeremiasButton.add(new JLabel("JeremiasButton"));
+			ActionListener jeremiasListener = new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					rollDice();
+					rollDice();
+					rollDice();
+					accept();
+					endTurn();
+					
+				}
+			};;;
+			jeremiasButton.addActionListener(jeremiasListener );
+			downRight.add(jeremiasButton);
+			
 			downRight.setLayout(new GridLayout(1, 0));
 			rightWindow1.setLayout(new GridLayout(0, 1));
 
