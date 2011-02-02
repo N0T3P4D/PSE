@@ -34,6 +34,7 @@ import javax.swing.border.LineBorder;
 import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
+import org.ojim.client.gui.OLabel.BiggerFontLayout;
 import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -121,7 +122,7 @@ public class GameFieldPiece extends JPanel {
 					.setText("<html>"
 							+ ((Street) field).getFieldGroup().getName());
 
-			group.setLayout(new FontLayout());
+			group.setLayout(new BiggerFontLayout());
 			group.setHorizontalTextPosition(JLabel.CENTER);
 		} catch (ClassCastException e) {
 
@@ -156,7 +157,7 @@ public class GameFieldPiece extends JPanel {
 
 		name.setText("<html>" + field.getName());
 		name.setHorizontalTextPosition(JLabel.CENTER);
-		name.setLayout(new FontLayout());
+		name.setLayout(new BiggerFontLayout());
 		try {
 			if (((BuyableField) field).getOwner() != null) {
 
@@ -202,7 +203,7 @@ public class GameFieldPiece extends JPanel {
 			}
 			price.setHorizontalTextPosition(JLabel.CENTER);
 			price.setVerticalTextPosition(JLabel.BOTTOM);
-			price.setLayout(new FontLayout());
+			price.setLayout(new BiggerFontLayout());
 		} catch (ClassCastException e) {
 			textPanel.setLayout(new GridLayout(3, 0));
 		}
