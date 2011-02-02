@@ -191,10 +191,10 @@ public class Trade {
 	public void executeTrade(ServerLogic logic) {
 		//Change the Estates
 		for(BuyableField field : this.requiredEstates) {
-			logic.changeFieldOwner(partner, acting, field);
+			logic.changeFieldOwner(acting, field);
 		}
 		for(BuyableField field : this.offeredEstates) {
-			logic.changeFieldOwner(acting, acting, field);
+			logic.changeFieldOwner(partner, field);
 		}
 		
 		//TODO Do the Exchange of GetOutOfJailCards

@@ -138,24 +138,24 @@ public class Auction {
 				((ServerPlayer) player).getClient().informMessage(
 						"Auction:" + this.auctionState, -1, false);
 			}
+		}
 
-			if (this.auctionState >= 3) {
+		if (this.auctionState >= 3) {
 
-				// End the Auction, stop the Timer
-				this.timer.cancel();
+			// End the Auction, stop the Timer
+			this.timer.cancel();
 
-				// No one wanted the Field, see what to do now
-				if (highestBidder == null) {
-					this.logic.auctionWithoutResult(this.objective);
-				} else {
-					this.logic.auctionWithResult(this.objective, highestBidder,
-							this.currentBid);
-				}
-				
-				//Set endTurn so that the Player doesn't need to call endTurn himself
-				if(server != null) {
-					server.endTurn(playerID);
-				}
+			// No one wanted the Field, see what to do now
+			if (highestBidder == null) {
+				this.logic.auctionWithoutResult(this.objective);
+			} else {
+				this.logic.auctionWithResult(this.objective, highestBidder,
+						this.currentBid);
+			}
+			
+			//Set endTurn so that the Player doesn't need to call endTurn himself
+			if(server != null) {
+				server.endTurn(playerID);
 			}
 		}
 	}

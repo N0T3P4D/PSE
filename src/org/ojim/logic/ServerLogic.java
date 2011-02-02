@@ -288,12 +288,7 @@ public class ServerLogic extends Logic {
 	}	
 	
 	public void auctionWithResult(BuyableField objective, Player winner, int price) {
-		changeFieldOwner(objective.getOwner(), winner, objective);
-		for(Player player : this.getGameState().getPlayers()) {
-			if(player instanceof ServerPlayer) {
-				((ServerPlayer)player).getClient().informBuy(winner.getId(), objective.getPosition());
-			}
-		}
+		changeFieldOwner(winner, objective);
 		this.exchangeMoney(winner, this.getGameState().getBank(), price);
 	}
 
@@ -372,11 +367,15 @@ public class ServerLogic extends Logic {
 				position);
 		this.exchangeMoney(player, this.getGameState().getBank(),
 				field.getPrice());
-		changeFieldOwner(null, player, field);
+		changeFieldOwner(player, field);
 	}
 
-	public void changeFieldOwner(Player oldOwner, Player newOwner,
-			BuyableField field) {
+	/**
+	 * Changes the owner of a field and informs all players.
+	 * @param newOwner New owner of the field.
+	 * @param field The trading field.
+	 */
+	public void changeFieldOwner(Player newOwner, BuyableField field) {
 		int newOwnerId = -1;
 		if (newOwner != null) {
 			newOwnerId = newOwner.getId();
@@ -389,7 +388,6 @@ public class ServerLogic extends Logic {
 			}
 		}
 	}
-
 	
 	
 	public void endGame() {
