@@ -182,11 +182,11 @@ public class AIClient extends ClientBase {
 				command = valuator.returnBestCommand(position);
 			}
 			assert (command != null);
-			System.out.println("EndTurnCommand");
+//			System.out.println("EndTurnCommand");
 			command.execute();
 		}
 		else {
-			System.out.println("not my turn");
+//			System.out.println("not my turn");
 		}
 	}
 

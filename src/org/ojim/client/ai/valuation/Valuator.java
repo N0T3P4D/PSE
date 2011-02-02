@@ -133,7 +133,7 @@ public class Valuator extends SimpleClient {
 
 		// Feld potenziell kaufbar
 		if (!endTurn && !auctionEndTurn) {
-			System.out.println("turn");
+//			System.out.println("turn");
 
 			queue.add(buyFields(field));
 			// Feld potentiell bebaubar
@@ -143,23 +143,23 @@ public class Valuator extends SimpleClient {
 			// reicht das?
 
 			if (queue.peek() instanceof NullCommand) {
-				System.out.println("null");
+//				System.out.println("null");
 				endTurn = true;
 			}
-			System.out.println("lol");
+//			System.out.println("lol");
 
-			System.out.println(queue.peek());
+//			System.out.println(queue.peek());
 			return queue.peek();
 		}
-		System.out.println("lbol");
+//		System.out.println("lbol");
 
 		if (endTurn) {
 			endTurn = false;
-			System.out.println("endturn == false");
+//			System.out.println("endturn == false");
 			return new EndTurnCommand(logic, server, playerID);
 		}
 		if (auctionEndTurn) {
-			System.out.println("auctionEndTurn");
+//			System.out.println("auctionEndTurn");
 			auctionEndTurn = false;
 			return new NullCommand(logic, server, playerID);
 		}
@@ -173,7 +173,7 @@ public class Valuator extends SimpleClient {
 	 */
 	public Command actOnTradeOffer() {
 		initFunctions();
-		System.out.println("Trade!");
+//		System.out.println("Trade!");
 		assert (getTradeStateO() == 1);
 		boolean restricted = false;
 		if (getRequiredEstates() != null) {
@@ -251,7 +251,7 @@ public class Valuator extends SimpleClient {
 				logger.log(Level.FINE, "Bidding " + auctionBid);
 
 				if (getResults(getAuctionedEstateO(), auctionBid) > 0) {
-					System.out.println("THere!");
+//					System.out.println("THere!");
 					// assert(false);
 					return new AuctionBidCommand(logic, server, playerID, auctionBid);
 				} else {
@@ -517,23 +517,23 @@ public class Valuator extends SimpleClient {
 	}
 
 	public Command getOutOfJail() {
-		System.out.println("Here!");
+//		System.out.println("Here!");
 		Jail jail = getMe().getJail();
 		if (jail != null) {
-			System.out.println("There!");
+//			System.out.println("There!");
 
 			double valuation = getResults(jail.getPosition(), jail.getMoneyToPay());
 			if (valuation > 0) {
 				Command result = new OutOfPrisonCommand(logic, server, playerID);
 				result.setValuation(valuation);
-				System.out.println("valuation = " + valuation);
+//				System.out.println("valuation = " + valuation);
 				return result;
 			}
 		}
 		// null command?
 		// System.out.println(valuation);
 		// assert (false);
-		System.out.println("o_O");
+//		System.out.println("o_O");
 		Command result = new EndTurnCommand(logic, server, playerID);
 		result.setValuation(0);
 		return result;
