@@ -55,7 +55,7 @@ public class GameRules {
 			if(((Street)groupField).getOwner() != player) {
 				return false;
 			}
-			if(((Street)groupField).getBuiltLevel() < street.getBuiltLevel() - 1) {
+			if(((Street)groupField).getBuiltLevel() < street.getBuiltLevel()) {
 				return false;
 			}
 		}
