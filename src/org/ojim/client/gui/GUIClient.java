@@ -360,6 +360,10 @@ public class GUIClient extends ClientBase {
 			chatWindow.write(new ChatMessage(null, false, ""
 					+ actingPlayer.getName() + " handelte mit "
 					+ partnerPlayer.getName()));
+			gameField.init(getGameState());
+			for(int i = 0; i < getGameState().getPlayers().length; i++){
+				playerInfoWindow.changeCash(getGameState().getPlayerByID(i), getGameState().getPlayerByID(i).getBalance());
+			}
 		}
 	}
 
