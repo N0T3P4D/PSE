@@ -860,6 +860,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			state.setActivePlayerNeedsToRoll(false);
 		} else {
 			doublesChain++;
+			((ServerPlayer)player).getClient().informTurn(player.getId());
 			if (doublesChain >= GameRules.MAX_DOUBLES_ALLOWED) {
 				// Player has to get to jail
 				logic.sendPlayerToJail(player, state.getDefaultJail());
@@ -902,6 +903,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized boolean accept(int playerID) {
+		display("accepting");
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -935,6 +937,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized boolean decline(int playerID) {
+		display("decline");
 		if (state.getGameIsWon()) {
 			return false;
 		}
