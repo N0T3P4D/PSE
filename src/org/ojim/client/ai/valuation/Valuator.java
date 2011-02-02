@@ -173,7 +173,7 @@ public class Valuator extends SimpleClient {
 					restricted = true;
 				}
 				if (field instanceof Street && ((Street) field).getBuiltLevel() > 0) {
-					restricted = false;
+					restricted = true;
 				}
 			}
 		}
@@ -182,6 +182,7 @@ public class Valuator extends SimpleClient {
 			double minus = tradeValuateRequestedEstates();
 			value += tradeValuateJailCards();
 			value += tradeValuateOfferedEstates();
+			minus -= getRequiredCash();
 			minus += valuationFunctions[0].returnValuation(this.getRequiredCash());
 			// missing: out of jail cards!
 			if (value + minus > 0) {
