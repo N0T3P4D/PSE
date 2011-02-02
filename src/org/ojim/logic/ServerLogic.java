@@ -135,7 +135,7 @@ public class ServerLogic extends Logic {
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if (onePlayer instanceof ServerPlayer) {
 				((ServerPlayer) onePlayer).getClient().informMove(
-						player.getId(), -jail.getPosition());
+						player.getId(), player.getSignedPosition());
 				// TODO Inform Players that this one is in Prison?
 			}
 		}
@@ -245,7 +245,7 @@ public class ServerLogic extends Logic {
 				System.out.println("Player " + player.getName() + " is now out of Jail!");
 				((ServerPlayer) onePlayer).getClient().informMessage(
 						"'" + player.getName() + "' is now out of Jail!", -1, false);
-				((ServerPlayer) onePlayer).getClient().informMove(player.getId(), player.getPosition());
+				((ServerPlayer) onePlayer).getClient().informMove(player.getId(), player.getSignedPosition());
 			}
 			
 		}
