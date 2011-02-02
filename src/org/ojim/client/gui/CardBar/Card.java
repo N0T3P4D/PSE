@@ -19,17 +19,22 @@ package org.ojim.client.gui.CardBar;
 
 import java.awt.Color;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 
 /**
  * Eine Karte im Kartenstapel des Spielers
- *
+ * 
  */
 public class Card extends JPanel {
 
@@ -38,33 +43,54 @@ public class Card extends JPanel {
 	private JPanel colorPanel = new JPanel();
 	private JPanel textPanel = new JPanel();
 	private JLabel textLabel = new JLabel();
+	private JLabel mortageButtonLabel = new JLabel();
+	private JButton mortageButton = new JButton();
+	
+
+	ActionListener mortageListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.swtichCard(card);
+
+		}
+	};
+
+	private boolean mortage = false;
+	private GUIClient gui;
 
 	/**
 	 * Initialisiert eine Karte
 	 */
-	public Card() {
-		super();
+	public Card(GUIClient gui) {
+		this.gui = gui;
+		mortageButtonLabel.setText("M");
+		mortageButton.addActionListener(mortageListener);
+		mortageButton.add(mortageButtonLabel);
+		textPanel.add(mortageButton);
+
+		this.setLayout(new GridLayout(0, 1));
+		this.add(colorPanel);
+		textPanel.add(textLabel);
+		this.add(textPanel);
+		
 		draw();
 	}
 
 	/**
-	 * Dreht die Karte herum (Hypothek)
-	 */
-	public void turnAround() {
-		isTurnedAround = !isTurnedAround;
-	}
-
-	/**
 	 * Weist einer Karte ein Feld zu
-	 * @param card Das Spielfeld
+	 * 
+	 * @param card
+	 *            Das Spielfeld
 	 */
 	public void setCard(org.ojim.logic.state.fields.BuyableField card) {
-		//System.out.println("Karte zu "+card.getName()+" gesetzt");
+		// System.out.println("Karte zu "+card.getName()+" gesetzt");
 		this.card = card;
 	}
 
 	/**
 	 * gibt das Spielfeld der Karte zurück
+	 * 
 	 * @return Das Spielfeld
 	 */
 	public org.ojim.logic.state.fields.BuyableField getCard() {
@@ -86,22 +112,30 @@ public class Card extends JPanel {
 	public void draw() {
 		if (card != null) {
 
-			this.remove(colorPanel);
-			this.remove(textLabel);
-			
 			colorPanel.setBackground(StreetColor.getBackGroundColor(card
 					.getFieldGroup().getColor()));
 			textPanel.setBackground(Color.white);
-			
-			//System.out.println("Draww");
-			
-			//textLabel.setLayout(new FontLayout());
-			textLabel.setText("<html>"+card.getName());
+			textLabel.setForeground(Color.black);
 
-			this.setLayout(new GridLayout(0,1));
-			this.add(colorPanel);
-			textPanel.add(textLabel);
-			this.add(textPanel);
+			if (mortage) {
+
+				textPanel.setBackground(Color.black);
+				textLabel.setForeground(Color.white);
+			}
+
+			// System.out.println("Draww");
+
+			// textLabel.setLayout(new FontLayout());
+			textLabel.setText("<html>" + card.getName());
+
+		}
+
+	}
+
+	public void mortage(Field field) {
+		if (card.getPosition() == field.getPosition()) {
+			mortage = !mortage;
+			draw();
 		}
 
 	}

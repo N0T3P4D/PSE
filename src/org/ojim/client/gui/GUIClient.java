@@ -229,10 +229,10 @@ public class GUIClient extends ClientBase {
 	public void onBuy(Player player, BuyableField field) {
 		gameField.playerBuysField(player, field);
 		if (player.getId() == getMe().getId()) {
-			cardWindow.addCard(field);
+			cardWindow.addCard(field, this);
 		} else {
 			// Sollte man bei einer Auktion überboten sein worden.
-			cardWindow.removeCard(field);
+			cardWindow.removeCard(field, this);
 		}
 
 		if (player.getId() == getMe().getId()) {
@@ -291,9 +291,10 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
-		System.out.println("onMortage wurde für "+street.getName()+" aufgerufen");
+		//System.out.println("onMortage wurde für "+street.getName()+" aufgerufen");
 		cardWindow.switchCardStatus(street);
 		gameField.switchFieldStatus(street);
+		playerInfoWindow.changeCash(street.getOwner(), street.getOwner().getBalance());
 		draw();
 	}
 

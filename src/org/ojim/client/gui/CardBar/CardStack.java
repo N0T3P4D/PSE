@@ -21,7 +21,9 @@ import java.awt.GridBagLayout;
 
 import javax.swing.JPanel;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.language.Localizer;
+import org.ojim.logic.state.fields.Field;
 
 /**
  * CardStack ist ein Kartenstapel der die Karten der Spielfelder des GUI
@@ -52,14 +54,16 @@ public class CardStack extends JPanel {
 
 	/**
 	 * fügt eine Karte zum Kartenstapel des Spielers hinzu
-	 * @param card das Spielfeld welches als Karte hinzugefügt werden soll
+	 * 
+	 * @param card
+	 *            das Spielfeld welches als Karte hinzugefügt werden soll
 	 */
-	public void addCard(org.ojim.logic.state.fields.BuyableField card) {
+	public void addCard(org.ojim.logic.state.fields.BuyableField card, GUIClient gui) {
 		for (int i = 0; i < MAX_CARDS; i++) {
 			// System.out.println("Karte gesetztXXX");
 			if (cards[i] == null) {
 				// System.out.println("Karte gesetzt");
-				cards[i] = new Card();
+				cards[i] = new Card(gui);
 				cards[i].setCard(card);
 				this.fieldGroup = card.getFieldGroup();
 				break;
@@ -71,9 +75,11 @@ public class CardStack extends JPanel {
 
 	/**
 	 * Entfernt eine Karte aus dem Kartenstapel sofern sie enthalten ist
-	 * @param card die zu entferndende Karte
+	 * 
+	 * @param card
+	 *            die zu entferndende Karte
 	 */
-	public void removeCard(org.ojim.logic.state.fields.BuyableField card) {
+	public void removeCard(org.ojim.logic.state.fields.BuyableField card, GUIClient gui) {
 		int empty = -1;
 		for (int i = 0; i < MAX_CARDS; i++) {
 			if (cards[i].getCard().equals(card)) {
@@ -86,7 +92,7 @@ public class CardStack extends JPanel {
 			for (int i = empty; i < MAX_CARDS - 1; i++) {
 				cards[i] = cards[i + 1];
 			}
-			cards[MAX_CARDS - 1] = new Card();
+			cards[MAX_CARDS - 1] = new Card(gui);
 		}
 		if (cards[0].getCard() != null) {
 			setFieldGroupNull();
@@ -96,7 +102,9 @@ public class CardStack extends JPanel {
 
 	/**
 	 * Setzt die Sprache
-	 * @param language die neue Sprache
+	 * 
+	 * @param language
+	 *            die neue Sprache
 	 */
 	public void setLanguage(Localizer language) {
 		this.language = language;
@@ -124,6 +132,7 @@ public class CardStack extends JPanel {
 
 	/**
 	 * Gibt die FieldGroup des Kartenstapels zurück
+	 * 
 	 * @return die FieldGroup
 	 */
 	public org.ojim.logic.state.fields.FieldGroup getFieldGroup() {
@@ -139,10 +148,21 @@ public class CardStack extends JPanel {
 
 	/**
 	 * Gibt zurück ob der Kartenstapel leer ist
+	 * 
 	 * @return wenn er leer ist wahr
 	 */
 	public boolean isEmpty() {
 		return (fieldGroup != null);
+	}
+
+	public void switchMortage(Field field) {
+
+		for (int i = 0; i < cards.length; i++) {
+			if (cards[i] != null) {
+				cards[i].mortage(field);
+			}
+		}
+
 	}
 
 }
