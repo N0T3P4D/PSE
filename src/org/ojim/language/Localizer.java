@@ -30,7 +30,7 @@ import java.util.Map;
 import org.ojim.log.OJIMLogger;
 
 public class Localizer {
-
+	
 	public enum TextKey {
 		OJIM("ojim"),
 		FILE("file"),
@@ -51,7 +51,25 @@ public class Localizer {
 		SEND("send"),
 		CURRENCY("currency"),
 		ENDTURN("endturn"),
-		BANKRUPT("bankrupt");
+		BANKRUPT("bankrupt"),
+		LANGUAGES("languages"),
+		PLAYER_NAME("player name"),
+		ABOUT_TEXT("about text"),
+		SAVE("save"),
+		START_SERVER("start server"),
+		HELP_TEXT("help text"),
+		JOIN("join"),
+		IP("ip"),
+		SERVER_LIST_TEXT("server list text"),
+		DICE_VALUES("dice values"),
+		FREE_PARKING_CASH("free parking cash"),
+		ON("on"),
+		OFF("off"),
+		WIDTH("width"),
+		HEIGHT("height"),
+		SERVER_NAME("server name"),
+		MAX_PLAYER("max player"),
+		AI_PLAYER("ai player");
 		
 		public final String key;
 		

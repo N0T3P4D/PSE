@@ -220,6 +220,7 @@ public class ServerLogic extends Logic {
 	
 	public void toggleMortgage(BuyableField field) {
 		super.toggleMortgage(field);
+		this.exchangeMoney(field.getOwner(), this.getGameState().getBank(), (field.isMortgaged() ? -1 : +1) * field.getMortgagePrice());
 		// Inform everyone
 		for (Player player : this.getGameState().getPlayers()) {
 			((ServerPlayer) player).getClient().informMortgageToogle(field.getPosition());
