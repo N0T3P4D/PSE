@@ -87,12 +87,12 @@ public class GameRules {
 	private boolean isFieldMortgageable(Player player, BuyableField buyField, boolean mortgage) {
 	
 		//The Player can't spend more money than he has
-		if(player.getBalance() < buyField.getMortgagePrice() && mortgage) {
+		if(player.getBalance() < buyField.getMortgagePrice() && !mortgage) {
 			return false;
 		}
 		
 		//When the Field already has the needed state, then we are done
-		if((buyField.isMortgaged() ^ mortgage)) {
+		if(!(buyField.isMortgaged() ^ mortgage)) {
 			return false;
 		}
 		
