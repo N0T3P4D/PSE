@@ -48,8 +48,17 @@ public class AIClient extends ClientBase {
 	private Valuator valuator;
 	private static int count;
 
-	private static final String[] NAMES = { "Leopard", "Johannes", "Timo", "Vater", "Danny", "Mum", "Buckit", "Cor7",
-			"Nutch", "Doppelkeks" };
+	private static final String[] NAMES = { "Leopard", "Johannes", "Timo",
+		"Vater", "Danny", "Mum", "Buckit", "Cor7", "Nutch", "Doppelkeks",
+		"Diego", "Thorus", "Milten", "Gorn", "Xardas", "Dexter", "André",
+		"Raven", "Lee", "Lares", "Morra", "Adanos", "Innos", "Beliar",
+		"Cor Kalom", "Cor Angar", "Corristo", "Scar", "Kyle Katan",
+		"Luke Skywalker", "Darth Vader", "Anakin Skywalker",
+		"Padme Amidala", "Yoda", "Mace Windou", "C3P0", "R2D2",
+		"Lord Palpatine", "Han Solo", "Chewbakka", "Darth Revan",
+		"Bastila", "Kreia", "Lester", "Saturas", "Onar", "Vatras",
+		"Jabba the Hutt", "Lando Calristian", "Watto", "Lord Nasher",
+		"Bevil", "Eleene", "Sand", "Torio", "Khelgar", "Neeshka" };
 
 	/**
 	 * 
@@ -129,7 +138,7 @@ public class AIClient extends ClientBase {
 		logger.log(
 				Level.INFO,
 				this.log("onMessage(From: " + this.getPlayerInfo(sender) + " Message: " + text + " Private: "
-						+ privateMessage + "!"));
+						+ privateMessage + ")!"));
 	}
 
 	@Override
@@ -242,9 +251,9 @@ public class AIClient extends ClientBase {
 	}
 
 	@Override
-	public void onAuction(int auctionState) {
+	public void onAuction(AuctionState auctionState) {
 		// assert(false);
-		logger.log(Level.FINE, this.log("onAuction(" + auctionState + ")!"));
+		logger.log(Level.FINE, this.log("onAuction(" + auctionState.value + ")!"));
 		valuator.actOnAuction().execute();
 		this.endTurn();
 	}

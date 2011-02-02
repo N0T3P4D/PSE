@@ -25,6 +25,7 @@ import java.rmi.server.UnicastRemoteObject;
 
 public class StartNetOjim {
 	
+	
 	/**
 	 * Klasse verwaltet eine Instanz des Remote Objektes , welches unter einem 
      * festgelegten Namen über das Netzwerk erreichbar ist

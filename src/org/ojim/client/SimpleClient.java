@@ -73,6 +73,33 @@ public class SimpleClient {
 			}
 		}
 	}
+	
+	public enum AuctionState {
+		NOT_RUNNING(-1), WAITING(0), FIRST(1), SECOND(2), THIRD(3);
+
+		public final int value;
+
+		AuctionState(int value) {
+			this.value = value;
+		}
+
+		public static AuctionState getState(int state) {
+			switch (state) {
+			case -1:
+				return NOT_RUNNING;
+			case 0:
+				return WAITING;
+			case 1:
+				return FIRST;
+			case 2:
+				return SECOND;
+			case 3:
+				return THIRD;
+			default:
+				throw new IllegalArgumentException("state is not recognized");
+			}
+		}
+	}	
 
 	private IServer server;
 	private Logic logic;
@@ -515,8 +542,15 @@ public class SimpleClient {
 	 * AUCTION
 	 */
 
-	public final int getAuctionState() {
+	/**
+	 * @deprecated Use {@link #getAuctionState()}.
+	 */
+	public final int getAuctionStateO() {
 		return ((IServerAuction) this.server).getAuctionState();
+	}
+	
+	public final AuctionState getAuctionState() {
+		return AuctionState.getState(((IServerAuction) this.server).getAuctionState());
 	}
 
 	/**

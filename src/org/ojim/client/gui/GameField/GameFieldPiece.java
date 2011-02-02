@@ -437,6 +437,8 @@ public class GameFieldPiece extends JPanel {
 				colorTop.add(housePanels[i]);
 			}
 		}
+		repaint();
+		revalidate();
 
 	}
 

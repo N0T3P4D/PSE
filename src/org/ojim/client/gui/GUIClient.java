@@ -21,6 +21,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.rmi.RemoteException;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -45,6 +46,9 @@ import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.rmi.client.NetClient;
+import org.ojim.rmi.server.ImplNetOjim;
+import org.ojim.rmi.server.StartNetOjim;
 import org.ojim.server.OjimServer;
 
 /**
@@ -79,7 +83,7 @@ public class GUIClient extends ClientBase {
 
 	private JPanel leftWindow = new JPanel();
 	private JPanel rightWindow = new JPanel();
-	
+
 	private JButton jeremiasButton = new JButton();
 
 	private JFrame GUIFrame;
@@ -327,22 +331,8 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onTrade(Player actingPlayer, Player partnerPlayer) {
-		/**
-		 * Gibt den Zustand einer Handelssitzung an.
-		 * 
-		 * @return -1 falls keine Handelssitzung läuft<br>
-		 *         0 falls eine Handelssitzung läuft und der handelnde Spieler
-		 *         noch kein Angebot abgegeben hat<br>
-		 *         1 falls eine Handelssitzung läuft, der handelnde Spieler ein
-		 *         Angebot abgegeben hat, der Handelspartner aber noch keine
-		 *         Entscheidung getroffen hat<br>
-		 *         2 falls gerade eine Handelssitzung mit negativem Ergebnis
-		 *         beendet wurde <i>(optional)</i>, in diesem Zustand müssen
-		 *         noch alle Daten des Angebots abrufbar sein<br>
-		 *         3 falls gerade eine Handelssitzung mit positivem Ergebnis
-		 *         beendet wurde <i>(optional)</i>, in diesem Zustand müssen
-		 *         noch alle Daten des Angebots abrufbar sein
-		 */
+
+		System.out.println("Wurde angehandelt Meista!");
 		if (getTradeState() == TradeState.WAITING_PROPOSAL
 				|| getTradeState() == TradeState.WAITING_PROPOSED) {
 			if (actingPlayer.getId() == getMe().getId()) {
@@ -458,11 +448,10 @@ public class GUIClient extends ClientBase {
 
 			rollButton.setLayout(new FontLayout());
 			endTurnButton.setLayout(new FontLayout());
-			
-			
+
 			jeremiasButton.add(new JLabel("JeremiasButton"));
 			ActionListener jeremiasListener = new ActionListener() {
-				
+
 				@Override
 				public void actionPerformed(ActionEvent e) {
 					rollDice();
@@ -470,12 +459,14 @@ public class GUIClient extends ClientBase {
 					rollDice();
 					accept();
 					endTurn();
-					
+
 				}
-			};;;
-			jeremiasButton.addActionListener(jeremiasListener );
+			};
+			;
+			;
+			jeremiasButton.addActionListener(jeremiasListener);
 			downRight.add(jeremiasButton);
-			
+
 			downRight.setLayout(new GridLayout(1, 0));
 			rightWindow1.setLayout(new GridLayout(0, 1));
 
@@ -538,6 +529,16 @@ public class GUIClient extends ClientBase {
 	 * Beendet das Spiel
 	 */
 	public void leaveGame() {
+
+		System.out.println("END!!");
+
+		pane.removeAll();
+		window.removeAll();
+
+		pane = new JPanel();
+		window = new JPanel();
+		pane.revalidate();
+		window.revalidate();
 
 		GUIFrame.remove(pane);
 		GUIFrame.remove(window);
@@ -639,11 +640,27 @@ public class GUIClient extends ClientBase {
 	}
 
 	@Override
-	public void onAuction(int auctionState) {
-		System.out.println("-- DEBUG -- on Auction state:" + auctionState);
-		chatWindow.write(new ChatMessage(null, false,
-				"-- DEBUG -- on Auction State: " + auctionState));
+	public void onAuction(AuctionState auctionState) {
 
+		/**
+		 * Gibt den Stand der Auktion an.
+		 * 
+		 * @return -1 falls keine Auktion läuft<br>
+		 *         0 falls eine Auktion läuft und noch nicht ausgezählt wird<br>
+		 *         1 falls eine Auktion läuft und "zum Ersten" angekündigt wurde<br>
+		 *         2 falls eine Auktion läuft und "zum Zweiten" angekündigt
+		 *         wurde<br>
+		 *         3 falls eine Auktion gerade abgeschlossen wurde
+		 *         <i>(optional)</i>, in diesem Zustand müssen noch alle Daten
+		 *         abrufbar sein
+		 */
+		if (auctionState.value == 3) {
+			gameField.removeAuction();
+		} else {
+
+			gameField.showAuction(getAuctionState(), getAuctionedEstate(),
+					getBidder(), getHighestBid());
+		}
 	}
 
 	/**
@@ -673,6 +690,7 @@ public class GUIClient extends ClientBase {
 		server.initGame(maxPlayers, kiPlayers);
 
 		connect(server);
+		// connect("192.168.0.1",60);
 
 		leftWindow.remove(chatWindow);
 
@@ -793,6 +811,12 @@ public class GUIClient extends ClientBase {
 					getNumberOfRequiredGetOutOfJailCards(), getOfferedCash(),
 					getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards());
 		}
+	}
+
+	public void acceptBid(int amount) {
+		placeBid(amount);
+		accept();
+
 	}
 
 }

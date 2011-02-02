@@ -466,11 +466,17 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informAuction(int auctionState) {
 		this.logger.log(Level.INFO, "informAuction(" + auctionState + ")");
-		//this.onAuction(auctionState);
-		this.executor.execute(new OnAuction(this, auctionState));
+		try {
+			AuctionState state = AuctionState.getState(auctionState);
+			
+			//this.onAuction(auctionState);
+			this.executor.execute(new OnAuction(this, state));
+		} catch (IllegalArgumentException e) {
+			this.logger.log(Level.WARNING, "Get informAuction with invalid auction.", e);
+		}
 	}
 
-	public abstract void onAuction(int auctionState);
+	public abstract void onAuction(AuctionState state);
 
 	public final void informNewPlayer(int playerId) {
 		this.logger.log(Level.INFO, "informNewPlayer(" + playerId + ")");
