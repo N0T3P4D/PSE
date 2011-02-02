@@ -51,6 +51,7 @@ public class DeclineCommand extends Command {
 	@Override
 	public void execute() {
 		this.decline();
+		this.endTurn();
 	}
 
 }

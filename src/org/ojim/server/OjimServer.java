@@ -820,13 +820,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean rollDice(int playerID) {
 		display(playerID + " wants to roll!");
-		if (state.getGameIsWon()) {
-			return false;
-		}
+		
 		ServerPlayer player = this.state.getPlayerByID(playerID);
 
 		if (player == null || !rules.isPlayerOnTurn(player) || this.gameStarted == false
-				|| !this.rules.isRollRequiredByActivePlayer() || this.state.getGameIsWon()) {
+				|| !this.rules.isRollRequiredByActivePlayer() || this.state.getGameIsWon() || this.playerNeedsAcceptCancel) {
 			return false;
 		}
 
@@ -976,28 +974,34 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerByID(playerID);
-
+		display("player" + player.getName() + " want to end the turn!");
 		if (player != null && rules.isPlayerOnTurn(player) && !state.getGameIsWon()) {
 			if (player.getJail() != null) {
 				player.waitInJail();
+				display("in jail");
 			}
 			if (!rules.isRollRequiredByActivePlayer()) {
+				display("roll required");
 				// Player is bankrupt
 				if (player.getBalance() < 0) {
+					display("bankrupt");
 					this.logic.setPlayerBankrupt(player);
 				}
 
 				// Is there an Auction running?
 				if (this.auction != null && this.auction.getAuctionState() < 3) {
+					display("auction running");
 					return false;
 				}
 
 				// does the Player have to accept/cancel to buy a field?
 				if (playerNeedsAcceptCancel) {
+					display("auction needs to be started");
 					return false;
 				}
 				if (this.state.getGameIsWon()) {
 					this.endGame();
+					display("game won");
 					return true;
 				}
 

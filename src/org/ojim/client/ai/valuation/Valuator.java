@@ -173,7 +173,7 @@ public class Valuator extends SimpleClient {
 					restricted = true;
 				}
 				if (field instanceof Street && ((Street) field).getBuiltLevel() > 0) {
-					restricted = false;
+					restricted = true;
 				}
 			}
 		}
@@ -182,6 +182,7 @@ public class Valuator extends SimpleClient {
 			double minus = tradeValuateRequestedEstates();
 			value += tradeValuateJailCards();
 			value += tradeValuateOfferedEstates();
+			minus -= getRequiredCash();
 			minus += valuationFunctions[0].returnValuation(this.getRequiredCash());
 			// missing: out of jail cards!
 			if (value + minus > 0) {
@@ -431,7 +432,7 @@ public class Valuator extends SimpleClient {
 			}
 		}
 
-		Street[] array = list.toArray(new Street[0]);
+		BuyableField[] array = list.toArray(new BuyableField[0]);
 		Arrays.sort(array, new MoneyComparator());
 		// System.out.println(result);
 		return array;
@@ -465,7 +466,7 @@ public class Valuator extends SimpleClient {
 					} else {
 						// Ablehnen
 						logger.log(Level.FINE, "Decline");
-						endTurn = true;
+//						endTurn = true;
 						return new DeclineCommand(logic, server, playerID);
 					}
 				} else {
