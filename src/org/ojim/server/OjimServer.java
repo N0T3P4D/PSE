@@ -1180,17 +1180,21 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized boolean payFine(int playerID) {
+		display("Player tries to use fine to get out of jail!");
 		if (state.getGameIsWon()) {
 			return false;
 		}
 		Player player = state.getPlayerByID(playerID);
+		display("player is on field " + player.getSignedPosition());
 		if (player != null && rules.isPlayerInPrison(player)) {
+			display("player is valid!");
 			if (player.getBalance() >= player.getJail().getMoneyToPay()) {
 				logic.playerUsesFineForJail(player);
+				display("Player has used fine to get out of jail!");
 				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	public int getMaximumBuiltLevel() {
