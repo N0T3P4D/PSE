@@ -51,6 +51,8 @@ import org.ojim.rmi.server.ImplNetOjim;
 import org.ojim.rmi.server.StartNetOjim;
 import org.ojim.server.OjimServer;
 
+import com.sun.org.apache.xerces.internal.impl.RevalidationHandler;
+
 /**
  * Diese Klasse ist der GUI Client
  * 
@@ -642,21 +644,12 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onAuction(AuctionState auctionState) {
 
-		/**
-		 * Gibt den Stand der Auktion an.
-		 * 
-		 * @return -1 falls keine Auktion läuft<br>
-		 *         0 falls eine Auktion läuft und noch nicht ausgezählt wird<br>
-		 *         1 falls eine Auktion läuft und "zum Ersten" angekündigt wurde<br>
-		 *         2 falls eine Auktion läuft und "zum Zweiten" angekündigt
-		 *         wurde<br>
-		 *         3 falls eine Auktion gerade abgeschlossen wurde
-		 *         <i>(optional)</i>, in diesem Zustand müssen noch alle Daten
-		 *         abrufbar sein
-		 */
 		if (auctionState.value == 3) {
 			gameField.removeAuction();
 		} else {
+			
+			downRight.remove(buyButton);
+			this.GUIFrame.repaint();
 
 			gameField.showAuction(getAuctionState(), getAuctionedEstate(),
 					getBidder(), getHighestBid());

@@ -25,6 +25,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import org.ojim.client.SimpleClient.AuctionState;
 import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
@@ -351,7 +352,7 @@ public class GameField extends JPanel {
 
 	}
 
-	public void showAuction(int auctionState, BuyableField buyableField, Player bidder,
+	public void showAuction(AuctionState auctionState, BuyableField buyableField, Player bidder,
 			int highestBid) {
 		interactionPopup.showAuction(auctionState, buyableField, bidder,
 				highestBid);
