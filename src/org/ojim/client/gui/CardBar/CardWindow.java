@@ -31,7 +31,7 @@ public class CardWindow extends JPanel {
 	private GUIClient gui;
 	
 	private JButton freeButton = new JButton();
-	private JLabel buttonLabel = new JLabel();
+	private JLabel buttonLabel = new JLabel("0");
 	private JButton freeMoneyButton = new JButton();
 	private JLabel buttonMoneyLabel = new JLabel();
 	private JPanel leftPanel = new JPanel();
