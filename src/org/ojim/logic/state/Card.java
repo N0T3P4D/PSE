@@ -81,8 +81,11 @@ public class Card {
 		this.postFetch();
 	}
 	
-	public void file() {
-		executeActions(this.holdingActions);
+	public void file(boolean use) {
+		if (use) {
+			executeActions(this.holdingActions);
+		}
+		this.stack.add(this);
 	}
 	
 	public static void executeActions(Action[] actions) {
