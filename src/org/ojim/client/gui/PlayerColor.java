@@ -49,7 +49,7 @@ public class PlayerColor {
 	 * @return die Farbe als Color
 	 */
 	public static Color getBackGroundColor(int color) {
-		return color == -1 ? Color.WHITE : colors[color][0];
+		return color == -1 ? Color.WHITE : colors[color%9][0];
 	}
 	
 	/**
@@ -58,7 +58,7 @@ public class PlayerColor {
 	 * @return die Farbe als Color
 	 */
 	public static Color getFontColor(int color) {
-		return color == -1 ? Color.BLACK : colors[color][1];
+		return color == -1 ? Color.BLACK : colors[color%9][1];
 	}
 
 }

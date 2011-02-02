@@ -55,7 +55,7 @@ public class StreetColor {
 		if(color < 0) {
 			return colors[8][0];
 		}
-		return colors[color][0];
+		return colors[color%9][0];
 	}
 	
 	/**
@@ -64,6 +64,6 @@ public class StreetColor {
 	 * @return die Farbe als Color
 	 */
 	public static Color getFontColor(int color) {
-		return colors[color][1];
+		return colors[Math.abs(color)%9][1];
 	}
 }
