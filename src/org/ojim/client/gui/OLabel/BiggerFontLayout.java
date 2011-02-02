@@ -65,7 +65,7 @@ public class BiggerFontLayout implements LayoutManager {
 		try {
 			JLabel label = (JLabel) parent;
 			float textLength = label.getText().length();
-			int fontSize = (int) ((maxSize) / (textLength * 0.25f + 1.0f));
+			int fontSize = (int) ((maxSize) / (textLength * 0.25f + 0.75f));
 			label.setFont(new Font(null, nComps, fontSize));
 		} catch (ClassCastException e) {
 			try {
@@ -74,7 +74,7 @@ public class BiggerFontLayout implements LayoutManager {
 			label.setFont(new Font(null, nComps, fontSize));
 			} catch (ClassCastException e2){
 				JTextField label = (JTextField) parent;
-				int fontSize = (int) (maxSize / 1.0f);
+				int fontSize = (int) (maxSize / 0.75f);
 				label.setFont(new Font(null, nComps, fontSize));				
 			}
 		}

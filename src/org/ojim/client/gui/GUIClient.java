@@ -478,7 +478,11 @@ public class GUIClient extends ClientBase {
 			;
 			;
 			jeremiasButton.addActionListener(jeremiasListener);
-			downRight.add(jeremiasButton);
+			
+			
+			
+			// HIER IST DER JEREMIAS KNOPF
+			//downRight.add(jeremiasButton);
 
 			downRight.setLayout(new GridLayout(1, 0));
 			rightWindow1.setLayout(new GridLayout(0, 1));
