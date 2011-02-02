@@ -23,11 +23,15 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
+import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
+import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.OLabel.FontLayout;
@@ -54,11 +58,27 @@ public class GameFieldPiece extends JPanel {
 	private JPanel[] housePanels = new JPanel[5];
 	private JPanel highHousePanel = new JPanel();
 	private JPanel innerHousePanel = new JPanel();
+	private JLabel mortageButtonLabel = new JLabel();
+	private JButton mortageButton = new JButton();
+	private GUIClient gui;
 
-	public GameFieldPiece(Field field, String name, int position, Image image) {
+	ActionListener mortageListener = new ActionListener() {
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.swtichCard(field);
+			System.out.println("Mortaged field: " + field.getName());
+
+		}
+	};
+
+	public GameFieldPiece(Field field, String name, int position, Image image,
+			GUIClient guiClient) {
+		gui = guiClient;
 	}
 
-	public GameFieldPiece(Field field) {
+	public GameFieldPiece(Field field, GUIClient guiClient) {
+		gui = guiClient;
 		player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
 		/*
 		 * if (this.getComponentCount() > 0) { remove(textPanel);
@@ -90,9 +110,9 @@ public class GameFieldPiece extends JPanel {
 
 			for (int i = 0; i < 5; i++) {
 				housePanels[i] = new JPanel();
-				housePanels[i].setSize(new Dimension(2,2));
+				housePanels[i].setSize(new Dimension(2, 2));
 				housePanels[i].setBorder(new LineBorder(Color.BLACK));
-				
+
 			}
 			if (((Street) this.field).getBuiltLevel() == 5) {
 				colorTop.add(highHousePanel);
@@ -210,6 +230,21 @@ public class GameFieldPiece extends JPanel {
 		textPanel.add(name);
 		textPanel.add(price);
 
+		if (field instanceof BuyableField) {
+			mortageButtonLabel.setText("M");
+			mortageButton.addActionListener(mortageListener);
+			mortageButton.add(mortageButtonLabel);
+			if (((BuyableField) field).getOwner() != null) {
+				if (((BuyableField) field).getOwner().getId() == gui
+						.getPlayerMe().getId()) {
+					textPanel.add(mortageButton);
+				}
+				if (((BuyableField) field).isMortgaged()) {
+					textPanel.setBackground(Color.BLACK);
+				}
+			}
+		}
+
 		// text = new JLabel("<html>" + "test");
 		// textPanel.setLayout(new GridLayout(0, 1));
 
@@ -309,6 +344,19 @@ public class GameFieldPiece extends JPanel {
 				price.setText("<html>" + ((BuyableField) field).getPrice());
 			}
 		} catch (ClassCastException e) {
+		}
+
+		if (field instanceof BuyableField) {
+			if (((BuyableField) field).getOwner() != null) {
+				if (((BuyableField) field).getOwner().getId() == gui
+						.getPlayerMe().getId()) {
+					textPanel.remove(mortageButton);
+					textPanel.add(mortageButton);
+				}
+			}
+			if (((BuyableField) field).isMortgaged()) {
+				textPanel.setBackground(Color.BLACK);
+			}
 		}
 
 	}
@@ -431,8 +479,9 @@ public class GameFieldPiece extends JPanel {
 		colorTop.removeAll();
 		colorTop.revalidate();
 
-		System.out.println(((Street) this.field).getName()+" ist auf Level "+((Street) this.field).getBuiltLevel());
-		
+		System.out.println(((Street) this.field).getName() + " ist auf Level "
+				+ ((Street) this.field).getBuiltLevel());
+
 		if (((Street) this.field).getBuiltLevel() == 5) {
 			colorTop.add(highHousePanel);
 		} else {
