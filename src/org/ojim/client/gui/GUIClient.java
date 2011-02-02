@@ -860,6 +860,7 @@ public class GUIClient extends ClientBase {
 	}
 
 	public void swtichCard(Field field) {
+		System.out.println("toogleMortage("+field.getName()+") im GUI Client");
 		toggleMortgage((BuyableField)field);
 		
 	}

@@ -67,7 +67,6 @@ public class GameFieldPiece extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			gui.swtichCard(field);
-			System.out.println("Mortaged field: " + field.getName());
 
 		}
 	};
