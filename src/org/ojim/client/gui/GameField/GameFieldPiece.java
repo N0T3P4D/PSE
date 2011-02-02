@@ -18,6 +18,7 @@
 package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -89,7 +90,9 @@ public class GameFieldPiece extends JPanel {
 
 			for (int i = 0; i < 5; i++) {
 				housePanels[i] = new JPanel();
+				housePanels[i].setSize(new Dimension(2,2));
 				housePanels[i].setBorder(new LineBorder(Color.BLACK));
+				
 			}
 			if (((Street) this.field).getBuiltLevel() == 5) {
 				colorTop.add(highHousePanel);

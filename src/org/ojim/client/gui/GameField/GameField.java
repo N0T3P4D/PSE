@@ -86,7 +86,7 @@ public class GameField extends JPanel {
 		public void mouseClicked(MouseEvent e) {
 			selectedField = e.getComponent().getName();
 			
-			interactionPopup.fieldClicked(e.getComponent().getName());
+			interactionPopup.fieldClicked(e.getComponent().getName(), me);
 			
 			// System.out.println("Clicked on Field " + selectedField);
 			try {
@@ -120,7 +120,7 @@ public class GameField extends JPanel {
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			playerLabel[i] = new JPanel();
 		}
-		interactionPopup = new InteractionPopup(guiClient);
+		interactionPopup = new InteractionPopup(guiClient, me);
 
 	}
 

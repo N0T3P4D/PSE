@@ -842,7 +842,12 @@ public class GUIClient extends ClientBase {
 	}
 
 	public org.ojim.logic.state.fields.Field getFieldByPosition(String position) {
+		try {
 		return getGameState().getFieldAt(Integer.parseInt(position));
+		} catch (NullPointerException e){
+			System.out.println("GetFieldByPosition GUI Client NPE");
+			return null;
+		}
 	}
 
 	public void noTrade() {

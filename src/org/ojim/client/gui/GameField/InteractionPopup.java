@@ -202,14 +202,14 @@ public class InteractionPopup extends JPanel {
 	 * Diese Methode initialisiert alles.
 	 * @param guiClient 
 	 */
-	public InteractionPopup(GUIClient guiClient) {
+	public InteractionPopup(GUIClient guiClient, Player me) {
 		
 		this.gui = guiClient;
 		this.setBackground(Color.BLACK);
 		
 		tradeCardPanel = new JPanel[GameState.FIELDS_AMOUNT];
 		
-		
+		tradeMe = me;
 		
 		this.diceValues = new JLabel[2];
 		dicePanel.add(diceTextLabel);
@@ -403,10 +403,10 @@ public class InteractionPopup extends JPanel {
 		hisJailCard.setText(language.getText("jail cards")+": ");
 
 		for(int i = 0; i < requiredBuyableFields.length; i++){
-			fieldClicked(requiredBuyableFields[i].getName());
+			fieldClicked(requiredBuyableFields[i].getName(), me);
 		}
 		for(int i = 0; i < offeredBuyableFields.length; i++){
-			fieldClicked(offeredBuyableFields[i].getName());
+			fieldClicked(offeredBuyableFields[i].getName(), me);
 		}
 		
 		
@@ -502,7 +502,7 @@ public class InteractionPopup extends JPanel {
 		
 	}
 
-	public void fieldClicked(String name) {
+	public void fieldClicked(String name, Player me) {
 		Field field = gui.getFieldByPosition(name);
 		
 		if(field instanceof BuyableField){
@@ -513,7 +513,8 @@ public class InteractionPopup extends JPanel {
 				fieldLabel.setForeground(StreetColor.getFontColor(field.getColorGroup()));
 			}
 			if((((BuyableField) field).getOwner())!=null){
-			if((((BuyableField) field).getOwner()).getId()==this.tradeMe.getId()){
+			if((((BuyableField) field).getOwner()).getId()==
+				me.getId()){
 				if(myFields.contains(field.getName())){
 					myFields.removeFirstOccurrence(field.getName());
 				} else {
