@@ -123,7 +123,7 @@ public class Valuator extends SimpleClient {
 
 		PriorityQueue<Command> queue = new PriorityQueue<Command>();
 		assert (this.getNumberOfGetOutOfJailCards(playerID) == 0);
-		assert (position >= 0);
+//		assert (position >= 0);
 		Field field = getGameState().getFieldAt(Math.abs(position));
 		initFunctions();
 
@@ -132,6 +132,7 @@ public class Valuator extends SimpleClient {
 
 		// Feld potenziell kaufbar
 		if (!endTurn) {
+			System.out.println("turn");
 
 			queue.add(buyFields(field));
 			// Feld potentiell bebaubar
@@ -141,15 +142,18 @@ public class Valuator extends SimpleClient {
 			// reicht das?
 
 			if (queue.peek() instanceof NullCommand) {
+				System.out.println("null");
 				endTurn = true;
 			}
 			System.out.println("lol");
 
+			System.out.println(queue.peek());
 			return queue.peek();
 		}
 		System.out.println("lbol");
 
 		endTurn = false;
+		System.out.println("endturn == false");
 		return new EndTurnCommand(logic, server, playerID);
 	}
 
@@ -507,18 +511,23 @@ public class Valuator extends SimpleClient {
 	}
 	
 	public Command getOutOfJail() {
+		System.out.println("Here!");
 		Jail jail = getMe().getJail();
 		if (jail != null) {
+			System.out.println("There!");
+
 			double valuation = getResults(jail.getPosition(), jail.getMoneyToPay());
 			if (valuation > 0) {
 				Command result = new OutOfPrisonCommand(logic, server, playerID);
 				result.setValuation(valuation);
+				System.out.println("valuation = " + valuation);
 				return result;
 			}
 		}
 		// null command?
 		// System.out.println(valuation);
 		// assert (false);
+		System.out.println("o_O");
 		Command result = new EndTurnCommand(logic, server, playerID);
 		result.setValuation(0);
 		return result;

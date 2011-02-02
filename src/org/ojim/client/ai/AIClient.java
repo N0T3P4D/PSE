@@ -146,6 +146,36 @@ public class AIClient extends ClientBase {
 	@Override
 	public void onMove(Player player, int position) {
 		logger.log(Level.FINE, this.log("onMove(" + this.getPlayerInfo(player) + ", " + position + ")!"));
+		if (this.isMyTurn()) {
+//			int position = getGameState().getActivePlayer().getPosition();
+			// increment round count
+			count++;
+			logger.log(Level.INFO, "ID " + getPlayerId() + " Move " + count + " New position is " + position
+					+ " with name " + getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
+			// if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
+			// logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
+			// assert (getGameState().getActivePlayer().getId() == getPlayerId());
+			// valuator.returnBestCommand(position).execute();
+			// } else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
+			// logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
+			// valuator.returnBestCommand(position).execute();
+			
+			// mortgages
+			Command command = valuator.paybackMortgages();
+			while (!(command instanceof NullCommand)) {
+				command.execute();
+				command = valuator.paybackMortgages();
+			}
+			command.execute();
+			command = valuator.returnBestCommand(position);
+			while (!(command instanceof EndTurnCommand)) {
+				command.execute();
+				command = valuator.returnBestCommand(position);
+			}
+			assert (command != null);
+			System.out.println("EndTurnCommand");
+			command.execute();
+		}
 	}
 
 	@Override
@@ -191,35 +221,7 @@ public class AIClient extends ClientBase {
 	public void onDiceValues(int[] diceValues) {
 		logger.log(Level.FINE, this.log("onDiceValues(" + Arrays.toString(diceValues) + ")!"));
 		assert(diceValues.length == 2);
-		if (this.isMyTurn()) {
-			int position = getGameState().getActivePlayer().getPosition();
-			// increment round count
-			count++;
-			logger.log(Level.INFO, "ID " + getPlayerId() + " Move " + count + " New position is " + position
-					+ " with name " + getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
-			// if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
-			// logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
-			// assert (getGameState().getActivePlayer().getId() == getPlayerId());
-			// valuator.returnBestCommand(position).execute();
-			// } else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
-			// logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
-			// valuator.returnBestCommand(position).execute();
-			
-			// mortgages
-			Command command = valuator.paybackMortgages();
-			while (!(command instanceof NullCommand)) {
-				command.execute();
-				command = valuator.paybackMortgages();
-			}
-			command.execute();
-			command = valuator.returnBestCommand(position);
-			while (!(command instanceof EndTurnCommand)) {
-				command.execute();
-				command = valuator.returnBestCommand(position);
-			}
-			assert (command != null);
-			command.execute();
-		}
+
 	}
 
 	@Override

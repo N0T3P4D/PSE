@@ -43,9 +43,10 @@ public final class PrisonValuator extends ValuationFunction {
 
 	@Override
 	public double returnValuation(int position) {
-
+		double result = 0;
 		getLogger();
-		if (getGameState().getFieldAt(getGameState().getActivePlayer().getPosition()) instanceof Jail) {
+//		if (getGameState().getFieldAt(getGameState().getActivePlayer().getPosition()) instanceof Jail) {
+		if (getGameState().getActivePlayer().getJail() != null) {
 			Player currentPlayer = this.getGameState().getActivePlayer();
 			int sum = 0;
 			int count = 0;
@@ -63,13 +64,15 @@ public final class PrisonValuator extends ValuationFunction {
 				}
 			}
 			if (max + (sum / count) + 10 * (40 - server.getNumberOfHousesLeft()) > 100000) {
-				return -1;
+				result = -1;
 			} else {
-				return 1;
+				result = 1;
 			}
 		} else {
-			return 0;
+			result = 0;
 		}
+		logger.log(Level.INFO, "result = " + result);
+		return result;
 	}
 
 }
