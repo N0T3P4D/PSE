@@ -351,4 +351,16 @@ public class GameField extends JPanel {
 
 	}
 
+	public void showAuction(int auctionState, BuyableField buyableField, Player bidder,
+			int highestBid) {
+		interactionPopup.showAuction(auctionState, buyableField, bidder,
+				highestBid);
+		
+	}
+
+	public void removeAuction() {
+		interactionPopup.removeAuction();
+		
+	}
+
 }

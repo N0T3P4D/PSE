@@ -37,6 +37,8 @@ import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 
+import com.sun.org.apache.bcel.internal.generic.NEW;
+
 public class InteractionPopup extends JPanel {
 
 	/**
@@ -94,6 +96,16 @@ public class InteractionPopup extends JPanel {
 	
 	private int[] tradePositions;
 	private JPanel[] tradeCardPanel;
+	
+	
+	private JPanel auctionPanel;
+	private JLabel auctionCardLabel;
+	private JPanel auctionCardPanel;
+	private JLabel auctionHighestBidPlayer;
+	private JLabel auctionHighestBid;
+	private JButton auctionButtonOk;
+	private JLabel auctionButtonOkLabel;
+	private JTextField bidRate;
 
 	private ActionListener upgradeListener = new ActionListener() {
 		
@@ -108,6 +120,7 @@ public class InteractionPopup extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			System.out.println("DOWNGRADDDDEE");
 			gui.downgradeField(position,Integer.parseInt(upgradeTextField.getText()));
 			deleteUpgrade();
 		}
@@ -119,6 +132,15 @@ public class InteractionPopup extends JPanel {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			gui.trade(Integer.parseInt(myMoneyField.getText())-Integer.parseInt(hisMoneyField.getText()), null, 0);
+		}
+	};;;
+	
+	private ActionListener bidListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent arg0) {
+			gui.acceptBid(Integer.parseInt(bidRate.getText()));
+			
 		}
 	};;;
 	
@@ -163,8 +185,9 @@ public class InteractionPopup extends JPanel {
 		upgradePanel.add(upgradeButton);
 		upgradePanel.add(downgradeButton);
 		upgradePanel.setBackground(Color.WHITE);
-		
+
 		upgradeButton.addActionListener(upgradeListener );
+		downgradeButton.addActionListener(downgradeListener);
 		upgradePanel.setLayout(new FlowLayout());
 		
 		
@@ -203,6 +226,29 @@ public class InteractionPopup extends JPanel {
 		tradePanel.add(okButton);
 		
 		
+		
+		auctionPanel = new JPanel();
+		auctionCardLabel = new JLabel();
+		auctionCardPanel = new JPanel();
+		auctionHighestBidPlayer = new JLabel();
+		auctionHighestBid = new JLabel();
+		auctionButtonOk = new JButton();
+		auctionButtonOkLabel = new JLabel();
+		bidRate = new JTextField();
+		
+		auctionCardPanel.add(auctionCardLabel);
+
+		auctionPanel.add(auctionCardPanel);
+		auctionPanel.add(auctionHighestBidPlayer);
+		auctionPanel.add(auctionHighestBid);
+		auctionPanel.add(bidRate);
+		auctionButtonOk.add(auctionButtonOkLabel);
+		auctionPanel.add(auctionButtonOk);
+		
+		auctionButtonOk.addActionListener(bidListener);
+		
+		auctionPanel.setLayout(new GridLayout(0,1));
+		
 	}
 
 	public void clear() {
@@ -222,8 +268,16 @@ public class InteractionPopup extends JPanel {
 	}
 	
 	
-	public void showAuction(){
+	public void showAuction(int auctionState, BuyableField buyableField, Player bidder, int highestBid){
 		
+		auctionButtonOkLabel.setText(language.getText("bid"));
+		auctionCardLabel.setText(buyableField.getName());
+		auctionHighestBid.setText(highestBid+" "+language.getText("currency"));
+		auctionHighestBidPlayer.setText(bidder.getName());
+		this.add(auctionPanel);
+		this.repaint();
+		this.revalidate();
+		System.out.println("May the Auction begin!");
 	} 
 	
 	public void showTrade(Player me, Player partnerPlayer,
@@ -298,10 +352,6 @@ public class InteractionPopup extends JPanel {
 		this.revalidate();
 		
 	}
-	
-	public void showTrade(int parseInt){
-		
-	}
 
 	public void deleteUpgrade() {		
 		this.remove(upgradePanel);
@@ -312,6 +362,13 @@ public class InteractionPopup extends JPanel {
 
 	public void endTrade() {
 		// TODO Auto-generated method stub
+		
+	}
+
+	public void removeAuction() {
+		this.remove(auctionPanel);
+		this.repaint();
+		this.revalidate();
 		
 	}
 }
