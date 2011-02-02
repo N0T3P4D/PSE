@@ -291,6 +291,7 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
+		System.out.println("onMortage wurde für "+street.getName()+" aufgerufen");
 		cardWindow.switchCardStatus(street);
 		gameField.switchFieldStatus(street);
 		draw();
