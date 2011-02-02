@@ -431,7 +431,7 @@ public class Valuator extends SimpleClient {
 			}
 		}
 
-		Street[] array = list.toArray(new Street[0]);
+		BuyableField[] array = list.toArray(new BuyableField[0]);
 		Arrays.sort(array, new MoneyComparator());
 		// System.out.println(result);
 		return array;
@@ -465,7 +465,7 @@ public class Valuator extends SimpleClient {
 					} else {
 						// Ablehnen
 						logger.log(Level.FINE, "Decline");
-						endTurn = true;
+//						endTurn = true;
 						return new DeclineCommand(logic, server, playerID);
 					}
 				} else {
