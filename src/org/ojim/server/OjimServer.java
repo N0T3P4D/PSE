@@ -860,17 +860,18 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			state.setActivePlayerNeedsToRoll(false);
 		} else {
 			doublesChain++;
-			((ServerPlayer)player).getClient().informTurn(player.getId());
 			if (doublesChain >= GameRules.MAX_DOUBLES_ALLOWED) {
 				// Player has to get to jail
 				logic.sendPlayerToJail(player, state.getDefaultJail());
 				return true;
 			}
 		}
+		
 		display("he is moving");
 		// Now move the Player forward
 		logic.movePlayerForDice(player, state.getDices().getResultSum());
 
+		
 
 		// Is the Field the Player is standing on buyable?
 		Field field = state.getFieldAt(player.getPosition());
@@ -904,7 +905,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean accept(int playerID) {
 		display("accepting");
-		if (state.getGameIsWon()) {
+		if (state.getGameIsWon() || playerID != state.getActivePlayer().getId()) {
 			return false;
 		}
 		ServerPlayer player = state.getPlayerByID(playerID);
@@ -967,7 +968,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			this.auction = new Auction(state, logic, rules, (BuyableField) state.getFieldAt(state.getActivePlayer()
 					.getPosition()));
 			this.auction.setReturnParameters(this, state.getActivePlayer().getId());
-
+			this.playerNeedsAcceptCancel = false;
 		}
 		return false;
 	}
@@ -1004,6 +1005,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				logic.startNewTurn();
 
 				return true;
+			} else {
+				((ServerPlayer)player).getClient().informTurn(player.getId());
 			}
 		}
 		return false;
