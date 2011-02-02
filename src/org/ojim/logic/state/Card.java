@@ -85,6 +85,7 @@ public class Card {
 		if (use) {
 			executeActions(this.holdingActions);
 		}
+		this.fetcher.removeCard(this);
 		this.stack.add(this);
 	}
 	
