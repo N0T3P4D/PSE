@@ -19,6 +19,7 @@ package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
 import java.awt.FlowLayout;
+import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -89,6 +90,7 @@ public class InteractionPopup extends JPanel {
 	private JPanel myCards;
 	private JPanel hisCards;
 	private JButton okButton;
+	private JLabel okButtonLabel;
 	
 	private int[] tradePositions;
 	private JPanel[] tradeCardPanel;
@@ -166,6 +168,41 @@ public class InteractionPopup extends JPanel {
 		upgradePanel.setLayout(new FlowLayout());
 		
 		
+		tradePanel = new JPanel();
+		myTradePanel = new JPanel();
+		hisTradePanel = new JPanel();
+		myName = new JLabel();
+		hisName = new JLabel();
+		myMoney = new JLabel();
+		hisMoney = new JLabel();
+		myMoneyField = new JTextField("0");
+		hisMoneyField = new JTextField("0");
+		myCards = new JPanel();
+		hisCards = new JPanel();
+		okButton = new JButton();
+
+		myTradePanel.add(myName);
+		myTradePanel.add(myMoney);
+		myTradePanel.add(myMoneyField);
+		myTradePanel.add(myCards);
+
+		hisTradePanel.add(hisName);
+		hisTradePanel.add(hisMoney);
+		hisTradePanel.add(hisMoneyField);
+		hisTradePanel.add(hisCards);
+		
+		okButton.add(okButtonLabel = new JLabel());
+		
+		okButton.addActionListener(tradeOkListener);
+
+		myTradePanel.setLayout(new GridLayout(0,1));
+		tradePanel.add(myTradePanel);
+		hisTradePanel.setLayout(new GridLayout(0,1));
+		tradePanel.add(hisTradePanel);
+		tradePanel.setLayout(new GridLayout(0,2));
+		tradePanel.add(okButton);
+		
+		
 	}
 
 	public void clear() {
@@ -194,6 +231,20 @@ public class InteractionPopup extends JPanel {
 			int requiredOutOfJailCards, int offeredCash,
 			BuyableField[] offeredBuyableFields, int offeredOutOfJailCards) {
 		
+		myName.setText(me.getName());
+		hisName.setText(partnerPlayer.getName());
+		myMoney.setText(language.getText("give money"));
+		hisMoney.setText(language.getText("claim money"));
+		myMoneyField.setColumns(5);
+		hisMoneyField.setColumns(5);
+		okButtonLabel.setText(language.getText("ok"));
+		//myCards = new JPanel();
+		//hisCards = new JPanel();
+		
+		this.add(tradePanel);
+
+		this.repaint();
+		this.revalidate();
 		System.out.println("May the Trade begin!");
 		
 	}

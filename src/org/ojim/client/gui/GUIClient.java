@@ -24,6 +24,7 @@ import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.client.ClientBase;
@@ -78,6 +79,8 @@ public class GUIClient extends ClientBase {
 
 	private JPanel leftWindow = new JPanel();
 	private JPanel rightWindow = new JPanel();
+	
+	private JButton jeremiasButton = new JButton();
 
 	private JFrame GUIFrame;
 
@@ -444,6 +447,7 @@ public class GUIClient extends ClientBase {
 					System.out
 							.println("Turn is ENDED!!! FREE THE HOSTAGE OR I WILL END IT WITH ENDTURN()!!!! OK YOU WANTED IT LIKE THIF!");
 					haveIalreadyRolled = false;
+					decline();
 					endTurn();
 				}
 			};
@@ -454,7 +458,24 @@ public class GUIClient extends ClientBase {
 
 			rollButton.setLayout(new FontLayout());
 			endTurnButton.setLayout(new FontLayout());
-
+			
+			
+			jeremiasButton.add(new JLabel("JeremiasButton"));
+			ActionListener jeremiasListener = new ActionListener() {
+				
+				@Override
+				public void actionPerformed(ActionEvent e) {
+					rollDice();
+					rollDice();
+					rollDice();
+					accept();
+					endTurn();
+					
+				}
+			};;;
+			jeremiasButton.addActionListener(jeremiasListener );
+			downRight.add(jeremiasButton);
+			
 			downRight.setLayout(new GridLayout(1, 0));
 			rightWindow1.setLayout(new GridLayout(0, 1));
 
@@ -752,12 +773,17 @@ public class GUIClient extends ClientBase {
 
 	public void trade(int cash, int[] positions, int outOfJailCards) {
 		offerCash(cash);
-		for (int i = 0; i < positions.length; i++) {
-			offerEstate(positions[i]);
+		if (positions != null) {
+			for (int i = 0; i < positions.length; i++) {
+				offerEstate(positions[i]);
+			}
 		}
 		for (int i = 0; i < outOfJailCards; i++) {
 			offerGetOutOfJailCard();
 		}
+		System.out.println("Ok Meista, hab nun gehandelt!!");
+		proposeTrade();
+
 	}
 
 	public void showTrade(int player) {

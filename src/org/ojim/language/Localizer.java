@@ -194,7 +194,7 @@ public class Localizer {
 							String value = string.substring(delim + 1).trim();
 							this.strings.put(key, value);
 						} else {
-							OJIMLogger.getLogger(this.getClass().getName()).warning("Trying to load with a illegal key (" + keyText + ")");
+							OJIMLogger.getLogger(this.getClass().getName()).warning("Trying to load with an illegal key (" + keyText + ")");
 						}
 					}
 				}
@@ -206,6 +206,11 @@ public class Localizer {
 		}
 	}
 
+	/**
+	 * Returns the translation to the key.
+	 * @param key the key.
+	 * @return the translation to the key.
+	 */
 	public String getText(TextKey key) {
 		String text = this.strings.get(key);
 		if (text == null) {
@@ -215,6 +220,12 @@ public class Localizer {
 		}
 	}
 	
+	/**
+	 * Returns the translation to the text key.
+	 * @param keyText the text key.
+	 * @return the translation to the text key.
+	 * @deprecated Use {@link #getText(TextKey)} instead.
+	 */
 	public String getText(String keyText) {
 		TextKey key = TextKey.getToKey(keyText);
 		if (key == null) {
