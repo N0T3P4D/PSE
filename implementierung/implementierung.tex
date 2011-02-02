@@ -57,25 +57,39 @@ WS 2010 / 2011} \\[2cm]
 \section{KI-Client}
 
 \subsection{Allgemeines}
-Im aktuellen Implementierungsstand ist der KI-Client in der Lage, selbstständig über das Kaufen von Straßen zu entscheiden und die Entscheidung auch auszuführen. Abgesehen davon, dass die entsprechenden Parameter nicht bestimmt wurden, sind die Unter-Bewertungsfunktionen im Wesentlichen funktionsfähig.
-Auch wenn der vollständige Funktionsumfang noch nicht hergestellt ist, hat der KI-Client bei der Entwicklung als automatisches Testtool einen wertvollen Beitrag geleistet. Fehler konnten reproduzierbar ausgelöst und dadurch behoben werden. Das korrekte Zusammenwirken der einzelnen Komponenten konnte überprüft und Inkonsistenzen festgestellt werden.
-\subsection{Noch nicht implementierte Funktionen (werden noch hinzugefügt)}
+Im aktuellen Implementierungsstand ist der KI-Client in der Lage, folgende Aktionen durchzuführen:
 \begin{itemize}
-\item Parameter für die Bewertungsfunktionen sind noch nicht bestimmt
-\item Auktionen werden nicht unterstützt
-\item Handel wird nur testweise unterstützt
-\item Hypotheken werden nicht gesetzt
-\item Feldgruppen werden nicht in die Bewertung einbezogen
-\item Bebaubare Felder werden nicht bebaut
+\item Kaufen von Feldern
+\item Freikaufen aus dem Gefängnis, Benutzen der entsprechenden Karte
+\item Bauen von Häusern, Hotels
+\item Setzen und Einlösen von Hypotheken
+\item Teilnahme an Auktionen
+\item Annehmen und Ablehnen von Handelsangeboten
+\item Verkaufen von Feldern
 \end{itemize}
+Noch geplant sind:
+\begin{itemize}
+\item Selbstständiges Verkaufen
+\item Selbstständiges Handeln
+\item Optimierung der Bewertungsfunktionen
+\end{itemize}
+Der KI-Client hat bei der Entwicklung als automatisches Testtool einen wertvollen Beitrag geleistet. Fehler konnten reproduzierbar ausgelöst und dadurch behoben werden. Das korrekte Zusammenwirken der einzelnen Komponenten konnte überprüft und Inkonsistenzen festgestellt werden.
+
+Die Parameter für die Bewertungsfunktionen wurden noch nicht bestimmt, da Qualität dafür insgesamt noch nicht hinreichend ist.
 \subsection{Änderungen gegenüber dem Entwurf}
 Commands
 \begin{itemize}
-\item SellCommand und NullCommand wurden hinzugefügt.
+\item Commands ist kein \textit{Interface} mehr, sondern eine \textit{abstrakte Klasse}
+\item SellCommand zum Verkaufen hinzugefügt
+\item NullCommand zum Nichtstun hinzugefügt
+\item EndTurnCommand zum Beenden des Spielzugs hinzugefügt
+\item AuctionBidCommand zur Abgabe von Geboten hinzugefügt
+\item BuildHouseCommand zum Bebauen von Straßen hinzugefügt
 \item BuyPropertyCommand wurde entfernt, da unnötig
 \end{itemize}
 \subsection{Entwurfsentscheidungen}
 Wie bereits im Dokument zum Entwurf angekündigt wurden die einzelnen Bewertungsfunktionen als Singletons umgesetzt. Für das Ausführen des besten Befehls wird das Entwurfsmuster ``Befehl'' verwendet. Weiterhin gibt es eine Klasse ``NullCommand'', die sich an der Idee des Entwurfsmusters ``Null-Objekt'' orientiert.
+Es wurde viel Wert auf Erweiterbarkeit und Austauschbarkeit gelegt. Bewertungsfunktionen können nach Belieben hinzugefügt werden, auch ist im \textit{GameState} möglich, Felder gezielt für die Nicht-Bewertung zu markieren. So kann z.B. ein der Verkauf eines einzelnen Feldes einer Feldgruppe analysiert werden.
 \newpage
 \section{GUI-Client}
 
