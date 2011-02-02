@@ -963,6 +963,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		// Check if the Buying of a field was declined
 		if (playerNeedsAcceptCancel) {
+			if(!(state.getFieldAt(state.getActivePlayer().getPosition()) instanceof BuyableField)) {
+				display("fail");
+				
+			}
 			this.auction = new Auction(state, logic, rules, (BuyableField) state.getFieldAt(state.getActivePlayer()
 					.getPosition()));
 			this.auction.setReturnParameters(this, state.getActivePlayer().getId());
@@ -981,7 +985,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				display("in jail");
 			}
 			if (!rules.isRollRequiredByActivePlayer()) {
-				display("roll required");
+				
 				// Player is bankrupt
 				if (player.getBalance() < 0) {
 					display("bankrupt");
@@ -1010,6 +1014,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 				return true;
 			} else {
+				display("roll required");
 				((ServerPlayer)player).getClient().informTurn(player.getId());
 			}
 		}
@@ -1175,17 +1180,21 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized boolean payFine(int playerID) {
+		display("Player tries to use fine to get out of jail!");
 		if (state.getGameIsWon()) {
 			return false;
 		}
 		Player player = state.getPlayerByID(playerID);
+		display("player is on field " + player.getSignedPosition());
 		if (player != null && rules.isPlayerInPrison(player)) {
+			display("player is valid!");
 			if (player.getBalance() >= player.getJail().getMoneyToPay()) {
 				logic.playerUsesFineForJail(player);
+				display("Player has used fine to get out of jail!");
 				return true;
 			}
 		}
-		return false;
+		return true;
 	}
 
 	public int getMaximumBuiltLevel() {

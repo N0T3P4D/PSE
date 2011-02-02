@@ -66,7 +66,7 @@ public class GUIClient extends ClientBase {
 	private GameField gameField;
 	private ChatWindow chatWindow;
 	private PlayerInfoWindow playerInfoWindow;
-	private CardWindow cardWindow = new CardWindow();
+	private CardWindow cardWindow;
 
 	private CreateGameFrame createGameFrame;
 	private JoinGameFrame joinGameFrame;
@@ -145,6 +145,7 @@ public class GUIClient extends ClientBase {
 
 		playerInfoWindow.setLanguage(language);
 		chatWindow = new ChatWindow(language, this);
+		cardWindow = new CardWindow(this);
 
 		menubar = new MenuBar(language, this);
 		GUIFrame.setJMenuBar(menubar);
@@ -229,10 +230,10 @@ public class GUIClient extends ClientBase {
 	public void onBuy(Player player, BuyableField field) {
 		gameField.playerBuysField(player, field);
 		if (player.getId() == getMe().getId()) {
-			cardWindow.addCard(field);
+			cardWindow.addCard(field, this);
 		} else {
 			// Sollte man bei einer Auktion überboten sein worden.
-			cardWindow.removeCard(field);
+			cardWindow.removeCard(field, this);
 		}
 
 		if (player.getId() == getMe().getId()) {
@@ -291,14 +292,16 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
-		System.out.println("onMortage wurde für "+street.getName()+" aufgerufen");
+		//System.out.println("onMortage wurde für "+street.getName()+" aufgerufen");
 		cardWindow.switchCardStatus(street);
 		gameField.switchFieldStatus(street);
+		playerInfoWindow.changeCash(street.getOwner(), street.getOwner().getBalance());
 		draw();
 	}
 
 	@Override
 	public void onMove(Player player, int position) {
+		
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
 		// gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)),
@@ -509,6 +512,9 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onTurn(Player player) {
+		
+		cardWindow.jailCards(player.getNumberOfGetOutOfJailCards());
+		
 		playerInfoWindow.turnOn(player);
 		// System.out.println("Player has changed to "+player.getName());
 		if (player.getId() != getMe().getId()) {
@@ -867,6 +873,19 @@ public class GUIClient extends ClientBase {
 
 	public Player getPlayerMe() {
 		return getMe();
+	}
+
+	/**
+	 * Free from Jail
+	 * @param i 0 = Karte, anderes = Geld
+	 */
+	public void freeMe(int i) {
+		if(i == 0){
+			useGetOutOfJailCard();
+		} else {
+			payFine();
+		}
+		
 	}
 
 }

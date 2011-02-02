@@ -233,7 +233,9 @@ public class AIClient extends ClientBase {
 	public void onDiceValues(int[] diceValues) {
 		logger.log(Level.FINE, this.log("onDiceValues(" + Arrays.toString(diceValues) + ")!"));
 		assert(diceValues.length == 2);
-
+		if (getMe().getJail() != null) {
+			endTurn();
+		}
 	}
 
 	@Override

@@ -18,9 +18,13 @@
 package org.ojim.client.gui.RightBar;
 
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
+import javax.swing.JButton;
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.client.gui.GUIClient;
@@ -38,7 +42,8 @@ public class PlayerInfoWindow extends JPanel {
 	public PlayerInfoWindow(GUIClient guiClient) {
 
 		gui = guiClient;
-
+		
+		
 		this.setLayout(new GridLayout(GameState.MAXIMUM_PLAYER_COUNT, 0));
 		playerInfoFields = new PlayerInfoField[GameState.MAXIMUM_PLAYER_COUNT];
 		/*

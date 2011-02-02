@@ -58,18 +58,7 @@ public class GameFieldPiece extends JPanel {
 	private JPanel[] housePanels = new JPanel[5];
 	private JPanel highHousePanel = new JPanel();
 	private JPanel innerHousePanel = new JPanel();
-	private JLabel mortageButtonLabel = new JLabel();
-	private JButton mortageButton = new JButton();
 	private GUIClient gui;
-
-	ActionListener mortageListener = new ActionListener() {
-
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			gui.swtichCard(field);
-
-		}
-	};
 
 	public GameFieldPiece(Field field, String name, int position, Image image,
 			GUIClient guiClient) {
@@ -230,15 +219,11 @@ public class GameFieldPiece extends JPanel {
 		textPanel.add(price);
 
 		if (field instanceof BuyableField) {
-			mortageButtonLabel.setText("M");
-			mortageButton.addActionListener(mortageListener);
-			mortageButton.add(mortageButtonLabel);
 			if (((BuyableField) field).getOwner() != null) {
-				if (((BuyableField) field).getOwner().getId() == gui
-						.getPlayerMe().getId()) {
-					textPanel.add(mortageButton);
-				}
 				if (((BuyableField) field).isMortgaged()) {
+					group.setForeground(Color.white);
+					price.setForeground(Color.white);
+					name.setForeground(Color.white);
 					textPanel.setBackground(Color.BLACK);
 				}
 			}
@@ -346,14 +331,10 @@ public class GameFieldPiece extends JPanel {
 		}
 
 		if (field instanceof BuyableField) {
-			if (((BuyableField) field).getOwner() != null) {
-				if (((BuyableField) field).getOwner().getId() == gui
-						.getPlayerMe().getId()) {
-					textPanel.remove(mortageButton);
-					textPanel.add(mortageButton);
-				}
-			}
 			if (((BuyableField) field).isMortgaged()) {
+				group.setForeground(Color.white);
+				price.setForeground(Color.white);
+				name.setForeground(Color.white);
 				textPanel.setBackground(Color.BLACK);
 			}
 		}
