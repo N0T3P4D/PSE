@@ -69,6 +69,7 @@ public class Valuator extends SimpleClient {
 	private int[] toSell;
 	private boolean endTurn = false;
 	private int[] diceValues;
+	private boolean auctionEndTurn = false;
 
 	/**
 	 * Constructor
@@ -123,7 +124,7 @@ public class Valuator extends SimpleClient {
 
 		PriorityQueue<Command> queue = new PriorityQueue<Command>();
 		assert (this.getNumberOfGetOutOfJailCards(playerID) == 0);
-//		assert (position >= 0);
+		// assert (position >= 0);
 		Field field = getGameState().getFieldAt(Math.abs(position));
 		initFunctions();
 
@@ -131,7 +132,7 @@ public class Valuator extends SimpleClient {
 		// OJIMLogger.changeLogLevel(logger, Level.FINE);
 
 		// Feld potenziell kaufbar
-		if (!endTurn) {
+		if (!endTurn && !auctionEndTurn) {
 			System.out.println("turn");
 
 			queue.add(buyFields(field));
@@ -152,9 +153,18 @@ public class Valuator extends SimpleClient {
 		}
 		System.out.println("lbol");
 
-		endTurn = false;
-		System.out.println("endturn == false");
-		return new EndTurnCommand(logic, server, playerID);
+		if (endTurn) {
+			endTurn = false;
+			System.out.println("endturn == false");
+			return new EndTurnCommand(logic, server, playerID);
+		}
+		if (auctionEndTurn) {
+			System.out.println("auctionEndTurn");
+			auctionEndTurn = false;
+			return new NullCommand(logic, server, playerID);
+		}
+		assert (false);
+		return new NullCommand(logic, server, playerID);
 	}
 
 	/**
@@ -225,8 +235,7 @@ public class Valuator extends SimpleClient {
 		String bidder;
 		if (getBidder() == null) {
 			bidder = "-1";
-		}
-		else {
+		} else {
 			bidder = ((Integer) getBidder().getId()).toString();
 		}
 		logger.log(Level.FINE, "state = " + getAuctionState() + " bidder = " + bidder + " highesBid = "
@@ -246,13 +255,18 @@ public class Valuator extends SimpleClient {
 					// assert(false);
 					return new AuctionBidCommand(logic, server, playerID, auctionBid);
 				} else {
-//					assert (false);
+					auctionEndTurn = true;
+					return new NullCommand(logic, server, playerID);
 				}
 			}
 		}
 		if (getAuctionStateO() == 3) {
 			currentStep = 2;
 		}
+		if (getBidder() != getMe()) {
+			auctionEndTurn = true;
+		}
+		// endTurn = true;
 		return new NullCommand(logic, server, playerID);
 	}
 
@@ -261,6 +275,7 @@ public class Valuator extends SimpleClient {
 		for (int i = 1; i < valuationFunctions.length; i++) {
 			result += weights[i] * valuationFunctions[i].returnValuation(position);
 		}
+		logger.log(Level.INFO, "gesamt = " + result);
 		return result;
 	}
 
@@ -294,9 +309,9 @@ public class Valuator extends SimpleClient {
 		return tradeValuateEstates(getOfferedEstatesO());
 	}
 
-//	private boolean decideWhetherToSell(int buyPosition, int sellPosition) {
-//		return (getResults(buyPosition, 0) > getResults(sellPosition, 0));
-//	}
+	// private boolean decideWhetherToSell(int buyPosition, int sellPosition) {
+	// return (getResults(buyPosition, 0) > getResults(sellPosition, 0));
+	// }
 
 	private void getPropertiesToSell(int requiredCash, boolean mortgage) {
 		int cash = 0;
@@ -360,21 +375,12 @@ public class Valuator extends SimpleClient {
 		return ((BuyableField) field).getPrice();
 	}
 
-/*	private boolean allOfGroupOwned(Street street) {
-		StreetFieldGroup group = street.getFieldGroup();
-		if (group.getFields().length > 1) {
-			int count = 0;
-			for (Field field : group.getFields()) {
-				if (((BuyableField) field).getOwner() == getMe()) {
-					count++;
-				}
-			}
-			return (count == group.getFields().length);
-		} else {
-			System.out.println(street.getFieldGroup().getName());
-			return false;
-		}
-	} */
+	/*
+	 * private boolean allOfGroupOwned(Street street) { StreetFieldGroup group = street.getFieldGroup(); if
+	 * (group.getFields().length > 1) { int count = 0; for (Field field : group.getFields()) { if (((BuyableField)
+	 * field).getOwner() == getMe()) { count++; } } return (count == group.getFields().length); } else {
+	 * System.out.println(street.getFieldGroup().getName()); return false; } }
+	 */
 
 	public Command negative() {
 		logger.log(Level.FINE, "Negative cash!");
@@ -388,24 +394,24 @@ public class Valuator extends SimpleClient {
 			LinkedList<BuyableField> list = new LinkedList<BuyableField>();
 			result = mortgageBuildings(0);
 			if (result.length != 0) {
-			int sum = 0;
-			for (int i = 0; i < result.length; i++) {
-				if (sum < balance) {
-					list.add(result[i]);
-					sum += result[i].getMortgagePrice();
+				int sum = 0;
+				for (int i = 0; i < result.length; i++) {
+					if (sum < balance) {
+						list.add(result[i]);
+						sum += result[i].getMortgagePrice();
+					}
+				}
+				if (sum >= balance) {
+					success = true;
+					return new ToggleMortgageCommand(logic, server, playerID, list.toArray(new BuyableField[0]));
 				}
 			}
-			if (sum >= balance) {
-				success = true;
-				return new ToggleMortgageCommand(logic, server, playerID, list.toArray(new BuyableField[0]));
-			}
-		}
 		}
 		// bankrupt
-//		if (!success) {
-			// Sell!
+		// if (!success) {
+		// Sell!
 		return new NullCommand(logic, server, playerID);
-//		}
+		// }
 	}
 
 	private BuyableField[] mortgageBuildings(int money) {
@@ -437,7 +443,7 @@ public class Valuator extends SimpleClient {
 		// System.out.println(result);
 		return array;
 	}
-	
+
 	private Command buyFields(Field field) {
 		if (field instanceof BuyableField && !endTurn) {
 			logger.log(Level.FINE, "BuyableField!");
@@ -466,7 +472,7 @@ public class Valuator extends SimpleClient {
 					} else {
 						// Ablehnen
 						logger.log(Level.FINE, "Decline");
-//						endTurn = true;
+						endTurn = true;
 						return new DeclineCommand(logic, server, playerID);
 					}
 				} else {
@@ -475,24 +481,24 @@ public class Valuator extends SimpleClient {
 					// return new NullCommand(logic, server, playerID);
 				}
 			}
-	
-	}
+
+		}
 		Command result = new NullCommand(logic, server, playerID);
 		result.setValuation(0);
 		return result;
 	}
-	
+
 	public Command upgradeStreet() {
 		PriorityQueue<Street> upgradeableStreets = new PriorityQueue<Street>();
 		for (int i = 0; i < 40; i++) {
 			Field field = getGameState().getFieldAt(i);
 			if (field instanceof Street) {
-				if (getGameRules().isFieldUpgradable(getMe(), field, ((Street) field).getBuiltLevel()+1)) {
+				if (getGameRules().isFieldUpgradable(getMe(), field, ((Street) field).getBuiltLevel() + 1)) {
 					upgradeableStreets.add((Street) field);
 				}
 			}
 		}
-		for (Street street: upgradeableStreets) {
+		for (Street street : upgradeableStreets) {
 			street.setSelected(true);
 			street.setValuation(getResults(street.getPosition(), this.getEstateHousePrice(street.getPosition())));
 			street.setSelected(false);
@@ -503,14 +509,13 @@ public class Valuator extends SimpleClient {
 			Command result = new BuildHouseCommand(logic, server, playerID, streets[0]);
 			result.setValuation(streets[0].getValuation());
 			return result;
-		}
-		else {
-			Command result = new NullCommand(logic,server,playerID);
+		} else {
+			Command result = new NullCommand(logic, server, playerID);
 			result.setValuation(0);
 			return result;
 		}
 	}
-	
+
 	public Command getOutOfJail() {
 		System.out.println("Here!");
 		Jail jail = getMe().getJail();
@@ -533,7 +538,7 @@ public class Valuator extends SimpleClient {
 		result.setValuation(0);
 		return result;
 	}
-	
+
 	private void initFunctions() {
 		for (ValuationFunction function : valuationFunctions) {
 			assert (function != null);
@@ -541,6 +546,5 @@ public class Valuator extends SimpleClient {
 			function.setServer(server);
 		}
 	}
-	
 
 }
