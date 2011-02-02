@@ -381,6 +381,15 @@ public class InteractionPopup extends JPanel {
 		
 		tradeMe = me;
 		tradePartner = partnerPlayer;
+
+		myFields = new LinkedList<String>();
+		hisFields = new LinkedList<String>();
+		
+		hisCards.removeAll();
+		myCards.removeAll();
+		
+		hisCards.revalidate();
+		myCards.revalidate();
 		
 		myName.setText(me.getName());
 		hisName.setText(partnerPlayer.getName());
