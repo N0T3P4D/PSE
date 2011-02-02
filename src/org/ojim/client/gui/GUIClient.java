@@ -47,6 +47,7 @@ import org.ojim.language.LanguageDefinition;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.rmi.client.NetClient;
 import org.ojim.rmi.server.ImplNetOjim;
@@ -360,7 +361,7 @@ public class GUIClient extends ClientBase {
 			chatWindow.write(new ChatMessage(null, false, ""
 					+ actingPlayer.getName() + " handelte mit "
 					+ partnerPlayer.getName()));
-			gameField.init(getGameState());
+			gameField.init(getGameState(), this);
 			for(int i = 0; i < getGameState().getPlayers().length; i++){
 				playerInfoWindow.changeCash(getGameState().getPlayerByID(i), getGameState().getPlayerByID(i).getBalance());
 			}
@@ -393,7 +394,7 @@ public class GUIClient extends ClientBase {
 
 		if (notInit) {
 			notInit = false;
-			gameField.init(getGameState());
+			gameField.init(getGameState(), this);
 			playerInfoWindow.setLanguage(language);
 			gameField.setLanguage(language);
 
@@ -855,6 +856,15 @@ public class GUIClient extends ClientBase {
 	public void noTrade() {
 		decline();
 		
+	}
+
+	public void swtichCard(Field field) {
+		toggleMortgage((BuyableField)field);
+		
+	}
+
+	public Player getPlayerMe() {
+		return getMe();
 	}
 
 }

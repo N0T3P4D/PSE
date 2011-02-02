@@ -39,15 +39,15 @@ public final class ValuationParameters {
 	/**
 	 * Minimum limit of cash
 	 */
-	public static final int baseCash = 200;
+	public static final int baseCash = 2000;
 	/**
 	 * How many percents of the average cash of all opponents we should keep
 	 */
-	public static final double averageCashPercentage = 0.01;
+	public static final double averageCashPercentage = 0.02;
 	/**
 	 * How many percents of the cash of the opponent with the most money we should keep
 	 */
-	public static final double maxCashPercentage = 0.05;
+	public static final double maxCashPercentage = 0.1;
 	/**
 	 * Contains the value of each buyable field
 	 */

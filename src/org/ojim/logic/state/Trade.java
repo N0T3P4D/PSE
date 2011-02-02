@@ -34,8 +34,8 @@ import org.ojim.logic.state.fields.BuyableField;
 public class Trade {
 	
 	private boolean tradeWithBank;
-	private final ServerPlayer acting;
-	private final ServerPlayer partner;
+	private ServerPlayer acting;
+	private ServerPlayer partner;
 	private int tradeState;
 	private Bank bank;
 	private GameRules rules;
@@ -46,8 +46,20 @@ public class Trade {
 	private List<BuyableField> requiredEstates;
 
 	public Trade(ServerPlayer acting, ServerPlayer partner) {
-		this.acting = acting;
+		this(acting);
 		this.partner = partner;
+		this.tradeWithBank = false;
+	}
+	
+	public Trade(ServerPlayer acting, Bank bank, GameRules rules) {
+		this(acting);
+		this.rules = rules;
+		this.bank = bank;
+		this.tradeWithBank = true;
+	}
+	
+	private Trade(ServerPlayer acting) {
+		this.acting = acting;
 		
 		this.tradeState = 0;
 		this.offeredCash = 0;
@@ -55,15 +67,7 @@ public class Trade {
 		this.offeredNumberOfGetOutOfJailCards = 0;
 		this.requiredNumberOfGetOutOfJailCards = 0;
 		this.offeredEstates	= new ArrayList<BuyableField>();
-		this.requiredEstates = new ArrayList<BuyableField>();
-	}
-	
-	public Trade(ServerPlayer acting, Bank bank, GameRules rules) {
-		this.acting = acting;
-		this.rules = rules;
-		this.bank = bank;
-		this.partner = null;
-		this.tradeWithBank = true;
+		this.requiredEstates = new ArrayList<BuyableField>();		
 	}
 
 	public int getTradeState() {
@@ -198,12 +202,51 @@ public class Trade {
 		}
 		
 		//TODO Do the Exchange of GetOutOfJailCards
+		// Remove cards from acting player
+		List<Card> actingCards = this.acting.getCards();
+		List<Card> cards = new ArrayList<Card>();
+		
+		for (int i = 0; i < actingCards.size() && cards.size() < this.getOfferedNumberOfGetOutOfJailCards(); i++) {
+			Card card = actingCards.get(i);
+			if (card instanceof GetOutOfJailCard) {
+				cards.add(card);
+			}
+		}
+		assert cards.size() == this.getOfferedNumberOfGetOutOfJailCards();
+		
+		if (tradeWithBank) {
+			// Place them into the cardstacks
+			for (Card card : cards) {
+				card.file(false);
+			}
+		} else {
+			List<Card> partnerCards = this.partner.getCards();
+			List<Card> recieving = new ArrayList<Card>();
+			for (int i = 0; i < partnerCards.size() && recieving.size() < this.getRequiredNumberOfGetOutOfJailCards(); i++) {
+				Card card = partnerCards.get(i);
+				if (card instanceof GetOutOfJailCard) {
+					recieving.add(card);
+				}
+			}
+			assert recieving.size() == this.getRequiredNumberOfGetOutOfJailCards();
+			
+			for (Card card : recieving) {
+				partnerCards.remove(card);
+				actingCards.add(card);
+			}
+			
+			for (Card card : cards) {
+				actingCards.remove(card);
+				partnerCards.add(card);
+			}
+		}
 		
 		
 		//Change the Cash
 		if(tradeWithBank) {
 			logic.exchangeMoney(acting, bank, getOfferedCash() - getRequiredCash());
+		} else {
+			logic.exchangeMoney(acting, partner, getOfferedCash() - getRequiredCash());
 		}
-		logic.exchangeMoney(acting, partner, getOfferedCash() - getRequiredCash());
 	}
 }

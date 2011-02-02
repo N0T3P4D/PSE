@@ -80,7 +80,8 @@ public final class CapitalValuator extends ValuationFunction {
 			}
 		}
 		assert(server != null);
-		double required = ValuationParameters.baseCash + 0.01 * (max + (sum / count)) + 0.05 * (40 - server.getNumberOfHousesLeft());
+		assert(max != 0);
+		double required = ValuationParameters.baseCash + max * ValuationParameters.maxCashPercentage + ValuationParameters.averageCashPercentage * (sum / count) + 0.05 * (40 - server.getNumberOfHousesLeft());
 
 
 		// Nach dem Papier

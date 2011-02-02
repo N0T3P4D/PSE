@@ -213,8 +213,16 @@ public class ServerLogic extends Logic {
 	public void playerUsesGetOutOfJailCard(ServerPlayer player) {
 		for (Card card : player.getCards()) {
 			if (card instanceof GetOutOfJailCard) {
-				card.file();
+				card.file(true);
 			}
+		}
+	}
+	
+	public void toggleMortgage(BuyableField field) {
+		super.toggleMortgage(field);
+		// Inform everyone
+		for (Player player : this.getGameState().getPlayers()) {
+			((ServerPlayer) player).getClient().informMortgageToogle(field.getPosition());
 		}
 	}
 
