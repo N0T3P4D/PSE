@@ -234,7 +234,7 @@ public class ServerLogic extends Logic {
 			if (onePlayer instanceof ServerPlayer) {
 				// TODO Add Language
 				((ServerPlayer) onePlayer).getClient().informMessage(
-						"Current Player is now out of Jail!", -1, false);
+						"'" + player.getName() + "' is now out of Jail!", -1, false);
 				((ServerPlayer) onePlayer).getClient().informMove(player.getId(), player.getPosition());
 			}
 			

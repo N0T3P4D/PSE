@@ -215,7 +215,7 @@ public class Valuator extends SimpleClient {
 			function.setParameters(logic);
 			function.setServer(server);
 		}
-		int auctionState = getAuctionState();
+		int auctionState = getAuctionStateO();
 		assert (auctionState >= 0);
 		int realValue = (int) getResults(getAuctionedEstateO(), 0);
 		getAuctionState();
@@ -231,7 +231,7 @@ public class Valuator extends SimpleClient {
 		logger.log(Level.FINE, "state = " + getAuctionState() + " bidder = " + bidder + " highesBid = "
 				+ getHighestBid() + " value = " + realValue);
 
-		if ((auctionState = getAuctionState()) < 3 && getBidder() != getMe() && getHighestBid() < realValue
+		if ((auctionState = getAuctionStateO()) < 3 && getBidder() != getMe() && getHighestBid() < realValue
 				&& currentStep < auctionSteps) {
 			logger.log(Level.FINE, "Highest bid = " + getHighestBid());
 			if (getHighestBid() < realValue) {
@@ -249,7 +249,7 @@ public class Valuator extends SimpleClient {
 				}
 			}
 		}
-		if (getAuctionState() == 3) {
+		if (getAuctionStateO() == 3) {
 			currentStep = 2;
 		}
 		return new NullCommand(logic, server, playerID);

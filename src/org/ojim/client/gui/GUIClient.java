@@ -639,10 +639,10 @@ public class GUIClient extends ClientBase {
 	}
 
 	@Override
-	public void onAuction(int auctionState) {
-		System.out.println("-- DEBUG -- on Auction state:" + auctionState);
+	public void onAuction(AuctionState auctionState) {
+		System.out.println("-- DEBUG -- on Auction state:" + auctionState.value);
 		chatWindow.write(new ChatMessage(null, false,
-				"-- DEBUG -- on Auction State: " + auctionState));
+				"-- DEBUG -- on Auction State: " + auctionState.value));
 
 	}
 

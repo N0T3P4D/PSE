@@ -129,7 +129,7 @@ public class AIClient extends ClientBase {
 		logger.log(
 				Level.INFO,
 				this.log("onMessage(From: " + this.getPlayerInfo(sender) + " Message: " + text + " Private: "
-						+ privateMessage + "!"));
+						+ privateMessage + ")!"));
 	}
 
 	@Override
@@ -239,9 +239,9 @@ public class AIClient extends ClientBase {
 	}
 
 	@Override
-	public void onAuction(int auctionState) {
+	public void onAuction(AuctionState auctionState) {
 		// assert(false);
-		logger.log(Level.FINE, this.log("onAuction(" + auctionState + ")!"));
+		logger.log(Level.FINE, this.log("onAuction(" + auctionState.value + ")!"));
 		valuator.actOnAuction().execute();
 		this.endTurn();
 	}
