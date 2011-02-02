@@ -176,6 +176,9 @@ public class AIClient extends ClientBase {
 			System.out.println("EndTurnCommand");
 			command.execute();
 		}
+		else {
+			System.out.println("not my turn");
+		}
 	}
 
 	@Override
