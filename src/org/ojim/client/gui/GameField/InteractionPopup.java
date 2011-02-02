@@ -270,15 +270,18 @@ public class InteractionPopup extends JPanel {
 	
 	
 	public void showAuction(AuctionState auctionState, BuyableField buyableField, Player bidder, int highestBid){
-		
-		auctionButtonOkLabel.setText(language.getText("bid"));
-		auctionCardLabel.setText(buyableField.getName());
-		auctionHighestBid.setText(highestBid+" "+language.getText("currency"));
-		auctionHighestBidPlayer.setText(bidder.getName());
-		this.add(auctionPanel);
-		this.repaint();
-		this.revalidate();
-		System.out.println("May the Auction begin!");
+		try {
+			auctionButtonOkLabel.setText(language.getText("bid"));
+			auctionCardLabel.setText(buyableField.getName());
+			auctionHighestBid.setText(highestBid+" "+language.getText("currency"));
+			auctionHighestBidPlayer.setText(bidder.getName());
+			this.add(auctionPanel);
+			this.repaint();
+			this.revalidate();
+			System.out.println("May the Auction begin!");
+		} catch (NullPointerException e){
+			removeAuction();
+		}
 	} 
 	
 	public void showTrade(Player me, Player partnerPlayer,
