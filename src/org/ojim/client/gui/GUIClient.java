@@ -51,6 +51,8 @@ import org.ojim.rmi.server.ImplNetOjim;
 import org.ojim.rmi.server.StartNetOjim;
 import org.ojim.server.OjimServer;
 
+import com.sun.org.apache.xerces.internal.impl.RevalidationHandler;
+
 /**
  * Diese Klasse ist der GUI Client
  * 
@@ -657,6 +659,9 @@ public class GUIClient extends ClientBase {
 		if (auctionState.value == 3) {
 			gameField.removeAuction();
 		} else {
+			
+			downRight.remove(buyButton);
+			this.GUIFrame.repaint();
 
 			gameField.showAuction(getAuctionState(), getAuctionedEstate(),
 					getBidder(), getHighestBid());

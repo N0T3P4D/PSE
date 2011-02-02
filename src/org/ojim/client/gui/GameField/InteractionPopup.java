@@ -29,6 +29,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.LineBorder;
 
+import org.ojim.client.SimpleClient.AuctionState;
 import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.language.Localizer;
@@ -268,7 +269,7 @@ public class InteractionPopup extends JPanel {
 	}
 	
 	
-	public void showAuction(int auctionState, BuyableField buyableField, Player bidder, int highestBid){
+	public void showAuction(AuctionState auctionState, BuyableField buyableField, Player bidder, int highestBid){
 		
 		auctionButtonOkLabel.setText(language.getText("bid"));
 		auctionCardLabel.setText(buyableField.getName());
