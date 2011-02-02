@@ -904,7 +904,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean accept(int playerID) {
 		display("accepting");
-		if (state.getGameIsWon()) {
+		if (state.getGameIsWon() || playerID != state.getActivePlayer().getId()) {
 			return false;
 		}
 		ServerPlayer player = state.getPlayerByID(playerID);

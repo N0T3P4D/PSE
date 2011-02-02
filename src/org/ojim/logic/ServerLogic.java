@@ -288,7 +288,7 @@ public class ServerLogic extends Logic {
 	}	
 	
 	public void auctionWithResult(BuyableField objective, Player winner, int price) {
-		objective.buy(winner);
+		changeFieldOwner(objective.getOwner(), winner, objective);
 		for(Player player : this.getGameState().getPlayers()) {
 			if(player instanceof ServerPlayer) {
 				((ServerPlayer)player).getClient().informBuy(winner.getId(), objective.getPosition());
