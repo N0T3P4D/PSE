@@ -87,5 +87,15 @@ public class ServerPlayer extends Player {
 	public void removeCard(Card card) {
 		this.cards.remove(card);
 	}
-
+	
+	@Override
+	public int getNumberOfGetOutOfJailCards() {
+		int num = 0;
+		for (Card card : this.cards) {
+			if (card instanceof GetOutOfJailCard) {
+				num++;
+			}
+		}
+		return num;
+	}
 }

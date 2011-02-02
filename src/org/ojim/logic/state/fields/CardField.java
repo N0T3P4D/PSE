@@ -19,7 +19,6 @@ package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.actions.ActionFetchCard;
-import org.ojim.logic.state.CardStack;
 
 public class CardField extends Field {
 	
@@ -30,9 +29,9 @@ public class CardField extends Field {
 		this.community = community;
 	}
 
-	public CardField(String name, int position, boolean community, CardStack stack, ServerLogic logic) {
+	public CardField(String name, int position, boolean community, ServerLogic logic) {
 		this(name, position, community);
-		this.setExecuteActions(new ActionFetchCard(logic, stack));
+		this.setExecuteActions(new ActionFetchCard(logic, community));
 	}
 	
 	public boolean isCommunityField() {
