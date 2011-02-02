@@ -178,7 +178,7 @@ public class GameField extends JPanel {
 		redraw();
 	}
 
-	public void init(GameState gameState) {
+	public void init(GameState gameState, GUIClient gui) {
 
 		// Mittelfeld
 		// interactionPopup.setBackground(Color.black);
@@ -210,7 +210,7 @@ public class GameField extends JPanel {
 
 		fields = new GameFieldPiece[GameState.FIELDS_AMOUNT];
 		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-			fields[i] = new GameFieldPiece(gameState.getFieldAt(i));
+			fields[i] = new GameFieldPiece(gameState.getFieldAt(i), gui);
 			try {
 				fields[i].setField(gameState.getFieldAt(i));
 				fields[i].init(gameState);

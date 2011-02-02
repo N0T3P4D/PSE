@@ -22,7 +22,7 @@ import java.awt.Image;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.Field;
 
-
+/*
 public class GameFieldCard extends GameFieldPiece {
 
 	public GameFieldCard(Field field) {
@@ -41,3 +41,4 @@ public class GameFieldCard extends GameFieldPiece {
 	}
 
 }
+*/

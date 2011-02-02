@@ -217,6 +217,14 @@ public class ServerLogic extends Logic {
 			}
 		}
 	}
+	
+	public void toggleMortgage(BuyableField field) {
+		super.toggleMortgage(field);
+		// Inform everyone
+		for (Player player : this.getGameState().getPlayers()) {
+			((ServerPlayer) player).getClient().informMortgageToogle(field.getPosition());
+		}
+	}
 
 	public void playerUsesFineForJail(Player player) {
 
