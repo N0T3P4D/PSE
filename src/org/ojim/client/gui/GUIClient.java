@@ -22,11 +22,13 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.rmi.RemoteException;
+import java.util.LinkedList;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.CardBar.CardWindow;
@@ -782,13 +784,25 @@ public class GUIClient extends ClientBase {
 
 	}
 
-	public void trade(int cash, int[] positions, int outOfJailCards) {
+	public void trade(int cash, LinkedList<String> myFields, LinkedList<String> hisFields, int outOfJailCards) {
 		offerCash(cash);
-		if (positions != null) {
-			for (int i = 0; i < positions.length; i++) {
-				offerEstate(positions[i]);
+		if (!myFields.isEmpty()) {
+			for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
+				if(getGameState().getFieldAt(i).getName().equals(myFields.getFirst())){
+					offerEstate((BuyableField)getGameState().getFieldAt(i));
+					
+				}
 			}
 		}
+		if (!hisFields.isEmpty()) {
+			for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
+				if(getGameState().getFieldAt(i).getName().equals(hisFields.getFirst())){
+					requireEstate((BuyableField)getGameState().getFieldAt(i));
+					
+				}
+			}
+		}
+		
 		for (int i = 0; i < outOfJailCards; i++) {
 			offerGetOutOfJailCard();
 		}
@@ -810,6 +824,25 @@ public class GUIClient extends ClientBase {
 		placeBid(amount);
 		accept();
 
+	}
+
+	/**
+	 * Diese Funktion fügt eine Straße mit einem Mindestgebot zur Auktion hinzu
+	 * @param text Straßenname
+	 * @param newBidRate Auktionsminimumangebot
+	 */
+	public void startNewAuction(String text, JTextField newBidRate) {
+		
+		
+	}
+
+	public org.ojim.logic.state.fields.Field getFieldByPosition(String position) {
+		return getGameState().getFieldAt(Integer.parseInt(position));
+	}
+
+	public void noTrade() {
+		decline();
+		
 	}
 
 }

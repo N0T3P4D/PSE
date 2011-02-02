@@ -18,11 +18,14 @@
 package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 
+import javax.swing.BoxLayout;
 import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -32,11 +35,13 @@ import javax.swing.border.LineBorder;
 import org.ojim.client.SimpleClient.AuctionState;
 import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
+import org.ojim.client.gui.StreetColor;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.Card;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.Field;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
@@ -92,11 +97,21 @@ public class InteractionPopup extends JPanel {
 	private JTextField hisMoneyField;
 	private JPanel myCards;
 	private JPanel hisCards;
+	private JLabel myJailCard;
+	private JLabel hisJailCard;
+	private JTextField myJailCards;
+	private JTextField hisJailCards;
 	private JButton okButton;
 	private JLabel okButtonLabel;
+	private JButton noButton;
+	private JLabel noButtonLabel;
 	
-	private int[] tradePositions;
+	private LinkedList<String> hisFields;
+	private LinkedList<String> myFields;
+
+	
 	private JPanel[] tradeCardPanel;
+	private JLabel fieldLabel;
 	
 	
 	private JPanel auctionPanel;
@@ -107,6 +122,14 @@ public class InteractionPopup extends JPanel {
 	private JButton auctionButtonOk;
 	private JLabel auctionButtonOkLabel;
 	private JTextField bidRate;
+	
+	private JPanel newAuctionPanel;
+	private JLabel newAuctionCardLabel;
+	private JPanel newAuctionCardPanel;
+	private JLabel newAuctionMinimumBid;
+	private JButton newAuctionButtonOk;
+	private JLabel newAuctionButtonOkLabel;
+	private JTextField newBidRate;
 
 	private ActionListener upgradeListener = new ActionListener() {
 		
@@ -121,7 +144,7 @@ public class InteractionPopup extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			System.out.println("DOWNGRADDDDEE");
+			//System.out.println("DOWNGRADDDDEE");
 			gui.downgradeField(position,Integer.parseInt(upgradeTextField.getText()));
 			deleteUpgrade();
 		}
@@ -132,7 +155,19 @@ public class InteractionPopup extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			gui.trade(Integer.parseInt(myMoneyField.getText())-Integer.parseInt(hisMoneyField.getText()), null, 0);
+			gui.trade(Integer.parseInt(myMoneyField.getText())-Integer.parseInt(hisMoneyField.getText()), myFields, hisFields, Integer.parseInt(myJailCards.getText())-Integer.parseInt(hisJailCards.getText()));
+		}
+	};;;
+	
+
+	private ActionListener tradeNoListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.noTrade();
+			remove(tradePanel);
+			revalidate();
+			repaint();
 		}
 	};;;
 	
@@ -140,10 +175,26 @@ public class InteractionPopup extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent arg0) {
-			gui.acceptBid(Integer.parseInt(bidRate.getText()));
+			if(!bidRate.equals("")) {
+				gui.acceptBid(Integer.parseInt(bidRate.getText()));
+			}
 			
 		}
 	};;;
+	
+	private ActionListener newBidListener = new ActionListener() {
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			gui.startNewAuction(newAuctionCardLabel.getText(), newBidRate);
+			remove(newAuctionPanel);
+			repaint();
+			revalidate();
+			
+		}
+	};
+	private Player tradeMe;
+	private Player tradePartner;
 	
 	//private 
 
@@ -156,7 +207,6 @@ public class InteractionPopup extends JPanel {
 		this.gui = guiClient;
 		this.setBackground(Color.BLACK);
 		
-		tradePositions = new int[GameState.FIELDS_AMOUNT];
 		tradeCardPanel = new JPanel[GameState.FIELDS_AMOUNT];
 		
 		
@@ -201,30 +251,46 @@ public class InteractionPopup extends JPanel {
 		hisMoney = new JLabel();
 		myMoneyField = new JTextField("0");
 		hisMoneyField = new JTextField("0");
+		myJailCard = new JLabel();
+		hisJailCard = new JLabel();
+		myJailCards = new JTextField("0");
+		hisJailCards = new JTextField("0");
 		myCards = new JPanel();
+		myCards.setLayout(new GridLayout(0,1));
 		hisCards = new JPanel();
+		hisCards.setLayout(new GridLayout(0,1));
 		okButton = new JButton();
+		noButton = new JButton();
 
 		myTradePanel.add(myName);
 		myTradePanel.add(myMoney);
 		myTradePanel.add(myMoneyField);
 		myTradePanel.add(myCards);
+		myTradePanel.add(myJailCard);
+		myTradePanel.add(myJailCards);
+		myFields = new LinkedList<String>();
 
 		hisTradePanel.add(hisName);
 		hisTradePanel.add(hisMoney);
 		hisTradePanel.add(hisMoneyField);
 		hisTradePanel.add(hisCards);
-		
-		okButton.add(okButtonLabel = new JLabel());
-		
-		okButton.addActionListener(tradeOkListener);
+		hisTradePanel.add(hisJailCard);
+		hisTradePanel.add(hisJailCards);
+		hisFields = new LinkedList<String>();
 
-		myTradePanel.setLayout(new GridLayout(0,1));
+		okButton.add(okButtonLabel = new JLabel());
+		noButton.add(noButtonLabel = new JLabel());
+
+		okButton.addActionListener(tradeOkListener);
+		noButton.addActionListener(tradeNoListener);
+
+		myTradePanel.setLayout(new BoxLayout(myTradePanel, BoxLayout.PAGE_AXIS));
 		tradePanel.add(myTradePanel);
-		hisTradePanel.setLayout(new GridLayout(0,1));
+		hisTradePanel.setLayout(new BoxLayout(hisTradePanel, BoxLayout.PAGE_AXIS));
 		tradePanel.add(hisTradePanel);
 		tradePanel.setLayout(new GridLayout(0,2));
 		tradePanel.add(okButton);
+		tradePanel.add(noButton);
 		
 		
 		
@@ -236,6 +302,7 @@ public class InteractionPopup extends JPanel {
 		auctionButtonOk = new JButton();
 		auctionButtonOkLabel = new JLabel();
 		bidRate = new JTextField();
+		bidRate.setText("0");
 		
 		auctionCardPanel.add(auctionCardLabel);
 
@@ -249,6 +316,29 @@ public class InteractionPopup extends JPanel {
 		auctionButtonOk.addActionListener(bidListener);
 		
 		auctionPanel.setLayout(new GridLayout(0,1));
+		
+		
+		newAuctionPanel = new JPanel();
+		newAuctionCardLabel = new JLabel();
+		newAuctionCardPanel = new JPanel();
+		newAuctionMinimumBid = new JLabel();
+		newAuctionButtonOk = new JButton();
+		newAuctionButtonOkLabel = new JLabel();
+		newBidRate = new JTextField();
+		newBidRate.setText("0");
+		
+		newAuctionCardPanel.add(newAuctionCardLabel);
+
+		newAuctionPanel.add(newAuctionCardPanel);
+		newAuctionPanel.add(newAuctionMinimumBid);
+		newAuctionPanel.add(newBidRate);
+		auctionButtonOk.add(auctionButtonOkLabel);
+		auctionPanel.add(auctionButtonOk);
+		
+		newAuctionButtonOk.addActionListener(newBidListener);
+		
+		newAuctionPanel.setLayout(new GridLayout(0,1));
+		
 		
 	}
 
@@ -289,13 +379,30 @@ public class InteractionPopup extends JPanel {
 			int requiredOutOfJailCards, int offeredCash,
 			BuyableField[] offeredBuyableFields, int offeredOutOfJailCards) {
 		
+		tradeMe = me;
+		tradePartner = partnerPlayer;
+		
 		myName.setText(me.getName());
 		hisName.setText(partnerPlayer.getName());
 		myMoney.setText(language.getText("give money"));
 		hisMoney.setText(language.getText("claim money"));
 		myMoneyField.setColumns(5);
+		myMoneyField.setText(requiredCash+"");
 		hisMoneyField.setColumns(5);
+		hisMoneyField.setText(offeredCash+"");
+		myJailCard.setText(language.getText("jail cards")+": ");
+		hisJailCard.setText(language.getText("jail cards")+": ");
+
+		for(int i = 0; i < requiredBuyableFields.length; i++){
+			fieldClicked(requiredBuyableFields[i].getName());
+		}
+		for(int i = 0; i < offeredBuyableFields.length; i++){
+			fieldClicked(offeredBuyableFields[i].getName());
+		}
+		
+		
 		okButtonLabel.setText(language.getText("ok"));
+		noButtonLabel.setText(language.getText("no"));
 		//myCards = new JPanel();
 		//hisCards = new JPanel();
 		
@@ -307,8 +414,17 @@ public class InteractionPopup extends JPanel {
 		
 	}
 	
-	public void startAuction() {
+	public void startAuction(BuyableField buyableField) {
 		
+		newAuctionButtonOkLabel.setText(language.getText("start auction"));
+		newAuctionCardLabel.setText(buyableField.getName());
+		newAuctionMinimumBid.setText(language.getText("minimum bid")+": ");
+		this.add(auctionPanel);
+		
+		this.add(newAuctionPanel);
+		this.repaint();
+		this.revalidate();
+		System.out.println("May the Auction begin!");
 	}
 	
 	public void close () {
@@ -336,6 +452,7 @@ public class InteractionPopup extends JPanel {
 		upgradeTextLabel.setText(upgradeFieldname+": ");
 		upgradeButtonLabel.setText(language.getText("upgrade"));
 		downgradeButtonLabel.setText(language.getText("downgrade"));
+		
 		
 		repaint();
 	}
@@ -375,4 +492,53 @@ public class InteractionPopup extends JPanel {
 		this.revalidate();
 		
 	}
+
+	public void fieldClicked(String name) {
+		Field field = gui.getFieldByPosition(name);
+		
+		if(field instanceof BuyableField){
+			if(tradeCardPanel[field.getPosition()]==null){
+				tradeCardPanel[field.getPosition()] = new JPanel();
+				tradeCardPanel[field.getPosition()].add(fieldLabel = new JLabel(field.getName()));
+				tradeCardPanel[field.getPosition()].setBackground(StreetColor.getBackGroundColor(field.getColorGroup()));
+				fieldLabel.setForeground(StreetColor.getFontColor(field.getColorGroup()));
+			}
+			if((((BuyableField) field).getOwner())!=null){
+			if((((BuyableField) field).getOwner()).getId()==this.tradeMe.getId()){
+				if(myFields.contains(field.getName())){
+					myFields.removeFirstOccurrence(field.getName());
+				} else {
+					myFields.add(field.getName());
+				}
+				if(myCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
+					myCards.remove(tradeCardPanel[field.getPosition()]);
+				} else {
+					myCards.remove(tradeCardPanel[field.getPosition()]);
+					myCards.add(tradeCardPanel[field.getPosition()]);
+				}
+				myCards.repaint();
+				myCards.revalidate();
+			} else if((((BuyableField) field).getOwner()).getId()==this.tradePartner.getId()){
+				if(hisFields.contains(field.getName())){
+					hisFields.removeFirstOccurrence(field.getName());
+				} else {
+					hisFields.add(field.getName());
+				}
+				if(hisCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
+					hisCards.remove(tradeCardPanel[field.getPosition()]);
+				} else {
+					hisCards.remove(tradeCardPanel[field.getPosition()]);
+					hisCards.add(tradeCardPanel[field.getPosition()]);
+				}	
+				hisCards.repaint();
+				hisCards.revalidate();	
+			}
+			}
+			repaint();
+			revalidate();	
+		}
+		
+		
+	}
+	
 }
