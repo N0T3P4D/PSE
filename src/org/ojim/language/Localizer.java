@@ -247,6 +247,7 @@ public class Localizer {
 	public String getText(String keyText) {
 		TextKey key = TextKey.getToKey(keyText);
 		if (key == null) {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("unknown key given (" + keyText + ")");
 			return keyText;
 		} else {
 			return this.getText(key);
