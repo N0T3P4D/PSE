@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 
 import org.ojim.client.gui.GUISettings;
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 
 public class SettingsFrame extends JFrame {
 
@@ -70,13 +71,13 @@ public class SettingsFrame extends JFrame {
 		name = new JLabel(this.language.getText("player name"));
 		nameField = new JTextField(settings.getPlayerName());
 		
-		widthLabel = new JLabel(this.language.getText("width"));
+		widthLabel = new JLabel(this.language.getText(TextKey.WIDTH));
 		widthField = new JTextField(settings.getWidth()+"");
 		
-		heightLabel = new JLabel(this.language.getText("height"));
+		heightLabel = new JLabel(this.language.getText(TextKey.HEIGHT));
 		heightField = new JTextField(settings.getHeight()+"");
 		
-		ipLabel = new JLabel(this.language.getText("ip"));
+		ipLabel = new JLabel(this.language.getText(TextKey.IP));
 		ipField = new JTextField(settings.getLastIP());
 		
 		
@@ -107,11 +108,11 @@ public class SettingsFrame extends JFrame {
 
 		
 		name.setText(this.language.getText("player name"));
-		widthLabel.setText(this.language.getText("width"));
+		widthLabel.setText(this.language.getText(TextKey.WIDTH));
 		
-		heightLabel.setText(this.language.getText("height"));
+		heightLabel.setText(this.language.getText(TextKey.HEIGHT));
 		
-		ipLabel.setText(this.language.getText("ip"));
+		ipLabel.setText(this.language.getText(TextKey.IP));
 		
 		saveText.setText(this.language.getText("save"));
 		

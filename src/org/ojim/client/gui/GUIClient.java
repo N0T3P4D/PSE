@@ -44,6 +44,7 @@ import org.ojim.client.gui.RightBar.ChatWindow;
 import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
+import org.ojim.language.Localizer.TextKey;
 import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -664,15 +665,26 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onAuction(AuctionState auctionState) {
 		
-		Auction a = this.getGameState().getAuction();
-		if (a != null) {
-			System.out.print("Auction: " + a.getHighestBid() + " by ");
-			if (a.getHighestBidder() != null) {
-				System.out.print(a.getHighestBidder().getName() +" (@" + a.getHighestBidder().getId() + ")");
-			} else {
-				System.out.print("Bank");
+		if (this.getGameState().getAuction() != null) {
+			switch (this.getGameState().getAuction().getState()) {
+			case WAITING :
+				Player bidder = this.getGameState().getAuction().getHighestBidder();
+				if (bidder != null) {
+					this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_RESET)));
+				} else {
+					this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_INIT)));
+				}
+				break;
+			case FIRST :
+				this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_FIRST)));
+				break;
+			case SECOND :
+				this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_SECOND)));
+				break;
+			case THIRD :
+				this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_THIRD)));
+				break;
 			}
-			System.out.println(" of " + a.objective.getName() + " (@" + a.objective.getPosition() + ") in: " + a.getState().name());
 		}
 
 		if (auctionState == AuctionState.THIRD) {

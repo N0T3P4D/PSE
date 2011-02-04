@@ -37,6 +37,7 @@ import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 import org.ojim.logic.state.Card;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -459,8 +460,8 @@ public class InteractionPopup extends JPanel {
 		freeParkingCashLabel.setText(language.getText("free parking cash")+": "+cash+" "+language.getText("currency"));
 		
 		upgradeTextLabel.setText(upgradeFieldname+": ");
-		upgradeButtonLabel.setText(language.getText("upgrade"));
-		downgradeButtonLabel.setText(language.getText("downgrade"));
+		upgradeButtonLabel.setText(language.getText(TextKey.UPGRADE));
+		downgradeButtonLabel.setText(language.getText(TextKey.DOWNGRADE));
 		
 		
 		repaint();

@@ -26,6 +26,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 
 public class HelpFrame extends JFrame {
 	
@@ -37,7 +38,7 @@ public class HelpFrame extends JFrame {
 		this.language = language;
 		
 		setMinimumSize(new Dimension(200, 50));
-		helpText = new JLabel(this.language.getText("helpText"));
+		helpText = new JLabel(this.language.getText(TextKey.HELP_TEXT));
 		
 		this.add(helpText);
 		
@@ -54,7 +55,7 @@ public class HelpFrame extends JFrame {
 
 	public void draw() {
 		remove(helpText);
-		helpText = new JLabel(this.language.getText("helpText"));
+		helpText = new JLabel(this.language.getText(TextKey.HELP_TEXT));
 		
 		this.add(helpText);
 		

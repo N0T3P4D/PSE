@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextArea;
 
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 
 public class AboutFrame extends JFrame {
 
@@ -35,14 +36,14 @@ public class AboutFrame extends JFrame {
 		this.language = language;
 		setMinimumSize(new Dimension(200, 50));
 		setSize(new Dimension(400, 200));
-		aboutText = new JLabel("<html>" + this.language.getText("aboutText"));
+		aboutText = new JLabel("<html>" + this.language.getText(TextKey.ABOUT_TEXT));
 	}
 	
 	public void draw(){
 
 		remove(aboutText);
 
-		aboutText = new JLabel("<html>" + this.language.getText("aboutText"));
+		aboutText = new JLabel("<html>" + this.language.getText(TextKey.ABOUT_TEXT));
 		this.add(aboutText);
 		this.repaint();
 		setVisible(true);

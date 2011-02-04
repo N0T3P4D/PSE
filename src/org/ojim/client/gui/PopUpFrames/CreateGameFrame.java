@@ -30,6 +30,7 @@ import javax.swing.JTextField;
 
 import org.ojim.client.gui.GUIClient;
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 
 public class CreateGameFrame extends JFrame {
 
@@ -81,13 +82,13 @@ public class CreateGameFrame extends JFrame {
 		startButton = new JButton();
 
 		nameLabel = new JLabel(language.getText("server name"));
-		nameField = new JTextField(language.getText("Server"));
+		nameField = new JTextField("Server");
 
 		playerLabel = new JLabel(language.getText("max player"));
-		playerField = new JTextField(language.getText("4"));
+		playerField = new JTextField("4");
 
-		kiLabel = new JLabel(language.getText("ki player"));
-		kiField = new JTextField(language.getText("3"));
+		kiLabel = new JLabel(language.getText(TextKey.AI_PLAYER));
+		kiField = new JTextField("3");
 
 		errorLabel = new JLabel();
 
@@ -113,7 +114,7 @@ public class CreateGameFrame extends JFrame {
 
 		nameLabel.setText(language.getText("server name"));
 		playerLabel.setText(language.getText("max player"));
-		kiLabel.setText(language.getText("ki player"));
+		kiLabel.setText(language.getText(TextKey.AI_PLAYER));
 		startButtonlabel.setText(language.getText("start server"));
 		wrongInput = language.getText("wrong input");
 	}

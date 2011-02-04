@@ -29,6 +29,7 @@ import javax.swing.JTextField;
 
 import org.ojim.client.gui.GUIClient;
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 
 public class JoinGameFrame extends JFrame {
 
@@ -52,7 +53,7 @@ public class JoinGameFrame extends JFrame {
 		this.language = language;
 		setMinimumSize(new Dimension(400, 100));
 
-		ip = new JLabel(this.language.getText("IP"));
+		ip = new JLabel(this.language.getText(TextKey.IP));
 		joinButton = new JButton();
 		buttonLabel = new JLabel(this.language.getText("join"));
 		joinButton.add(buttonLabel);
@@ -97,7 +98,7 @@ public class JoinGameFrame extends JFrame {
 
 	public void showDirectConnection() {
 
-		ip.setText(this.language.getText("IP"));
+		ip.setText(this.language.getText(TextKey.IP));
 		buttonLabel.setText(this.language.getText("join"));
 
 		showJoin();
