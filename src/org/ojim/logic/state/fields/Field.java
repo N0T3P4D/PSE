@@ -55,6 +55,10 @@ public abstract class Field {
 		return new FieldGroup(group.getAttribute("color").getIntValue());
 	}
 	
+	public Class<? extends FieldGroup> getFieldGroupClass() {
+		return FieldGroup.class;
+	}
+	
 	protected final void setActions(Action[] executeActions, Action[] passThroughActions) {
 		this.executeActions = executeActions;
 		this.passThroughActions = passThroughActions;
@@ -80,10 +84,6 @@ public abstract class Field {
 		for (int i = 0; i < this.executeActions.length; i++) {
 			this.executeActions[i].execute();
 		}
-	}
-	
-	public int getColorGroup() {
-		return this.fieldGroup.getColor();
 	}
 	
 	public void passThrough() {

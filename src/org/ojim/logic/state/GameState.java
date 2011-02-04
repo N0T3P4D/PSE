@@ -24,11 +24,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
+import org.jdom.DataConversionException;
+import org.jdom.Element;
+import org.ojim.log.OJIMLogger;
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.actions.ActionGetOutOfJailCard;
 import org.ojim.logic.actions.ActionMoveForward;
+import org.ojim.logic.state.fields.CardField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.FieldGroup;
 import org.ojim.logic.state.fields.GoField;
 import org.ojim.logic.state.fields.InfrastructureField;
 import org.ojim.logic.state.fields.Station;
@@ -48,7 +55,8 @@ public class GameState {
 	private DiceSet dices;
 	private Player activePlayer;
 	private boolean activePlayerNeedsToRoll;
-	private boolean gameIsWon = false;;
+	private boolean gameIsWon = false;
+	private Map<Integer, FieldGroup> groups;
 	
 	public GameState() {
 		this.players = new HashMap<Integer, Player>(MAXIMUM_PLAYER_COUNT);
@@ -57,6 +65,7 @@ public class GameState {
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
 		this.dices = new OjimDiceSet(1337);
+		this.groups = new HashMap<Integer, FieldGroup>();
 		
 		//TODO (philip) really?
 		this.activePlayerNeedsToRoll = true;
@@ -107,10 +116,17 @@ public class GameState {
 	
 	public void setFieldAt(Field field, int position) {
 		this.fields[position] = field;
+		FieldGroup group = field.getFieldGroup();
+		this.groups.put(group.getColor(), group);
 	}
 	
 	public Player[] getPlayers() {
 		return this.players.values().toArray(new Player[0]);
+	}
+	
+	//TODO: (xZise) return clone?
+	public Map<Integer, Player> getPlayersMap() {
+		return this.players;
 	}
 	
 	/**
@@ -130,27 +146,43 @@ public class GameState {
 		return this.activePlayer;
 	}
 	
-	public boolean saveGameState(String path) {
-		return saveGameState(new File(path));
+//	public boolean saveGameState(String path) {
+//		return saveGameState(new File(path));
+//	}
+//
+//	private boolean saveGameState(File file) {
+//		try {
+//			if (!file.createNewFile()) {
+//				return false;
+//			}
+//		} catch (IOException e) {
+//			return false;
+//		}
+//		
+//		try {
+//			FileWriter fw = new FileWriter(file);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return true;
+//	}
+	
+	public void saveGameState(File file) {
+		
 	}
-
-	private boolean saveGameState(File file) {
+	
+	public void loadBoard(File file, ServerLogic logic) {
+		
+		// Irgendwie hat man hier jetzt alle Feldelemente:
+		Element field = null;
 		try {
-			if (!file.createNewFile()) {
-				return false;
-			}
-		} catch (IOException e) {
-			return false;
+		GameFieldLoader.readElement(field, logic, groups);
+		} catch (DataConversionException e) {
+			OJIMLogger.getLogger(this.getClass().toString()).log(Level.SEVERE, "unable to parse field element", e);
 		}
 		
-		try {
-			FileWriter fw = new FileWriter(file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return true;
 	}
 
 	public void startGame(int start) {

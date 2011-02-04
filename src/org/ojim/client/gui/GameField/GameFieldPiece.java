@@ -91,7 +91,7 @@ public class GameFieldPiece extends JPanel {
 
 		// this.drawer = FieldDrawer.getDrawer(field);
 
-		if (!(this.field.getColorGroup() < 0)) {
+		if (!(this.field.getFieldGroup().getColor() < 0)) {
 
 			innerHousePanel.setBorder(new LineBorder(Color.BLACK));
 			highHousePanel.add(innerHousePanel);
@@ -112,7 +112,7 @@ public class GameFieldPiece extends JPanel {
 			}
 			// this.remove(colorTop);
 			colorTop.setBackground(StreetColor.getBackGroundColor(this.field
-					.getColorGroup()));
+					.getFieldGroup().getColor()));
 			colorTop.setBorder(new LineBorder(Color.black, 1));
 			this.add(colorTop);
 		}

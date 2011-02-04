@@ -509,8 +509,8 @@ public class InteractionPopup extends JPanel {
 			if(tradeCardPanel[field.getPosition()]==null){
 				tradeCardPanel[field.getPosition()] = new JPanel();
 				tradeCardPanel[field.getPosition()].add(fieldLabel = new JLabel(field.getName()));
-				tradeCardPanel[field.getPosition()].setBackground(StreetColor.getBackGroundColor(field.getColorGroup()));
-				fieldLabel.setForeground(StreetColor.getFontColor(field.getColorGroup()));
+				tradeCardPanel[field.getPosition()].setBackground(StreetColor.getBackGroundColor(field.getFieldGroup().getColor()));
+				fieldLabel.setForeground(StreetColor.getFontColor(field.getFieldGroup().getColor()));
 			}
 			if((((BuyableField) field).getOwner())!=null){
 			if((((BuyableField) field).getOwner()).getId()==

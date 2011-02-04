@@ -93,12 +93,7 @@ public class Localizer {
 	public Localizer() {
 		this.strings = new HashMap<TextKey, String>();
 		LanguageDefinition[] languages = this.getLanguages();
-		if (languages.length == 0) {
-			// Initalize the map:
-			for (TextKey key : TextKey.values()) {
-				this.strings.put(key, key.key);
-			}
-		} else {
+		if (languages.length != 0) {
 			this.setLanguage(languages[0]);
 		}
 	}
@@ -161,6 +156,7 @@ public class Localizer {
 					e.printStackTrace();
 				}
 
+				// A file needs at minimum the english name, name and ISO code.
 				if (!(englishName.isEmpty() || name.isEmpty() || code.isEmpty())) {
 					definitions.add(new LanguageDefinition(author, name, englishName, code, file));
 				}
@@ -170,55 +166,59 @@ public class Localizer {
 		return definitions.toArray(new LanguageDefinition[0]);
 	}
 
+	/**
+	 * Loads a language specified by the language definition.
+	 * @param definition The language definition.
+	 */
 	public void setLanguage(LanguageDefinition definition) {
+		this.setLanguage(definition.file);
+	}
+	
+	/**
+	 * Loads a language specified by the language file.
+	 * @param file The language file.
+	 */
+	public void setLanguage(File file) {
 		// Populate the „strings“ object.
 		// Clear
 		this.strings.clear();
 		// Insert correct entries
 		try {
-			BufferedReader in = new BufferedReader(new FileReader(definition.file));
+			BufferedReader in = new BufferedReader(new FileReader(file));
 
 			String string;
 
 			while ((string = in.readLine()) != null) {
 				string = string.trim();
 				int comment = string.indexOf('#');
-				if (comment == 0 || string.length() == 0) {
-					continue;
-				}
-				if (comment > 0) {
-					string = string.substring(0, comment - 1);
-				}
-				// File definition fields
-				if (string.charAt(0) == ';') {
-					// Cuts off the ";" and any leaving beginning/ending spaces
-					string = string.substring(1).trim();
-					if (string.equals("author")) {
-
-					} else if (string.equals("english language")) {
-
-					} else if (string.equals("language")) {
-
+				// The comment isn't the first char
+				if (comment != 0 || !string.isEmpty()) {
+					// Remove commentary
+					if (comment > 0) {
+						string = string.substring(0, comment - 1);
 					}
-				} else {
-					string = string.trim(); // Notwendig?
-					int delim = string.indexOf('=');
-					if (delim < 1) {
-						// TODO: No "=" found/"=" is first char?!
-					} else {
-						String keyText = string.substring(0, delim).trim();
-						TextKey key = TextKey.getToKey(keyText);
-						if (key != null) {
-							String value = string.substring(delim + 1).trim();
-							this.strings.put(key, value);
+	
+					// Not a file definition field
+					if (!string.isEmpty() && string.charAt(0) != ';') {
+						string = string.trim(); // Notwendig?
+						int delim = string.indexOf('=');
+						if (delim < 1) {
+							// TODO: No "=" found/"=" is first char?!
 						} else {
-							OJIMLogger.getLogger(this.getClass().getName()).warning("Trying to load with an illegal key (" + keyText + ")");
+							String keyText = string.substring(0, delim).trim();
+							TextKey key = TextKey.getToKey(keyText);
+							if (key != null) {
+								String value = string.substring(delim + 1).trim();
+								this.strings.put(key, value);
+							} else {
+								OJIMLogger.getLogger(this.getClass().getName()).warning("Trying to load with an illegal key (" + keyText + ")");
+							}
 						}
 					}
 				}
 			}
 		} catch (FileNotFoundException e) {
-			System.out.println("File not found: Language File: " + definition.file.getAbsolutePath());
+			System.out.println("File not found: Language File: " + file.getAbsolutePath());
 		} catch (IOException e) {
 			System.out.println("I/O: Language File");
 		}

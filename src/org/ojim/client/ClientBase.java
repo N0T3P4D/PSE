@@ -49,19 +49,10 @@ import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.StaticDice;
 import org.ojim.logic.state.fields.BuyableField;
-import org.ojim.logic.state.fields.CardField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FieldGroup;
-import org.ojim.logic.state.fields.FreeParking;
-import org.ojim.logic.state.fields.GoField;
-import org.ojim.logic.state.fields.GoToJail;
-import org.ojim.logic.state.fields.InfrastructureField;
 import org.ojim.logic.state.fields.Jail;
-import org.ojim.logic.state.fields.Station;
-import org.ojim.logic.state.fields.StationFieldGroup;
 import org.ojim.logic.state.fields.Street;
-import org.ojim.logic.state.fields.StreetFieldGroup;
-import org.ojim.logic.state.fields.TaxField;
 import org.ojim.rmi.client.ImplNetClient;
 import org.ojim.rmi.client.StartNetClient;
 import org.ojim.rmi.server.NetOjim;
@@ -91,94 +82,16 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	 */
 
 	private void loadGameBoard() {
-
+		
 		GameState state = this.getGameState();
 
 		state.getBank().setHotels(this.getNumberOfHotelsLeft());
 		state.getBank().setHouses(this.getNumberOfHousesLeft());
-
-		StationFieldGroup stations = new StationFieldGroup();
-		FieldGroup infrastructures = new FieldGroup(FieldGroup.INFRASTRUCTURE);
-		Map<Integer, StreetFieldGroup> colorGroups = new HashMap<Integer, StreetFieldGroup>(
-				8);
-
-		/* This loop asks the properties for every field on the board. */
+		
+		Map<Integer, FieldGroup> groups = new HashMap<Integer, FieldGroup>(17);
 		for (int position = 0; position < GameState.FIELDS_AMOUNT; position++) {
-			Field field = null;
-			String name = this.getEstateName(position);
-			int price = this.getEstatePrice(position);
-			int groupColor = this.getEstateColorGroup(position);
-			// Street
-			if (groupColor >= 0) {
-
-				StreetFieldGroup group = colorGroups.get(groupColor);
-				if (group == null) {
-					int delim = name.indexOf(":");
-					String groupName = "";
-					if (delim > 0) {
-						groupName = name.substring(0, delim);
-					}
-					group = new StreetFieldGroup(groupColor, groupName, this
-							.getEstateHousePrice(position));
-					colorGroups.put(groupColor, group);
-				}
-
-				name = name.substring(name.indexOf(":") + 1).trim();
-
-				int[] rentByLevel = new int[Street.MAXMIMUM_BUILT_LEVEL];
-				for (int builtLevel = 0; builtLevel < rentByLevel.length; builtLevel++) {
-					rentByLevel[builtLevel] = this.getEstateRent(position,
-							builtLevel);
-				}
-
-				Street street = new Street(name, position, rentByLevel, this
-						.getEstateHouses(position), price);
-				street.setMortgaged(this.isMortgaged(position));
-
-				field = group.addField(street);
-			} else {
-				switch (this.getEstateColorGroup(position)) {
-				case FieldGroup.GO:
-					field = new GoField(name, position);
-					break;
-				case FieldGroup.JAIL:
-					field = new Jail(name, position, this
-							.getMoneyToPay(position), this
-							.getRoundsToWait(position));
-					break;
-				case FieldGroup.FREE_PARKING:
-					field = new FreeParking(name, position);
-					break;
-				case FieldGroup.GO_TO_JAIL:
-					field = new GoToJail(name, position);
-					break;
-				case FieldGroup.EVENT:
-					field = new CardField(name, position, false);
-					break;
-				case FieldGroup.COMMUNITY:
-					field = new CardField(name, position, true);
-					break;
-				case FieldGroup.STATIONS:
-					field = stations
-							.addField(new Station(name, position, price));
-					break;
-				case FieldGroup.INFRASTRUCTURE:
-					field = infrastructures.addField(new InfrastructureField(
-							name, position, price));
-					break;
-				case FieldGroup.TAX:
-					field = new TaxField(name, position, this.getEstateRent(
-							position, 0));
-					break;
-				default:
-					field = null;
-					break;
-				}
-			}
-
-			if (field == null) {
-				// TODO: show error
-			} else {
+			Field field = this.getFieldFromServer(position, groups, new HashMap<Integer, Player>());
+			if (field != null) {
 				state.setFieldAt(field, position);
 			}
 		}
@@ -253,9 +166,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informCardPull(String text, boolean communityCard) {
 		this.logger.log(Level.INFO, "informCardPull(" + text + ", " + communityCard + ")");
-		Player active = this.getGameState().getActivePlayer();
-		active.setNumberOfGetOutOfJailCards(this
-				.getNumberOfGetOutOfJailCards(active.getId()));
+		this.updatePlayersGetOutOfJailCards(this.getGameState().getActivePlayer());
 		//this.onCardPull(text, communityCard);
 		this.executor.execute(new OnCardPull(this, text, communityCard));
 	}
@@ -367,18 +278,6 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			order[i] = state.getPlayerByID(ids[i]);
 		}
 		state.setPlayerOrder(order);
-
-		// Load all owners
-		for (int position = 0; position < GameState.FIELDS_AMOUNT; position++) {
-			Field field = this.getGameState().getFieldAt(position);
-			if (field instanceof BuyableField) {
-				int id = this.getOwner(position);
-				if (id >= 0) {
-					((BuyableField) field).buy(this.getGameState()
-							.getPlayerByID(id));
-				}
-			}
-		}
 		//this.onStartGame(this.getGameState().getPlayers());
 		this.executor.execute(new OnStartGame(this, this.getGameState()
 				.getPlayers()));
@@ -481,11 +380,16 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public final void informNewPlayer(int playerId) {
 		this.logger.log(Level.INFO, "informNewPlayer(" + playerId + ")");
 		if (this.getGameState().getPlayerByID(playerId) == null) {
-			Player player = new Player(this.getPlayerName(playerId), this
-					.getPlayerPiecePosition(playerId),
-					this.getPlayerCash(playerId), playerId, this
-							.getPlayerColor(playerId));
+			Player player = this.getPlayerFromServer(playerId);
 			this.getGameState().setPlayer(player);
+			// Update all owned fields
+			for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+				Field field = this.getGameState().getFieldAt(i);
+				if (field instanceof BuyableField && ((BuyableField) field).getOwner() == null) {
+					this.updateFieldOwner((BuyableField) field, this.getGameState().getPlayersMap());
+				}
+			}
+			
 			//this.onNewPlayer(player);
 			this.executor.execute(new OnNewPlayer(this, player));
 		} else {
@@ -499,6 +403,13 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		this.logger.log(Level.INFO, "informPlayerLeft(" + playerId + ")");
 		Player old = this.getGameState().getPlayerByID(playerId);
 		this.getGameState().removePlayer(old);
+		// Remove all owners for this field
+		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			Field field = this.getGameState().getFieldAt(i);
+			if (field instanceof BuyableField && ((BuyableField) field).getOwner().equals(old)) {
+				((BuyableField) field).buy(null);
+			}
+		}
 		//this.onPlayerLeft(old);
 		this.executor.execute(new OnPlayerLeft(this, old));
 	}

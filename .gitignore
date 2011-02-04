@@ -2,9 +2,9 @@
 *.class
 bin/
 
-# .metadata
+# eclipse
 .metadata/
-
+.settings/
 
 # settings file
 settings.txt

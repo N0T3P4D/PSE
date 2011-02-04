@@ -70,6 +70,10 @@ public class Street extends BuyableField {
 		}
 	}
 
+	public Class<? extends FieldGroup> getFieldGroupClass() {
+		return StreetFieldGroup.class;
+	}
+	
 	private void setRentAndBuiltLevel(int[] rentByLevel, int builtLevel) {
 		this.builtLevel = builtLevel;
 		this.rentByLevel = rentByLevel;
