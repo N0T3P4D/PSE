@@ -23,6 +23,7 @@ import org.ojim.iface.IClient;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
+import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
@@ -683,6 +684,31 @@ public class SimpleClient {
 	/*
 	 * AUCTION
 	 */
+	public Auction getAuctionFromServer() {
+		IServerAuction auctionServer = (IServerAuction) this.server;
+		AuctionState state = AuctionState.getState(auctionServer.getAuctionState());
+		if (state == AuctionState.NOT_RUNNING) {
+			return null;
+		}
+		BuyableField field = (BuyableField) this.getGameState().getFieldAt(auctionServer.getAuctionedEstate());
+		Auction auction = new Auction(field, state);
+		Player bidder = this.getGameState().getPlayerByID(auctionServer.getBidder());
+		auction.placeBid(bidder, auctionServer.getHighestBid());
+		return auction;
+	}
+	
+	public Auction updateAuction(Auction auction) {
+		IServerAuction auctionServer = (IServerAuction) this.server;
+		AuctionState newState = AuctionState.getState(auctionServer.getAuctionState());
+		// New bid
+		if (newState == AuctionState.WAITING) {
+			Player bidder = this.getGameState().getPlayerByID(auctionServer.getBidder());
+			auction.placeBid(bidder, auctionServer.getHighestBid());
+		} else {
+			auction.setState(newState);
+		}
+		return auction;
+	}
 
 	/**
 	 * @deprecated Use {@link #getAuctionState()}.
@@ -691,6 +717,7 @@ public class SimpleClient {
 		return ((IServerAuction) this.server).getAuctionState();
 	}
 
+	@Deprecated
 	public final AuctionState getAuctionState() {
 		return AuctionState.getState(((IServerAuction) this.server).getAuctionState());
 	}
@@ -702,10 +729,12 @@ public class SimpleClient {
 		return ((IServerAuction) this.server).getAuctionedEstate();
 	}
 
+	@Deprecated
 	public final BuyableField getAuctionedEstate() {
 		return (BuyableField) this.getGameState().getFieldAt(((IServerAuction) this.server).getAuctionedEstate());
 	}
 
+	@Deprecated
 	public final int getHighestBid() {
 		return ((IServerAuction) this.server).getHighestBid();
 	}
@@ -715,6 +744,7 @@ public class SimpleClient {
 	 * 
 	 * @return the highest bidder. If nobody has bid its null.
 	 */
+	@Deprecated
 	public final Player getBidder() {
 		int id = ((IServerAuction) this.server).getBidder();
 		Player bidder = null;

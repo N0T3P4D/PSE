@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.ojim.client.SimpleClient.AuctionState;
 import org.ojim.client.ai.AIClient;
 import org.ojim.iface.IClient;
 import org.ojim.iface.Rules;
@@ -31,7 +32,7 @@ import org.ojim.logic.actions.ActionFactory;
 import org.ojim.logic.actions.ActionPayForBuildings;
 import org.ojim.logic.actions.ActionTransferMoneyToPlayers;
 import org.ojim.logic.rules.GameRules;
-import org.ojim.logic.state.Auction;
+import org.ojim.logic.state.ServerAuction;
 import org.ojim.logic.state.Card;
 import org.ojim.logic.state.CardStack;
 import org.ojim.logic.state.GameState;
@@ -120,7 +121,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	/**
 	 * current Auction, if null => no Auction
 	 */
-	private Auction auction;
+	private ServerAuction auction;
 
 	/**
 	 * current Trade, if null => no Trade
@@ -508,15 +509,15 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized int getAuctionState() {
 		if (auction != null) {
-			return auction.getAuctionState();
+			return auction.getState().value;
 		}
-		return -1;
+		return AuctionState.NOT_RUNNING.value;
 	}
 
 	@Override
 	public synchronized int getAuctionedEstate() {
 		if (auction != null) {
-			return auction.getObjective().getPosition();
+			return auction.objective.getPosition();
 		}
 		return 0;
 	}
@@ -968,9 +969,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				display("fail");
 				
 			}
-			this.auction = new Auction(state, logic, rules, (BuyableField) state.getFieldAt(state.getActivePlayer()
+			this.auction = new ServerAuction(state, logic, rules, (BuyableField) state.getFieldAt(state.getActivePlayer()
 					.getPosition()));
 			this.auction.setReturnParameters(this, state.getActivePlayer().getId());
+			// Do inform here, because before "this.auction" is not initalized!
+			this.auction.informPlayers();
 			this.playerNeedsAcceptCancel = false;
 		}
 		return false;
@@ -994,7 +997,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 
 				// Is there an Auction running?
-				if (this.auction != null && this.auction.getAuctionState() < 3) {
+				if (this.auction != null && this.auction.getState() != AuctionState.THIRD) {
 					display("auction running");
 					return false;
 				}

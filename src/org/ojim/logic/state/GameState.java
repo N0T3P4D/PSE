@@ -57,6 +57,7 @@ public class GameState {
 	private boolean activePlayerNeedsToRoll;
 	private boolean gameIsWon = false;
 	private Map<Integer, FieldGroup> groups;
+	private Auction auction;
 	
 	public GameState() {
 		this.players = new HashMap<Integer, Player>(MAXIMUM_PLAYER_COUNT);
@@ -66,11 +67,20 @@ public class GameState {
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
 		this.dices = new OjimDiceSet(1337);
 		this.groups = new HashMap<Integer, FieldGroup>();
+		this.auction = null;
 		
 		//TODO (philip) really?
 		this.activePlayerNeedsToRoll = true;
 		//TODO Add the Possibility to load other GameStates
 	}	
+	
+	public Auction getAuction() {
+		return this.auction;
+	}
+	
+	public void setAuction(Auction auction) {
+		this.auction = auction;
+	}
 	
 	public DiceSet getDices() {
 		return this.dices;

@@ -44,6 +44,7 @@ import org.ojim.client.gui.RightBar.ChatWindow;
 import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
+import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
@@ -662,8 +663,19 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onAuction(AuctionState auctionState) {
+		
+		Auction a = this.getGameState().getAuction();
+		if (a != null) {
+			System.out.print("Auction: " + a.getHighestBid() + " by ");
+			if (a.getHighestBidder() != null) {
+				System.out.print(a.getHighestBidder().getName() +" (@" + a.getHighestBidder().getId() + ")");
+			} else {
+				System.out.print("Bank");
+			}
+			System.out.println(" of " + a.objective.getName() + " (@" + a.objective.getPosition() + ") in: " + a.getState().name());
+		}
 
-		if (auctionState.value == 3) {
+		if (auctionState == AuctionState.THIRD) {
 			gameField.removeAuction();
 		} else {
 			

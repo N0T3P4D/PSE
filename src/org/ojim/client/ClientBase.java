@@ -44,6 +44,7 @@ import org.ojim.client.triggers.OnTrade;
 import org.ojim.client.triggers.OnTurn;
 import org.ojim.iface.IClient;
 import org.ojim.log.OJIMLogger;
+import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.DiceSet;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
@@ -366,7 +367,15 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	public final void informAuction(int auctionState) {
 		this.logger.log(Level.INFO, "informAuction(" + auctionState + ")");
 		try {
-			AuctionState state = AuctionState.getState(auctionState);
+			AuctionState state;
+			Auction auction = this.getGameState().getAuction();
+			if (auction != null) {
+				auction = this.updateAuction(auction);
+			} else {
+				auction = this.getAuctionFromServer();
+			}
+			state = auction == null ? AuctionState.NOT_RUNNING : auction.getState();
+			this.getGameState().setAuction(auction);
 			
 			//this.onAuction(auctionState);
 			this.executor.execute(new OnAuction(this, state));

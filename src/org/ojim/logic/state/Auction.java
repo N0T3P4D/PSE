@@ -17,76 +17,39 @@
 
 package org.ojim.logic.state;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import org.ojim.logic.Logic;
-import org.ojim.logic.ServerLogic;
-import org.ojim.logic.rules.GameRules;
+import org.ojim.client.SimpleClient.AuctionState;
 import org.ojim.logic.state.fields.BuyableField;
-import org.ojim.logic.state.fields.Field;
-import org.ojim.server.OjimServer;
 
 public class Auction {
-
-	private BuyableField objective;
-
-	/**
-	 * Gibt den Stand der Auktion an. 0 falls eine Auktion läuft und noch nicht
-	 * ausgezählt wird<br>
-	 * 1 falls eine Auktion läuft und "zum Ersten" angekündigt wurde<br>
-	 * 2 falls eine Auktion läuft und "zum Zweiten" angekündigt wurde<br>
-	 * 3 falls eine Auktion gerade abgeschlossen wurde <i>(optional)</i>, in
-	 * diesem Zustand müssen noch alle Daten abrufbar sein
-	 */
-	private int auctionState;
-
+	
+	public final BuyableField objective;
+	private AuctionState auctionState;
 	private Player highestBidder;
-
-	private GameState state;
-
 	private int currentBid;
-
-	private ServerLogic logic;
 	
-	private int playerID;
-	private OjimServer server;
-	
-	private GameRules rules;
-
-	private Timer timer;
-
-	public void setReturnParameters(OjimServer server, int playerID) {
-		this.server = server;
-		this.playerID = playerID;
+	public Auction(BuyableField objective) {
+		this(objective, AuctionState.WAITING);
 	}
 	
-	public Auction(GameState state, ServerLogic logic, GameRules rules,
-			BuyableField objective) {
-		this.state = state;
-		this.logic = logic;
-		this.rules = rules;
+	public Auction(BuyableField objective, AuctionState state) {
 		this.objective = objective;
-		this.highestBidder = null;
-		;
-		this.auctionState = 0;
-		this.currentBid = rules.getAuctionStartBid(objective);
-		this.timer = new Timer();
-
-		// Start ticking
-		timer.schedule(new AuctionTask(this),
-				1000 * this.rules.getActionStartTime(),
-				1000 * this.rules.getActionTickTime());
-
-		// Tell All Players that a new Auction has started
-		for (Player player : state.getPlayers()) {
-			if (player instanceof ServerPlayer) {
-				((ServerPlayer) player).getClient().informAuction(
-						this.auctionState);
-			}
-		}
+		this.auctionState = state;
+		this.highestBidder = null; // Normally nobody will buy this
+		this.currentBid = 0; // Starting by 0
+		//See: GameRules.getAuctionStartBid(objective);		
 	}
-
+	
+	public void setState(AuctionState state) {
+		if (state == AuctionState.NOT_RUNNING) {
+			throw new IllegalArgumentException("The state can't be not running.");
+		}
+		this.auctionState = state;
+	}
+	
+	public AuctionState getState() {
+		return this.auctionState;
+	}
+	
 	public Player getHighestBidder() {
 		return this.highestBidder;
 	}
@@ -94,91 +57,22 @@ public class Auction {
 	public int getHighestBid() {
 		return this.currentBid;
 	}
-
-	public int getAuctionState() {
-		return this.auctionState;
-	}
-
+	
+	/**
+	 * Places a bid. It doesn't inform other player/server.
+	 * @param bidder The new bidder.
+	 * @param bid The new bid.
+	 * @return if the bid is allowed (higher) than the previous.
+	 */
 	public boolean placeBid(Player bidder, int bid) {
-		if (bid > currentBid) {
-			// Set the Bidder as the Highest Bidder
-			this.highestBidder = bidder;
-			this.currentBid = bid;
-
-			// Restart the Timer
-			this.auctionState = 0;
-			// timer.cancel();
-			timer.schedule(new AuctionTask(this),
-					1000 * this.rules.getActionTickTime(),
-					1000 * this.rules.getActionTickTime());
-
-			// Tell All Players that a new Highest Bid is there
-			for (Player player : state.getPlayers()) {
-				if (player instanceof ServerPlayer) {
-					((ServerPlayer) player).getClient().informAuction(
-							this.auctionState);
-				}
-			}
-			return true;
+		if (bid <= this.currentBid) {
+			return false;
 		}
-		return false;
+		
+		// Set the Bidder as the Highest Bidder
+		this.highestBidder = bidder;
+		this.currentBid = bid;
+		this.setState(AuctionState.WAITING);
+		return true;
 	}
-
-	protected void tick() {
-		this.auctionState++;
-
-		// Auction is now over
-
-		// Call all Players that the next Step has come
-		for (Player player : state.getPlayers()) {
-			if (player instanceof ServerPlayer) {
-				((ServerPlayer) player).getClient().informAuction(
-						this.auctionState);
-				// TODO remove test
-				((ServerPlayer) player).getClient().informMessage(
-						"Auction:" + this.auctionState, -1, false);
-			}
-		}
-
-		if (this.auctionState >= 3) {
-
-			// End the Auction, stop the Timer
-			this.timer.cancel();
-
-			// No one wanted the Field, see what to do now
-			if (highestBidder == null) {
-				this.logic.auctionWithoutResult(this.objective);
-			} else {
-				this.logic.auctionWithResult(this.objective, highestBidder,
-						this.currentBid);
-			}
-			
-			//Set endTurn so that the Player doesn't need to call endTurn himself
-			if(server != null) {
-				server.endTurn(playerID);
-			}
-		}
-	}
-
-	public Field getObjective() {
-		return this.objective;
-	}
-
-}
-
-class AuctionTask extends TimerTask {
-
-	private Auction auction;
-
-	protected AuctionTask(Auction auction) {
-		this.auction = auction;
-		System.out.println("Tick!");
-	}
-
-	@Override
-	public void run() {
-		auction.tick();
-		System.out.println("Tock!");
-	}
-
 }
