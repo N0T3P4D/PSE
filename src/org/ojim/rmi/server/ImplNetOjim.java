@@ -193,12 +193,12 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 
 	
 	public int getEstateHousePrice(int position) {
-		return this.getEstateHousePrice(position);
+		return this.server.getEstateHousePrice(position);
 	}
 
 	
 	public int getTurnsInPrison(int playerID) {
-		return this.getTurnsInPrison(playerID);
+		return this.server.getTurnsInPrison(playerID);
 	}
 
 	
@@ -228,7 +228,7 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	public synchronized void registerClient(NetClient netClient) throws RemoteException {
 		 
 		ClientWrapper clientWrap = new ClientWrapper(netClient);
-		addPlayer(clientWrap);
+		//addPlayer(clientWrap);
 		this.netClient = netClient;
 		
 	}

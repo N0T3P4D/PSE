@@ -45,7 +45,7 @@ public class StartNetOjim {
 	 */
 	public void startServer(int portReg,String ip,ImplNetOjim ojimServer){
 		
-		System.out.println("Server wird eingerichtet...");
+		System.out.println("\n"+"Server wird eingerichtet...");
 		
 		try {
 		    
