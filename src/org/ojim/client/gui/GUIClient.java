@@ -21,7 +21,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.rmi.RemoteException;
+import java.util.Date;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
@@ -45,18 +45,12 @@ import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
 import org.ojim.language.Localizer.TextKey;
-import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
-import org.ojim.rmi.client.NetClient;
-import org.ojim.rmi.server.ImplNetOjim;
-import org.ojim.rmi.server.StartNetOjim;
 import org.ojim.server.OjimServer;
-
-import com.sun.org.apache.xerces.internal.impl.RevalidationHandler;
 
 /**
  * Diese Klasse ist der GUI Client
@@ -111,7 +105,7 @@ public class GUIClient extends ClientBase {
 	public GUIClient() {
 
 		// Nur zu Debugzwecken auf game
-		setMenuState(MenuState.mainMenu);
+		setMenuState(MenuState.MAIN_MENU);
 		// setMenuState(MenuState.game);
 
 		language = new Localizer();
@@ -144,6 +138,8 @@ public class GUIClient extends ClientBase {
 		gameField = new GameField(this);
 
 		GUIFrame = new JFrame(language.getText("ojim"));
+		//TODO: (xZise) Wie wäre es mit resetLanguage()?
+//		this.resetLanguage();
 
 		playerInfoWindow.setLanguage(language);
 		chatWindow = new ChatWindow(language, this);
@@ -187,15 +183,15 @@ public class GUIClient extends ClientBase {
 
 		switch (menuState) {
 
-		case mainMenu:
+		case MAIN_MENU:
 
 			break;
 
-		case waitRoom:
+		case WAITING_ROOM:
 
 			break;
 
-		case game:
+		case GAME:
 
 			// gameField.init(getGameState());
 
@@ -288,7 +284,7 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onMessage(String text, Player sender, boolean privateMessage) {
-		chatWindow.write(new ChatMessage(sender, privateMessage, text));
+		chatWindow.write(new ChatMessage(new Date(), sender, privateMessage, text));
 		// draw();
 	}
 
@@ -352,7 +348,7 @@ public class GUIClient extends ClientBase {
 				this.showTrade(actingPlayer.getId());
 
 			}
-			chatWindow.write(new ChatMessage(null, false, ""
+			chatWindow.write(new ChatMessage(new Date(), null, false, ""
 					+ actingPlayer.getName() + " handelt mit "
 					+ partnerPlayer.getName()));
 		}
@@ -364,7 +360,7 @@ public class GUIClient extends ClientBase {
 				this.gameField.endTrade();
 
 			}
-			chatWindow.write(new ChatMessage(null, false, ""
+			chatWindow.write(new ChatMessage(new Date(), null, false, ""
 					+ actingPlayer.getName() + " handelte mit "
 					+ partnerPlayer.getName()));
 			gameField.init(getGameState(), this);
@@ -377,7 +373,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onBankruptcy() {
 		System.out.println("-- DEBUG -- on Bankruptcy ");
-		chatWindow.write(new ChatMessage(null, false,
+		chatWindow.write(new ChatMessage(new Date(), null, false,
 				"-- DEBUG -- on Bankruptcy"));
 	}
 
@@ -385,7 +381,7 @@ public class GUIClient extends ClientBase {
 	public void onCardPull(String text, boolean communityCard) {
 		// Passiert nix?
 		System.out.println("-- DEBUG -- on CardPull " + text);
-		chatWindow.write(new ChatMessage(null, false,
+		chatWindow.write(new ChatMessage(new Date(), null, false,
 				"-- DEBUG -- on CardPull " + text));
 	}
 
@@ -411,7 +407,7 @@ public class GUIClient extends ClientBase {
 				this.playerInfoWindow.addPlayer(players[i]);
 			}
 
-			this.menuState = MenuState.game;
+			this.menuState = MenuState.GAME;
 			this.menubar.setMenuBarState(menuState);
 
 			GUIFrame.remove(window);
@@ -569,7 +565,7 @@ public class GUIClient extends ClientBase {
 		GUIFrame.repaint();
 		server.endGame();
 
-		menuState = MenuState.mainMenu;
+		menuState = MenuState.MAIN_MENU;
 
 	}
 
@@ -638,64 +634,63 @@ public class GUIClient extends ClientBase {
 	 * setzt die Sprache der verschiedenen Elemente auf die Klassensprache
 	 */
 	private void resetLanguage() {
-		GUIFrame.setTitle(language.getText("ojim"));
-		createGameFrame.setTitle(language.getText("create game"));
+		GUIFrame.setTitle(language.getText(TextKey.OJIM));
+		createGameFrame.setTitle(language.getText(TextKey.CREATE_GAME));
 		createGameFrame.setLanguage(language);
-		joinGameFrame.setTitle(language.getText("join game"));
+		joinGameFrame.setTitle(language.getText(TextKey.JOIN_GAME));
 		joinGameFrame.setLanguage(language);
-		settingsFrame.setTitle(language.getText("settings"));
+		settingsFrame.setTitle(language.getText(TextKey.SETTINGS));
 		settingsFrame.setLanguage(language);
-		helpFrame.setTitle(language.getText("help"));
+		helpFrame.setTitle(language.getText(TextKey.HELP));
 		helpFrame.setLanguage(language);
-		aboutFrame.setTitle(language.getText("about"));
+		aboutFrame.setTitle(language.getText(TextKey.ABOUT));
 		aboutFrame.setLanguage(language);
 		menubar.language(language);
 		chatWindow.setLanguage(language);
 		playerInfoWindow.setLanguage(language);
-		buyButton.setText(language.getText("buy"));
-		endTurnButton.setText(language.getText("endturn"));
-		rollButton.setText(language.getText("roll"));
+		buyButton.setText(language.getText(TextKey.BUY));
+		endTurnButton.setText(language.getText(TextKey.ENDTURN));
+		rollButton.setText(language.getText(TextKey.ROLL));
 		gameField.setLanguage(language);
-		button.setText(language.getText("ready"));
+		button.setText(language.getText(TextKey.READY));
 
 		draw();
 
 	}
 
 	@Override
-	public void onAuction(AuctionState auctionState) {
+	public void onAuction() {
 		
 		if (this.getGameState().getAuction() != null) {
 			switch (this.getGameState().getAuction().getState()) {
 			case WAITING :
 				Player bidder = this.getGameState().getAuction().getHighestBidder();
 				if (bidder != null) {
-					this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_RESET)));
+					this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_RESET)));
 				} else {
-					this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_INIT)));
+					this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_INIT)));
 				}
 				break;
 			case FIRST :
-				this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_FIRST)));
+				this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_FIRST)));
 				break;
 			case SECOND :
-				this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_SECOND)));
+				this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_SECOND)));
 				break;
 			case THIRD :
-				this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_THIRD)));
+				this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_THIRD)));
+				this.gameField.removeAuction();
 				break;
 			}
-		}
-
-		if (auctionState == AuctionState.THIRD) {
-			gameField.removeAuction();
+			if (this.getGameState().getAuction().getState() != AuctionState.THIRD) {
+				downRight.remove(buyButton);
+				this.GUIFrame.repaint();
+	
+				gameField.showAuction(getAuctionState(), getAuctionedEstate(),
+						getBidder(), getHighestBid());
+			}
 		} else {
-			
-			downRight.remove(buyButton);
-			this.GUIFrame.repaint();
-
-			gameField.showAuction(getAuctionState(), getAuctionedEstate(),
-					getBidder(), getHighestBid());
+			this.gameField.removeAuction();
 		}
 	}
 
@@ -719,7 +714,7 @@ public class GUIClient extends ClientBase {
 
 		setName(settings.getPlayerName());
 
-		menuState = MenuState.waitRoom;
+		menuState = MenuState.WAITING_ROOM;
 
 		server = new OjimServer(serverName);
 
@@ -735,7 +730,7 @@ public class GUIClient extends ClientBase {
 		rightWindow.remove(playerInfoWindow);
 		rightWindow.remove(button);
 
-		button.setText(language.getText("ready"));
+		button.setText(language.getText(TextKey.READY));
 
 		window.setLayout(new GridLayout(1, 0));
 		rightWindow.setLayout(new GridLayout(0, 1));
@@ -856,7 +851,7 @@ public class GUIClient extends ClientBase {
 	}
 
 	public void showTrade(int player) {
-		if (this.menuState == menuState.game) {
+		if (this.menuState == MenuState.GAME) {
 			gameField.showTrade(getMe(), getGameState().getPlayerByID(player),
 					getRequiredCash(), getRequiredEstates(),
 					getNumberOfRequiredGetOutOfJailCards(), getOfferedCash(),

@@ -48,7 +48,7 @@ public class Localizer {
 		ROLL("roll"),
 		BUY("buy"),
 		READY("ready"),
-		SEND("send"),
+		SEND_MESSAGE("send"),
 		CURRENCY("currency"),
 		ENDTURN("endturn"),
 		BANKRUPT("bankrupt"),
@@ -76,7 +76,8 @@ public class Localizer {
 		AUCTION_SECOND("auction second"),
 		AUCTION_THIRD("auction third"),
 		AUCTION_INIT("auction init"),
-		AUCTION_RESET("auction reset");
+		AUCTION_RESET("auction reset"),
+		PRIVATE_MESSAGE("private");
 		
 		public final String key;
 		

@@ -18,7 +18,6 @@
 package org.ojim.client.gui.RightBar;
 
 import java.awt.BorderLayout;
-import java.awt.Dimension;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -30,19 +29,20 @@ import java.awt.event.AdjustmentListener;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
-import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
 import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 
 public class ChatWindow extends JPanel {
 
+	private static final long serialVersionUID = 5179104588584714072L;
+	
 	private Localizer language;
 	private LinkedList<ChatMessage> messages = new LinkedList<ChatMessage>();
 	private JTextArea textArea;
@@ -107,7 +107,6 @@ public class ChatWindow extends JPanel {
 				GridBagConstraints.NORTHWEST, GridBagConstraints.BOTH,
 				new Insets(0, 0, 0, 0), 0, 0));
 
-		sendButton.setText(language.getText("send"));
 		sendButton.setLayout(new FontLayout());
 
 		ActionListener sendListener = new ActionListener() {
@@ -130,11 +129,7 @@ public class ChatWindow extends JPanel {
 		if (this.textField.getText().length() > 0) {
 			gui.sendOutMessage(this.textField.getText());
 			this.textField.setText("");
-		} else {
-			write(new ChatMessage(null, true, "Please enter a Message"));
-			this.textField.setText("");
 		}
-
 	}
 
 	public void clear() {
@@ -143,21 +138,19 @@ public class ChatWindow extends JPanel {
 
 	public void setLanguage(Localizer language) {
 		this.language = language;
-		sendButton.setText(language.getText("send"));
+		sendButton.setText(language.getText(TextKey.SEND_MESSAGE));
 	}
 
 	public void write(ChatMessage chatMessage) {
 		messages.add(chatMessage);
-		if (chatMessage.getPrivate()) {
-			textArea.append(language.getText("private") + ": ");
-
+		if (chatMessage.isPrivate) {
+			textArea.append(language.getText(TextKey.PRIVATE_MESSAGE) + ": ");
 		}
-		if (chatMessage.getPlayer() == null) {
-			textArea.append(" -Server- " + chatMessage.getMessage() + "\n");
-
+		if (chatMessage.player == null) {
+			textArea.append(" -Server- " + chatMessage.message + "\n");
 		} else {
-			textArea.append(" <" + chatMessage.getPlayer().getName() + "> "
-					+ chatMessage.getMessage() + "\n");
+			textArea.append(" <" + chatMessage.player.getName() + "> "
+					+ chatMessage.message + "\n");
 		}
 	}
 

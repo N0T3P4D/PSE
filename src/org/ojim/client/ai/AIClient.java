@@ -253,9 +253,9 @@ public class AIClient extends ClientBase {
 	}
 
 	@Override
-	public void onAuction(AuctionState auctionState) {
+	public void onAuction() {
 		// assert(false);
-		logger.log(Level.FINE, this.log("onAuction(" + auctionState.value + ")!"));
+		logger.log(Level.FINE, this.log("onAuction(" + this.getGameState().getAuction().getState().value + ")!"));
 		valuator.actOnAuction().execute();
 		this.endTurn();
 	}

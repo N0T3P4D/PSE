@@ -17,20 +17,21 @@
 
 package org.ojim.client.gui.RightBar;
 
-import java.awt.Font;
 import java.awt.GridLayout;
 
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.border.Border;
 
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 import org.ojim.logic.state.Player;
 
 public class PlayerInfoField extends JPanel {
 
+	private static final long serialVersionUID = 3863203376820036629L;
+	
 	private boolean isTurnedOn;
 	private Player player;
 	private int cash;
@@ -51,7 +52,7 @@ public class PlayerInfoField extends JPanel {
 		activeLabel = new JLabel();
 		if (this.player != null) {
 			nameLabel = new JLabel(this.player.getName());
-			cashLabel.setText(this.cash + " " + language.getText("currency"));
+			cashLabel.setText(this.cash + " " + language.getText(TextKey.CURRENCY));
 
 			this.setBackground(PlayerColor
 					.getBackGroundColor(player.getColor()));
@@ -80,7 +81,7 @@ public class PlayerInfoField extends JPanel {
 
 	public void setLanguage(Localizer language) {
 		this.language = language;
-		cashLabel.setText(this.cash + " " + language.getText("currency"));
+		cashLabel.setText(this.cash + " " + language.getText(TextKey.CURRENCY));
 		draw();
 	}
 
@@ -91,16 +92,16 @@ public class PlayerInfoField extends JPanel {
 
 	private void draw() {
 		if (bancruptcy) {
-			cashLabel.setText(language.getText("bancrupt"));
+			cashLabel.setText(language.getText(TextKey.BANKRUPT));
 		} else {
-			cashLabel.setText(this.cash + " " + language.getText("currency"));
+			cashLabel.setText(this.cash + " " + language.getText(TextKey.CURRENCY));
 		}
 
 		// System.out.println("Player " + player.getId() + " gezeichnet.");
 		if (isTurnedOn) {
-			activeLabel.setText(language.getText("on"));
+			activeLabel.setText(language.getText(TextKey.ON));
 		} else {
-			activeLabel.setText(language.getText("off"));
+			activeLabel.setText(language.getText(TextKey.OFF));
 		}
 		repaint();
 	}
