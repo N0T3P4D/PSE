@@ -17,6 +17,7 @@
 
 package org.ojim.server;
 
+import java.rmi.RemoteException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
@@ -56,6 +57,8 @@ import org.ojim.logic.state.fields.StationFieldGroup;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.StreetFieldGroup;
 import org.ojim.logic.state.fields.TaxField;
+import org.ojim.rmi.server.ImplNetOjim;
+import org.ojim.rmi.server.StartNetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
 import edu.kit.iti.pse.iface.IServerAuction;
@@ -167,7 +170,27 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * @return successful?
 	 */
 	public synchronized boolean initGame(int playerCount, int aiCount) {
-
+		
+		//Usman code begin RMI
+		
+		StartNetOjim starter = new StartNetOjim();
+		
+        String ip = "5.99.219.221";
+		
+		StartNetOjim start = new StartNetOjim();
+		
+		ImplNetOjim netServer = null;
+		try {
+			netServer = new ImplNetOjim(this);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		start.startServer(1099,ip,netServer);
+		
+		//Usman code end RMI
+		
 		this.initComplete = false;
 		if (isOpen) {
 			return false;

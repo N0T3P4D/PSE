@@ -38,11 +38,10 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	
 	private OjimServer server;
 	
-	public ImplNetOjim(OjimServer server, NetClient netClient) throws RemoteException {
+	public ImplNetOjim(OjimServer server) throws RemoteException {
 		super();
-	
 		this.server = server;
-		this.netClient = netClient;
+		
 	}
 	
 	

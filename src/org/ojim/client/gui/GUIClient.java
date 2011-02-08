@@ -31,6 +31,7 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.ojim.client.ClientBase;
+import org.ojim.client.SimpleClient;
 import org.ojim.client.gui.CardBar.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
 import org.ojim.client.gui.OLabel.FontLayout;
@@ -50,6 +51,10 @@ import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.rmi.client.ImplNetClient;
+import org.ojim.rmi.client.NetClient;
+import org.ojim.rmi.server.ImplNetOjim;
+import org.ojim.rmi.server.StartNetOjim;
 import org.ojim.server.OjimServer;
 
 /**
@@ -717,7 +722,7 @@ public class GUIClient extends ClientBase {
 		menuState = MenuState.WAITING_ROOM;
 
 		server = new OjimServer(serverName);
-
+		
 		server.initGame(maxPlayers, kiPlayers);
 
 		connect(server);
