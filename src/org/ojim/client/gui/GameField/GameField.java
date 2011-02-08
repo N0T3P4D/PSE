@@ -30,6 +30,7 @@ import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.language.Localizer;
+import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
@@ -356,10 +357,9 @@ public class GameField extends JPanel {
 
 	}
 
-	public void showAuction(AuctionState auctionState, BuyableField buyableField, Player bidder,
-			int highestBid) {
-		interactionPopup.showAuction(auctionState, buyableField, bidder,
-				highestBid);
+	public void showAuction(Auction auction) {
+		interactionPopup.showAuction(auction.getState(), auction.objective, auction.getHighestBidder(),
+				auction.getHighestBid());
 		
 	}
 

@@ -625,53 +625,6 @@ public class SimpleClient {
 		return auction;
 	}
 
-	/**
-	 * @deprecated Use {@link #getAuctionState()}.
-	 */
-	public final int getAuctionStateO() {
-		return ((IServerAuction) this.server).getAuctionState();
-	}
-
-	@Deprecated
-	public final AuctionState getAuctionState() {
-		return AuctionState.getState(((IServerAuction) this.server).getAuctionState());
-	}
-
-	/**
-	 * @deprecated Use {@link #getAuctionedEstate()}
-	 */
-	public final int getAuctionedEstateO() {
-		return ((IServerAuction) this.server).getAuctionedEstate();
-	}
-
-	@Deprecated
-	public final BuyableField getAuctionedEstate() {
-		return (BuyableField) this.getGameState().getFieldAt(((IServerAuction) this.server).getAuctionedEstate());
-	}
-
-	@Deprecated
-	public final int getHighestBid() {
-		return ((IServerAuction) this.server).getHighestBid();
-	}
-
-	/**
-	 * Returns the highest bidder. If nobody has bid its null.
-	 * 
-	 * @return the highest bidder. If nobody has bid its null.
-	 */
-	@Deprecated
-	public final Player getBidder() {
-		int id = ((IServerAuction) this.server).getBidder();
-		Player bidder = null;
-		if (id >= 0) {
-			bidder = this.getGameState().getPlayerById(id);
-			if (bidder == null) {
-				OJIMLogger.getLogger(this.getClass().toString()).severe("bidder is unkown");
-			}
-		}
-		return bidder;
-	}
-
 	public final boolean placeBid(int amount) {
 		return ((IServerAuction) this.server).placeBid(this.playerId, amount);
 	}

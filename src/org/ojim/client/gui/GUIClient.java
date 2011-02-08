@@ -684,8 +684,7 @@ public class GUIClient extends ClientBase {
 				downRight.remove(buyButton);
 				this.GUIFrame.repaint();
 	
-				gameField.showAuction(getAuctionState(), getAuctionedEstate(),
-						getBidder(), getHighestBid());
+				gameField.showAuction(this.getGameState().getAuction());
 			}
 		} else {
 			this.gameField.removeAuction();
