@@ -23,6 +23,7 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 import org.ojim.logic.state.Player;
 
 /**
@@ -82,9 +83,9 @@ public class PlayerInfoField extends JPanel {
 
 		this.setBorder(getBorder());
 
-		activeLabel = new JLabel(language.getText("ojim"));
+		activeLabel = new JLabel(language.getText(TextKey.OJIM));
 		nameLabel = new JLabel(this.player.getName());
-		cashLabel = new JLabel(this.cash + " " + language.getText("currency"));
+		cashLabel = new JLabel(this.cash + " " + language.getText(TextKey.CURRENCY));
 
 		// TODO Schriftfarbe, Schriftgröße
 

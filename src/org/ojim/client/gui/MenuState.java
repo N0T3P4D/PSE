@@ -22,5 +22,5 @@ package org.ojim.client.gui;
  *
  */
 enum MenuState {
-	mainMenu, waitRoom, game
-};
+	MAIN_MENU, WAITING_ROOM, GAME
+}
