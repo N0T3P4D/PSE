@@ -414,13 +414,6 @@ public class SimpleClient {
 		this.server.sendMessage(text, this.playerId);
 	}
 
-	/**
-	 * @deprecated Use {@link #sendPrivateMessage(String, Player)}
-	 */
-	protected final void sendPrivateMessage(String text, int reciever) {
-		this.server.sendPrivateMessage(text, this.playerId, reciever);
-	}
-
 	protected final void sendPrivateMessage(String text, Player reciever) {
 		this.server.sendPrivateMessage(text, this.playerId, reciever.getId());
 	}
@@ -469,13 +462,6 @@ public class SimpleClient {
 
 	public final TradeState getTradeState() {
 		return TradeState.getState(((IServerTrade) this.server).getTradeState());
-	}
-
-	/**
-	 * @deprecated Use {@link #getPartner()}
-	 */
-	public final int getPartnerO() {
-		return ((IServerTrade) this.server).getPartner();
 	}
 
 	public final Player getPartner() {
@@ -548,13 +534,6 @@ public class SimpleClient {
 			}
 		}
 		return 0;
-	}
-
-	/**
-	 * @deprecated Use {@link #requireEstate(BuyableField)}
-	 */
-	public final boolean requireEstate(int position) {
-		return ((IServerTrade) this.server).requireEstate(playerId, position);
 	}
 
 	public final boolean requireEstate(BuyableField field) {
