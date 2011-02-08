@@ -21,6 +21,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.LinkedList;
 
 import javax.swing.JButton;
@@ -283,7 +284,7 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onMessage(String text, Player sender, boolean privateMessage) {
-		chatWindow.write(new ChatMessage(sender, privateMessage, text));
+		chatWindow.write(new ChatMessage(new Date(), sender, privateMessage, text));
 		// draw();
 	}
 
@@ -347,7 +348,7 @@ public class GUIClient extends ClientBase {
 				this.showTrade(actingPlayer.getId());
 
 			}
-			chatWindow.write(new ChatMessage(null, false, ""
+			chatWindow.write(new ChatMessage(new Date(), null, false, ""
 					+ actingPlayer.getName() + " handelt mit "
 					+ partnerPlayer.getName()));
 		}
@@ -359,7 +360,7 @@ public class GUIClient extends ClientBase {
 				this.gameField.endTrade();
 
 			}
-			chatWindow.write(new ChatMessage(null, false, ""
+			chatWindow.write(new ChatMessage(new Date(), null, false, ""
 					+ actingPlayer.getName() + " handelte mit "
 					+ partnerPlayer.getName()));
 			gameField.init(getGameState(), this);
@@ -372,7 +373,7 @@ public class GUIClient extends ClientBase {
 	@Override
 	public void onBankruptcy() {
 		System.out.println("-- DEBUG -- on Bankruptcy ");
-		chatWindow.write(new ChatMessage(null, false,
+		chatWindow.write(new ChatMessage(new Date(), null, false,
 				"-- DEBUG -- on Bankruptcy"));
 	}
 
@@ -380,7 +381,7 @@ public class GUIClient extends ClientBase {
 	public void onCardPull(String text, boolean communityCard) {
 		// Passiert nix?
 		System.out.println("-- DEBUG -- on CardPull " + text);
-		chatWindow.write(new ChatMessage(null, false,
+		chatWindow.write(new ChatMessage(new Date(), null, false,
 				"-- DEBUG -- on CardPull " + text));
 	}
 
@@ -665,19 +666,19 @@ public class GUIClient extends ClientBase {
 			case WAITING :
 				Player bidder = this.getGameState().getAuction().getHighestBidder();
 				if (bidder != null) {
-					this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_RESET)));
+					this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_RESET)));
 				} else {
-					this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_INIT)));
+					this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_INIT)));
 				}
 				break;
 			case FIRST :
-				this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_FIRST)));
+				this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_FIRST)));
 				break;
 			case SECOND :
-				this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_SECOND)));
+				this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_SECOND)));
 				break;
 			case THIRD :
-				this.chatWindow.write(new ChatMessage(null, false, language.getText(TextKey.AUCTION_THIRD)));
+				this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_THIRD)));
 				this.gameField.removeAuction();
 				break;
 			}

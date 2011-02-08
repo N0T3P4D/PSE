@@ -18,13 +18,9 @@
 package org.ojim.client.gui.RightBar;
 
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import org.ojim.client.gui.GUIClient;
@@ -34,6 +30,8 @@ import org.ojim.logic.state.Player;
 
 public class PlayerInfoWindow extends JPanel {
 
+	private static final long serialVersionUID = -1462950038237596319L;
+	
 	// hält PlayerInfoField playerInfoField;
 	private PlayerInfoField[] playerInfoFields;
 	private Localizer language;
