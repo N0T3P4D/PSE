@@ -276,8 +276,9 @@ public class SimpleClient {
 	}
 
 	public BuyableField updateFieldOwner(BuyableField field, Map<Integer, Player> players) {
-		Player owner = players.get(this.server.getOwner(field.getPosition()));
-		if (owner == null) {
+		int playerId = this.server.getOwner(field.getPosition());
+		Player owner = players.get(playerId);
+		if (owner == null && playerId >= 0) {
 			OJIMLogger.getLogger(this.getClass().toString()).info("Owner doesn't exists (at the moment?)!");
 		} else {
 			field.buy(owner);
