@@ -499,7 +499,7 @@ public class Valuator extends SimpleClient {
 		}
 		for (Street street : upgradeableStreets) {
 			street.setSelected(true);
-			street.setValuation(getResults(street.getPosition(), this.getEstateHousePrice(street.getPosition())));
+			street.setValuation(getResults(street.getPosition(), street.getFieldGroup().getHousePrice()));
 			street.setSelected(false);
 		}
 		Street[] streets = upgradeableStreets.toArray(new Street[0]);

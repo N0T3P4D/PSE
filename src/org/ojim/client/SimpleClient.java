@@ -202,7 +202,7 @@ public class SimpleClient {
 				if (delim > 0) {
 					groupName = name.substring(0, delim);
 				}
-				group = new StreetFieldGroup(color, groupName, this.getEstateHousePrice(position));
+				group = new StreetFieldGroup(color, groupName, this.server.getEstateHousePrice(position));
 			}
 
 			name = name.substring(name.indexOf(":") + 1).trim();
@@ -213,7 +213,7 @@ public class SimpleClient {
 			}
 
 			Street street = new Street(name, position, rentByLevel, this.server.getEstateHouses(position), price);
-			street.setMortgaged(this.isMortgaged(position));
+			street.setMortgaged(this.server.isMortgaged(position));
 
 			field = street;
 		} else {
@@ -284,46 +284,6 @@ public class SimpleClient {
 			field.buy(owner);
 		}
 		return field;
-	}
-	
-	@Deprecated
-	public int getEstateColorGroup(int position) {
-		return this.server.getEstateColorGroup(position);
-	}
-
-	@Deprecated
-	public String getEstateName(int position) {
-		return this.server.getEstateName(position);
-	}
-
-	@Deprecated
-	public int getEstatePrice(int position) {
-		return this.server.getEstatePrice(position);
-	}
-
-	@Deprecated
-	public int getEstateRent(int position, int houses) {
-		return this.server.getEstateRent(position, houses);
-	}
-
-	@Deprecated
-	public int getEstateHouses(int position) {
-		return this.server.getEstateHouses(position);
-	}
-
-	@Deprecated
-	public boolean isMortgaged(int position) {
-		return this.server.isMortgaged(position);
-	}
-	
-	@Deprecated
-	public int getOwner(int position) {
-		return this.server.getOwner(position);
-	}
-
-	@Deprecated
-	public int getEstateHousePrice(int position) {
-		return this.server.getEstateHousePrice(position);
 	}
 
 	// Bank

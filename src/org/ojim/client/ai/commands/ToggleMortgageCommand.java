@@ -61,9 +61,9 @@ public class ToggleMortgageCommand extends Command {
 	public void execute() {
 		for (BuyableField field: fields) {
 			//FIX: Mortgage
-			boolean state = this.isMortgaged(field.getPosition());
+			boolean state = field.isMortgaged();
 			this.toggleMortgage(field);
-			assert(this.isMortgaged(field.getPosition()) != state);
+			assert(field.isMortgaged() != state);
 		}
 	}
 
