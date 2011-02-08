@@ -100,7 +100,7 @@ public class CreateGameFrame extends JFrame {
 		errorLabel = new JLabel();
 
 		startButton.add(startButtonlabel = new JLabel(language
-				.getText("start server")));
+				.getText(TextKey.START_SERVER)));
 		startButton.addActionListener(serverStartListener);
 
 		panel.add(nameLabel);
@@ -125,8 +125,8 @@ public class CreateGameFrame extends JFrame {
 		playerLabel.setText(language.getText(TextKey.MAX_PLAYER));
 		kiLabel.setText(language.getText(TextKey.AI_PLAYER));
 		hostLabel.setText(language.getText(TextKey.HOST));
-		startButtonlabel.setText(language.getText("start server"));
-		wrongInput = language.getText("wrong input");
+		startButtonlabel.setText(language.getText(TextKey.START_SERVER));
+		wrongInput = language.getText(TextKey.WRONG_INPUT);
 	}
 
 	public void setLanguage(Localizer language) {

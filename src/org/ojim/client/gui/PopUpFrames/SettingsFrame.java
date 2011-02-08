@@ -34,6 +34,8 @@ import org.ojim.language.Localizer.TextKey;
 
 public class SettingsFrame extends JFrame {
 
+	private static final long serialVersionUID = -8959368377777373485L;
+	
 	private JLabel name;
 	private JTextField nameField;
 	private JTextField widthField;
@@ -68,7 +70,7 @@ public class SettingsFrame extends JFrame {
 		
 		this.settings = settings;
 		
-		name = new JLabel(this.language.getText("player name"));
+		name = new JLabel(this.language.getText(TextKey.PLAYER_NAME));
 		nameField = new JTextField(settings.getPlayerName());
 		
 		widthLabel = new JLabel(this.language.getText(TextKey.WIDTH));
@@ -82,7 +84,7 @@ public class SettingsFrame extends JFrame {
 		
 		
 		saveButton = new JButton();
-		saveButton.add(saveText = new JLabel(this.language.getText("save")));
+		saveButton.add(saveText = new JLabel(this.language.getText(TextKey.SAVE)));
 		saveButton.addActionListener(saveListener);
 		nameField.setColumns(20);
 		widthField.setColumns(4);
@@ -107,14 +109,14 @@ public class SettingsFrame extends JFrame {
 	public void draw(){
 
 		
-		name.setText(this.language.getText("player name"));
+		name.setText(this.language.getText(TextKey.PLAYER_NAME));
 		widthLabel.setText(this.language.getText(TextKey.WIDTH));
 		
 		heightLabel.setText(this.language.getText(TextKey.HEIGHT));
 		
 		ipLabel.setText(this.language.getText(TextKey.IP));
 		
-		saveText.setText(this.language.getText("save"));
+		saveText.setText(this.language.getText(TextKey.SAVE));
 		
 	}
 

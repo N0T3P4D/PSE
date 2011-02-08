@@ -31,7 +31,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.ojim.client.ClientBase;
-import org.ojim.client.SimpleClient;
 import org.ojim.client.gui.CardBar.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
 import org.ojim.client.gui.OLabel.FontLayout;
@@ -51,10 +50,6 @@ import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
-import org.ojim.rmi.client.ImplNetClient;
-import org.ojim.rmi.client.NetClient;
-import org.ojim.rmi.server.ImplNetOjim;
-import org.ojim.rmi.server.StartNetOjim;
 import org.ojim.server.OjimServer;
 
 /**
@@ -134,17 +129,15 @@ public class GUIClient extends ClientBase {
 		helpFrame = new HelpFrame(language);
 		aboutFrame = new AboutFrame(language);
 
-		createGameFrame.setTitle(language.getText("create game"));
-		joinGameFrame.setTitle(language.getText("join game"));
-		settingsFrame.setTitle(language.getText("settings"));
-		helpFrame.setTitle(language.getText("help"));
-		aboutFrame.setTitle(language.getText("about"));
+		createGameFrame.setTitle(language.getText(TextKey.CREATE_GAME));
+		joinGameFrame.setTitle(language.getText(TextKey.JOIN_GAME));
+		settingsFrame.setTitle(language.getText(TextKey.SETTINGS));
+		helpFrame.setTitle(language.getText(TextKey.HELP));
+		aboutFrame.setTitle(language.getText(TextKey.ABOUT));
 
 		gameField = new GameField(this);
 
-		GUIFrame = new JFrame(language.getText("ojim"));
-		//TODO: (xZise) Wie wäre es mit resetLanguage()?
-//		this.resetLanguage();
+		GUIFrame = new JFrame(language.getText(TextKey.OJIM));
 
 		playerInfoWindow.setLanguage(language);
 		chatWindow = new ChatWindow(language, this);

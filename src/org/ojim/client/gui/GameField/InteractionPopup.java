@@ -362,9 +362,9 @@ public class InteractionPopup extends JPanel {
 	
 	public void showAuction(AuctionState auctionState, BuyableField buyableField, Player bidder, int highestBid){
 		try {
-			auctionButtonOkLabel.setText(language.getText("bid"));
+			auctionButtonOkLabel.setText(language.getText(TextKey.AUCTION_BID));
 			auctionCardLabel.setText(buyableField.getName());
-			auctionHighestBid.setText(highestBid+" "+language.getText("currency"));
+			auctionHighestBid.setText(highestBid+" "+language.getText(TextKey.CURRENCY));
 			auctionHighestBidPlayer.setText(bidder.getName());
 			this.add(auctionPanel);
 			this.repaint();
@@ -426,9 +426,9 @@ public class InteractionPopup extends JPanel {
 	
 	public void startAuction(BuyableField buyableField) {
 		
-		newAuctionButtonOkLabel.setText(language.getText("start auction"));
+		newAuctionButtonOkLabel.setText(language.getText(TextKey.START_AUCTION));
 		newAuctionCardLabel.setText(buyableField.getName());
-		newAuctionMinimumBid.setText(language.getText("minimum bid")+": ");
+		newAuctionMinimumBid.setText(language.getText(TextKey.MINIMUM_BID)+": ");
 		this.add(auctionPanel);
 		
 		this.add(newAuctionPanel);
@@ -456,8 +456,8 @@ public class InteractionPopup extends JPanel {
 	
 	public void setLanguage(Localizer language){
 		this.language = language;
-		diceTextLabel.setText(language.getText("dice values")+": ");
-		freeParkingCashLabel.setText(language.getText("free parking cash")+": "+cash+" "+language.getText("currency"));
+		diceTextLabel.setText(language.getText(TextKey.DICE_VALUES)+": ");
+		freeParkingCashLabel.setText(language.getText(TextKey.FREE_PARKING_CASH)+": "+cash+" "+language.getText(TextKey.CURRENCY));
 		
 		upgradeTextLabel.setText(upgradeFieldname+": ");
 		upgradeButtonLabel.setText(language.getText(TextKey.UPGRADE));
