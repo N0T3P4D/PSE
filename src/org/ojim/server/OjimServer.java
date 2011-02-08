@@ -160,22 +160,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.logger = OJIMLogger.getLogger(this.getClass().toString());
 	}
 
-	/**
-	 * Initializes the Server and opens it
-	 * 
-	 * @param playerCount
-	 *            maximum Player (AI and GUI) count
-	 * @param aiCount
-	 *            Amount of AI-Players
-	 * @return successful?
-	 */
-	public synchronized boolean initGame(int playerCount, int aiCount) {
-		
-		//Usman code begin RMI
-		
+	public synchronized boolean initRMIGame(int playerCount, int aiCount, String host) {		
 		StartNetOjim starter = new StartNetOjim();
-		
-        String ip = "5.99.219.221";
 		
 		StartNetOjim start = new StartNetOjim();
 		
@@ -187,9 +173,20 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			e.printStackTrace();
 		}
 		
-		start.startServer(1099,ip,netServer);
-		
-		//Usman code end RMI
+		start.startServer(1099, host, netServer);
+		return this.initGame(playerCount, aiCount);
+	}
+	
+	/**
+	 * Initializes the Server and opens it
+	 * 
+	 * @param playerCount
+	 *            maximum Player (AI and GUI) count
+	 * @param aiCount
+	 *            Amount of AI-Players
+	 * @return successful?
+	 */
+	public synchronized boolean initGame(int playerCount, int aiCount) {
 		
 		this.initComplete = false;
 		if (isOpen) {
