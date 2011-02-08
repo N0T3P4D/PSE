@@ -92,8 +92,8 @@ public class ServerGameState extends GameState {
 		return communityCards;
 	}
 	
-	public ServerPlayer getPlayerByID(int playerId) {
-		return (ServerPlayer) super.getPlayerByID(playerId);
+	public ServerPlayer getPlayerById(int playerId) {
+		return (ServerPlayer) super.getPlayerById(playerId);
 	}
 
 //	public void 

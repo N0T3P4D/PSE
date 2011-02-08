@@ -129,7 +129,7 @@ public class SimpleClient {
 
 	public SimpleClient(Logic logic, int playerId, IServer server) {
 		this.setParameters(logic, playerId, server);
-		this.me = this.getGameState().getPlayerByID(playerId);
+		this.me = this.getGameState().getPlayerById(playerId);
 	}
 
 	private void setMyPlayer(Player player) {
@@ -172,7 +172,7 @@ public class SimpleClient {
 		this.playerId = server.addPlayer(client);
 		// Load my data
 		client.informNewPlayer(this.playerId);
-		this.setMyPlayer(state.getPlayerByID(this.playerId));
+		this.setMyPlayer(state.getPlayerById(this.playerId));
 	}
 
 	public final int getPlayerId() {
@@ -482,7 +482,7 @@ public class SimpleClient {
 		int id = ((IServerTrade) this.server).getPartner();
 		Player partner = null;
 		if (id >= 0) {
-			partner = this.getGameState().getPlayerByID(id);
+			partner = this.getGameState().getPlayerById(id);
 			if (partner == null) {
 				OJIMLogger.getLogger(this.getClass().toString()).severe("partner is unkown");
 			}
@@ -628,7 +628,7 @@ public class SimpleClient {
 		}
 		BuyableField field = (BuyableField) this.getGameState().getFieldAt(auctionServer.getAuctionedEstate());
 		Auction auction = new Auction(field, state);
-		Player bidder = this.getGameState().getPlayerByID(auctionServer.getBidder());
+		Player bidder = this.getGameState().getPlayerById(auctionServer.getBidder());
 		auction.placeBid(bidder, auctionServer.getHighestBid());
 		return auction;
 	}
@@ -638,7 +638,7 @@ public class SimpleClient {
 		AuctionState newState = AuctionState.getState(auctionServer.getAuctionState());
 		// New bid
 		if (newState == AuctionState.WAITING) {
-			Player bidder = this.getGameState().getPlayerByID(auctionServer.getBidder());
+			Player bidder = this.getGameState().getPlayerById(auctionServer.getBidder());
 			auction.placeBid(bidder, auctionServer.getHighestBid());
 		} else {
 			auction.setState(newState);
@@ -685,7 +685,7 @@ public class SimpleClient {
 		int id = ((IServerAuction) this.server).getBidder();
 		Player bidder = null;
 		if (id >= 0) {
-			bidder = this.getGameState().getPlayerByID(id);
+			bidder = this.getGameState().getPlayerById(id);
 			if (bidder == null) {
 				OJIMLogger.getLogger(this.getClass().toString()).severe("bidder is unkown");
 			}

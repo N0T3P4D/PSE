@@ -245,13 +245,13 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		playerInfoWindow.changeCash(player, getGameState().getPlayerByID(
+		playerInfoWindow.changeCash(player, getGameState().getPlayerById(
 				player.getId()).getBalance());
 		// draw();
 
 		// Geld kleiner 0 Workaround weil getIsBankrupt nicht geht
 		if (player.getIsBankrupt()
-				|| getGameState().getPlayerByID(player.getId()).getBalance() < 0) {
+				|| getGameState().getPlayerById(player.getId()).getBalance() < 0) {
 			playerInfoWindow.setBancrupt(player);
 			gameField.playerIsBancrupt(player);
 		} else {
@@ -363,7 +363,7 @@ public class GUIClient extends ClientBase {
 					+ partnerPlayer.getName()));
 			gameField.init(getGameState(), this);
 			for(int i = 0; i < getGameState().getPlayers().length; i++){
-				playerInfoWindow.changeCash(getGameState().getPlayerByID(i), getGameState().getPlayerByID(i).getBalance());
+				playerInfoWindow.changeCash(getGameState().getPlayerById(i), getGameState().getPlayerById(i).getBalance());
 			}
 		}
 	}
@@ -497,7 +497,7 @@ public class GUIClient extends ClientBase {
 				try {
 					gameField.playerMoves(getGameState()
 							.getFieldAt(Math.abs(0)), getGameState()
-							.getPlayerByID(i));
+							.getPlayerById(i));
 				} catch (NullPointerException e) {
 
 				}
@@ -850,7 +850,7 @@ public class GUIClient extends ClientBase {
 
 	public void showTrade(int player) {
 		if (this.menuState == MenuState.GAME) {
-			gameField.showTrade(getMe(), getGameState().getPlayerByID(player),
+			gameField.showTrade(getMe(), getGameState().getPlayerById(player),
 					getRequiredCash(), getRequiredEstates(),
 					getNumberOfRequiredGetOutOfJailCards(), getOfferedCash(),
 					getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards());

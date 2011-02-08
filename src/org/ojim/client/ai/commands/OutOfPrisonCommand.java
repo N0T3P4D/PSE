@@ -51,7 +51,7 @@ public class OutOfPrisonCommand extends Command {
 	 */
 	public OutOfPrisonCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
-		this.player = logic.getGameState().getPlayerByID(playerId);
+		this.player = logic.getGameState().getPlayerById(playerId);
 	}
 
 	@Override

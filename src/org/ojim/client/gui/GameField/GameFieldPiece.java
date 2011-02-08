@@ -439,9 +439,9 @@ public class GameFieldPiece extends JPanel {
 		removePlayer();
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			try {
-				if (gameState.getPlayerByID(i).getPosition() == field
+				if (gameState.getPlayerById(i).getPosition() == field
 						.getPosition()) {
-					addPlayer(gameState.getPlayerByID(i));
+					addPlayer(gameState.getPlayerById(i));
 				}
 			} catch (NullPointerException e) {
 

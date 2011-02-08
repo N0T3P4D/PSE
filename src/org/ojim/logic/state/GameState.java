@@ -113,8 +113,8 @@ public class GameState {
 		}
 	}
 	
-	public Player getPlayerByID(int playerID) {
-		return this.players.get(playerID);
+	public Player getPlayerById(int playerId) {
+		return this.players.get(playerId);
 	}
 	
 	public Field getFieldAt(int position) {
