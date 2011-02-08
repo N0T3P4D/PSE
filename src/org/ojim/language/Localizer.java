@@ -67,9 +67,6 @@ public class Localizer {
 		OFF("off"),
 		WIDTH("width"),
 		HEIGHT("height"),
-		SERVER_NAME("server name"),
-		MAX_PLAYER("max player"),
-		AI_PLAYER("ai player"),
 		UPGRADE("upgrade"),
 		DOWNGRADE("downgrade"),
 		AUCTION_FIRST("auction first"),
@@ -77,7 +74,13 @@ public class Localizer {
 		AUCTION_THIRD("auction third"),
 		AUCTION_INIT("auction init"),
 		AUCTION_RESET("auction reset"),
-		PRIVATE_MESSAGE("private");
+		PRIVATE_MESSAGE("private"),
+		
+		// Create server
+		SERVER_NAME("server name"),
+		MAX_PLAYER("max player"),
+		AI_PLAYER("ai player"),
+		HOST("host");
 		
 		public final String key;
 		

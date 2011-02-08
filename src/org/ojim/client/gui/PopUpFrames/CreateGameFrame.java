@@ -48,6 +48,9 @@ public class CreateGameFrame extends JFrame {
 	private JLabel kiLabel;
 	private JTextField kiField;
 
+	private JLabel hostLabel;
+	private JTextField hostField;
+
 	private JLabel errorLabel;
 
 	private ActionListener serverStartListener;
@@ -69,7 +72,8 @@ public class CreateGameFrame extends JFrame {
 									.parseInt(kiField.getText())) {
 						gui.startServer(nameField.getText(), Integer
 								.parseInt(playerField.getText()), Integer
-								.parseInt(kiField.getText()));
+								.parseInt(kiField.getText()),
+								hostField.getText());
 					}
 				} catch (NumberFormatException e2) {
 					errorLabel.setText(wrongInput);
@@ -81,14 +85,17 @@ public class CreateGameFrame extends JFrame {
 		panel = new JPanel();
 		startButton = new JButton();
 
-		nameLabel = new JLabel(language.getText("server name"));
+		nameLabel = new JLabel(language.getText(TextKey.SERVER_NAME));
 		nameField = new JTextField("Server");
 
-		playerLabel = new JLabel(language.getText("max player"));
+		playerLabel = new JLabel(language.getText(TextKey.MAX_PLAYER));
 		playerField = new JTextField("4");
 
 		kiLabel = new JLabel(language.getText(TextKey.AI_PLAYER));
 		kiField = new JTextField("3");
+		
+		hostLabel = new JLabel(language.getText(TextKey.HOST));
+		hostField = new JTextField("");
 
 		errorLabel = new JLabel();
 
@@ -102,6 +109,8 @@ public class CreateGameFrame extends JFrame {
 		panel.add(playerField);
 		panel.add(kiLabel);
 		panel.add(kiField);
+		panel.add(hostLabel);
+		panel.add(hostField);
 		panel.add(startButton);
 		panel.add(errorLabel);
 		panel.setLayout(new GridLayout(0, 2));
@@ -112,9 +121,10 @@ public class CreateGameFrame extends JFrame {
 
 	public void draw() {
 
-		nameLabel.setText(language.getText("server name"));
-		playerLabel.setText(language.getText("max player"));
+		nameLabel.setText(language.getText(TextKey.SERVER_NAME));
+		playerLabel.setText(language.getText(TextKey.MAX_PLAYER));
 		kiLabel.setText(language.getText(TextKey.AI_PLAYER));
+		hostLabel.setText(language.getText(TextKey.HOST));
 		startButtonlabel.setText(language.getText("start server"));
 		wrongInput = language.getText("wrong input");
 	}

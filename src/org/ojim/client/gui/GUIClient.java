@@ -715,7 +715,7 @@ public class GUIClient extends ClientBase {
 	 * @param k
 	 * @param j
 	 */
-	public void startServer(String serverName, int maxPlayers, int kiPlayers) {
+	public void startServer(String serverName, int maxPlayers, int kiPlayers, String host) {
 
 		setName(settings.getPlayerName());
 
@@ -723,10 +723,7 @@ public class GUIClient extends ClientBase {
 
 		server = new OjimServer(serverName);
 		
-		//server.initGame(maxPlayers, kiPlayers);
-		
-		// Nur vorrübergehend LASTIP
-		server.initRMIGame(maxPlayers, kiPlayers, settings.getLastIP());
+		server.initRMIGame(maxPlayers, kiPlayers, host);
 
 		connect(server);
 		// connect("192.168.0.1",60);
