@@ -28,6 +28,7 @@ public class StartNetClient {
 	
 	public NetOjim createClientRMIConnection(int portNum,String ip, ClientBase base){
 		 
+		System.setSecurityManager(new java.rmi.RMISecurityManager());
 		NetOjim server = null;
 		String registryURL = "rmi://"+ip+":" + portNum + "/myServer"; 
 		 try {

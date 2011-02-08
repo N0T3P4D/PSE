@@ -50,7 +50,7 @@ public class StartNetOjim {
 		try {
 		    
 			Registry registry = LocateRegistry.createRegistry(portReg);
-			registry.list();  
+			//registry.list();  
 			String registryURL = "rmi://"+ip+":" + portReg + "/myServer";
 		    Naming.rebind(registryURL, ojimServer);
 		    
