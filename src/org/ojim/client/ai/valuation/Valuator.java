@@ -280,7 +280,7 @@ public class Valuator extends SimpleClient {
 
 	private double tradeValuateJailCards() {
 		int offeredCards = getNumberOfOfferedGetOutOfJailCards();
-		int difference = ValuationParameters.desiredNumberOfOutOfOjailCards - getNumberOfGetOutOfJailCards(playerID);
+		int difference = ValuationParameters.desiredNumberOfOutOfOjailCards - this.getMe().getNumberOfGetOutOfJailCards();
 		if (difference > 0) {
 			if (offeredCards >= difference) {
 				return ((Jail) getGameState().getFieldAt(10)).getMoneyToPay() * difference;

@@ -306,31 +306,6 @@ public class SimpleClient {
 		player.setNumberOfGetOutOfJailCards(this.server.getNumberOfGetOutOfJailCards(player.getId()));
 		return player;
 	}
-	
-	@Deprecated
-	public int getPlayerCash(int playerID) {
-		return this.server.getPlayerCash(playerID);
-	}
-
-	@Deprecated
-	public String getPlayerName(int player) {
-		return this.server.getPlayerName(player);
-	}
-
-	@Deprecated
-	public int getPlayerColor(int player) {
-		return this.server.getPlayerColor(player);
-	}
-
-	@Deprecated
-	public int getPlayerPiecePosition(int playerID) {
-		return this.server.getPlayerPiecePosition(playerID);
-	}
-
-	@Deprecated
-	public int getNumberOfGetOutOfJailCards(int playerID) {
-		return this.server.getNumberOfGetOutOfJailCards(playerID);
-	}
 
 	/*
 	 * ADITIONAL GETTER
