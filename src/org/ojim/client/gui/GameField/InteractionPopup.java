@@ -18,7 +18,6 @@
 package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
@@ -34,18 +33,13 @@ import javax.swing.border.LineBorder;
 
 import org.ojim.client.SimpleClient.AuctionState;
 import org.ojim.client.gui.GUIClient;
-import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.language.Localizer;
 import org.ojim.language.Localizer.TextKey;
-import org.ojim.logic.state.Card;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 public class InteractionPopup extends JPanel {
 
@@ -73,8 +67,7 @@ public class InteractionPopup extends JPanel {
 	private JPanel freeParkingCashPanel = new JPanel();
 	private JLabel freeParkingCashLabel = new JLabel();
 	
-	private String upgradeFieldname;
-	private int position;
+	private Street upgradeStreet;
 	private JLabel upgradeTextLabel = new JLabel();
 	private JTextField upgradeTextField = new JTextField();
 	private JButton upgradeButton = new JButton();
@@ -137,7 +130,7 @@ public class InteractionPopup extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			gui.upgradeField(position,Integer.parseInt(upgradeTextField.getText()));
+			gui.upgradeField(upgradeStreet.getPosition(), upgradeStreet.getBuiltLevel() + 1);
 			deleteUpgrade();
 		}
 	};;;
@@ -146,8 +139,7 @@ public class InteractionPopup extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//System.out.println("DOWNGRADDDDEE");
-			gui.downgradeField(position,Integer.parseInt(upgradeTextField.getText()));
+			gui.upgradeField(upgradeStreet.getPosition(), upgradeStreet.getBuiltLevel() - 1);
 			deleteUpgrade();
 		}
 	};;;
@@ -460,33 +452,26 @@ public class InteractionPopup extends JPanel {
 		diceTextLabel.setText(language.getText(TextKey.DICE_VALUES)+": ");
 		freeParkingCashLabel.setText(language.getText(TextKey.FREE_PARKING_CASH)+": "+cash+" "+language.getText(TextKey.CURRENCY));
 		
-		upgradeTextLabel.setText(upgradeFieldname+": ");
-		upgradeButtonLabel.setText(language.getText(TextKey.UPGRADE));
-		downgradeButtonLabel.setText(language.getText(TextKey.DOWNGRADE));
-		
+		if (upgradeStreet != null) {
+			upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeStreet.getName() + ": ");
+			upgradeButtonLabel.setText(language.getText(TextKey.UPGRADE));
+			downgradeButtonLabel.setText(language.getText(TextKey.DOWNGRADE));
+		}
 		
 		repaint();
 	}
 
 	public void showUpgrade(Street street) {
-		this.showUpgrade(street.getPosition(), street.getName());
-	}
-	
-	public void showUpgrade(int parseInt, String fieldName) {
-		
-		this.position = parseInt;
+		this.upgradeStreet = street;
 		this.remove(upgradePanel);
 		
-		upgradeFieldname = fieldName;
-		
-		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeFieldname+": ");
+		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeStreet.getName() + ": ");
 
 		System.out.println("Upgrade");
 		upgradePanel.setLayout(new FlowLayout());
 		this.add(upgradePanel);
 		this.repaint();
 		this.revalidate();
-		
 	}
 
 	public void deleteUpgrade() {		

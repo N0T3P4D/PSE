@@ -23,7 +23,6 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -406,7 +405,7 @@ public class GameFieldPiece extends JPanel {
 
 	}
 
-	public void removeSinglePlayer(Player player) {
+	public void removePlayer(Player player) {
 
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			if (this.player[i] != null) {
@@ -471,12 +470,7 @@ public class GameFieldPiece extends JPanel {
 
 	}
 
-	public Street getField() {
-		if (this.field instanceof Street) {
-			return (Street) this.field;
-		} else {
-			return null;
-		}
-
+	public Field getField() {
+		return this.field;
 	}
 }
