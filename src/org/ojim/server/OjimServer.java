@@ -36,7 +36,6 @@ import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.ServerAuction;
 import org.ojim.logic.state.Card;
 import org.ojim.logic.state.CardStack;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.GetOutOfJailCard;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
@@ -199,10 +198,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 
 		// Init the GameFields
-		Field[] fields = new Field[GameState.FIELDS_AMOUNT];
+		Field[] fields = new Field[this.logic.getGameState().getNumberOfFields()];
 		this.loadDefaultGameStateFields(fields);
 		for (Field field : fields) {
-			this.state.setFieldAt(field, field.getPosition());
+			this.logic.getGameState().setFieldAt(field, field.getPosition());
 		}
 
 		this.connectedClients = 0;

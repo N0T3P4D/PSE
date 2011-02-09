@@ -65,7 +65,7 @@ public class ServerLogic extends Logic {
 		player.transferMoney(-(player.getBalance() + 1));
 		player.setBankrupt();
 		Field field;
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+		for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
 			field = this.getGameState().getFieldAt(i);
 			if (field instanceof BuyableField
 					&& ((BuyableField) field).getOwner() == player) {
@@ -306,7 +306,7 @@ public class ServerLogic extends Logic {
 		int fieldPos = field.getPosition();
 		int playerPos = player.getPosition();
 		while (playerPos != fieldPos) {
-			playerPos = ++playerPos % GameState.FIELDS_AMOUNT;
+			playerPos = ++playerPos % this.getGameState().getNumberOfFields();
 			player.setPosition(playerPos);
 			Field currentField = this.getGameState().getFieldAt(playerPos);
 			if (executePasses) {
@@ -343,16 +343,16 @@ public class ServerLogic extends Logic {
 		for (int i = 1; i < result; i++) {
 			// Move Player 1 forward
 			player.setPosition((position + i)
-					% this.getGameState().FIELDS_AMOUNT);
+					% this.getGameState().getNumberOfFields());
 
 			// Do the passthrough
 			this.getGameState()
 					.getFieldAt(
-							(position + i) % this.getGameState().FIELDS_AMOUNT)
+							(position + i) % this.getGameState().getNumberOfFields())
 					.passThrough();
 		}
 		player.setPosition((position + result)
-				% this.getGameState().FIELDS_AMOUNT);
+				% this.getGameState().getNumberOfFields());
 
 		// Inform everyone that the Player has moved
 		for (Player onePlayer : this.getGameState().getPlayers()) {
@@ -364,7 +364,7 @@ public class ServerLogic extends Logic {
 		// Do the Execute for the Field the Player is standing on
 		this.getGameState()
 				.getFieldAt(
-						(position + result) % this.getGameState().FIELDS_AMOUNT)
+						(position + result) % this.getGameState().getNumberOfFields())
 				.execute();
 
 	}

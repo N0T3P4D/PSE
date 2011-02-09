@@ -43,6 +43,7 @@ import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Street;
 
 import com.sun.org.apache.bcel.internal.generic.NEW;
 
@@ -208,7 +209,7 @@ public class InteractionPopup extends JPanel {
 		this.gui = guiClient;
 		this.setBackground(Color.BLACK);
 		
-		tradeCardPanel = new JPanel[GameState.FIELDS_AMOUNT];
+		tradeCardPanel = new JPanel[guiClient.getGameState().getNumberOfFields()];
 		
 		tradeMe = me;
 		
@@ -467,6 +468,10 @@ public class InteractionPopup extends JPanel {
 		repaint();
 	}
 
+	public void showUpgrade(Street street) {
+		this.showUpgrade(street.getPosition(), street.getName());
+	}
+	
 	public void showUpgrade(int parseInt, String fieldName) {
 		
 		this.position = parseInt;

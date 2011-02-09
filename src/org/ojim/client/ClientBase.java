@@ -90,7 +90,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		state.getBank().setHouses(this.getNumberOfHousesLeft());
 		
 		Map<Integer, FieldGroup> groups = new HashMap<Integer, FieldGroup>(17);
-		for (int position = 0; position < GameState.FIELDS_AMOUNT; position++) {
+		for (int position = 0; position < this.getGameState().getNumberOfFields(); position++) {
 			Field field = this.getFieldFromServer(position, groups, new HashMap<Integer, Player>());
 			if (field != null) {
 				state.setFieldAt(field, position);
@@ -390,7 +390,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			Player player = this.getPlayerFromServer(playerId);
 			this.getGameState().setPlayer(player);
 			// Update all owned fields
-			for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
 				Field field = this.getGameState().getFieldAt(i);
 				if (field instanceof BuyableField && ((BuyableField) field).getOwner() == null) {
 					this.updateFieldOwner((BuyableField) field, this.getGameState().getPlayersMap());
@@ -411,7 +411,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		Player old = this.getGameState().getPlayerById(playerId);
 		this.getGameState().removePlayer(old);
 		// Remove all owners for this field
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+		for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
 			Field field = this.getGameState().getFieldAt(i);
 			if (field instanceof BuyableField && ((BuyableField) field).getOwner().equals(old)) {
 				((BuyableField) field).buy(null);

@@ -20,7 +20,6 @@ package org.ojim.logic.state;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.ojim.logic.Logic;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.rules.GameRules;

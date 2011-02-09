@@ -256,13 +256,14 @@ public class GUIClient extends ClientBase {
 			gameField.playerIsBancrupt(player);
 		} else {
 
-			for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			int freeparkingMoney = 0;
+			for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
 				if (getGameState().getFieldAt(i) instanceof org.ojim.logic.state.fields.FreeParking) {
-					this.gameField
-							.setFreeParkingMoney(((org.ojim.logic.state.fields.FreeParking) getGameState()
-									.getFieldAt(i)).getMoneyInPot());
+					freeparkingMoney += ((org.ojim.logic.state.fields.FreeParking) getGameState()
+							.getFieldAt(i)).getMoneyInPot();
 				}
 			}
+			this.gameField.setFreeParkingMoney(freeparkingMoney);
 		}
 
 	}
@@ -821,7 +822,7 @@ public class GUIClient extends ClientBase {
 		initTrade(tradePartner);
 		offerCash(cash);
 		if (!myFields.isEmpty()) {
-			for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
+			for(int i = 0; i < this.getGameState().getNumberOfFields(); i++){
 				if(getGameState().getFieldAt(i).getName().equals(myFields.getFirst())){
 					System.out.println("Meine Felder: "+getGameState().getFieldAt(i).getName());
 					offerEstate((BuyableField)getGameState().getFieldAt(i));
@@ -830,7 +831,7 @@ public class GUIClient extends ClientBase {
 			}
 		}
 		if (!hisFields.isEmpty()) {
-			for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
+			for(int i = 0; i < this.getGameState().getNumberOfFields(); i++){
 				if(getGameState().getFieldAt(i).getName().equals(hisFields.getFirst())){
 					System.out.println("Seine Felder: "+getGameState().getFieldAt(i).getName());
 					requireEstate((BuyableField)getGameState().getFieldAt(i));

@@ -148,7 +148,7 @@ public class SimpleClient {
 		this.playerId = id;
 	}
 
-	protected GameState getGameState() {
+	public GameState getGameState() {
 		return this.logic.getGameState();
 	}
 
