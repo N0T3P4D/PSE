@@ -831,9 +831,7 @@ public class GUIClient extends ClientBase {
 			this.requireEstate(buyableField);
 		}
 		
-		for (int i = 0; i < outOfJailCards; i++) {
-			offerGetOutOfJailCard();
-		}
+		offerGetOutOfJailCard(outOfJailCards);
 		System.out.println("Ok Meista, hab nun gehandelt!!");
 		proposeTrade();
 

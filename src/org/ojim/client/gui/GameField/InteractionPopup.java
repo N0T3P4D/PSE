@@ -23,6 +23,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -101,8 +102,8 @@ public class InteractionPopup extends JPanel {
 	private JButton noButton;
 	private JLabel noButtonLabel;
 	
-	private LinkedList<String> hisFields;
-	private LinkedList<String> myFields;
+	private List<BuyableField> hisFields;
+	private List<BuyableField> myFields;
 
 	
 	private JPanel[] tradeCardPanel;
@@ -262,7 +263,7 @@ public class InteractionPopup extends JPanel {
 		myTradePanel.add(myCards);
 		myTradePanel.add(myJailCard);
 		myTradePanel.add(myJailCards);
-		myFields = new LinkedList<String>();
+		myFields = new LinkedList<BuyableField>();
 
 		hisTradePanel.add(hisName);
 		hisTradePanel.add(hisMoney);
@@ -270,7 +271,7 @@ public class InteractionPopup extends JPanel {
 		hisTradePanel.add(hisCards);
 		hisTradePanel.add(hisJailCard);
 		hisTradePanel.add(hisJailCards);
-		hisFields = new LinkedList<String>();
+		hisFields = new LinkedList<BuyableField>();
 
 		okButton.add(okButtonLabel = new JLabel());
 		noButton.add(noButtonLabel = new JLabel());
@@ -376,8 +377,8 @@ public class InteractionPopup extends JPanel {
 		tradeMe = me;
 		tradePartner = partnerPlayer;
 
-		myFields = new LinkedList<String>();
-		hisFields = new LinkedList<String>();
+		myFields = new LinkedList<BuyableField>();
+		hisFields = new LinkedList<BuyableField>();
 		
 		hisCards.removeAll();
 		myCards.removeAll();
@@ -497,19 +498,18 @@ public class InteractionPopup extends JPanel {
 		Field field = gui.getFieldByPosition(name);
 		
 		if(field instanceof BuyableField){
+			BuyableField buyField = (BuyableField) field;
 			if(tradeCardPanel[field.getPosition()]==null){
 				tradeCardPanel[field.getPosition()] = new JPanel();
 				tradeCardPanel[field.getPosition()].add(fieldLabel = new JLabel(field.getName()));
 				tradeCardPanel[field.getPosition()].setBackground(StreetColor.getBackGroundColor(field.getFieldGroup().getColor()));
 				fieldLabel.setForeground(StreetColor.getFontColor(field.getFieldGroup().getColor()));
 			}
-			if((((BuyableField) field).getOwner())!=null){
-			if((((BuyableField) field).getOwner()).getId()==
-				me.getId()){
-				if(myFields.contains(field.getName())){
-					myFields.removeFirstOccurrence(field.getName());
+			if (buyField.getOwner() == this.tradeMe) {
+				if(myFields.contains(buyField)){
+					myFields.remove(buyField);
 				} else {
-					myFields.add(field.getName());
+					myFields.add(buyField);
 				}
 				if(myCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
 					myCards.remove(tradeCardPanel[field.getPosition()]);
@@ -519,11 +519,11 @@ public class InteractionPopup extends JPanel {
 				}
 				myCards.repaint();
 				myCards.revalidate();
-			} else if((((BuyableField) field).getOwner()).getId()==this.tradePartner.getId()){
-				if(hisFields.contains(field.getName())){
-					hisFields.removeFirstOccurrence(field.getName());
+			} else if (buyField.getOwner() == this.tradePartner) {
+				if(hisFields.contains(buyField)){
+					hisFields.remove(buyField);
 				} else {
-					hisFields.add(field.getName());
+					hisFields.add(buyField);
 				}
 				if(hisCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
 					hisCards.remove(tradeCardPanel[field.getPosition()]);
@@ -534,7 +534,7 @@ public class InteractionPopup extends JPanel {
 				hisCards.repaint();
 				hisCards.revalidate();	
 			}
-			}
+			
 			repaint();
 			revalidate();	
 		}
