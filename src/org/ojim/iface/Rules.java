@@ -24,6 +24,10 @@ import java.io.Serializable;
  */
 public class Rules implements Serializable {
 	
+	/**
+	 * 
+	 */
+	
 	/** Das verfügbare Startgeld. */
 	public final int startMoney;
 	/** Wie viel Geld man beim ziehen über Los bekommt. */
