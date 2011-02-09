@@ -134,8 +134,6 @@ public class GUIClient extends ClientBase {
 		helpFrame.setTitle(language.getText(TextKey.HELP));
 		aboutFrame.setTitle(language.getText(TextKey.ABOUT));
 
-		gameField = new GameField(this);
-
 		GUIFrame = new JFrame(language.getText(TextKey.OJIM));
 
 		playerInfoWindow.setLanguage(language);
@@ -391,7 +389,7 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onStartGame(Player[] players) {
-
+		gameField = new GameField(this);
 		if (notInit) {
 			notInit = false;
 			gameField.init(getGameState(), this);
@@ -649,7 +647,9 @@ public class GUIClient extends ClientBase {
 		buyButton.setText(language.getText(TextKey.BUY));
 		endTurnButton.setText(language.getText(TextKey.ENDTURN));
 		rollButton.setText(language.getText(TextKey.ROLL));
-		gameField.setLanguage(language);
+		if (gameField != null) {
+			gameField.setLanguage(language);
+		}
 		button.setText(language.getText(TextKey.READY));
 
 		draw();
