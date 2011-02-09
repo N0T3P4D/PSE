@@ -18,12 +18,12 @@
 package org.ojim.client.gui.GameField;
 
 import java.awt.Color;
-import java.awt.Component;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.BoxLayout;
 import javax.swing.JButton;
@@ -34,17 +34,13 @@ import javax.swing.border.LineBorder;
 
 import org.ojim.client.SimpleClient.AuctionState;
 import org.ojim.client.gui.GUIClient;
-import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.language.Localizer;
 import org.ojim.language.Localizer.TextKey;
-import org.ojim.logic.state.Card;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
+import org.ojim.logic.state.fields.Street;
 
 public class InteractionPopup extends JPanel {
 
@@ -72,8 +68,7 @@ public class InteractionPopup extends JPanel {
 	private JPanel freeParkingCashPanel = new JPanel();
 	private JLabel freeParkingCashLabel = new JLabel();
 	
-	private String upgradeFieldname;
-	private int position;
+	private Street upgradeStreet;
 	private JLabel upgradeTextLabel = new JLabel();
 	private JTextField upgradeTextField = new JTextField();
 	private JButton upgradeButton = new JButton();
@@ -107,8 +102,8 @@ public class InteractionPopup extends JPanel {
 	private JButton noButton;
 	private JLabel noButtonLabel;
 	
-	private LinkedList<String> hisFields;
-	private LinkedList<String> myFields;
+	private List<BuyableField> hisFields;
+	private List<BuyableField> myFields;
 
 	
 	private JPanel[] tradeCardPanel;
@@ -136,7 +131,7 @@ public class InteractionPopup extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			gui.upgradeField(position,Integer.parseInt(upgradeTextField.getText()));
+			gui.upgradeField(upgradeStreet.getPosition(), upgradeStreet.getBuiltLevel() + 1);
 			deleteUpgrade();
 		}
 	};;;
@@ -145,8 +140,7 @@ public class InteractionPopup extends JPanel {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			//System.out.println("DOWNGRADDDDEE");
-			gui.downgradeField(position,Integer.parseInt(upgradeTextField.getText()));
+			gui.upgradeField(upgradeStreet.getPosition(), upgradeStreet.getBuiltLevel() - 1);
 			deleteUpgrade();
 		}
 	};;;
@@ -208,7 +202,7 @@ public class InteractionPopup extends JPanel {
 		this.gui = guiClient;
 		this.setBackground(Color.BLACK);
 		
-		tradeCardPanel = new JPanel[GameState.FIELDS_AMOUNT];
+		tradeCardPanel = new JPanel[guiClient.getGameState().getNumberOfFields()];
 		
 		tradeMe = me;
 		
@@ -269,7 +263,7 @@ public class InteractionPopup extends JPanel {
 		myTradePanel.add(myCards);
 		myTradePanel.add(myJailCard);
 		myTradePanel.add(myJailCards);
-		myFields = new LinkedList<String>();
+		myFields = new LinkedList<BuyableField>();
 
 		hisTradePanel.add(hisName);
 		hisTradePanel.add(hisMoney);
@@ -277,7 +271,7 @@ public class InteractionPopup extends JPanel {
 		hisTradePanel.add(hisCards);
 		hisTradePanel.add(hisJailCard);
 		hisTradePanel.add(hisJailCards);
-		hisFields = new LinkedList<String>();
+		hisFields = new LinkedList<BuyableField>();
 
 		okButton.add(okButtonLabel = new JLabel());
 		noButton.add(noButtonLabel = new JLabel());
@@ -362,9 +356,9 @@ public class InteractionPopup extends JPanel {
 	
 	public void showAuction(AuctionState auctionState, BuyableField buyableField, Player bidder, int highestBid){
 		try {
-			auctionButtonOkLabel.setText(language.getText("bid"));
+			auctionButtonOkLabel.setText(language.getText(TextKey.AUCTION_BID));
 			auctionCardLabel.setText(buyableField.getName());
-			auctionHighestBid.setText(highestBid+" "+language.getText("currency"));
+			auctionHighestBid.setText(highestBid+" "+language.getText(TextKey.CURRENCY));
 			auctionHighestBidPlayer.setText(bidder.getName());
 			this.add(auctionPanel);
 			this.repaint();
@@ -383,8 +377,8 @@ public class InteractionPopup extends JPanel {
 		tradeMe = me;
 		tradePartner = partnerPlayer;
 
-		myFields = new LinkedList<String>();
-		hisFields = new LinkedList<String>();
+		myFields = new LinkedList<BuyableField>();
+		hisFields = new LinkedList<BuyableField>();
 		
 		hisCards.removeAll();
 		myCards.removeAll();
@@ -426,9 +420,9 @@ public class InteractionPopup extends JPanel {
 	
 	public void startAuction(BuyableField buyableField) {
 		
-		newAuctionButtonOkLabel.setText(language.getText("start auction"));
+		newAuctionButtonOkLabel.setText(language.getText(TextKey.START_AUCTION));
 		newAuctionCardLabel.setText(buyableField.getName());
-		newAuctionMinimumBid.setText(language.getText("minimum bid")+": ");
+		newAuctionMinimumBid.setText(language.getText(TextKey.MINIMUM_BID)+": ");
 		this.add(auctionPanel);
 		
 		this.add(newAuctionPanel);
@@ -456,32 +450,29 @@ public class InteractionPopup extends JPanel {
 	
 	public void setLanguage(Localizer language){
 		this.language = language;
-		diceTextLabel.setText(language.getText("dice values")+": ");
-		freeParkingCashLabel.setText(language.getText("free parking cash")+": "+cash+" "+language.getText("currency"));
+		diceTextLabel.setText(language.getText(TextKey.DICE_VALUES)+": ");
+		freeParkingCashLabel.setText(language.getText(TextKey.FREE_PARKING_CASH)+": "+cash+" "+language.getText(TextKey.CURRENCY));
 		
-		upgradeTextLabel.setText(upgradeFieldname+": ");
-		upgradeButtonLabel.setText(language.getText(TextKey.UPGRADE));
-		downgradeButtonLabel.setText(language.getText(TextKey.DOWNGRADE));
-		
+		if (upgradeStreet != null) {
+			upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeStreet.getName() + ": ");
+			upgradeButtonLabel.setText(language.getText(TextKey.UPGRADE));
+			downgradeButtonLabel.setText(language.getText(TextKey.DOWNGRADE));
+		}
 		
 		repaint();
 	}
 
-	public void showUpgrade(int parseInt, String fieldName) {
-		
-		this.position = parseInt;
+	public void showUpgrade(Street street) {
+		this.upgradeStreet = street;
 		this.remove(upgradePanel);
 		
-		upgradeFieldname = fieldName;
-		
-		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeFieldname+": ");
+		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeStreet.getName() + ": ");
 
 		System.out.println("Upgrade");
 		upgradePanel.setLayout(new FlowLayout());
 		this.add(upgradePanel);
 		this.repaint();
 		this.revalidate();
-		
 	}
 
 	public void deleteUpgrade() {		
@@ -507,19 +498,18 @@ public class InteractionPopup extends JPanel {
 		Field field = gui.getFieldByPosition(name);
 		
 		if(field instanceof BuyableField){
+			BuyableField buyField = (BuyableField) field;
 			if(tradeCardPanel[field.getPosition()]==null){
 				tradeCardPanel[field.getPosition()] = new JPanel();
 				tradeCardPanel[field.getPosition()].add(fieldLabel = new JLabel(field.getName()));
 				tradeCardPanel[field.getPosition()].setBackground(StreetColor.getBackGroundColor(field.getFieldGroup().getColor()));
 				fieldLabel.setForeground(StreetColor.getFontColor(field.getFieldGroup().getColor()));
 			}
-			if((((BuyableField) field).getOwner())!=null){
-			if((((BuyableField) field).getOwner()).getId()==
-				me.getId()){
-				if(myFields.contains(field.getName())){
-					myFields.removeFirstOccurrence(field.getName());
+			if (buyField.getOwner() == this.tradeMe) {
+				if(myFields.contains(buyField)){
+					myFields.remove(buyField);
 				} else {
-					myFields.add(field.getName());
+					myFields.add(buyField);
 				}
 				if(myCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
 					myCards.remove(tradeCardPanel[field.getPosition()]);
@@ -529,11 +519,11 @@ public class InteractionPopup extends JPanel {
 				}
 				myCards.repaint();
 				myCards.revalidate();
-			} else if((((BuyableField) field).getOwner()).getId()==this.tradePartner.getId()){
-				if(hisFields.contains(field.getName())){
-					hisFields.removeFirstOccurrence(field.getName());
+			} else if (buyField.getOwner() == this.tradePartner) {
+				if(hisFields.contains(buyField)){
+					hisFields.remove(buyField);
 				} else {
-					hisFields.add(field.getName());
+					hisFields.add(buyField);
 				}
 				if(hisCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
 					hisCards.remove(tradeCardPanel[field.getPosition()]);
@@ -544,7 +534,7 @@ public class InteractionPopup extends JPanel {
 				hisCards.repaint();
 				hisCards.revalidate();	
 			}
-			}
+			
 			repaint();
 			revalidate();	
 		}

@@ -22,6 +22,7 @@ import java.util.logging.Logger;
 
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
+import org.ojim.logic.state.Player;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -34,7 +35,7 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class OutOfPrisonCommand extends Command {
 	
-	private int playerId;
+	private Player player;
 
 	/**
 	 * 
@@ -50,18 +51,18 @@ public class OutOfPrisonCommand extends Command {
 	 */
 	public OutOfPrisonCommand(Logic logic, IServer server, int playerId) {
 		super(logic, playerId, server);
-		this.playerId = playerId;
+		this.player = logic.getGameState().getPlayerById(playerId);
 	}
 
 	@Override
 	public void execute() {
 		Logger logger = OJIMLogger.getLogger(getClass().toString());
 		OJIMLogger.changeLogLevel(logger, Level.FINE);
-		if (this.getNumberOfGetOutOfJailCards(getPlayerId()) > 0) {
+		if (this.player.getNumberOfGetOutOfJailCards() > 0) {
 			logger.log(Level.FINE, "Using OutOfJailCard!");
 			useGetOutOfJailCard();
 		} else {
-			logger.log(Level.FINE, "Player " + playerId + " Paying fine!");
+			logger.log(Level.FINE, "Player " + this.player.getId() + " Paying fine!");
 			payFine();
 		}
 	}

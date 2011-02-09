@@ -90,7 +90,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		state.getBank().setHouses(this.getNumberOfHousesLeft());
 		
 		Map<Integer, FieldGroup> groups = new HashMap<Integer, FieldGroup>(17);
-		for (int position = 0; position < GameState.FIELDS_AMOUNT; position++) {
+		for (int position = 0; position < this.getGameState().getNumberOfFields(); position++) {
 			Field field = this.getFieldFromServer(position, groups, new HashMap<Integer, Player>());
 			if (field != null) {
 				state.setFieldAt(field, position);
@@ -177,7 +177,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informCashChange(int playerId, int cashChange) {
 		this.logger.log(Level.INFO, "informCashChange(" + playerId + "," + cashChange + ")");
-		Player player = this.getGameState().getPlayerByID(playerId);
+		Player player = this.getGameState().getPlayerById(playerId);
 		if (player != null) {
 			player.transferMoney(cashChange);
 		//	this.onCashChange(player, cashChange);
@@ -242,7 +242,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		this.logger.log(Level.INFO, "informMessage(" + text + "," + sender + "," + privateMessage + ")");	
 		Player player = null;
 		if ((sender == -1)
-				|| (player = this.getGameState().getPlayerByID(sender)) != null) {
+				|| (player = this.getGameState().getPlayerById(sender)) != null) {
 			//this.onMessage(text, player, privateMessage);
 			this.executor.execute(new OnMessage(this, text, player,
 					privateMessage));
@@ -276,7 +276,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 		GameState state = this.getGameState();
 		Player[] order = new Player[ids.length];
 		for (int i = 0; i < ids.length; i++) {
-			order[i] = state.getPlayerByID(ids[i]);
+			order[i] = state.getPlayerById(ids[i]);
 		}
 		state.setPlayerOrder(order);
 		//this.onStartGame(this.getGameState().getPlayers());
@@ -289,9 +289,9 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informTrade(int actingPlayer, int partnerPlayer) {
 		this.logger.log(Level.INFO, "informTrade(" + actingPlayer + "," + partnerPlayer + ")");
-		Player acting = this.getGameState().getPlayerByID(actingPlayer);
+		Player acting = this.getGameState().getPlayerById(actingPlayer);
 		if (acting != null) {
-			Player partner = this.getGameState().getPlayerByID(partnerPlayer);
+			Player partner = this.getGameState().getPlayerById(partnerPlayer);
 			if (partner != null) {
 				//this.onTrade(acting, partner);
 				this.executor.execute(new OnTrade(this, acting, partner));
@@ -309,7 +309,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informTurn(int player) {
 		this.logger.log(Level.INFO, "informTurn(" + player + ")");
-		Player newPlayer = this.getGameState().getPlayerByID(player);
+		Player newPlayer = this.getGameState().getPlayerById(player);
 		if (newPlayer != null) {
 			this.getGameState().setActivePlayer(newPlayer);
 			//this.onTurn(newPlayer);
@@ -324,7 +324,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informMove(int playerId, int position) {
 		this.logger.log(Level.INFO, "informMove(" + playerId + ", " + position + ")");
-		Player player = this.getGameState().getPlayerByID(playerId);
+		Player player = this.getGameState().getPlayerById(playerId);
 		if (player != null) {
 			player.setPosition(position);
 			if (position < 0 && this.getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
@@ -345,7 +345,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informBuy(int playerId, int position) {
 		this.logger.log(Level.INFO, "informBuy(" + playerId + ", " + position + ")");
-		Player player = this.getGameState().getPlayerByID(playerId);
+		Player player = this.getGameState().getPlayerById(playerId);
 		if (player != null) {
 			Field field = this.getGameState().getFieldAt(position);
 			if (field instanceof BuyableField) {
@@ -386,11 +386,11 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	public final void informNewPlayer(int playerId) {
 		this.logger.log(Level.INFO, "informNewPlayer(" + playerId + ")");
-		if (this.getGameState().getPlayerByID(playerId) == null) {
+		if (this.getGameState().getPlayerById(playerId) == null) {
 			Player player = this.getPlayerFromServer(playerId);
 			this.getGameState().setPlayer(player);
 			// Update all owned fields
-			for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
 				Field field = this.getGameState().getFieldAt(i);
 				if (field instanceof BuyableField && ((BuyableField) field).getOwner() == null) {
 					this.updateFieldOwner((BuyableField) field, this.getGameState().getPlayersMap());
@@ -408,10 +408,10 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 
 	public final void informPlayerLeft(int playerId) {
 		this.logger.log(Level.INFO, "informPlayerLeft(" + playerId + ")");
-		Player old = this.getGameState().getPlayerByID(playerId);
+		Player old = this.getGameState().getPlayerById(playerId);
 		this.getGameState().removePlayer(old);
 		// Remove all owners for this field
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+		for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
 			Field field = this.getGameState().getFieldAt(i);
 			if (field instanceof BuyableField && ((BuyableField) field).getOwner().equals(old)) {
 				((BuyableField) field).buy(null);

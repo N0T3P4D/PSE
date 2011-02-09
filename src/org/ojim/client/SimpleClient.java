@@ -129,7 +129,7 @@ public class SimpleClient {
 
 	public SimpleClient(Logic logic, int playerId, IServer server) {
 		this.setParameters(logic, playerId, server);
-		this.me = this.getGameState().getPlayerByID(playerId);
+		this.me = this.getGameState().getPlayerById(playerId);
 	}
 
 	private void setMyPlayer(Player player) {
@@ -148,7 +148,7 @@ public class SimpleClient {
 		this.playerId = id;
 	}
 
-	protected GameState getGameState() {
+	public GameState getGameState() {
 		return this.logic.getGameState();
 	}
 
@@ -172,7 +172,7 @@ public class SimpleClient {
 		this.playerId = server.addPlayer(client);
 		// Load my data
 		client.informNewPlayer(this.playerId);
-		this.setMyPlayer(state.getPlayerByID(this.playerId));
+		this.setMyPlayer(state.getPlayerById(this.playerId));
 	}
 
 	public final int getPlayerId() {
@@ -202,7 +202,7 @@ public class SimpleClient {
 				if (delim > 0) {
 					groupName = name.substring(0, delim);
 				}
-				group = new StreetFieldGroup(color, groupName, this.getEstateHousePrice(position));
+				group = new StreetFieldGroup(color, groupName, this.server.getEstateHousePrice(position));
 			}
 
 			name = name.substring(name.indexOf(":") + 1).trim();
@@ -213,7 +213,7 @@ public class SimpleClient {
 			}
 
 			Street street = new Street(name, position, rentByLevel, this.server.getEstateHouses(position), price);
-			street.setMortgaged(this.isMortgaged(position));
+			street.setMortgaged(this.server.isMortgaged(position));
 
 			field = street;
 		} else {
@@ -276,53 +276,14 @@ public class SimpleClient {
 	}
 
 	public BuyableField updateFieldOwner(BuyableField field, Map<Integer, Player> players) {
-		Player owner = players.get(this.server.getOwner(field.getPosition()));
-		if (owner == null) {
+		int playerId = this.server.getOwner(field.getPosition());
+		Player owner = players.get(playerId);
+		if (owner == null && playerId >= 0) {
 			OJIMLogger.getLogger(this.getClass().toString()).info("Owner doesn't exists (at the moment?)!");
 		} else {
 			field.buy(owner);
 		}
 		return field;
-	}
-	
-	@Deprecated
-	public int getEstateColorGroup(int position) {
-		return this.server.getEstateColorGroup(position);
-	}
-
-	@Deprecated
-	public String getEstateName(int position) {
-		return this.server.getEstateName(position);
-	}
-
-	@Deprecated
-	public int getEstatePrice(int position) {
-		return this.server.getEstatePrice(position);
-	}
-
-	@Deprecated
-	public int getEstateRent(int position, int houses) {
-		return this.server.getEstateRent(position, houses);
-	}
-
-	@Deprecated
-	public int getEstateHouses(int position) {
-		return this.server.getEstateHouses(position);
-	}
-
-	@Deprecated
-	public boolean isMortgaged(int position) {
-		return this.server.isMortgaged(position);
-	}
-	
-	@Deprecated
-	public int getOwner(int position) {
-		return this.server.getOwner(position);
-	}
-
-	@Deprecated
-	public int getEstateHousePrice(int position) {
-		return this.server.getEstateHousePrice(position);
 	}
 
 	// Bank
@@ -344,31 +305,6 @@ public class SimpleClient {
 	public Player updatePlayersGetOutOfJailCards(Player player) {
 		player.setNumberOfGetOutOfJailCards(this.server.getNumberOfGetOutOfJailCards(player.getId()));
 		return player;
-	}
-	
-	@Deprecated
-	public int getPlayerCash(int playerID) {
-		return this.server.getPlayerCash(playerID);
-	}
-
-	@Deprecated
-	public String getPlayerName(int player) {
-		return this.server.getPlayerName(player);
-	}
-
-	@Deprecated
-	public int getPlayerColor(int player) {
-		return this.server.getPlayerColor(player);
-	}
-
-	@Deprecated
-	public int getPlayerPiecePosition(int playerID) {
-		return this.server.getPlayerPiecePosition(playerID);
-	}
-
-	@Deprecated
-	public int getNumberOfGetOutOfJailCards(int playerID) {
-		return this.server.getNumberOfGetOutOfJailCards(playerID);
 	}
 
 	/*
@@ -478,13 +414,6 @@ public class SimpleClient {
 		this.server.sendMessage(text, this.playerId);
 	}
 
-	/**
-	 * @deprecated Use {@link #sendPrivateMessage(String, Player)}
-	 */
-	protected final void sendPrivateMessage(String text, int reciever) {
-		this.server.sendPrivateMessage(text, this.playerId, reciever);
-	}
-
 	protected final void sendPrivateMessage(String text, Player reciever) {
 		this.server.sendPrivateMessage(text, this.playerId, reciever.getId());
 	}
@@ -509,13 +438,6 @@ public class SimpleClient {
 	 * TRADE
 	 */
 
-	/**
-	 * @deprecated Use {@link #initTrade(Player)}
-	 */
-	public final boolean initTrade(int partnerPlayer) {
-		return ((IServerTrade) this.server).initTrade(playerId, partnerPlayer);
-	}
-
 	public final boolean initTrade(Player partnerPlayer) {
 		int id = -1;
 		if (partnerPlayer != null) {
@@ -524,29 +446,15 @@ public class SimpleClient {
 		return ((IServerTrade) this.server).initTrade(this.playerId, id);
 	}
 
-	/**
-	 * @deprecated Use {@link #getTradeState()}
-	 */
-	public final int getTradeStateO() {
-		return ((IServerTrade) this.server).getTradeState();
-	}
-
 	public final TradeState getTradeState() {
 		return TradeState.getState(((IServerTrade) this.server).getTradeState());
-	}
-
-	/**
-	 * @deprecated Use {@link #getPartner()}
-	 */
-	public final int getPartnerO() {
-		return ((IServerTrade) this.server).getPartner();
 	}
 
 	public final Player getPartner() {
 		int id = ((IServerTrade) this.server).getPartner();
 		Player partner = null;
 		if (id >= 0) {
-			partner = this.getGameState().getPlayerByID(id);
+			partner = this.getGameState().getPlayerById(id);
 			if (partner == null) {
 				OJIMLogger.getLogger(this.getClass().toString()).severe("partner is unkown");
 			}
@@ -579,13 +487,6 @@ public class SimpleClient {
 		return amount;
 	}
 
-	/**
-	 * @deprecated Use {@link #offerEstate(BuyableField)}
-	 */
-	public final boolean offerEstate(int position) {
-		return ((IServerTrade) this.server).offerEstate(playerId, position);
-	}
-
 	public final boolean offerEstate(BuyableField field) {
 		return ((IServerTrade) this.server).offerEstate(playerId, field.getPosition());
 	}
@@ -612,13 +513,6 @@ public class SimpleClient {
 			}
 		}
 		return 0;
-	}
-
-	/**
-	 * @deprecated Use {@link #requireEstate(BuyableField)}
-	 */
-	public final boolean requireEstate(int position) {
-		return ((IServerTrade) this.server).requireEstate(playerId, position);
 	}
 
 	public final boolean requireEstate(BuyableField field) {
@@ -692,7 +586,7 @@ public class SimpleClient {
 		}
 		BuyableField field = (BuyableField) this.getGameState().getFieldAt(auctionServer.getAuctionedEstate());
 		Auction auction = new Auction(field, state);
-		Player bidder = this.getGameState().getPlayerByID(auctionServer.getBidder());
+		Player bidder = this.getGameState().getPlayerById(auctionServer.getBidder());
 		auction.placeBid(bidder, auctionServer.getHighestBid());
 		return auction;
 	}
@@ -702,59 +596,12 @@ public class SimpleClient {
 		AuctionState newState = AuctionState.getState(auctionServer.getAuctionState());
 		// New bid
 		if (newState == AuctionState.WAITING) {
-			Player bidder = this.getGameState().getPlayerByID(auctionServer.getBidder());
+			Player bidder = this.getGameState().getPlayerById(auctionServer.getBidder());
 			auction.placeBid(bidder, auctionServer.getHighestBid());
 		} else {
 			auction.setState(newState);
 		}
 		return auction;
-	}
-
-	/**
-	 * @deprecated Use {@link #getAuctionState()}.
-	 */
-	public final int getAuctionStateO() {
-		return ((IServerAuction) this.server).getAuctionState();
-	}
-
-	@Deprecated
-	public final AuctionState getAuctionState() {
-		return AuctionState.getState(((IServerAuction) this.server).getAuctionState());
-	}
-
-	/**
-	 * @deprecated Use {@link #getAuctionedEstate()}
-	 */
-	public final int getAuctionedEstateO() {
-		return ((IServerAuction) this.server).getAuctionedEstate();
-	}
-
-	@Deprecated
-	public final BuyableField getAuctionedEstate() {
-		return (BuyableField) this.getGameState().getFieldAt(((IServerAuction) this.server).getAuctionedEstate());
-	}
-
-	@Deprecated
-	public final int getHighestBid() {
-		return ((IServerAuction) this.server).getHighestBid();
-	}
-
-	/**
-	 * Returns the highest bidder. If nobody has bid its null.
-	 * 
-	 * @return the highest bidder. If nobody has bid its null.
-	 */
-	@Deprecated
-	public final Player getBidder() {
-		int id = ((IServerAuction) this.server).getBidder();
-		Player bidder = null;
-		if (id >= 0) {
-			bidder = this.getGameState().getPlayerByID(id);
-			if (bidder == null) {
-				OJIMLogger.getLogger(this.getClass().toString()).severe("bidder is unkown");
-			}
-		}
-		return bidder;
 	}
 
 	public final boolean placeBid(int amount) {

@@ -18,7 +18,6 @@
 package org.ojim.logic.actions;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.fields.Field;
 
 public class ActionMoveToField implements Action {
@@ -55,16 +54,18 @@ public class ActionMoveToField implements Action {
 		// Das Field suchen, was am nächsten ist
 		int playerPos = this.logic.getGameState().getActivePlayer().getPosition();
 
+		int numberOfFields = this.logic.getGameState().getNumberOfFields();
+		
 		Field next = this.fields[0];
 		for (int i = 1; i < this.fields.length; i++) {
 			/*
 			 * Checks if the distance to the selected field is lower than this
 			 * to the previous determined field.
 			 */
-			if ((this.fields[i].getPosition() - playerPos + GameState.FIELDS_AMOUNT)
-					% GameState.FIELDS_AMOUNT < (next
-					.getPosition() - playerPos + GameState.FIELDS_AMOUNT)
-					% GameState.FIELDS_AMOUNT) {
+			if ((this.fields[i].getPosition() - playerPos + numberOfFields)
+					% numberOfFields < (next
+					.getPosition() - playerPos + numberOfFields)
+					% numberOfFields) {
 				next = this.fields[i];
 			}
 		}

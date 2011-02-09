@@ -18,8 +18,6 @@
 package org.ojim.logic.state;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -31,21 +29,14 @@ import org.jdom.Element;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.Bank;
-import org.ojim.logic.actions.ActionGetOutOfJailCard;
-import org.ojim.logic.actions.ActionMoveForward;
-import org.ojim.logic.state.fields.CardField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FieldGroup;
-import org.ojim.logic.state.fields.GoField;
-import org.ojim.logic.state.fields.InfrastructureField;
-import org.ojim.logic.state.fields.Station;
-import org.ojim.logic.state.fields.Street;
 import org.ojim.iface.Rules;
 
 public class GameState {
 
 	public final static int MAXIMUM_PLAYER_COUNT = 8;
-	public final static int FIELDS_AMOUNT = 40;
+	private final static int FIELDS_AMOUNT = 40;
 	
 	private Map<Integer, Player> players;
 	private List<Player> playerOrder;
@@ -59,10 +50,10 @@ public class GameState {
 	private Map<Integer, FieldGroup> groups;
 	private Auction auction;
 	
-	public GameState() {
+	public GameState(int fieldsAmount) {
 		this.players = new HashMap<Integer, Player>(MAXIMUM_PLAYER_COUNT);
 		this.playerOrder = new ArrayList<Player>(MAXIMUM_PLAYER_COUNT);
-		this.fields = new Field[FIELDS_AMOUNT];
+		this.fields = new Field[fieldsAmount];
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
 		this.dices = new OjimDiceSet(1337);
@@ -71,8 +62,16 @@ public class GameState {
 		
 		//TODO (philip) really?
 		this.activePlayerNeedsToRoll = true;
-		//TODO Add the Possibility to load other GameStates
-	}	
+		//TODO Add the Possibility to load other GameStates		
+	}
+	
+	public GameState() {
+		this(GameState.FIELDS_AMOUNT);
+	}
+	
+	public int getNumberOfFields() {
+		return GameState.FIELDS_AMOUNT;
+	}
 	
 	public Auction getAuction() {
 		return this.auction;
@@ -113,8 +112,8 @@ public class GameState {
 		}
 	}
 	
-	public Player getPlayerByID(int playerID) {
-		return this.players.get(playerID);
+	public Player getPlayerById(int playerId) {
+		return this.players.get(playerId);
 	}
 	
 	public Field getFieldAt(int position) {

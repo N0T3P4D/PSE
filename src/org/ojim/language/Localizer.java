@@ -65,19 +65,33 @@ public class Localizer {
 		FREE_PARKING_CASH("free parking cash"),
 		ON("on"),
 		OFF("off"),
+		PRIVATE_MESSAGE("private"),
+		WRONG_INPUT("wrong input"),
+		
+		// Settings
 		WIDTH("width"),
 		HEIGHT("height"),
-		SERVER_NAME("server name"),
-		MAX_PLAYER("max player"),
-		AI_PLAYER("ai player"),
+		
 		UPGRADE("upgrade"),
 		DOWNGRADE("downgrade"),
+		
+		// Auctions
+		START_AUCTION("start auction"),
+		MINIMUM_BID("minimum bid"),
+		
+		AUCTION_BID("bid"),
+		
 		AUCTION_FIRST("auction first"),
 		AUCTION_SECOND("auction second"),
 		AUCTION_THIRD("auction third"),
 		AUCTION_INIT("auction init"),
 		AUCTION_RESET("auction reset"),
-		PRIVATE_MESSAGE("private");
+		
+		// Create server
+		SERVER_NAME("server name"),
+		MAX_PLAYER("max player"),
+		AI_PLAYER("ai player"),
+		HOST("host");
 		
 		public final String key;
 		

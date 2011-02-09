@@ -55,7 +55,7 @@ public class JoinGameFrame extends JFrame {
 
 		ip = new JLabel(this.language.getText(TextKey.IP));
 		joinButton = new JButton();
-		buttonLabel = new JLabel(this.language.getText("join"));
+		buttonLabel = new JLabel(this.language.getText(TextKey.JOIN));
 		joinButton.add(buttonLabel);
 
 		ipField.setColumns(20);
@@ -99,7 +99,7 @@ public class JoinGameFrame extends JFrame {
 	public void showDirectConnection() {
 
 		ip.setText(this.language.getText(TextKey.IP));
-		buttonLabel.setText(this.language.getText("join"));
+		buttonLabel.setText(this.language.getText(TextKey.JOIN));
 
 		showJoin();
 

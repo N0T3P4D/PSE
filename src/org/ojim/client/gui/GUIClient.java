@@ -22,7 +22,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.Date;
-import java.util.LinkedList;
+import java.util.List;
 
 import javax.swing.JButton;
 import javax.swing.JFrame;
@@ -31,7 +31,6 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 
 import org.ojim.client.ClientBase;
-import org.ojim.client.SimpleClient;
 import org.ojim.client.gui.CardBar.CardWindow;
 import org.ojim.client.gui.GameField.GameField;
 import org.ojim.client.gui.OLabel.FontLayout;
@@ -46,15 +45,10 @@ import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
 import org.ojim.language.Localizer.TextKey;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
-import org.ojim.rmi.client.ImplNetClient;
-import org.ojim.rmi.client.NetClient;
-import org.ojim.rmi.server.ImplNetOjim;
-import org.ojim.rmi.server.StartNetOjim;
 import org.ojim.server.OjimServer;
 
 /**
@@ -134,17 +128,15 @@ public class GUIClient extends ClientBase {
 		helpFrame = new HelpFrame(language);
 		aboutFrame = new AboutFrame(language);
 
-		createGameFrame.setTitle(language.getText("create game"));
-		joinGameFrame.setTitle(language.getText("join game"));
-		settingsFrame.setTitle(language.getText("settings"));
-		helpFrame.setTitle(language.getText("help"));
-		aboutFrame.setTitle(language.getText("about"));
+		createGameFrame.setTitle(language.getText(TextKey.CREATE_GAME));
+		joinGameFrame.setTitle(language.getText(TextKey.JOIN_GAME));
+		settingsFrame.setTitle(language.getText(TextKey.SETTINGS));
+		helpFrame.setTitle(language.getText(TextKey.HELP));
+		aboutFrame.setTitle(language.getText(TextKey.ABOUT));
 
 		gameField = new GameField(this);
 
-		GUIFrame = new JFrame(language.getText("ojim"));
-		//TODO: (xZise) Wie wäre es mit resetLanguage()?
-//		this.resetLanguage();
+		GUIFrame = new JFrame(language.getText(TextKey.OJIM));
 
 		playerInfoWindow.setLanguage(language);
 		chatWindow = new ChatWindow(language, this);
@@ -252,24 +244,25 @@ public class GUIClient extends ClientBase {
 
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		playerInfoWindow.changeCash(player, getGameState().getPlayerByID(
+		playerInfoWindow.changeCash(player, getGameState().getPlayerById(
 				player.getId()).getBalance());
 		// draw();
 
 		// Geld kleiner 0 Workaround weil getIsBankrupt nicht geht
 		if (player.getIsBankrupt()
-				|| getGameState().getPlayerByID(player.getId()).getBalance() < 0) {
+				|| getGameState().getPlayerById(player.getId()).getBalance() < 0) {
 			playerInfoWindow.setBancrupt(player);
 			gameField.playerIsBancrupt(player);
 		} else {
 
-			for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+			int freeparkingMoney = 0;
+			for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
 				if (getGameState().getFieldAt(i) instanceof org.ojim.logic.state.fields.FreeParking) {
-					this.gameField
-							.setFreeParkingMoney(((org.ojim.logic.state.fields.FreeParking) getGameState()
-									.getFieldAt(i)).getMoneyInPot());
+					freeparkingMoney += ((org.ojim.logic.state.fields.FreeParking) getGameState()
+							.getFieldAt(i)).getMoneyInPot();
 				}
 			}
+			this.gameField.setFreeParkingMoney(freeparkingMoney);
 		}
 
 	}
@@ -370,7 +363,7 @@ public class GUIClient extends ClientBase {
 					+ partnerPlayer.getName()));
 			gameField.init(getGameState(), this);
 			for(int i = 0; i < getGameState().getPlayers().length; i++){
-				playerInfoWindow.changeCash(getGameState().getPlayerByID(i), getGameState().getPlayerByID(i).getBalance());
+				playerInfoWindow.changeCash(getGameState().getPlayerById(i), getGameState().getPlayerById(i).getBalance());
 			}
 		}
 	}
@@ -504,7 +497,7 @@ public class GUIClient extends ClientBase {
 				try {
 					gameField.playerMoves(getGameState()
 							.getFieldAt(Math.abs(0)), getGameState()
-							.getPlayerByID(i));
+							.getPlayerById(i));
 				} catch (NullPointerException e) {
 
 				}
@@ -691,8 +684,7 @@ public class GUIClient extends ClientBase {
 				downRight.remove(buyButton);
 				this.GUIFrame.repaint();
 	
-				gameField.showAuction(getAuctionState(), getAuctionedEstate(),
-						getBidder(), getHighestBid());
+				gameField.showAuction(this.getGameState().getAuction());
 			}
 		} else {
 			this.gameField.removeAuction();
@@ -715,7 +707,7 @@ public class GUIClient extends ClientBase {
 	 * @param k
 	 * @param j
 	 */
-	public void startServer(String serverName, int maxPlayers, int kiPlayers) {
+	public void startServer(String serverName, int maxPlayers, int kiPlayers, String host) {
 
 		setName(settings.getPlayerName());
 
@@ -723,7 +715,7 @@ public class GUIClient extends ClientBase {
 
 		server = new OjimServer(serverName);
 		
-		server.initGame(maxPlayers, kiPlayers);
+		server.initRMIGame(maxPlayers, kiPlayers, host);
 
 		connect(server);
 		// connect("192.168.0.1",60);
@@ -825,31 +817,19 @@ public class GUIClient extends ClientBase {
 
 	}
 
-	public void trade(Player tradePartner, int cash, LinkedList<String> myFields, LinkedList<String> hisFields, int outOfJailCards) {
+	public void trade(Player tradePartner, int cash, List<BuyableField> myFields, List<BuyableField> hisFields, int outOfJailCards) {
 		initTrade(tradePartner);
 		offerCash(cash);
-		if (!myFields.isEmpty()) {
-			for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
-				if(getGameState().getFieldAt(i).getName().equals(myFields.getFirst())){
-					System.out.println("Meine Felder: "+getGameState().getFieldAt(i).getName());
-					offerEstate((BuyableField)getGameState().getFieldAt(i));
-					
-				}
-			}
+		for (BuyableField buyableField : myFields) {
+			System.out.println("Meine Felder: " + buyableField.getName());
+			this.offerEstate(buyableField);
 		}
-		if (!hisFields.isEmpty()) {
-			for(int i = 0; i < GameState.FIELDS_AMOUNT; i++){
-				if(getGameState().getFieldAt(i).getName().equals(hisFields.getFirst())){
-					System.out.println("Seine Felder: "+getGameState().getFieldAt(i).getName());
-					requireEstate((BuyableField)getGameState().getFieldAt(i));
-					
-				}
-			}
+		for (BuyableField buyableField : hisFields) {
+			System.out.println("Seine Felder: " + buyableField.getName());
+			this.requireEstate(buyableField);
 		}
 		
-		for (int i = 0; i < outOfJailCards; i++) {
-			offerGetOutOfJailCard();
-		}
+		offerGetOutOfJailCard(outOfJailCards);
 		System.out.println("Ok Meista, hab nun gehandelt!!");
 		proposeTrade();
 
@@ -857,7 +837,7 @@ public class GUIClient extends ClientBase {
 
 	public void showTrade(int player) {
 		if (this.menuState == MenuState.GAME) {
-			gameField.showTrade(getMe(), getGameState().getPlayerByID(player),
+			gameField.showTrade(getMe(), getGameState().getPlayerById(player),
 					getRequiredCash(), getRequiredEstates(),
 					getNumberOfRequiredGetOutOfJailCards(), getOfferedCash(),
 					getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards());
