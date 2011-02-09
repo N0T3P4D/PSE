@@ -44,7 +44,6 @@ import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Street;
-import org.ojim.logic.state.fields.StreetFieldGroup;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -174,7 +173,7 @@ public class Valuator extends SimpleClient {
 	public Command actOnTradeOffer() {
 		initFunctions();
 //		System.out.println("Trade!");
-		assert (getTradeStateO() == 1);
+		assert (this.getTradeState() == TradeState.WAITING_PROPOSED);
 		boolean restricted = false;
 		if (getRequiredEstates() != null) {
 			for (int position : getRequiredEstatesO()) {

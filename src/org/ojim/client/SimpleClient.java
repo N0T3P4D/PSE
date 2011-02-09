@@ -438,26 +438,12 @@ public class SimpleClient {
 	 * TRADE
 	 */
 
-	/**
-	 * @deprecated Use {@link #initTrade(Player)}
-	 */
-	public final boolean initTrade(int partnerPlayer) {
-		return ((IServerTrade) this.server).initTrade(playerId, partnerPlayer);
-	}
-
 	public final boolean initTrade(Player partnerPlayer) {
 		int id = -1;
 		if (partnerPlayer != null) {
 			id = partnerPlayer.getId();
 		}
 		return ((IServerTrade) this.server).initTrade(this.playerId, id);
-	}
-
-	/**
-	 * @deprecated Use {@link #getTradeState()}
-	 */
-	public final int getTradeStateO() {
-		return ((IServerTrade) this.server).getTradeState();
 	}
 
 	public final TradeState getTradeState() {
@@ -499,13 +485,6 @@ public class SimpleClient {
 			}
 		}
 		return amount;
-	}
-
-	/**
-	 * @deprecated Use {@link #offerEstate(BuyableField)}
-	 */
-	public final boolean offerEstate(int position) {
-		return ((IServerTrade) this.server).offerEstate(playerId, position);
 	}
 
 	public final boolean offerEstate(BuyableField field) {
