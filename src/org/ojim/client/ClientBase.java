@@ -158,6 +158,7 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 	@Override
 	public final void informBankruptcy() {
 		this.logger.log(Level.INFO, "informBankruptcy()");
+		this.getGameState().getActivePlayer().setBankrupt();
 	//	this.onBankruptcy();
 		this.executor.execute(new OnBankruptcy(this));
 	}
@@ -334,13 +335,13 @@ public abstract class ClientBase extends SimpleClient implements IClient {
 			}
 			
 			//this.onMove(player, position);
-			this.executor.execute(new OnMove(this, player, position));
+			this.executor.execute(new OnMove(this, player));
 		} else {
 			this.logger.warning("Get informMove with invalid player, ID = " + playerId);
 		}
 	}
 
-	public abstract void onMove(Player player, int position);
+	public abstract void onMove(Player player);
 
 	@Override
 	public final void informBuy(int playerId, int position) {

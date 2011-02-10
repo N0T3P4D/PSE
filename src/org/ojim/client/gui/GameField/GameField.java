@@ -84,7 +84,7 @@ public class GameField extends JPanel {
 				selected = ((GameFieldPiece) e.getComponent()).getField();
 			}
 			
-			interactionPopup.fieldClicked(e.getComponent().getName(), me);
+			interactionPopup.fieldClicked(selected, me);
 			
 			if (selected instanceof Street && GameField.this.allOfGroupOwned((Street) selected)) {
 				interactionPopup.showUpgrade((Street) selected);

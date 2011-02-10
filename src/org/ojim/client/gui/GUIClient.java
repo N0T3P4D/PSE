@@ -247,8 +247,7 @@ public class GUIClient extends ClientBase {
 		// draw();
 
 		// Geld kleiner 0 Workaround weil getIsBankrupt nicht geht
-		if (player.getIsBankrupt()
-				|| getGameState().getPlayerById(player.getId()).getBalance() < 0) {
+		if (player.getIsBankrupt()) {
 			playerInfoWindow.setBancrupt(player);
 			gameField.playerIsBancrupt(player);
 		} else {
@@ -294,7 +293,7 @@ public class GUIClient extends ClientBase {
 	}
 
 	@Override
-	public void onMove(Player player, int position) {
+	public void onMove(Player player) {
 		
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
@@ -302,8 +301,9 @@ public class GUIClient extends ClientBase {
 		// player);
 		// gameField.init(GameState.FIELDS_AMOUNT, this.getGameState());
 
-		gameField.playerMoves(getGameState().getFieldAt(Math.abs(position)),
-				player);
+		Field field = this.getGameState().getFieldAt(player.getPosition());
+
+		gameField.playerMoves(field, player);
 
 		/*
 		 * Falls Bancrupt in Move nicht geht for(int i = 0; i <
@@ -313,19 +313,11 @@ public class GUIClient extends ClientBase {
 		 * gameField.playerIsBancrupt(getGameState().getPlayerByID(i));
 		 * System.out.println("Bancrupt2"); } }
 		 */
-
-		if (player.getId() == getMe().getId()) {
-
-			try {
-				if (((BuyableField) (getGameState().getFieldAt(getMe()
-						.getPosition()))).getPrice() <= getMe().getBalance()
-						&& ((BuyableField) (getGameState().getFieldAt(getMe()
-								.getPosition()))).getOwner() == null) {
-
-					downRight.add(buyButton);
-				}
-			} catch (Exception e) {
-				// System.out.println("Kein buyablefield");
+		
+		if (this.isMyTurn() && field instanceof BuyableField) {
+			BuyableField buyField = (BuyableField) field;
+			if (buyField.getOwner() == null && buyField.getPrice() <= this.getMe().getBalance()){
+				downRight.add(buyButton);
 			}
 		}
 
@@ -476,7 +468,7 @@ public class GUIClient extends ClientBase {
 			
 			
 			// HIER IST DER JEREMIAS KNOPF
-			//downRight.add(jeremiasButton);
+			downRight.add(jeremiasButton);
 
 			downRight.setLayout(new GridLayout(1, 0));
 			rightWindow1.setLayout(new GridLayout(0, 1));
