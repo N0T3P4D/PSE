@@ -487,26 +487,34 @@ public class Valuator extends SimpleClient {
 		return result;
 	}
 
-	public Command upgradeStreet() {
+	private Command upgradeStreet() {
 		PriorityQueue<Street> upgradeableStreets = new PriorityQueue<Street>();
 		for (int i = 0; i < 40; i++) {
 			Field field = getGameState().getFieldAt(i);
 			if (field instanceof Street) {
-				if (getGameRules().isFieldUpgradable(getMe(), field, ((Street) field).getBuiltLevel() + 1)) {
+				Street street = (Street) field;
+				if (getGameRules().isFieldUpgradable(getMe(), field, street.getBuiltLevel() + 1)) {
+					street.setSelected(true);
+					street.setValuation(getResults(street.getPosition(), this.getEstateHousePrice(street.getPosition())));
+					street.setSelected(false);
 					upgradeableStreets.add((Street) field);
 				}
 			}
 		}
-		for (Street street : upgradeableStreets) {
-			street.setSelected(true);
-			street.setValuation(getResults(street.getPosition(), this.getEstateHousePrice(street.getPosition())));
-			street.setSelected(false);
-		}
-		Street[] streets = upgradeableStreets.toArray(new Street[0]);
-		Arrays.sort(streets);
-		if (streets.length > 0 && streets[0].getValuation() > 0) {
-			Command result = new BuildHouseCommand(logic, server, playerID, streets[0]);
-			result.setValuation(streets[0].getValuation());
+//		for (Street street : upgradeableStreets) {
+//			street.setSelected(true);
+//			street.setValuation(getResults(street.getPosition(), this.getEstateHousePrice(street.getPosition())));
+//			street.setSelected(false);
+//		}
+//		Street[] streets = upgradeableStreets.toArray(new Street[0]);
+//		Arrays.sort(streets);
+//		if (streets.length > 0 && streets[0].getValuation() > 0) {
+//			Command result = new BuildHouseCommand(logic, server, playerID, streets[0]);
+//			result.setValuation(streets[0].getValuation());
+//			return result;
+		if (upgradeableStreets.size() > 0 && upgradeableStreets.peek().getValuation() > 0) {
+			Command result = new BuildHouseCommand(logic, server, playerID, upgradeableStreets.peek());
+			result.setValuation(upgradeableStreets.peek().getValuation());
 			return result;
 		} else {
 			Command result = new NullCommand(logic, server, playerID);
@@ -515,7 +523,7 @@ public class Valuator extends SimpleClient {
 		}
 	}
 
-	public Command getOutOfJail() {
+	private Command getOutOfJail() {
 //		System.out.println("Here!");
 		Jail jail = getMe().getJail();
 		if (jail != null) {
