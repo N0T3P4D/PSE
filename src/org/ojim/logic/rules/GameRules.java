@@ -42,6 +42,11 @@ public class GameRules {
 
 		Street street = (Street) field;
 		
+		// Check if level is reachable
+		if (street.getBuiltLevel() + levelChange < 0 || street.getBuiltLevel() + levelChange > this.rules.maxNumOfHouses) {
+			return false;
+		}
+		
 		//When Upgrading, check for Money
 		if(levelChange > 0) {
 			if(player.getBalance() < levelChange * street.getFieldGroup().getHousePrice()) {
