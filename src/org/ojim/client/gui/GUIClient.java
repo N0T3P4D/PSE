@@ -246,9 +246,10 @@ public class GUIClient extends ClientBase implements Serializable {
 		playerInfoWindow.changeCash(player, getGameState().getPlayerById(
 				player.getId()).getBalance());
 		// draw();
-
+		//System.out.println("CASH CHANGE");
 		// Geld kleiner 0 Workaround weil getIsBankrupt nicht geht
 		if (player.getIsBankrupt()) {
+			System.out.println("Spieler "+player.getName()+" ist Bankrott");
 			playerInfoWindow.setBancrupt(player);
 			gameField.playerIsBancrupt(player);
 		} else {
@@ -382,12 +383,24 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	@Override
 	public void onStartGame(Player[] players) {
-		gameField = new GameField(this);
 		if (notInit) {
+			gameField = new GameField(this);
+
+			rightWindow1.removeAll();
+			rightWindow1.revalidate();
+			
+			downWindow.removeAll();
+			downWindow.revalidate();
+			
+			GUIFrame.remove(window);
+			
+			pane.removeAll();
+			pane.revalidate();
 			notInit = false;
 			gameField.init(getGameState(), this);
 			playerInfoWindow.setLanguage(language);
 			gameField.setLanguage(language);
+			gameField.redraw();
 
 			// System.out.println("Es gibt "
 			// + this.getGameState().getPlayers().length + " Spieler.");
@@ -398,13 +411,13 @@ public class GUIClient extends ClientBase implements Serializable {
 
 			this.menuState = MenuState.GAME;
 			this.menubar.setMenuBarState(menuState);
-
-			GUIFrame.remove(window);
+			
 
 			rightWindow1.add(playerInfoWindow);
 			rightWindow1.add(chatWindow);
 
 			downWindow.add(cardWindow);
+			cardWindow = new CardWindow(this);
 
 			ActionListener buyListener = new ActionListener() {
 
@@ -536,20 +549,20 @@ public class GUIClient extends ClientBase implements Serializable {
 	 * Beendet das Spiel
 	 */
 	public void leaveGame() {
-
+		
+		notInit = true;
 		
 		System.out.println("END!!");
 
 		pane.removeAll();
 		window.removeAll();
 
-		pane = new JPanel();
-		window = new JPanel();
+		//pane = new JPanel();
+		//window = new JPanel();
 		pane.revalidate();
 		window.revalidate();
 
 		GUIFrame.remove(pane);
-		GUIFrame.remove(window);
 
 		GUIFrame.repaint();
 		server.endGame();
@@ -724,6 +737,9 @@ public class GUIClient extends ClientBase implements Serializable {
 
 		window.setLayout(new GridLayout(1, 0));
 		rightWindow.setLayout(new GridLayout(0, 1));
+		
+		playerInfoWindow = new PlayerInfoWindow(this);
+		chatWindow = new ChatWindow(language, this);
 
 		playerInfoWindow.setLanguage(language);
 
