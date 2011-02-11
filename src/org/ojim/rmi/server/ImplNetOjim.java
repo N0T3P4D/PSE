@@ -39,7 +39,7 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	private OjimServer server;
 	
 	public ImplNetOjim(OjimServer server) throws RemoteException {
-		super();
+		super(2007);
 		this.server = server;
 		
 	}
@@ -161,7 +161,6 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 
 	
 	public int addPlayer(IClient client) {
-		
 		return this.server.addPlayer(client);
 	}
 
@@ -175,9 +174,11 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 		return this.server.getPlayerColor(player);
 	}
 
-	
-	public String getPlayerName(int player) {
+	@Override
+	public String getPlayerName(int player)throws RemoteException {
 		return this.server.getPlayerName(player);
+		
+		
 	}
 
 	
@@ -225,11 +226,12 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 
 
 	@Override
-	public synchronized void registerClient(NetClient netClient) throws RemoteException {
+	public synchronized int registerClient(NetClient netClient) throws RemoteException {
 		 
 		ClientWrapper clientWrap = new ClientWrapper(netClient);
-		//addPlayer(clientWrap);
+		int temp = this.server.addPlayer(clientWrap);
 		this.netClient = netClient;
+		return temp;
 		
 	}
 

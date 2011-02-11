@@ -17,11 +17,13 @@
 
 package org.ojim.logic.accounting;
 
+import java.io.Serializable;
+
 /**
  * Simple bank that holds the houses/hotels and the amount of money.
  * @author Fabian Neundorf.
  */
-public class Bank implements IMoneyPartner {
+public class Bank implements IMoneyPartner,Serializable {
 
 	private int balance;
 	private int houses;

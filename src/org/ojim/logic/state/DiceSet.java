@@ -17,6 +17,7 @@
 
 package org.ojim.logic.state;
 
+import java.io.Serializable;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Random;
@@ -26,7 +27,7 @@ import java.util.Random;
  * 
  * @author Philip, Fabian Neundorf 
  */
-public class DiceSet {
+public class DiceSet implements Serializable {
 
 	private boolean isDeterministic;
 	private Dice[] dices;

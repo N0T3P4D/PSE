@@ -18,13 +18,14 @@
 package org.ojim.logic.rules;
 
 import org.ojim.iface.Rules;
+import java.io.Serializable;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Street;
 
-public class GameRules {
+public class GameRules implements Serializable {
 
 	public static final int MAX_DOUBLES_ALLOWED = 3;
 	private GameState state;

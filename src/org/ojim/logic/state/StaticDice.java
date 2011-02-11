@@ -17,7 +17,9 @@
 
 package org.ojim.logic.state;
 
-public class StaticDice extends Dice {
+import java.io.Serializable;
+
+public class StaticDice extends Dice implements Serializable {
 
 	private int result;
 	

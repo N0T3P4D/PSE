@@ -17,6 +17,7 @@
 
 package org.ojim.client;
 
+import java.io.Serializable;
 import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -65,7 +66,7 @@ import edu.kit.iti.pse.iface.IServer;
  * 
  * @author Fabian Neundorf
  */
-public abstract class ClientBase extends SimpleClient implements IClient {
+public abstract class ClientBase extends SimpleClient implements IClient,Serializable {
 
 	private String name;
 	private ExecutorService executor;

@@ -21,6 +21,7 @@ import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
@@ -55,7 +56,7 @@ import org.ojim.server.OjimServer;
  * Diese Klasse ist der GUI Client
  * 
  */
-public class GUIClient extends ClientBase {
+public class GUIClient extends ClientBase implements Serializable {
 
 	private GUISettings settings;
 	private GameField gameField;
