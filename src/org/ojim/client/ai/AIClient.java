@@ -153,12 +153,13 @@ public class AIClient extends ClientBase {
 	}
 
 	@Override
-	public void onMove(Player player, int position) {
-		logger.log(Level.FINE, this.log("onMove(" + this.getPlayerInfo(player) + ", " + position + ")!"));
+	public void onMove(Player player) {
+		logger.log(Level.FINE, this.log("onMove(" + this.getPlayerInfo(player) + ")!"));
 		if (this.isMyTurn()) {
 //			int position = getGameState().getActivePlayer().getPosition();
 			// increment round count
 			count++;
+			int position = this.getMe().getPosition();
 			logger.log(Level.INFO, "ID " + getPlayerId() + " Move " + count + " New position is " + position
 					+ " with name " + getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
 			// if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
