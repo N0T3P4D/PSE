@@ -40,7 +40,7 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 	private NetOjim server;
 	
 	public ImplNetClient(ClientBase clientBase, NetOjim server) throws RemoteException {
-		super();
+		super(2007);
 		this.clientBase = clientBase;
 		this.server = server;
 		
@@ -60,9 +60,10 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 
 	@Override
 	public int addPlayer(IClient client) {
+		NetClient netClient = this;
 		int temp=0;
 		try {
-			temp = this.server.addPlayer(client);
+			temp = this.server.registerClient(netClient);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

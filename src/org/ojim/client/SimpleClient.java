@@ -17,6 +17,7 @@
 
 package org.ojim.client;
 
+import java.io.Serializable;
 import java.util.Map;
 
 import org.ojim.iface.IClient;
@@ -55,7 +56,7 @@ import edu.kit.iti.pse.iface.IServerTrade;
  * 
  * @author Fabian Neundorf.
  */
-public class SimpleClient {
+public class SimpleClient implements Serializable {
 
 	/**
 	 * Different trade states.

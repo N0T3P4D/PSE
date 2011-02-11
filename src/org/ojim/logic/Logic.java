@@ -17,6 +17,8 @@
 
 package org.ojim.logic;
 
+import java.io.Serializable;
+
 import org.ojim.client.ClientBase;
 import org.ojim.iface.Rules;
 import org.ojim.logic.rules.GameRules;
@@ -28,7 +30,7 @@ import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Street;
 
-public class Logic {
+public class Logic implements Serializable {
 
 	private GameState state;
 	private GameRules rules;
