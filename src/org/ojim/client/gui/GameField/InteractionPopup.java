@@ -467,7 +467,10 @@ public class InteractionPopup extends JPanel {
 		this.remove(upgradePanel);
 		
 		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeStreet.getName() + ": ");
-
+		//TODO: (xZise) Define the maximum build level somewhere!
+//		upgradeButton.setEnabled(street.getBuiltLevel() < );
+		downgradeButton.setEnabled(street.getBuiltLevel() > 0);
+		
 		System.out.println("Upgrade");
 		upgradePanel.setLayout(new FlowLayout());
 		this.add(upgradePanel);
