@@ -233,6 +233,7 @@ public class GameField extends JPanel {
 		 * 
 		 * } }
 		 */
+		this.repaint();
 
 	}
 
