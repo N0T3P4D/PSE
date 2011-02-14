@@ -17,7 +17,6 @@
 
 package org.ojim.logic;
 
-import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -27,7 +26,6 @@ import org.ojim.logic.accounting.Bank;
 import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.Card;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.GetOutOfJailCard;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.ServerGameState;
@@ -64,24 +62,16 @@ public class ServerLogic extends Logic {
 	public void setPlayerBankrupt(Player player) {
 		player.transferMoney(-(player.getBalance() + 1));
 		player.setBankrupt();
-		Field field;
-		for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
-			field = this.getGameState().getFieldAt(i);
-			if (field instanceof BuyableField
-					&& ((BuyableField) field).getOwner() == player) {
-				((BuyableField) field).buy(null);
+		for (BuyableField field : player.getFields()) {
+			if (field instanceof Street) {
+//				Return houses/hotels here?	
 			}
-		}
-		if (player instanceof ServerPlayer) {
-			((ServerPlayer) player).getClient().informBankruptcy();
+			field.buy(null);
 		}
 
 		// Inform All Players that this Player is bankrupt
 		for (Player onePlayer : this.getGameState().getPlayers()) {
-			if (onePlayer instanceof ServerPlayer) {
-				((ServerPlayer) onePlayer).sendMessage(
-						"Current Player is Bankrupt!", -1, false);
-			}
+			((ServerPlayer) onePlayer).getClient().informBankruptcy();
 		}
 	}
 

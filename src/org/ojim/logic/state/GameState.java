@@ -18,6 +18,7 @@
 package org.ojim.logic.state;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -33,7 +34,7 @@ import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FieldGroup;
 import org.ojim.iface.Rules;
 
-public class GameState {
+public class GameState implements Serializable {
 
 	public final static int MAXIMUM_PLAYER_COUNT = 8;
 	private final static int FIELDS_AMOUNT = 40;

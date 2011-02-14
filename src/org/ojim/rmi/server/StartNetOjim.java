@@ -16,6 +16,9 @@
  */
 package org.ojim.rmi.server;
 
+
+
+
 import java.rmi.Naming;
 import java.rmi.NotBoundException;
 import java.rmi.RemoteException;
@@ -45,7 +48,7 @@ public class StartNetOjim {
 	 */
 	public void startServer(int portReg,String ip,ImplNetOjim ojimServer){
 		
-		System.out.println("\n"+"Server wird eingerichtet...");
+	System.out.println("\n"+"Server wird eingerichtet...");
 		
 		try {
 		    

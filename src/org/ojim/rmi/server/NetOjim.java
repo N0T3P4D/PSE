@@ -42,7 +42,7 @@ public interface NetOjim extends Remote {
 	 * 
 	 * @throws RemoteException
 	 */
-	public void registerClient(NetClient netClient) throws RemoteException;
+	public int registerClient(NetClient netClient) throws RemoteException;
 	
 	
 	/**

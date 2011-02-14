@@ -112,15 +112,11 @@ public class GameFieldPiece extends JPanel {
 			this.add(colorTop);
 		}
 
-		try {
-			group
-					.setText("<html>"
-							+ ((Street) field).getFieldGroup().getName());
+		if (field instanceof Street) {
+			group.setText("<html>"	+ ((Street) field).getFieldGroup().getName());
 
 			group.setLayout(new BiggerFontLayout());
 			group.setHorizontalTextPosition(JLabel.CENTER);
-		} catch (ClassCastException e) {
-
 		}
 
 		if (this.field instanceof Jail) {
@@ -149,7 +145,7 @@ public class GameFieldPiece extends JPanel {
 				playerPanel.add(playerPanelTwo[i]);
 			}
 		}
-
+   
 		name.setText("<html>" + field.getName());
 		name.setHorizontalTextPosition(JLabel.CENTER);
 		name.setLayout(new BiggerFontLayout());

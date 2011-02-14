@@ -398,10 +398,10 @@ public class InteractionPopup extends JPanel {
 		hisJailCard.setText(language.getText("jail cards")+": ");
 
 		for(int i = 0; i < requiredBuyableFields.length; i++){
-			fieldClicked(requiredBuyableFields[i].getName(), me);
+			fieldClicked(requiredBuyableFields[i], me);
 		}
 		for(int i = 0; i < offeredBuyableFields.length; i++){
-			fieldClicked(offeredBuyableFields[i].getName(), me);
+			fieldClicked(offeredBuyableFields[i], me);
 		}
 		
 		
@@ -467,7 +467,10 @@ public class InteractionPopup extends JPanel {
 		this.remove(upgradePanel);
 		
 		upgradeTextLabel.setText(language.getText("new upgrade level")+" "+upgradeStreet.getName() + ": ");
-
+		//TODO: (xZise) Define the maximum build level somewhere!
+//		upgradeButton.setEnabled(street.getBuiltLevel() < );
+		downgradeButton.setEnabled(street.getBuiltLevel() > 0);
+		
 		System.out.println("Upgrade");
 		upgradePanel.setLayout(new FlowLayout());
 		this.add(upgradePanel);
@@ -494,12 +497,10 @@ public class InteractionPopup extends JPanel {
 		
 	}
 
-	public void fieldClicked(String name, Player me) {
-		Field field = gui.getFieldByPosition(name);
-		
+	public void fieldClicked(Field field, Player me) {		
 		if(field instanceof BuyableField){
 			BuyableField buyField = (BuyableField) field;
-			if(tradeCardPanel[field.getPosition()]==null){
+			if(tradeCardPanel[field.getPosition()] == null){
 				tradeCardPanel[field.getPosition()] = new JPanel();
 				tradeCardPanel[field.getPosition()].add(fieldLabel = new JLabel(field.getName()));
 				tradeCardPanel[field.getPosition()].setBackground(StreetColor.getBackGroundColor(field.getFieldGroup().getColor()));

@@ -226,7 +226,7 @@ public class Valuator extends SimpleClient {
 			function.setServer(server);
 		}
 		Auction auction = this.getGameState().getAuction();
-		assert (auction.getState() == AuctionState.NOT_RUNNING);
+		assert (auction.getState() != AuctionState.NOT_RUNNING);
 		int realValue = (int) getResults(auction.objective.getPosition(), 0);
 		int bidder;
 		if (auction.getHighestBidder() == null) {
