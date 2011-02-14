@@ -23,25 +23,15 @@ import org.ojim.logic.state.Player;
 
 public class ChatMessage {
 
-	public ChatMessage(Player player, boolean isPrivate, String message) {
+	public final Date date;
+	public final boolean isPrivate;
+	public final Player player;
+	public final String message;
+	
+	public ChatMessage(Date date, Player player, boolean isPrivate, String message) {
 		this.player = player;
 		this.isPrivate = isPrivate;
 		this.message = message;
-	}
-
-	private Player player;
-	private boolean isPrivate;
-	private String message;
-
-	public Player getPlayer() {
-		return player;
-	}
-
-	public boolean getPrivate() {
-		return isPrivate;
-	}
-
-	public String getMessage() {
-		return message;
+		this.date = date;
 	}
 }

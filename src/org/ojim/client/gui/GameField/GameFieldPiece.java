@@ -23,10 +23,6 @@ import java.awt.Graphics;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
-import javax.swing.JButton;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
@@ -35,7 +31,6 @@ import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.OLabel.BiggerFontLayout;
-import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
@@ -91,7 +86,7 @@ public class GameFieldPiece extends JPanel {
 
 		// this.drawer = FieldDrawer.getDrawer(field);
 
-		if (!(this.field.getColorGroup() < 0)) {
+		if (!(this.field.getFieldGroup().getColor() < 0)) {
 
 			innerHousePanel.setBorder(new LineBorder(Color.BLACK));
 			highHousePanel.add(innerHousePanel);
@@ -112,7 +107,7 @@ public class GameFieldPiece extends JPanel {
 			}
 			// this.remove(colorTop);
 			colorTop.setBackground(StreetColor.getBackGroundColor(this.field
-					.getColorGroup()));
+					.getFieldGroup().getColor()));
 			colorTop.setBorder(new LineBorder(Color.black, 1));
 			this.add(colorTop);
 		}
@@ -410,7 +405,7 @@ public class GameFieldPiece extends JPanel {
 
 	}
 
-	public void removeSinglePlayer(Player player) {
+	public void removePlayer(Player player) {
 
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			if (this.player[i] != null) {
@@ -439,9 +434,9 @@ public class GameFieldPiece extends JPanel {
 		removePlayer();
 		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
 			try {
-				if (gameState.getPlayerByID(i).getPosition() == field
+				if (gameState.getPlayerById(i).getPosition() == field
 						.getPosition()) {
-					addPlayer(gameState.getPlayerByID(i));
+					addPlayer(gameState.getPlayerById(i));
 				}
 			} catch (NullPointerException e) {
 
@@ -475,12 +470,7 @@ public class GameFieldPiece extends JPanel {
 
 	}
 
-	public Street getField() {
-		if (this.field instanceof Street) {
-			return (Street) this.field;
-		} else {
-			return null;
-		}
-
+	public Field getField() {
+		return this.field;
 	}
 }

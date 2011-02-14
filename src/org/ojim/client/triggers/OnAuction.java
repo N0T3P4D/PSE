@@ -18,21 +18,18 @@
 package org.ojim.client.triggers;
 
 import org.ojim.client.ClientBase;
-import org.ojim.client.SimpleClient.AuctionState;
 
 public class OnAuction implements Runnable {
 
 	private final ClientBase base;
-	private final AuctionState auctionState;
 
-	public OnAuction(ClientBase base, AuctionState auctionState) {
+	public OnAuction(ClientBase base) {
 		this.base = base;
-		this.auctionState = auctionState;
 	}
 
 	@Override
 	public void run() {
-		this.base.onAuction(auctionState);
+		this.base.onAuction();
 	}
 
 }

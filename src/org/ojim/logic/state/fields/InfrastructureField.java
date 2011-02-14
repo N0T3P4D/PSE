@@ -33,6 +33,10 @@ public class InfrastructureField extends BuyableField {
 		this.dices = logic.getGameState().getDices();
 	}
 	
+	public Class<? extends FieldGroup> getFieldGroupClass() {
+		return InfrastructureFieldGroup.class;
+	}
+	
 	@Override
 	public int getRent() {
 		// Calculate here

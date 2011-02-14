@@ -37,7 +37,6 @@ public class SellCommand extends Command {
 
 	private static final long serialVersionUID = 5107314051420108256L;
 
-	private int myID;
 	private int position;
 	private int maxCash;
 	private int minCash;
@@ -62,7 +61,6 @@ public class SellCommand extends Command {
 	 */
 	public SellCommand(Logic logic, IServer server, int playerId, int position, int maxCash, int minCash) {
 		super(logic, playerId, server);
-		myID = playerId;
 		this.position = position;
 		this.maxCash = maxCash;
 		this.minCash = minCash;
@@ -73,36 +71,36 @@ public class SellCommand extends Command {
 	public void execute() {
 		Logger logger = OJIMLogger.getLogger(this.getClass().getName());
 		int amount = maxCash;
-		int ret = 0;
+		TradeState state = TradeState.WAITING_PROPOSAL;
 		boolean end = false;
 		boolean sold = false;
+		BuyableField offeredEstate = (BuyableField) this.getGameState().getFieldAt(this.position);
 		while (!sold || !end) {
 			for (Player player : getGameState().getPlayers()) {
 				end = false;
 				if (!sold) {
-					if (player.getId() != myID) {
-						initTrade(player.getId());
+					if (player != this.getMe()) {
+						this.initTrade(player);
 						logger.log(Level.FINE, "RemoteID = " + player.getId() + " offered estate = " + position);
-						offerEstate(position);
-						assert (((BuyableField) getGameState().getFieldAt(position)).getOwner().getId() == myID);
+						assert (offeredEstate.getOwner() == this.getMe());
+						this.offerEstate(offeredEstate);
 						requireCash(amount);
 						proposeTrade();
-						ret = getTradeStateO();
-						assert (ret != -1 && !end);
-						while (ret != -1 && !end) {
-							ret = getTradeStateO();
-							switch (ret) {
-							case 0:
+						
+						state = this.getTradeState();
+						assert (state != TradeState.NOT_RUNNING && !end);
+						while (state != TradeState.NOT_RUNNING && !end) {
+							state = this.getTradeState();
+							switch (state) {
+							case WAITING_PROPOSAL :
 								assert (false);
 								break;
-							case 1:
+							case WAITING_PROPOSED :
 								break;
-							case 2:
-								end = true;
-								break;
-							case 3:
-								end = true;
+							case DECLINED :
 								sold = true;
+							case ACCEPTED :
+								end = true;
 								break;
 							default:
 								assert (false);
@@ -123,11 +121,11 @@ public class SellCommand extends Command {
 		if (!sold) {
 			// TODO remove
 			assert (false);
-			initTrade(-1);
-			offerEstate(position);
+			this.initTrade(null);
+			offerEstate(offeredEstate);
 			this.requireCash(0);
 			proposeTrade();
-			assert (getTradeStateO() == 3);
+			assert (this.getTradeState() == TradeState.DECLINED);
 		}
 	}
 }

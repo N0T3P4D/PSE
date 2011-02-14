@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="uft-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <board>
 	<fields>
 		<go pos="0">
@@ -43,7 +43,7 @@
 			<group color="1" />
 			<price>2000</price>
 			<rent level="0">120</rent>
-			<rent level="1">600</rent>
+			<rent level="1">600</rent>_
 			<rent level="2">1800</rent>
 			<rent level="3">5400</rent>
 			<rent level="4">8000</rent>
@@ -241,6 +241,7 @@
 		</street>
 		<gotojail pos="30">
 			<name>Gehe ins Gefängnis</name>
+			<target>10</target>
 		</gotojail>
 		<street pos="31">
 			<name>Wald</name>

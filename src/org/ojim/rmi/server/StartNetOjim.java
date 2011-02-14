@@ -45,12 +45,12 @@ public class StartNetOjim {
 	 */
 	public void startServer(int portReg,String ip,ImplNetOjim ojimServer){
 		
-		System.out.println("Server wird eingerichtet...");
+		System.out.println("\n"+"Server wird eingerichtet...");
 		
 		try {
 		    
 			Registry registry = LocateRegistry.createRegistry(portReg);
-			registry.list();  
+			//registry.list();  
 			String registryURL = "rmi://"+ip+":" + portReg + "/myServer";
 		    Naming.rebind(registryURL, ojimServer);
 		    

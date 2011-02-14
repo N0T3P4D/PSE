@@ -31,6 +31,10 @@ public class Station extends BuyableField {
 		super(name, position, price, logic);
 	}
 	
+	public Class<? extends FieldGroup> getFieldGroupClass() {
+		return StationFieldGroup.class;
+	}
+	
 	@Override
 	public int getRent() {
 		int ownerOwns = 0;

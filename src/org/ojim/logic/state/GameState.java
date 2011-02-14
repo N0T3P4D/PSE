@@ -18,27 +18,25 @@
 package org.ojim.logic.state;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.logging.Level;
 
+import org.jdom.DataConversionException;
+import org.jdom.Element;
+import org.ojim.log.OJIMLogger;
+import org.ojim.logic.ServerLogic;
 import org.ojim.logic.accounting.Bank;
-import org.ojim.logic.actions.ActionGetOutOfJailCard;
-import org.ojim.logic.actions.ActionMoveForward;
 import org.ojim.logic.state.fields.Field;
-import org.ojim.logic.state.fields.GoField;
-import org.ojim.logic.state.fields.InfrastructureField;
-import org.ojim.logic.state.fields.Station;
-import org.ojim.logic.state.fields.Street;
+import org.ojim.logic.state.fields.FieldGroup;
 import org.ojim.iface.Rules;
 
 public class GameState {
 
 	public final static int MAXIMUM_PLAYER_COUNT = 8;
-	public final static int FIELDS_AMOUNT = 40;
+	private final static int FIELDS_AMOUNT = 40;
 	
 	private Map<Integer, Player> players;
 	private List<Player> playerOrder;
@@ -48,20 +46,40 @@ public class GameState {
 	private DiceSet dices;
 	private Player activePlayer;
 	private boolean activePlayerNeedsToRoll;
-	private boolean gameIsWon = false;;
+	private boolean gameIsWon = false;
+	private Map<Integer, FieldGroup> groups;
+	private Auction auction;
 	
-	public GameState() {
+	public GameState(int fieldsAmount) {
 		this.players = new HashMap<Integer, Player>(MAXIMUM_PLAYER_COUNT);
 		this.playerOrder = new ArrayList<Player>(MAXIMUM_PLAYER_COUNT);
-		this.fields = new Field[FIELDS_AMOUNT];
+		this.fields = new Field[fieldsAmount];
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
 		this.dices = new OjimDiceSet(1337);
+		this.groups = new HashMap<Integer, FieldGroup>();
+		this.auction = null;
 		
 		//TODO (philip) really?
 		this.activePlayerNeedsToRoll = true;
-		//TODO Add the Possibility to load other GameStates
-	}	
+		//TODO Add the Possibility to load other GameStates		
+	}
+	
+	public GameState() {
+		this(GameState.FIELDS_AMOUNT);
+	}
+	
+	public int getNumberOfFields() {
+		return GameState.FIELDS_AMOUNT;
+	}
+	
+	public Auction getAuction() {
+		return this.auction;
+	}
+	
+	public void setAuction(Auction auction) {
+		this.auction = auction;
+	}
 	
 	public DiceSet getDices() {
 		return this.dices;
@@ -94,8 +112,8 @@ public class GameState {
 		}
 	}
 	
-	public Player getPlayerByID(int playerID) {
-		return this.players.get(playerID);
+	public Player getPlayerById(int playerId) {
+		return this.players.get(playerId);
 	}
 	
 	public Field getFieldAt(int position) {
@@ -107,10 +125,17 @@ public class GameState {
 	
 	public void setFieldAt(Field field, int position) {
 		this.fields[position] = field;
+		FieldGroup group = field.getFieldGroup();
+		this.groups.put(group.getColor(), group);
 	}
 	
 	public Player[] getPlayers() {
 		return this.players.values().toArray(new Player[0]);
+	}
+	
+	//TODO: (xZise) return clone?
+	public Map<Integer, Player> getPlayersMap() {
+		return this.players;
 	}
 	
 	/**
@@ -130,27 +155,43 @@ public class GameState {
 		return this.activePlayer;
 	}
 	
-	public boolean saveGameState(String path) {
-		return saveGameState(new File(path));
+//	public boolean saveGameState(String path) {
+//		return saveGameState(new File(path));
+//	}
+//
+//	private boolean saveGameState(File file) {
+//		try {
+//			if (!file.createNewFile()) {
+//				return false;
+//			}
+//		} catch (IOException e) {
+//			return false;
+//		}
+//		
+//		try {
+//			FileWriter fw = new FileWriter(file);
+//		} catch (IOException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//		
+//		return true;
+//	}
+	
+	public void saveGameState(File file) {
+		
 	}
-
-	private boolean saveGameState(File file) {
+	
+	public void loadBoard(File file, ServerLogic logic) {
+		
+		// Irgendwie hat man hier jetzt alle Feldelemente:
+		Element field = null;
 		try {
-			if (!file.createNewFile()) {
-				return false;
-			}
-		} catch (IOException e) {
-			return false;
+		GameFieldLoader.readElement(field, logic, groups);
+		} catch (DataConversionException e) {
+			OJIMLogger.getLogger(this.getClass().toString()).log(Level.SEVERE, "unable to parse field element", e);
 		}
 		
-		try {
-			FileWriter fw = new FileWriter(file);
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		
-		return true;
 	}
 
 	public void startGame(int start) {

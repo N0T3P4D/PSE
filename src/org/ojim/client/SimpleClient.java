@@ -17,14 +17,30 @@
 
 package org.ojim.client;
 
+import java.util.Map;
+
 import org.ojim.iface.IClient;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.rules.GameRules;
+import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
+import org.ojim.logic.state.fields.CardField;
+import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.FieldGroup;
+import org.ojim.logic.state.fields.FreeParking;
+import org.ojim.logic.state.fields.GoField;
+import org.ojim.logic.state.fields.GoToJail;
+import org.ojim.logic.state.fields.InfrastructureField;
+import org.ojim.logic.state.fields.InfrastructureFieldGroup;
+import org.ojim.logic.state.fields.Jail;
+import org.ojim.logic.state.fields.Station;
+import org.ojim.logic.state.fields.StationFieldGroup;
 import org.ojim.logic.state.fields.Street;
+import org.ojim.logic.state.fields.StreetFieldGroup;
+import org.ojim.logic.state.fields.TaxField;
 import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -73,7 +89,7 @@ public class SimpleClient {
 			}
 		}
 	}
-	
+
 	public enum AuctionState {
 		NOT_RUNNING(-1), WAITING(0), FIRST(1), SECOND(2), THIRD(3);
 
@@ -99,7 +115,7 @@ public class SimpleClient {
 				throw new IllegalArgumentException("state is not recognized");
 			}
 		}
-	}	
+	}
 
 	private IServer server;
 	private Logic logic;
@@ -113,7 +129,7 @@ public class SimpleClient {
 
 	public SimpleClient(Logic logic, int playerId, IServer server) {
 		this.setParameters(logic, playerId, server);
-		this.me = this.getGameState().getPlayerByID(playerId);
+		this.me = this.getGameState().getPlayerById(playerId);
 	}
 
 	private void setMyPlayer(Player player) {
@@ -132,7 +148,7 @@ public class SimpleClient {
 		this.playerId = id;
 	}
 
-	protected GameState getGameState() {
+	public GameState getGameState() {
 		return this.logic.getGameState();
 	}
 
@@ -156,7 +172,7 @@ public class SimpleClient {
 		this.playerId = server.addPlayer(client);
 		// Load my data
 		client.informNewPlayer(this.playerId);
-		this.setMyPlayer(state.getPlayerByID(this.playerId));
+		this.setMyPlayer(state.getPlayerById(this.playerId));
 	}
 
 	public final int getPlayerId() {
@@ -167,32 +183,107 @@ public class SimpleClient {
 	 * GETTER OF ISERVER
 	 */
 
-	public int getEstateColorGroup(int position) {
-		return this.server.getEstateColorGroup(position);
+	public Field getFieldFromServer(int position, Map<Integer, FieldGroup> groups, Map<Integer, Player> players) {
+		Field field = null;
+		int color = this.server.getEstateColorGroup(position);
+		String name = this.server.getEstateName(position);
+		int price = this.server.getEstatePrice(position);
+		// Groups can be null!
+		// If you need your own group create it at the position.
+		// A normal FieldGroup will be created automatically
+		FieldGroup group = groups.get(color);
+		boolean newGroup = group == null;
+		// Street
+		if (color >= 0) {
+
+			if (group == null) {
+				int delim = name.indexOf(":");
+				String groupName = "";
+				if (delim > 0) {
+					groupName = name.substring(0, delim);
+				}
+				group = new StreetFieldGroup(color, groupName, this.server.getEstateHousePrice(position));
+			}
+
+			name = name.substring(name.indexOf(":") + 1).trim();
+
+			int[] rentByLevel = new int[Street.MAXMIMUM_BUILT_LEVEL];
+			for (int builtLevel = 0; builtLevel < rentByLevel.length; builtLevel++) {
+				rentByLevel[builtLevel] = this.server.getEstateRent(position, builtLevel);
+			}
+
+			Street street = new Street(name, position, rentByLevel, this.server.getEstateHouses(position), price);
+			street.setMortgaged(this.server.isMortgaged(position));
+
+			field = street;
+		} else {
+			switch (color) {
+			case FieldGroup.GO:
+				field = new GoField(name, position);
+				break;
+			case FieldGroup.JAIL:
+				field = new Jail(name, position, this.getMoneyToPay(position), this.getRoundsToWait(position));
+				break;
+			case FieldGroup.FREE_PARKING:
+				field = new FreeParking(name, position);
+				break;
+			case FieldGroup.GO_TO_JAIL:
+				field = new GoToJail(name, position);
+				break;
+			case FieldGroup.EVENT:
+				field = new CardField(name, position, false);
+				break;
+			case FieldGroup.COMMUNITY:
+				field = new CardField(name, position, true);
+				break;
+			case FieldGroup.STATIONS:
+				if (group == null) {
+					group = new StationFieldGroup();
+				}
+				field = new Station(name, position, price);
+				break;
+			case FieldGroup.INFRASTRUCTURE:
+				if (group == null) {
+					group = new InfrastructureFieldGroup();
+				}
+				field = new InfrastructureField(name, position, price);
+				break;
+			case FieldGroup.TAX:
+				field = new TaxField(name, position, this.server.getEstateRent(position, 0));
+				break;
+			default:
+				field = null;
+				break;
+			}
+		}
+
+		if (field != null) {
+			if (group == null) {
+				group = new FieldGroup(color);
+			}
+			if (field instanceof BuyableField) {
+				this.updateFieldOwner((BuyableField) field, players);
+			}
+			if (newGroup) {
+				groups.put(color, group);
+			}
+			group.addField(field);
+		} else {
+			OJIMLogger.getLogger(this.getClass().toString()).warning("Unknown field color (" + color + ")");
+		}
+
+		return field;
 	}
 
-	public String getEstateName(int position) {
-		return this.server.getEstateName(position);
-	}
-
-	public int getEstatePrice(int position) {
-		return this.server.getEstatePrice(position);
-	}
-
-	public int getEstateRent(int position, int houses) {
-		return this.server.getEstateRent(position, houses);
-	}
-
-	public int getEstateHouses(int position) {
-		return this.server.getEstateHouses(position);
-	}
-
-	public boolean isMortgaged(int position) {
-		return this.server.isMortgaged(position);
-	}
-
-	public int getOwner(int position) {
-		return this.server.getOwner(position);
+	public BuyableField updateFieldOwner(BuyableField field, Map<Integer, Player> players) {
+		int playerId = this.server.getOwner(field.getPosition());
+		Player owner = players.get(playerId);
+		if (owner == null && playerId >= 0) {
+			OJIMLogger.getLogger(this.getClass().toString()).info("Owner doesn't exists (at the moment?)!");
+		} else {
+			field.buy(owner);
+		}
+		return field;
 	}
 
 	// Bank
@@ -205,28 +296,15 @@ public class SimpleClient {
 	}
 
 	// Spieler
-	public int getPlayerCash(int playerID) {
-		return this.server.getPlayerCash(playerID);
+	public Player getPlayerFromServer(int playerId) {
+		Player player = new Player(this.server.getPlayerName(playerId), this.server.getPlayerPiecePosition(playerId), this.server.getPlayerCash(playerId), playerId, this.server.getPlayerColor(playerId));
+		player.setNumberOfGetOutOfJailCards(this.server.getNumberOfGetOutOfJailCards(playerId));
+		return player;
 	}
-
-	public String getPlayerName(int player) {
-		return this.server.getPlayerName(player);
-	}
-
-	public int getPlayerColor(int player) {
-		return this.server.getPlayerColor(player);
-	}
-
-	public int getPlayerPiecePosition(int playerID) {
-		return this.server.getPlayerPiecePosition(playerID);
-	}
-
-	public int getEstateHousePrice(int position) {
-		return this.server.getEstateHousePrice(position);
-	}
-
-	public int getNumberOfGetOutOfJailCards(int playerID) {
-		return this.server.getNumberOfGetOutOfJailCards(playerID);
+	
+	public Player updatePlayersGetOutOfJailCards(Player player) {
+		player.setNumberOfGetOutOfJailCards(this.server.getNumberOfGetOutOfJailCards(player.getId()));
+		return player;
 	}
 
 	/*
@@ -243,7 +321,7 @@ public class SimpleClient {
 	 */
 	public int getMoneyToPay(int position) {
 		if (this.server instanceof NetOjim) {
-//			 return ((NetOjim) this.server).getMoneyToPay(position);
+			// return ((NetOjim) this.server).getMoneyToPay(position);
 			return 1000;
 		} else {
 			return 1000; // TODO: (xZise) Is this the correct value?
@@ -336,13 +414,6 @@ public class SimpleClient {
 		this.server.sendMessage(text, this.playerId);
 	}
 
-	/**
-	 * @deprecated Use {@link #sendPrivateMessage(String, Player)}
-	 */
-	protected final void sendPrivateMessage(String text, int reciever) {
-		this.server.sendPrivateMessage(text, this.playerId, reciever);
-	}
-
 	protected final void sendPrivateMessage(String text, Player reciever) {
 		this.server.sendPrivateMessage(text, this.playerId, reciever.getId());
 	}
@@ -367,13 +438,6 @@ public class SimpleClient {
 	 * TRADE
 	 */
 
-	/**
-	 * @deprecated Use {@link #initTrade(Player)}
-	 */
-	public final boolean initTrade(int partnerPlayer) {
-		return ((IServerTrade) this.server).initTrade(playerId, partnerPlayer);
-	}
-
 	public final boolean initTrade(Player partnerPlayer) {
 		int id = -1;
 		if (partnerPlayer != null) {
@@ -382,29 +446,15 @@ public class SimpleClient {
 		return ((IServerTrade) this.server).initTrade(this.playerId, id);
 	}
 
-	/**
-	 * @deprecated Use {@link #getTradeState()}
-	 */
-	public final int getTradeStateO() {
-		return ((IServerTrade) this.server).getTradeState();
-	}
-
 	public final TradeState getTradeState() {
 		return TradeState.getState(((IServerTrade) this.server).getTradeState());
-	}
-
-	/**
-	 * @deprecated Use {@link #getPartner()}
-	 */
-	public final int getPartnerO() {
-		return ((IServerTrade) this.server).getPartner();
 	}
 
 	public final Player getPartner() {
 		int id = ((IServerTrade) this.server).getPartner();
 		Player partner = null;
 		if (id >= 0) {
-			partner = this.getGameState().getPlayerByID(id);
+			partner = this.getGameState().getPlayerById(id);
 			if (partner == null) {
 				OJIMLogger.getLogger(this.getClass().toString()).severe("partner is unkown");
 			}
@@ -437,13 +487,6 @@ public class SimpleClient {
 		return amount;
 	}
 
-	/**
-	 * @deprecated Use {@link #offerEstate(BuyableField)}
-	 */
-	public final boolean offerEstate(int position) {
-		return ((IServerTrade) this.server).offerEstate(playerId, position);
-	}
-
 	public final boolean offerEstate(BuyableField field) {
 		return ((IServerTrade) this.server).offerEstate(playerId, field.getPosition());
 	}
@@ -470,13 +513,6 @@ public class SimpleClient {
 			}
 		}
 		return 0;
-	}
-
-	/**
-	 * @deprecated Use {@link #requireEstate(BuyableField)}
-	 */
-	public final boolean requireEstate(int position) {
-		return ((IServerTrade) this.server).requireEstate(playerId, position);
 	}
 
 	public final boolean requireEstate(BuyableField field) {
@@ -542,47 +578,30 @@ public class SimpleClient {
 	/*
 	 * AUCTION
 	 */
-
-	/**
-	 * @deprecated Use {@link #getAuctionState()}.
-	 */
-	public final int getAuctionStateO() {
-		return ((IServerAuction) this.server).getAuctionState();
+	public Auction getAuctionFromServer() {
+		IServerAuction auctionServer = (IServerAuction) this.server;
+		AuctionState state = AuctionState.getState(auctionServer.getAuctionState());
+		if (state == AuctionState.NOT_RUNNING) {
+			return null;
+		}
+		BuyableField field = (BuyableField) this.getGameState().getFieldAt(auctionServer.getAuctionedEstate());
+		Auction auction = new Auction(field, state);
+		Player bidder = this.getGameState().getPlayerById(auctionServer.getBidder());
+		auction.placeBid(bidder, auctionServer.getHighestBid());
+		return auction;
 	}
 	
-	public final AuctionState getAuctionState() {
-		return AuctionState.getState(((IServerAuction) this.server).getAuctionState());
-	}
-
-	/**
-	 * @deprecated Use {@link #getAuctionedEstate()}
-	 */
-	public final int getAuctionedEstateO() {
-		return ((IServerAuction) this.server).getAuctionedEstate();
-	}
-
-	public final BuyableField getAuctionedEstate() {
-		return (BuyableField) this.getGameState().getFieldAt(((IServerAuction) this.server).getAuctionedEstate());
-	}
-
-	public final int getHighestBid() {
-		return ((IServerAuction) this.server).getHighestBid();
-	}
-
-	/**
-	 * Returns the highest bidder. If nobody has bid its null.
-	 * @return the highest bidder. If nobody has bid its null.
-	 */
-	public final Player getBidder() {
-		int id = ((IServerAuction) this.server).getBidder();
-		Player bidder = null;
-		if (id >= 0) {
-			bidder = this.getGameState().getPlayerByID(id);
-			if (bidder == null) {
-				OJIMLogger.getLogger(this.getClass().toString()).severe("bidder is unkown");
-			}
+	public Auction updateAuction(Auction auction) {
+		IServerAuction auctionServer = (IServerAuction) this.server;
+		AuctionState newState = AuctionState.getState(auctionServer.getAuctionState());
+		// New bid
+		if (newState == AuctionState.WAITING) {
+			Player bidder = this.getGameState().getPlayerById(auctionServer.getBidder());
+			auction.placeBid(bidder, auctionServer.getHighestBid());
+		} else {
+			auction.setState(newState);
 		}
-		return bidder;
+		return auction;
 	}
 
 	public final boolean placeBid(int amount) {

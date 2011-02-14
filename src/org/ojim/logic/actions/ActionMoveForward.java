@@ -18,7 +18,6 @@
 package org.ojim.logic.actions;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.fields.Field;
 
 public class ActionMoveForward implements Action {
@@ -38,7 +37,7 @@ public class ActionMoveForward implements Action {
 	@Override
 	public void execute() {
 		Field target = this.logic.getGameState().getFieldAt(
-				(this.logic.getGameState().getActivePlayer().getPosition() + this.steps) % GameState.FIELDS_AMOUNT);
+				(this.logic.getGameState().getActivePlayer().getPosition() + this.steps) % this.logic.getGameState().getNumberOfFields());
 		logic.movePlayerTo(target, this.logic.getGameState().getActivePlayer(), this.special, this.executePasses);
 	}
 }

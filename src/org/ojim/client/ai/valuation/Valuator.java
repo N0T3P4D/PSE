@@ -38,12 +38,12 @@ import org.ojim.client.ai.commands.SellCommand;
 import org.ojim.client.ai.commands.ToggleMortgageCommand;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
+import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Street;
-import org.ojim.logic.state.fields.StreetFieldGroup;
 
 import edu.kit.iti.pse.iface.IServer;
 
@@ -173,7 +173,7 @@ public class Valuator extends SimpleClient {
 	public Command actOnTradeOffer() {
 		initFunctions();
 //		System.out.println("Trade!");
-		assert (getTradeStateO() == 1);
+		assert (this.getTradeState() == TradeState.WAITING_PROPOSED);
 		boolean restricted = false;
 		if (getRequiredEstates() != null) {
 			for (int position : getRequiredEstatesO()) {
@@ -225,31 +225,28 @@ public class Valuator extends SimpleClient {
 			function.setParameters(logic);
 			function.setServer(server);
 		}
-		int auctionState = getAuctionStateO();
-		assert (auctionState >= 0);
-		int realValue = (int) getResults(getAuctionedEstateO(), 0);
-		getAuctionState();
-		getBidder();
-		getHighestBid();
-		String bidder;
-		if (getBidder() == null) {
-			bidder = "-1";
+		Auction auction = this.getGameState().getAuction();
+		assert (auction.getState() == AuctionState.NOT_RUNNING);
+		int realValue = (int) getResults(auction.objective.getPosition(), 0);
+		int bidder;
+		if (auction.getHighestBidder() == null) {
+			bidder = -1;
 		} else {
-			bidder = ((Integer) getBidder().getId()).toString();
+			bidder = auction.getHighestBidder().getId();
 		}
-		logger.log(Level.FINE, "state = " + getAuctionState() + " bidder = " + bidder + " highesBid = "
-				+ getHighestBid() + " value = " + realValue);
+		logger.log(Level.FINE, "state = " + auction.getState().value + " bidder = " + bidder + " highesBid = "
+				+ auction.getHighestBid() + " value = " + realValue);
 
-		if ((auctionState = getAuctionStateO()) < 3 && getBidder() != getMe() && getHighestBid() < realValue
+		if (auction.getState() != AuctionState.THIRD && auction.getHighestBidder() != getMe() && auction.getHighestBid() < realValue
 				&& currentStep < auctionSteps) {
-			logger.log(Level.FINE, "Highest bid = " + getHighestBid());
-			if (getHighestBid() < realValue) {
+			logger.log(Level.FINE, "Highest bid = " + auction.getHighestBid());
+			if (auction.getHighestBid() < realValue) {
 				logger.log(Level.FINE, "Valuation " + realValue);
 				double factor = Math.log(currentStep++) / Math.log(auctionSteps);
 				auctionBid = (int) (factor * realValue);
 				logger.log(Level.FINE, "Bidding " + auctionBid);
 
-				if (getResults(getAuctionedEstateO(), auctionBid) > 0) {
+				if (getResults(auction.objective.getPosition(), auctionBid) > 0) {
 //					System.out.println("THere!");
 					// assert(false);
 					return new AuctionBidCommand(logic, server, playerID, auctionBid);
@@ -259,10 +256,10 @@ public class Valuator extends SimpleClient {
 				}
 			}
 		}
-		if (getAuctionStateO() == 3) {
+		if (auction.getState() == AuctionState.THIRD) {
 			currentStep = 2;
 		}
-		if (getBidder() != getMe()) {
+		if (auction.getHighestBidder() != getMe()) {
 			auctionEndTurn = true;
 		}
 		// endTurn = true;
@@ -280,7 +277,7 @@ public class Valuator extends SimpleClient {
 
 	private double tradeValuateJailCards() {
 		int offeredCards = getNumberOfOfferedGetOutOfJailCards();
-		int difference = ValuationParameters.desiredNumberOfOutOfOjailCards - getNumberOfGetOutOfJailCards(playerID);
+		int difference = ValuationParameters.desiredNumberOfOutOfOjailCards - this.getMe().getNumberOfGetOutOfJailCards();
 		if (difference > 0) {
 			if (offeredCards >= difference) {
 				return ((Jail) getGameState().getFieldAt(10)).getMoneyToPay() * difference;

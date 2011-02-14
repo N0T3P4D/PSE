@@ -47,9 +47,4 @@ public class TaxField extends Field {
 	public int getAmount() {
 		return this.amount;
 	}
-
-	@Override
-	public int getColorGroup() {
-		return FieldGroup.TAX;
-	}
 }

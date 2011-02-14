@@ -17,13 +17,12 @@
 
 package org.ojim.iface;
 
-import org.ojim.logic.state.fields.BuyableField;
-import org.ojim.logic.state.fields.Street;
+import java.io.Serializable;
 
 /**
  * Minimales Regelset.
  */
-public class Rules {
+public class Rules implements Serializable {
 	
 	/** Das verfügbare Startgeld. */
 	public final int startMoney;

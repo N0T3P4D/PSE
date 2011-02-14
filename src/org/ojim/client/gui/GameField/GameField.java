@@ -21,15 +21,12 @@ import java.awt.Color;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
-import org.ojim.client.SimpleClient.AuctionState;
 import org.ojim.client.gui.GUIClient;
-import org.ojim.client.gui.PlayerColor;
-import org.ojim.client.gui.StreetColor;
 import org.ojim.language.Localizer;
+import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
@@ -43,15 +40,13 @@ import org.ojim.logic.state.fields.StreetFieldGroup;
  */
 public class GameField extends JPanel {
 
+	private static final long serialVersionUID = 5398588367941146349L;
+	
 	private GameFieldPiece[] fields;
-	private JPanel[] playerLabel;
-	private Player[] player;
-	private Field[] field;
 	private boolean isInitialized = false;
 	private static Player me;
 
 	// Das Feld auf das zuletzt mit der Maus geklickt wurde
-	private String selectedField;
 
 	// Hält GameFieldPieceCollection
 	// Hält Referenz auf GameFieldPiece
@@ -84,52 +79,33 @@ public class GameField extends JPanel {
 
 		@Override
 		public void mouseClicked(MouseEvent e) {
-			selectedField = e.getComponent().getName();
+			Field selected = null;
+			if (e.getComponent() instanceof GameFieldPiece) {
+				selected = ((GameFieldPiece) e.getComponent()).getField();
+			}
 			
 			interactionPopup.fieldClicked(e.getComponent().getName(), me);
 			
-			// System.out.println("Clicked on Field " + selectedField);
-			try {
-				try {
-					// System.out.println("1!");
-					// if (((Street) fields[Integer.parseInt(selectedField)]
-					// .getField()).getOwner().getId() == me.getId()) {
-					if (allOfGroupOwned((Street) fields[Integer
-							.parseInt(selectedField)].getField())) {
-
-						// System.out.println("2!");
-						interactionPopup
-								.showUpgrade(
-										Integer.parseInt(selectedField),
-										fields[(Integer.parseInt(selectedField))]
-												.getField().getName());
-					}
-				} catch (NullPointerException e2) {
-					// System.out.println("nanana!");
-					interactionPopup.deleteUpgrade();
-				}
-			} catch (ArrayIndexOutOfBoundsException e3) {
-				// Noch nicht initialisiert
+			if (selected instanceof Street && GameField.this.allOfGroupOwned((Street) selected)) {
+				interactionPopup.showUpgrade((Street) selected);
+			} else {
+				interactionPopup.deleteUpgrade();
 			}
-
 		}
 	};
 
 	public GameField(GUIClient guiClient) {
-		playerLabel = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
-		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			playerLabel[i] = new JPanel();
-		}
 		interactionPopup = new InteractionPopup(guiClient, me);
 
 	}
 
 	public void buildOnStreet(Field field) {
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-			if (this.fields[i].isField(field)) {
-				this.fields[i].redrawStreet();
-			}
-		}
+		this.fields[field.getPosition()].redrawStreet();
+//		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+//			if (this.fields[i].isField(field)) {
+//				this.fields[i].redrawStreet();
+//			}
+//		}
 		redraw();
 
 	}
@@ -141,11 +117,12 @@ public class GameField extends JPanel {
 	}
 
 	public void destroyOnStreet(Field field) {
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-			if (this.fields[i].isField(field)) {
-				this.fields[i].redrawStreet();
-			}
-		}
+		this.fields[field.getPosition()].redrawStreet();
+//		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+//			if (this.fields[i].isField(field)) {
+//				this.fields[i].redrawStreet();
+//			}
+//		}
 		redraw();
 
 	}
@@ -170,9 +147,8 @@ public class GameField extends JPanel {
 		 * 1)); this.add(playerLabel[player.getId()]); this.revalidate();
 		 */
 
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-
-			this.fields[i].removeSinglePlayer(player);
+		for (GameFieldPiece piece : this.fields) {
+			piece.removePlayer(player);
 		}
 		this.fields[field.getPosition()].addPlayer(player);
 
@@ -191,26 +167,8 @@ public class GameField extends JPanel {
 
 		this.setLayout(new GameFieldLayout());
 
-		this.player = new Player[GameState.MAXIMUM_PLAYER_COUNT];
-		this.field = new Field[GameState.MAXIMUM_PLAYER_COUNT];
-
-		playerLabel = new JPanel[GameState.MAXIMUM_PLAYER_COUNT];
-		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			playerLabel[i] = new JPanel();
-		}
-
-		for (int i = 0; i < GameState.MAXIMUM_PLAYER_COUNT; i++) {
-			try {
-				this.player[i] = gameState.getPlayers()[i];
-				this.field[i] = gameState.getFieldAt(gameState.getPlayers()[i]
-						.getPosition());
-			} catch (ArrayIndexOutOfBoundsException e) {
-
-			}
-		}
-
-		fields = new GameFieldPiece[GameState.FIELDS_AMOUNT];
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+		fields = new GameFieldPiece[gameState.getNumberOfFields()];
+		for (int i = 0; i < gameState.getNumberOfFields(); i++) {
 			fields[i] = new GameFieldPiece(gameState.getFieldAt(i), gui);
 			try {
 				fields[i].setField(gameState.getFieldAt(i));
@@ -222,7 +180,7 @@ public class GameField extends JPanel {
 		}
 		isInitialized = true;
 
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+		for (int i = 0; i < gameState.getNumberOfFields(); i++) {
 			// ((GameFieldPiece) actualLabel).draw();
 			fields[i].setName(i + "");
 			fields[i].setBorder(new LineBorder(Color.black, 1));
@@ -300,9 +258,9 @@ public class GameField extends JPanel {
 	}
 
 	public void playerIsBancrupt(Player bancruptPlayer) {
-		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+		for (int i = 0; i < this.fields.length; i++) {
 			this.fields[i].draw();
-			this.fields[i].removeSinglePlayer(bancruptPlayer);
+			this.fields[i].removePlayer(bancruptPlayer);
 		}
 
 	}
@@ -328,7 +286,7 @@ public class GameField extends JPanel {
 
 			for (Field field : group.getFields()) {
 				// System.out.println("5!");
-				if (((BuyableField) field).getOwner() == this.me) {
+				if (((BuyableField) field).getOwner() == me) {
 					count++;
 				}
 			}
@@ -356,10 +314,9 @@ public class GameField extends JPanel {
 
 	}
 
-	public void showAuction(AuctionState auctionState, BuyableField buyableField, Player bidder,
-			int highestBid) {
-		interactionPopup.showAuction(auctionState, buyableField, bidder,
-				highestBid);
+	public void showAuction(Auction auction) {
+		interactionPopup.showAuction(auction.getState(), auction.objective, auction.getHighestBidder(),
+				auction.getHighestBid());
 		
 	}
 

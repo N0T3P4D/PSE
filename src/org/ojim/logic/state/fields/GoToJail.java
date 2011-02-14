@@ -17,8 +17,13 @@
 
 package org.ojim.logic.state.fields;
 
+import java.util.Map;
+
+import org.jdom.DataConversionException;
+import org.jdom.Element;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.actions.ActionMoveToJail;
+import org.ojim.logic.state.GameState;
 
 public class GoToJail extends Field {
 
@@ -30,9 +35,16 @@ public class GoToJail extends Field {
 		this(name, position);
 		this.setExecuteActions(new ActionMoveToJail(logic, targetJail));
 	}
-
-	@Override
-	public int getColorGroup() {
-		return FieldGroup.GO_TO_JAIL;
+	
+	public GoToJail(Element element, Map<Integer, FieldGroup> groups, ServerLogic logic) throws DataConversionException {
+		super(element, groups);
+		String target = element.getChildText("target");
+		
+		int position = Integer.parseInt(target);
+		
+		Field targetField = logic.getGameState().getFieldAt(position);
+		if (targetField instanceof Jail) {
+			this.setExecuteActions(new ActionMoveToJail(logic, (Jail) targetField));
+		}
 	}
 }

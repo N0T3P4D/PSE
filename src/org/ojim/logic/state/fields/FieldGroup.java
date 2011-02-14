@@ -40,9 +40,13 @@ public class FieldGroup {
 	}
 	
 	public Field addField(Field field) {
-		this.fields.add(field);
-		field.setFieldGroup(this);
-		return field;
+		if (this.getClass().equals(field.getFieldGroupClass())) {
+			this.fields.add(field);
+			field.setFieldGroup(this);
+			return field;
+		} else {
+			throw new IllegalArgumentException("Wrong field group class (Required: " + this.getClass() + ", Got: " + field.getFieldGroupClass() + ")");
+		}
 	}
 	
 	public Field[] getFields() {

@@ -25,6 +25,7 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 
 import org.ojim.language.Localizer;
+import org.ojim.language.Localizer.TextKey;
 
 /**
  * Die Menubar ist oben am Frame verankert und bietet dem Benutzer mehr <br>
@@ -54,7 +55,7 @@ public class MenuBar extends JMenuBar {
 	 */
 	public MenuBar() {
 
-		menuBarState = MenuState.mainMenu;
+		menuBarState = MenuState.MAIN_MENU;
 
 		Localizer language = null;
 
@@ -69,7 +70,7 @@ public class MenuBar extends JMenuBar {
 	 */
 	public MenuBar(Localizer language, GUIClient gui) {
 
-		menuBarState = MenuState.mainMenu;
+		menuBarState = MenuState.MAIN_MENU;
 
 		this.gui = gui;
 		
@@ -96,22 +97,22 @@ public class MenuBar extends JMenuBar {
 		removeAll();
 		revalidate();
 
-		fileMenu = new JMenu(language.getText("file"));
-		langMenu = new JMenu(language.getText("languages"));
-		editMenu = new JMenu(language.getText("?"));
+		fileMenu = new JMenu(language.getText(TextKey.FILE));
+		langMenu = new JMenu(language.getText(TextKey.LANGUAGES));
+		editMenu = new JMenu(language.getText(TextKey.HELP_MENU));
 
-		createGame = new JMenuItem(language.getText("create game"));
-		joinGame = new JMenu(language.getText("join game"));
-		leaveGame = new JMenuItem(language.getText("leave game"));
-		settings = new JMenuItem(language.getText("settings"));
+		createGame = new JMenuItem(language.getText(TextKey.CREATE_GAME));
+		joinGame = new JMenu(language.getText(TextKey.JOIN_GAME));
+		leaveGame = new JMenuItem(language.getText(TextKey.LEAVE_GAME));
+		settings = new JMenuItem(language.getText(TextKey.SETTINGS));
 
-		directConnection = new JMenuItem(language.getText("direct connection"));
-		serverList = new JMenuItem(language.getText("list of servers"));
+		directConnection = new JMenuItem(language.getText(TextKey.DIRECT_CONNECTION));
+		serverList = new JMenuItem(language.getText(TextKey.LIST_OF_SERVERS));
 
-		exit = new JMenuItem(language.getText("exit"));
+		exit = new JMenuItem(language.getText(TextKey.EXIT));
 
-		about = new JMenuItem(language.getText("about"));
-		help = new JMenuItem(language.getText("help"));
+		about = new JMenuItem(language.getText(TextKey.ABOUT));
+		help = new JMenuItem(language.getText(TextKey.HELP));
 
 		for (int i = 0; i < language.getLanguages().length; i++) {
 			languageName = language.getLanguages()[i].name;
@@ -241,7 +242,7 @@ public class MenuBar extends JMenuBar {
 
 		fileMenu.add(joinGame);
 
-		if (menuBarState.equals(MenuState.game)) {
+		if (menuBarState.equals(MenuState.GAME)) {
 			fileMenu.add(leaveGame);
 		}
 
