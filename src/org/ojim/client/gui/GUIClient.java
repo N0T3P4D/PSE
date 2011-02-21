@@ -224,6 +224,7 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	@Override
 	public void onBuy(Player player, BuyableField field) {
+		System.out.println("Max onBuy:" + field.getName());
 		gameField.playerBuysField(player, field);
 		if (player.getId() == getMe().getId()) {
 			cardWindow.addCard(field, this);
