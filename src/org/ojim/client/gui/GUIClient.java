@@ -98,6 +98,7 @@ public class GUIClient extends ClientBase implements Serializable {
 	private OjimServer server;
 
 	private MenuState menuState;
+	private boolean bankrupt;
 
 	/**
 	 * Mit diesem Konstruktor wird der GUI Client gestartet
@@ -246,10 +247,10 @@ public class GUIClient extends ClientBase implements Serializable {
 		playerInfoWindow.changeCash(player, getGameState().getPlayerById(
 				player.getId()).getBalance());
 		// draw();
-		//System.out.println("CASH CHANGE");
+		// System.out.println("CASH CHANGE");
 		// Geld kleiner 0 Workaround weil getIsBankrupt nicht geht
 		if (player.getIsBankrupt()) {
-			System.out.println("Spieler "+player.getName()+" ist Bankrott");
+			System.out.println("Spieler " + player.getName() + " ist Bankrott");
 			playerInfoWindow.setBancrupt(player);
 			gameField.playerIsBancrupt(player);
 		} else {
@@ -281,22 +282,24 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	@Override
 	public void onMessage(String text, Player sender, boolean privateMessage) {
-		chatWindow.write(new ChatMessage(new Date(), sender, privateMessage, text));
+		chatWindow.write(new ChatMessage(new Date(), sender, privateMessage,
+				text));
 		// draw();
 	}
 
 	@Override
 	public void onMortgageToogle(BuyableField street) {
-		//System.out.println("onMortage wurde für "+street.getName()+" aufgerufen");
+		// System.out.println("onMortage wurde für "+street.getName()+" aufgerufen");
 		cardWindow.switchCardStatus(street);
 		gameField.switchFieldStatus(street);
-		playerInfoWindow.changeCash(street.getOwner(), street.getOwner().getBalance());
+		playerInfoWindow.changeCash(street.getOwner(), street.getOwner()
+				.getBalance());
 		draw();
 	}
 
 	@Override
 	public void onMove(Player player) {
-		
+
 		// TODO: (v. xZise) position kann negativ sein (z.B. Gefängnis)
 		// this.menuState = MenuState.game;
 		// gameField.playerMoves(this.getGameState().getFieldAt(Math.abs(position)),
@@ -315,10 +318,11 @@ public class GUIClient extends ClientBase implements Serializable {
 		 * gameField.playerIsBancrupt(getGameState().getPlayerByID(i));
 		 * System.out.println("Bancrupt2"); } }
 		 */
-		
+
 		if (this.isMyTurn() && field instanceof BuyableField) {
 			BuyableField buyField = (BuyableField) field;
-			if (buyField.getOwner() == null && buyField.getPrice() <= this.getMe().getBalance()){
+			if (buyField.getOwner() == null
+					&& buyField.getPrice() <= this.getMe().getBalance()) {
 				downRight.add(buyButton);
 			}
 		}
@@ -354,17 +358,28 @@ public class GUIClient extends ClientBase implements Serializable {
 					+ actingPlayer.getName() + " handelte mit "
 					+ partnerPlayer.getName()));
 			gameField.init(getGameState(), this);
-			for(int i = 0; i < getGameState().getPlayers().length; i++){
-				playerInfoWindow.changeCash(getGameState().getPlayerById(i), getGameState().getPlayerById(i).getBalance());
+			for (int i = 0; i < getGameState().getPlayers().length; i++) {
+				playerInfoWindow.changeCash(getGameState().getPlayerById(i),
+						getGameState().getPlayerById(i).getBalance());
 			}
 		}
 	}
 
 	@Override
 	public void onBankruptcy() {
-		System.out.println("-- DEBUG -- on Bankruptcy ");
-		chatWindow.write(new ChatMessage(new Date(), null, false,
-				"-- DEBUG -- on Bankruptcy"));
+		for (Player player : getGameState().getPlayers()) {
+			if (player.getIsBankrupt()) {
+				playerInfoWindow.setBancrupt(player);
+				gameField.playerIsBancrupt(player);
+				if (player.getId() == getMe().getId()) {
+					this.bankrupt = true;
+					downRight.remove(rollButton);
+					downRight.remove(endTurnButton);
+					downRight.repaint();
+					downRight.revalidate();
+				}
+			}
+		}
 	}
 
 	@Override
@@ -388,12 +403,12 @@ public class GUIClient extends ClientBase implements Serializable {
 
 			rightWindow1.removeAll();
 			rightWindow1.revalidate();
-			
+
 			downWindow.removeAll();
 			downWindow.revalidate();
-			
+
 			GUIFrame.remove(window);
-			
+
 			pane.removeAll();
 			pane.revalidate();
 			notInit = false;
@@ -411,7 +426,6 @@ public class GUIClient extends ClientBase implements Serializable {
 
 			this.menuState = MenuState.GAME;
 			this.menubar.setMenuBarState(menuState);
-			
 
 			rightWindow1.add(playerInfoWindow);
 			rightWindow1.add(chatWindow);
@@ -478,9 +492,7 @@ public class GUIClient extends ClientBase implements Serializable {
 			;
 			;
 			jeremiasButton.addActionListener(jeremiasListener);
-			
-			
-			
+
 			// HIER IST DER JEREMIAS KNOPF
 			downRight.add(jeremiasButton);
 
@@ -516,9 +528,9 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	@Override
 	public void onTurn(Player player) {
-		
+
 		cardWindow.jailCards(player.getNumberOfGetOutOfJailCards());
-		
+
 		playerInfoWindow.turnOn(player);
 		// System.out.println("Player has changed to "+player.getName());
 		if (player.getId() != getMe().getId()) {
@@ -527,8 +539,10 @@ public class GUIClient extends ClientBase implements Serializable {
 			downRight.repaint();
 			downRight.revalidate();
 		} else {
-			downRight.add(rollButton);
-			downRight.add(endTurnButton);
+			if (this.bankrupt != true) {
+				downRight.add(rollButton);
+				downRight.add(endTurnButton);
+			}
 		}
 	}
 
@@ -549,16 +563,16 @@ public class GUIClient extends ClientBase implements Serializable {
 	 * Beendet das Spiel
 	 */
 	public void leaveGame() {
-		
+
 		notInit = true;
-		
+
 		System.out.println("END!!");
 
 		pane.removeAll();
 		window.removeAll();
 
-		//pane = new JPanel();
-		//window = new JPanel();
+		// pane = new JPanel();
+		// window = new JPanel();
 		pane.revalidate();
 		window.revalidate();
 
@@ -664,32 +678,38 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	@Override
 	public void onAuction() {
-		
+
 		if (this.getGameState().getAuction() != null) {
 			switch (this.getGameState().getAuction().getState()) {
-			case WAITING :
-				Player bidder = this.getGameState().getAuction().getHighestBidder();
+			case WAITING:
+				Player bidder = this.getGameState().getAuction()
+						.getHighestBidder();
 				if (bidder != null) {
-					this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_RESET)));
+					this.chatWindow.write(new ChatMessage(new Date(), null,
+							false, language.getText(TextKey.AUCTION_RESET)));
 				} else {
-					this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_INIT)));
+					this.chatWindow.write(new ChatMessage(new Date(), null,
+							false, language.getText(TextKey.AUCTION_INIT)));
 				}
 				break;
-			case FIRST :
-				this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_FIRST)));
+			case FIRST:
+				this.chatWindow.write(new ChatMessage(new Date(), null, false,
+						language.getText(TextKey.AUCTION_FIRST)));
 				break;
-			case SECOND :
-				this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_SECOND)));
+			case SECOND:
+				this.chatWindow.write(new ChatMessage(new Date(), null, false,
+						language.getText(TextKey.AUCTION_SECOND)));
 				break;
-			case THIRD :
-				this.chatWindow.write(new ChatMessage(new Date(), null, false, language.getText(TextKey.AUCTION_THIRD)));
+			case THIRD:
+				this.chatWindow.write(new ChatMessage(new Date(), null, false,
+						language.getText(TextKey.AUCTION_THIRD)));
 				this.gameField.removeAuction();
 				break;
 			}
 			if (this.getGameState().getAuction().getState() != AuctionState.THIRD) {
 				downRight.remove(buyButton);
 				this.GUIFrame.repaint();
-	
+
 				gameField.showAuction(this.getGameState().getAuction());
 			}
 		} else {
@@ -713,14 +733,15 @@ public class GUIClient extends ClientBase implements Serializable {
 	 * @param k
 	 * @param j
 	 */
-	public void startServer(String serverName, int maxPlayers, int kiPlayers, String host) {
+	public void startServer(String serverName, int maxPlayers, int kiPlayers,
+			String host) {
 
 		setName(settings.getPlayerName());
 
 		menuState = MenuState.WAITING_ROOM;
 
 		server = new OjimServer(serverName);
-		
+
 		server.initRMIGame(maxPlayers, kiPlayers, host);
 
 		connect(server);
@@ -737,7 +758,7 @@ public class GUIClient extends ClientBase implements Serializable {
 
 		window.setLayout(new GridLayout(1, 0));
 		rightWindow.setLayout(new GridLayout(0, 1));
-		
+
 		playerInfoWindow = new PlayerInfoWindow(this);
 		chatWindow = new ChatWindow(language, this);
 
@@ -826,7 +847,9 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	}
 
-	public void trade(Player tradePartner, int cash, List<BuyableField> myFields, List<BuyableField> hisFields, int outOfJailCards) {
+	public void trade(Player tradePartner, int cash,
+			List<BuyableField> myFields, List<BuyableField> hisFields,
+			int outOfJailCards) {
 		initTrade(tradePartner);
 		offerCash(cash);
 		for (BuyableField buyableField : myFields) {
@@ -837,7 +860,7 @@ public class GUIClient extends ClientBase implements Serializable {
 			System.out.println("Seine Felder: " + buyableField.getName());
 			this.requireEstate(buyableField);
 		}
-		
+
 		offerGetOutOfJailCard(outOfJailCards);
 		System.out.println("Ok Meista, hab nun gehandelt!!");
 		proposeTrade();
@@ -861,18 +884,20 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	/**
 	 * Diese Funktion fügt eine Straße mit einem Mindestgebot zur Auktion hinzu
-	 * @param text Straßenname
-	 * @param newBidRate Auktionsminimumangebot
+	 * 
+	 * @param text
+	 *            Straßenname
+	 * @param newBidRate
+	 *            Auktionsminimumangebot
 	 */
 	public void startNewAuction(String text, JTextField newBidRate) {
-		
-		
+
 	}
 
 	public org.ojim.logic.state.fields.Field getFieldByPosition(String position) {
 		try {
-		return getGameState().getFieldAt(Integer.parseInt(position));
-		} catch (NullPointerException e){
+			return getGameState().getFieldAt(Integer.parseInt(position));
+		} catch (NullPointerException e) {
 			System.out.println("GetFieldByPosition GUI Client NPE");
 			return null;
 		}
@@ -880,13 +905,14 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	public void noTrade() {
 		decline();
-		
+
 	}
 
 	public void swtichCard(Field field) {
-		System.out.println("toogleMortage("+field.getName()+") im GUI Client");
-		toggleMortgage((BuyableField)field);
-		
+		System.out.println("toogleMortage(" + field.getName()
+				+ ") im GUI Client");
+		toggleMortgage((BuyableField) field);
+
 	}
 
 	public Player getPlayerMe() {
@@ -895,15 +921,21 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	/**
 	 * Free from Jail
-	 * @param i 0 = Karte, anderes = Geld
+	 * 
+	 * @param i
+	 *            0 = Karte, anderes = Geld
 	 */
 	public void freeMe(int i) {
-		if(i == 0){
+		if (i == 0) {
 			useGetOutOfJailCard();
 		} else {
 			payFine();
 		}
-		
+
+	}
+	
+	public boolean getIsBankrupt(){
+		return this.bankrupt;
 	}
 
 }

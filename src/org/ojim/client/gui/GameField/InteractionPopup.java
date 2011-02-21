@@ -404,6 +404,9 @@ public class InteractionPopup extends JPanel {
 			fieldClicked(offeredBuyableFields[i], me);
 		}
 		
+		if(!gui.getIsBankrupt()){
+			tradePanel.remove(okButton);
+		}
 		
 		okButtonLabel.setText(language.getText("ok"));
 		noButtonLabel.setText(language.getText("no"));
@@ -423,7 +426,10 @@ public class InteractionPopup extends JPanel {
 		newAuctionButtonOkLabel.setText(language.getText(TextKey.START_AUCTION));
 		newAuctionCardLabel.setText(buyableField.getName());
 		newAuctionMinimumBid.setText(language.getText(TextKey.MINIMUM_BID)+": ");
-		this.add(auctionPanel);
+		this.add(auctionPanel);		
+		if(!gui.getIsBankrupt()){
+			auctionPanel.remove(auctionButtonOk);
+		}
 		
 		this.add(newAuctionPanel);
 		this.repaint();
@@ -486,7 +492,7 @@ public class InteractionPopup extends JPanel {
 	}
 
 	public void endTrade() {
-		// TODO Auto-generated method stub
+		this.remove(tradePanel);
 		
 	}
 
@@ -498,46 +504,48 @@ public class InteractionPopup extends JPanel {
 	}
 
 	public void fieldClicked(Field field, Player me) {		
-		if(field instanceof BuyableField){
-			BuyableField buyField = (BuyableField) field;
-			if(tradeCardPanel[field.getPosition()] == null){
-				tradeCardPanel[field.getPosition()] = new JPanel();
-				tradeCardPanel[field.getPosition()].add(fieldLabel = new JLabel(field.getName()));
-				tradeCardPanel[field.getPosition()].setBackground(StreetColor.getBackGroundColor(field.getFieldGroup().getColor()));
-				fieldLabel.setForeground(StreetColor.getFontColor(field.getFieldGroup().getColor()));
+		if(!gui.getIsBankrupt()){
+			if(field instanceof BuyableField){
+				BuyableField buyField = (BuyableField) field;
+				if(tradeCardPanel[field.getPosition()] == null){
+					tradeCardPanel[field.getPosition()] = new JPanel();
+					tradeCardPanel[field.getPosition()].add(fieldLabel = new JLabel(field.getName()));
+					tradeCardPanel[field.getPosition()].setBackground(StreetColor.getBackGroundColor(field.getFieldGroup().getColor()));
+					fieldLabel.setForeground(StreetColor.getFontColor(field.getFieldGroup().getColor()));
+				}
+				if (buyField.getOwner() == this.tradeMe) {
+					if(myFields.contains(buyField)){
+						myFields.remove(buyField);
+					} else {
+						myFields.add(buyField);
+					}
+					if(myCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
+						myCards.remove(tradeCardPanel[field.getPosition()]);
+					} else {
+						myCards.remove(tradeCardPanel[field.getPosition()]);
+						myCards.add(tradeCardPanel[field.getPosition()]);
+					}
+					myCards.repaint();
+					myCards.revalidate();
+				} else if (buyField.getOwner() == this.tradePartner) {
+					if(hisFields.contains(buyField)){
+						hisFields.remove(buyField);
+					} else {
+						hisFields.add(buyField);
+					}
+					if(hisCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
+						hisCards.remove(tradeCardPanel[field.getPosition()]);
+					} else {
+						hisCards.remove(tradeCardPanel[field.getPosition()]);
+						hisCards.add(tradeCardPanel[field.getPosition()]);
+					}	
+					hisCards.repaint();
+					hisCards.revalidate();	
+				}
+				
+				repaint();
+				revalidate();	
 			}
-			if (buyField.getOwner() == this.tradeMe) {
-				if(myFields.contains(buyField)){
-					myFields.remove(buyField);
-				} else {
-					myFields.add(buyField);
-				}
-				if(myCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
-					myCards.remove(tradeCardPanel[field.getPosition()]);
-				} else {
-					myCards.remove(tradeCardPanel[field.getPosition()]);
-					myCards.add(tradeCardPanel[field.getPosition()]);
-				}
-				myCards.repaint();
-				myCards.revalidate();
-			} else if (buyField.getOwner() == this.tradePartner) {
-				if(hisFields.contains(buyField)){
-					hisFields.remove(buyField);
-				} else {
-					hisFields.add(buyField);
-				}
-				if(hisCards.isAncestorOf(tradeCardPanel[field.getPosition()])){
-					hisCards.remove(tradeCardPanel[field.getPosition()]);
-				} else {
-					hisCards.remove(tradeCardPanel[field.getPosition()]);
-					hisCards.add(tradeCardPanel[field.getPosition()]);
-				}	
-				hisCards.repaint();
-				hisCards.revalidate();	
-			}
-			
-			repaint();
-			revalidate();	
 		}
 		
 		
