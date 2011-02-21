@@ -99,9 +99,8 @@ public class GUIClient extends ClientBase implements Serializable {
 	private OjimServer server;
 
 	private MenuState menuState;
-	private boolean bankrupt;
+	private boolean bankrupt = false;
 
-	
 	/**
 	 * Mit diesem Konstruktor wird der GUI Client gestartet
 	 */
@@ -121,7 +120,6 @@ public class GUIClient extends ClientBase implements Serializable {
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
 
-		
 		settings = new GUISettings();
 		settings.loadSettings();
 
@@ -247,8 +245,8 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	@Override
 	public void onCashChange(Player player, int cashChange) {
-		playerInfoWindow.changeCash(player, getGameState().getPlayerById(
-				player.getId()).getBalance());
+		playerInfoWindow.changeCash(player,
+				getGameState().getPlayerById(player.getId()).getBalance());
 		// draw();
 		// System.out.println("CASH CHANGE");
 		// Geld kleiner 0 Workaround weil getIsBankrupt nicht geht
@@ -739,6 +737,8 @@ public class GUIClient extends ClientBase implements Serializable {
 	public void startServer(String serverName, int maxPlayers, int kiPlayers,
 			String host) {
 
+		bankrupt = false;
+
 		setName(settings.getPlayerName());
 
 		menuState = MenuState.WAITING_ROOM;
@@ -886,7 +886,8 @@ public class GUIClient extends ClientBase implements Serializable {
 	}
 
 	/**
-	 * Diese Funktion fügt eine Straße mit einem Mindestgebot zur Auktion hinzu
+	 * Diese Funktion fügt eine Straße mit einem Mindestgebot zur Auktion
+	 * hinzu
 	 * 
 	 * @param text
 	 *            Straßenname
@@ -907,8 +908,9 @@ public class GUIClient extends ClientBase implements Serializable {
 	}
 
 	public void noTrade() {
-		decline();
-
+		if (getTradeState() == TradeState.WAITING_PROPOSAL) {
+			decline();
+		}
 	}
 
 	public void swtichCard(Field field) {
@@ -936,12 +938,12 @@ public class GUIClient extends ClientBase implements Serializable {
 		}
 
 	}
-	
-	public boolean getIsBankrupt(){
+
+	public boolean getIsBankrupt() {
 		return this.bankrupt;
 	}
-	
-	public int getMaxHouses(){
+
+	public int getMaxHouses() {
 		return getGameRules().getMaximumBuilidings();
 	}
 

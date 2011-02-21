@@ -404,7 +404,7 @@ public class InteractionPopup extends JPanel {
 			fieldClicked(offeredBuyableFields[i], me);
 		}
 		
-		if(!gui.getIsBankrupt()){
+		if(gui.getIsBankrupt()){
 			tradePanel.remove(okButton);
 		}
 		
