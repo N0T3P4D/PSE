@@ -46,6 +46,7 @@ import org.ojim.client.gui.RightBar.PlayerInfoWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.LanguageDefinition;
 import org.ojim.language.Localizer.TextKey;
+import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
@@ -100,6 +101,7 @@ public class GUIClient extends ClientBase implements Serializable {
 	private MenuState menuState;
 	private boolean bankrupt;
 
+	
 	/**
 	 * Mit diesem Konstruktor wird der GUI Client gestartet
 	 */
@@ -119,6 +121,7 @@ public class GUIClient extends ClientBase implements Serializable {
 		if (langs.length > 0)
 			language.setLanguage(langs[0]);
 
+		
 		settings = new GUISettings();
 		settings.loadSettings();
 
@@ -936,6 +939,10 @@ public class GUIClient extends ClientBase implements Serializable {
 	
 	public boolean getIsBankrupt(){
 		return this.bankrupt;
+	}
+	
+	public int getMaxHouses(){
+		return getGameRules().getMaximumBuilidings();
 	}
 
 }

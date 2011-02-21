@@ -31,6 +31,7 @@ import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.StreetColor;
 import org.ojim.client.gui.OLabel.BiggerFontLayout;
+import org.ojim.iface.Rules;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
@@ -92,13 +93,13 @@ public class GameFieldPiece extends JPanel {
 			highHousePanel.add(innerHousePanel);
 			highHousePanel.setBorder(new LineBorder(Color.BLACK));
 
-			for (int i = 0; i < 5; i++) {
+			for (int i = 0; i < gui.getMaxHouses(); i++) {
 				housePanels[i] = new JPanel();
 				housePanels[i].setSize(new Dimension(2, 2));
 				housePanels[i].setBorder(new LineBorder(Color.BLACK));
 
 			}
-			if (((Street) this.field).getBuiltLevel() == 5) {
+			if (((Street) this.field).getBuiltLevel() == gui.getMaxHouses()) {
 				colorTop.add(highHousePanel);
 			} else {
 				for (int i = 0; i < ((Street) this.field).getBuiltLevel(); i++) {
