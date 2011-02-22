@@ -424,7 +424,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())
 				&& field != null && field instanceof BuyableField
 				&& (!(field instanceof Street) || ((Street) field).getBuiltLevel() == 0)) {
-			return trade.addOfferedEstate((BuyableField) field);
+			return trade.addRequiredEstate((BuyableField) field);
 		}
 		return false;
 	}
@@ -924,9 +924,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean accept(int playerID) {
 		display("accepting");
-		if (state.getGameIsWon() || playerID != state.getActivePlayer().getId()) {
-			return false;
-		}
+		
 		ServerPlayer player = state.getPlayerById(playerID);
 		// Does a Trade need Confirmation?
 		if (trade != null && player != null && trade.getTradeState() == 1 && player.equals(trade.getPartner())) {
@@ -936,6 +934,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 					(trade.getPartner() == null ? -1 : trade.getPartner().getId()));
 		}
 
+		if (state.getGameIsWon() || playerID != state.getActivePlayer().getId()) {
+			return false;
+		}
+		
 		if (player == null || !rules.isPlayerOnTurn(player)) {
 			return false;
 		}

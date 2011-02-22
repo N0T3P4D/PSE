@@ -143,9 +143,14 @@ public class GUISettings {
 				System.out.print("Fehler in der settings.txt");
 				// e.printStackTrace();
 			}
-
+			
+			try {
 			this.width = Integer.parseInt(width);
 			this.height = Integer.parseInt(height);
+			} catch (NumberFormatException e){
+				this.width = 0;
+				this.height = 0;
+			}
 			this.title = title;
 			this.playerName = playerName;
 			this.lastIP = lastIP;
