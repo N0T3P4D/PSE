@@ -738,6 +738,8 @@ public class GUIClient extends ClientBase implements Serializable {
 	public void startServer(String serverName, int maxPlayers, int kiPlayers,
 			String host) {
 
+		
+		
 		bankrupt = false;
 
 		pane.removeAll();

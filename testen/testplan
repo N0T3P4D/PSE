@@ -38,9 +38,9 @@ Reaktion: Wurde gefixt.
 
 Aufgabe: Erstellen eines Spiels mit ungültigen Parametern
 
-Auffallend:
+Auffallend: Servername leer: Spiel erstellenknopf verharrt und wartet auf richtige Eingabe. 9 Spieler möglich, AI Player >= Insgesamt Player nicht möglich.
 
-Reaktion:
+Reaktion: Spielerzahl insgesamt limitiert
 
 
 5. Klicken auf Spielernamen
