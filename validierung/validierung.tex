@@ -56,7 +56,12 @@ WS 2010 / 2011} \\[2cm]
 
 \section{Unit Tests}
 
-\subsection{Testfälle und Testszenarien aus dem Pflichtenheft}
+\subsection{Server}
+Sowohl der Server als auch die ServerLogic wurden getestet. Das Testen der ServerLogic gestaltete sich aber als schwierig mithilfen von JUnit zu gestalten, weshalb hier nur wenige Testfälle automatisch abgehandelt wurden, beim Rest war es effektiver von Hand zu testen.
+
+In OjimServer wurden alle Methoden getestet, es gab insgesammt nur 44 Testfälle, da einige Methoden zusammen getestet werden mussten. Um das Testen zu ermöglichen/erleichtern musste auf das Geheimnisprinzip an einigen Stellen verzichtet werden. Methoden, die es verletzen wurden gekennzeichnet und können jederzeit wieder aus OjimServer entfernt werden (nur das Testen 
+
+\section{Testfälle und Testszenarien aus dem Pflichtenheft}
 
 Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche getestet worden. Der Server wurde entsprechend mitgeprüft: \\
 \includegraphics[width=17cm]{Diagram1} \\
