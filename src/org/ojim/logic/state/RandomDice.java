@@ -36,7 +36,6 @@ public class RandomDice extends Dice {
 	 */
 	private Random random;
 
-	@Override
 	public String toString() {
 		return super.toString()
 				+ (this.isDeterministic() ? ", seed=" + this.seed : "");

@@ -130,7 +130,6 @@ public abstract class BuyableField extends Field implements Comparable<BuyableFi
 		this.selected = selected;
 	}
 	
-	@Override
 	public int compareTo(BuyableField o) {
 		return (int) (o.getValuation() - valuation);
 	}

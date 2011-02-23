@@ -46,10 +46,6 @@ public class AcceptCommand extends Command {
 		super(logic, playerId, server);
 	}
 
-<<<<<<< HEAD
-//	@Override
-=======
->>>>>>> 9f2de6a7826dfde1b959cbe6a128ea3382288f7c
 	@Override
 	public void execute() {
 		this.accept();

@@ -41,7 +41,7 @@ public final class PropertyValuator extends ValuationFunction {
 	 * @return An instance
 	 */
 	public static PropertyValuator getInstance() {
-		return ValuationFunction.getInstance(false, PropertyValuator.class);
+		return PropertyValuator.getInstance(false, PropertyValuator.class);
 	}
 
 	@Override

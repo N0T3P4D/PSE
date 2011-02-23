@@ -386,7 +386,6 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 
 	public abstract void onAuction();
 
-	@Override
 	public final void informNewPlayer(int playerId) {
 		this.logger.log(Level.INFO, "informNewPlayer(" + playerId + ")");
 		if (this.getGameState().getPlayerById(playerId) == null) {
@@ -409,7 +408,6 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 
 	public abstract void onNewPlayer(Player player);
 
-	@Override
 	public final void informPlayerLeft(int playerId) {
 		this.logger.log(Level.INFO, "informPlayerLeft(" + playerId + ")");
 		Player old = this.getGameState().getPlayerById(playerId);

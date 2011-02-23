@@ -49,7 +49,6 @@ public abstract class Dice {
 		return this.isDeterministic;
 	}
 
-	@Override
 	public String toString() {
 		return this.getClass().getName() + "{" + this.getResult() + ", " + this.sides + "-sided, " + (!this.isDeterministic ? "not " : "")
 				+ "deterministic}";

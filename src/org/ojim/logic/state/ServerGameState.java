@@ -88,7 +88,6 @@ public class ServerGameState extends GameState {
 		return communityCards;
 	}
 	
-	@Override
 	public ServerPlayer getPlayerById(int playerId) {
 		return (ServerPlayer) super.getPlayerById(playerId);
 	}

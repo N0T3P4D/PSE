@@ -19,12 +19,15 @@ package org.ojim.logic;
 
 import java.io.Serializable;
 
+import org.ojim.client.ClientBase;
 import org.ojim.iface.Rules;
 import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.Player;
+import org.ojim.logic.state.ServerPlayer;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Street;
 
 public class Logic implements Serializable {

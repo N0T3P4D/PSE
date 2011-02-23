@@ -523,7 +523,6 @@ public class SimpleClient implements Serializable {
 	/**
 	 * @deprecated Use {@link #getOfferedEstate()}
 	 */
-	@Deprecated
 	public final int[] getOfferedEstatesO() {
 		return ((IServerTrade) this.server).getOfferedEstates();
 	}
@@ -548,7 +547,6 @@ public class SimpleClient implements Serializable {
 	/**
 	 * @deprecated Use {@link #getRequiredEstates()}
 	 */
-	@Deprecated
 	public final int[] getRequiredEstatesO() {
 		return ((IServerTrade) this.server).getRequiredEstates();
 	}

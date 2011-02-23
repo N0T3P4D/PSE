@@ -78,11 +78,11 @@ public class GameFieldLayout implements LayoutManager {
 			int maxSize = totalWidth < totalHeight ? totalWidth : totalHeight;
 
 			// Kartengröße
-			int cardWidth = (maxSize * 1 / 13);
+			int cardWidth = (int) (maxSize * 1 / 13);
 			int cardHeight = 2 * cardWidth;
 			
-			int halfWidth = cardWidth / 2;
-			int halfHeight = cardHeight / 2;
+			int halfWidth = (int) cardWidth / 2;
+			int halfHeight = (int) cardHeight / 2;
 
 			// Mittelfeldgröße
 			int middleFieldSize = 9 * cardWidth;

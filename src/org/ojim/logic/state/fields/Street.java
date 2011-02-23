@@ -23,6 +23,7 @@ import java.util.Map;
 import org.jdom.DataConversionException;
 import org.jdom.Element;
 import org.ojim.logic.ServerLogic;
+import org.ojim.logic.accounting.Bank;
 
 public class Street extends BuyableField {
 
@@ -69,7 +70,6 @@ public class Street extends BuyableField {
 		}
 	}
 
-	@Override
 	public Class<? extends FieldGroup> getFieldGroupClass() {
 		return StreetFieldGroup.class;
 	}
@@ -85,7 +85,6 @@ public class Street extends BuyableField {
 		return this.builtLevel;
 	}
 
-	@Override
 	public int getRent() {
 		return getRent(this.builtLevel);
 	}
@@ -137,7 +136,6 @@ public class Street extends BuyableField {
 		super.setFieldGroup(fieldGroup);
 	}
 
-	@Override
 	public StreetFieldGroup getFieldGroup() {
 		return (StreetFieldGroup) super.getFieldGroup();
 	}

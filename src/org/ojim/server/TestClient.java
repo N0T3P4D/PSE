@@ -59,7 +59,6 @@ public class TestClient implements IClient {
 		pane.add(res);
 		JButton bt1 = new JButton("getNumberOfHousesLeft()");
 		bt1.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				TestClient.this.setText("" + server.getNumberOfHousesLeft());
 			}
@@ -68,7 +67,6 @@ public class TestClient implements IClient {
 		
 		JButton bt2 = new JButton("getPlayerOnTurn()");
 		bt2.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				TestClient.this.setText("" + server.getPlayerOnTurn());
 			}
@@ -77,7 +75,6 @@ public class TestClient implements IClient {
 		
 		JButton bt3 = new JButton("getNumberOfHotelsLeft()");
 		bt3.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				TestClient.this.setText("" + server.getNumberOfHotelsLeft());
 			}
@@ -86,7 +83,6 @@ public class TestClient implements IClient {
 		
 		JButton bt4 = new JButton("setPlayerReady()");
 		bt4.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(id != -1) {
 					TestClient.this.setText("Set ready!");
@@ -98,7 +94,6 @@ public class TestClient implements IClient {
 		
 		JButton bt5 = new JButton("rollDices()");
 		bt5.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(id != -1) {
 					TestClient.this.setText("Rolled Dice!");
@@ -110,7 +105,6 @@ public class TestClient implements IClient {
 		
 		JButton bt6 = new JButton("AddPlayer(this)");
 		bt6.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				if(id == -1) {
 					id = server.addPlayer(client);
@@ -123,7 +117,6 @@ public class TestClient implements IClient {
 		
 		JButton bt7 = new JButton("getPlayerPiecePosition");
 		bt7.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				TestClient.this.setText("Position:" + server.getPlayerPiecePosition(id));
 			}
@@ -132,7 +125,6 @@ public class TestClient implements IClient {
 		
 		JButton bt8 = new JButton("endTurn()");
 		bt8.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				TestClient.this.setText("Turn ended");
 				print("result = " +server.endTurn(id));
@@ -142,7 +134,6 @@ public class TestClient implements IClient {
 		
 		JButton bt9 = new JButton("accept()");
 		bt9.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				TestClient.this.setText("Accepted:" + server.accept(id));
 			}
@@ -151,7 +142,6 @@ public class TestClient implements IClient {
 		
 		JButton bt10 = new JButton("decline()");
 		bt10.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				TestClient.this.setText("Declined:" + server.decline(id));
 			}
@@ -160,7 +150,6 @@ public class TestClient implements IClient {
 		
 		JButton bt11 = new JButton("inf. roll");
 		bt11.addActionListener(new ActionListener() {
-			@Override
 			public void actionPerformed(ActionEvent e) {
 				while(true) {
 					server.rollDice(id);

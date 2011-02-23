@@ -41,16 +41,12 @@ public final class MortgageValuator extends ValuationFunction {
 	 * @return An instance
 	 */
 	public static ValuationFunction getInstance() {
-		return ValuationFunction.getInstance(false, MortgageValuator.class);
+		return MortgageValuator.getInstance(false, MortgageValuator.class);
 	}
 
-<<<<<<< HEAD
-	@Override
-=======
 	/**
 	 * {@inheritDoc}
 	 */
->>>>>>> 9f2de6a7826dfde1b959cbe6a128ea3382288f7c
 	public double returnValuation(int position) {
 		getLogger();
 		double result = 0;

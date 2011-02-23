@@ -19,10 +19,7 @@ package org.ojim.client.ai.commands;
 
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.fields.BuyableField;
-<<<<<<< HEAD
-=======
 
->>>>>>> 9f2de6a7826dfde1b959cbe6a128ea3382288f7c
 import edu.kit.iti.pse.iface.IServer;
 
 /**

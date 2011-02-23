@@ -81,8 +81,8 @@ public class OJIMLayout implements LayoutManager {
 			int squareHeight = (int) (parent.getHeight() * 0.8);
 			
 			// Berechne aus Ganzzahligen Zahlen, damit es nicht zu Rundungsfehlern kommt
-			int restWidth = (parent.getWidth() - squareHeight);
-			int restHeight = (parent.getHeight() - squareHeight);
+			int restWidth = (int) (parent.getWidth() - squareHeight);
+			int restHeight = (int) (parent.getHeight() - squareHeight);
 
 			// Ist das Fenster auch richtig skaliert, oder kann man die Spieler rechts nicht mehr lesen?
 			if (restWidth < parent.getHeight() * 0.2) {

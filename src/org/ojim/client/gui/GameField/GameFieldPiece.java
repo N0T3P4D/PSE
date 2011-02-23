@@ -25,7 +25,6 @@ import java.awt.GridLayout;
 import java.awt.Image;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import javax.swing.border.LineBorder;
 
 import org.ojim.client.gui.GUIClient;
@@ -118,7 +117,7 @@ public class GameFieldPiece extends JPanel {
 			group.setText("<html>"	+ ((Street) field).getFieldGroup().getName());
 
 			group.setLayout(new BiggerFontLayout());
-			group.setHorizontalTextPosition(SwingConstants.CENTER);
+			group.setHorizontalTextPosition(JLabel.CENTER);
 		}
 
 		if (this.field instanceof Jail) {
@@ -149,7 +148,7 @@ public class GameFieldPiece extends JPanel {
 		}
    
 		name.setText("<html>" + field.getName());
-		name.setHorizontalTextPosition(SwingConstants.CENTER);
+		name.setHorizontalTextPosition(JLabel.CENTER);
 		name.setLayout(new BiggerFontLayout());
 		try {
 			if (((BuyableField) field).getOwner() != null) {
@@ -194,8 +193,8 @@ public class GameFieldPiece extends JPanel {
 				// System.out.println("NOT SOLD: "+field.getName());
 				price.setText("<html>" + ((BuyableField) field).getPrice());
 			}
-			price.setHorizontalTextPosition(SwingConstants.CENTER);
-			price.setVerticalTextPosition(SwingConstants.BOTTOM);
+			price.setHorizontalTextPosition(JLabel.CENTER);
+			price.setVerticalTextPosition(JLabel.BOTTOM);
 			price.setLayout(new BiggerFontLayout());
 		} catch (ClassCastException e) {
 			textPanel.setLayout(new GridLayout(3, 0));

@@ -21,6 +21,9 @@ import java.awt.Dimension;
 
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JTextArea;
+
 import org.ojim.language.Localizer;
 import org.ojim.language.Localizer.TextKey;
 

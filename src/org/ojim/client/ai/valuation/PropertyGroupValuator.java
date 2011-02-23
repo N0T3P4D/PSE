@@ -47,13 +47,9 @@ public final class PropertyGroupValuator extends ValuationFunction {
 		return ValuationFunction.getInstance(false, PropertyGroupValuator.class);
 	}
 
-<<<<<<< HEAD
-	@Override
-=======
 	/**
 	 * {@inheritDoc}
 	 */
->>>>>>> 9f2de6a7826dfde1b959cbe6a128ea3382288f7c
 	public double returnValuation(int position) {
 		// Call from outside without position
 		if (position == -1) {
