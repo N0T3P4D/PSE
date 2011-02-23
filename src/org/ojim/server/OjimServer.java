@@ -324,7 +324,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean initTrade(int actingPlayer, int partnerPlayer) {
 		// If there is already a Trade in process, dont create a new one
-		if (state.getGameIsWon() || actingPlayer != state.getActivePlayer().getId()) {
+		if (state.getGameIsWon()) {
 			return false;
 		}
 		if (trade != null) {
@@ -1010,6 +1010,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public synchronized boolean decline(int playerID) {
 		display("decline");
 		if (state.getGameIsWon()) {
+			System.out.println("Game is won");
 			return false;
 		}
 
@@ -1017,11 +1018,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		if (trade != null && player != null && trade.getTradeState() == 1
 				&& player.equals(trade.getPartner())) {
+			System.out.println("decline was for trading");
 			trade.setTradeState(2);
-			((ServerPlayer) trade.getActing()).getClient().informTrade(
-					trade.getActing().getId(),
-					(trade.getPartner() == null ? -1 : trade.getPartner()
-							.getId()));
+//			((ServerPlayer) trade.getActing()).getClient().informTrade(
+//					trade.getActing().getId(),
+//					(trade.getPartner() == null ? -1 : trade.getPartner()
+//							.getId()));
 		}
 
 		if (player == null || playerID != state.getActivePlayer().getId()) {
