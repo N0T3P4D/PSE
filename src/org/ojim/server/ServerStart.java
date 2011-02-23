@@ -86,10 +86,9 @@ public class ServerStart {
 				}
 			} else if(input.startsWith("aitest")) {
 				Random rnd = new Random(42);
-				for(int i = 0; i < 1000; i++) {
+				for(int i = 0; i < 1; i++) {
 					int count = rnd.nextInt(7) + 2;
-					server = new OjimServer("test");
-					server.initGame(count, count);
+					new OjimServer("n" + i).initGame(count, count);
 					
 				}
 			} else if(input.equals("end")) {

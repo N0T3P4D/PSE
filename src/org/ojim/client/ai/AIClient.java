@@ -74,8 +74,8 @@ public class AIClient extends ClientBase {
 		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId() + " created.");
 		valuator = new Valuator(getLogic(), server, getPlayerId());
 		count = 0;
-		//OJIMLogger.changeLogLevel(logger, Level.WARNING);
-		//OJIMLogger.changeGlobalLevel(Level.FINEST);
+		OJIMLogger.changeLogLevel(logger, Level.WARNING);
+		OJIMLogger.changeGlobalLevel(Level.FINEST);
 	}
 
 	/**

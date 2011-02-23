@@ -91,6 +91,7 @@ public final class OJIMLogger {
 	}
 
 	public synchronized static void changeGlobalLevel(Level level) {
+		level = Level.FINEST;
 		if (level == null) {
 			throw new IllegalArgumentException("level == null");
 		}

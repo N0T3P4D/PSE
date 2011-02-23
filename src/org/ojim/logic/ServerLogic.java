@@ -203,10 +203,10 @@ public class ServerLogic extends Logic {
 	 * @param player
 	 *            The Player using the Card
 	 */
-	public void playerUsesGetOutOfJailCard(ServerPlayer player) {
-		for (Card card : player.getCards()) {
-			if (card instanceof GetOutOfJailCard) {
-				card.file(true);
+	public synchronized void playerUsesGetOutOfJailCard(ServerPlayer player) {
+		for(int i = 0; i < player.getCards().size(); i++) {
+			if (player.getCards().get(i) instanceof GetOutOfJailCard) {
+				player.getCards().get(i).file(true);
 			}
 		}
 	}
@@ -235,7 +235,7 @@ public class ServerLogic extends Logic {
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if (onePlayer instanceof ServerPlayer) {
 				// TODO Add Language
-				System.out.println("Player " + player.getName() + " is now out of Jail!");
+				//System.out.println("Player " + player.getName() + " is now out of Jail!");
 				((ServerPlayer) onePlayer).getClient().informMessage(
 						"'" + player.getName() + "' is now out of Jail!", -1, false);
 				((ServerPlayer) onePlayer).getClient().informMove(player.getId(), player.getSignedPosition());
@@ -265,7 +265,7 @@ public class ServerLogic extends Logic {
 					return;
 				}
 				
-				System.out.println("Player " + this.getGameState().getActivePlayer().getName() + " has won!");
+				//System.out.println("Player " + this.getGameState().getActivePlayer().getName() + " has won!");
 				for (Player player : this.getGameState().getPlayers()) {
 					if (player instanceof ServerPlayer) {
 						// TODO add language
@@ -285,7 +285,7 @@ public class ServerLogic extends Logic {
 	}
 	
 	public void auctionWithoutResult(BuyableField objective) {
-		System.out.println("Action without result!");
+		//System.out.println("Action without result!");
 		return;
 	}	
 	
