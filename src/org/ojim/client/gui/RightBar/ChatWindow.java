@@ -118,7 +118,6 @@ public class ChatWindow extends JPanel {
 			}
 		};
 
-		sendButton.setText(language.getText(TextKey.SEND_MESSAGE));
 		sendButton.addActionListener(sendListener);
 
 		textPanel.add(textField);

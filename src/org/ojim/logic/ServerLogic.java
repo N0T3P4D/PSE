@@ -384,7 +384,6 @@ public class ServerLogic extends Logic {
 		field.buy(newOwner);
 		for (Player player : this.getGameState().getPlayers()) {
 			if (player instanceof ServerPlayer) {
-				System.out.println("Philip informBuy:" + field.getName() + " by " + newOwner.getName());
 				((ServerPlayer) player).getClient().informBuy(newOwnerId,
 						field.getPosition());
 			}

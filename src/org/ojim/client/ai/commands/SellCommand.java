@@ -85,20 +85,20 @@ public class SellCommand extends Command {
 						this.offerEstate(offeredEstate);
 						requireCash(amount);
 						proposeTrade();
-
+						
 						state = this.getTradeState();
 						assert (state != TradeState.NOT_RUNNING && !end);
 						while (state != TradeState.NOT_RUNNING && !end) {
 							state = this.getTradeState();
 							switch (state) {
-							case WAITING_PROPOSAL:
+							case WAITING_PROPOSAL :
 								assert (false);
 								break;
-							case WAITING_PROPOSED:
+							case WAITING_PROPOSED :
 								break;
-							case DECLINED:
+							case DECLINED :
 								sold = true;
-							case ACCEPTED:
+							case ACCEPTED :
 								end = true;
 								break;
 							default:

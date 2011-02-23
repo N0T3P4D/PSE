@@ -91,11 +91,6 @@ public class Localizer {
 		SERVER_NAME("server name"),
 		MAX_PLAYER("max player"),
 		AI_PLAYER("ai player"),
-		GIVE_MONEY("give money"),
-		CLAIM_MONEY("claim money"),
-		JAIL_CARDS("jail cards"),
-		OK("ok"),
-		NO("no"),
 		HOST("host");
 		
 		public final String key;

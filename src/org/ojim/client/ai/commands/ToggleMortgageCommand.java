@@ -19,10 +19,6 @@ package org.ojim.client.ai.commands;
 
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.fields.BuyableField;
-<<<<<<< HEAD
-=======
-
->>>>>>> 9f2de6a7826dfde1b959cbe6a128ea3382288f7c
 import edu.kit.iti.pse.iface.IServer;
 
 /**
@@ -34,7 +30,9 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class ToggleMortgageCommand extends Command {
 
-	private static final long serialVersionUID = 6069838209559130577L;
+	/**
+	 * 
+	 */
 	private BuyableField[] fields;
 
 	/**
@@ -47,8 +45,8 @@ public class ToggleMortgageCommand extends Command {
 	 *            Reference to the game logic
 	 * @param playerId
 	 *            The client's ID
-	 * @param fields
-	 *            Fields to toggle
+	 * @param street
+	 *            Street to toggle
 	 */
 
 	public ToggleMortgageCommand(Logic logic, IServer server, int playerId, BuyableField... fields) {
@@ -58,10 +56,11 @@ public class ToggleMortgageCommand extends Command {
 
 	@Override
 	public void execute() {
-		for (BuyableField field : fields) {
+		for (BuyableField field: fields) {
+			//FIX: Mortgage
 			boolean state = field.isMortgaged();
 			this.toggleMortgage(field);
-			assert (field.isMortgaged() != state);
+			assert(field.isMortgaged() != state);
 		}
 	}
 

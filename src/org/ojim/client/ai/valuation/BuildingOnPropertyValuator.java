@@ -34,9 +34,6 @@ import org.ojim.logic.state.fields.StreetFieldGroup;
  */
 public final class BuildingOnPropertyValuator extends ValuationFunction {
 
-	/**
-	 * Default constructor
-	 */
 	protected BuildingOnPropertyValuator() {
 	}
 
@@ -51,7 +48,7 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 
 	private boolean allOfGroupOwned(Street street) {
 		StreetFieldGroup group = street.getFieldGroup();
-//		assert (group.getFields().length != 1);
+		assert (group.getFields().length != 1);
 		int count = 0;
 		for (Field field : group.getFields()) {
 			if (((BuyableField) field).getOwner() == getGameState().getActivePlayer()) {

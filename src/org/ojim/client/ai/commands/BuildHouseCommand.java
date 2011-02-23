@@ -31,7 +31,9 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class BuildHouseCommand extends Command {
 
-	private static final long serialVersionUID = 652956178951760506L;
+	/**
+	 * 
+	 */
 	private Street street;
 
 	/**

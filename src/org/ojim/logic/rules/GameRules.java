@@ -118,10 +118,6 @@ public class GameRules implements Serializable {
 		return this.rules.doubleMoneyOnGo;
 	}
 	
-	public int getMaximumBuilidings() {
-		return this.rules.maxNumOfHouses;
-	}
-	
 	
 	/**
 	 * The Start Time for an Auction, between a Auction started and the first call

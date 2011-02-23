@@ -29,6 +29,9 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class AuctionBidCommand extends Command {
 
+	/**
+	 * 
+	 */
 	private static final long serialVersionUID = 3521075218222740269L;
 	private int bid;
 

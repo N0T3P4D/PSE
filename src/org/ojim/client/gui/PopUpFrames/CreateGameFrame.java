@@ -31,7 +31,6 @@ import javax.swing.JTextField;
 import org.ojim.client.gui.GUIClient;
 import org.ojim.language.Localizer;
 import org.ojim.language.Localizer.TextKey;
-import org.ojim.logic.rules.GameRules;
 
 public class CreateGameFrame extends JFrame {
 
@@ -70,7 +69,7 @@ public class CreateGameFrame extends JFrame {
 				try {
 					if (!nameField.getText().equals("")
 							&& Integer.parseInt(playerField.getText()) > Integer
-									.parseInt(kiField.getText()) && Integer.parseInt(playerField.getText()) < 9) {
+									.parseInt(kiField.getText())) {
 						gui.startServer(nameField.getText(), Integer
 								.parseInt(playerField.getText()), Integer
 								.parseInt(kiField.getText()),

@@ -157,7 +157,6 @@ public class Trade {
 	 * @return True if the estate wasn't on the list before. Otherwise false.
 	 */
 	public boolean addOfferedEstate(BuyableField estate) {
-		System.out.println("test");
 		if(estate.getOwner() == acting) {
 			return this.offeredEstates.add(estate);
 		}
@@ -170,9 +169,7 @@ public class Trade {
 	 * @return True if the estate wasn't on the list before. Otherwise false.
 	 */
 	public boolean addRequiredEstate(BuyableField estate) {
-		System.out.println("trööt");
 		if(!tradeWithBank && estate.getOwner() == partner) {
-			System.out.println("tata:" + estate.getName());
 			return this.requiredEstates.add(estate);
 		}
 		return false;
@@ -196,7 +193,6 @@ public class Trade {
 
 	public void executeTrade(ServerLogic logic) {
 		//Change the Estates
-		System.out.println("" + requiredEstates.size() + " " + offeredEstates.size());
 		for(BuyableField field : this.requiredEstates) {
 			logic.changeFieldOwner(acting, field);
 		}
@@ -204,6 +200,7 @@ public class Trade {
 			logic.changeFieldOwner(partner, field);
 		}
 		
+		//TODO Do the Exchange of GetOutOfJailCards
 		// Remove cards from acting player
 		List<Card> actingCards = this.acting.getCards();
 		List<Card> cards = new ArrayList<Card>();

@@ -417,7 +417,7 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 		// Remove all owners for this field
 		for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
 			Field field = this.getGameState().getFieldAt(i);
-			if (field instanceof BuyableField && old.equals(((BuyableField) field).getOwner())) {
+			if (field instanceof BuyableField && ((BuyableField) field).getOwner().equals(old)) {
 				((BuyableField) field).buy(null);
 			}
 		}
