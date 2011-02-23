@@ -77,6 +77,7 @@ public class Valuator extends SimpleClient {
 	private int[] trade;
 	private int count = 0;
 	private int[] toSell;
+	private ValuationParameters parameters;
 
 	/**
 	 * Constructor
@@ -115,8 +116,9 @@ public class Valuator extends SimpleClient {
 			assert (valuationFunctions[i] != null);
 		}
 
-		ValuationParameters.init(logic);
+		ValuationParametersOld.init(logic);
 		trade = new int[40];
+		parameters = new ValuationParameters(logic);
 	}
 
 	/**
@@ -174,7 +176,6 @@ public class Valuator extends SimpleClient {
 	 */
 	public Command actOnTradeOffer() {
 		initFunctions();
-		// System.out.println("Trade!");
 		assert (this.getTradeState() == TradeState.WAITING_PROPOSED);
 		boolean restricted = false;
 		if (getRequiredEstates() != null) {
@@ -201,7 +202,6 @@ public class Valuator extends SimpleClient {
 			minus += valuationFunctions[0].returnValuation(this.getRequiredCash());
 			// missing: out of jail cards!
 			if (value + minus > 0) {
-				assert (false);
 				return new AcceptCommand(logic, server, playerID);
 			}
 		}
@@ -293,7 +293,7 @@ public class Valuator extends SimpleClient {
 
 	private double tradeValuateJailCards() {
 		int offeredCards = getNumberOfOfferedGetOutOfJailCards();
-		int difference = ValuationParameters.desiredNumberOfOutOfOjailCards
+		int difference = ValuationParametersOld.desiredNumberOfOutOfOjailCards
 				- this.getMe().getNumberOfGetOutOfJailCards();
 		if (difference > 0) {
 			if (offeredCards >= difference) {
@@ -389,8 +389,12 @@ public class Valuator extends SimpleClient {
 
 	private Command tradeStreet(Field blaField) {
 		count++;
-		Command result = new NullCommand(logic, server, playerID);
-		result.setValuation(0);
+		Command result = new EndTurnCommand(logic, server, playerID);
+		if (getTradeState() == TradeState.DECLINED) {
+			System.out.println("o_O");
+			return result;
+		}
+		result.setValuation(0.01);
 		assert (blaField != null);
 		if (trade[blaField.getPosition()] != count - 1 && blaField instanceof BuyableField
 				&& ((BuyableField) blaField).getOwner() != null && ((BuyableField) blaField).getOwner() != getMe()
@@ -427,6 +431,7 @@ public class Valuator extends SimpleClient {
 				result.setValuation(1000 * streetValue);
 			}
 		}
+		System.out.println("!!" + result.getClass().getName());
 		return result;
 	}
 
@@ -538,7 +543,7 @@ public class Valuator extends SimpleClient {
 					}
 				} else {
 					// Trade!
-					logger.log(Level.FINE, "Soon trade");
+					logger.log(Level.FINE, playerID + " Soon trade");
 					// return new NullCommand(logic, server, playerID);
 				}
 			}
@@ -597,8 +602,8 @@ public class Valuator extends SimpleClient {
 	private void initFunctions() {
 		for (ValuationFunction function : valuationFunctions) {
 			assert (function != null);
-			function.setParameters(logic);
 			function.setServer(server);
+			function.setParameters(parameters, logic);
 		}
 	}
 

@@ -38,6 +38,8 @@ public abstract class ValuationFunction {
 	private Logic logic;
 	protected Logger logger;
 	protected IServer server;
+	protected ValuationParameters parameters;
+	
 
 	/**
 	 * Number of valuation functions
@@ -106,7 +108,8 @@ public abstract class ValuationFunction {
 	 * @param logic
 	 *            logic
 	 */
-	public void setParameters(Logic logic) {
+	public void setParameters(ValuationParameters parameters, Logic logic) {
+		this.parameters = parameters;
 		this.logic = logic;
 	}
 

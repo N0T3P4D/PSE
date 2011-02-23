@@ -74,8 +74,8 @@ public class AIClient extends ClientBase {
 		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId() + " created.");
 		valuator = new Valuator(getLogic(), server, getPlayerId());
 		count = 0;
-		//OJIMLogger.changeLogLevel(logger, Level.WARNING);
-		//OJIMLogger.changeGlobalLevel(Level.FINEST);
+//		OJIMLogger.changeLogLevel(logger, Level.WARNING);
+//		OJIMLogger.changeGlobalLevel(Level.FINEST);
 	}
 
 	/**
@@ -156,6 +156,8 @@ public class AIClient extends ClientBase {
 			Command command = valuator.paybackMortgages();
 			// First step: pay back mortgages
 			while (!(command instanceof NullCommand)) {
+				System.out.println(getPlayerId() + " " + command.getClass().toString());
+
 				command.execute();
 				command = valuator.paybackMortgages();
 			}
@@ -163,9 +165,12 @@ public class AIClient extends ClientBase {
 			// Do the interesting stuff
 			command = valuator.returnBestCommand(position);
 			while (!(command instanceof EndTurnCommand)) {
+				System.out.println(getPlayerId() + " " + command.getClass().toString());
 				command.execute();
 				command = valuator.returnBestCommand(position);
+
 			}
+			System.out.println(getPlayerId() + " " + command.getClass().toString());
 			command.execute();
 		} else {
 			// System.out.println("not my turn");

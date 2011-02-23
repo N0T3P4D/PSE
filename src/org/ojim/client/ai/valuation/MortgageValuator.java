@@ -58,7 +58,7 @@ public final class MortgageValuator extends ValuationFunction {
 		assert (field != null);
 		if (field instanceof BuyableField) {
 			if (((BuyableField) field).isMortgaged() && !((BuyableField) field).getSelected()) {
-				result = -ValuationParameters.mortgageFactor * ((BuyableField) field).getPrice();
+				result = parameters.getMortgageFactor() * ((BuyableField) field).getPrice();
 				logger.log(Level.FINE, "Mortgaged!");
 			} else if (((BuyableField) field).isMortgaged()) {
 				result = 1;
