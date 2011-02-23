@@ -93,9 +93,9 @@ Reaktion: Alles ist wie es sein sollte.
 
 Aufgabe: Verlassen des Spiels über Leave Game während des Spiels und schauen ob diese Möglichkeit auch besteht während kein Spiel geöffnet ist
 
-Auffallend:
+Auffallend: Leave Game verlässt das Spiel, jedoch wird auch dann noch Leave Game im Menu angezeigt.
 
-Reaktion:
+Reaktion: Die Menubar wird nun über den Spielzustandswechsel informiert.
 
 
 11. Sprache wechseln (2)

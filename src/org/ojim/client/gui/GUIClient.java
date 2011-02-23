@@ -581,9 +581,14 @@ public class GUIClient extends ClientBase implements Serializable {
 		GUIFrame.remove(pane);
 
 		GUIFrame.repaint();
-		server.endGame();
-
+		try  {
+			server.endGame();
+		} catch (NullPointerException e){
+			e.printStackTrace();
+		}
+		
 		menuState = MenuState.MAIN_MENU;
+		this.menubar.setMenuBarState(menuState);
 
 	}
 
