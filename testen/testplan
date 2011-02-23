@@ -84,9 +84,9 @@ Reaktion: Alles ist wie es sein sollte.
 
 Aufgabe: Würfeln während man dran ist und würfeln darf, würfeln während man dran ist aber nicht mehr würfeln darf, würfeln während die KI am Zug ist
 
-Auffallend:
+Auffallend: Wenn man dran ist und würfeln darf rückt die Figur auf dem Feld vor und die Würfelaugen werden oben angezeigt, würfeln während man nicht darf weil man schon gewürfelt hat führt zu keiner Reaktion in der Gui, würfeln während die KI am zug ist funktioniert nicht, weil der Button dann nicht sichtbar ist.
 
-Reaktion:
+Reaktion: Alles ist wie es sein sollte.
 
 
 10. Verlassen des Spiels
