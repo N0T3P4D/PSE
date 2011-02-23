@@ -20,7 +20,6 @@ package org.ojim.client.ai.valuation;
 import java.util.logging.Level;
 
 import org.ojim.logic.state.Player;
-import org.ojim.logic.state.fields.Jail;
 
 /**
  * 

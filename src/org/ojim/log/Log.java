@@ -9,9 +9,9 @@ public class Log {
 	private static FileWriter logWriter;
 	
 	public Log(String log) {
-		this.logFile = new File(log);
+		Log.logFile = new File(log);
 		try {
-			this.logWriter = new FileWriter(this.logFile);
+			Log.logWriter = new FileWriter(Log.logFile);
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

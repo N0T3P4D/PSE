@@ -17,7 +17,6 @@
 
 package org.ojim.client.ai.commands;
 
-import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
 import edu.kit.iti.pse.iface.IServer;
 
@@ -48,6 +47,7 @@ public class AcceptCommand extends Command {
 	}
 
 //	@Override
+	@Override
 	public void execute() {
 		this.accept();
 	}

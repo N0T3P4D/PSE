@@ -21,8 +21,6 @@ import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Jail;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 
 public class Player implements IMoneyPartner {
@@ -110,6 +108,7 @@ public class Player implements IMoneyPartner {
 	 * @param amount
 	 *            the amount of money.
 	 */
+	@Override
 	public void transferMoney(int amount) {
 		this.balance += amount;
 	}

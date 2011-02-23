@@ -932,7 +932,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (trade != null && player != null && trade.getTradeState() == 1 && player.equals(trade.getPartner())) {
 			trade.setTradeState(3);
 			trade.executeTrade(logic);
-			((ServerPlayer) trade.getActing()).getClient().informTrade(trade.getActing().getId(),
+			(trade.getActing()).getClient().informTrade(trade.getActing().getId(),
 					(trade.getPartner() == null ? -1 : trade.getPartner().getId()));
 		}
 
@@ -966,7 +966,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		if (trade != null && player != null && trade.getTradeState() == 1 && player.equals(trade.getPartner())) {
 			trade.setTradeState(2);
-			((ServerPlayer) trade.getActing()).getClient().informTrade(trade.getActing().getId(),
+			(trade.getActing()).getClient().informTrade(trade.getActing().getId(),
 					(trade.getPartner() == null ? -1 : trade.getPartner().getId()));
 		}
 

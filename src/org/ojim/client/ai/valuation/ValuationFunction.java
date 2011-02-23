@@ -99,7 +99,7 @@ public abstract class ValuationFunction {
 				e.printStackTrace();
 			}
 		}
-		return (T) instance;
+		return instance;
 	}
 
 	/**

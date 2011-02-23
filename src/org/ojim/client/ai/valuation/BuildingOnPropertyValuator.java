@@ -43,7 +43,7 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 	 * @return An instance
 	 */
 	public static ValuationFunction getInstance() {
-		return BuildingOnPropertyValuator.getInstance(false, BuildingOnPropertyValuator.class);
+		return ValuationFunction.getInstance(false, BuildingOnPropertyValuator.class);
 	}
 
 	private boolean allOfGroupOwned(Street street) {

@@ -19,7 +19,6 @@ package org.ojim.client.ai.valuation;
 
 import java.util.logging.Level;
 
-import org.ojim.log.OJIMLogger;
 import org.ojim.logic.state.fields.BuyableField;
 
 /**
@@ -39,7 +38,7 @@ public final class PropertyValuator extends ValuationFunction {
 	 * @return An instance
 	 */
 	public static PropertyValuator getInstance() {
-		return PropertyValuator.getInstance(false, PropertyValuator.class);
+		return ValuationFunction.getInstance(false, PropertyValuator.class);
 	}
 
 	@Override

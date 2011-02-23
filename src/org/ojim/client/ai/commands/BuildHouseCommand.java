@@ -17,7 +17,6 @@
 
 package org.ojim.client.ai.commands;
 
-import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.fields.Street;
 

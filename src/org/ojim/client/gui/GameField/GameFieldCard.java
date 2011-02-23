@@ -17,11 +17,6 @@
 
 package org.ojim.client.gui.GameField;
 
-import java.awt.Image;
-
-import org.ojim.logic.state.Player;
-import org.ojim.logic.state.fields.Field;
-
 /*
 public class GameFieldCard extends GameFieldPiece {
 

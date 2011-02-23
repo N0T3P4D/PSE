@@ -208,6 +208,7 @@ public class ServerLogic extends Logic {
 		}
 	}
 	
+	@Override
 	public void toggleMortgage(BuyableField field) {
 		super.toggleMortgage(field);
 		this.exchangeMoney(field.getOwner(), this.getGameState().getBank(), (field.isMortgaged() ? -1 : +1) * field.getMortgagePrice());
@@ -359,6 +360,7 @@ public class ServerLogic extends Logic {
 
 	}
 
+	@Override
 	public void buyStreet() {
 		Player player = this.getGameState().getActivePlayer();
 		int position = player.getPosition();

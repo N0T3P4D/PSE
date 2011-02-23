@@ -19,10 +19,6 @@ package org.ojim.rmi.client;
 
 import java.rmi.Remote;
 import java.rmi.RemoteException;
-
-import org.ojim.iface.IClient;
-
-import edu.kit.iti.pse.iface.IServer;
 /**
  * 
  * Interface stellt zusätzlich zum IClient Interface Methoden bereit, 

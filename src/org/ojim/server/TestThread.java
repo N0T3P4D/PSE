@@ -7,6 +7,7 @@ public class TestThread extends Thread {
 		this.client = client;
 	}
 	
+	@Override
 	public void run() {
 		//Don't do nothing, stop when client is gone
 		while(client != null) {

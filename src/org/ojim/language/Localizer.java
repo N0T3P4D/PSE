@@ -266,6 +266,7 @@ public class Localizer {
 	 * @return the translation to the text key.
 	 * @deprecated Use {@link #getText(TextKey)} instead.
 	 */
+	@Deprecated
 	public String getText(String keyText) {
 		TextKey key = TextKey.getToKey(keyText);
 		if (key == null) {

@@ -19,7 +19,6 @@ package org.ojim.client.ai.valuation;
 
 import java.util.logging.Level;
 
-import org.ojim.log.OJIMLogger;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FieldGroup;
@@ -45,6 +44,7 @@ public final class PropertyGroupValuator extends ValuationFunction {
 		return ValuationFunction.getInstance(false, PropertyGroupValuator.class);
 	}
 
+	@Override
 	public double returnValuation(int position) {
 		// Call from outside without position
 		if (position == -1) {

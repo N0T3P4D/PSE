@@ -19,12 +19,8 @@ package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
 
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
-import javax.swing.JTextField;
-
 import org.ojim.language.Localizer;
 import org.ojim.language.Localizer.TextKey;
 

@@ -42,6 +42,7 @@ public abstract class Command extends SimpleClient implements Comparable<Command
 	 */
 	public abstract void execute();
 
+	@Override
 	public int compareTo(Command c) {
 		return (int) ((-1)*(this.valuation - c.getValuation()));
 	}
@@ -54,6 +55,7 @@ public abstract class Command extends SimpleClient implements Comparable<Command
 		this.valuation = valuation;
 	}
 	
+	@Override
 	public String toString() {
 		return this.getClass().toString();
 	}

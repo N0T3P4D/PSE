@@ -20,7 +20,6 @@ package org.ojim.client.ai.commands;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.ojim.client.SimpleClient;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.Player;

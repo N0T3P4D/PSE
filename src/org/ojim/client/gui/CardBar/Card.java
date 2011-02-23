@@ -28,8 +28,6 @@ import javax.swing.JPanel;
 
 import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.StreetColor;
-import org.ojim.client.gui.OLabel.FontLayout;
-import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 
 /**
