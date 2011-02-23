@@ -66,9 +66,9 @@ Reaktion: Bis auf die Gefängnisfreikarte die noch nicht implementiert ist läuf
 
 Aufgabe: Auf alle Spielfelder klicken, auf eigene, ungekaufte, Felder der Mitspieler
 
-Auffallend:
+Auffallend: Bei ungekauften Feldern wird eine Exception geworfen
 
-Reaktion:
+Reaktion: Fehler behoben
 
 
 8. Endturn

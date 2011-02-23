@@ -558,7 +558,7 @@ public class InteractionPopup extends JPanel {
 					}
 					myCards.repaint();
 					myCards.revalidate();
-				} else if (buyField.getOwner().getId() == this.tradePartner
+				} else if (this.tradePartner != null && buyField.getOwner().getId() == this.tradePartner
 						.getId()) {
 					if (hisFields.contains(buyField)) {
 						hisFields.remove(buyField);
