@@ -62,7 +62,7 @@ public class ValuatorTest {
 	public void testReturnBestCommand() {
 		// Buy street
 		testStreet.buy(null);
-		MyPlayer.setBalance(100000);
+		MyPlayer.mySetBalance(100000);
 		assertTrue(valuator.returnBestCommand(1) instanceof AcceptCommand);
 	}
 
@@ -71,9 +71,9 @@ public class ValuatorTest {
 		IServer server = new OjimServer("Test");
 		Valuator valuator = new Valuator(logic, server, 0);
 		testStreet.setMortgaged(true);
-		MyPlayer.setBalance(100000);
+		MyPlayer.mySetBalance(100000);
 		assertTrue(valuator.paybackMortgages() instanceof ToggleMortgageCommand);
-		MyPlayer.setBalance(0);
+		MyPlayer.mySetBalance(0);
 		assertTrue(valuator.paybackMortgages() instanceof NullCommand);
 	}
 
@@ -81,7 +81,7 @@ public class ValuatorTest {
 	@Test(expected = IllegalStateException.class)
 	public void testNegativeWithNegative() {
 		IServer server = new OjimServer("Test");
-		MyPlayer.setBalance(1);
+		MyPlayer.mySetBalance(1);
 		Valuator valuator = new Valuator(logic, server, 0);
 		valuator.negative();
 	}
@@ -89,9 +89,9 @@ public class ValuatorTest {
 	@Test
 	public void testNegativeWithPositive() {
 		IServer server = new OjimServer("Test");
-		MyPlayer.setBalance(1);
+		MyPlayer.mySetBalance(1);
 		Valuator valuator = new Valuator(logic, server, 0);
-		MyPlayer.setBalance(-1);
+		MyPlayer.mySetBalance(-1);
 		valuator = new Valuator(logic, server, 0);
 		assertTrue(valuator.negative() instanceof ToggleMortgageCommand);
 
@@ -107,7 +107,7 @@ public class ValuatorTest {
 
 	public final static class MyPlayer extends Player {
 
-		private static int balance = 0;
+		public static int balance = 0;
 
 		public MyPlayer(int id) {
 			super("Test", 1, 0, id, 0);
@@ -117,8 +117,8 @@ public class ValuatorTest {
 		public int getBalance() {
 			return balance;
 		}
-
-		public static void setBalance(int balance) {
+		
+		public static void mySetBalance(int balance) {
 			MyPlayer.balance = balance;
 		}
 
