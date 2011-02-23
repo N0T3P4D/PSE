@@ -64,6 +64,7 @@ public class CardStack extends JPanel {
 			if (cards[i] == null) {
 				// System.out.println("Karte gesetzt");
 				cards[i] = new Card(gui);
+				System.out.println(i+" ist eine neue Karte "+card.getName());
 				cards[i].setCard(card);
 				this.fieldGroup = card.getFieldGroup();
 				break;
@@ -125,7 +126,7 @@ public class CardStack extends JPanel {
 				cards[i].draw();
 				this.add(cards[i]);
 			} catch (NullPointerException e) {
-
+				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			}
 		}
 	}

@@ -187,9 +187,9 @@ public class TestClient implements IClient {
 	}
 	
 	private void print(String out) {
-		lbl += "<br>" + out;
-		this.setText(lbl);
-		System.out.println(out);
+//		lbl += "<br>" + out;
+//		this.setText(lbl);
+//		System.out.println(out);
 	}
 
 	@Override

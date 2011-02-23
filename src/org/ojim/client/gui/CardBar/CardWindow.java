@@ -179,6 +179,7 @@ public class CardWindow extends JPanel {
 			cardStacks[i].draw();
 			overPanel.add(cardStacks[i]);
 		}
+		
 	}
 
 	/**

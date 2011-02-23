@@ -221,6 +221,11 @@ public class Player implements IMoneyPartner {
 		return this.numberOfGetOutOfJailCards;
 	}
 	
+	//TODO testCase, take out when tested
+	public void setBalance(int y) {
+		this.balance = y;
+	}
+	
 	public PriorityQueue<BuyableField> getQueue() {
 		return fields;
 	}

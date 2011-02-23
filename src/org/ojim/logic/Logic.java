@@ -75,7 +75,6 @@ public class Logic implements Serializable {
 	}
 
 	public void toggleMortgage(BuyableField field) {
-		// TODO: Finished?
 		field.setMortgaged(!field.isMortgaged());
 	}
 
