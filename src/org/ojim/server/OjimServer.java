@@ -70,6 +70,9 @@ import edu.kit.iti.pse.iface.IServerTrade;
  */
 public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
+	private int round;
+	private int maxRound;
+	
 	/**
 	 * The name of the Server
 	 */
@@ -157,8 +160,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.rules = new GameRules(this.state, new Rules());
 		this.logic = new ServerLogic(this.state, this.rules);
 		this.logger = OJIMLogger.getLogger(this.getClass().toString());
+		this.maxRound = 0;
 	}
 
+	public void setMaxRound(int maxRound) {
+		this.maxRound = maxRound;
+	}
+	
 	public synchronized boolean initRMIGame(int playerCount, int aiCount,
 			String host) {
 		StartNetOjim starter = new StartNetOjim();
@@ -223,9 +231,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// Open the Game
 		isOpen = true;
 		initComplete = true;
+		this.round = 0;
 		
 		if(aiCount == playerCount) {
-			//TODO set delays on Auctions low
+			this.auction.setTimeDelay(1);
 		}
 		if (checkAllPlayersReady()) {
 			this.startGame();
@@ -1086,6 +1095,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 
 				this.doublesChain = 0;
+				this.round++;
+				if(round == maxRound) {
+					
+					logger.log(Level.INFO, "Game ended because maxRounds was reached");
+					this.endGame();
+				}
 				logic.startNewTurn();
 
 				return true;

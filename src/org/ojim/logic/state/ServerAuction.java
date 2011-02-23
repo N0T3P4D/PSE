@@ -29,7 +29,7 @@ import org.ojim.server.OjimServer;
 public class ServerAuction extends Auction {
 
 	private GameState state;
-
+	private int timeDelay = 1000;
 	private ServerLogic logic;
 	
 	private int playerID;
@@ -44,6 +44,10 @@ public class ServerAuction extends Auction {
 		this.playerID = playerID;
 	}
 	
+	public void setTimeDelay(int delay) {
+		this.timeDelay = delay;
+	}
+	
 	public ServerAuction(GameState state, ServerLogic logic, GameRules rules,
 			BuyableField objective) {
 		super(objective);
@@ -54,8 +58,8 @@ public class ServerAuction extends Auction {
 
 		// Start ticking
 		timer.schedule(new AuctionTask(this),
-				1000 * this.rules.getActionStartTime(),
-				1000 * this.rules.getActionTickTime());
+				timeDelay * 3 * this.rules.getActionStartTime(),
+				timeDelay * this.rules.getActionTickTime());
 	}
 
 	public final void informPlayers() {
@@ -73,8 +77,8 @@ public class ServerAuction extends Auction {
 		// Restart the Timer
 		// timer.cancel();
 		timer.schedule(new AuctionTask(this),
-				1000 * this.rules.getActionTickTime(),
-				1000 * this.rules.getActionTickTime());
+				timeDelay * 3 * this.rules.getActionTickTime(),
+				timeDelay * this.rules.getActionTickTime());
 
 		// Tell All Players that a new Highest Bid is there
 		this.informPlayers();
