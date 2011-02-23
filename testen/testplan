@@ -57,9 +57,9 @@ Reaktion: -1 Bug behoben, man kann nun nicht mehr mit sich selbst handeln.
 
 Aufgabe: Klicken auf Gefängnisfreikarte und Gefängnisfreigeld während des Spiels: man ist nicht am Zug, man ist am Zug aber nicht im Gefängnis, ein Bot ist im Gefängnis aber man selbst nicht, man selbst ist im Gefängnis
 
-Auffallend:
+Auffallend: Nicht am Zug: keine Reaktion außer in der Konsole dass es versucht wird, am Zug aber nicht im Gefängnis: keine Reaktion außer in der Konsole dass es versucht wird, Während die KI im Gefängnis ist ebenfalls keine Reaktion, Bei 6,5 Spielern kann die GUI sich aus dem Gefängnis frei kaufen.
 
-Reaktion:
+Reaktion: Bis auf die Gefängnisfreikarte die noch nicht implementiert ist läuft es wie es sollte.
 
 
 7. Klicken auf die Felder
