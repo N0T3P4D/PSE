@@ -30,7 +30,7 @@ public class ServerStart {
 	public static void main(String[] args) {
 		
 		System.out.println("Starting Server");
-		OjimServer server = new OjimServer("testServer");
+		OjimServer server = new OjimServer("n0");
 		
 		System.out.println("Server started");
 		boolean running = true;

@@ -56,10 +56,15 @@ WS 2010 / 2011} \\[2cm]
 
 \section{Unit Tests}
 
-\subsection{Server}
 Sowohl der Server als auch die ServerLogic wurden getestet. Das Testen der ServerLogic gestaltete sich aber als schwierig mithilfen von JUnit zu gestalten, weshalb hier nur wenige Testfälle automatisch abgehandelt wurden, beim Rest war es effektiver von Hand zu testen.
 
-In OjimServer wurden alle Methoden getestet, es gab insgesammt nur 44 Testfälle, da einige Methoden zusammen getestet werden mussten. Um das Testen zu ermöglichen/erleichtern musste auf das Geheimnisprinzip an einigen Stellen verzichtet werden. Methoden, die es verletzen wurden gekennzeichnet und können jederzeit wieder aus OjimServer entfernt werden (nur das Testen 
+In OjimServer wurden alle Methoden getestet, es gab insgesammt nur 44 Testfälle, da einige Methoden zusammen getestet werden mussten. Um das Testen zu ermöglichen/erleichtern musste auf das Geheimnisprinzip an einigen Stellen verzichtet werden. Methoden, die es verletzen wurden gekennzeichnet und können jederzeit wieder aus OjimServer entfernt werden (nur das Testen ist dann nicht mehr möglich)
+
+\subsection{Abdeckung}
+Nur mit JUnit-Tests ist eine Anweisungsüberdeckung von 32,4 \% möglich.
+Da aber viele Teile (unter anderen die GUI) ""von Hand"" getestet wurden, ist die effektive Test-Überdeckung höher.
+
+\includegraphics[width=17cm]{EMMA} \\
 
 \section{Testfälle und Testszenarien aus dem Pflichtenheft}
 
