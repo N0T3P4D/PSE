@@ -335,7 +335,7 @@ public class GUIClient extends ClientBase implements Serializable {
 	@Override
 	public void onTrade(Player actingPlayer, Player partnerPlayer) {
 
-		System.out.println("Wurde angehandelt Meista!");
+		
 		if (getTradeState() == TradeState.WAITING_PROPOSAL
 				|| getTradeState() == TradeState.WAITING_PROPOSED) {
 			if (actingPlayer.getId() == getMe().getId()) {

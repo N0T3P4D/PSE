@@ -25,6 +25,7 @@ import javax.swing.JPanel;
 import javax.swing.border.LineBorder;
 
 import org.ojim.client.gui.GUIClient;
+import org.ojim.client.gui.RightBar.ChatWindow;
 import org.ojim.language.Localizer;
 import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.GameState;
@@ -303,9 +304,9 @@ public class GameField extends JPanel {
 			int offeredCash, BuyableField[] offeredBuyableFields,
 			int offeredOutOfJailCards) {
 
-		interactionPopup.showTrade(me, partnerPlayer, offeredOutOfJailCards,
-				offeredBuyableFields, offeredOutOfJailCards,
-				offeredOutOfJailCards, offeredBuyableFields,
+		interactionPopup.showTrade(me, partnerPlayer, requiredCash,
+				requiredBuyableFields, requiredOutOfJailCards,
+				offeredCash, offeredBuyableFields,
 				offeredOutOfJailCards);
 
 	}

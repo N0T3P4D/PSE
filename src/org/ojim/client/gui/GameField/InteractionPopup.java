@@ -22,6 +22,7 @@ import java.awt.FlowLayout;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -35,6 +36,8 @@ import javax.swing.border.LineBorder;
 import org.ojim.client.SimpleClient.AuctionState;
 import org.ojim.client.gui.GUIClient;
 import org.ojim.client.gui.StreetColor;
+import org.ojim.client.gui.RightBar.ChatMessage;
+import org.ojim.client.gui.RightBar.ChatWindow;
 import org.ojim.language.Localizer;
 import org.ojim.language.Localizer.TextKey;
 import org.ojim.logic.state.Player;
@@ -379,6 +382,13 @@ public class InteractionPopup extends JPanel {
 
 		myFields = new LinkedList<BuyableField>();
 		hisFields = new LinkedList<BuyableField>();
+
+		for(BuyableField x : requiredBuyableFields){
+			myFields.add(x);
+		}
+		for(BuyableField y : offeredBuyableFields){
+			hisFields.add(y);
+		}
 		
 		hisCards.removeAll();
 		myCards.removeAll();
@@ -513,7 +523,7 @@ public class InteractionPopup extends JPanel {
 					tradeCardPanel[field.getPosition()].setBackground(StreetColor.getBackGroundColor(field.getFieldGroup().getColor()));
 					fieldLabel.setForeground(StreetColor.getFontColor(field.getFieldGroup().getColor()));
 				}
-				if (buyField.getOwner() == this.tradeMe) {
+				if (buyField.getOwner().getName() == this.tradeMe.getName()) {
 					if(myFields.contains(buyField)){
 						myFields.remove(buyField);
 					} else {
@@ -527,7 +537,7 @@ public class InteractionPopup extends JPanel {
 					}
 					myCards.repaint();
 					myCards.revalidate();
-				} else if (buyField.getOwner() == this.tradePartner) {
+				} else if (buyField.getOwner().getName() == this.tradePartner.getName()) {
 					if(hisFields.contains(buyField)){
 						hisFields.remove(buyField);
 					} else {
