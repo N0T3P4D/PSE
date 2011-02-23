@@ -41,6 +41,7 @@ import org.ojim.logic.state.fields.Street;
  * 
  * @author Fabian Neundorf
  */
+@SuppressWarnings("serial")
 public class ServerLogic extends Logic {
 
 	// AI

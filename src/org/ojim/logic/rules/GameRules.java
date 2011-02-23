@@ -27,6 +27,7 @@ import org.ojim.logic.state.fields.Street;
 
 public class GameRules implements Serializable {
 
+	private static final long serialVersionUID = 5940502230544025152L;
 	public static final int MAX_DOUBLES_ALLOWED = 3;
 	private GameState state;
 	private Rules rules;

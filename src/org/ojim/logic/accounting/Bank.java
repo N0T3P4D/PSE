@@ -25,6 +25,7 @@ import java.io.Serializable;
  */
 public class Bank implements IMoneyPartner,Serializable {
 
+	private static final long serialVersionUID = 825862852375193369L;
 	private int balance;
 	private int houses;
 	private int hotels;

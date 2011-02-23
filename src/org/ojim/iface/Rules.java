@@ -22,6 +22,7 @@ import java.io.Serializable;
 /**
  * Minimales Regelset.
  */
+@SuppressWarnings("serial")
 public class Rules implements Serializable {
 	
 	/**

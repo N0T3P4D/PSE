@@ -29,7 +29,7 @@ import org.ojim.server.OjimServer;
 public class ServerAuction extends Auction {
 
 	private GameState state;
-	private int timeDelay = 1000;
+	private static int timeDelay = 1000;
 	private ServerLogic logic;
 	
 	private int playerID;
@@ -44,8 +44,8 @@ public class ServerAuction extends Auction {
 		this.playerID = playerID;
 	}
 	
-	public void setTimeDelay(int delay) {
-		this.timeDelay = delay;
+	public static void setTimeDelay(int delay) {
+		timeDelay = delay;
 	}
 	
 	public ServerAuction(GameState state, ServerLogic logic, GameRules rules,

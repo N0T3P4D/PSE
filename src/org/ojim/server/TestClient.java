@@ -33,6 +33,7 @@ import edu.kit.iti.pse.iface.IServer;
 
 public class TestClient implements IClient {
 	
+	@SuppressWarnings("unused")
 	private IServer server;
 	private int id = -1;
 	private final JTextField var1, var2;

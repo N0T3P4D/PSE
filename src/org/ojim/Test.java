@@ -17,19 +17,7 @@
 
 package org.ojim;
 
-import java.lang.reflect.InvocationTargetException;
-
-import org.ojim.client.ai.AIClient;
-import org.ojim.client.ai.valuation.CapitalValuator;
-import org.ojim.client.ai.valuation.PropertyValuator;
-import org.ojim.client.ai.valuation.ValuationFunction;
 import org.ojim.client.gui.GUIClient;
-import org.ojim.logic.actions.Action;
-import org.ojim.logic.actions.ActionMoveToField;
-import org.ojim.logic.state.Card;
-import org.ojim.logic.state.GameState;
-import org.ojim.logic.state.fields.Field;
-import org.ojim.logic.state.fields.Jail;
 import org.ojim.server.OjimServer;
 
 /**
@@ -37,8 +25,6 @@ import org.ojim.server.OjimServer;
  * @author xZise
  */
 public class Test {
-	
-	private Card[] cards;
 	
 	// Possible parameters:
 	// -g --gui == GUI Client
@@ -49,11 +35,11 @@ public class Test {
 		for (String string : args) {
 			if (string.equals("-g") || string.equals("--gui")) {
 				System.out.println("Starting guiclient!");
-				GUIClient c = new GUIClient();
+				new GUIClient();
 				return;
 			} else if (string.equals("-s") || string.equals("--server")) {
 				System.out.println("Starting server!");
-				OjimServer s = new OjimServer("test");
+				new OjimServer("test");
 				return;
 			} else if (string.equals("-a") || string.equals("--ai")) {
 				System.out.println("Starting aiclient!");
@@ -65,7 +51,7 @@ public class Test {
 		// No usable parameter found
 		System.out.println("No parameter for type defined. Starting default.");
 		System.out.println("Starting guiclient!");
-		GUIClient c = new GUIClient();
+		new GUIClient();
 		return;
 	}
 }

@@ -23,7 +23,6 @@ import org.jdom.DataConversionException;
 import org.jdom.Element;
 import org.ojim.logic.ServerLogic;
 import org.ojim.logic.actions.ActionMoveToJail;
-import org.ojim.logic.state.GameState;
 
 public class GoToJail extends Field {
 

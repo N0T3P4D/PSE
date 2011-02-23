@@ -167,6 +167,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.maxRound = maxRound;
 	}
 	
+	@SuppressWarnings("unused")
 	public synchronized boolean initRMIGame(int playerCount, int aiCount,
 			String host) {
 		StartNetOjim starter = new StartNetOjim();
@@ -234,7 +235,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.round = 0;
 		
 		if(aiCount == playerCount) {
-			this.auction.setTimeDelay(1);
+			ServerAuction.setTimeDelay(1);
 		}
 		if (checkAllPlayersReady()) {
 			this.startGame();
