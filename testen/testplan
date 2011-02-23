@@ -47,9 +47,10 @@ Reaktion: Spielerzahl insgesamt limitiert
 
 Aufgabe: Klicken auf die Spielernamen im Waiting Room sowie im Spiel
 
-Auffallend:
+Auffallend: Im Warteraum kommt außer einem "Clicked on Player X" in der Konsole keine Reaktion.
+Im Spiel öffnet sich ein Handelsfenster mit negativem Anfangsgeld und es ist möglich sich selbst anzuhandeln.
 
-Reaktion:
+Reaktion: -1 Bug behoben, man kann nun nicht mehr mit sich selbst handeln.
 
 
 6. Klicken auf Gefängnisfreikarte und Gefängnisfreigeld
