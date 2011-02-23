@@ -130,13 +130,13 @@ class AuctionTask extends TimerTask {
 
 	protected AuctionTask(ServerAuction auction) {
 		this.auction = auction;
-		System.out.println("Tick!");
+		//System.out.println("Tick!");
 	}
 
 	@Override
 	public void run() {
 		auction.tick();
-		System.out.println("Tock!");
+		//System.out.println("Tock!");
 	}
 
 }

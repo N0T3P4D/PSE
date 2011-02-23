@@ -324,6 +324,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean initTrade(int actingPlayer, int partnerPlayer) {
 		// If there is already a Trade in process, dont create a new one
+		display("initializing trade between " + actingPlayer + " and " + partnerPlayer);
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -526,6 +527,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized boolean cancelTrade(int playerID) {
+		display("trade canceled by " + playerID);
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -540,6 +542,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized boolean proposeTrade(int playerID) {
+		display("trade proposed by " + playerID);
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -974,6 +977,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// Does a Trade need Confirmation?
 		if (trade != null && player != null && trade.getTradeState() == 1
 				&& player.equals(trade.getPartner())) {
+			display("trade accepted by " + playerID);
 			trade.setTradeState(3);
 			trade.executeTrade(logic);
 			((ServerPlayer) trade.getActing()).getClient().informTrade(
@@ -1018,12 +1022,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		if (trade != null && player != null && trade.getTradeState() == 1
 				&& player.equals(trade.getPartner())) {
-			System.out.println("decline was for trading");
+			System.out.println("trade declined by " + playerID);
 			trade.setTradeState(2);
-//			((ServerPlayer) trade.getActing()).getClient().informTrade(
-//					trade.getActing().getId(),
-//					(trade.getPartner() == null ? -1 : trade.getPartner()
-//							.getId()));
+			((ServerPlayer) trade.getActing()).getClient().informTrade(
+					trade.getActing().getId(),
+					(trade.getPartner() == null ? -1 : trade.getPartner()
+							.getId()));
 		}
 
 		if (player == null || playerID != state.getActivePlayer().getId()) {
@@ -1041,8 +1045,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// Check if the Buying of a field was declined
 		if (playerNeedsAcceptCancel) {
 			if (!(state.getFieldAt(state.getActivePlayer().getPosition()) instanceof BuyableField)) {
-				display("fail");
-
 			}
 			this.auction = new ServerAuction(state, logic, rules,
 					(BuyableField) state.getFieldAt(state.getActivePlayer()
@@ -1064,25 +1066,21 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return false;
 		}
 		
-		display("player" + player.getName() + " want to end the turn!");
 		if (player != null && rules.isPlayerOnTurn(player)
 				&& !state.getGameIsWon()) {
 			if (player.getJail() != null) {
 				player.waitInJail();
-				display("in jail");
 			}
 			if (!rules.isRollRequiredByActivePlayer()) {
 
 				// Player is bankrupt
 				if (player.getBalance() < 0) {
-					display("bankrupt");
 					this.logic.setPlayerBankrupt(player);
 				}
 
 				// Is there an Auction running?
 				if (this.auction != null
 						&& this.auction.getState() != AuctionState.THIRD) {
-					display("auction running");
 					return false;
 				}
 
@@ -1093,12 +1091,12 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 				if (this.state.getGameIsWon()) {
 					this.endGame();
-					display("game won");
 					return true;
 				}
-
+				tries = 0;
 				this.doublesChain = 0;
 				this.round++;
+				System.out.println(this.name + "|" + round);
 				if(round == maxRound) {
 					
 					logger.log(Level.INFO, "Game ended because maxRounds was reached");
@@ -1108,7 +1106,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 				return true;
 			} else {
-				display("roll required");
 				((ServerPlayer) player).getClient().informTurn(player.getId());
 			}
 		}
@@ -1294,18 +1291,25 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return this.clients;
 	}
 
+	private int tries = 0;
+	
 	@Override
 	public synchronized boolean payFine(int playerID) {
 		display("Player tries to use fine to get out of jail!");
 		if (state.getGameIsWon()) {
 			return false;
 		}
+		tries++;
+		if(tries >= 10) {
+			this.endTurn(playerID);
+		}
 		Player player = state.getPlayerById(playerID);
-		display("player is on field " + player.getSignedPosition());
+		System.out.println("player is on field " + player.getSignedPosition());
 		if (player != null && rules.isPlayerInPrison(player)) {
-			display("player is valid!");
+			System.out.println("player is valid!");
 			if (player.getBalance() >= player.getJail().getMoneyToPay()) {
 				logic.playerUsesFineForJail(player);
+				System.out.println("player is then on field " + player.getSignedPosition());
 				display("Player has used fine to get out of jail!");
 				return true;
 			}
