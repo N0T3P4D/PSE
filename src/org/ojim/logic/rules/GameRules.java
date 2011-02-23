@@ -228,4 +228,5 @@ public class GameRules implements Serializable {
 	public int getAuctionStartBid(BuyableField objective) {
 		return 0;
 	}
+
 }

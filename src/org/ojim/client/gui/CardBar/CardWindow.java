@@ -1,6 +1,7 @@
 package org.ojim.client.gui.CardBar;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.ComponentOrientation;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
@@ -81,6 +82,10 @@ public class CardWindow extends JPanel {
 		this.setLayout(new BorderLayout());
 		this.add(leftPanel, BorderLayout.WEST);	
 		this.add(overPanel, BorderLayout.EAST);	
+		
+		JPanel panek;
+		overPanel.add(panek = new JPanel());
+		panek.setBackground(Color.cyan);
 		this.validate();
 		this.repaint();
 		draw();

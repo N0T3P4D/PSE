@@ -223,9 +223,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// Open the Game
 		isOpen = true;
 		initComplete = true;
+		
+		if(aiCount == playerCount) {
+			//TODO set delays on Auctions low
+		}
 		if (checkAllPlayersReady()) {
 			this.startGame();
 		}
+		
 		/*
 		 * if (playerCount == aiCount) { while (!state.getGameIsWon()) { try {
 		 * wait(300); } catch (InterruptedException e) { // TODO Auto-generated
