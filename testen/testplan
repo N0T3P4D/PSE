@@ -75,9 +75,9 @@ Reaktion: Fehler behoben
 
 Aufgabe: Endturn aufrufen in jeder Spielsituation: Während einer Auktion, während eines Handels, während man am Zug ist und noch würfeln muss, während man gewürfelt hat aber noch kaufen kann, während die KI am Zug ist
 
-Auffallend:
+Auffallend: Während eines Handels: Runde wird beendet, Handelsfenster bleibt offen. Wenn man noch am Zug ist bleibt man am Zug, wenn man am Zug ist weil man noch kaufen kann startet eine Auktion bei der man bieten kann. Während die KI am Zug ist, steht der Button nicht zur Verfügung.
 
-Reaktion:
+Reaktion: Alles ist wie es sein sollte.
 
 
 9. Würfeln
