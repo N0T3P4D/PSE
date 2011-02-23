@@ -324,7 +324,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean initTrade(int actingPlayer, int partnerPlayer) {
 		// If there is already a Trade in process, dont create a new one
-		if (state.getGameIsWon()) {
+		if (state.getGameIsWon() || actingPlayer != state.getActivePlayer().getId()) {
 			return false;
 		}
 		if (trade != null) {

@@ -218,29 +218,51 @@ da wir keine Antwort von der anderen Gruppe erhalten haben.
 \subsection{Bugs}
 \begin{enumerate}
 \item Ausbau über Hotels hinaus
+\\Es war möglich, ein voll ausgebautes Feld weiter auszubauen. Die Häusermenge hat sich nicht verändert, aber der HausPreis wurde dem Kontostand abgezogen. BEHOBEN 
 \item Sofortiges Bankrott
+\\Wenn der Kontostand unter 0 stand, wurde man sofort bankrott gesetzt, anstatt erst gegen Ende der Runde. BEHOBEN
 \item Bereits ausgeschiedene Bots nehmen an Auktionen teil
+\\Es war für sich nicht mehr im Spiel befindliche AIs möglich, an Auktionen teilzunehmen. BEHOBEN
 \item Kein weiteres Spiel zu starten
+\\Es war nicht möglich, nach einem Spiel ein weiteres zu starten. BEHOBEN
 \item Kein Kauf nach Handel
+\\Es war nicht möglich, nach einem Handel die Straße zu kaufen, auf der man sich befindet. BEHOBEN
 \item Aktionen in der GUI nach eigenem Bankrott unterbinden
+\\Es war möglich nach Bankrott noch Aktionen in der GUI durchzuführen. BEHOBEN
 \item Scrollen im Chat funktioniert nicht
+\\Es ist nicht möglich in der GUI im Chatfenster zu scrollen, weshalb nur eine begrenzte Menge Text angezeigt werden kann.
 \item Handel läuft zu KIs gunsten
+\\In einem Handel wurden alle sich im Handel befindlichen Felder dem Handelspartner zugesprochen, anstatt die angeforderten Felder dem Handelsinitiator zu übergeben BEHOBEN
 \item Handelfenster wird nicht geschlossen
+\\Nach einem Handel wurde das Handelsfenster nicht geschlossen. BEHOBEN
 \item Exceptions beim Write der Settings
-\item Auktionen?
+\\Beim Speichern der Einstellungen der GUI wurde eine Exception geworfen. BEHOBEN
 \item getMe().getJail() immer null
+\\Die Instanz auf sich selber als Spielerobjekt in der AI hat nicht immer die Information, dass sie sich im Gefängnis befindet wenn dies der Fall sein sollte.
 \item Server stürzt bei Initialisierung ab
+\\Durch Eingabe ungünstiger Startparameter warf der Server eine Exception (zB bei initGame(0,1)) anstatt ein false zurückzugeben. BEHOBEN
 \item ClientBase stürzt bei Beenden des Servers ab
+\\Beim zurücksetzen der Felder eines Spielers, der das Spiel verlassen hat, trat ein Fehler auf. BEHOBEN
 \item InitGame(2,2) geht nicht
+\\Fehlinterpretation einer JUnit-Ausgabe. Kein Fehler, aber die Analyse von asynchronen Vorgängen ist mit JUnit nicht einfach zu realisieren. BEHOBEN
 \item Straßen werden beim Handel nicht angezeigt
+\\Es wurde in der GUI nicht angezeigt, welche Felder von einem Handel betroffen waren. BEHOBEN
 \item Spiel hängt Auktion needs to be started
+\\Es gibt einen Fehler, aufgrunddessen Auktionen aufgrund eines Bankrotten Spielers nicht richtig durchgeführt werden.
 \item 2 KIs wollen gleichzeitig mit der GUI Handeln
+\\Es gibt einen Fehler, aufgrunddessen 2 Handel gleichzeitig gestartet werden können.
 \item Leave Game führt zu einer Exception in ClientBase
+\\Ähnlicher Fehler wie bei ""ClientBase stürzt bei Beenden des Servers ab"" BEHOBEN
 \item OjimServer.offerCash(id, 1000)
+\\Fehler von JUnit, dass assertSame(1000,1000) ein anderes Ergebnis liefert als assertSame(10,10). BEHOBEN
 \item Fenster beim Start klein
+\\Das GUI-Fenster war bei Starten des Spieles auf minimaler größe (1 Pixel hoch und minimal breit). BEHOBEN
 \item Bei Spielerbankrott bleiben, falls vorhanden, Häuser auf den Straßen
-\item GUI: Gebaute Häuser werden (auf geleben Straßen) nicht angezeigt.
+\\Das Spielfeld wurde nicht richtig aufgeräumt nachdem ein Spieler bankrott ging. BEHOBEN
+\item GUI: Gebaute Häuser werden (auf gelben Straßen) nicht angezeigt.
+\\Es gibt einen Fehler, aufgrunddessen gebaute Häuser in der GUI nicht richtig angezeigt werden.
 \item Spiel kann trotz eines aktiven Handels fortgesetzt werden
+\\Es war möglich, auch bei einem aktivem Handel den Zug zu beenden. BEHOBEN
 \end{enumerate}
 
 
