@@ -95,7 +95,7 @@ public final class PropertyGroupValuator extends ValuationFunction {
 						// assert(false);
 						result = 2 * ((BuyableField) getGameState().getFieldAt(position)).getPrice();
 					} else {
-						result = ValuationParameters.getFieldGroupFactor(ownedByMe, count)
+						result = parameters.getFieldGroupFactor(ownedByMe, count)
 								* ((BuyableField) getGameState().getFieldAt(position)).getPrice();
 						logger.log(Level.FINE, "Here! result = " + result);
 					}

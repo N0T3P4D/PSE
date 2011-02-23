@@ -51,7 +51,6 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 
 	private boolean allOfGroupOwned(Street street) {
 		StreetFieldGroup group = street.getFieldGroup();
-//		assert (group.getFields().length != 1);
 		int count = 0;
 		for (Field field : group.getFields()) {
 			if (((BuyableField) field).getOwner() == getGameState().getActivePlayer()) {
@@ -75,7 +74,8 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 				logger.log(Level.FINE, "All owned by me");
 				if (getGameRules().isFieldUpgradable(me, street, street.getBuiltLevel() + 1)) {
 					// double result = ValuationParameters.getBuildingValue(position,street.getNumberOfHouse() + 1);
-					result = 10 * street.getRent(street.getBuiltLevel() + 1);
+					result = parameters.getPropertyFactor() * street.getRent(street.getBuiltLevel() + 1);
+//					result = 10 * street.getRent(street.getBuiltLevel() + 1);
 				}
 			}
 		}
