@@ -268,6 +268,11 @@ da wir keine Antwort von der anderen Gruppe erhalten haben.
 \\Es gibt einen Fehler, aufgrunddessen gebaute Häuser in der GUI nicht richtig angezeigt werden.
 \item Spiel kann trotz eines aktiven Handels fortgesetzt werden
 \\Es war möglich, auch bei einem aktivem Handel den Zug zu beenden. BEHOBEN
+\item RMI funktioniert nicht wie erwartet , es kann kein Spiel über das Netzwerk 
+\\Bei einem Test eines Netzwerkspiels über Hamachie, bei welchem der Client Methoden des Servers aufruft,
+ scheint der Verbindungsaufbau (Client holt sich das Remote Objekt) zu funktionieren und die Delegation durch den Wrapper lässt 
+ sich mit Hilfe der Debug View in eclipse verfolgen. Anfänglich werden die Methoden auf dem Server aufgerufen und der Server ruft Methoden im Client auf.
+ Versucht der Client jedoch die Methode getPlayerName aufzurufen, schlägt die Verbindung fehl. Es wird keine aussagekräftige Exception geworfen, nach langem recherchieren im inet sind wir auf keine Lösung gekommen.
 \end{enumerate}
 
 
