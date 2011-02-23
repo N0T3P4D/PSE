@@ -58,13 +58,207 @@ WS 2010 / 2011} \\[2cm]
 
 \subsection{Testfälle und Testszenarien aus dem Pflichtenheft}
 
+Folgende Funktionssequenzen sind in der grafischen Benutzeroberfläche getestet worden. Der Server wurde entsprechend mitgeprüft: \\
+\includegraphics[width=17cm]{Diagram1} \\
+Folgende Datenkonsistenzen sind eingehalten worden:
+\begin{itemize}
+\item Zu jedem Zeitpunkt muss ein Spielername definiert sein
+\item Einstellungen können nur geladen werden, wenn die zu ladende Datei vollständig ist
+\item Einstellungen können nur gespeichert werden, wenn alle Felder korrekt ausgefüllt sind
+\item Der Zustand des Spielfeldes muss zwischen Client und Server identisch sein
+\end{itemize}
+Folgende unzulässigen Aktionen müssen korrent behandelt werden:
+\begin{itemize}
+\item Unzulässiges Übersenden von Kommandos an Client und Server (DoS)
+\item Überschreitung der maximalen Teilnehmeranzahl
+\item Belegung von Ressourcen durch häufiges Beitreten und Verlassen von Clients
+\item Unerwarteter Verbindungsabbruch (Timeout, Connection Reset)
+\item Reaktion auf Verbindungsverlust zum Server
+\item Unsauberer Restart des Clients
+\item Übersenden von undefinierten und unzulässigen Befehlen an Client und Server
+\end{itemize}
+\newpage
+Interoperabilität, Usability:
+\begin{itemize}
+\item Richtige Funktion mit Client und Server der anderen Gruppe
+\item Korrekte Darstellung auf verschiedenen Betriebssystemen (Windows, Linux, OS X)
+\item Verschiedene Bildschirmauflösungen
+\item nicht-standardmäßige Systemschriftgröße
+\end{itemize}
+Testszenarien:
+\begin{itemize}
+\item "`Erste Inbetriebnahme mit Starten eines Servers"' \\
+Starten des Programms $\rightarrow$ im Hauptmenü "`Einstellungen"' aufrufen $\rightarrow$ Daten eingeben $\rightarrow$ "`Spieleinstellungen speichern"' anklicken $\rightarrow$ im Hauptmenü "`Spiel erstellen"' anklicken $\rightarrow$ Einstellungen vornehmen $\rightarrow$ "`Einstellungen speichern"' anklicken $\rightarrow$ "`Erstellen des Servers"' anklicken $\rightarrow$ "`Starten des Servers"' anklicken.
+\item "`Einem Spiel beitreten (durch Serverliste), spielen und aufgeben"' \\
+Starten des Programms $\rightarrow$ "`Spiel beitreten"' auswählen$\rightarrow$ "`Serverliste"' anklicken $\rightarrow$ Server auswählen $\rightarrow$ verbinden $\rightarrow$ Bereitschaft setzen $\rightarrow$ Würfeln, Spielzüge durchführen $\rightarrow$ aufgeben
+\item "`Einzelspieler"' \\
+"`Spiel erstellen"' anklicken $\rightarrow$ Mindest-Anzahl der Spieler $>1$ setzen, andere Einstellungen vornehmen $\rightarrow$ "`Einstellungen speichern"' anklicken $\rightarrow$ "`Erstellen des Servers"' anklicken $\rightarrow$ "`Starten des Servers"' anklicken.
+\item "`Voller Server"' \\
+Spieler versucht auf vollen Server zu verbinden $\rightarrow$ erhält Meldung, dass die maximale Teilnehmeranzahl erreicht ist
+\item "`Serverabsturz"' \\
+Mehrere Spieler spielen $\rightarrow$ Server stürzt ab $\rightarrow$ Server wird neu gestartet $\rightarrow$ Spiel wird über Sicherungs-Datei auf dem Server wiederhergestellt
+\item "`Abwesenheit eines Spielers"' \\
+Ein Spieler muss einen Zug vornehmen und reagiert eine bestimmte Zeit nicht $\rightarrow$ er wird zwangsweise aus dem Spiel entfernt $\rightarrow$ das Vermögen fällt der Bank zu
+\end{itemize}
+
+
 \section{Integrations- und Belastungstests}
-\subsection{GUI Tests}
+\subsection{Testplan für die GUI}
+
+Die Tests sind gegliedert in Aufgabe, Auffallend, Reaktion.
+\begin{enumerate}
+\item Wechseln der Sprache 
+Aufgabe: Öffnen aller Fenster in jedem Spielzustand und die Sprache auf alle 3 Sprachen umstellen
+
+Auffallend:
+1. Ohne Spiel: Das Join Gamefenster verändert seinen Text nicht. Create Game hat einen nichtübersetzten Text "host" Im Hilfetext fehlen nützliche Informationen.
+2. Warteraum: Gleiches wie ohne Spiel, nur der Button "Send" im Chat bekommt erst mit dem Wechsel der Sprache einen Text.
+3. Im Spiel: Keine neuen Bugs.
+
+Reaktion:
+Chat-Senden-Button gefixt, Join Gamefenster gefixt, Hostproblem gefixt, Hilfefenster mit HTML, Hilfetext im Deutschen aktualisiert
+
+\item Verändern von Settings
+Aufgabe: Verändern der Settings in jedem Spielzustand.
+
+Auffallend: Vor dem Spiel: Name hat Auswirkung auf den Spielernamen, im Warteraum und Spiel ist es aber zu spät. Die Fenstergröße hat keine Auswirkung auf das Fenster.
+
+Reaktion: Die Fenstergröße hat nun einen Einfluss darauf wie das Spiel beim nächsten Neustart aussieht. Außerdem wird eine Settingsfile nun sicher angelegt.
+
+\item Erstellen eines Spiels
+Aufgabe: Erstellen eines Spiels in jedem Spielzustand.
+
+Auffallend: Während noch nichts gestartet ist ohne Probleme. Während des Warteraums alles Planmäßig verlaufen (Spielernamen der KI änderten sich). Während eines laufenden Spiels kommt es zu Problemen, durch den Readybutton scheinen die Knöpfe und andere Elemente des Spiels durch.
+
+Reaktion: Wurde gefixt.
+\item Erstellen eines Spiels (2)
+\item Klicken auf Spielernamen
+\item Klicken auf Gefängnisfreikarte und Gefängnisfreigeld
+\item Klicken auf die Felder
+\item Endturn
+\item Würfeln
+\item Verlassen des Spiels
+\item Sprache wechseln (2)
+\end{enumerate}
+
+
+
+
+
+3. Erstellen eines Spiels
+
+Aufgabe: Erstellen eines Spiels in jedem Spielzustand.
+
+Auffallend: Während noch nichts gestartet ist ohne Probleme. Während des Warteraums alles Planmäßig verlaufen (Spielernamen der KI änderten sich). Während eines laufenden Spiels kommt es zu Problemen, durch den Readybutton scheinen die Knöpfe und andere Elemente des Spiels durch.
+
+Reaktion: Wurde gefixt.
+
+
+4. Erstellen eines Spiels (2)
+
+Aufgabe: Erstellen eines Spiels mit ungültigen Parametern
+
+Auffallend: Servername leer: Spiel erstellenknopf verharrt und wartet auf richtige Eingabe. 9 Spieler möglich, AI Player >= Insgesamt Player nicht möglich.
+
+Reaktion: Spielerzahl insgesamt limitiert
+
+
+5. Klicken auf Spielernamen
+
+Aufgabe: Klicken auf die Spielernamen im Waiting Room sowie im Spiel
+
+Auffallend: Im Warteraum kommt außer einem "Clicked on Player X" in der Konsole keine Reaktion.
+Im Spiel öffnet sich ein Handelsfenster mit negativem Anfangsgeld und es ist möglich sich selbst anzuhandeln.
+
+Reaktion: -1 Bug behoben, man kann nun nicht mehr mit sich selbst handeln.
+
+
+6. Klicken auf Gefängnisfreikarte und Gefängnisfreigeld
+
+Aufgabe: Klicken auf Gefängnisfreikarte und Gefängnisfreigeld während des Spiels: man ist nicht am Zug, man ist am Zug aber nicht im Gefängnis, ein Bot ist im Gefängnis aber man selbst nicht, man selbst ist im Gefängnis
+
+Auffallend: Nicht am Zug: keine Reaktion außer in der Konsole dass es versucht wird, am Zug aber nicht im Gefängnis: keine Reaktion außer in der Konsole dass es versucht wird, Während die KI im Gefängnis ist ebenfalls keine Reaktion, Bei 6,5 Spielern kann die GUI sich aus dem Gefängnis frei kaufen.
+
+Reaktion: Bis auf die Gefängnisfreikarte die noch nicht implementiert ist läuft es wie es sollte.
+
+
+7. Klicken auf die Felder
+
+Aufgabe: Auf alle Spielfelder klicken, auf eigene, ungekaufte, Felder der Mitspieler
+
+Auffallend: Bei ungekauften Feldern wird eine Exception geworfen
+
+Reaktion: Fehler behoben
+
+
+8. Endturn
+
+Aufgabe: Endturn aufrufen in jeder Spielsituation: Während einer Auktion, während eines Handels, während man am Zug ist und noch würfeln muss, während man gewürfelt hat aber noch kaufen kann, während die KI am Zug ist
+
+Auffallend: Während eines Handels: Runde wird beendet, Handelsfenster bleibt offen. Wenn man noch am Zug ist bleibt man am Zug, wenn man am Zug ist weil man noch kaufen kann startet eine Auktion bei der man bieten kann. Während die KI am Zug ist, steht der Button nicht zur Verfügung.
+
+Reaktion: Alles ist wie es sein sollte.
+
+
+9. Würfeln
+
+Aufgabe: Würfeln während man dran ist und würfeln darf, würfeln während man dran ist aber nicht mehr würfeln darf, würfeln während die KI am Zug ist
+
+Auffallend: Wenn man dran ist und würfeln darf rückt die Figur auf dem Feld vor und die Würfelaugen werden oben angezeigt, würfeln während man nicht darf weil man schon gewürfelt hat führt zu keiner Reaktion in der Gui, würfeln während die KI am zug ist funktioniert nicht, weil der Button dann nicht sichtbar ist.
+
+Reaktion: Alles ist wie es sein sollte.
+
+
+10. Verlassen des Spiels
+
+Aufgabe: Verlassen des Spiels über Leave Game während des Spiels und schauen ob diese Möglichkeit auch besteht während kein Spiel geöffnet ist
+
+Auffallend: Leave Game verlässt das Spiel, jedoch wird auch dann noch Leave Game im Menu angezeigt.
+
+Reaktion: Die Menubar wird nun über den Spielzustandswechsel informiert.
+
+
+11. Sprache wechseln (2)
+
+Aufgabe: Wechseln der Sprache im Spiel während einer Auktion und während eines Handels
+
+Auffallend: Handel bleibt bei "give money", "claim money", "jail cards", "ok", "no" anstatt sie zu übersetzen. Auktionen haben zwar die Lokalisierte Währung aber "bid" bleibt gleich
+Auch nachdem die Daten zur Deutschen Lokalisierung hinzugefügt wurden, wird bei einem Sprachwechsel nicht sofort etwas verändert.
+
+Reaktion: Keys dem Localizer hinzugefügt
+
 \subsection{System und Hardware Tests}
 \subsection{Client-Server Test mit der anderen Gruppe}
 \subsection{KI Tests}
 
 \section{Bugfixing}
+\subsection{Bugs}
+\begin{enumerate}
+\item Ausbau über Hotels hinaus
+\item Sofortiges Bankrott
+\item Bereits ausgeschiedene Bots nehmen an Auktionen teil
+\item Kein weiteres Spiel zu starten
+\item Kein Kauf nach Handel
+\item Aktionen in der GUI nach eigenem Bankrott unterbinden
+\item Scrollen im Chat funktioniert nicht
+\item Handel läuft zu KIs gunsten
+\item Handelfenster wird nicht geschlossen
+\item Exceptions beim Write der Settings
+\item Auktionen?
+\item getMe().getJail() immer null
+\item Server stürzt bei Initialisierung ab
+\item ClientBase stürzt bei Beenden des Servers ab
+\item InitGame(2,2) geht nicht
+\item Straßen werden beim Handel nicht angezeigt
+\item Spiel hängt Auktion needs to be started
+\item 2 KIs wollen gleichzeitig mit der GUI Handeln
+\item Leave Game führt zu einer Exception in ClientBase
+\item OjimServer.offerCash(id, 1000)
+\item Fenster beim Start klein
+\item Bei Spielerbankrott bleiben, falls vorhanden, Häuser auf den Straßen
+\item GUI: Gebaute Häuser werden (auf geleben Straßen) nicht angezeigt.
+\item Spiel kann trotz eines aktiven Handels fortgesetzt werden
+\end{enumerate}
 
 
 
