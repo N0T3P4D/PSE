@@ -102,6 +102,7 @@ Reaktion: Die Menubar wird nun über den Spielzustandswechsel informiert.
 
 Aufgabe: Wechseln der Sprache im Spiel während einer Auktion und während eines Handels
 
-Auffallend:
+Auffallend: Handel bleibt bei "give money", "claim money", "jail cards", "ok", "no" anstatt sie zu übersetzen. Auktionen haben zwar die Lokalisierte Währung aber "bid" bleibt gleich
+Auch nachdem die Daten zur Deutschen Lokalisierung hinzugefügt wurden, wird bei einem Sprachwechsel nicht sofort etwas verändert.
 
-Reaktion:
+Reaktion: Keys dem Localizer hinzugefügt
