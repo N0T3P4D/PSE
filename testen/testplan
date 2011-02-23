@@ -1,0 +1,102 @@
+Testplan für die GUI:
+
+Der Tests sind gegliedert in Aufgabe, Auffallend, Reaktion.
+
+
+1. Wechseln der Sprache
+
+Aufgabe: Öffnen aller Fenster in jedem Spielzustand und die Sprache auf alle 3 Sprachen umstellen
+
+Auffallend:
+
+Reaktion:
+
+
+2. Verändern von Settings
+
+Aufgabe: Verändern der Settings in jedem Spielzustand.
+
+Auffallend:
+
+Reaktion:
+
+
+3. Erstellen eines Spiels
+
+Aufgabe: Erstellen eines Spiels in jedem Spielzustand.
+
+Auffallend:
+
+Reaktion:
+
+
+4. Erstellen eines Spiels (2)
+
+Aufgabe: Erstellen eines Spiels mit ungültigen Parametern
+
+Auffallend:
+
+Reaktion:
+
+
+5. Klicken auf Spielernamen
+
+Aufgabe: Klicken auf die Spielernamen im Waiting Room sowie im Spiel
+
+Auffallend:
+
+Reaktion:
+
+
+6. Klicken auf Gefängnisfreikarte und Gefängnisfreigeld
+
+Aufgabe: Klicken auf Gefängnisfreikarte und Gefängnisfreigeld während des Spiels: man ist nicht am Zug, man ist am Zug aber nicht im Gefängnis, ein Bot ist im Gefängnis aber man selbst nicht, man selbst ist im Gefängnis
+
+Auffallend:
+
+Reaktion:
+
+
+7. Klicken auf die Felder
+
+Aufgabe: Auf alle Spielfelder klicken, auf eigene, ungekaufte, Felder der Mitspieler
+
+Auffallend:
+
+Reaktion:
+
+
+8. Endturn
+
+Aufgabe: Endturn aufrufen in jeder Spielsituation: Während einer Auktion, während eines Handels, während man am Zug ist und noch würfeln muss, während man gewürfelt hat aber noch kaufen kann, während die KI am Zug ist
+
+Auffallend:
+
+Reaktion:
+
+
+9. Würfeln
+
+Aufgabe: Würfeln während man dran ist und würfeln darf, würfeln während man dran ist aber nicht mehr würfeln darf, würfeln während die KI am Zug ist
+
+Auffallend:
+
+Reaktion:
+
+
+10. Verlassen des Spiels
+
+Aufgabe: Verlassen des Spiels über Leave Game während des Spiels und schauen ob diese Möglichkeit auch besteht während kein Spiel geöffnet ist
+
+Auffallend:
+
+Reaktion:
+
+
+11. Sprache wechseln (2)
+
+Aufgabe: Wechseln der Sprache im Spiel während einer Auktion und während eines Handels
+
+Auffallend:
+
+Reaktion:
