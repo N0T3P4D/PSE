@@ -8,8 +8,12 @@ Der Tests sind gegliedert in Aufgabe, Auffallend, Reaktion.
 Aufgabe: Öffnen aller Fenster in jedem Spielzustand und die Sprache auf alle 3 Sprachen umstellen
 
 Auffallend:
+1. Ohne Spiel: Das Join Gamefenster verändert seinen Text nicht. Create Game hat einen nichtübersetzten Text "host" Im Hilfetext fehlen nützliche Informationen.
+2. Warteraum: Gleiches wie ohne Spiel, nur der Button "Send" im Chat bekommt erst mit dem Wechsel der Sprache einen Text.
+3. Im Spiel: Keine neuen Bugs.
 
 Reaktion:
+Chat-Senden-Button gefixt, Join Gamefenster gefixt, Hostproblem gefixt, Hilfefenster mit HTML, Hilfetext im Deutschen aktualisiert
 
 
 2. Verändern von Settings

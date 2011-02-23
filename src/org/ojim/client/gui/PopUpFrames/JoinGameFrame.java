@@ -113,6 +113,8 @@ public class JoinGameFrame extends JFrame {
 
 	public void showJoin() {
 
+		ip.setText(this.language.getText(TextKey.IP));
+		buttonLabel.setText(this.language.getText(TextKey.JOIN));
 		setVisible(true);
 
 	}

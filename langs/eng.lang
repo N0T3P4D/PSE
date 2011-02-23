@@ -53,3 +53,4 @@ server name=Server Name
 max player=Maximum of Players
 ai player=Amount of Computer Players
 bankrupt=Bankrupt
+host=Host
