@@ -29,6 +29,9 @@ import org.ojim.logic.state.fields.Field;
  */
 public final class MortgageValuator extends ValuationFunction {
 
+	/**
+	 * Default constructor
+	 */
 	protected MortgageValuator() {
 	}
 
@@ -41,7 +44,13 @@ public final class MortgageValuator extends ValuationFunction {
 		return ValuationFunction.getInstance(false, MortgageValuator.class);
 	}
 
+<<<<<<< HEAD
 	@Override
+=======
+	/**
+	 * {@inheritDoc}
+	 */
+>>>>>>> 9f2de6a7826dfde1b959cbe6a128ea3382288f7c
 	public double returnValuation(int position) {
 		getLogger();
 		double result = 0;
@@ -50,10 +59,13 @@ public final class MortgageValuator extends ValuationFunction {
 		}
 		assert (position != -1);
 		Field field = getGameState().getFieldAt(position);
+		assert (field != null);
 		if (field instanceof BuyableField) {
-			if (((BuyableField)field).isMortgaged()) {
-			result = -ValuationParameters.mortgageFactor * ((BuyableField) field).getPrice();
-			logger.log(Level.FINE, "Mortgaged!");
+			if (((BuyableField) field).isMortgaged() && !((BuyableField) field).getSelected()) {
+				result = -ValuationParameters.mortgageFactor * ((BuyableField) field).getPrice();
+				logger.log(Level.FINE, "Mortgaged!");
+			} else if (((BuyableField) field).isMortgaged()) {
+				result = 1;
 			}
 		}
 		logger.log(Level.FINE, "Result = " + result);

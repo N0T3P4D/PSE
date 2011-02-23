@@ -55,6 +55,7 @@ public class SettingsFrame extends JFrame {
 		
 		@Override
 		public void actionPerformed(ActionEvent e) {
+			settings.setTitle("");
 			settings.setPlayerName(nameField.getText());
 			settings.setWidth(Integer.parseInt(widthField.getText()));
 			settings.setHeight(Integer.parseInt(heightField.getText()));

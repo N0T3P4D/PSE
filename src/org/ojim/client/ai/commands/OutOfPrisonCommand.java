@@ -34,7 +34,8 @@ import edu.kit.iti.pse.iface.IServer;
  * 
  */
 public class OutOfPrisonCommand extends Command {
-	
+
+	private static final long serialVersionUID = 2174511953999185773L;
 	private Player player;
 
 	/**
@@ -62,7 +63,7 @@ public class OutOfPrisonCommand extends Command {
 			logger.log(Level.FINE, "Using OutOfJailCard!");
 			useGetOutOfJailCard();
 		} else {
-			logger.log(Level.FINE, "Player " + this.player.getId() + " Paying fine!");
+			logger.log(Level.FINE, "Player " + this.player.getId() + " paying fine!");
 			payFine();
 		}
 	}

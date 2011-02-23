@@ -32,6 +32,9 @@ import org.ojim.logic.state.fields.FieldGroup;
  */
 public final class PropertyGroupValuator extends ValuationFunction {
 
+	/**
+	 * Default constructor
+	 */
 	protected PropertyGroupValuator() {
 	}
 
@@ -44,7 +47,13 @@ public final class PropertyGroupValuator extends ValuationFunction {
 		return ValuationFunction.getInstance(false, PropertyGroupValuator.class);
 	}
 
+<<<<<<< HEAD
 	@Override
+=======
+	/**
+	 * {@inheritDoc}
+	 */
+>>>>>>> 9f2de6a7826dfde1b959cbe6a128ea3382288f7c
 	public double returnValuation(int position) {
 		// Call from outside without position
 		if (position == -1) {
@@ -88,10 +97,10 @@ public final class PropertyGroupValuator extends ValuationFunction {
 					} else if (count - ownedByMe != freeFields && !fremdfeld) {
 						logger.log(Level.FINE, "Here! result = -1");
 						// assert(false);
-						result = 1;
-						;
+						result = 2 * ((BuyableField) getGameState().getFieldAt(position)).getPrice();
 					} else {
-						result = ValuationParameters.getFieldGroupFactor(ownedByMe, count);
+						result = ValuationParameters.getFieldGroupFactor(ownedByMe, count)
+								* ((BuyableField) getGameState().getFieldAt(position)).getPrice();
 						logger.log(Level.FINE, "Here! result = " + result);
 					}
 				}
