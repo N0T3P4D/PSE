@@ -43,7 +43,6 @@ public class Card extends JPanel {
 	private JLabel textLabel = new JLabel();
 	private JLabel mortageButtonLabel = new JLabel();
 	private JButton mortageButton = new JButton();
-	
 
 	ActionListener mortageListener = new ActionListener() {
 
@@ -71,7 +70,7 @@ public class Card extends JPanel {
 		this.add(colorPanel);
 		textPanel.add(textLabel);
 		this.add(textPanel);
-		
+
 		draw();
 	}
 
@@ -131,10 +130,11 @@ public class Card extends JPanel {
 	}
 
 	public void mortage(Field field) {
-		if (card.getPosition() == field.getPosition()) {
-			mortage = !mortage;
-			draw();
+		if (card != null) {
+			if (card.getPosition() == field.getPosition()) {
+				mortage = !mortage;
+				draw();
+			}
 		}
-
 	}
 }

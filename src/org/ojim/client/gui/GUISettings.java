@@ -119,7 +119,15 @@ public class GUISettings {
 			try {
 				reader = new FileReader("settings.txt");
 			} catch (FileNotFoundException e) {
-				System.out.println("Datei kann nicht gefunden werden");
+
+				System.out.println("Datei kann nicht gefunden werden, wird erstellt.");
+				File out = new File("settings.txt");
+				try {
+					reader = new FileReader("settings.txt");
+				} catch (FileNotFoundException e1) {
+					// TODO Auto-generated catch block
+					System.out.println("Datei kann nicht erstellt werden.");
+				}
 
 				// e.printStackTrace();
 			}
@@ -143,9 +151,14 @@ public class GUISettings {
 				System.out.print("Fehler in der settings.txt");
 				// e.printStackTrace();
 			}
-
+			
+			try {
 			this.width = Integer.parseInt(width);
 			this.height = Integer.parseInt(height);
+			} catch (NumberFormatException e){
+				this.width = 500;
+				this.height = 400;
+			}
 			this.title = title;
 			this.playerName = playerName;
 			this.lastIP = lastIP;

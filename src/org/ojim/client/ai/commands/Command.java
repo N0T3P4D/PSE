@@ -30,8 +30,19 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public abstract class Command extends SimpleClient implements Comparable<Command> {
 
+	private static final long serialVersionUID = 8814513647822392905L;
 	double valuation = 0;
 
+	/**
+	 * Constructor
+	 * 
+	 * @param logic
+	 *            reference to logic
+	 * @param playerId
+	 *            calling player's id
+	 * @param server
+	 *            reference to server
+	 */
 	protected Command(Logic logic, int playerId, IServer server) {
 		super(logic, playerId, server);
 
@@ -42,21 +53,45 @@ public abstract class Command extends SimpleClient implements Comparable<Command
 	 */
 	public abstract void execute();
 
+<<<<<<< HEAD
 	@Override
+=======
+	/**
+	 * For ordering commands by their valuation
+	 * 
+	 * @param c
+	 *            other command
+	 * @return result as defined in the interface
+	 */
+>>>>>>> 9f2de6a7826dfde1b959cbe6a128ea3382288f7c
 	public int compareTo(Command c) {
-		return (int) ((-1)*(this.valuation - c.getValuation()));
+		return (int) ((-1) * (this.valuation - c.getValuation()));
 	}
 
+	/**
+	 * Get valuation
+	 * 
+	 * @return valuation
+	 */
 	public double getValuation() {
 		return valuation;
 	}
-	
+
+	/**
+	 * Set valuation
+	 * 
+	 * @param valuation
+	 *            valuation
+	 */
 	public void setValuation(double valuation) {
 		this.valuation = valuation;
 	}
+<<<<<<< HEAD
 	
 	@Override
 	public String toString() {
 		return this.getClass().toString();
 	}
+=======
+>>>>>>> 9f2de6a7826dfde1b959cbe6a128ea3382288f7c
 }

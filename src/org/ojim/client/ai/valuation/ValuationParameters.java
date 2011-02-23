@@ -30,7 +30,7 @@ import org.ojim.logic.state.fields.Field;
  * 
  */
 public final class ValuationParameters {
-	
+
 	private ValuationParameters() {
 	}
 

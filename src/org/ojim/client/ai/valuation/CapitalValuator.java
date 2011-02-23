@@ -32,6 +32,9 @@ import org.ojim.logic.state.fields.Field;
  */
 public final class CapitalValuator extends ValuationFunction {
 
+	/**
+	 * Default constructor
+	 */
 	protected CapitalValuator() {
 	}
 
@@ -79,7 +82,6 @@ public final class CapitalValuator extends ValuationFunction {
 			}
 		}
 		assert(server != null);
-		assert(max != 0);
 		double required = ValuationParameters.baseCash + max * ValuationParameters.maxCashPercentage + ValuationParameters.averageCashPercentage * (sum / count) + 0.05 * (40 - server.getNumberOfHousesLeft());
 
 
