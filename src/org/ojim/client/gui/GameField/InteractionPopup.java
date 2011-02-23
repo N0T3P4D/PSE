@@ -489,6 +489,18 @@ public class InteractionPopup extends JPanel {
 			upgradeButtonLabel.setText(language.getText(TextKey.UPGRADE));
 			downgradeButtonLabel.setText(language.getText(TextKey.DOWNGRADE));
 		}
+		
+
+		auctionButtonOkLabel.setText(language.getText(TextKey.AUCTION_BID));
+
+		myMoney.setText(language.getText("give money"));
+		hisMoney.setText(language.getText("claim money"));
+		myJailCard.setText(language.getText("jail cards") + ": ");
+		hisJailCard.setText(language.getText("jail cards") + ": ");
+		okButtonLabel.setText(language.getText("ok"));
+		noButtonLabel.setText(language.getText("no"));
+		
+		
 
 		repaint();
 	}
