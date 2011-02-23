@@ -60,14 +60,16 @@ public class ServerLogic extends Logic {
 	}
 
 	public void setPlayerBankrupt(Player player) {
-		player.transferMoney(-(player.getBalance() + 1));
 		player.setBankrupt();
 		for (BuyableField field : player.getFields()) {
 			if (field instanceof Street) {
-//				Return houses/hotels here?	
+				while(((Street)field).getBuiltLevel() > 0) {
+					this.upgrade((Street)field, -1);
+				}
 			}
 			field.buy(null);
 		}
+		player.transferMoney(-(player.getBalance() + 1));
 
 		// Inform All Players that this Player is bankrupt
 		for (Player onePlayer : this.getGameState().getPlayers()) {

@@ -126,7 +126,6 @@ public class CardStack extends JPanel {
 				cards[i].draw();
 				this.add(cards[i]);
 			} catch (NullPointerException e) {
-				System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
 			}
 		}
 	}

@@ -1042,6 +1042,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerById(playerID);
+		
+		if(this.getTradeState() > 0) {
+			return false;
+		}
+		
 		display("player" + player.getName() + " want to end the turn!");
 		if (player != null && rules.isPlayerOnTurn(player)
 				&& !state.getGameIsWon()) {
