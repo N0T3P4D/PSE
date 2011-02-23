@@ -190,7 +190,33 @@ Reaktion: Keys dem Localizer hinzugefügt
 
 
 \subsection{System und Hardware Tests}
+
+Auf folgenden System wurde die Software erfolgreich getestet:
+
+Intel Core i7 920 (4 x 2,67 GHz, HyperThreading), 6 GB RAM \\
+NVIDIA GeForce GTX 275, Auflösung 1920x1200\\
+Gentoo Linux (Kernel 2.6.37)\\
+
+IBM Thinkpad T42\\
+Intel Pentium M 1,6 GHz, 512 MB RAM\\
+ATI Radeon X1250 8 MB (?), Auflösung 1024x768\\
+Gentoo Linux (Kernel 2.6.37)
+
+Win 7 64 bit \\
+AMD 1090T X6 (6*3,2 GHZ) \\
+Geforce GTS 450 1gb \\
+8 GB DDR3 RAM \\
+
+Acer D150 Netbook\\
+Win 7 Ultimate\\
+Mobile Intel Graphics Media Accelerator\\
+Intel Atom 1,66 GHZ\\
+1 GB RAM
+
 \subsection{Client-Server Test mit der anderen Gruppe}
+Leider waren wir nicht in der Lage unseren Client bzw. unseren Server mit der anderen Gruppe zu testen, \\
+da wir keine Antwort von der anderen Gruppe erhalten haben.
+
 \subsection{KI Tests}
 
 \section{Bugfixing}
@@ -242,6 +268,11 @@ Reaktion: Keys dem Localizer hinzugefügt
 \\Es gibt einen Fehler, aufgrunddessen gebaute Häuser in der GUI nicht richtig angezeigt werden.
 \item Spiel kann trotz eines aktiven Handels fortgesetzt werden
 \\Es war möglich, auch bei einem aktivem Handel den Zug zu beenden. BEHOBEN
+\item RMI funktioniert nicht wie erwartet , es kann kein Spiel über das Netzwerk 
+\\Bei einem Test eines Netzwerkspiels über Hamachie, bei welchem der Client Methoden des Servers aufruft,
+ scheint der Verbindungsaufbau (Client holt sich das Remote Objekt) zu funktionieren und die Delegation durch den Wrapper lässt 
+ sich mit Hilfe der Debug View in eclipse verfolgen. Anfänglich werden die Methoden auf dem Server aufgerufen und der Server ruft Methoden im Client auf.
+ Versucht der Client jedoch die Methode getPlayerName aufzurufen, schlägt die Verbindung fehl. Es wird keine aussagekräftige Exception geworfen, nach langem recherchieren im inet sind wir auf keine Lösung gekommen.
 \end{enumerate}
 
 
