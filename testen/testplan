@@ -20,16 +20,16 @@ Chat-Senden-Button gefixt, Join Gamefenster gefixt, Hostproblem gefixt, Hilfefen
 
 Aufgabe: Verändern der Settings in jedem Spielzustand.
 
-Auffallend:
+Auffallend: Vor dem Spiel: Name hat Auswirkung auf den Spielernamen, im Warteraum und Spiel ist es aber zu spät. Die Fenstergröße hat keine Auswirkung auf das Fenster.
 
-Reaktion:
+Reaktion: Die Fenstergröße hat nun einen Einfluss darauf wie das Spiel beim nächsten Neustart aussieht. Außerdem wird eine Settingsfile nun sicher angelegt.
 
 
 3. Erstellen eines Spiels
 
 Aufgabe: Erstellen eines Spiels in jedem Spielzustand.
 
-Auffallend:
+Auffallend: 
 
 Reaktion:
 

@@ -149,7 +149,7 @@ public class GUIClient extends ClientBase implements Serializable {
 
 		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		GUIFrame.setMinimumSize(new Dimension(550, 450));
+		GUIFrame.setMinimumSize(new Dimension(settings.getWidth(), settings.getHeight()));
 
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
