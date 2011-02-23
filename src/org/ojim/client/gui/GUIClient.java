@@ -149,7 +149,8 @@ public class GUIClient extends ClientBase implements Serializable {
 
 		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		GUIFrame.setMinimumSize(new Dimension(settings.getWidth(), settings.getHeight()));
+		GUIFrame.setMinimumSize(new Dimension(settings.getWidth(), settings
+				.getHeight()));
 
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
@@ -335,7 +336,6 @@ public class GUIClient extends ClientBase implements Serializable {
 	@Override
 	public void onTrade(Player actingPlayer, Player partnerPlayer) {
 
-		
 		if (getTradeState() == TradeState.WAITING_PROPOSAL
 				|| getTradeState() == TradeState.WAITING_PROPOSED) {
 			if (actingPlayer.getId() == getMe().getId()) {
@@ -740,6 +740,16 @@ public class GUIClient extends ClientBase implements Serializable {
 
 		bankrupt = false;
 
+		pane.removeAll();
+		window.removeAll();
+
+		pane.revalidate();
+		window.revalidate();
+
+		GUIFrame.remove(pane);
+
+		GUIFrame.repaint();
+
 		setName(settings.getPlayerName());
 
 		menuState = MenuState.WAITING_ROOM;
@@ -887,8 +897,7 @@ public class GUIClient extends ClientBase implements Serializable {
 	}
 
 	/**
-	 * Diese Funktion fügt eine Straße mit einem Mindestgebot zur Auktion
-	 * hinzu
+	 * Diese Funktion fügt eine Straße mit einem Mindestgebot zur Auktion hinzu
 	 * 
 	 * @param text
 	 *            Straßenname

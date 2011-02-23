@@ -29,9 +29,9 @@ Reaktion: Die Fenstergröße hat nun einen Einfluss darauf wie das Spiel beim n�
 
 Aufgabe: Erstellen eines Spiels in jedem Spielzustand.
 
-Auffallend: 
+Auffallend: Während noch nichts gestartet ist ohne Probleme. Während des Warteraums alles Planmäßig verlaufen (Spielernamen der KI änderten sich). Während eines laufenden Spiels kommt es zu Problemen, durch den Readybutton scheinen die Knöpfe und andere Elemente des Spiels durch.
 
-Reaktion:
+Reaktion: Wurde gefixt.
 
 
 4. Erstellen eines Spiels (2)
