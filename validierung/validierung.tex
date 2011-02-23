@@ -222,7 +222,20 @@ Intel Atom 1,66 GHZ\\
 Leider waren wir nicht in der Lage unseren Client bzw. unseren Server mit der anderen Gruppe zu testen, \\
 da wir keine Antwort von der anderen Gruppe erhalten haben.
 
-\subsection{KI Tests}
+\subsection{KI-Tests}
+Das Testen der KI-Funktionalität hat hauptsächlich durch das Nachvollziehen von Spielzügen mithilfe der grafischen Benutzeroberfläche stattgefunden. Das Unit-Testen hat sich als nicht praktikabel erwiesen,
+da es selbst für triviale Fälle schwer war, mit GameState-Attrappen konsistente Spielzustände zu erzeugen. Selbst das Anlegen einfachster Szenarien hat sich aufgrund der Inkonsistenzen als sehr fehleranfällig erwiesen.
+Aufgrund des unangemessenen Kosten-Nutzen-Verhältnisses wurde der Ansatz des Unit-Testings nicht weiter verfolgt.
+
+Folgende Bugs müssen für ein korrektes Funktionieren der KI behoben werden:
+\begin{itemize}
+ \item $getMe().getJail() == null$, auch wenn sich der Spieler im Gefängnis befindet
+ \item Falscher $getActivePlayer()$ bei nebenläufigen Aufrufen. Ein Handel der KI-Spieler untereinander ist so nicht möglich.
+\end{itemize}
+
+Die Infrastruktur für verschiedene Bewertungsparameter bei der KI ist vorhanden, jeder KI-Instanz kann ein eigener Parametersatz übergeben werden. Sobald zumindest der $getActivePlayer()$-Bug behoben wurde, können diese Parameter automatisiert bestimmt werden.
+
+Die Ausführungsgeschwindigkeit entspricht ca. 5800 vollen Runden pro Sekunde (Intel Core i7 920).
 
 \section{Bugfixing}
 
@@ -283,6 +296,8 @@ Hier sind die Meisten Bugs, auf die wir gestoßen sind, noch einmal aufgeführt.
  scheint der Verbindungsaufbau (Client holt sich das Remote Objekt) zu funktionieren und die Delegation durch den Wrapper lässt 
  sich mit Hilfe der Debug View in eclipse verfolgen. Anfänglich werden die Methoden auf dem Server aufgerufen und der Server ruft Methoden im Client auf.
  Versucht der Client jedoch die Methode getPlayerName aufzurufen, schlägt die Verbindung fehl. Es wird keine aussagekräftige Exception geworfen, nach langem recherchieren im inet sind wir auf keine Lösung gekommen.
+\item $getActivePlayer()$ liefert bei nebenläufigen Aktionen den falschen Spieler zurück.
+Beispiel: KI 1 startet einen Handel mit KI 2. Ruft KI 2 (in den Bewertungsfunktionen) $getActivePlayer()$ auf, wird der falsche Wert ``1'' zurückgegeben.
 \end{enumerate}
 
 
