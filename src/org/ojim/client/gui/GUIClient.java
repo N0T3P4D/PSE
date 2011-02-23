@@ -149,7 +149,8 @@ public class GUIClient extends ClientBase implements Serializable {
 
 		GUIFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-		GUIFrame.setMinimumSize(new Dimension(550, 450));
+		GUIFrame.setMinimumSize(new Dimension(settings.getWidth(), settings
+				.getHeight()));
 
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
@@ -335,13 +336,12 @@ public class GUIClient extends ClientBase implements Serializable {
 	@Override
 	public void onTrade(Player actingPlayer, Player partnerPlayer) {
 
-		System.out.println("Wurde angehandelt Meista!");
 		if (getTradeState() == TradeState.WAITING_PROPOSAL
 				|| getTradeState() == TradeState.WAITING_PROPOSED) {
 			if (actingPlayer.getId() == getMe().getId()) {
-				this.showTrade(partnerPlayer.getId());
+				this.showTrade(partnerPlayer.getId(), false);
 			} else if (partnerPlayer.getId() == getMe().getId()) {
-				this.showTrade(actingPlayer.getId());
+				this.showTrade(actingPlayer.getId(), true);
 
 			}
 			chatWindow.write(new ChatMessage(new Date(), null, false, ""
@@ -581,9 +581,14 @@ public class GUIClient extends ClientBase implements Serializable {
 		GUIFrame.remove(pane);
 
 		GUIFrame.repaint();
-		server.endGame();
+		try {
+			server.endGame();
+		} catch (NullPointerException e) {
+			e.printStackTrace();
+		}
 
 		menuState = MenuState.MAIN_MENU;
+		this.menubar.setMenuBarState(menuState);
 
 	}
 
@@ -740,6 +745,16 @@ public class GUIClient extends ClientBase implements Serializable {
 
 		bankrupt = false;
 
+		pane.removeAll();
+		window.removeAll();
+
+		pane.revalidate();
+		window.revalidate();
+
+		GUIFrame.remove(pane);
+
+		GUIFrame.repaint();
+
 		setName(settings.getPlayerName());
 
 		menuState = MenuState.WAITING_ROOM;
@@ -854,29 +869,34 @@ public class GUIClient extends ClientBase implements Serializable {
 	public void trade(Player tradePartner, int cash,
 			List<BuyableField> myFields, List<BuyableField> hisFields,
 			int outOfJailCards) {
-		initTrade(tradePartner);
-		offerCash(cash);
-		for (BuyableField buyableField : myFields) {
-			System.out.println("Meine Felder: " + buyableField.getName());
-			this.offerEstate(buyableField);
-		}
-		for (BuyableField buyableField : hisFields) {
-			System.out.println("Seine Felder: " + buyableField.getName());
-			this.requireEstate(buyableField);
-		}
+		if (getTradeState() == TradeState.WAITING_PROPOSAL
+				|| getTradeState() == TradeState.WAITING_PROPOSED) {
+			accept();
+		} else {
+			initTrade(tradePartner);
+			offerCash(cash);
+			for (BuyableField buyableField : myFields) {
+				System.out.println("Meine Felder: " + buyableField.getName());
+				this.offerEstate(buyableField);
+			}
+			for (BuyableField buyableField : hisFields) {
+				System.out.println("Seine Felder: " + buyableField.getName());
+				this.requireEstate(buyableField);
+			}
 
-		offerGetOutOfJailCard(outOfJailCards);
-		System.out.println("Ok Meista, hab nun gehandelt!!");
-		proposeTrade();
+			offerGetOutOfJailCard(outOfJailCards);
+			System.out.println("Ok Meista, hab nun gehandelt!!");
+			proposeTrade();
+		}
 
 	}
 
-	public void showTrade(int player) {
+	public void showTrade(int player, boolean otherTrade) {
 		if (this.menuState == MenuState.GAME) {
 			gameField.showTrade(getMe(), getGameState().getPlayerById(player),
 					getRequiredCash(), getRequiredEstates(),
 					getNumberOfRequiredGetOutOfJailCards(), getOfferedCash(),
-					getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards());
+					getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards(), otherTrade);
 		}
 	}
 
@@ -887,8 +907,7 @@ public class GUIClient extends ClientBase implements Serializable {
 	}
 
 	/**
-	 * Diese Funktion fügt eine Straße mit einem Mindestgebot zur Auktion
-	 * hinzu
+	 * Diese Funktion fügt eine Straße mit einem Mindestgebot zur Auktion hinzu
 	 * 
 	 * @param text
 	 *            Straßenname
@@ -909,7 +928,8 @@ public class GUIClient extends ClientBase implements Serializable {
 	}
 
 	public void noTrade() {
-		if (getTradeState() == TradeState.WAITING_PROPOSAL) {
+		if (getTradeState() == TradeState.WAITING_PROPOSAL
+				|| getTradeState() == TradeState.WAITING_PROPOSED) {
 			decline();
 		}
 	}

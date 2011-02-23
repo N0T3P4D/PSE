@@ -19,7 +19,6 @@ package org.ojim.client.ai.valuation;
 
 import java.util.logging.Level;
 
-import org.ojim.log.OJIMLogger;
 import org.ojim.logic.state.fields.BuyableField;
 
 /**
@@ -30,6 +29,9 @@ import org.ojim.logic.state.fields.BuyableField;
  */
 public final class PropertyValuator extends ValuationFunction {
 
+	/**
+	 * Default constructor
+	 */
 	protected PropertyValuator() {
 	}
 
@@ -82,13 +84,8 @@ public final class PropertyValuator extends ValuationFunction {
 						}
 					}
 				} else {
-					// if (field.getSelected()) {
-					// return ValuationParameters.getStreetValue(position);
-					// } else {
 					return 0;
-					// }
 				}
-
 			} else {
 				logger.log(Level.FINE, "Here! result = 0");
 

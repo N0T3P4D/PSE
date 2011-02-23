@@ -20,7 +20,6 @@ package org.ojim.client.ai.commands;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import org.ojim.client.SimpleClient;
 import org.ojim.log.OJIMLogger;
 import org.ojim.logic.Logic;
 import org.ojim.logic.state.Player;
@@ -86,20 +85,20 @@ public class SellCommand extends Command {
 						this.offerEstate(offeredEstate);
 						requireCash(amount);
 						proposeTrade();
-						
+
 						state = this.getTradeState();
 						assert (state != TradeState.NOT_RUNNING && !end);
 						while (state != TradeState.NOT_RUNNING && !end) {
 							state = this.getTradeState();
 							switch (state) {
-							case WAITING_PROPOSAL :
+							case WAITING_PROPOSAL:
 								assert (false);
 								break;
-							case WAITING_PROPOSED :
+							case WAITING_PROPOSED:
 								break;
-							case DECLINED :
+							case DECLINED:
 								sold = true;
-							case ACCEPTED :
+							case ACCEPTED:
 								end = true;
 								break;
 							default:

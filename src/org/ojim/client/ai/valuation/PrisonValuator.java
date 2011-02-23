@@ -20,15 +20,17 @@ package org.ojim.client.ai.valuation;
 import java.util.logging.Level;
 
 import org.ojim.logic.state.Player;
-import org.ojim.logic.state.fields.Jail;
 
 /**
  * 
- * @author Jeremias
+ * @author Jeremias Jeremias
  * 
  */
 public final class PrisonValuator extends ValuationFunction {
 
+	/**
+	 * Default constructor
+	 */
 	protected PrisonValuator() {
 	}
 
@@ -45,7 +47,6 @@ public final class PrisonValuator extends ValuationFunction {
 	public double returnValuation(int position) {
 		double result = 0;
 		getLogger();
-//		if (getGameState().getFieldAt(getGameState().getActivePlayer().getPosition()) instanceof Jail) {
 		if (getGameState().getActivePlayer().getJail() != null) {
 			Player currentPlayer = this.getGameState().getActivePlayer();
 			int sum = 0;

@@ -39,10 +39,9 @@ public abstract class ValuationFunction {
 	protected Logger logger;
 	protected IServer server;
 
-	// xZise: Implicit set by logic (logic.getGame{State,Rules})
-	// private GameRules rules;
-	// protected GameState state;
-
+	/**
+	 * Number of valuation functions
+	 */
 	public static final int COUNT = 6;
 
 	/**
@@ -60,14 +59,11 @@ public abstract class ValuationFunction {
 	 * 
 	 * @param clazz
 	 *            Class
+	 * @param <T>
+	 *            type
 	 * @return Instance
 	 * 
 	 */
-	// public static ValuationFunction getInstance(Class<? extends
-	// ValuationFunction> clazz) {
-	// return ValuationFunction.getInstance(false, clazz);
-	// }
-
 	public static <T extends ValuationFunction> T getInstance(Class<T> clazz) {
 		return ValuationFunction.getInstance(false, clazz);
 	}
@@ -79,6 +75,8 @@ public abstract class ValuationFunction {
 	 *            Do you need a new instance?
 	 * @param clazz
 	 *            Class
+	 * @param <T>
+	 *            type
 	 * @return Instance
 	 */
 	@SuppressWarnings("unchecked")
@@ -107,8 +105,6 @@ public abstract class ValuationFunction {
 	 * 
 	 * @param logic
 	 *            logic
-	 * @param rules
-	 *            rules
 	 */
 	public void setParameters(Logic logic) {
 		this.logic = logic;
@@ -148,20 +144,39 @@ public abstract class ValuationFunction {
 	 */
 	public abstract double returnValuation(int argument);
 
+	/**
+	 * Sets a logger
+	 */
 	protected final void getLogger() {
 		if (logger == null) {
 			logger = OJIMLogger.getLogger(this.getClass().toString());
 		}
 	}
 
+	/**
+	 * gets logic
+	 * 
+	 * @return reference to logic
+	 */
 	protected final Logic getLogic() {
 		return logic;
 	}
 
+	/**
+	 * sets server
+	 * 
+	 * @param server
+	 *            reference to server
+	 */
 	protected final void setServer(IServer server) {
 		this.server = server;
 	}
 
+	/**
+	 * gets server
+	 * 
+	 * @return reference to server
+	 */
 	protected final IServer getServer() {
 		assert (server != null);
 		return server;

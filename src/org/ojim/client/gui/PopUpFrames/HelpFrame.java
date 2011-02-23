@@ -37,8 +37,8 @@ public class HelpFrame extends JFrame {
 
 		this.language = language;
 		
-		setMinimumSize(new Dimension(200, 50));
-		helpText = new JLabel(this.language.getText(TextKey.HELP_TEXT));
+		setMinimumSize(new Dimension(500, 500));
+		helpText = new JLabel("<html>" + this.language.getText(TextKey.HELP_TEXT));
 		
 		this.add(helpText);
 		
@@ -55,7 +55,7 @@ public class HelpFrame extends JFrame {
 
 	public void draw() {
 		remove(helpText);
-		helpText = new JLabel(this.language.getText(TextKey.HELP_TEXT));
+		helpText = new JLabel("<html>" + this.language.getText(TextKey.HELP_TEXT));
 		
 		this.add(helpText);
 		

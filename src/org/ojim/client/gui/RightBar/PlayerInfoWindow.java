@@ -147,7 +147,7 @@ public class PlayerInfoWindow extends JPanel {
 		@Override
 		public void mouseClicked(MouseEvent e) {
 			System.out.println("Clicked on Player "+e.getComponent().getName());
-			gui.showTrade(Integer.parseInt(e.getComponent().getName()));
+			gui.showTrade(Integer.parseInt(e.getComponent().getName()), false);
 			
 		}
 	};
