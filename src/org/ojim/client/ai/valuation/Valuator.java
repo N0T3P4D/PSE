@@ -45,6 +45,7 @@ import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.FieldGroup;
 import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Street;
 
@@ -70,7 +71,7 @@ public class Valuator extends SimpleClient {
 	private Logger logger;
 	private int auctionBid;
 	private int auctionSteps = 11;
-	private int currentStep = 2;
+	private int currentStep = 1;
 	private boolean endTurn = false;
 	private boolean auctionEndTurn = false;
 	private int[] trade;
@@ -258,7 +259,7 @@ public class Valuator extends SimpleClient {
 			logger.log(Level.FINE, "Highest bid = " + auction.getHighestBid());
 			if (auction.getHighestBid() < realValue) {
 				logger.log(Level.FINE, "Valuation " + realValue);
-				double factor = Math.log(currentStep++) / Math.log(auctionSteps);
+				double factor = Math.log(0.1 + currentStep++) / Math.log(0.1 + auctionSteps);
 				auctionBid = (int) (factor * realValue);
 				logger.log(Level.FINE, "Bidding " + auctionBid);
 
@@ -271,7 +272,7 @@ public class Valuator extends SimpleClient {
 			}
 		}
 		if (auction.getState() == AuctionState.THIRD) {
-			currentStep = 2;
+			currentStep = 1;
 		}
 		if (auction.getHighestBidder() != getMe()) {
 			auctionEndTurn = true;
@@ -392,7 +393,9 @@ public class Valuator extends SimpleClient {
 		result.setValuation(0);
 		assert (blaField != null);
 		if (trade[blaField.getPosition()] != count - 1 && blaField instanceof BuyableField
-				&& ((BuyableField) blaField).getOwner() != null && ((BuyableField) blaField).getOwner() != getMe()) {
+				&& ((BuyableField) blaField).getOwner() != null && ((BuyableField) blaField).getOwner() != getMe()
+				&& ((BuyableField) blaField).getFieldGroup().getFields().length > 1
+				&& fieldsOwned(((BuyableField) blaField).getFieldGroup()) > 0) {
 			trade[blaField.getPosition()] = count;
 			PriorityQueue<BuyableField> queue = new PriorityQueue<BuyableField>();
 			double streetValue = getResults(blaField.getPosition(), 0);
@@ -425,6 +428,17 @@ public class Valuator extends SimpleClient {
 			}
 		}
 		return result;
+	}
+
+	private int fieldsOwned(FieldGroup group) {
+		Field[] fields = group.getFields();
+		int count = 0;
+		for (Field field : fields) {
+			if (((BuyableField) field).getOwner() == getMe()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	/**
