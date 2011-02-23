@@ -369,6 +369,7 @@ public class InteractionPopup extends JPanel {
 			System.out.println("May the Auction begin!");
 		} catch (NullPointerException e) {
 			removeAuction();
+			System.out.println("Keine zulässige Auktion.");
 		}
 	}
 

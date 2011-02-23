@@ -581,12 +581,12 @@ public class GUIClient extends ClientBase implements Serializable {
 		GUIFrame.remove(pane);
 
 		GUIFrame.repaint();
-		try  {
+		try {
 			server.endGame();
-		} catch (NullPointerException e){
+		} catch (NullPointerException e) {
 			e.printStackTrace();
 		}
-		
+
 		menuState = MenuState.MAIN_MENU;
 		this.menubar.setMenuBarState(menuState);
 
@@ -743,8 +743,6 @@ public class GUIClient extends ClientBase implements Serializable {
 	public void startServer(String serverName, int maxPlayers, int kiPlayers,
 			String host) {
 
-		
-		
 		bankrupt = false;
 
 		pane.removeAll();
@@ -871,20 +869,25 @@ public class GUIClient extends ClientBase implements Serializable {
 	public void trade(Player tradePartner, int cash,
 			List<BuyableField> myFields, List<BuyableField> hisFields,
 			int outOfJailCards) {
-		initTrade(tradePartner);
-		offerCash(cash);
-		for (BuyableField buyableField : myFields) {
-			System.out.println("Meine Felder: " + buyableField.getName());
-			this.offerEstate(buyableField);
-		}
-		for (BuyableField buyableField : hisFields) {
-			System.out.println("Seine Felder: " + buyableField.getName());
-			this.requireEstate(buyableField);
-		}
+		if (getTradeState() == TradeState.WAITING_PROPOSAL
+				|| getTradeState() == TradeState.WAITING_PROPOSED) {
+			accept();
+		} else {
+			initTrade(tradePartner);
+			offerCash(cash);
+			for (BuyableField buyableField : myFields) {
+				System.out.println("Meine Felder: " + buyableField.getName());
+				this.offerEstate(buyableField);
+			}
+			for (BuyableField buyableField : hisFields) {
+				System.out.println("Seine Felder: " + buyableField.getName());
+				this.requireEstate(buyableField);
+			}
 
-		offerGetOutOfJailCard(outOfJailCards);
-		System.out.println("Ok Meista, hab nun gehandelt!!");
-		proposeTrade();
+			offerGetOutOfJailCard(outOfJailCards);
+			System.out.println("Ok Meista, hab nun gehandelt!!");
+			proposeTrade();
+		}
 
 	}
 
@@ -925,7 +928,8 @@ public class GUIClient extends ClientBase implements Serializable {
 	}
 
 	public void noTrade() {
-		if (getTradeState() == TradeState.WAITING_PROPOSAL) {
+		if (getTradeState() == TradeState.WAITING_PROPOSAL
+				|| getTradeState() == TradeState.WAITING_PROPOSED) {
 			decline();
 		}
 	}
