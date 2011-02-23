@@ -17,7 +17,6 @@
 
 package org.ojim.client.ai.commands;
 
-import org.ojim.client.SimpleClient;
 import org.ojim.logic.Logic;
 
 import edu.kit.iti.pse.iface.IServer;
@@ -30,9 +29,6 @@ import edu.kit.iti.pse.iface.IServer;
  */
 public class AuctionBidCommand extends Command {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 3521075218222740269L;
 	private int bid;
 

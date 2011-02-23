@@ -20,7 +20,6 @@ package org.ojim.client.ai.valuation;
 import java.util.logging.Level;
 
 import org.ojim.client.ai.commands.SellCommand;
-import org.ojim.log.OJIMLogger;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
@@ -33,6 +32,9 @@ import org.ojim.logic.state.fields.Field;
  */
 public final class CapitalValuator extends ValuationFunction {
 
+	/**
+	 * Default constructor
+	 */
 	protected CapitalValuator() {
 	}
 
@@ -80,7 +82,6 @@ public final class CapitalValuator extends ValuationFunction {
 			}
 		}
 		assert(server != null);
-		assert(max != 0);
 		double required = ValuationParameters.baseCash + max * ValuationParameters.maxCashPercentage + ValuationParameters.averageCashPercentage * (sum / count) + 0.05 * (40 - server.getNumberOfHousesLeft());
 
 

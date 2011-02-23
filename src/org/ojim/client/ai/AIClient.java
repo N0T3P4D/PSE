@@ -48,17 +48,13 @@ public class AIClient extends ClientBase {
 	private Valuator valuator;
 	private static int count;
 
-	private static final String[] NAMES = { "Leopard", "Johannes", "Timo",
-		"Vater", "Danny", "Mum", "Buckit", "Cor7", "Nutch", "Doppelkeks",
-		"Diego", "Thorus", "Milten", "Gorn", "Xardas", "Dexter", "André",
-		"Raven", "Lee", "Lares", "Morra", "Adanos", "Innos", "Beliar",
-		"Cor Kalom", "Cor Angar", "Corristo", "Scar", "Kyle Katan",
-		"Luke Skywalker", "Darth Vader", "Anakin Skywalker",
-		"Padme Amidala", "Yoda", "Mace Windou", "C3P0", "R2D2",
-		"Lord Palpatine", "Han Solo", "Chewbakka", "Darth Revan",
-		"Bastila", "Kreia", "Lester", "Saturas", "Onar", "Vatras",
-		"Jabba the Hutt", "Lando Calristian", "Watto", "Lord Nasher",
-		"Bevil", "Eleene", "Sand", "Torio", "Khelgar", "Neeshka" };
+	private static final String[] NAMES = { "Leopard", "Johannes", "Timo", "Vater", "Danny", "Mum", "Buckit", "Cor7",
+			"Nutch", "Doppelkeks", "Diego", "Thorus", "Milten", "Gorn", "Xardas", "Dexter", "André", "Raven", "Lee",
+			"Lares", "Morra", "Adanos", "Innos", "Beliar", "Cor Kalom", "Cor Angar", "Corristo", "Scar", "Kyle Katan",
+			"Luke Skywalker", "Darth Vader", "Anakin Skywalker", "Padme Amidala", "Yoda", "Mace Windou", "C3P0",
+			"R2D2", "Lord Palpatine", "Han Solo", "Chewbakka", "Darth Revan", "Bastila", "Kreia", "Lester", "Saturas",
+			"Onar", "Vatras", "Jabba the Hutt", "Lando Calristian", "Watto", "Lord Nasher", "Bevil", "Eleene", "Sand",
+			"Torio", "Khelgar", "Neeshka" };
 
 	/**
 	 * 
@@ -97,8 +93,6 @@ public class AIClient extends ClientBase {
 			logger.log(Level.INFO, "ID " + getPlayerId() + " Position is "
 					+ this.getGameState().getActivePlayer().getPosition());
 			this.rollDice();
-			// get current position
-
 		} else {
 			logger.log(Level.FINE, log("Not my turn"));
 		}
@@ -106,7 +100,6 @@ public class AIClient extends ClientBase {
 
 	private String log(String call) {
 		return "Call (@" + this.getPlayerId() + ") " + call;
-		// return "";
 	}
 
 	private String getPlayerInfo(Player player) {
@@ -128,7 +121,7 @@ public class AIClient extends ClientBase {
 						+ player.getBalance()));
 
 		if (player == getMe() && player.getBalance() < 0) {
-				valuator.negative().execute();
+			valuator.negative().execute();
 		}
 		assert (this.getGameState().getActivePlayer() != null);
 	}
@@ -156,59 +149,34 @@ public class AIClient extends ClientBase {
 	public void onMove(Player player) {
 		logger.log(Level.FINE, this.log("onMove(" + this.getPlayerInfo(player) + ")!"));
 		if (this.isMyTurn()) {
-//			int position = getGameState().getActivePlayer().getPosition();
-			// increment round count
 			count++;
 			int position = this.getMe().getPosition();
 			logger.log(Level.INFO, "ID " + getPlayerId() + " Move " + count + " New position is " + position
 					+ " with name " + getLogic().getGameState().getFieldAt(Math.abs(position)).getName());
-			// if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof BuyableField) {
-			// logger.log(Level.INFO, "ID " + getPlayerId() + " On buyable field");
-			// assert (getGameState().getActivePlayer().getId() == getPlayerId());
-			// valuator.returnBestCommand(position).execute();
-			// } else if (getLogic().getGameState().getFieldAt(Math.abs(position)) instanceof Jail) {
-			// logger.log(Level.INFO, "ID " + getPlayerId() + " is in jail");
-			// valuator.returnBestCommand(position).execute();
-			
-			// mortgages
 			Command command = valuator.paybackMortgages();
+			// First step: pay back mortgages
 			while (!(command instanceof NullCommand)) {
 				command.execute();
 				command = valuator.paybackMortgages();
 			}
-			command.execute();
+			// command.execute();
+			// Do the interesting stuff
 			command = valuator.returnBestCommand(position);
 			while (!(command instanceof EndTurnCommand)) {
 				command.execute();
 				command = valuator.returnBestCommand(position);
 			}
-			assert (command != null);
-//			System.out.println("EndTurnCommand");
 			command.execute();
-		}
-		else {
-//			System.out.println("not my turn");
+		} else {
+			// System.out.println("not my turn");
 		}
 	}
 
 	@Override
 	public void onBuy(Player player, BuyableField position) {
-		// assert (position.getOwner() != null);
 		logger.log(Level.FINE,
 				this.log("onBuy(" + this.getPlayerInfo(player) + ", " + this.getStreetInfo(position) + ")!"));
 	}
-
-//	private boolean isPrison(int position) {
-//		if (getLogic().getGameState().getFieldAt(position) instanceof Jail) {
-//			logger.log(Level.FINE, "In prison!");
-//			return true;
-//		}
-//		return false;
-//	}
-//
-//	public void blub(String message) {
-//		System.out.println(message);
-//	}
 
 	@Override
 	public void onBankruptcy() {
@@ -233,7 +201,7 @@ public class AIClient extends ClientBase {
 	@Override
 	public void onDiceValues(int[] diceValues) {
 		logger.log(Level.FINE, this.log("onDiceValues(" + Arrays.toString(diceValues) + ")!"));
-		assert(diceValues.length == 2);
+		assert (diceValues.length == 2);
 		if (getMe().getJail() != null) {
 			endTurn();
 		}
@@ -255,7 +223,6 @@ public class AIClient extends ClientBase {
 
 	@Override
 	public void onAuction() {
-		// assert(false);
 		logger.log(Level.FINE, this.log("onAuction(" + this.getGameState().getAuction().getState().value + ")!"));
 		valuator.actOnAuction().execute();
 		this.endTurn();
