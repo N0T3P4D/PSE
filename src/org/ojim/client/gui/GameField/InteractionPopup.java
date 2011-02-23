@@ -195,6 +195,8 @@ public class InteractionPopup extends JPanel {
 	private Player tradeMe;
 	private Player tradePartner;
 
+	private boolean otherTrade = false;
+
 	// private
 
 	/**
@@ -376,7 +378,9 @@ public class InteractionPopup extends JPanel {
 	public void showTrade(Player me, Player partnerPlayer, int requiredCash,
 			BuyableField[] requiredBuyableFields, int requiredOutOfJailCards,
 			int offeredCash, BuyableField[] offeredBuyableFields,
-			int offeredOutOfJailCards) {
+			int offeredOutOfJailCards, boolean otherTrade) {
+
+		this.otherTrade = otherTrade;
 
 		tradeMe = me;
 		tradePartner = partnerPlayer;
@@ -430,6 +434,18 @@ public class InteractionPopup extends JPanel {
 			noButtonLabel.setText(language.getText("no"));
 			// myCards = new JPanel();
 			// hisCards = new JPanel();
+
+			if (otherTrade) {
+				myMoneyField.setEditable(false);
+				hisMoneyField.setEditable(false);
+				myJailCards.setEditable(false);
+				hisJailCards.setEditable(false);
+			} else {
+				myMoneyField.setEditable(true);
+				hisMoneyField.setEditable(true);
+				myJailCards.setEditable(true);
+				hisJailCards.setEditable(true);
+			}
 
 			this.add(tradePanel);
 
@@ -490,7 +506,6 @@ public class InteractionPopup extends JPanel {
 			upgradeButtonLabel.setText(language.getText(TextKey.UPGRADE));
 			downgradeButtonLabel.setText(language.getText(TextKey.DOWNGRADE));
 		}
-		
 
 		auctionButtonOkLabel.setText(language.getText(TextKey.AUCTION_BID));
 
@@ -500,8 +515,6 @@ public class InteractionPopup extends JPanel {
 		hisJailCard.setText(language.getText("jail cards") + ": ");
 		okButtonLabel.setText(language.getText("ok"));
 		noButtonLabel.setText(language.getText("no"));
-		
-		
 
 		repaint();
 	}
@@ -571,8 +584,9 @@ public class InteractionPopup extends JPanel {
 					}
 					myCards.repaint();
 					myCards.revalidate();
-				} else if (this.tradePartner != null && buyField.getOwner().getId() == this.tradePartner
-						.getId()) {
+				} else if (this.tradePartner != null
+						&& buyField.getOwner().getId() == this.tradePartner
+								.getId()) {
 					if (hisFields.contains(buyField)) {
 						hisFields.remove(buyField);
 					} else {
@@ -594,6 +608,10 @@ public class InteractionPopup extends JPanel {
 			}
 		}
 
+	}
+	
+	public boolean getOtherTrade(){
+		return otherTrade;
 	}
 
 }

@@ -42,7 +42,7 @@ import org.ojim.logic.state.fields.StreetFieldGroup;
 public class GameField extends JPanel {
 
 	private static final long serialVersionUID = 5398588367941146349L;
-	
+
 	private GameFieldPiece[] fields;
 	private boolean isInitialized = false;
 	private static Player me;
@@ -84,10 +84,13 @@ public class GameField extends JPanel {
 			if (e.getComponent() instanceof GameFieldPiece) {
 				selected = ((GameFieldPiece) e.getComponent()).getField();
 			}
-			
-			interactionPopup.fieldClicked(selected, me);
-			
-			if (selected instanceof Street && GameField.this.allOfGroupOwned((Street) selected)) {
+
+			if (!interactionPopup.getOtherTrade()) {
+				interactionPopup.fieldClicked(selected, me);
+			}
+
+			if (selected instanceof Street
+					&& GameField.this.allOfGroupOwned((Street) selected)) {
 				interactionPopup.showUpgrade((Street) selected);
 			} else {
 				interactionPopup.deleteUpgrade();
@@ -102,11 +105,11 @@ public class GameField extends JPanel {
 
 	public void buildOnStreet(Field field) {
 		this.fields[field.getPosition()].redrawStreet();
-//		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-//			if (this.fields[i].isField(field)) {
-//				this.fields[i].redrawStreet();
-//			}
-//		}
+		// for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+		// if (this.fields[i].isField(field)) {
+		// this.fields[i].redrawStreet();
+		// }
+		// }
 		redraw();
 
 	}
@@ -119,18 +122,18 @@ public class GameField extends JPanel {
 
 	public void destroyOnStreet(Field field) {
 		this.fields[field.getPosition()].redrawStreet();
-//		for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
-//			if (this.fields[i].isField(field)) {
-//				this.fields[i].redrawStreet();
-//			}
-//		}
+		// for (int i = 0; i < GameState.FIELDS_AMOUNT; i++) {
+		// if (this.fields[i].isField(field)) {
+		// this.fields[i].redrawStreet();
+		// }
+		// }
 		redraw();
 
 	}
 
 	public void switchFieldStatus(Field field) {
 		this.fields[field.getPosition()].draw();
-		System.out.println(field.getName()+" wird mortaged");
+		System.out.println(field.getName() + " wird mortaged");
 		redraw();
 
 	}
@@ -302,12 +305,11 @@ public class GameField extends JPanel {
 	public void showTrade(Player me, Player partnerPlayer, int requiredCash,
 			BuyableField[] requiredBuyableFields, int requiredOutOfJailCards,
 			int offeredCash, BuyableField[] offeredBuyableFields,
-			int offeredOutOfJailCards) {
+			int offeredOutOfJailCards, boolean otherTrade) {
 
 		interactionPopup.showTrade(me, partnerPlayer, requiredCash,
-				requiredBuyableFields, requiredOutOfJailCards,
-				offeredCash, offeredBuyableFields,
-				offeredOutOfJailCards);
+				requiredBuyableFields, requiredOutOfJailCards, offeredCash,
+				offeredBuyableFields, offeredOutOfJailCards, otherTrade);
 
 	}
 
@@ -317,14 +319,14 @@ public class GameField extends JPanel {
 	}
 
 	public void showAuction(Auction auction) {
-		interactionPopup.showAuction(auction.getState(), auction.objective, auction.getHighestBidder(),
-				auction.getHighestBid());
-		
+		interactionPopup.showAuction(auction.getState(), auction.objective,
+				auction.getHighestBidder(), auction.getHighestBid());
+
 	}
 
 	public void removeAuction() {
 		interactionPopup.removeAuction();
-		
+
 	}
 
 }

@@ -339,9 +339,9 @@ public class GUIClient extends ClientBase implements Serializable {
 		if (getTradeState() == TradeState.WAITING_PROPOSAL
 				|| getTradeState() == TradeState.WAITING_PROPOSED) {
 			if (actingPlayer.getId() == getMe().getId()) {
-				this.showTrade(partnerPlayer.getId());
+				this.showTrade(partnerPlayer.getId(), false);
 			} else if (partnerPlayer.getId() == getMe().getId()) {
-				this.showTrade(actingPlayer.getId());
+				this.showTrade(actingPlayer.getId(), true);
 
 			}
 			chatWindow.write(new ChatMessage(new Date(), null, false, ""
@@ -891,12 +891,12 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	}
 
-	public void showTrade(int player) {
+	public void showTrade(int player, boolean otherTrade) {
 		if (this.menuState == MenuState.GAME) {
 			gameField.showTrade(getMe(), getGameState().getPlayerById(player),
 					getRequiredCash(), getRequiredEstates(),
 					getNumberOfRequiredGetOutOfJailCards(), getOfferedCash(),
-					getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards());
+					getOfferedEstate(), getNumberOfOfferedGetOutOfJailCards(), otherTrade);
 		}
 	}
 
