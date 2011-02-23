@@ -22,6 +22,7 @@ package org.ojim.logic.state;
  * 
  * @author Philip.
  */
+@SuppressWarnings("serial")
 public class OjimDiceSet extends DiceSet {
 
 	private int seed;

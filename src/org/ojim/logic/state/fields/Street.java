@@ -23,7 +23,6 @@ import java.util.Map;
 import org.jdom.DataConversionException;
 import org.jdom.Element;
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.accounting.Bank;
 
 public class Street extends BuyableField {
 
@@ -58,10 +57,8 @@ public class Street extends BuyableField {
 			Map<Integer, FieldGroup> groups) throws DataConversionException {
 		super(element, logic, groups);
 		this.rentByLevel = new int[Street.MAXMIMUM_BUILT_LEVEL];
-		/*
-		 * These guys think that generics are out -.- *facepalm*
-		 * http://www.jdom.org/pipermail/jdom-interest/2002-July/010244.html
-		 */
+
+		@SuppressWarnings("rawtypes")
 		List rents = element.getChildren("rent");
 		for (Object object : rents) {
 			this.rentByLevel[((Element) object).getAttribute("level")

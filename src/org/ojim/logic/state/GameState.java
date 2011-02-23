@@ -34,6 +34,7 @@ import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FieldGroup;
 import org.ojim.iface.Rules;
 
+@SuppressWarnings("serial")
 public class GameState implements Serializable {
 
 	public final static int MAXIMUM_PLAYER_COUNT = 8;

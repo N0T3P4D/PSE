@@ -27,6 +27,7 @@ import org.ojim.logic.state.fields.Jail;
  * 
  * @author Fabian Neundorf
  */
+@SuppressWarnings("serial")
 public class ServerGameState extends GameState {
 	
 	private CardStack eventCards;

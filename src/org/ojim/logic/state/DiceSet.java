@@ -27,6 +27,7 @@ import java.util.Random;
  * 
  * @author Philip, Fabian Neundorf 
  */
+@SuppressWarnings("serial")
 public class DiceSet implements Serializable {
 
 	private boolean isDeterministic;
