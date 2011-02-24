@@ -18,6 +18,7 @@
 package org.ojim.client.gui.RightBar;
 
 import java.awt.BorderLayout;
+import java.awt.FontMetrics;
 import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
@@ -31,6 +32,7 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
 
@@ -52,6 +54,8 @@ public class ChatWindow extends JPanel {
 	private JPanel chatWindowPanel = new JPanel();
 	JScrollBar scrollPane = new JScrollBar(JScrollBar.VERTICAL);
 
+	// http://download.oracle.com/javase/tutorial/uiswing/components/scrollpane.html#scrollable
+	
 	public ChatWindow(Localizer language, GUIClient guiClient) {
 		super();
 
@@ -62,6 +66,7 @@ public class ChatWindow extends JPanel {
 		chatWindowPanel.setLayout(new BorderLayout());
 
 		textArea = new JTextArea();
+		
 
 		textArea.setEditable(false);
 		//textArea.add(new JScrollPane(textArea));
@@ -72,19 +77,28 @@ public class ChatWindow extends JPanel {
 		// textPane.setCaretPosition(4);
 		scrollPane.setBlockIncrement(1);
 
+		scrollPane.setValue(90);
 		
 		AdjustmentListener scrollListener = new AdjustmentListener() {
 			
 			@Override
 			public void adjustmentValueChanged(AdjustmentEvent e) {
 				//textArea.setText("    New Value is " + e.getValue() + "      ");
-				
 			      repaint();
+	                FontMetrics fm = textArea.getFontMetrics(textArea.getFont());
+	                int rowHeight = fm.getHeight();
+	                int rows = textArea.getLineCount();
+	                //JScrollBar bar = scroller.getVerticalScrollBar();
+	                scrollPane.setValue(rowHeight);
+	                revalidate();
+
+			      
 				
 			}
 		};
 
-		scrollPane.addAdjustmentListener(scrollListener);
+		scrollPane.addAdjustmentListenerdrawingArea.revalidate();
+(scrollListener);
 		
 
 		chatWindowPanel.add(textArea, BorderLayout.CENTER);
@@ -99,7 +113,12 @@ public class ChatWindow extends JPanel {
 		JPanel textPanel = new JPanel();
 
 		textPanel.setLayout(new GridLayout(1, 0));
+		
+        textArea.setColumns(20);
+        textArea.setRows(5);
 
+		
+		
 		textField = new JTextField("");
 		textField.setLayout(new FontLayout());
 
