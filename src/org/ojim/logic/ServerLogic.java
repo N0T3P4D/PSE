@@ -41,6 +41,7 @@ import org.ojim.logic.state.fields.Street;
  * 
  * @author Fabian Neundorf
  */
+@SuppressWarnings("serial")
 public class ServerLogic extends Logic {
 
 	// AI
@@ -60,14 +61,16 @@ public class ServerLogic extends Logic {
 	}
 
 	public void setPlayerBankrupt(Player player) {
-		player.transferMoney(-(player.getBalance() + 1));
 		player.setBankrupt();
 		for (BuyableField field : player.getFields()) {
 			if (field instanceof Street) {
-//				Return houses/hotels here?	
+				while(((Street)field).getBuiltLevel() > 0) {
+					this.upgrade((Street)field, -1);
+				}
 			}
 			field.buy(null);
 		}
+		player.transferMoney(-(player.getBalance() + 1));
 
 		// Inform All Players that this Player is bankrupt
 		for (Player onePlayer : this.getGameState().getPlayers()) {
@@ -200,10 +203,10 @@ public class ServerLogic extends Logic {
 	 * @param player
 	 *            The Player using the Card
 	 */
-	public void playerUsesGetOutOfJailCard(ServerPlayer player) {
-		for (Card card : player.getCards()) {
-			if (card instanceof GetOutOfJailCard) {
-				card.file(true);
+	public synchronized void playerUsesGetOutOfJailCard(ServerPlayer player) {
+		for(int i = 0; i < player.getCards().size(); i++) {
+			if (player.getCards().get(i) instanceof GetOutOfJailCard) {
+				player.getCards().get(i).file(true);
 			}
 		}
 	}
@@ -232,7 +235,7 @@ public class ServerLogic extends Logic {
 		for (Player onePlayer : this.getGameState().getPlayers()) {
 			if (onePlayer instanceof ServerPlayer) {
 				// TODO Add Language
-				System.out.println("Player " + player.getName() + " is now out of Jail!");
+				//System.out.println("Player " + player.getName() + " is now out of Jail!");
 				((ServerPlayer) onePlayer).getClient().informMessage(
 						"'" + player.getName() + "' is now out of Jail!", -1, false);
 				((ServerPlayer) onePlayer).getClient().informMove(player.getId(), player.getSignedPosition());
@@ -262,7 +265,7 @@ public class ServerLogic extends Logic {
 					return;
 				}
 				
-				System.out.println("Player " + this.getGameState().getActivePlayer().getName() + " has won!");
+				//System.out.println("Player " + this.getGameState().getActivePlayer().getName() + " has won!");
 				for (Player player : this.getGameState().getPlayers()) {
 					if (player instanceof ServerPlayer) {
 						// TODO add language
@@ -282,7 +285,7 @@ public class ServerLogic extends Logic {
 	}
 	
 	public void auctionWithoutResult(BuyableField objective) {
-		System.out.println("Action without result!");
+		//System.out.println("Action without result!");
 		return;
 	}	
 	
@@ -382,7 +385,6 @@ public class ServerLogic extends Logic {
 		field.buy(newOwner);
 		for (Player player : this.getGameState().getPlayers()) {
 			if (player instanceof ServerPlayer) {
-				System.out.println("Philip informBuy:" + field.getName() + " by " + newOwner.getName());
 				((ServerPlayer) player).getClient().informBuy(newOwnerId,
 						field.getPosition());
 			}

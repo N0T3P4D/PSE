@@ -159,6 +159,10 @@ public class GUISettings {
 				this.width = 500;
 				this.height = 400;
 			}
+			if(this.width < 100 || this.height < 100){
+				this.width = 500;
+				this.height = 400;
+			}
 			this.title = title;
 			this.playerName = playerName;
 			this.lastIP = lastIP;
@@ -166,7 +170,9 @@ public class GUISettings {
 		} else {
 			System.out
 					.print("Es wurden zuvor keine GUI Einstellungen gespeichert!");
-		}
+
+			this.width = 500;
+			this.height = 400;}
 
 	}
 

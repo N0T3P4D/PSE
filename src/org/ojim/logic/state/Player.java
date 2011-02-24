@@ -21,8 +21,6 @@ import org.ojim.logic.accounting.IMoneyPartner;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Jail;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.PriorityQueue;
 
 public class Player implements IMoneyPartner {
@@ -219,6 +217,11 @@ public class Player implements IMoneyPartner {
 	
 	public int getNumberOfGetOutOfJailCards() {
 		return this.numberOfGetOutOfJailCards;
+	}
+	
+	//TODO testCase, take out when tested
+	public void setBalance(int y) {
+		this.balance = y;
 	}
 	
 	public PriorityQueue<BuyableField> getQueue() {

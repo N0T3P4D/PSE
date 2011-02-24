@@ -70,6 +70,9 @@ import edu.kit.iti.pse.iface.IServerTrade;
  */
 public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
+	private int round;
+	private int maxRound;
+	
 	/**
 	 * The name of the Server
 	 */
@@ -157,13 +160,20 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		this.rules = new GameRules(this.state, new Rules());
 		this.logic = new ServerLogic(this.state, this.rules);
 		this.logger = OJIMLogger.getLogger(this.getClass().toString());
+		this.maxRound = 0;
 	}
 
-	public synchronized boolean initRMIGame(int playerCount, int aiCount, String host) {		
+	public void setMaxRound(int maxRound) {
+		this.maxRound = maxRound;
+	}
+	
+	@SuppressWarnings("unused")
+	public synchronized boolean initRMIGame(int playerCount, int aiCount,
+			String host) {
 		StartNetOjim starter = new StartNetOjim();
-		
+
 		StartNetOjim start = new StartNetOjim();
-		
+
 		ImplNetOjim netServer = null;
 		try {
 			netServer = new ImplNetOjim(this);
@@ -171,11 +181,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		start.startServer(1099, host, netServer);
 		return this.initGame(playerCount, aiCount);
 	}
-	
+
 	/**
 	 * Initializes the Server and opens it
 	 * 
@@ -186,19 +196,20 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	 * @return successful?
 	 */
 	public synchronized boolean initGame(int playerCount, int aiCount) {
-		
+
 		this.initComplete = false;
 		if (isOpen) {
 			return false;
 		}
 
 		// Make sure no negative numbers appear and there are players at all
-		if (playerCount < 0 || aiCount < 0 || playerCount + aiCount == 0) {
+		if (playerCount < 2 || aiCount < 0 || aiCount > playerCount) {
 			return false;
 		}
 
 		// Init the GameFields
-		Field[] fields = new Field[this.logic.getGameState().getNumberOfFields()];
+		Field[] fields = new Field[this.logic.getGameState()
+				.getNumberOfFields()];
 		this.loadDefaultGameStateFields(fields);
 		for (Field field : fields) {
 			this.logic.getGameState().setFieldAt(field, field.getPosition());
@@ -221,9 +232,15 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// Open the Game
 		isOpen = true;
 		initComplete = true;
+		this.round = 0;
+		
+		if(aiCount == playerCount) {
+			ServerAuction.setTimeDelay(1);
+		}
 		if (checkAllPlayersReady()) {
 			this.startGame();
 		}
+		
 		/*
 		 * if (playerCount == aiCount) { while (!state.getGameIsWon()) { try {
 		 * wait(300); } catch (InterruptedException e) { // TODO Auto-generated
@@ -262,8 +279,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// Setting the Fields to the Standard Values
 		this.connectedClients = 0;
 		this.maxClients = 0;
-		clients = null;
-
 		return true;
 	}
 
@@ -309,6 +324,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean initTrade(int actingPlayer, int partnerPlayer) {
 		// If there is already a Trade in process, dont create a new one
+		display("initializing trade between " + actingPlayer + " and " + partnerPlayer);
 		if (state.getGameIsWon()) {
 			return false;
 		}
@@ -353,7 +369,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return false;
 		}
 		Player player = state.getPlayerById(playerID);
-		if (trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+		if (trade != null && trade.getTradeState() == 0 && player != null
+				&& player.equals(trade.getActing())) {
 			trade.setOfferedCash(amount);
 			return true;
 		}
@@ -366,8 +383,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return false;
 		}
 		Player player = state.getPlayerById(playerID);
-		if (trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
-			trade.setOfferedNumberOfGetOutOfJailCards(trade.getOfferedNumberOfGetOutOfJailCards() + 1);
+		if (trade != null && trade.getTradeState() == 0 && player != null
+				&& player.equals(trade.getActing())) {
+			trade.setOfferedNumberOfGetOutOfJailCards(trade
+					.getOfferedNumberOfGetOutOfJailCards() + 1);
 			return true;
 		}
 		return false;
@@ -380,9 +399,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		Player player = state.getPlayerById(playerID);
 		Field field = state.getFieldAt(position);
-		if (trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())
-				&& field != null && field instanceof BuyableField
-				&& (!(field instanceof Street) || ((Street) field).getBuiltLevel() == 0)) {
+		if (trade != null
+				&& trade.getTradeState() == 0
+				&& player != null
+				&& player.equals(trade.getActing())
+				&& field != null
+				&& field instanceof BuyableField
+				&& (!(field instanceof Street) || ((Street) field)
+						.getBuiltLevel() == 0)) {
 			return trade.addOfferedEstate((BuyableField) field);
 		}
 		return false;
@@ -394,7 +418,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return false;
 		}
 		Player player = state.getPlayerById(playerID);
-		if (trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+		if (trade != null && trade.getTradeState() == 0 && player != null
+				&& player.equals(trade.getActing())) {
 			trade.setRequiredCash(amount);
 			return true;
 		}
@@ -407,8 +432,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return false;
 		}
 		Player player = state.getPlayerById(playerID);
-		if (trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
-			trade.setRequiredNumberOfGetOutOfJailCards(trade.getRequiredNumberOfGetOutOfJailCards() + 1);
+		if (trade != null && trade.getTradeState() == 0 && player != null
+				&& player.equals(trade.getActing())) {
+			trade.setRequiredNumberOfGetOutOfJailCards(trade
+					.getRequiredNumberOfGetOutOfJailCards() + 1);
 			return true;
 		}
 		return false;
@@ -421,9 +448,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		Player player = state.getPlayerById(playerID);
 		Field field = state.getFieldAt(position);
-		if (trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())
-				&& field != null && field instanceof BuyableField
-				&& (!(field instanceof Street) || ((Street) field).getBuiltLevel() == 0)) {
+		if (trade != null
+				&& trade.getTradeState() == 0
+				&& player != null
+				&& player.equals(trade.getActing())
+				&& field != null
+				&& field instanceof BuyableField
+				&& (!(field instanceof Street) || ((Street) field)
+						.getBuiltLevel() == 0)) {
 			return trade.addRequiredEstate((BuyableField) field);
 		}
 		return false;
@@ -495,11 +527,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized boolean cancelTrade(int playerID) {
+		display("trade canceled by " + playerID);
 		if (state.getGameIsWon()) {
 			return false;
 		}
 		ServerPlayer player = state.getPlayerById(playerID);
-		if (trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+		if (trade != null && trade.getTradeState() == 0 && player != null
+				&& player.equals(trade.getActing())) {
 			trade = null;
 			return true;
 		}
@@ -508,14 +542,19 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 	@Override
 	public synchronized boolean proposeTrade(int playerID) {
+		display("trade proposed by " + playerID);
 		if (state.getGameIsWon()) {
 			return false;
 		}
 		ServerPlayer player = state.getPlayerById(playerID);
-		if (trade != null && trade.getTradeState() == 0 && player != null && player.equals(trade.getActing())) {
+		if (trade != null && trade.getTradeState() == 0 && player != null
+				&& player.equals(trade.getActing())) {
 			trade.setTradeState(1);
 			if (trade.getPartner() != null) {
-				trade.getPartner().getClient().informTrade(trade.getActing().getId(), trade.getPartner().getId());
+				trade.getPartner()
+						.getClient()
+						.informTrade(trade.getActing().getId(),
+								trade.getPartner().getId());
 				return true;
 			} else {
 				trade.setTradeState(3);
@@ -565,7 +604,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return false;
 		}
 		Player player = state.getPlayerById(playerID);
-		if (auction != null && player != null) {
+		if (auction != null && player != null && !player.getIsBankrupt()) {
 			return auction.placeBid(player, amount);
 		}
 		return false;
@@ -609,7 +648,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			if (state.getPlayerById(i) == null) {
 
 				this.clients.add(client);
-				Player newPlayer = new ServerPlayer(client.getName(), 0, state.getRules().startMoney, i, i, client);
+				Player newPlayer = new ServerPlayer(client.getName(), 0,
+						state.getRules().startMoney, i, i, client);
 				state.setPlayer(newPlayer);
 				this.connectedClients++;
 
@@ -633,9 +673,15 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		// AI added
 		assert (state != null);
+
+		if (state.getPlayerById(playerID) == null) {
+			return;
+		}
+
 		state.getPlayerById(playerID).setIsReady(true);
 		// AI added
-		logger.log(Level.INFO, "Number of connected players = " + connectedClients);
+		logger.log(Level.INFO, "Number of connected players = "
+				+ connectedClients);
 
 		// Are all players Ready? then start the game
 		if (checkAllPlayersReady()) {
@@ -651,7 +697,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				if (!player.getIsReady()) {
 
 					// AI Clients don't need to be set to ready
-					if (player instanceof ServerPlayer && !(((ServerPlayer) player).getClient() instanceof AIClient)) {
+					if (player instanceof ServerPlayer
+							&& !(((ServerPlayer) player).getClient() instanceof AIClient)) {
 						return false;
 					}
 				}
@@ -841,11 +888,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean rollDice(int playerID) {
 		display(playerID + " wants to roll!");
-		
+
 		ServerPlayer player = this.state.getPlayerById(playerID);
 
-		if (player == null || !rules.isPlayerOnTurn(player) || this.gameStarted == false
-				|| !this.rules.isRollRequiredByActivePlayer() || this.state.getGameIsWon() || this.playerNeedsAcceptCancel) {
+		if (player == null || !rules.isPlayerOnTurn(player)
+				|| this.gameStarted == false
+				|| !this.rules.isRollRequiredByActivePlayer()
+				|| this.state.getGameIsWon() || this.playerNeedsAcceptCancel) {
 			return false;
 		}
 
@@ -885,16 +934,15 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				return true;
 			}
 		}
-		
+
 		display("he is moving");
 		// Now move the Player forward
 		logic.movePlayerForDice(player, state.getDices().getResultSum());
 
-		
-
 		// Is the Field the Player is standing on buyable?
 		Field field = state.getFieldAt(player.getPosition());
-		if (field instanceof BuyableField && ((BuyableField) field).getOwner() == null) {
+		if (field instanceof BuyableField
+				&& ((BuyableField) field).getOwner() == null) {
 			playerNeedsAcceptCancel = true;
 		}
 		return true;
@@ -924,20 +972,24 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean accept(int playerID) {
 		display("accepting");
-		
+
 		ServerPlayer player = state.getPlayerById(playerID);
 		// Does a Trade need Confirmation?
-		if (trade != null && player != null && trade.getTradeState() == 1 && player.equals(trade.getPartner())) {
+		if (trade != null && player != null && trade.getTradeState() == 1
+				&& player.equals(trade.getPartner())) {
+			display("trade accepted by " + playerID);
 			trade.setTradeState(3);
 			trade.executeTrade(logic);
-			((ServerPlayer) trade.getActing()).getClient().informTrade(trade.getActing().getId(),
-					(trade.getPartner() == null ? -1 : trade.getPartner().getId()));
+			((ServerPlayer) trade.getActing()).getClient().informTrade(
+					trade.getActing().getId(),
+					(trade.getPartner() == null ? -1 : trade.getPartner()
+							.getId()));
 		}
 
 		if (state.getGameIsWon() || playerID != state.getActivePlayer().getId()) {
 			return false;
 		}
-		
+
 		if (player == null || !rules.isPlayerOnTurn(player)) {
 			return false;
 		}
@@ -949,7 +1001,8 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return true;
 		}
 		Field field = state.getFieldAt(player.getPosition());
-		if (playerNeedsAcceptCancel && player.getBalance() > ((BuyableField) field).getPrice()) {
+		if (playerNeedsAcceptCancel
+				&& player.getBalance() > ((BuyableField) field).getPrice()) {
 			logic.buyStreet();
 			playerNeedsAcceptCancel = false;
 			return true;
@@ -961,15 +1014,20 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public synchronized boolean decline(int playerID) {
 		display("decline");
 		if (state.getGameIsWon()) {
+			System.out.println("Game is won");
 			return false;
 		}
 
 		ServerPlayer player = state.getPlayerById(playerID);
 
-		if (trade != null && player != null && trade.getTradeState() == 1 && player.equals(trade.getPartner())) {
+		if (trade != null && player != null && trade.getTradeState() == 1
+				&& player.equals(trade.getPartner())) {
+			System.out.println("trade declined by " + playerID);
 			trade.setTradeState(2);
-			((ServerPlayer) trade.getActing()).getClient().informTrade(trade.getActing().getId(),
-					(trade.getPartner() == null ? -1 : trade.getPartner().getId()));
+			((ServerPlayer) trade.getActing()).getClient().informTrade(
+					trade.getActing().getId(),
+					(trade.getPartner() == null ? -1 : trade.getPartner()
+							.getId()));
 		}
 
 		if (player == null || playerID != state.getActivePlayer().getId()) {
@@ -986,13 +1044,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		// Check if the Buying of a field was declined
 		if (playerNeedsAcceptCancel) {
-			if(!(state.getFieldAt(state.getActivePlayer().getPosition()) instanceof BuyableField)) {
-				display("fail");
-				
+			if (!(state.getFieldAt(state.getActivePlayer().getPosition()) instanceof BuyableField)) {
 			}
-			this.auction = new ServerAuction(state, logic, rules, (BuyableField) state.getFieldAt(state.getActivePlayer()
-					.getPosition()));
-			this.auction.setReturnParameters(this, state.getActivePlayer().getId());
+			this.auction = new ServerAuction(state, logic, rules,
+					(BuyableField) state.getFieldAt(state.getActivePlayer()
+							.getPosition()));
+			this.auction.setReturnParameters(this, state.getActivePlayer()
+					.getId());
 			// Do inform here, because before "this.auction" is not initalized!
 			this.auction.informPlayers();
 			this.playerNeedsAcceptCancel = false;
@@ -1003,23 +1061,26 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	@Override
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerById(playerID);
-		display("player" + player.getName() + " want to end the turn!");
-		if (player != null && rules.isPlayerOnTurn(player) && !state.getGameIsWon()) {
+		
+		if(this.getTradeState() > 0) {
+			return false;
+		}
+		
+		if (player != null && rules.isPlayerOnTurn(player)
+				&& !state.getGameIsWon()) {
 			if (player.getJail() != null) {
 				player.waitInJail();
-				display("in jail");
 			}
 			if (!rules.isRollRequiredByActivePlayer()) {
-				
+
 				// Player is bankrupt
 				if (player.getBalance() < 0) {
-					display("bankrupt");
 					this.logic.setPlayerBankrupt(player);
 				}
 
 				// Is there an Auction running?
-				if (this.auction != null && this.auction.getState() != AuctionState.THIRD) {
-					display("auction running");
+				if (this.auction != null
+						&& this.auction.getState() != AuctionState.THIRD) {
 					return false;
 				}
 
@@ -1030,17 +1091,22 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				}
 				if (this.state.getGameIsWon()) {
 					this.endGame();
-					display("game won");
 					return true;
 				}
-
+				tries = 0;
 				this.doublesChain = 0;
+				this.round++;
+				System.out.println(this.name + "|" + round);
+				if(round == maxRound) {
+					
+					logger.log(Level.INFO, "Game ended because maxRounds was reached");
+					this.endGame();
+				}
 				logic.startNewTurn();
 
 				return true;
 			} else {
-				display("roll required");
-				((ServerPlayer)player).getClient().informTurn(player.getId());
+				((ServerPlayer) player).getClient().informTurn(player.getId());
 			}
 		}
 		return false;
@@ -1087,12 +1153,32 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	private boolean changeLevel(int playerID, int position, int levelChange) {
 		Player player = state.getPlayerById(playerID);
 		Field field = state.getFieldAt(position);
+
 		if (player != null) {
 			if (field != null) {
 				if (rules.isFieldUpgradable(player, field, levelChange)) {
+					if (levelChange > 0) {
+						if ((this.getNumberOfHousesLeft() <= 0 && ((Street) field)
+								.getBuiltLevel() + levelChange < getRules().maxNumOfHouses)
+								|| (this.getNumberOfHotelsLeft() <= 0 && ((Street) field)
+										.getBuiltLevel() + levelChange >= getRules().maxNumOfHouses)) {
+							return false;
+						}
+					}
+					int level = ((Street) field).getBuiltLevel();
+					if (level + levelChange < getRules().maxNumOfHouses && level < getRules().maxNumOfHouses) {
+						state.getBank().changeHouses(-levelChange);
+					} else if (level + levelChange >= getRules().maxNumOfHouses) {
+						state.getBank().changeHotels(-1);
+						state.getBank().changeHouses(level);
+					} else if (level + levelChange < getRules().maxNumOfHouses && level >= getRules().maxNumOfHouses) {
+						state.getBank().changeHotels(1);
+						state.getBank().changeHouses(level - 1 - levelChange);
+					}
 					logic.upgrade((Street) field, levelChange);
-					logic.exchangeMoney(player, state.getBank(), ((Street) field).getFieldGroup().getHousePrice()
-							* levelChange);
+					logic.exchangeMoney(player, state.getBank(),
+							((Street) field).getFieldGroup().getHousePrice()
+									* levelChange);
 					return true;
 				}
 			}
@@ -1140,11 +1226,13 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public synchronized void sendPrivateMessage(String text, int sender, int reciever) {
+	public synchronized void sendPrivateMessage(String text, int sender,
+			int reciever) {
 		if (reciever >= 0 && reciever < this.connectedClients) {
 			Player player = state.getPlayerById(reciever);
 			if (player != null && player instanceof ServerPlayer) {
-				((ServerPlayer) player).getClient().informMessage(text, sender, true);
+				((ServerPlayer) player).getClient().informMessage(text, sender,
+						true);
 			}
 		}
 	}
@@ -1203,18 +1291,25 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		return this.clients;
 	}
 
+	private int tries = 0;
+	
 	@Override
 	public synchronized boolean payFine(int playerID) {
 		display("Player tries to use fine to get out of jail!");
 		if (state.getGameIsWon()) {
 			return false;
 		}
+		tries++;
+		if(tries >= 10) {
+			this.endTurn(playerID);
+		}
 		Player player = state.getPlayerById(playerID);
-		display("player is on field " + player.getSignedPosition());
+		System.out.println("player is on field " + player.getSignedPosition());
 		if (player != null && rules.isPlayerInPrison(player)) {
-			display("player is valid!");
+			System.out.println("player is valid!");
 			if (player.getBalance() >= player.getJail().getMoneyToPay()) {
 				logic.playerUsesFineForJail(player);
+				System.out.println("player is then on field " + player.getSignedPosition());
 				display("Player has used fine to get out of jail!");
 				return true;
 			}
@@ -1249,7 +1344,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public synchronized int getMoneyToPay(int position) {
 		Field field = state.getFieldAt(position);
 		if (field != null && field instanceof Jail) {
-			((Jail) field).getMoneyToPay();
+			return ((Jail) field).getMoneyToPay();
 		}
 		return -1;
 	}
@@ -1272,11 +1367,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	private synchronized Field newEventCardField(int position, FieldGroup group) {
-		return group.addField(new CardField("Ereignis- karte", position, false, this.logic));
+		return group.addField(new CardField("Ereignis- karte", position, false,
+				this.logic));
 	}
 
-	private synchronized Field newCommunityCardField(int position, FieldGroup group) {
-		return group.addField(new CardField("Gemein- schafts- karte", position, true, this.logic));
+	private synchronized Field newCommunityCardField(int position,
+			FieldGroup group) {
+		return group.addField(new CardField("Gemein- schafts- karte", position,
+				true, this.logic));
 	}
 
 	private void loadDefaultGameStateFields(Field[] fields) {
@@ -1300,99 +1398,138 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		FieldGroup jails = new FieldGroup(FieldGroup.JAIL);
 		FieldGroup freeParkings = new FieldGroup(FieldGroup.FREE_PARKING);
 		FieldGroup goToJail = new FieldGroup(FieldGroup.GO_TO_JAIL);
-		
+
 		FreeParking freeParking;
 
 		// Add Streets
 		fields[0] = go.addField(new GoField("Los", 0, this.logic));
-		fields[1] = streets[0].addField(new Street("Sumpf", 1, new int[] { 40, 200, 600, 1800, 3200, 5000 }, 0, 1200,
-				logic));
+		fields[1] = streets[0].addField(new Street("Sumpf", 1, new int[] { 40,
+				200, 600, 1800, 3200, 5000 }, 0, 1200, logic));
 		fields[2] = this.newEventCardField(2, eventCards);
-		fields[3] = streets[0].addField(new Street("Jodas Hütte", 3, new int[] { 80, 400, 1200, 3600, 6400, 9000 }, 0,
-				1200, logic));
-		fields[4] = taxGroups.addField(new TaxField("Landungs- steuer", 4, 4000, this.logic));
+		fields[3] = streets[0].addField(new Street("Jodas Hütte", 3, new int[] {
+				80, 400, 1200, 3600, 6400, 9000 }, 0, 1200, logic));
+		fields[4] = taxGroups.addField(new TaxField("Landungs- steuer", 4,
+				4000, this.logic));
 		fields[5] = stations.addField(new Station("TIE-Fighter", 5, 4000));
-		fields[6] = streets[1].addField(new Street("Echo-Basis", 6, new int[] { 120, 600, 1800, 5400, 8000, 11000 }, 0,
-				2000, logic));
+		fields[6] = streets[1].addField(new Street("Echo-Basis", 6, new int[] {
+				120, 600, 1800, 5400, 8000, 11000 }, 0, 2000, logic));
 		fields[7] = this.newCommunityCardField(7, communityCards);
-		fields[8] = streets[1].addField(new Street("Eis-Steppen", 8, new int[] { 120, 600, 1800, 5400, 8000, 11000 },
-				0, 2000, logic));
-		fields[9] = streets[1].addField(new Street("Nordgebirge", 9, new int[] { 160, 800, 2000, 6000, 9000, 12000 },
-				0, 2400, logic));
+		fields[8] = streets[1].addField(new Street("Eis-Steppen", 8, new int[] {
+				120, 600, 1800, 5400, 8000, 11000 }, 0, 2000, logic));
+		fields[9] = streets[1].addField(new Street("Nordgebirge", 9, new int[] {
+				160, 800, 2000, 6000, 9000, 12000 }, 0, 2400, logic));
 		fields[10] = jails.addField(new Jail("Gefängnis", 10, 1000, 3));
-		fields[11] = streets[2].addField(new Street("Lars Heimstatt", 11, new int[] { 200, 1000, 3000, 9000, 12500,
-				15000 }, 0, 2800, logic));
-		fields[12] = infrastructures.addField(new InfrastructureField("Kern-Reaktor", 12, 3000, this.logic));
+		fields[11] = streets[2].addField(new Street("Lars Heimstatt", 11,
+				new int[] { 200, 1000, 3000, 9000, 12500, 15000 }, 0, 2800,
+				logic));
+		fields[12] = infrastructures.addField(new InfrastructureField(
+				"Kern-Reaktor", 12, 3000, this.logic));
 		fields[13] = streets[2].addField(new Street("Mos Eisley", 13,
-				new int[] { 200, 1000, 3000, 9000, 12500, 15000 }, 0, 2800, logic));
-		fields[14] = streets[2].addField(new Street("Jabbas Palast", 14, new int[] { 240, 1200, 3600, 10000, 14000,
-				18000 }, 0, 3200, logic));
-		fields[15] = stations.addField(new Station("Millenium Falke", 15, 4000, this.logic));
-		fields[16] = streets[3].addField(new Street("Kommandozentrale", 16, new int[] { 280, 1400, 4000, 11000, 15000,
-				19000 }, 0, 3600, logic));
+				new int[] { 200, 1000, 3000, 9000, 12500, 15000 }, 0, 2800,
+				logic));
+		fields[14] = streets[2].addField(new Street("Jabbas Palast", 14,
+				new int[] { 240, 1200, 3600, 10000, 14000, 18000 }, 0, 3200,
+				logic));
+		fields[15] = stations.addField(new Station("Millenium Falke", 15, 4000,
+				this.logic));
+		fields[16] = streets[3].addField(new Street("Kommandozentrale", 16,
+				new int[] { 280, 1400, 4000, 11000, 15000, 19000 }, 0, 3600,
+				logic));
 		fields[17] = this.newEventCardField(17, eventCards);
-		fields[18] = streets[3].addField(new Street("Massassi Tempel", 18, new int[] { 280, 1400, 4000, 11000, 15000,
-				19000 }, 0, 3600, logic));
-		fields[19] = streets[3].addField(new Street("Tempel-Thronsaal", 19, new int[] { 320, 1600, 4400, 12000, 16000,
-				20000 }, 0, 4000, logic));
+		fields[18] = streets[3].addField(new Street("Massassi Tempel", 18,
+				new int[] { 280, 1400, 4000, 11000, 15000, 19000 }, 0, 3600,
+				logic));
+		fields[19] = streets[3].addField(new Street("Tempel-Thronsaal", 19,
+				new int[] { 320, 1600, 4400, 12000, 16000, 20000 }, 0, 4000,
+				logic));
 		freeParking = new FreeParking("Frei Parken", 20, this.logic);
 		fields[20] = freeParkings.addField(freeParking);
 		fields[21] = streets[4].addField(new Street("Andockbucht", 21,
-				new int[] { 360, 1800, 5000, 14000, 17500, 21000 }, 0, 4400, logic));
+				new int[] { 360, 1800, 5000, 14000, 17500, 21000 }, 0, 4400,
+				logic));
 		fields[22] = this.newCommunityCardField(22, communityCards);
-		fields[23] = streets[4].addField(new Street("Karbon- Gefrierkammer", 23, new int[] { 360, 1800, 5000, 14000,
-				17500, 21000 }, 0, 4400, logic));
-		fields[24] = streets[4].addField(new Street("Reaktor- Kontrollraum", 24, new int[] { 400, 2000, 6000, 15000,
-				18500, 22000 }, 0, 4800, logic));
-		fields[25] = stations.addField(new Station("X-Wing Fighter", 25, 4000, this.logic));
+		fields[23] = streets[4].addField(new Street("Karbon- Gefrierkammer",
+				23, new int[] { 360, 1800, 5000, 14000, 17500, 21000 }, 0,
+				4400, logic));
+		fields[24] = streets[4].addField(new Street("Reaktor- Kontrollraum",
+				24, new int[] { 400, 2000, 6000, 15000, 18500, 22000 }, 0,
+				4800, logic));
+		fields[25] = stations.addField(new Station("X-Wing Fighter", 25, 4000,
+				this.logic));
 		fields[26] = streets[5].addField(new Street("Lande-Deck", 26,
-				new int[] { 440, 2200, 6600, 16000, 19500, 23000 }, 0, 5200, logic));
-		fields[27] = streets[5].addField(new Street("Thronsaal", 27,
-				new int[] { 440, 2200, 6600, 16000, 19500, 23000 }, 0, 5200, logic));
-		fields[28] = infrastructures.addField(new InfrastructureField("Wasser- Farm", 28, 3000, this.logic));
-		fields[29] = streets[5].addField(new Street("Hauptreaktor", 29, new int[] { 480, 2400, 7200, 17000, 20500,
-				24000 }, 0, 5600, logic));
-		fields[30] = goToJail.addField(new GoToJail("Gehe ins Gefängnis", 30, this.logic, (Jail) fields[10]));
+				new int[] { 440, 2200, 6600, 16000, 19500, 23000 }, 0, 5200,
+				logic));
+		fields[27] = streets[5].addField(new Street("Thronsaal", 27, new int[] {
+				440, 2200, 6600, 16000, 19500, 23000 }, 0, 5200, logic));
+		fields[28] = infrastructures.addField(new InfrastructureField(
+				"Wasser- Farm", 28, 3000, this.logic));
+		fields[29] = streets[5].addField(new Street("Hauptreaktor", 29,
+				new int[] { 480, 2400, 7200, 17000, 20500, 24000 }, 0, 5600,
+				logic));
+		fields[30] = goToJail.addField(new GoToJail("Gehe ins Gefängnis", 30,
+				this.logic, (Jail) fields[10]));
 		// Fabians Strange gelbe Karte wurde hiermit hoch offiziell von Max
 		// entfernt!
 		// fields[30] = streets[5].addField(new Street("foobar", 30, new int[] {
 		// 480, 2400, 7200, 17000, 20500, 240()00 }, 0, 5600, logic));
-		fields[31] = streets[6].addField(new Street("Wald", 31, new int[] { 520, 2600, 7800, 18000, 22000, 25500 }, 0,
-				6000, logic));
-		fields[32] = streets[6].addField(new Street("Schildgenerator", 32, new int[] { 520, 2600, 7800, 18000, 22000,
-				25500 }, 0, 6000, logic));
+		fields[31] = streets[6].addField(new Street("Wald", 31, new int[] {
+				520, 2600, 7800, 18000, 22000, 25500 }, 0, 6000, logic));
+		fields[32] = streets[6].addField(new Street("Schildgenerator", 32,
+				new int[] { 520, 2600, 7800, 18000, 22000, 25500 }, 0, 6000,
+				logic));
 		fields[33] = this.newEventCardField(33, eventCards);
-		fields[34] = streets[6].addField(new Street("Ewok-Dorf", 34,
-				new int[] { 560, 3000, 9000, 20000, 24000, 28000 }, 0, 6400, logic));
-		fields[35] = stations.addField(new Station("Stern-Zerstörer", 35, 4000));
+		fields[34] = streets[6].addField(new Street("Ewok-Dorf", 34, new int[] {
+				560, 3000, 9000, 20000, 24000, 28000 }, 0, 6400, logic));
+		fields[35] = stations
+				.addField(new Station("Stern-Zerstörer", 35, 4000));
 		fields[36] = this.newCommunityCardField(36, communityCards);
-		fields[37] = streets[7].addField(new Street("Platz des Volkes", 37, new int[] { 700, 3500, 10000, 22000, 16000,
-				30000 }, 0, 7000, logic));
-		fields[38] = taxGroups.addField(new TaxField("Kopf-Geld Prämie", 38, 2000));
-		fields[39] = streets[7].addField(new Street("Imperialer Palast", 39, new int[] { 1000, 4000, 12000, 28000,
-				34000, 40000 }, 0, 8000, logic));
+		fields[37] = streets[7].addField(new Street("Platz des Volkes", 37,
+				new int[] { 700, 3500, 10000, 22000, 16000, 30000 }, 0, 7000,
+				logic));
+		fields[38] = taxGroups.addField(new TaxField("Kopf-Geld Prämie", 38,
+				2000));
+		fields[39] = streets[7].addField(new Street("Imperialer Palast", 39,
+				new int[] { 1000, 4000, 12000, 28000, 34000, 40000 }, 0, 8000,
+				logic));
 
 		stations.setRent(new int[] { 500, 1000, 2000, 4000 });
 		infrastructures.setFactors(new int[] { 80, 200 });
 
 		// Add Cards
-		CardStack comm = ((ServerGameState) this.logic.getGameState()).getCommunityCards();
+		CardStack comm = ((ServerGameState) this.logic.getGameState())
+				.getCommunityCards();
 		comm.add(new GetOutOfJailCard("comm jail", comm, this.logic));
-		comm.add(Card.newNormalCard("comm +100 money", comm, ActionFactory.newTransferMoneyToBank(this.logic, -100)));
-		comm.add(Card.newNormalCard("comm 100 m > free", comm,
-				ActionFactory.newTransferMoneyToFreeParking(this.logic, 100, freeParking)));
-		comm.add(Card.newNormalCard("comm 100 m (p. Hou) 1000 (p. Hot)", comm, new ActionPayForBuildings(this.logic,
-				100, 1000, this.logic.getGameState().getBank())));
-		comm.add(Card.newNormalCard("comm +100 m (p. Ply)", comm, new ActionTransferMoneyToPlayers(this.logic, 100)));
+		comm.add(Card.newNormalCard("comm +100 money", comm,
+				ActionFactory.newTransferMoneyToBank(this.logic, -100)));
+		comm.add(Card.newNormalCard("comm 100 m > free", comm, ActionFactory
+				.newTransferMoneyToFreeParking(this.logic, 100, freeParking)));
+		comm.add(Card.newNormalCard("comm 100 m (p. Hou) 1000 (p. Hot)", comm,
+				new ActionPayForBuildings(this.logic, 100, 1000, this.logic
+						.getGameState().getBank())));
+		comm.add(Card.newNormalCard("comm +100 m (p. Ply)", comm,
+				new ActionTransferMoneyToPlayers(this.logic, 100)));
 
-		CardStack even = ((ServerGameState) this.logic.getGameState()).getEventCards();
+		CardStack even = ((ServerGameState) this.logic.getGameState())
+				.getEventCards();
 		even.add(new GetOutOfJailCard("even jail", even, this.logic));
-		even.add(Card.newNormalCard("even +100 money", even, ActionFactory.newTransferMoneyToBank(this.logic, -100)));
-		even.add(Card.newNormalCard("even 100 m > free", even,
-				ActionFactory.newTransferMoneyToFreeParking(this.logic, 100, freeParking)));
-		even.add(Card.newNormalCard("even 100 m (p. Hou) 1000 (p. Hot)", even, new ActionPayForBuildings(this.logic,
-				100, 1000, this.logic.getGameState().getBank())));
-		even.add(Card.newNormalCard("even +100 m (p. Ply)", even, new ActionTransferMoneyToPlayers(this.logic, 100)));
+		even.add(Card.newNormalCard("even +100 money", even,
+				ActionFactory.newTransferMoneyToBank(this.logic, -100)));
+		even.add(Card.newNormalCard("even 100 m > free", even, ActionFactory
+				.newTransferMoneyToFreeParking(this.logic, 100, freeParking)));
+		even.add(Card.newNormalCard("even 100 m (p. Hou) 1000 (p. Hot)", even,
+				new ActionPayForBuildings(this.logic, 100, 1000, this.logic
+						.getGameState().getBank())));
+		even.add(Card.newNormalCard("even +100 m (p. Ply)", even,
+				new ActionTransferMoneyToPlayers(this.logic, 100)));
 	}
 
+	// TODO remove after testing is complete
+	public ServerGameState getGameState() {
+		return this.state;
+	}
+
+	// TODO remove after testing is complete
+	public ServerLogic getLogic() {
+		return this.logic;
+	}
 }

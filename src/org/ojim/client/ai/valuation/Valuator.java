@@ -45,6 +45,7 @@ import org.ojim.logic.state.Auction;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.FieldGroup;
 import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Street;
 
@@ -70,12 +71,13 @@ public class Valuator extends SimpleClient {
 	private Logger logger;
 	private int auctionBid;
 	private int auctionSteps = 11;
-	private int currentStep = 2;
+	private int currentStep = 1;
 	private boolean endTurn = false;
 	private boolean auctionEndTurn = false;
 	private int[] trade;
 	private int count = 0;
 	private int[] toSell;
+	private ValuationParameters parameters;
 
 	/**
 	 * Constructor
@@ -114,8 +116,9 @@ public class Valuator extends SimpleClient {
 			assert (valuationFunctions[i] != null);
 		}
 
-		ValuationParameters.init(logic);
+		ValuationParametersOld.init(logic);
 		trade = new int[40];
+		parameters = new ValuationParameters(logic);
 	}
 
 	/**
@@ -173,7 +176,6 @@ public class Valuator extends SimpleClient {
 	 */
 	public Command actOnTradeOffer() {
 		initFunctions();
-		// System.out.println("Trade!");
 		assert (this.getTradeState() == TradeState.WAITING_PROPOSED);
 		boolean restricted = false;
 		if (getRequiredEstates() != null) {
@@ -200,7 +202,6 @@ public class Valuator extends SimpleClient {
 			minus += valuationFunctions[0].returnValuation(this.getRequiredCash());
 			// missing: out of jail cards!
 			if (value + minus > 0) {
-				assert (false);
 				return new AcceptCommand(logic, server, playerID);
 			}
 		}
@@ -258,7 +259,7 @@ public class Valuator extends SimpleClient {
 			logger.log(Level.FINE, "Highest bid = " + auction.getHighestBid());
 			if (auction.getHighestBid() < realValue) {
 				logger.log(Level.FINE, "Valuation " + realValue);
-				double factor = Math.log(currentStep++) / Math.log(auctionSteps);
+				double factor = Math.log(0.1 + currentStep++) / Math.log(0.1 + auctionSteps);
 				auctionBid = (int) (factor * realValue);
 				logger.log(Level.FINE, "Bidding " + auctionBid);
 
@@ -271,7 +272,7 @@ public class Valuator extends SimpleClient {
 			}
 		}
 		if (auction.getState() == AuctionState.THIRD) {
-			currentStep = 2;
+			currentStep = 1;
 		}
 		if (auction.getHighestBidder() != getMe()) {
 			auctionEndTurn = true;
@@ -292,7 +293,7 @@ public class Valuator extends SimpleClient {
 
 	private double tradeValuateJailCards() {
 		int offeredCards = getNumberOfOfferedGetOutOfJailCards();
-		int difference = ValuationParameters.desiredNumberOfOutOfOjailCards
+		int difference = ValuationParametersOld.desiredNumberOfOutOfOjailCards
 				- this.getMe().getNumberOfGetOutOfJailCards();
 		if (difference > 0) {
 			if (offeredCards >= difference) {
@@ -388,11 +389,17 @@ public class Valuator extends SimpleClient {
 
 	private Command tradeStreet(Field blaField) {
 		count++;
-		Command result = new NullCommand(logic, server, playerID);
-		result.setValuation(0);
+		Command result = new EndTurnCommand(logic, server, playerID);
+		if (getTradeState() == TradeState.DECLINED) {
+			System.out.println("o_O");
+			return result;
+		}
+		result.setValuation(0.01);
 		assert (blaField != null);
 		if (trade[blaField.getPosition()] != count - 1 && blaField instanceof BuyableField
-				&& ((BuyableField) blaField).getOwner() != null && ((BuyableField) blaField).getOwner() != getMe()) {
+				&& ((BuyableField) blaField).getOwner() != null && ((BuyableField) blaField).getOwner() != getMe()
+				&& ((BuyableField) blaField).getFieldGroup().getFields().length > 1
+				&& fieldsOwned(((BuyableField) blaField).getFieldGroup()) > 0) {
 			trade[blaField.getPosition()] = count;
 			PriorityQueue<BuyableField> queue = new PriorityQueue<BuyableField>();
 			double streetValue = getResults(blaField.getPosition(), 0);
@@ -424,7 +431,19 @@ public class Valuator extends SimpleClient {
 				result.setValuation(1000 * streetValue);
 			}
 		}
+		System.out.println("!!" + result.getClass().getName());
 		return result;
+	}
+
+	private int fieldsOwned(FieldGroup group) {
+		Field[] fields = group.getFields();
+		int count = 0;
+		for (Field field : fields) {
+			if (((BuyableField) field).getOwner() == getMe()) {
+				count++;
+			}
+		}
+		return count;
 	}
 
 	/**
@@ -524,7 +543,7 @@ public class Valuator extends SimpleClient {
 					}
 				} else {
 					// Trade!
-					logger.log(Level.FINE, "Soon trade");
+					logger.log(Level.FINE, playerID + " Soon trade");
 					// return new NullCommand(logic, server, playerID);
 				}
 			}
@@ -583,8 +602,8 @@ public class Valuator extends SimpleClient {
 	private void initFunctions() {
 		for (ValuationFunction function : valuationFunctions) {
 			assert (function != null);
-			function.setParameters(logic);
 			function.setServer(server);
+			function.setParameters(parameters, logic);
 		}
 	}
 

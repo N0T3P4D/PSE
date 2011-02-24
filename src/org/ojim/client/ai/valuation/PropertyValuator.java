@@ -64,13 +64,13 @@ public final class PropertyValuator extends ValuationFunction {
 					int price = field.getPrice();
 					logger.log(Level.FINE, "Name = " + field.getName() + " Price = " + price);
 					boolean isMortgaged = field.isMortgaged();
-					if (price > ValuationParameters.getStreetValue(position)) {
+					if (price > parameters.getStreetValue(position)) {
 						logger.log(Level.FINE, "Denied");
 						return -1;
 					} else {
 						if (isMortgaged) {
-							double result = ValuationParameters.getStreetValue(position)
-									* ValuationParameters.mortgageFactor;
+							double result = ValuationParametersOld.getStreetValue(position)
+									* ValuationParametersOld.mortgageFactor;
 							if (price < result) {
 								logger.log(Level.FINE, "Granted = " + result);
 								return result;
@@ -79,8 +79,8 @@ public final class PropertyValuator extends ValuationFunction {
 								return -1;
 							}
 						} else {
-							logger.log(Level.FINE, "Granted + " + ValuationParameters.getStreetValue(position));
-							return ValuationParameters.getStreetValue(position);
+							logger.log(Level.FINE, "Granted + " + parameters.getStreetValue(position));
+							return parameters.getStreetValue(position);
 						}
 					}
 				} else {

@@ -412,10 +412,11 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 		this.logger.log(Level.INFO, "informPlayerLeft(" + playerId + ")");
 		Player old = this.getGameState().getPlayerById(playerId);
 		this.getGameState().removePlayer(old);
+		
 		// Remove all owners for this field
 		for (int i = 0; i < this.getGameState().getNumberOfFields(); i++) {
 			Field field = this.getGameState().getFieldAt(i);
-			if (field instanceof BuyableField && old.equals(((BuyableField) field).getOwner())) {
+			if (field instanceof BuyableField && ((BuyableField)field).getOwner() != null && ((BuyableField) field).getOwner().equals(old)) {
 				((BuyableField) field).buy(null);
 			}
 		}

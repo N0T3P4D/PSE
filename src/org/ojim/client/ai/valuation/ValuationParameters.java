@@ -18,7 +18,6 @@
 package org.ojim.client.ai.valuation;
 
 import org.ojim.logic.Logic;
-import org.ojim.logic.state.GameState;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.logic.state.fields.Field;
@@ -29,37 +28,88 @@ import org.ojim.logic.state.fields.Field;
  * @author Jeremias Mechler
  * 
  */
-public final class ValuationParameters {
-
-	private ValuationParameters() {
-	}
-
-	public static Logic myLogic = null;
+public class ValuationParameters implements Cloneable {
 
 	/**
 	 * Minimum limit of cash
 	 */
-	public static final int baseCash = 2000;
+	private int baseCash;
 	/**
 	 * How many percents of the average cash of all opponents we should keep
 	 */
-	public static final double averageCashPercentage = 0.02;
+	private double averageCashPercentage;
 	/**
 	 * How many percents of the cash of the opponent with the most money we should keep
 	 */
-	public static final double maxCashPercentage = 0.1;
+	private double maxCashPercentage = 0.1;
 	/**
 	 * Contains the value of each buyable field
 	 */
-	public static final int[] FieldValue = new int[40];
+	private int[] fieldValue = new int[40];
 	/**
 	 * Valuation penalty for mortgage
 	 */
-	public static final double mortgageFactor = 0.5;
+	private double mortgageFactor;
 
-	public static final int desiredNumberOfOutOfOjailCards = 3;
+	private int desiredNumberOfOutOfOjailCards;
 
-	public static final double buildingFactor = 2;
+	private double buildingFactor;
+
+	private double fieldGroupFactor;
+
+	private int[] buildingValue;
+	
+	private double propertyFactor;
+
+	public ValuationParameters(int baseCash, double averageCashPercentage, double maxCashPercentage, int[] fieldValue,
+			double mortgageFactor, int desiredNumberOfOutOfJailCards, double buildingFactor, double fieldGroupFactor,
+			int[] buildingValue, Logic logic) {
+		myLogic = logic;
+		if (fieldValue == null) {
+			for (int i = 0; i < 40; i++) {
+				Field field = myLogic.getGameState().getFieldAt(i);
+				if (field instanceof BuyableField) {
+					this.fieldValue[i] = ((BuyableField) myLogic.getGameState().getFieldAt(i)).getPrice();
+				}
+
+			}
+		}
+		if (buildingValue == null) {
+			buildingValue = new int[40];
+			for (int i = 0; i < 40; i++) {
+				Field field = myLogic.getGameState().getFieldAt(i);
+				if (field instanceof Street) {
+					buildingValue[i] = ((Street) field).getFieldGroup().getHousePrice();
+				}
+			}
+		}
+	}
+
+	public ValuationParameters(Logic logic) {
+		this(2000, 0.02, 0.01, null, 0.5, 3, 2, 1.5, null, logic);
+	}
+
+	public static Logic myLogic = null;
+
+	public int getBaseCash() {
+		return baseCash;
+	}
+
+	public int getBuildingValue(int position, int level) {
+		return (int) (buildingValue[position] * level * buildingFactor);
+	}
+
+	public int getDesiredNumberOfOutOfJailCards() {
+		return desiredNumberOfOutOfOjailCards;
+	}
+
+	public double getAverageCashPercentage() {
+		return averageCashPercentage;
+	}
+
+	public double getMaxCashPercentage() {
+		return maxCashPercentage;
+	}
 
 	/**
 	 * Get the value of a buyable field
@@ -68,46 +118,25 @@ public final class ValuationParameters {
 	 *            The field's ID
 	 * @return Value
 	 */
-	public static final double fieldGroupFactor = 1.5;
 
-	public static int getStreetValue(int id) {
-		return FieldValue[id];
+	public int getStreetValue(int id) {
+		return fieldValue[id];
 	}
 
-	public static double getFieldGroupFactor(int alreadyOwned, int max) {
+	public double getFieldGroupFactor(int alreadyOwned, int max) {
 		if (alreadyOwned == 0) {
 			return 1;
 		} else {
 			return (alreadyOwned * fieldGroupFactor);
 		}
 	}
-
-	/**
-	 * To be removed
-	 */
-	public static void init(Logic logic) {
-		myLogic = logic;
-		GameState state = logic.getGameState();
-		for (int i = 0; i < 40; i++) {
-			if (state.getFieldAt(i) instanceof BuyableField) {
-				FieldValue[i] = ((BuyableField) state.getFieldAt(i)).getPrice();
-			} else {
-				FieldValue[i] = -1;
-			}
-		}
+	
+	public double getMortgageFactor() {
+		return mortgageFactor;
 	}
-
-	/**
-	 * To be changed, independent of state
-	 * 
-	 * @param position
-	 * @param level
-	 * @return
-	 */
-	public static int getBuildingValue(int position, int level) {
-		Field field = myLogic.getGameState().getFieldAt(position);
-		assert (field instanceof Street);
-		return (int) ((((Street) field).getFieldGroup()).getHousePrice() * buildingFactor);
+	
+	public double getPropertyFactor() {
+		return propertyFactor;
 	}
 
 }

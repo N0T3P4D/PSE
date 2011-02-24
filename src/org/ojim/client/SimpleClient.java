@@ -375,7 +375,7 @@ public class SimpleClient implements Serializable {
 		if (this.getGameRules().isPlayerOnTurn(this.me)) {
 			return this.server.rollDice(this.playerId);
 		} else {
-			System.out.println("not on turn");
+			//System.out.println("not on turn");
 			return false;
 		}
 	}
@@ -384,7 +384,7 @@ public class SimpleClient implements Serializable {
 		if (this.getGameRules().isPlayerOnTurn(this.me)) {
 			this.server.endTurn(this.playerId);
 		} else {
-			System.out.println("not on turn");
+			//System.out.println("not on turn");
 		}
 	}
 
@@ -406,7 +406,7 @@ public class SimpleClient implements Serializable {
 
 	protected final void toggleMortgage(BuyableField street) {
 		if (this.getGameRules().isFieldMortgageable(this.me, street)) {
-			System.out.println("Field is Mortageable");
+			//System.out.println("Field is Mortageable");
 			this.server.toggleMortgage(this.playerId, street.getPosition());
 		}
 	}

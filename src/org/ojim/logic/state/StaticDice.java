@@ -19,6 +19,7 @@ package org.ojim.logic.state;
 
 import java.io.Serializable;
 
+@SuppressWarnings("serial")
 public class StaticDice extends Dice implements Serializable {
 
 	private int result;

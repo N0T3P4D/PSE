@@ -33,6 +33,7 @@ import edu.kit.iti.pse.iface.IServer;
 
 public class TestClient implements IClient {
 	
+	@SuppressWarnings("unused")
 	private IServer server;
 	private int id = -1;
 	private final JTextField var1, var2;
@@ -187,9 +188,9 @@ public class TestClient implements IClient {
 	}
 	
 	private void print(String out) {
-		lbl += "<br>" + out;
-		this.setText(lbl);
-		System.out.println(out);
+//		lbl += "<br>" + out;
+//		this.setText(lbl);
+//		System.out.println(out);
 	}
 
 	@Override

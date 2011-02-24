@@ -48,6 +48,7 @@ public class EndTurnCommand extends Command {
 
 	@Override
 	public void execute() {
+		System.out.println("EndTurn");
 		endTurn();
 	}
 
