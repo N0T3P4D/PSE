@@ -31,26 +31,38 @@ import java.util.LinkedList;
 import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import javax.swing.JTextPane;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
 import org.ojim.client.gui.GUIClient;
+import org.ojim.client.gui.PlayerColor;
 import org.ojim.client.gui.OLabel.FontLayout;
 import org.ojim.language.Localizer;
 import org.ojim.language.Localizer.TextKey;
+import org.ojim.logic.state.Player;
 
 public class ChatWindow extends JPanel {
 
 	private static final long serialVersionUID = 5179104588584714072L;
-	
+
 	private Localizer language;
 	private LinkedList<ChatMessage> messages = new LinkedList<ChatMessage>();
-	private JTextArea textArea;
+	private JTextPane textPane;
+	private JScrollPane scrollPane;
+	private StyledDocument doc;
 	private JTextField textField;
 	private GUIClient gui;
 	private JButton sendButton = new JButton();
 	private JPanel chatWindowPanel = new JPanel();
-	JScrollBar scrollPane = new JScrollBar(JScrollBar.VERTICAL);
+
+	// JScrollBar scrollPane = new JScrollBar(JScrollBar.VERTICAL);
 
 	public ChatWindow(Localizer language, GUIClient guiClient) {
 		super();
@@ -58,44 +70,47 @@ public class ChatWindow extends JPanel {
 		this.gui = guiClient;
 
 		this.setLayout(new GridBagLayout());
-		
+
 		chatWindowPanel.setLayout(new BorderLayout());
 
-		textArea = new JTextArea();
+		textPane = new JTextPane();
+		doc = textPane.getStyledDocument();
+		this.addStylesToDocument(doc);
+		textPane.setEditable(false);
+		scrollPane = new JScrollPane(textPane);
+		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-		textArea.setEditable(false);
-		//textArea.add(new JScrollPane(textArea));
+		scrollPane.setAutoscrolls(true);
+		// textArea.add(new JScrollPane(textArea));
 		// textPane.append("Zeile 1\nZeile 2\nZeile3\nZeile4");
 
 		// Zeigt die erste Zeile an,
 		// indem dort der Caret positioniert wird
 		// textPane.setCaretPosition(4);
-		scrollPane.setBlockIncrement(1);
+		// scrollPane.setBlockIncrement(1);
 
-		
-		AdjustmentListener scrollListener = new AdjustmentListener() {
-			
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent e) {
-				//textArea.setText("    New Value is " + e.getValue() + "      ");
-				
-			      repaint();
-				
-			}
-		};
+		// AdjustmentListener scrollListener = new AdjustmentListener() {
 
-		scrollPane.addAdjustmentListener(scrollListener);
-		
+		// @Override
+		// public void adjustmentValueChanged(AdjustmentEvent e) {
+		// //textArea.setText("    New Value is " + e.getValue() + "      ");
+		//
+		// repaint();
+		//
+		// }
+		// };
 
-		chatWindowPanel.add(textArea, BorderLayout.CENTER);
-		chatWindowPanel.add(scrollPane, BorderLayout.EAST);
-		
+		// scrollPane.addAdjustmentListener(scrollListener);
+
+		chatWindowPanel.add(scrollPane, BorderLayout.CENTER);
+		// chatWindowPanel.add(scrollPane, BorderLayout.EAST);
+
 		this.add(chatWindowPanel, new GridBagConstraints(0, 0, 2, 1, 1.0, 1.0,
 				GridBagConstraints.NORTH, GridBagConstraints.BOTH, new Insets(
 						0, 0, 0, 0), 0, 0));
-		
+
 		this.revalidate();
-		
+
 		JPanel textPanel = new JPanel();
 
 		textPanel.setLayout(new GridLayout(1, 0));
@@ -144,14 +159,37 @@ public class ChatWindow extends JPanel {
 
 	public void write(ChatMessage chatMessage) {
 		messages.add(chatMessage);
-		if (chatMessage.isPrivate) {
-			textArea.append(language.getText(TextKey.PRIVATE_MESSAGE) + ": ");
+		try {
+			if (chatMessage.isPrivate) {
+				doc.insertString(doc.getLength(),
+						language.getText(TextKey.PRIVATE_MESSAGE),
+						doc.getStyle("regular"));
+			}
+
+			if (chatMessage.player == null) {
+				doc.insertString(doc.getLength(), "regular",
+						doc.getStyle("server"));
+			} else {
+				doc.insertString(doc.getLength(), chatMessage.player.getName(),
+						doc.getStyle("color" + chatMessage.player.getColor()));
+			}
+			doc.insertString(doc.getLength(), " " + chatMessage.message + "\n",
+					doc.getStyle("regular"));
+		} catch (BadLocationException e) {
+			System.err.println("Could not write ChatText into text pane!");
 		}
-		if (chatMessage.player == null) {
-			textArea.append(" -Server- " + chatMessage.message + "\n");
-		} else {
-			textArea.append(" <" + chatMessage.player.getName() + "> "
-					+ chatMessage.message + "\n");
+		scrollPane.getVerticalScrollBar().setValue(scrollPane.getVerticalScrollBar().getMaximum());
+
+	}
+	
+	private void addStylesToDocument(StyledDocument doc) {
+		Style def = StyleContext.getDefaultStyleContext().getStyle(StyleContext.DEFAULT_STYLE);
+		
+		Style regular = doc.addStyle("regular", def);
+		
+		for(int i = 0; i < 8; i++) {
+			Style newStyle = doc.addStyle("color" + i, def);
+			StyleConstants.setForeground(newStyle, PlayerColor.getBackGroundColor(i));
 		}
 	}
 
