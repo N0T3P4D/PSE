@@ -335,12 +335,18 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		ServerPlayer acting = state.getPlayerById(actingPlayer);
 		ServerPlayer partner = state.getPlayerById(partnerPlayer);
-		if (acting != null && partnerPlayer == -1) {
+		if(acting == null || acting != this.state.getActivePlayer()){
+			return false;
+		}
+		
+		//Trade with bank
+		if (partnerPlayer == -1) {
 			trade = new Trade(acting, state.getBank(), rules);
 			return true;
 		}
 
-		if (acting != null && partner != null) {
+		//Trade with player
+		if (partner != null) {
 			trade = new Trade(acting, partner);
 			return true;
 		}

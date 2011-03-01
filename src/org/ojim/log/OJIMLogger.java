@@ -34,7 +34,7 @@ public final class OJIMLogger {
 
 	private static ConsoleHandler consoleHandler;
 	private static OJIMFormatter formatter;
-	private static Level globalLevel = Level.WARNING;
+	private static Level globalLevel = Level.FINEST;
 	private static LinkedList<Logger> loggerList;
 
 	private OJIMLogger() {

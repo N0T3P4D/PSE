@@ -84,7 +84,7 @@ public final class PropertyValuator extends ValuationFunction {
 						}
 					}
 				} else {
-					return 0;
+					return 10000;
 				}
 			} else {
 				logger.log(Level.FINE, "Here! result = 0");
