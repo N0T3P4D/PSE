@@ -50,6 +50,7 @@ import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.FreeParking;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.server.OjimServer;
 
@@ -970,6 +971,12 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	public int getMaxHouses() {
 		return getGameRules().getMaximumBuilidings();
+	}
+
+	@Override
+	public void onFreeParkingChange(FreeParking field) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

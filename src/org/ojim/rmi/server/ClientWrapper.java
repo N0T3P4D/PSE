@@ -254,4 +254,13 @@ public class ClientWrapper implements IClient {
 
 	}
 
+	@Override
+	public void informFreeParkingChange(int freeParkingField, int newPot) {
+		try {
+			this.sink.informFreeParkingChange(freeParkingField, newPot);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

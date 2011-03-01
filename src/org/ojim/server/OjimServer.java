@@ -1537,4 +1537,14 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		}
 		return -1;
 	}
+
+	@Override
+	public int getFreeParkingPot(int position) {
+		Field f = this.getGameState().getFieldAt(position);
+		if (f instanceof FreeParking) {
+			return ((FreeParking) f).getMoneyInPot();
+		} else {
+			return -1;
+		}
+	}
 }

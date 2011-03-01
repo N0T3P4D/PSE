@@ -35,6 +35,7 @@ import org.ojim.client.triggers.OnCashChange;
 import org.ojim.client.triggers.OnConstruct;
 import org.ojim.client.triggers.OnDestruct;
 import org.ojim.client.triggers.OnDiceValues;
+import org.ojim.client.triggers.OnFreeParkingChange;
 import org.ojim.client.triggers.OnMessage;
 import org.ojim.client.triggers.OnMortgageToogle;
 import org.ojim.client.triggers.OnMove;
@@ -53,6 +54,7 @@ import org.ojim.logic.state.StaticDice;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
 import org.ojim.logic.state.fields.FieldGroup;
+import org.ojim.logic.state.fields.FreeParking;
 import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.rmi.client.ImplNetClient;
@@ -414,6 +416,21 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 	}
 
 	public abstract void onPlayerLeft(Player player);
+	
+	public final void informFreeParkingChange(int freeParkingField, int newPot) {
+		this.logger.log(Level.INFO, "informFreeParkingChange(" + freeParkingField + ", " + newPot + ")");
+		Field f = this.getGameState().getFieldAt(freeParkingField);
+		if (f instanceof FreeParking) {
+			FreeParking freeParking = (FreeParking) f;
+			freeParking.transferMoney(newPot - freeParking.getMoneyInPot());
+			//onFreeParkingChange(old);
+			this.executor.execute(new OnFreeParkingChange(this, freeParking));	
+		} else {
+			this.logger.warning("Get informFreeParkingChange with invalid position.");			
+		}
+	}
+	
+	public abstract void onFreeParkingChange(FreeParking field);
 
 	@Override
 	public void setPlayerId(int newId) {

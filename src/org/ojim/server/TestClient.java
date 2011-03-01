@@ -281,4 +281,9 @@ public class TestClient implements IClient {
 		
 	}
 
+	@Override
+	public void informFreeParkingChange(int freeParkingField, int newPot) {
+		print("informed: Free parking changed:" + freeParkingField + " to: " + newPot);
+	}
+
 }

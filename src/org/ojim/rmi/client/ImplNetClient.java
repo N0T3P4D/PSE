@@ -553,5 +553,21 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 		this.clientBase.setPlayerId(newId);
 		
 	}
+	
+	@Override
+	public void informFreeParkingChange(int freeParkingField, int newPot) throws RemoteException {
+		this.clientBase.informFreeParkingChange(freeParkingField, newPot);
+	}
+
+	@Override
+	public int getFreeParkingPot(int position) {
+		int temp=0;
+		try {
+			temp = this.server.getFreeParkingPot(position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
+	}
 
 }

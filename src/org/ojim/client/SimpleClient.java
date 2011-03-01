@@ -227,6 +227,7 @@ public class SimpleClient implements Serializable {
 				break;
 			case FieldGroup.FREE_PARKING:
 				field = new FreeParking(name, position);
+				((FreeParking) field).transferMoney(this.server.getFreeParkingPot(position));
 				break;
 			case FieldGroup.GO_TO_JAIL:
 				field = new GoToJail(name, position);

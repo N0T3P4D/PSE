@@ -122,6 +122,17 @@ public interface IClient {
 	void informMortgageToogle(int street);
 
 	/**
+	 * Informiert den Spieler, dass sich der Wert eines Frei Parken Felds geändert hat.
+	 *
+	 * @param freeParkingField
+	 *            Das Feld dessen Pot geändert wurde.
+	 * @param newPot
+	 *            Der Wert des neuen Pots.
+	 * @since SVN Revision 18.
+	 */
+	void informFreeParkingChange(int freeParkingField, int newPot);
+
+	/**
 	 * Informiert den Spieler, dass der aktive Spieler eine Karte gezogen hat.
 	 * 
 	 * @param text
