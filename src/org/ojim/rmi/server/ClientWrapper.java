@@ -195,10 +195,10 @@ public class ClientWrapper implements IClient {
 	}
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer) {
+	public void informTrade() {
 		
 		try {
-			this.sink.informTrade(actingPlayer, partnerPlayer);
+			this.sink.informTrade();
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}

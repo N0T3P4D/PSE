@@ -519,9 +519,8 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 	}
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer)
-			throws RemoteException {
-		this.clientBase.informTrade(actingPlayer, partnerPlayer);
+	public void informTrade() throws RemoteException {
+		this.clientBase.informTrade();
 		
 	}
 

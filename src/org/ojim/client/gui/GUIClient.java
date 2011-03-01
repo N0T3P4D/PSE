@@ -338,9 +338,11 @@ public class GUIClient extends ClientBase implements Serializable {
 
 		if (getTradeState() == TradeState.WAITING_PROPOSAL
 				|| getTradeState() == TradeState.WAITING_PROPOSED) {
-			if (actingPlayer.getId() == getMe().getId()) {
+			Player actingPlayer = this.getActing();
+			Player partnerPlayer = this.getPartner();
+			if (actingPlayer.equals(getMe())) {
 				this.showTrade(partnerPlayer.getId(), false);
-			} else if (partnerPlayer.getId() == getMe().getId()) {
+			} else if (partnerPlayer.equals(getMe())) {
 				this.showTrade(actingPlayer.getId(), true);
 
 			}
@@ -350,9 +352,11 @@ public class GUIClient extends ClientBase implements Serializable {
 		}
 		if (getTradeState() == TradeState.ACCEPTED
 				|| getTradeState() == TradeState.DECLINED) {
-			if (actingPlayer.getId() == getMe().getId()) {
+			Player actingPlayer = this.getActing();
+			Player partnerPlayer = this.getPartner();
+			if (actingPlayer.equals(getMe())) {
 				this.gameField.endTrade();
-			} else if (partnerPlayer.getId() == getMe().getId()) {
+			} else if (partnerPlayer.equals(getMe())) {
 				this.gameField.endTrade();
 
 			}

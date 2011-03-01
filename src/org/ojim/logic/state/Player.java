@@ -228,4 +228,9 @@ public class Player implements IMoneyPartner {
 		return fields;
 	}
 	
+	@Override
+	public boolean equals(Object o) {
+		return (o instanceof Player) && this.getId() == ((Player) o).getId();
+	}
+	
 }

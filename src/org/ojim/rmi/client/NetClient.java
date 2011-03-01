@@ -75,7 +75,7 @@ public interface NetClient extends Remote {
 	void informMessage(String text, int sender, boolean privateMessage)throws RemoteException;
 
 	
-	void informTrade(int actingPlayer, int partnerPlayer)throws RemoteException;
+	void informTrade()throws RemoteException;
 
 	
 	void informAuction(int auctionState)throws RemoteException;

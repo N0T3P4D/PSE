@@ -462,6 +462,18 @@ public class SimpleClient implements Serializable {
 		}
 		return partner;
 	}
+	
+	public final Player getActing() {
+		int id = ((IServerTrade) this.server).getActing();
+		Player partner = null;
+		if (id >= 0) {
+			partner = this.getGameState().getPlayerById(id);
+			if (partner == null) {
+				OJIMLogger.getLogger(this.getClass().toString()).severe("acting is unkown");
+			}
+		}
+		return partner;
+	}
 
 	public final boolean offerCash(int amount) {
 		return ((IServerTrade) this.server).offerCash(playerId, amount);
