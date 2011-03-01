@@ -154,7 +154,7 @@ public interface IClient {
 	 * Informiert den Spieler, dass ein Handelsangebot vorliegt, bzw. dass eine
 	 * Antwort vorliegt.
 	 */
-	void informTrade(int actingPlayer, int partnerPlayer);
+	void informTrade();
 
 	/**
 	 * Informiert den Spieler, dass eine Auktion begonnen hat.

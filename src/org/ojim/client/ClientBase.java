@@ -289,24 +289,13 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 	public abstract void onStartGame(Player[] players);
 
 	@Override
-	public final void informTrade(int actingPlayer, int partnerPlayer) {
-		this.logger.log(Level.INFO, "informTrade(" + actingPlayer + "," + partnerPlayer + ")");
-		Player acting = this.getGameState().getPlayerById(actingPlayer);
-		if (acting != null) {
-			Player partner = this.getGameState().getPlayerById(partnerPlayer);
-			if (partner != null) {
-				//this.onTrade(acting, partner);
-				this.executor.execute(new OnTrade(this, acting, partner));
-			} else {
-				this.logger.warning(
-						"Get informTrade with invalid partner player.");
-			}
-		} else {
-			this.logger.warning("Get informTrade with invalid acting player.");
-		}
+	public final void informTrade() {
+		this.logger.log(Level.INFO, "informTrade()");
+		//this.onTrade(acting, partner);
+		this.executor.execute(new OnTrade(this));
 	}
 
-	public abstract void onTrade(Player actingPlayer, Player partnerPlayer);
+	public abstract void onTrade();
 
 	@Override
 	public final void informTurn(int player) {

@@ -334,7 +334,7 @@ public class GUIClient extends ClientBase implements Serializable {
 	}
 
 	@Override
-	public void onTrade(Player actingPlayer, Player partnerPlayer) {
+	public void onTrade() {
 
 		if (getTradeState() == TradeState.WAITING_PROPOSAL
 				|| getTradeState() == TradeState.WAITING_PROPOSED) {

@@ -247,8 +247,8 @@ public class TestClient implements IClient {
 	}
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer) {
-		print("informed: Trade Acting:" + actingPlayer + " Partner:" + partnerPlayer);
+	public void informTrade() {
+		print("informed: Trade");
 	}
 
 	@Override
