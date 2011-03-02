@@ -247,8 +247,8 @@ public class TestClient implements IClient {
 	}
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer) {
-		print("informed: Trade Acting:" + actingPlayer + " Partner:" + partnerPlayer);
+	public void informTrade() {
+		print("informed: Trade");
 	}
 
 	@Override
@@ -279,6 +279,11 @@ public class TestClient implements IClient {
 	public void informPlayerLeft(int playerId) {
 		print("informed: Player left:" + playerId);
 		
+	}
+
+	@Override
+	public void informFreeParkingChange(int freeParkingField, int newPot) {
+		print("informed: Free parking changed:" + freeParkingField + " to: " + newPot);
 	}
 
 }

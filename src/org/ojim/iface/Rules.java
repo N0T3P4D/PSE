@@ -22,12 +22,7 @@ import java.io.Serializable;
 /**
  * Minimales Regelset.
  */
-@SuppressWarnings("serial")
 public class Rules implements Serializable {
-	
-	/**
-	 * 
-	 */
 	
 	/** Das verfügbare Startgeld. */
 	public final int startMoney;

@@ -227,6 +227,7 @@ public class SimpleClient implements Serializable {
 				break;
 			case FieldGroup.FREE_PARKING:
 				field = new FreeParking(name, position);
+				((FreeParking) field).transferMoney(this.server.getFreeParkingPot(position));
 				break;
 			case FieldGroup.GO_TO_JAIL:
 				field = new GoToJail(name, position);
@@ -458,6 +459,18 @@ public class SimpleClient implements Serializable {
 			partner = this.getGameState().getPlayerById(id);
 			if (partner == null) {
 				OJIMLogger.getLogger(this.getClass().toString()).severe("partner is unkown");
+			}
+		}
+		return partner;
+	}
+	
+	public final Player getActing() {
+		int id = ((IServerTrade) this.server).getActing();
+		Player partner = null;
+		if (id >= 0) {
+			partner = this.getGameState().getPlayerById(id);
+			if (partner == null) {
+				OJIMLogger.getLogger(this.getClass().toString()).severe("acting is unkown");
 			}
 		}
 		return partner;

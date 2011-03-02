@@ -271,4 +271,9 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	}
 
 
+	@Override
+	public int getFreeParkingPot(int position) throws RemoteException {
+		return this.server.getFreeParkingPot(position);
+	}
+
 }

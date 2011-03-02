@@ -198,6 +198,16 @@ public interface IServer {
 	public int getEstateRent(int position, int houses);
 
 	/**
+	 * Liefert den Wert eines Frei Parken Pots zurück.
+	 *
+	 * @param position
+	 *            Die Position des Frei Parken Feldes.
+	 * @return Den Wert des Frei Parken Pots. Negativ, sofern das Feld kein Frei Parken Feld ist.
+	 * @since SVN Revision 18.
+	 */
+	public int getFreeParkingPot(int position);
+
+	/**
 	 * <p>
 	 * Liefert die aktuelle Spielmeldung für einen Spieler. Dies können entweder
 	 * reine Statusmeldungen oder für den Spielfluss entscheidende Fragen an den

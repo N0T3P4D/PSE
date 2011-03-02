@@ -25,6 +25,7 @@ import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 //import org.ojim.logic.state.fields.Jail;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.FreeParking;
 import org.ojim.logic.state.fields.Street;
 
 import org.ojim.client.ClientBase;
@@ -135,12 +136,9 @@ public class AIClient extends ClientBase {
 	}
 
 	@Override
-	public void onTrade(Player actingPlayer, Player partnerPlayer) {
-		logger.log(
-				Level.INFO,
-				this.log("onTrade(" + this.getPlayerInfo(actingPlayer) + " -> " + this.getPlayerInfo(partnerPlayer)
-						+ ")!"));
-		if (partnerPlayer.getId() == getPlayerId()) {
+	public void onTrade() {
+		logger.log(Level.INFO, this.log("onTrade()!"));
+		if (this.getMe().equals(this.getActing())) {
 			valuator.actOnTradeOffer().execute();
 		}
 	}
@@ -242,5 +240,11 @@ public class AIClient extends ClientBase {
 	public void onPlayerLeft(Player player) {
 		logger.log(Level.FINE, this.log("onPlayerLeft(" + this.getPlayerInfo(player) + ")!"));
 
+	}
+
+	@Override
+	public void onFreeParkingChange(FreeParking field) {
+		// TODO Auto-generated method stub
+		
 	}
 }
