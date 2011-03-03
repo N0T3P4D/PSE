@@ -938,6 +938,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (field instanceof BuyableField
 				&& ((BuyableField) field).getOwner() == null) {
 			playerNeedsAcceptCancel = true;
+			player.getClient().informBuyEvent(player.getId(), player.getPosition());
 		}
 		return true;
 	}
