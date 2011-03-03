@@ -18,18 +18,21 @@
 package org.ojim.client.triggers;
 
 import org.ojim.client.ClientBase;
+import org.ojim.logic.state.fields.FreeParking;
 
-public class OnTrade implements Runnable {
+public class OnFreeParkingChange implements Runnable {
 
 	private final ClientBase base;
+	private final FreeParking field;
 	
-	public OnTrade(ClientBase base) {
+	public OnFreeParkingChange(ClientBase base, FreeParking field) {
 		this.base = base;
+		this.field = field;
 	}
 	
 	@Override
 	public void run() {
-		this.base.onTrade();
+		this.base.onFreeParkingChange(field);
 	}
 
 }

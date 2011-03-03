@@ -50,6 +50,7 @@ import org.ojim.logic.rules.GameRules;
 import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 import org.ojim.logic.state.fields.Field;
+import org.ojim.logic.state.fields.FreeParking;
 import org.ojim.logic.state.fields.Street;
 import org.ojim.server.OjimServer;
 
@@ -334,13 +335,15 @@ public class GUIClient extends ClientBase implements Serializable {
 	}
 
 	@Override
-	public void onTrade(Player actingPlayer, Player partnerPlayer) {
+	public void onTrade() {
 
 		if (getTradeState() == TradeState.WAITING_PROPOSAL
 				|| getTradeState() == TradeState.WAITING_PROPOSED) {
-			if (actingPlayer.getId() == getMe().getId()) {
+			Player actingPlayer = this.getActing();
+			Player partnerPlayer = this.getPartner();
+			if (actingPlayer.equals(getMe())) {
 				this.showTrade(partnerPlayer.getId(), false);
-			} else if (partnerPlayer.getId() == getMe().getId()) {
+			} else if (partnerPlayer.equals(getMe())) {
 				this.showTrade(actingPlayer.getId(), true);
 
 			}
@@ -350,9 +353,11 @@ public class GUIClient extends ClientBase implements Serializable {
 		}
 		if (getTradeState() == TradeState.ACCEPTED
 				|| getTradeState() == TradeState.DECLINED) {
-			if (actingPlayer.getId() == getMe().getId()) {
+			Player actingPlayer = this.getActing();
+			Player partnerPlayer = this.getPartner();
+			if (actingPlayer.equals(getMe())) {
 				this.gameField.endTrade();
-			} else if (partnerPlayer.getId() == getMe().getId()) {
+			} else if (partnerPlayer.equals(getMe())) {
 				this.gameField.endTrade();
 
 			}
@@ -966,6 +971,12 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	public int getMaxHouses() {
 		return getGameRules().getMaximumBuilidings();
+	}
+
+	@Override
+	public void onFreeParkingChange(FreeParking field) {
+		// TODO Auto-generated method stub
+		
 	}
 
 }

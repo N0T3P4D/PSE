@@ -272,6 +272,7 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 
 
 	@Override
+<<<<<<< HEAD
 	public int getAuctionState() throws RemoteException {
 		return this.server.getAuctionState();
 	}
@@ -404,4 +405,10 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	}
 
 
+=======
+	public int getFreeParkingPot(int position) throws RemoteException {
+		return this.server.getFreeParkingPot(position);
+	}
+
+>>>>>>> 5899f2c573bb16029fcdb932a722443a8074f764
 }

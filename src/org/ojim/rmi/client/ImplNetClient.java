@@ -521,9 +521,8 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 	}
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer)
-			throws RemoteException {
-		this.clientBase.informTrade(actingPlayer, partnerPlayer);
+	public void informTrade() throws RemoteException {
+		this.clientBase.informTrade();
 		
 	}
 
@@ -555,6 +554,22 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 	public void setPlayerId(int newId) throws RemoteException {
 		this.clientBase.setPlayerId(newId);
 		
+	}
+	
+	@Override
+	public void informFreeParkingChange(int freeParkingField, int newPot) throws RemoteException {
+		this.clientBase.informFreeParkingChange(freeParkingField, newPot);
+	}
+
+	@Override
+	public int getFreeParkingPot(int position) {
+		int temp=0;
+		try {
+			temp = this.server.getFreeParkingPot(position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return temp;
 	}
 
 

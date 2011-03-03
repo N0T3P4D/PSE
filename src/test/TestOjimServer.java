@@ -169,6 +169,7 @@ public class TestOjimServer {
 		server = new OjimServer("test");
 		server.initGame(2, 1);
 
+		
 		int old = server.getConnectedClients();
 		server.addPlayer(new TestClient2());
 		if (old + 1 != server.getConnectedClients()) {

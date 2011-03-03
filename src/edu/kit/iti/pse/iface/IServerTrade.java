@@ -50,8 +50,15 @@ public interface IServerTrade extends IServer {
     /**
      * Liefert den Handelspartner.
      */
-    public int getPartner ();
-    
+    public int getPartner();
+
+    /**
+     * Liefert den Initiator des Handels.
+     * @return Die Id des Initiators.
+     * @since SVN Revision 17.
+     */
+    public int getActing();
+   
     /**
      * Bietet Geld im Handel.
      * Die Bank nimmt kein Geld an.
