@@ -128,10 +128,10 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 	}
 
 	@Override
-	public String getEstateName(int position) {
+	public String getEstateName(int position, int player) {
 		String temp="";
 		try {
-			temp = this.server.getEstateName(position);
+			temp = this.server.getEstateName(position, player);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -187,17 +187,6 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 		int temp=0;
 		try {
 			temp = this.server.getEstateRent(position, houses);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		return temp;
-	}
-
-	@Override
-	public String getGameStatusMessage(int playerID) {
-		String temp="";
-		try {
-			temp = this.server.getGameStatusMessage(playerID);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -568,6 +557,18 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 			e.printStackTrace();
 		}
 		return temp;
+	}
+
+
+	@Override
+	public void informCanEndTurn(int player) throws RemoteException {
+		this.clientBase.informCanEndTurn(player);
+	}
+
+
+	@Override
+	public void informBuyEvent(int player, int position) throws RemoteException {
+		this.clientBase.informBuyEvent(player, position);
 	}
 
 }

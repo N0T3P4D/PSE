@@ -97,7 +97,7 @@ public interface NetOjim extends Remote {
 
 	public Rules getRules() throws RemoteException;
 
-	public String getEstateName(int position) throws RemoteException;
+	public String getEstateName(int position, int player) throws RemoteException;
 
 	public int getEstateColorGroup(int position) throws RemoteException;
 
@@ -108,8 +108,6 @@ public interface NetOjim extends Remote {
 	public int getEstateHousePrice(int position) throws RemoteException;
 
 	public int getEstateRent(int position, int houses) throws RemoteException;
-
-	public String getGameStatusMessage(int playerID) throws RemoteException;
 
 	public boolean isMortgaged(int position) throws RemoteException;
 

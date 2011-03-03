@@ -755,7 +755,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 
 	@Override
-	public synchronized String getEstateName(int position) {
+	public synchronized String getEstateName(int position, int player) {
 		Field field = state.getFieldAt(position);
 		String name = "";
 		if (field != null) {
@@ -803,15 +803,6 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 			return ((BuyableField) field).getRent();
 		}
 		return -1;
-	}
-
-	@Override
-	public synchronized String getGameStatusMessage(int playerID) {
-		Player player = state.getPlayerById(playerID);
-		if (player != null && player instanceof ServerPlayer) {
-			return ((ServerPlayer) player).getGameStatusMessage();
-		}
-		return "";
 	}
 
 	@Override

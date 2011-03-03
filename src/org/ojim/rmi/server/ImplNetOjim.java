@@ -68,12 +68,6 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	public int getEstateRent(int position, int houses) {
 		return this.server.getEstateRent(position, houses);
 	}
-
-	
-	public String getGameStatusMessage(int playerID) {
-		return this.server.getGameStatusMessage(playerID);
-	}
-
 	
 	public boolean isMortgaged(int position) {
 		return this.server.isMortgaged(position);
@@ -163,12 +157,6 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	public int addPlayer(IClient client) {
 		return this.server.addPlayer(client);
 	}
-
-	
-	public String getEstateName(int position) {
-		return this.server.getEstateName(position);
-	}
-
 	
 	public int getPlayerColor(int player) {
 		return this.server.getPlayerColor(player);
@@ -274,6 +262,12 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	@Override
 	public int getFreeParkingPot(int position) throws RemoteException {
 		return this.server.getFreeParkingPot(position);
+	}
+
+
+	@Override
+	public String getEstateName(int position, int player) throws RemoteException {
+		return this.server.getEstateName(position, player);
 	}
 
 }
