@@ -39,188 +39,188 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	private OjimServer server;
 	
 	public ImplNetOjim(OjimServer server) throws RemoteException {
-		super(2007);
+		super();
 		this.server = server;
 		
 	}
 	
 	
-	public int getPlayerPiecePosition(int playerID) {
+	public int getPlayerPiecePosition(int playerID) throws RemoteException {
 		return this.server.getPlayerPiecePosition(playerID);
 	}
 
 	
-	public int getEstateColorGroup(int position) {
+	public int getEstateColorGroup(int position) throws RemoteException {
 		return this.server.getEstateColorGroup(position);
 	}
 
 	
-	public int getEstateHouses(int position) {
+	public int getEstateHouses(int position) throws RemoteException {
 		return this.server.getEstateHouses(position);
 	}
 
 	
-	public int getEstatePrice(int position) {
+	public int getEstatePrice(int position) throws RemoteException {
 		return this.server.getEstatePrice(position);
 	}
 
 	
-	public int getEstateRent(int position, int houses) {
+	public int getEstateRent(int position, int houses) throws RemoteException {
 		return this.server.getEstateRent(position, houses);
 	}
 
 	
-	public String getGameStatusMessage(int playerID) {
+	public String getGameStatusMessage(int playerID) throws RemoteException {
 		return this.server.getGameStatusMessage(playerID);
 	}
 
 	
-	public boolean isMortgaged(int position) {
+	public boolean isMortgaged(int position) throws RemoteException {
 		return this.server.isMortgaged(position);
 	}
 
 	
-	public int getOwner(int position) {
+	public int getOwner(int position) throws RemoteException {
 		return this.server.getOwner(position);
 	}
 
 	
-	public int getDiceValue() {
+	public int getDiceValue() throws RemoteException {
 		return this.server.getDiceValue();
 	}
 
 	
-	public int[] getDiceValues() {
+	public int[] getDiceValues() throws RemoteException {
 		return this.server.getDiceValues();
 	}
 
 	
-	public int getPlayerCash(int playerID) {
+	public int getPlayerCash(int playerID) throws RemoteException {
 		return this.server.getPlayerCash(playerID);
 	}
 
 	
-	public int getPlayerOnTurn() {
+	public int getPlayerOnTurn() throws RemoteException {
 		return this.server.getPlayerOnTurn();
 	}
 
 	
-	public int getNumberOfGetOutOfJailCards(int playerID) {
+	public int getNumberOfGetOutOfJailCards(int playerID) throws RemoteException {
 		return this.server.getNumberOfGetOutOfJailCards(playerID);
 	}
 
 	
-	public int getNumberOfHousesLeft() {
+	public int getNumberOfHousesLeft() throws RemoteException {
 		return this.server.getNumberOfHousesLeft();
 	}
 
 	
-	public int getNumberOfHotelsLeft() {
+	public int getNumberOfHotelsLeft() throws RemoteException {
 		return this.server.getNumberOfHotelsLeft();
 	}
 
 	
-	public boolean rollDice(int playerID) {
+	public boolean rollDice(int playerID) throws RemoteException {
 		return this.server.rollDice(playerID);
 	}
 
 	
-	public boolean accept(int playerID) {
+	public boolean accept(int playerID) throws RemoteException {
 		return this.server.accept(playerID);
 	}
 
 	
-	public boolean decline(int playerID) {
+	public boolean decline(int playerID) throws RemoteException {
 		return this.server.decline(playerID);
 	}
 
 	
-	public boolean endTurn(int playerID) {
+	public boolean endTurn(int playerID) throws RemoteException {
 		return this.server.endTurn(playerID);
 	}
 
 	
-	public boolean declareBankruptcy(int playerID) {
+	public boolean declareBankruptcy(int playerID) throws RemoteException {
 		return this.server.declareBankruptcy(playerID);
 	}
 
 	
-	public boolean construct(int playerID, int position) {
+	public boolean construct(int playerID, int position) throws RemoteException {
 		return this.server.construct(playerID, position);
 	}
 
 	
-	public boolean deconstruct(int playerID, int position) {
+	public boolean deconstruct(int playerID, int position) throws RemoteException {
 		return this.server.deconstruct(playerID, position);
 	}
 
 	
-	public boolean toggleMortgage(int playerID, int position) {
+	public boolean toggleMortgage(int playerID, int position) throws RemoteException {
 		return this.server.toggleMortgage(playerID, position);
 	}
 
 	
-	public int addPlayer(IClient client) {
+	public int addPlayer(IClient client) throws RemoteException {
 		return this.server.addPlayer(client);
 	}
 
 	
-	public String getEstateName(int position) {
+	public String getEstateName(int position) throws RemoteException {
 		return this.server.getEstateName(position);
 	}
 
 	
-	public int getPlayerColor(int player) {
+	public int getPlayerColor(int player) throws RemoteException {
 		return this.server.getPlayerColor(player);
 	}
 
 	@Override
-	public String getPlayerName(int player)throws RemoteException {
+	public String getPlayerName(int player) throws RemoteException {
 		return this.server.getPlayerName(player);
 		
 		
 	}
 
 	
-	public Rules getRules() {
+	public Rules getRules() throws RemoteException {
 		return this.server.getRules();
 	}
 
 	
-	public void setPlayerReady(int player) {
+	public void setPlayerReady(int player) throws RemoteException {
 		this.server.setPlayerReady(player);
 		
 	}
 
 	
-	public int getEstateHousePrice(int position) {
+	public int getEstateHousePrice(int position) throws RemoteException {
 		return this.server.getEstateHousePrice(position);
 	}
 
 	
-	public int getTurnsInPrison(int playerID) {
+	public int getTurnsInPrison(int playerID) throws RemoteException {
 		return this.server.getTurnsInPrison(playerID);
 	}
 
 	
-	public boolean payFine(int playerID) {
+	public boolean payFine(int playerID) throws RemoteException {
 		return this.server.payFine(playerID);
 	}
 
 	
-	public void sendMessage(String text, int sender) {
+	public void sendMessage(String text, int sender) throws RemoteException {
 		this.server.sendMessage(text, sender);
 		
 	}
 
 	
-	public void sendPrivateMessage(String text, int sender, int reciever) {
+	public void sendPrivateMessage(String text, int sender, int reciever) throws RemoteException {
 		this.server.sendPrivateMessage(text, sender, reciever);
 		
 	}
 
 	
-	public boolean useGetOutOfJailCard(int playerID) {
+	public boolean useGetOutOfJailCard(int playerID) throws RemoteException {
 		return this.server.useGetOutOfJailCard(playerID);
 	}
 
@@ -268,6 +268,139 @@ public class ImplNetOjim  extends UnicastRemoteObject implements NetOjim {
 	
 	public NetClient getNetClient(){
 		return this.netClient;
+	}
+
+
+	@Override
+	public int getAuctionState() throws RemoteException {
+		return this.server.getAuctionState();
+	}
+
+
+	@Override
+	public int getAuctionedEstate() throws RemoteException {
+		return this.server.getAuctionedEstate();
+	}
+
+
+	@Override
+	public int getHighestBid() throws RemoteException {
+		return this.server.getHighestBid();
+	}
+
+
+	@Override
+	public int getBidder() throws RemoteException {
+		return this.server.getBidder();
+	}
+
+
+	@Override
+	public boolean placeBid(int playerID, int amount) throws RemoteException {
+		return this.server.placeBid(playerID, amount);
+	}
+
+
+	@Override
+	public boolean initTrade(int actingPlayer, int partnerPlayer) throws RemoteException {
+		return this.server.initTrade(actingPlayer, partnerPlayer);
+	}
+
+
+	@Override
+	public int getTradeState() throws RemoteException {
+		return this.server.getTradeState();
+	}
+
+
+	@Override
+	public int getPartner() throws RemoteException {
+		return this.server.getPartner();
+	}
+
+
+	@Override
+	public boolean offerCash(int playerID, int amount) throws RemoteException {
+		return this.server.offerCash(playerID, amount);
+	}
+
+
+	@Override
+	public boolean offerGetOutOfJailCard(int playerID) throws RemoteException {
+		return this.server.offerGetOutOfJailCard(playerID);
+	}
+
+
+	@Override
+	public boolean offerEstate(int playerID, int position) throws RemoteException {
+		return this.server.offerEstate(playerID, position);
+	}
+
+
+	@Override
+	public boolean requireCash(int playerID, int amount) throws RemoteException {
+		return this.server.requireCash(playerID, amount);
+	}
+
+
+	@Override
+	public boolean requireGetOutOfJailCard(int playerID) throws RemoteException {
+		return this.server.requireGetOutOfJailCard(playerID);
+	}
+
+
+	@Override
+	public boolean requireEstate(int playerID, int position)throws RemoteException {
+		
+		return this.server.requireEstate(playerID, position);
+	}
+
+
+	@Override
+	public int[] getOfferedEstates() throws RemoteException {
+		return this.getOfferedEstates();
+	}
+
+
+	@Override
+	public int getOfferedCash() throws RemoteException {
+		return this.getOfferedCash();
+	}
+
+
+	@Override
+	public int getNumberOfOfferedGetOutOfJailCards() throws RemoteException {
+		return this.getNumberOfOfferedGetOutOfJailCards();
+	}
+
+
+	@Override
+	public int[] getRequiredEstates() throws RemoteException {
+		return this.server.getRequiredEstates();
+	}
+
+
+	@Override
+	public int getRequiredCash() throws RemoteException {
+		return this.server.getRequiredCash();
+	}
+
+
+	@Override
+	public int getNumberOfRequiredGetOutOfJailCards() throws RemoteException {
+		return this.server.getNumberOfRequiredGetOutOfJailCards();
+	}
+
+
+	@Override
+	public boolean cancelTrade(int playerID) throws RemoteException {
+		return this.server.cancelTrade(playerID);
+	}
+
+
+	@Override
+	public boolean proposeTrade(int playerID) throws RemoteException {
+		return this.server.proposeTrade(playerID);
 	}
 
 
