@@ -980,4 +980,16 @@ public class GUIClient extends ClientBase implements Serializable {
 		}
 	}
 
+	@Override
+	public void onBuyEvent(Player player, BuyableField field) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onFreeParkingChange(FreeParking field) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
