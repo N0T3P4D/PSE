@@ -281,4 +281,13 @@ public class ClientWrapper implements IClient {
 		}
 	}
 
+	@Override
+	public void informGameOver(int player) {
+		try {
+			this.sink.informGameOver(player);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

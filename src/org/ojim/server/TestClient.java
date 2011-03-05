@@ -296,4 +296,9 @@ public class TestClient implements IClient {
 		print("informed: Buy event:" + player + " @" + position);
 	}
 
+	@Override
+	public void informGameOver(int player) {
+		print("informed: Game over:" + player);
+	}
+
 }

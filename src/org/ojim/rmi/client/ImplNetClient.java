@@ -870,4 +870,10 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 		return temp;
 	}
 
+
+	@Override
+	public void informGameOver(int player) throws RemoteException {
+		this.clientBase.informGameOver(player);
+	}
+
 }
