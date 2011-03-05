@@ -468,11 +468,11 @@ public class GUIClient extends ClientBase implements Serializable {
 
 				@Override
 				public void actionPerformed(ActionEvent arg0) {
-					System.out
-							.println("Turn is ENDED!!! FREE THE HOSTAGE OR I WILL END IT WITH ENDTURN()!!!! OK YOU WANTED IT LIKE THIF!");
+					System.out.println("Turn is ENDED!!! FREE THE HOSTAGE OR I WILL END IT WITH ENDTURN()!!!! OK YOU WANTED IT LIKE THIF!");
 					haveIalreadyRolled = false;
 					decline();
 					endTurn();
+					GUIClient.this.endTurnButton.setEnabled(false);
 				}
 			};
 
@@ -974,9 +974,10 @@ public class GUIClient extends ClientBase implements Serializable {
 	}
 
 	@Override
-	public void onFreeParkingChange(FreeParking field) {
-		// TODO Auto-generated method stub
-		
+	public void onCanEndTurn(Player player) {
+		if (player.equals(this.getMe())) {
+			this.endTurnButton.setEnabled(true);
+		}
 	}
 
 }
