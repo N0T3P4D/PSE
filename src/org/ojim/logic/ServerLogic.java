@@ -399,8 +399,9 @@ public class ServerLogic extends Logic {
 	}
 	
 	public void endGame() {
-		// TODO Free Stack here
-
+		for (Player player : this.getGameState().getPlayers()) {
+			((ServerPlayer) player).getClient().informGameOver(this.getGameState().getActivePlayer().getId());
+		}		
 	}
 
 }

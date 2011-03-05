@@ -49,7 +49,7 @@ public class AIClient extends ClientBase {
 	private Valuator valuator;
 	private static int count;
 
-	private static final String[] NAMES = { "Leopard", "Johannes", "Timo", "Vater", "Danny", "Mum", "Buckit", "Cor7",
+	private static final String[] NAMES = { "Tina", "Roadie", "Shawn", "David", "Leopard", "Johannes", "Timo", "Vater", "Danny", "Mum", "Buckit", "Cor7",
 			"Nutch", "Doppelkeks", "Diego", "Thorus", "Milten", "Gorn", "Xardas", "Dexter", "André", "Raven", "Lee",
 			"Lares", "Morra", "Adanos", "Innos", "Beliar", "Cor Kalom", "Cor Angar", "Corristo", "Scar", "Kyle Katan",
 			"Luke Skywalker", "Darth Vader", "Anakin Skywalker", "Padme Amidala", "Yoda", "Mace Windou", "C3P0",

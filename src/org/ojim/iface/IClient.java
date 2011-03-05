@@ -87,6 +87,26 @@ public interface IClient {
 	 * @since SVN revision 13 (davor <code>informStreetBuy(int)</code>).
 	 */
 	void informBuy(int player, int position);
+	
+	/**
+	 * Informiert den Spieler, dass ein Spieler ein Objekt kaufen kann.
+	 * 
+	 * @param player
+	 *            Der Spieler der das Objekt kaufen kann.
+	 * @param position
+	 *            Die Position dessen Objekt gekauft werden kann.
+	 * @since SVN revision 19.
+	 */
+	void informBuyEvent(int player, int position);
+	
+	/**
+	 * Informiert die Spieler, das ein Spieler den Zug beenden kann.
+	 * 
+	 * @param player
+	 *            Die ID des Spielers der den Zug beendet.
+	 * @since SVN revision 19.
+	 */
+	void informCanEndTurn(int player);
 
 	/**
 	 * Informiert den Spieler, dass ein Spieler <i>ein</i> Gebäude gebaut hat.
@@ -183,6 +203,15 @@ public interface IClient {
 	 */
 	void informAuction(int auctionState);
 
+	/**
+	 * Informiert den Client dass das Spiel vorbei ist und der übergebene Spieler gewonnen hat
+	 * 
+	 * @param playeID
+	 *            Der Gewinner
+	 */
+	public void informGameOver(int playeID);
+	
+	
 	/**
 	 * Informiert den Spieler, dass ein Spieler sich bewegt hat.
 	 * 

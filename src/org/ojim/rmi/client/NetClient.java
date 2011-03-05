@@ -20,9 +20,6 @@ package org.ojim.rmi.client;
 import java.rmi.Remote;
 import java.rmi.RemoteException;
 
-import org.ojim.iface.IClient;
-
-import edu.kit.iti.pse.iface.IServer;
 /**
  * 
  * Interface stellt zusätzlich zum IClient Interface Methoden bereit, 
@@ -91,6 +88,11 @@ public interface NetClient extends Remote {
 	
 	public void setPlayerId(int newId) throws RemoteException;
 
-	void informFreeParkingChange(int freeParkingField, int newPot) throws RemoteException;	
+	void informFreeParkingChange(int freeParkingField, int newPot) throws RemoteException;
 
+	void informCanEndTurn(int player) throws RemoteException;
+
+	void informBuyEvent(int player, int position) throws RemoteException;
+
+	void informGameOver(int player) throws RemoteException;
 }

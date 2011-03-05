@@ -187,7 +187,7 @@ public class SimpleClient implements Serializable {
 	public Field getFieldFromServer(int position, Map<Integer, FieldGroup> groups, Map<Integer, Player> players) {
 		Field field = null;
 		int color = this.server.getEstateColorGroup(position);
-		String name = this.server.getEstateName(position);
+		String name = this.server.getEstateName(position, this.playerId);
 		int price = this.server.getEstatePrice(position);
 		// Groups can be null!
 		// If you need your own group create it at the position.

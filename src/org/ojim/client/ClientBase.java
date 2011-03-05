@@ -30,6 +30,8 @@ import java.util.logging.Logger;
 import org.ojim.client.triggers.OnAuction;
 import org.ojim.client.triggers.OnBankruptcy;
 import org.ojim.client.triggers.OnBuy;
+import org.ojim.client.triggers.OnBuyEvent;
+import org.ojim.client.triggers.OnCanEndTurn;
 import org.ojim.client.triggers.OnCardPull;
 import org.ojim.client.triggers.OnCashChange;
 import org.ojim.client.triggers.OnConstruct;
@@ -355,6 +357,26 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 	}
 
 	public abstract void onBuy(Player player, BuyableField field);
+	
+	@Override
+	public void informBuyEvent(int player, int position) {
+		this.logger.log(Level.INFO, "informBuyEvent(" + player + ", " + position + ")");
+		Player p = this.getGameState().getPlayerById(player);
+		if (p != null) {
+			Field field = this.getGameState().getFieldAt(position);
+			if (field instanceof BuyableField) {
+			//	this.onBuyEvent(player, (BuyableField) field);
+				this.executor.execute(new OnBuyEvent(this, p,
+						(BuyableField) field));
+			} else {
+				this.logger.warning("Get informBuy with invalid position.");
+			}
+		} else {
+			this.logger.warning("Get informBuy with invalid player.");
+		}
+	}
+	
+	public abstract void onBuyEvent(Player player, BuyableField field);
 
 	@Override
 	public final void informAuction(int auctionState) {
@@ -417,6 +439,7 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 
 	public abstract void onPlayerLeft(Player player);
 	
+	@Override
 	public final void informFreeParkingChange(int freeParkingField, int newPot) {
 		this.logger.log(Level.INFO, "informFreeParkingChange(" + freeParkingField + ", " + newPot + ")");
 		Field f = this.getGameState().getFieldAt(freeParkingField);
@@ -430,7 +453,24 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 		}
 	}
 	
+	
+	public void informGameOver(int winnerID) { }
+	
 	public abstract void onFreeParkingChange(FreeParking field);
+	
+	@Override
+	public final void informCanEndTurn(int player) {
+		this.logger.log(Level.INFO, "informCanEndTurn(" + player + ")");
+		Player p = this.getGameState().getPlayerById(player);
+		if (p != null) {
+			//this.onCanEndTurn(p);
+			this.executor.execute(new OnCanEndTurn(this, p));	
+		} else {
+			this.logger.warning("Get informCanEndTurn with invalid player.");			
+		}		
+	}
+	
+	public abstract void onCanEndTurn(Player player);
 
 	@Override
 	public void setPlayerId(int newId) {

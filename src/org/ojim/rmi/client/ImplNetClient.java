@@ -26,6 +26,8 @@ import org.ojim.iface.Rules;
 import org.ojim.rmi.server.NetOjim;
 
 import edu.kit.iti.pse.iface.IServer;
+import edu.kit.iti.pse.iface.IServerAuction;
+import edu.kit.iti.pse.iface.IServerTrade;
 
 /**
  * Klasse verwaltet den Verbindungsaufbau vom Client zum Server.
@@ -33,14 +35,14 @@ import edu.kit.iti.pse.iface.IServer;
  * @author Usman Ghani Ahmed
  *
  */
-public class ImplNetClient extends UnicastRemoteObject implements NetClient, IServer {
+public class ImplNetClient extends UnicastRemoteObject implements NetClient, IServer, IServerAuction, IServerTrade {
 	
 	private ClientBase clientBase;
 	
 	private NetOjim server;
 	
 	public ImplNetClient(ClientBase clientBase, NetOjim server) throws RemoteException {
-		super(2007);
+		super();
 		this.clientBase = clientBase;
 		this.server = server;
 		
@@ -128,10 +130,10 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 	}
 
 	@Override
-	public String getEstateName(int position) {
+	public String getEstateName(int position, int player) {
 		String temp="";
 		try {
-			temp = this.server.getEstateName(position);
+			temp = this.server.getEstateName(position, player);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -187,17 +189,6 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 		int temp=0;
 		try {
 			temp = this.server.getEstateRent(position, houses);
-		} catch (RemoteException e) {
-			e.printStackTrace();
-		}
-		return temp;
-	}
-
-	@Override
-	public String getGameStatusMessage(int playerID) {
-		String temp="";
-		try {
-			temp = this.server.getGameStatusMessage(playerID);
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
@@ -568,6 +559,321 @@ public class ImplNetClient extends UnicastRemoteObject implements NetClient, ISe
 			e.printStackTrace();
 		}
 		return temp;
+	}
+
+
+	@Override
+	public void informCanEndTurn(int player) throws RemoteException {
+		this.clientBase.informCanEndTurn(player);
+	}
+	
+	public boolean initTrade(int actingPlayer, int partnerPlayer) {
+		boolean temp = false;
+		try {
+			temp = this.server.initTrade(actingPlayer, partnerPlayer);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
+		return temp;
+	}
+
+
+	@Override
+	public void informBuyEvent(int player, int position) throws RemoteException {
+		this.clientBase.informBuyEvent(player, position);
+	}
+
+	public int getTradeState() {
+		int temp = 0;
+		try {
+			temp = this.server.getTradeState();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public int getPartner() {
+		int temp = 0;
+		try {
+			temp = this.server.getPartner();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public boolean offerCash(int playerID, int amount) {
+		boolean temp = false;
+		try {
+			temp = this.server.offerCash(playerID, amount);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public boolean offerGetOutOfJailCard(int playerID) {
+		boolean temp = false;
+		try {
+			temp = this.server.offerGetOutOfJailCard(playerID);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public boolean offerEstate(int playerID, int position) {
+		boolean temp = false;
+		try {
+			temp = this.server.offerEstate(playerID, position);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public boolean requireCash(int playerID, int amount) {
+		
+		boolean temp = false;
+		try {
+			temp = this.server.requireCash(playerID, amount);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public boolean requireGetOutOfJailCard(int playerID) {
+		boolean temp = false;
+		try {
+			temp = this.server.requireGetOutOfJailCard(playerID);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public boolean requireEstate(int playerID, int position) {
+		boolean temp = false;
+		try {
+			temp = this.server.requireEstate(playerID, position);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public int[] getOfferedEstates() {
+		int[] temp = null;
+		try {
+			temp = this.server.getOfferedEstates();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public int getOfferedCash() {
+		int temp = 0;
+		try {
+			temp = this.server.getOfferedCash();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public int getNumberOfOfferedGetOutOfJailCards() {
+		int temp = 0;
+		try {
+			temp = this.server.getNumberOfOfferedGetOutOfJailCards();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public int[] getRequiredEstates() {
+		int[] temp = null;
+		try {
+			temp = this.server.getRequiredEstates();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public int getRequiredCash() {
+		int temp = 0;
+		try {
+			temp = this.server.getRequiredCash();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public int getNumberOfRequiredGetOutOfJailCards() {
+		int temp = 0;
+		try {
+			temp = this.server.getNumberOfRequiredGetOutOfJailCards();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public boolean cancelTrade(int playerID) {
+		boolean temp = false;
+		try {
+			temp = this.server.cancelTrade(playerID);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public boolean proposeTrade(int playerID) {
+		boolean temp = false;
+		try {
+			temp = this.server.proposeTrade(playerID);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public int getAuctionState() {
+		int temp = 0;
+		try {
+			temp = this.server.getAuctionState();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public int getAuctionedEstate() {
+		int temp = 0;
+		try {
+			temp = this.server.getAuctionedEstate();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public int getHighestBid() {
+		int temp = 0;
+		try {
+			temp = this.server.getHighestBid();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public int getBidder() {
+		int temp = 0;
+		try {
+			temp = this.server.getBidder();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	return temp;
+	}
+
+
+	@Override
+	public boolean placeBid(int playerID, int amount) {
+		boolean temp = false;
+		try {
+			temp = this.server.placeBid(playerID, amount);
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public int getActing() {
+		int temp = 0;
+		try {
+			temp = this.server.getActing();
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return temp;
+	}
+
+
+	@Override
+	public void informGameOver(int player) throws RemoteException {
+		this.clientBase.informGameOver(player);
 	}
 
 }

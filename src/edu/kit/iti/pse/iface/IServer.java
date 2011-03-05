@@ -130,9 +130,11 @@ public interface IServer {
 	 * 
 	 * @param position
 	 *            Die Position des Grundstücks.
+	 * @param player
+	 *            Die ID des Spielers der den Namen abfragt.
 	 * @return Den namen des Grundstücks.
 	 */
-	public String getEstateName(int position);
+	public String getEstateName(int position, int player);
 
 	/**
 	 * Gibt an, zu welcher Farbgruppe das Grundstück gehört. Nicht-negative
@@ -206,27 +208,6 @@ public interface IServer {
 	 * @since SVN Revision 18.
 	 */
 	public int getFreeParkingPot(int position);
-
-	/**
-	 * <p>
-	 * Liefert die aktuelle Spielmeldung für einen Spieler. Dies können entweder
-	 * reine Statusmeldungen oder für den Spielfluss entscheidende Fragen an den
-	 * Spieler sein, z.B. ob man die Geldstrafe im Gefängnis zahlt oder etwa ob
-	 * man ein Grundstück erwerben möchte. In den letzteren Fällen muss dem
-	 * Server zunächst mit <code>accept()</code> oder <code>decline()</code>
-	 * geantwortet werden bevor andere Aktionen (z.B. Häuser bauen, Zug beenden)
-	 * getätigt werden.
-	 * </p>
-	 * <p>
-	 * Da eine solche Textmeldung nur für Menschen verständlich ist, müssen für
-	 * einen KI-Client andere Methoden implementiert werden, die die wesentliche
-	 * Information dieser Nachricht übermitteln.
-	 * </p>
-	 * 
-	 * @param playerID
-	 *            Spieler, für den die Nachricht vorgesehen ist
-	 */
-	public String getGameStatusMessage(int playerID);
 
 	/**
 	 * Gibt an, ob das gegebene Grundstück mit einer Hypothek belastet ist.
