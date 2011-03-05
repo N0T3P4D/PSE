@@ -241,10 +241,4 @@ public class AIClient extends ClientBase {
 		logger.log(Level.FINE, this.log("onPlayerLeft(" + this.getPlayerInfo(player) + ")!"));
 
 	}
-
-	@Override
-	public void onFreeParkingChange(FreeParking field) {
-		// TODO Auto-generated method stub
-		
-	}
 }
