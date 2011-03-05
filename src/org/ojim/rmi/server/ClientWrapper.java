@@ -263,4 +263,22 @@ public class ClientWrapper implements IClient {
 		}
 	}
 
+	@Override
+	public void informCanEndTurn(int player) {
+		try {
+			this.sink.informCanEndTurn(player);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
+	@Override
+	public void informBuyEvent(int player, int position) {
+		try {
+			this.sink.informBuyEvent(player, position);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+	}
+
 }

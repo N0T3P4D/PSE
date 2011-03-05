@@ -58,10 +58,6 @@ public class ServerPlayer extends Player {
 		return out;
 	}
 	
-	public String getGameStatusMessage() {
-		return this.gameStatusMessage;
-	}
-	
 	public List<Card> getCards() {
 		return this.cards;
 	}

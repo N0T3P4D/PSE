@@ -286,4 +286,14 @@ public class TestClient implements IClient {
 		print("informed: Free parking changed:" + freeParkingField + " to: " + newPot);
 	}
 
+	@Override
+	public void informCanEndTurn(int player) {
+		print("informed: Can end turn:" + player);
+	}
+
+	@Override
+	public void informBuyEvent(int player, int position) {
+		print("informed: Buy event:" + player + " @" + position);
+	}
+
 }
