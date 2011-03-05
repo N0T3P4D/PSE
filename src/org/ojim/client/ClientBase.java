@@ -430,6 +430,9 @@ public abstract class ClientBase extends SimpleClient implements IClient,Seriali
 		}
 	}
 	
+	
+	public void informGameOver(int winnerID) { }
+	
 	public abstract void onFreeParkingChange(FreeParking field);
 
 	@Override

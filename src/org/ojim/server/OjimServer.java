@@ -267,6 +267,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		gameStarted = false;
 		this.logic.endGame();
 
+		
 		// Disconnecting all Clients
 		while (clients.size() > 0) {
 			IClient client = clients.get(0);

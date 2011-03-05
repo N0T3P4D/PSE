@@ -184,6 +184,15 @@ public interface IClient {
 	void informAuction(int auctionState);
 
 	/**
+	 * Informiert den Client dass das Spiel vorbei ist und der übergebene Spieler gewonnen hat
+	 * 
+	 * @param playeID
+	 *            Der Gewinner
+	 */
+	public void informGameOver(int playeID);
+	
+	
+	/**
 	 * Informiert den Spieler, dass ein Spieler sich bewegt hat.
 	 * 
 	 * @param playerId
