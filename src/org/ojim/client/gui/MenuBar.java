@@ -95,7 +95,7 @@ public class MenuBar extends JMenuBar {
 	 */
 	public void language(Localizer language) {
 
-		ImageIcon ojimIcon = new ImageIcon("g4467.png");
+		ImageIcon ojimIcon = new ImageIcon("icons/g4467.png");
 		
 		
 		
@@ -137,6 +137,7 @@ public class MenuBar extends JMenuBar {
 			};
 
 			langItem.addActionListener(languageListener);
+			langItem.setIcon(new ImageIcon("icons/"+languageName+".png"));
 
 			langMenu.add(langItem);
 		}

@@ -163,7 +163,7 @@ public class GUIClient extends ClientBase implements Serializable {
 				.getHeight()));
 
 
-		ImageIcon icon = new ImageIcon("g4468.png");
+		ImageIcon icon = new ImageIcon("icons/g4468.png");
 		
 		GUIFrame.setIconImage(icon.getImage());
 		
