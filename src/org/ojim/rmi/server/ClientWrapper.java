@@ -281,4 +281,10 @@ public class ClientWrapper implements IClient {
 		}
 	}
 
+	@Override
+	public void informGameOver(int playeID) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
