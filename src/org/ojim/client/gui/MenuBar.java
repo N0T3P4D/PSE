@@ -20,6 +20,7 @@ package org.ojim.client.gui;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
@@ -94,6 +95,11 @@ public class MenuBar extends JMenuBar {
 	 */
 	public void language(Localizer language) {
 
+		ImageIcon ojimIcon = new ImageIcon("g4467.png");
+		
+		
+		
+		
 		removeAll();
 		revalidate();
 
@@ -102,6 +108,7 @@ public class MenuBar extends JMenuBar {
 		editMenu = new JMenu(language.getText(TextKey.HELP_MENU));
 
 		createGame = new JMenuItem(language.getText(TextKey.CREATE_GAME));
+		
 		joinGame = new JMenu(language.getText(TextKey.JOIN_GAME));
 		leaveGame = new JMenuItem(language.getText(TextKey.LEAVE_GAME));
 		settings = new JMenuItem(language.getText(TextKey.SETTINGS));
@@ -112,6 +119,7 @@ public class MenuBar extends JMenuBar {
 		exit = new JMenuItem(language.getText(TextKey.EXIT));
 
 		about = new JMenuItem(language.getText(TextKey.ABOUT));
+		about.setIcon(ojimIcon);
 		help = new JMenuItem(language.getText(TextKey.HELP));
 
 		for (int i = 0; i < language.getLanguages().length; i++) {
