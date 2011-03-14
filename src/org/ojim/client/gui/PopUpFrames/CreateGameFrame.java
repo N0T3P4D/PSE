@@ -22,6 +22,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -59,6 +60,8 @@ public class CreateGameFrame extends JFrame {
 	private String wrongInput;
 
 	public CreateGameFrame(Localizer language, final GUIClient gui) {
+		ImageIcon icon = new ImageIcon("g4468.png");
+		this.setIconImage(icon.getImage());
 		setMinimumSize(new Dimension(200, 50));
 
 		this.gui = gui;

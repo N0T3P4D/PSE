@@ -19,6 +19,7 @@ package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
 
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
@@ -37,6 +38,8 @@ public class AboutFrame extends JFrame {
 		setMinimumSize(new Dimension(200, 50));
 		setSize(new Dimension(400, 200));
 		aboutText = new JLabel("<html>" + this.language.getText(TextKey.ABOUT_TEXT));
+		ImageIcon icon = new ImageIcon("g4468.png");
+		this.setIconImage(icon.getImage());
 	}
 	
 	public void draw(){

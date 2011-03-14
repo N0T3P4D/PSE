@@ -19,6 +19,7 @@ package org.ojim.client.gui.PopUpFrames;
 
 import java.awt.Dimension;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -34,7 +35,8 @@ public class HelpFrame extends JFrame {
 	private JLabel helpText;
 	
 	public HelpFrame(Localizer language) {
-
+		ImageIcon icon = new ImageIcon("g4468.png");
+		this.setIconImage(icon.getImage());
 		this.language = language;
 		
 		setMinimumSize(new Dimension(500, 500));
