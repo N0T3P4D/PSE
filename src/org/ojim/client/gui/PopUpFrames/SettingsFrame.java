@@ -67,7 +67,7 @@ public class SettingsFrame extends JFrame {
 	};;;
 	
 	public SettingsFrame(Localizer language, GUISettings settings) {
-		ImageIcon icon = new ImageIcon("icons/g4468.png");
+		ImageIcon icon = new ImageIcon("icons/settings.png");
 		this.setIconImage(icon.getImage());
 		this.language = language;
 		setMinimumSize(new Dimension(400, 100));

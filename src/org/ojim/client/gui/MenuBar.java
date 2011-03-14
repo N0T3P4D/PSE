@@ -96,6 +96,9 @@ public class MenuBar extends JMenuBar {
 	public void language(Localizer language) {
 
 		ImageIcon ojimIcon = new ImageIcon("icons/g4467.png");
+		ImageIcon settingsIcon = new ImageIcon("icons/settings.png");
+		ImageIcon helpIcon = new ImageIcon("icons/help.png");
+		ImageIcon exitIcon = new ImageIcon("icons/frosch.png");
 		
 		
 		
@@ -112,15 +115,18 @@ public class MenuBar extends JMenuBar {
 		joinGame = new JMenu(language.getText(TextKey.JOIN_GAME));
 		leaveGame = new JMenuItem(language.getText(TextKey.LEAVE_GAME));
 		settings = new JMenuItem(language.getText(TextKey.SETTINGS));
+		settings.setIcon(settingsIcon);
 
 		directConnection = new JMenuItem(language.getText(TextKey.DIRECT_CONNECTION));
 		serverList = new JMenuItem(language.getText(TextKey.LIST_OF_SERVERS));
 
 		exit = new JMenuItem(language.getText(TextKey.EXIT));
+		exit.setIcon(exitIcon);
 
 		about = new JMenuItem(language.getText(TextKey.ABOUT));
 		about.setIcon(ojimIcon);
 		help = new JMenuItem(language.getText(TextKey.HELP));
+		help.setIcon(helpIcon);
 
 		for (int i = 0; i < language.getLanguages().length; i++) {
 			languageName = language.getLanguages()[i].name;
