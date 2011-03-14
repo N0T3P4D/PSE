@@ -60,7 +60,7 @@ public class CreateGameFrame extends JFrame {
 	private String wrongInput;
 
 	public CreateGameFrame(Localizer language, final GUIClient gui) {
-		ImageIcon icon = new ImageIcon("g4468.png");
+		ImageIcon icon = new ImageIcon("icons/g4468.png");
 		this.setIconImage(icon.getImage());
 		setMinimumSize(new Dimension(200, 50));
 

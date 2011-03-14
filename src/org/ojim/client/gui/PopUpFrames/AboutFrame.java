@@ -38,7 +38,7 @@ public class AboutFrame extends JFrame {
 		setMinimumSize(new Dimension(200, 50));
 		setSize(new Dimension(400, 200));
 		aboutText = new JLabel("<html>" + this.language.getText(TextKey.ABOUT_TEXT));
-		ImageIcon icon = new ImageIcon("g4468.png");
+		ImageIcon icon = new ImageIcon("icons/g4468.png");
 		this.setIconImage(icon.getImage());
 	}
 	
