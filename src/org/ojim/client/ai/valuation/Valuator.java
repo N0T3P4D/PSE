@@ -23,7 +23,6 @@ import java.util.Comparator;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.PriorityQueue;
-import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -176,6 +175,7 @@ public class Valuator extends SimpleClient {
 	 */
 	public Command actOnTradeOffer() {
 		initFunctions();
+		System.out.println("o_O");
 		assert (this.getTradeState() == TradeState.WAITING_PROPOSED);
 		boolean restricted = false;
 		if (getRequiredEstates() != null) {
@@ -199,12 +199,14 @@ public class Valuator extends SimpleClient {
 			value += tradeValuateJailCards();
 			value += tradeValuateOfferedEstates();
 			minus -= getRequiredCash();
-			minus += valuationFunctions[0].returnValuation(this.getRequiredCash());
+			minus += valuationFunctions[0].returnValuation(playerID, this.getRequiredCash());
 			// missing: out of jail cards!
 			if (value + minus > 0) {
+				logger.log(Level.INFO, "Accepting trade!");
 				return new AcceptCommand(logic, server, playerID);
 			}
 		}
+		logger.log(Level.INFO, "Declining trade!");
 		return new DeclineCommand(logic, server, playerID);
 	}
 
@@ -283,9 +285,9 @@ public class Valuator extends SimpleClient {
 	private double getResults(int position, int amount) {
 		assert (position <= 40 && position >= 0);
 		assert (amount >= 0);
-		double result = weights[0] * valuationFunctions[0].returnValuation(amount);
+		double result = weights[0] * valuationFunctions[0].returnValuation(playerID, amount);
 		for (int i = 1; i < valuationFunctions.length; i++) {
-			result += weights[i] * valuationFunctions[i].returnValuation(position);
+			result += weights[i] * valuationFunctions[i].returnValuation(playerID, position);
 		}
 		logger.log(Level.INFO, "gesamt = " + result);
 		return result;
@@ -388,8 +390,12 @@ public class Valuator extends SimpleClient {
 	}
 
 	private Command tradeStreet(Field blaField) {
+		 Command result = new NullCommand(logic, server, playerID);
+//		Command result = new DeclineCommand(logic, server, playerID);
+		result.setValuation(0);
 		count++;
-		Command result = new EndTurnCommand(logic, server, playerID);
+		if (true) {
+		// Command result = new EndTurnCommand(logic, server, playerID);
 		if (getTradeState() == TradeState.DECLINED) {
 			System.out.println("o_O");
 			return result;
@@ -432,6 +438,7 @@ public class Valuator extends SimpleClient {
 			}
 		}
 		System.out.println("!!" + result.getClass().getName());
+		}
 		return result;
 	}
 
@@ -586,7 +593,7 @@ public class Valuator extends SimpleClient {
 		assert (getMe() == logic.getGameState().getActivePlayer());
 		Jail jail = getMe().getJail();
 		if (jail != null) {
-			assert (false);
+			// assert (false);
 			double valuation = getResults(jail.getPosition(), jail.getMoneyToPay());
 			if (valuation > 0) {
 				Command result = new OutOfPrisonCommand(logic, server, playerID);

@@ -44,11 +44,11 @@ public final class PrisonValuator extends ValuationFunction {
 	}
 
 	@Override
-	public double returnValuation(int position) {
+	public double returnValuation(int playerID, int position) {
 		double result = 0;
 		getLogger();
-		if (getGameState().getActivePlayer().getJail() != null) {
-			Player currentPlayer = this.getGameState().getActivePlayer();
+		if (getGameState().getPlayerById(playerID).getJail() != null) {
+			Player currentPlayer = this.getGameState().getPlayerById(playerID);
 			int sum = 0;
 			int count = 0;
 			// Der Geldbetrag des Spielers mit dem meisten Geld

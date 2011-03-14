@@ -282,9 +282,12 @@ public class ClientWrapper implements IClient {
 	}
 
 	@Override
-	public void informGameOver(int playeID) {
-		// TODO Auto-generated method stub
-		
+	public void informGameOver(int player) {
+		try {
+			this.sink.informGameOver(player);
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 	}
 
 }

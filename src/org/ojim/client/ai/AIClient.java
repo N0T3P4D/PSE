@@ -49,13 +49,13 @@ public class AIClient extends ClientBase {
 	private Valuator valuator;
 	private static int count;
 
-	private static final String[] NAMES = { "Tina", "Leopard", "Johannes", "Timo", "Vater", "Danny", "Mum", "Buckit", "Cor7",
-			"Nutch", "Doppelkeks", "Diego", "Thorus", "Milten", "Gorn", "Xardas", "Dexter", "André", "Raven", "Lee",
-			"Lares", "Morra", "Adanos", "Innos", "Beliar", "Cor Kalom", "Cor Angar", "Corristo", "Scar", "Kyle Katan",
-			"Luke Skywalker", "Darth Vader", "Anakin Skywalker", "Padme Amidala", "Yoda", "Mace Windou", "C3P0",
-			"R2D2", "Lord Palpatine", "Han Solo", "Chewbakka", "Darth Revan", "Bastila", "Kreia", "Lester", "Saturas",
-			"Onar", "Vatras", "Jabba the Hutt", "Lando Calristian", "Watto", "Lord Nasher", "Bevil", "Eleene", "Sand",
-			"Torio", "Khelgar", "Neeshka" };
+	private static final String[] NAMES = { "Tina", "Roadie", "Shawn", "David", "Leopard", "Johannes", "Timo", "Vater",
+			"Danny", "Mum", "Buckit", "Cor7", "Nutch", "Doppelkeks", "Diego", "Thorus", "Milten", "Gorn", "Xardas",
+			"Dexter", "André", "Raven", "Lee", "Lares", "Morra", "Adanos", "Innos", "Beliar", "Cor Kalom", "Cor Angar",
+			"Corristo", "Scar", "Kyle Katan", "Luke Skywalker", "Darth Vader", "Anakin Skywalker", "Padme Amidala",
+			"Yoda", "Mace Windou", "C3P0", "R2D2", "Lord Palpatine", "Han Solo", "Chewbakka", "Darth Revan", "Bastila",
+			"Kreia", "Lester", "Saturas", "Onar", "Vatras", "Jabba the Hutt", "Lando Calristian", "Watto",
+			"Lord Nasher", "Bevil", "Eleene", "Sand", "Torio", "Khelgar", "Neeshka" };
 
 	/**
 	 * 
@@ -75,8 +75,8 @@ public class AIClient extends ClientBase {
 		logger.log(Level.INFO, "Hello! AI client with ID " + getPlayerId() + " created.");
 		valuator = new Valuator(getLogic(), server, getPlayerId());
 		count = 0;
-//		OJIMLogger.changeLogLevel(logger, Level.WARNING);
-//		OJIMLogger.changeGlobalLevel(Level.FINEST);
+		// OJIMLogger.changeLogLevel(logger, Level.WARNING);
+		// OJIMLogger.changeGlobalLevel(Level.FINEST);
 	}
 
 	/**
@@ -140,6 +140,12 @@ public class AIClient extends ClientBase {
 		logger.log(Level.INFO, this.log("onTrade()!"));
 		if (this.getMe().equals(this.getActing())) {
 			valuator.actOnTradeOffer().execute();
+		}
+		System.out.println(getTradeState());
+		if (this.getGameState().getActivePlayer().equals(getMe()) && this.getTradeState() == TradeState.DECLINED) {
+			System.out.println("Ending turn!");
+			// valuator.returnBestCommand(this.getMe().getPosition());
+			endTurn();
 		}
 	}
 
@@ -243,8 +249,20 @@ public class AIClient extends ClientBase {
 	}
 
 	@Override
+	public void onBuyEvent(Player player, BuyableField field) {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
 	public void onFreeParkingChange(FreeParking field) {
 		// TODO Auto-generated method stub
-		
+
+	}
+
+	@Override
+	public void onCanEndTurn(Player player) {
+		// TODO Auto-generated method stub
+
 	}
 }

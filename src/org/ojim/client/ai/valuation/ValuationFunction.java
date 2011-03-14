@@ -145,7 +145,7 @@ public abstract class ValuationFunction {
 	 * 
 	 * @return Valuation as double
 	 */
-	public abstract double returnValuation(int argument);
+	public abstract double returnValuation(int playerID, int argument);
 
 	/**
 	 * Sets a logger

@@ -93,4 +93,6 @@ public interface NetClient extends Remote {
 	void informCanEndTurn(int player) throws RemoteException;
 
 	void informBuyEvent(int player, int position) throws RemoteException;
+
+	void informGameOver(int player) throws RemoteException;
 }

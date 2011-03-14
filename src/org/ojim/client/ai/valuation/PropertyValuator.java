@@ -45,7 +45,7 @@ public final class PropertyValuator extends ValuationFunction {
 	}
 
 	@Override
-	public double returnValuation(int position) {
+	public double returnValuation(int playerID, int position) {
 		getLogger();
 		// position == 0 either means that our position is _really_ 0 or yet to be determined (called from
 		// returnValuation)
@@ -54,12 +54,12 @@ public final class PropertyValuator extends ValuationFunction {
 		}
 		assert (position != -1);
 		if (this.getGameState().getFieldAt(position) instanceof BuyableField) {
-			logger.log(Level.FINE, "ID = " + this.getGameState().getActivePlayer().getId());
+			logger.log(Level.FINE, "ID = " + playerID);
 			// We assume that position 0 will never be buyable
 			assert (position != 0);
 			BuyableField field = (BuyableField) this.getGameState().getFieldAt(position);
 			if (!field.getSelected()) {
-				if (field.getOwner() != this.getGameState().getActivePlayer()) {
+				if (field.getOwner() != this.getGameState().getPlayerById(playerID)) {
 					// Price is needed again later
 					int price = field.getPrice();
 					logger.log(Level.FINE, "Name = " + field.getName() + " Price = " + price);
@@ -84,11 +84,11 @@ public final class PropertyValuator extends ValuationFunction {
 						}
 					}
 				} else {
-					return 10000;
+					logger.log(Level.FINE, "Here! result = " + parameters.getStreetValue(position));
+					return parameters.getStreetValue(position);
 				}
 			} else {
 				logger.log(Level.FINE, "Here! result = 0");
-
 				return 0;
 			}
 		} else {
