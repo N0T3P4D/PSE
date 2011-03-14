@@ -876,7 +876,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	}
 	
 	public boolean isGameRunning() {
-		return this.gameStarted;
+		return this.state.getGameIsWon();
 	}
 
 	@Override
