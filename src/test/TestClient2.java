@@ -98,12 +98,6 @@ public class TestClient2 implements IClient {
 	}
 
 	@Override
-	public void informTrade(int actingPlayer, int partnerPlayer) {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
 	public void informAuction(int auctionState) {
 		// TODO Auto-generated method stub
 

@@ -214,9 +214,9 @@ public class TestOjimServer {
 	@Test
 	public void testGetEstateName() {
 		for (int i = 0; i < 40; i++) {
-			if (!server.getEstateName(i).endsWith(
+			if (!server.getEstateName(i, 0).endsWith(
 					server.getGameState().getFieldAt(i).getName())) {
-				fail("name is: " + server.getEstateName(i) + ", should be "
+				fail("name is: " + server.getEstateName(i, 0) + ", should be "
 						+ server.getGameState().getFieldAt(i).getName());
 			}
 		}
@@ -279,20 +279,6 @@ public class TestOjimServer {
 									.getGameState().getFieldAt(i)).getRent())
 							+ "'");
 
-				}
-			}
-		}
-	}
-
-	@Test
-	public void testGetGameStatusMessage() {
-		for (int i = 0; i < 9; i++) {
-			server.getGameStatusMessage(i);
-			if (server.getGameState().getPlayerById(i) != null) {
-				if (!server.getGameStatusMessage(i).equals(
-						server.getGameStatusMessage(i))) {
-
-					fail("GameStatusMessage falsch");
 				}
 			}
 		}
