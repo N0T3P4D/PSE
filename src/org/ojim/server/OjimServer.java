@@ -874,6 +874,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public synchronized int getNumberOfHousesLeft() {
 		return state.getBank().getHouses();
 	}
+	
+	public boolean isGameRunning() {
+		return this.state.getGameIsWon();
+	}
 
 	@Override
 	public synchronized int getNumberOfHotelsLeft() {

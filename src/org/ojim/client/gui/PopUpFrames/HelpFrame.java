@@ -35,7 +35,7 @@ public class HelpFrame extends JFrame {
 	private JLabel helpText;
 	
 	public HelpFrame(Localizer language) {
-		ImageIcon icon = new ImageIcon("g4468.png");
+		ImageIcon icon = new ImageIcon("icons/help.png");
 		this.setIconImage(icon.getImage());
 		this.language = language;
 		
