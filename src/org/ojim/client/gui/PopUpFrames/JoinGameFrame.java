@@ -21,6 +21,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -50,6 +51,8 @@ public class JoinGameFrame extends JFrame {
 	}
 
 	public JoinGameFrame(Localizer language, final GUIClient gui) {
+		ImageIcon icon = new ImageIcon("g4468.png");
+		this.setIconImage(icon.getImage());
 		this.language = language;
 		setMinimumSize(new Dimension(400, 100));
 

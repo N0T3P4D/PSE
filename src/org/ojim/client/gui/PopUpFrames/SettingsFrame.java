@@ -22,6 +22,7 @@ import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -66,6 +67,8 @@ public class SettingsFrame extends JFrame {
 	};;;
 	
 	public SettingsFrame(Localizer language, GUISettings settings) {
+		ImageIcon icon = new ImageIcon("g4468.png");
+		this.setIconImage(icon.getImage());
 		this.language = language;
 		setMinimumSize(new Dimension(400, 100));
 		

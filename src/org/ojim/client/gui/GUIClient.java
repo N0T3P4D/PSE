@@ -19,17 +19,20 @@ package org.ojim.client.gui;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.UIManager;
 
 import org.ojim.client.ClientBase;
 import org.ojim.client.gui.CardBar.CardWindow;
@@ -106,6 +109,12 @@ public class GUIClient extends ClientBase implements Serializable {
 	 * Mit diesem Konstruktor wird der GUI Client gestartet
 	 */
 	public GUIClient() {
+		
+	    try {
+	        UIManager.setLookAndFeel(UIManager.getSystemLookAndFeelClassName());
+	      } catch(Exception e) {
+	        System.out.println("Error setting native LAF: " + e);
+	      }
 
 		// Nur zu Debugzwecken auf game
 		setMenuState(MenuState.MAIN_MENU);
@@ -153,8 +162,11 @@ public class GUIClient extends ClientBase implements Serializable {
 		GUIFrame.setMinimumSize(new Dimension(settings.getWidth(), settings
 				.getHeight()));
 
-		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
+		ImageIcon icon = new ImageIcon("g4468.png");
+		
+		GUIFrame.setIconImage(icon.getImage());
+		
 		draw();
 
 	}
@@ -982,7 +994,7 @@ public class GUIClient extends ClientBase implements Serializable {
 
 	@Override
 	public void onBuyEvent(Player player, BuyableField field) {
-		// TODO Auto-generated method stub
+		onBuy(player,field);
 		
 	}
 
