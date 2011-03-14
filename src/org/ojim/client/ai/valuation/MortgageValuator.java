@@ -47,11 +47,11 @@ public final class MortgageValuator extends ValuationFunction {
 	/**
 	 * {@inheritDoc}
 	 */
-	public double returnValuation(int position) {
+	public double returnValuation(int playerID, int position) {
 		getLogger();
 		double result = 0;
 		if (position == -1) {
-			position = getGameState().getActivePlayer().getPosition();
+			position = getGameState().getPlayerById(playerID).getPosition();
 		}
 		assert (position != -1);
 		Field field = getGameState().getFieldAt(position);

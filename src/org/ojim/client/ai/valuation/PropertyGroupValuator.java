@@ -50,10 +50,10 @@ public final class PropertyGroupValuator extends ValuationFunction {
 	/**
 	 * {@inheritDoc}
 	 */
-	public double returnValuation(int position) {
+	public double returnValuation(int playerID, int position) {
 		// Call from outside without position
 		if (position == -1) {
-			position = getGameState().getActivePlayer().getPosition();
+			position = getGameState().getPlayerById(playerID).getPosition();
 		}
 		getLogger();
 		int freeFields = 0;
@@ -77,7 +77,7 @@ public final class PropertyGroupValuator extends ValuationFunction {
 						count++;
 						if (bfield.getOwner() == null) {
 							freeFields++;
-						} else if (bfield.getOwner() == getGameState().getActivePlayer()) {
+						} else if (bfield.getOwner() == getGameState().getPlayerById(playerID)) {
 							ownedByMe++;
 							if (bfield.getPosition() == position) {
 								myField = true;
