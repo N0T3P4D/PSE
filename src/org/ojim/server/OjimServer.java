@@ -1507,7 +1507,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		// Add Cards
 		CardStack comm = ((ServerGameState) this.logic.getGameState())
 				.getCommunityCards();
-		comm.add(new GetOutOfJailCard("comm jail", comm, this.logic));
+		for (int i = 0; i < 1000; i++) {
+		    comm.add(new GetOutOfJailCard("comm jail (" + i + ")", comm, this.logic));    
+		}
 		comm.add(Card.newNormalCard("comm +100 money", comm,
 				ActionFactory.newTransferMoneyToBank(this.logic, -100)));
 		comm.add(Card.newNormalCard("comm 100 m > free", comm, ActionFactory
@@ -1520,7 +1522,9 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 
 		CardStack even = ((ServerGameState) this.logic.getGameState())
 				.getEventCards();
-		even.add(new GetOutOfJailCard("even jail", even, this.logic));
+		for (int i = 0; i < 1000; i++) {
+		    even.add(new GetOutOfJailCard("even jail (" + i + ")", comm, this.logic));    
+		}
 		even.add(Card.newNormalCard("even +100 money", even,
 				ActionFactory.newTransferMoneyToBank(this.logic, -100)));
 		even.add(Card.newNormalCard("even 100 m > free", even, ActionFactory
