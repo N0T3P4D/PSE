@@ -127,4 +127,34 @@ public class TestClient2 implements IClient {
 
 	}
 
+	@Override
+	public void informBuyEvent(int player, int position) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void informCanEndTurn(int player) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void informFreeParkingChange(int freeParkingField, int newPot) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void informTrade() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void informGameOver(int playeID) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
