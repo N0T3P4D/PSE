@@ -1065,7 +1065,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerById(playerID);
 		
-		if(this.getTradeState() > 0) {
+		//TODO: (xZise → Vikath) Allow endTurn if Trade is ACCEPTED/DECLINED?
+		// Before it was only possible to end a turn, of the state is negative.
+		// BUT you never set the state of the trade to a negative value.
+		if(this.getTradeState() == 0 || this.getTradeState() == 1) {
 			return false;
 		}
 		
