@@ -19,12 +19,14 @@ package org.ojim.client.gui;
 
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -155,6 +157,10 @@ public class GUIClient extends ClientBase implements Serializable {
 
 		// LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
 
+		ImageIcon icon = new ImageIcon("g4468.png");
+		
+		GUIFrame.setIconImage(icon.getImage());
+		
 		draw();
 
 	}
