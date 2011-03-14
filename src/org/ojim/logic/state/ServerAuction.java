@@ -120,6 +120,9 @@ public class ServerAuction extends Auction {
 			if(server != null) {
 				server.endTurn(playerID);
 			}
+			for(Player player : this.state.getPlayers()) {
+				((ServerPlayer)player).getClient().informCanEndTurn(this.state.getActivePlayer().getId());
+			}
 		}
 	}
 }

@@ -57,13 +57,13 @@ public final class CapitalValuator extends ValuationFunction {
 	 * @return Valuation 0 if granted, -1 if denied
 	 */
 	@Override
-	public double returnValuation(int amount) {
+	public double returnValuation(int playerID, int amount) {
 
 		// Da die Klasse ein Singleton ist, muss der aktive Spieler bei jedem
 		// Aufruf bestimmt werden
 		getLogger();
 //		OJIMLogger.changeLogLevel(logger, Level.FINE);
-		Player currentPlayer = this.getGameState().getActivePlayer();
+		Player currentPlayer = this.getGameState().getPlayerById(playerID);
 		logger.log(Level.FINE, "Current cash = " + currentPlayer.getBalance() + " Price = " + amount);
 		// Die Gesamtgeldsumme aller Gegenspieler
 		int sum = 0;

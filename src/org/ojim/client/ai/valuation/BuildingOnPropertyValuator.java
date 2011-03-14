@@ -61,8 +61,8 @@ public final class BuildingOnPropertyValuator extends ValuationFunction {
 	}
 
 	@Override
-	public double returnValuation(int position) {
-		Player me = this.getGameState().getActivePlayer();
+	public double returnValuation(int playerID, int position) {
+		Player me = this.getGameState().getPlayerById(playerID);
 		getLogger();
 		double result = 0;
 		if (position == -1) {

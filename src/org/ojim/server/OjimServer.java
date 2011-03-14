@@ -261,6 +261,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		if (!this.isOpen) {
 			return true;
 		}
+		
+		for(Player player : this.state.getPlayers()) {
+			((ServerPlayer)player).getClient().informGameOver(this.state.getActivePlayer().getId());
+		}
 
 		// Closing the Game
 		isOpen = false;
@@ -940,6 +944,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				&& ((BuyableField) field).getOwner() == null) {
 			playerNeedsAcceptCancel = true;
 			player.getClient().informBuyEvent(player.getId(), player.getPosition());
+		} else {
+			for(Player onePlayer : this.state.getPlayers()) {
+				((ServerPlayer)onePlayer).getClient().informCanEndTurn(this.state.getActivePlayer().getId());
+			}
 		}
 		return true;
 	}
@@ -998,6 +1006,11 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 				&& player.getBalance() > ((BuyableField) field).getPrice()) {
 			logic.buyStreet();
 			playerNeedsAcceptCancel = false;
+			
+			for(Player onePlayer : this.state.getPlayers()) {
+				((ServerPlayer)onePlayer).getClient().informCanEndTurn(this.state.getActivePlayer().getId());
+			}
+			
 			return true;
 		}
 		return false;
@@ -1052,7 +1065,10 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 	public synchronized boolean endTurn(int playerID) {
 		Player player = state.getPlayerById(playerID);
 		
-		if(this.getTradeState() > 0) {
+		//TODO: (xZise → Vikath) Allow endTurn if Trade is ACCEPTED/DECLINED?
+		// Before it was only possible to end a turn, of the state is negative.
+		// BUT you never set the state of the trade to a negative value.
+		if(this.getTradeState() == 0 || this.getTradeState() == 1) {
 			return false;
 		}
 		
