@@ -65,7 +65,7 @@ public class Auction {
 	 * @return if the bid is allowed (higher) than the previous.
 	 */
 	public boolean placeBid(Player bidder, int bid) {
-		if (bid <= this.currentBid) {
+		if (bid <= this.currentBid || this.auctionState == AuctionState.THIRD || this.auctionState == AuctionState.NOT_RUNNING) {
 			return false;
 		}
 		
