@@ -1527,7 +1527,7 @@ public class OjimServer implements IServer, IServerAuction, IServerTrade {
 		CardStack even = ((ServerGameState) this.logic.getGameState())
 				.getEventCards();
 		for (int i = 0; i < 1000; i++) {
-		    even.add(new GetOutOfJailCard("even jail (" + i + ")", comm, this.logic));    
+		    even.add(new GetOutOfJailCard("even jail (" + i + ")", even, this.logic));    
 		}
 		even.add(Card.newNormalCard("even +100 money", even,
 				ActionFactory.newTransferMoneyToBank(this.logic, -100)));

@@ -124,7 +124,7 @@ public class AIClient extends ClientBase {
 		if (player == getMe() && player.getBalance() < 0) {
 			valuator.negative().execute();
 		}
-		assert (this.getGameState().getActivePlayer() != null);
+//		assert (this.getGameState().getActivePlayer() != null);
 	}
 
 	@Override

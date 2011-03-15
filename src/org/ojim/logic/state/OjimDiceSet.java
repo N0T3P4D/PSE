@@ -1,5 +1,5 @@
-/*  Copyright (C) 2010  Fabian Neundorf, Philip Caroli, Maximilian Madlung, 
- * 						Usman Ghani Ahmed, Jeremias Mechler
+/*  Copyright (C) 2010 - 2011  Fabian Neundorf, Philip Caroli,
+ *  Maximilian Madlung,	Usman Ghani Ahmed, Jeremias Mechler
  *
  *  This program is free software: you can redistribute it and/or modify
  *  it under the terms of the GNU General Public License as published by
@@ -29,6 +29,10 @@ public class OjimDiceSet extends DiceSet {
 
 	public int getSeed() {
 		return this.seed;
+	}
+	
+	public OjimDiceSet() {
+	    this(0);
 	}
 
 	public OjimDiceSet(int seed) {

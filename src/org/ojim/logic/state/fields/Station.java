@@ -18,33 +18,35 @@
 package org.ojim.logic.state.fields;
 
 import org.ojim.logic.ServerLogic;
-import org.ojim.logic.state.Player;
 import org.ojim.logic.state.fields.BuyableField;
 
 public class Station extends BuyableField {
 
-	public Station(String name, int position, int price) {
-		super(name, position, price);
-	}
-	
-	public Station(String name, int position, int price, ServerLogic logic) {
-		super(name, position, price, logic);
-	}
-	
-	public Class<? extends FieldGroup> getFieldGroupClass() {
-		return StationFieldGroup.class;
-	}
-	
-	@Override
-	public int getRent() {
-		int ownerOwns = 0;
-		for (Field field : this.getFieldGroup().getFields()) {
-			Player otherOwner = ((Station) field).getOwner();
-			if (field instanceof Station && (otherOwner != null) && ((Station) field).getOwner().equals(this.getOwner())) {
-				ownerOwns++;	
-			}
-		}
-		
-		return ((StationFieldGroup) this.getFieldGroup()).getRent(ownerOwns);
-	}
+    public Station(String name, int position, int price) {
+        super(name, position, price);
+    }
+
+    public Station(String name, int position, int price, ServerLogic logic) {
+        super(name, position, price, logic);
+    }
+
+    public Class<? extends FieldGroup> getFieldGroupClass() {
+        return StationFieldGroup.class;
+    }
+
+    @Override
+    public int getRent() {
+        if (this.getOwner() != null) {
+            int ownerOwns = 0;
+            for (Field field : this.getFieldGroup().getFields()) {
+                if (field instanceof Station && this.getOwner().equals(((Station) field).getOwner())) {
+                    ownerOwns++;
+                }
+            }
+
+            return ((StationFieldGroup) this.getFieldGroup()).getRent(ownerOwns);
+        } else {
+            return 0;
+        }
+    }
 }

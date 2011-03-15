@@ -58,7 +58,7 @@ public class GameState implements Serializable {
 		this.fields = new Field[fieldsAmount];
 		this.bank = new Bank();
 		this.rules = new Rules();//30000, 2000, true, true, false, true);
-		this.dices = new OjimDiceSet(1337);
+		this.dices = new OjimDiceSet();
 		this.groups = new HashMap<Integer, FieldGroup>();
 		this.auction = null;
 		
